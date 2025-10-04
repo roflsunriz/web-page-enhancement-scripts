@@ -101,3 +101,29 @@ npm run build
 MIT
 
 
+CI / Releases
+-------------
+
+このリポジトリは GitHub Actions を使った CI とリリースワークフローを提供します。
+
+- **CI**: `main` ブランチへの push および PR で `lint` / `type-check` / `build` を実行します。
+- **PR Quick Checks**: PR 作成時に `lint` と `type-check` を早期に検出します。
+- **Release**: `v*.*.*` タグを push すると `dist/` をビルドしてアーティファクトをリリースに添付します。
+
+リリース手順（ローカル）:
+
+```bash
+# 1. バージョンを更新して tag を作成
+git tag v1.2.3
+git push origin v1.2.3
+
+# 2. GitHub 上で Release が自動作成され、dist が添付されます
+```
+
+CI バッジ：
+
+```
+![CI](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yaml/badge.svg)
+```
+
+
