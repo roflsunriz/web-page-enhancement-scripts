@@ -39,6 +39,10 @@ const chatgptNotifyMeta: MonkeyUserScript = {
   ],
   icon: 'https://chat.openai.com/favicon.ico',
   'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/chatgpt-notify.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/chatgpt-notify.user.js',
 };
 
 const danimeMeta: MonkeyUserScript = {
@@ -65,6 +69,10 @@ const danimeMeta: MonkeyUserScript = {
   ],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=animestore.docomo.ne.jp',
   'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-nico-comment-renderer.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js',
 };
 
 const fanboxFloatingMenuMeta: MonkeyUserScript = {
@@ -75,9 +83,9 @@ const fanboxFloatingMenuMeta: MonkeyUserScript = {
   author: 'roflsunriz',
   match: ['https://*.fanbox.cc/*'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/31e3b65acd467e4d852423dc178d3c9b/raw/fanbox_floating_menu.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/fanbox-floating-menu.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/31e3b65acd467e4d852423dc178d3c9b/raw/fanbox_floating_menu.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/fanbox-floating-menu.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=fanbox.cc',
   'run-at': 'document-idle',
 };
@@ -91,9 +99,9 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
   match: ['https://*.fanbox.cc/*'],
   grant: ['GM_addStyle'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/f89fad6e9923bd678ac92025486d2f2a/raw/fanbox-pagination-helper.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/fanbox-pagination-helper.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/f89fad6e9923bd678ac92025486d2f2a/raw/fanbox-pagination-helper.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/fanbox-pagination-helper.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=fanbox.cc',
   'run-at': 'document-idle',
 };
@@ -143,6 +151,10 @@ const imageCollectorMeta: MonkeyUserScript = {
     'GM_registerMenuCommand',
     'unsafeWindow',
   ],
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.user.js',
 };
 
 const imgurDirectLinkCopierMeta: MonkeyUserScript = {
@@ -154,9 +166,9 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
   match: ['https://imgur.com/*'],
   grant: ['GM_setClipboard'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/1fa7e451c8d505b68454f8e0fa52520a/raw/imgur_direct_link_copier.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/imgur-direct-link.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/1fa7e451c8d505b68454f8e0fa52520a/raw/imgur_direct_link_copier.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/imgur-direct-link.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=imgur.com',
 };
 
@@ -203,6 +215,10 @@ const mangaViewerMeta: MonkeyUserScript = {
   ],
   grant: ['GM_registerMenuCommand'],
   'run-at': 'document-start',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.user.js',
 };
 
 const twitterFullSizeImageMeta: MonkeyUserScript = {
@@ -217,6 +233,10 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
   ],
   'run-at': 'document-start',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.user.js',
 };
 
 const twitterMediaFilterMeta: MonkeyUserScript = {
@@ -228,9 +248,9 @@ const twitterMediaFilterMeta: MonkeyUserScript = {
   match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/b681199a5da925299a474366e73c793e/raw/twitter_media_filter.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-media-filter.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/b681199a5da925299a474366e73c793e/raw/twitter_media_filter.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-media-filter.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
   'run-at': 'document-idle',
 };
@@ -244,9 +264,9 @@ const twitterMuteFilterMeta: MonkeyUserScript = {
   match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/25b09cf3bfd4fa29a49a08e4ab7fdf6b/raw/twitter_mute_filter.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-filter.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/25b09cf3bfd4fa29a49a08e4ab7fdf6b/raw/twitter_mute_filter.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-filter.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
   'run-at': 'document-idle',
 };
@@ -261,9 +281,9 @@ const twitterMuteRetweetsMeta: MonkeyUserScript = {
   exclude: ['https://x.com/*/status/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/037ef3d4f08cfddb4a132d72e0d77480/raw/twitter_mute_retweets.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/037ef3d4f08cfddb4a132d72e0d77480/raw/twitter_mute_retweets.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
 };
 
@@ -285,6 +305,10 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
   grant: ['GM_xmlhttpRequest'],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
   'run-at': 'document-idle',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.user.js',
 };
 
 const twitterWideLayoutFixMeta: MonkeyUserScript = {
@@ -296,9 +320,9 @@ const twitterWideLayoutFixMeta: MonkeyUserScript = {
   match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_addStyle', 'GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/0bc56fc90ea91c2b76aee92ce7250c60/raw/twitter_wide_layout_fix.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-wide-layout-fix.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/0bc56fc90ea91c2b76aee92ce7250c60/raw/twitter_wide_layout_fix.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-wide-layout-fix.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
 };
 
@@ -312,9 +336,9 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
   grant: ['GM_setClipboard'],
   'run-at': 'document-start',
   updateURL:
-    'https://gist.githubusercontent.com/roflsunriz/51f4f7854ab0eba88998c29bf096fe19/raw/youtube_info_copier.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.meta.js',
   downloadURL:
-    'https://gist.githubusercontent.com/roflsunriz/51f4f7854ab0eba88998c29bf096fe19/raw/youtube_info_copier.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
 };
 
