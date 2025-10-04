@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Twitter/X Mute Filter
+// @name         twitter-mute-filter
 // @namespace    twitterMuteFilter
-// @version      2.0.0
+// @version      2.0.1
 // @author       roflsunriz
 // @description  正規表現対応の強力なミュートフィルターをTwitter/Xに追加します。
 // @license      MIT

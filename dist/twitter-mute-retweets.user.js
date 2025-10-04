@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Twitter/X Mute Retweets
+// @name         twitter-mute-retweets
 // @namespace    twitterMuteRetweets
-// @version      2.0.0
+// @version      2.0.1
 // @author       roflsunriz
 // @description  閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする
 // @license      MIT

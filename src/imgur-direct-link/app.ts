@@ -1,45 +1,42 @@
 import { createLogger, Logger } from '@/shared/logger';
-import { isTargetPage, getMediaEntries, clearButtons } from './dom';
+import { getMediaEntries, clearButtons } from './dom';
 import { createShadowButton } from './ui';
 
 export class ImgurCopierApp {
   private lastUrl: string = location.href;
-  private observer: MutationObserver;
+  private observer: MutationObserver | null = null;
   private logger: Logger;
+  private debounceTimer: number | null = null;
+
   constructor() {
     this.logger = createLogger('ImgurDirectLinkCopier');
-    this.observer = new MutationObserver(() => this.handleUrlChange());
   }
 
   public start(): void {
+    this.observer = new MutationObserver(() => this.debouncedUpdate());
     this.observer.observe(document.body, { childList: true, subtree: true });
     this.update();
     this.logger.info('Application started and observer is running.');
   }
 
   public stop(): void {
-    this.observer.disconnect();
+    this.observer?.disconnect();
     clearButtons();
     this.logger.info('Application stopped and observer is disconnected.');
   }
 
-  private handleUrlChange(): void {
-    if (location.href !== this.lastUrl) {
-      this.lastUrl = location.href;
-      this.logger.info(`URL changed to: ${this.lastUrl}`);
-      // 少し待ってからDOMの更新を反映させる
-      setTimeout(() => this.update(), 500);
+  private debouncedUpdate(): void {
+    if (this.debounceTimer) {
+      clearTimeout(this.debounceTimer);
     }
+    this.debounceTimer = window.setTimeout(() => this.update(), 300);
   }
 
   private update(): void {
-    if (!isTargetPage()) {
-      clearButtons();
-      return;
-    }
-
     const mediaEntries = getMediaEntries();
     if (mediaEntries.length === 0) {
+      // メディアが見つからなければ既存のボタンをクリアして終了
+      clearButtons();
       return;
     }
 

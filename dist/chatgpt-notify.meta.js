@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         ChatGPT Notify
-// @namespace    chatgptNotify
-// @version      2.0.0
+// @name         chat-gpt-notify
+// @namespace    chatGptNotify
+// @version      2.0.1
 // @author       roflsunriz
 // @description  Notify when ChatGPT generation is complete.
 // @license      MIT

@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Twitter/X Media Filter
+// @name         twitter-media-filter
 // @namespace    twitterMediaFilter
-// @version      2.0.0
+// @version      2.0.1
 // @author       roflsunriz
 // @description  タイムライン/リスト/詳細ページで画像/動画を含まないツイートを非表示にする
 // @license      MIT

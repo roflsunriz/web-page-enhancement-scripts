@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Twitter Thread Copier
+// @name         twitter-thread-copier
 // @namespace    twitterThreadCopier
-// @version      5.0.0
+// @version      5.0.1
 // @author       roflsunriz
 // @description  Copy entire Twitter/X threads with formatting and expansions.
 // @license      MIT

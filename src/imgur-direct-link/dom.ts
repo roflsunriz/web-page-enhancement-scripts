@@ -4,13 +4,6 @@ export type MediaEntry = {
 };
 
 /**
- * スクリプトの対象ページ（アップロード後の結果ページ）かどうかを判定します。
- */
-export function isTargetPage(): boolean {
-  return document.querySelector('.UploadPost') !== null;
-}
-
-/**
  * ページ上のすべてのメディア（画像・動画）のURLとラッパー要素を取得します。
  */
 export function getMediaEntries(): MediaEntry[] {

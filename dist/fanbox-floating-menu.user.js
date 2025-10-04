@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Fanbox Floating Menu
+// @name         fanbox-floating-menu
 // @namespace    fanboxFloatingMenu
-// @version      2.0.0
+// @version      2.0.1
 // @author       roflsunriz
 // @description  Fanboxのページ移動用フローティングメニューを追加
 // @license      MIT

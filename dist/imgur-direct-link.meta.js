@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Imgur Image Link Copier
+// @name         imgur-image-link-copier
 // @namespace    imgurImageLinkCopier
-// @version      3.0.0
+// @version      3.0.1
 // @author       roflsunriz
 // @description  Copy image link from Imgur with TypeScript.
 // @license      MIT
