@@ -1,5 +1,11 @@
 web-page-enhancement-scripts
 ================================
+[![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/release.yaml/badge.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/release.yaml)
+[![Lint](https://img.shields.io/badge/lint-eslint9-blue?logo=eslint&logoColor=white)](https://eslint.org/)
+[![TypeScript](https://img.shields.io/badge/types-TypeScript%205.x-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/pulls)
+
 
 これは複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
 
@@ -14,7 +20,7 @@ web-page-enhancement-scripts
 1. リポジトリをクローンします。
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/roflsunriz/web-page-enhancement-scripts.git
 cd web-page-enhancement-scripts
 ```
 
@@ -123,7 +129,7 @@ git push origin v1.2.3
 CI バッジ：
 
 ```
-![CI](https://github.com/<your-org>/<your-repo>/actions/workflows/ci.yaml/badge.svg)
+![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml/badge.svg)
 ```
 
 
