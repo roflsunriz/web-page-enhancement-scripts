@@ -1,0 +1,32 @@
+:host {
+--primary: #7F5AF0;
+--accent: #FF8906;
+}
+
+/* 自動ボタン専用の追加スタイル */
+.auto-comment-button {
+background: var(--primary);
+color: white;
+border: none;
+padding: 4px 10px;
+border-radius: 6px;
+cursor: pointer;
+font-size: 12px;
+transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+box-shadow: 0 2px 8px rgba(127, 90, 240, 0.3);
+display: inline-flex;
+align-items: center;
+font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+}
+
+.auto-comment-button::before {
+content: '💬';
+margin-right: 4px;
+font-size: 14px;
+}
+
+.auto-comment-button:hover {
+background: var(--accent);
+transform: translateY(-2px) scale(1.05);
+box-shadow: 0 4px 15px rgba(255, 137, 6, 0.4);
+}

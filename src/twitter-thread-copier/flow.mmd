@@ -1,0 +1,119 @@
+flowchart TD
+    subgraph ユーザーアクション
+        UA1[ページ閲覧] --> UA2[ボタンクリック]
+        UA2 --> UA3[コピーモード選択]
+        UA3 --> UA4[翻訳チェックボックス操作]
+        UA4 --> UA5[起点設定ボタンクリック]
+        UA5 --> UA6[メインコピーボタンクリック]
+        UA6 --> UA7[二回目のボタンクリック]
+    end
+
+    subgraph 起点設定プロセス
+        SPP1[起点設定ボタン追加] --> SPP2[★ボタンクリック]
+        SPP2 --> SPP3[既存起点解除]
+        SPP3 --> SPP4[新起点設定]
+        SPP4 --> SPP5[視覚的フィードバック]
+        SPP5 --> SPP6[UI要素更新]
+        SPP6 --> SPP7[トースト通知]
+    end
+
+    subgraph ページ変更監視
+        PMM1[URL変更検出] --> PMM2{ステータスページ?}
+        PMM2 -->|Yes| PMM3[UI表示]
+        PMM2 -->|No| PMM4[UI非表示]
+        PMM4 --> PMM5[起点自動リセット]
+    end
+
+    subgraph スレッド収集プロセス
+        SP1[ツイート要素検出] --> SP2[「さらに表示」ボタン展開]
+        SP2 --> SP3[スクロール処理]
+        SP3 --> SP4[引用ツイート検出]
+        SP4 --> SP5[メディアURL収集]
+        SP5 --> SP6[時系列ソート]
+        SP6 --> SP7{起点設定済み?}
+        SP7 -->|Yes| SP8[起点フィルタリング]
+        SP7 -->|No| SP9[全ツイート処理]
+        SP8 --> SP9
+    end
+
+    subgraph 起点管理
+        SM1[起点状態チェック] --> SM2{起点設定済み?}
+        SM2 -->|Yes| SM3[リセットボタン表示]
+        SM2 -->|No| SM4[リセットボタン非表示]
+        SM3 --> SM5[メインボタンテキスト更新]
+        SM4 --> SM5
+    end
+
+    subgraph データ処理
+        DP1[ツイートテキスト整形] --> DP2[短縮URL検出]
+        DP2 --> DP3[t.coリンク解決]
+        DP3 --> DP4[メディアURL高品質化]
+        DP4 --> DP5[改行維持処理]
+        DP5 --> DP6[画像絵文字検出]
+        DP6 --> DP7[絵文字Unicode変換]
+        DP7 --> DP8[テキストフォーマット]
+    end
+
+    subgraph コピーモード処理
+        CM1[モード判定] --> CM2{モード選択}
+        CM2 -->|全ツイート| CM3[全ツイート処理]
+        CM2 -->|最初のみ| CM4[最初のツイートのみ処理]
+        CM2 -->|したらば| CM5[4096文字制限処理]
+        CM2 -->|5ch| CM6[2048文字制限処理]
+        CM3 & CM4 & CM5 & CM6 --> CM7[フォーマット適用]
+        CM7 --> CM8[起点対応サマリー生成]
+    end
+
+    subgraph 翻訳処理
+        TP0[URL置換処理] --> TP0A[ユーザー名置換]
+        TP0A --> TP0B[日時置換処理]
+        TP0B --> TP0C[絵文字置換処理]
+        TP0C --> TP1[テキスト分割]
+        TP1 --> TP2[Google翻訳API呼び出し]
+        TP2 --> TP3[レスポンス処理]
+        TP3 --> TP4[テキスト連結]
+        TP4 --> TP5[プレースホルダー復元]
+        TP5 --> TP6[大文字小文字対応復元]
+    end
+
+    subgraph リンク解決プロセス
+        LP1[t.coリンク抽出] --> LP2[リダイレクト先取得]
+        LP2 --> LP3[オリジナルURLに置換]
+        LP3 --> LP4[収集済みデータ更新]
+    end
+
+    subgraph 絵文字処理
+        EP1[画像絵文字要素検出] --> EP2[絵文字画像URL解析]
+        EP2 --> EP3[コードポイント抽出]
+        EP3 --> EP4[Unicode絵文字変換]
+        EP4 --> EP5[Object文字列置換]
+    end
+
+    subgraph シャドウDOM管理
+        SDM1[シャドウDOMコンテナ作成] --> SDM2[スタイル追加]
+        SDM2 --> SDM3[UI要素管理]
+        SDM3 --> SDM4[イベントハンドリング]
+    end
+
+    UA1 --> PMM1
+    UA2 --> SP1
+    UA5 --> SPP2
+    UA6 --> SP1
+    
+    PMM3 --> SPP1
+    PMM3 --> SDM1
+    PMM5 --> SM1
+    
+    SPP1 --> SM1
+    SPP7 --> SM1
+    
+    SP9 --> DP1
+    DP8 --> CM1
+    DP6 --> EP1
+    EP5 --> DP8
+    CM8 --> TP0
+    DP2 --> LP1
+    LP4 --> DP8
+    UA4 --翻訳有効--> TP0
+    TP6 --> UA7
+    UA7 --> CP[クリップボードへコピー] 

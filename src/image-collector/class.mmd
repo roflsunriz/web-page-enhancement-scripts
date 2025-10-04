@@ -1,0 +1,151 @@
+classDiagram
+    class CONFIG {
+        +boolean debugMode
+        +boolean showZipButton
+        +boolean singleImageTest
+    }
+
+    class MenuRegister {
+        -UIBuilder uiBuilder
+        -ImageCollectorMain imageCollectorMain
+        +registerMenu()
+    }
+
+    class UIBuilder {
+        -BadImageHandler badImageHandler
+        -Map imageData
+        -HTMLElement modal
+        -HTMLElement gridContainer
+        -HTMLElement closeButton
+        -HTMLElement zipButton
+        +buildModal()
+        +createImageItem(url, metadata)
+        +addImageToGrid(url, metadata)
+        +showModal()
+        +hideModal()
+    }
+
+    class UIStyles {
+        -HTMLElement styleElement
+        +addStyles()
+    }
+
+    class UIBatchUpdater {
+        -UIBuilder uiBuilder
+        -BadImageHandler badImageHandler
+        -Array imageQueue
+        -boolean isProcessing
+        +addImages(imageUrls)
+        +addImagesFastPath(imageItems)
+        -processBatch()
+    }
+
+    class UIEventHandler {
+        -UIBuilder uiBuilder
+        -ZipDownloader zipDownloader
+        +setupEventHandlers()
+        +showFullScreenImage(imageUrl, originalUrl)
+        -downloadImage(imageUrl)
+    }
+
+    class ImageSourceClassifier {
+        -Set trustedDomains
+        +classifyImageSource(url, sourceElement)
+        +getMetadataFromElement(element)
+    }
+
+    class ImageCollectorMain {
+        -UIBatchUpdater uiBatchUpdater
+        -BadImageHandler badImageHandler
+        -ProgressBar progressBar
+        -Toast toast
+        -RequestBatchLimiter requestLimiter
+        -ImageHostManager imageHostManager
+        -ImageSourceClassifier imageSourceClassifier
+        +collectImages()
+        -resolveUrl(url)
+        -isImageUrl(url)
+        -getSnsImageUrl(url)
+    }
+
+    class BadImageHandler {
+        -number minSize
+        -number maxSize
+        -number maxFileSize
+        -Array deletedImageSizes
+        +isValidImage(url)
+        +isDeletedImage(metadata)
+        +createPlaceholder(url, metadata)
+        +createImageElement(url)
+        +formatBytes(bytes)
+        +isImageUrl(url)
+        +getImageMetadata(url)
+    }
+
+    class Toast {
+        -HTMLElement toastContainer
+        +init()
+        +show(message, type, duration)
+    }
+
+    class ProgressBar {
+        -HTMLElement progressBar
+        -HTMLElement progressText
+        +init()
+        +update(progress)
+        +show()
+        +hide()
+    }
+
+    class RequestBatchLimiter {
+        -number batchSize
+        -number delay
+        -Array queue
+        -boolean isProcessing
+        +addRequest(requestFn)
+        +processBatch()
+    }
+
+    class ImageHostManager {
+        -Array hostPatterns
+        +isSupportedHost(url)
+        +addHostPattern(pattern)
+    }
+
+    class ZipDownloader {
+        -UIBuilder uiBuilder
+        -BadImageHandler badImageHandler
+        -Toast toast
+        -ProgressBar progressBar
+        -Map filesData
+        -Set downloadedUrls
+        -boolean isProcessing
+        -boolean fflateAvailable
+        -Object options
+        +prepareZip()
+        +downloadZip()
+        -generateSingleZip()
+        -generateSplitZips(totalEntries)
+        -triggerDownload(blob, filename)
+        -fetchImageAsBlob(url)
+        -getFilenameFromUrl(url)
+        -getFormattedDate()
+    }
+
+    MenuRegister --> UIBuilder
+    MenuRegister --> ImageCollectorMain
+    UIBatchUpdater --> UIBuilder
+    UIBatchUpdater --> BadImageHandler
+    UIEventHandler --> UIBuilder
+    UIEventHandler --> ZipDownloader
+    ImageCollectorMain --> UIBatchUpdater
+    ImageCollectorMain --> BadImageHandler
+    ImageCollectorMain --> ProgressBar
+    ImageCollectorMain --> Toast
+    ImageCollectorMain --> RequestBatchLimiter
+    ImageCollectorMain --> ImageHostManager
+    ImageCollectorMain --> ImageSourceClassifier
+    ZipDownloader --> UIBuilder
+    ZipDownloader --> BadImageHandler
+    ZipDownloader --> Toast
+    ZipDownloader --> ProgressBar

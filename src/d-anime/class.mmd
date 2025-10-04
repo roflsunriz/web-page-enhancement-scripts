@@ -1,0 +1,135 @@
+classDiagram
+    class dAniRenderer {
+        +classes
+        +instances
+        +utils
+        +debug
+    }
+    
+    class Comment {
+        +text
+        +vpos
+        +commands
+        +prepare()
+        +update()
+        +draw()
+    }
+    
+    class CommentRenderer {
+        +settings
+        +comments
+        +canvas
+        +videoElement
+        +findAvailableLane()
+        +updateComments()
+        +draw()
+        +initialize()
+        +addComment()
+        +clearComments()
+    }
+    
+    class NicoApiFetcher {
+        +apiData
+        +comments
+        +fetchApiData()
+        +fetchComments()
+        +fetchAllData()
+    }
+    
+    class SettingsManager {
+        +settings
+        +currentVideo
+        +observers
+        +loadSettings()
+        +saveSettings()
+        +updateSettings()
+        +loadVideoData()
+        +saveVideoData(title, videoInfo)
+    }
+    
+    class VideoSwitchHandler {
+        +renderer
+        +fetcher
+        +nextVideoId
+        +preloadedComments
+        +startMonitoring()
+        +stopMonitoring()
+        +checkVideoEnd()
+        +findNextVideoId()
+        +preloadComments()
+        +onVideoSwitch()
+    }
+    
+    class NotificationManager {
+        +show()
+        +removeNotification()
+    }
+    
+    class StyleManager {
+        +initialize()
+    }
+    
+    class SettingsUI {
+        +settingsManager
+        +searcher
+        +createSettingsUI()
+        +setupEventListeners()
+        +addAutoCommentButtons()
+        +displaySearchResults()
+        +setCurrentVideo()
+        +insertIntoMypage()
+    }
+
+    class NicoVideoSearcher {
+        +cache
+        +search(keyword)
+        +fetchText(url)
+        +parseServerContext(html)
+        +extractVideoItems(root)
+        +calculateSimilarity(a, b)
+        +clearCache()
+    }
+    
+    class KeyboardShortcutHandler {
+        +addShortcut()
+        +removeShortcut()
+        +startListening()
+        +stopListening()
+        +setEnabled()
+    }
+    
+    class DebounceExecutor {
+        +exec()
+        +execOnce()
+        +cancel()
+        +resetExecution()
+        +clearAll()
+    }
+    
+    dAniRenderer --> Comment : contains
+    dAniRenderer --> CommentRenderer : contains
+    dAniRenderer --> NicoApiFetcher : contains
+    dAniRenderer --> SettingsManager : contains
+    dAniRenderer --> VideoSwitchHandler : contains
+    dAniRenderer --> NotificationManager : contains
+    dAniRenderer --> StyleManager : contains
+    dAniRenderer --> SettingsUI : contains
+    dAniRenderer --> NicoVideoSearcher : contains
+    dAniRenderer --> KeyboardShortcutHandler : contains
+    dAniRenderer --> DebounceExecutor : contains
+    
+    CommentRenderer --> Comment : manages
+    CommentRenderer --> KeyboardShortcutHandler : uses
+    
+    VideoSwitchHandler --> CommentRenderer : controls
+    VideoSwitchHandler --> NicoApiFetcher : uses
+    VideoSwitchHandler --> SettingsManager : uses
+    VideoSwitchHandler --> DebounceExecutor : uses
+    
+    SettingsUI --> SettingsManager : uses
+    SettingsUI --> NicoApiFetcher : uses
+    SettingsUI --> NotificationManager : uses
+    SettingsUI --> NicoVideoSearcher : uses
+
+    %% Notes
+    note for SettingsManager "saveVideoData は videoId, title, counts, postedAt, thumbnail, owner/channel を保存"

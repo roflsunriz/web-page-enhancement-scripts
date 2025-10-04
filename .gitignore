@@ -1,0 +1,8 @@
+# Cursor folder
+.cursor
+
+# Node Modules
+node_modules
+
+# package-lock.json
+package-lock.json

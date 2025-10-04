@@ -1,0 +1,55 @@
+{
+  "name": "web-page-enhancement-scripts",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "dev:chatgpt-notify": "vite --mode chatgpt-notify",
+    "dev:d-anime": "vite --mode d-anime",
+    "dev:fanbox-floating-menu": "vite --mode fanbox-floating-menu",
+    "dev:fanbox-pagination-helper": "vite --mode fanbox-pagination-helper",
+    "dev:image-collector": "vite --mode image-collector",
+    "dev:imgur-direct-link-copier": "vite --mode imgur-direct-link-copier",
+    "dev:mangaviewer": "vite --mode mangaviewer",
+    "dev:twitter-full-size-image": "vite --mode twitter-full-size-image",
+    "dev:twitter-media-filter": "vite --mode twitter-media-filter",
+    "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
+    "dev:twitter-wide-layout-fix": "vite --mode twitter-wide-layout-fix",
+    "dev:youtube-info-copier": "vite --mode youtube-info-copier",
+    "build": "node scripts/build-all.mjs",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src/**/*.ts",
+    "format": "prettier --write src/**/*.ts",
+    "preview": "vite preview"
+  },
+  "keywords": [
+    "userscript",
+    "tampermonkey",
+    "greasemonkey",
+    "vite",
+    "typescript"
+  ],
+  "license": "MIT",
+  "devDependencies": {
+    "@eslint/js": "^9.36.0",
+    "@types/greasemonkey": "^4.0.7",
+    "@types/node": "^24.6.2",
+    "@types/tampermonkey": "^5.0.4",
+    "eslint": "^9.36.0",
+    "prettier": "^3.6.2",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.45.0",
+    "vite": "^7.1.8",
+    "vite-plugin-monkey": "^7.1.4",
+    "@types/react": "^18.2.21",
+    "@types/react-dom": "^18.2.8",
+    "react-refresh": "^0.14.0"
+  },
+  "dependencies": {
+    "@mdi/js": "7.4.47",
+    "fflate": "^0.8.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}

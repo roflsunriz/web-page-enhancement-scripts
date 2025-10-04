@@ -1,0 +1,36 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ES2023", "DOM"],
+    "types": ["vite/client", "vite-plugin-monkey/client", "tampermonkey", "greasemonkey"],
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "baseUrl": "./",
+    "jsx": "react-jsx",
+    "paths": {
+      "@/chatgpt-notify/*": ["src/chatgpt-notify/*"],
+      "@/d-anime/*": ["src/d-anime/*"],
+      "@/fanbox-floating-menu/*": ["src/fanbox-floating-menu/*"],
+      "@/fanbox-pagination-helper/*": ["src/fanbox-pagination-helper/*"],
+      "@/image-collector/*": ["src/image-collector/*"],
+      "@/imgur-direct-link/*": ["src/imgur-direct-link/*"],
+      "@/manga-viewer/*": ["src/manga-viewer/*"],
+      "@/twitter-full-size-image/*": ["src/twitter-full-size-image/*"],
+      "@/twitter-media-filter/*": ["src/twitter-media-filter/*"],
+      "@/twitter-mute-filter/*": ["src/twitter-mute-filter/*"],
+      "@/twitter-mute-retweets/*": ["src/twitter-mute-retweets/*"],
+      "@/twitter-thread-copier/*": ["src/twitter-thread-copier/*"],
+      "@/twitter-wide-layout-fix/*": ["src/twitter-wide-layout-fix/*"],
+      "@/shared/*": ["src/shared/*"]
+    }
+  },
+  "include": ["src", "vite.config.ts", "src/shared/types/global.d.ts"],
+  "exclude": ["node_modules"]
+}
+

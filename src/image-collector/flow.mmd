@@ -1,0 +1,50 @@
+flowchart TD
+    A[初期化処理: initialize] --> B[fflateライブラリのチェック]
+    B -->|使用可能| C[initializeComponents]
+    B -->|使用不可| D[fflateを動的に読み込み]
+    D --> C
+    
+    C --> E[UIStyles作成]
+    C --> F[BadImageHandler作成]
+    C --> G[UIBuilder作成]
+    G --> H[モーダル構築]
+    H --> I[UIBatchUpdater作成]
+    H --> J[UIEventHandler作成]
+    I --> K[ImageCollectorMain作成]
+    J --> L[MenuRegister作成]
+    K --> M[ImageSourceClassifier作成]
+    
+    N[ユーザーがメニュー実行] --> O[UIBuilder.showModal]
+    N --> P[ImageCollectorMain.collectImages]
+    
+    P --> Q[画像URL収集とDOM要素保存]
+    Q --> R[ImageSourceClassifier による画像分類]
+    R --> S{画像の信頼度判定}
+    
+    S -->|高信頼度| T[高速パス: fastPathImages配列]
+    S -->|低信頼度| U[低速パス: slowPathImages配列]
+    
+    T --> V[addImagesFastPath: DOM要素から直接メタデータ取得]
+    V --> W[高速表示: BadImageHandler素通り]
+    W --> X[進捗30%: 高速パス完了]
+    
+    U --> Y[従来の検証処理]
+    Y --> Z[BadImageHandler.isValidImage]
+    Z --> AA[無効画像のフィルタリング]
+    AA --> BB[addImages: 通常の処理]
+    BB --> CC[進捗60%: 検証完了]
+    
+    X --> DD[全処理完了]
+    CC --> DD
+    DD --> EE[進捗100%: 収集完了通知]
+    
+    FF[ZIPボタンクリック] -->|初期状態| GG[ZipDownloader.prepareZip]
+    FF -->|準備完了状態| HH[ZipDownloader.downloadZip]
+    
+    GG --> II[画像データ収集とBlobダウンロード]
+    II --> JJ[ZIPボタン状態を「準備完了」に変更]
+    
+    HH -->|単一ZIP| KK[単一ZIPファイル生成]
+    HH -->|分割が必要| LL[複数ZIPファイル生成]
+    KK --> MM[ブラウザでダウンロード実行]
+    LL --> MM

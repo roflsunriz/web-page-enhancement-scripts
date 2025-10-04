@@ -1,0 +1,44 @@
+// ==UserScript==
+// @name         ImageCollector2
+// @namespace    imageCollector2
+// @version      5.0.0
+// @author       roflsunriz
+// @description  Collect images from various hosts and export as archive.
+// @license      MIT
+// @match        *://*
+// @match        *://*/*
+// @connect      *
+// @connect      */*
+// @connect      imgur.com
+// @connect      flickr.com
+// @connect      pinterest.com
+// @connect      deviantart.com
+// @connect      artstation.com
+// @connect      500px.com
+// @connect      unsplash.com
+// @connect      pexels.com
+// @connect      pixiv.net
+// @connect      tinypic.com
+// @connect      postimages.org
+// @connect      imgbox.com
+// @connect      imagebam.com
+// @connect      imagevenue.com
+// @connect      imageshack.us
+// @connect      photobucket.com
+// @connect      freeimage.host
+// @connect      ibb.co
+// @connect      imgbb.com
+// @connect      gyazo.com
+// @connect      twitter.com
+// @connect      x.com
+// @connect      instagram.com
+// @connect      facebook.com
+// @connect      reddit.com
+// @connect      tumblr.com
+// @connect      weibo.com
+// @connect      vk.com
+// @connect      example.com
+// @grant        GM_registerMenuCommand
+// @grant        GM_xmlhttpRequest
+// @grant        unsafeWindow
+// ==/UserScript==

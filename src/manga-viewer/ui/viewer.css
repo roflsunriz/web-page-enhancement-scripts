@@ -1,0 +1,711 @@
+/* カラーパレット定義 - 和風テーマ */
+:host {
+    --mv-primary: #FF6B6B;
+    --mv-secondary: #4ECDC4;
+    --mv-dark: #292F36;
+    --mv-light: #F7FFF7;
+    --mv-accent: #FFE66D;
+    --mv-shadow-color: rgba(0, 0, 0, 0.3);
+    --mv-glass-bg: rgba(22, 28, 36, 0.8);
+    --mv-glass-light: rgba(255, 255, 255, 0.1);
+}
+
+/* ビューア用のスタイル */
+.manga-viewer-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 10001;
+    display: flex;
+    flex-direction: column;
+    background-color: rgba(22, 28, 36, 0.85);
+    backdrop-filter: blur(12px);
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    color: var(--mv-light);
+    transition: all 0.3s ease, cursor 0.3s ease;
+    cursor: default;
+}
+
+/* モバイル対応のスタイル */
+@media (max-width: 768px) {
+    .mv-header {
+        padding: 0.5rem 1rem;
+        height: 50px;
+    }
+
+    .mv-header-text {
+        font-size: 14px;
+    }
+
+    .mv-auto-nav-toggle {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+
+    .mv-close-button {
+        padding: 6px 12px;
+        font-size: 12px;
+    }
+
+    .mv-shortcuts-hint {
+        display: none; /* モバイルではショートカットヒントを非表示 */
+    }
+
+    .mv-edge-indicator {
+        padding: 0.5rem 0.8rem;
+        font-size: 12px;
+    }
+
+    .mv-zoom-indicator {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+}
+
+/* タッチ操作のフィードバック用スタイル */
+.mv-touch-feedback {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    animation: touch-ripple 0.4s ease-out;
+}
+
+@keyframes touch-ripple {
+    0% {
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(2);
+        opacity: 0;
+    }
+}
+
+/* 画像フィット調整 */
+.mv-page {
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain;
+    touch-action: none; /* ブラウザのデフォルトタッチ動作を無効化 */
+}
+
+/* モバイルでのページめくりインジケーター */
+.mv-page-turn-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    background: var(--mv-glass-bg);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.mv-page-turn-indicator.left {
+    left: 10px;
+}
+
+.mv-page-turn-indicator.right {
+    right: 10px;
+}
+
+.mv-page-turn-indicator.visible {
+    opacity: 0.8;
+}
+
+/* 既存のスタイル */
+.manga-viewer-container.mouse-inactive {
+    cursor: none;
+}
+
+.manga-viewer-container.mouse-inactive * {
+    cursor: none !important;
+}
+
+.manga-viewer-container * {
+    box-sizing: border-box;
+}
+
+.mv-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.8rem 1.5rem;
+    background-color: rgba(22, 28, 36, 0.7);
+    backdrop-filter: blur(15px);
+    height: 60px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    border-bottom: 1px solid var(--mv-glass-light);
+    z-index: 100;
+}
+
+.mv-header-text {
+    color: white;
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+}
+
+.mv-header-text:before {
+    content: '📖';
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.mv-auto-nav-toggle {
+    background-color: var(--mv-glass-bg);
+    color: white;
+    padding: 8px 14px;
+    border-radius: 50px;
+    font-size: 14px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 0 1rem;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--mv-glass-light);
+}
+
+.mv-auto-nav-toggle:before {
+    content: '✓';
+    margin-right: 6px;
+    color: var(--mv-primary);
+    font-weight: bold;
+}
+
+.mv-auto-nav-toggle.off {
+    background-color: rgba(50, 50, 50, 0.4);
+    box-shadow: none;
+}
+
+.mv-auto-nav-toggle.off:before {
+    content: '✗';
+    color: #9e9e9e;
+}
+
+.mv-auto-nav-toggle:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mv-close-button {
+    color: white;
+    background: rgba(255, 107, 107, 0.2);
+    border: 1px solid rgba(255, 107, 107, 0.4);
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.mv-close-button:before {
+    content: '×';
+    margin-right: 6px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.mv-close-button:hover {
+    background-color: var(--mv-primary);
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(255, 107, 107, 0.3);
+}
+
+.mv-main-viewer {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    user-select: none;
+    perspective: 1500px;
+    transform-style: preserve-3d;
+    background: radial-gradient(circle at center, rgba(40, 44, 52, 0.8) 0%, rgba(17, 20, 24, 0.95) 100%);
+}
+
+.mv-page-container {
+    position: relative;
+    max-width: 50vw;
+    height: 100%;
+    perspective: 1200px;
+    transform-style: preserve-3d;
+    transition: all 0.3s ease;
+}
+
+.mv-page {
+    position: relative;
+    max-width: 100%;
+    height: 100%;
+    object-fit: contain;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    will-change: transform, z-index;
+    cursor: grab;
+    border-radius: 3px;
+    transition: transform 0.2s ease;
+}
+
+.mv-page:hover {
+    transform: scale(1.01) translateZ(10px);
+}
+
+.mv-edge-indicator {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--mv-glass-bg);
+    color: white;
+    padding: 0.8rem 1.2rem;
+    font-weight: 500;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    transition: all 0.3s ease;
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+}
+
+.mv-edge-indicator:hover {
+    opacity: 1;
+    transform: translateY(-50%) scale(1.05);
+}
+
+.mv-right-indicator {
+    right: 15px;
+    border-radius: 50px 0 0 50px;
+    padding-right: 1.5rem;
+}
+
+.mv-right-indicator:before {
+    content: '▶';
+    margin-right: 8px;
+    font-size: 14px;
+}
+
+.mv-left-indicator {
+    left: 15px;
+    border-radius: 0 50px 50px 0;
+    padding-left: 1.5rem;
+}
+
+.mv-left-indicator:after {
+    content: '◀';
+    margin-left: 8px;
+    font-size: 14px;
+}
+
+.mv-page-edge {
+    position: absolute;
+    height: 100%;
+    width: 20px;
+    top: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.2), rgba(0,0,0,0));
+    z-index: 5;
+}
+
+.mv-page-edge.left {
+    left: 0;
+    border-radius: 3px 0 0 3px;
+}
+
+.mv-page-edge.right {
+    right: 0;
+    transform: scaleX(-1);
+    border-radius: 0 3px 3px 0;
+}
+
+.mv-page-animating {
+    z-index: 10 !important;
+}
+
+/* ショートカットヒント */
+.mv-shortcuts-hint {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--mv-glass-bg);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    font-size: 13px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--mv-glass-light);
+    z-index: 100;
+}
+
+.mv-shortcuts-hint.visible {
+    opacity: 0.9;
+    transform: translateX(-50%) translateY(0);
+}
+
+.mv-shortcuts-hint.hidden {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+    pointer-events: none;
+}
+
+.mv-shortcuts-hint:hover {
+    opacity: 1;
+}
+
+.mv-shortcuts-hint span {
+    display: inline-flex;
+    align-items: center;
+    margin: 0 6px;
+}
+
+.mv-key {
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 4px;
+    padding: 2px 6px;
+    margin: 0 3px;
+    font-weight: bold;
+}
+
+/* ズームインジケーター */
+.mv-zoom-indicator {
+    position: absolute;
+    top: 70px; /* ヘッダーの高さ+余白に調整 */
+    right: 20px;
+    background-color: var(--mv-glass-bg);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 50px;
+    font-size: 14px;
+    opacity: 0;
+    transform: translateY(-20px);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--mv-glass-light);
+}
+
+.mv-zoom-indicator.visible {
+    opacity: 0.9;
+    transform: translateY(0);
+}
+
+/* 発光エフェクト */
+.mv-glow-effect {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.95);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255,107,107,0.3) 0%, rgba(255,107,107,0) 70%);
+    animation: glow-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes glow-pulse {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+        transform: translate(-50%, -50%) scale(0.95); 
+    }
+    70% { 
+        box-shadow: 0 0 0 15px rgba(255, 107, 107, 0);
+        transform: translate(-50%, -50%) scale(1); 
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+        transform: translate(-50%, -50%) scale(0.95); 
+    }
+}
+
+/* ローディングスピナー */
+.manga-viewer-loading {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(17, 20, 24, 0.9);
+    color: white;
+    z-index: 10000;
+    font-family: 'Segoe UI', 'Helvetica Neue', sans-serif;
+    backdrop-filter: blur(10px);
+}
+    
+.mv-spinner {
+    position:absolute;
+    top:10px;
+    left:10px;
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.1);
+    border-radius: 50%;
+    border-top-color: var(--mv-primary);
+    border-left-color: var(--mv-primary);
+    animation: spin 1s cubic-bezier(0.42, 0, 0.58, 1) infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 30px rgba(255, 107, 107, 0.3);
+}
+    
+.mv-message {
+    font-size: 18px;
+    margin-top: 15px;
+    background-color: var(--mv-glass-bg);
+    padding: 12px 24px;
+    border-radius: 50px;
+    max-width: 80%;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 0.5s ease;
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--mv-glass-light);
+}
+    
+/* アニメーション定義 */
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes bounceLeft {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(20px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(10px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes bounceRight {
+    0% { transform: translateX(0); }
+    25% { transform: translateX(-20px); }
+    50% { transform: translateX(0); }
+    75% { transform: translateX(-10px); }
+    100% { transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7);
+        transform: scale(0.95); 
+    }
+    70% { 
+        box-shadow: 0 0 0 15px rgba(255, 107, 107, 0);
+        transform: scale(1); 
+    }
+    100% { 
+        box-shadow: 0 0 0 0 rgba(255, 107, 107, 0);
+        transform: scale(0.95); 
+    }
+}
+
+.mv-btn-hover {
+    animation: btn-pulse 1.5s infinite;
+}
+
+.mv-progress-container {
+    position: absolute;
+    top: 60px; /* ヘッダーの高さに合わせる */
+    left: 0;
+    width: 100%;
+    height: 3px; /* 薄いバー */
+    background-color: rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    overflow: hidden;
+}
+
+.mv-progress-bar {
+    height: 100%;
+    background-color: var(--mv-primary, #FF6B6B);
+    transition: width 0.3s ease;
+}
+
+.mv-progress-message {
+    position: absolute;
+    top: 3px; /* バーの下に少しスペース */
+    left: 0;
+    width: 100%;
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.7);
+    text-align: center;
+    padding: 2px 0;
+    pointer-events: none;
+    opacity: 0.7;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);
+}
+
+/* モバイル用の閉じるボタンのスタイル */
+.mv-mobile-close-button {
+    display: none; /* デフォルトでは非表示 */
+    position: fixed;
+    top: env(safe-area-inset-top, 10px); /* セーフエリアを考慮 */
+    right: env(safe-area-inset-right, 10px); /* セーフエリアを考慮 */
+    width: 44px;
+    height: 44px;
+    background-color: rgba(0, 0, 0, 0.6);
+    border-radius: 50%;
+    z-index: 10002;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 24px;
+    /* iOSのセーフエリアに対応 */
+    padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+}
+
+.mv-mobile-close-button::before {
+    content: '×';
+    line-height: 1;
+}
+
+.mv-mobile-close-button:active {
+    background-color: rgba(255, 107, 107, 0.8);
+    transform: scale(0.95);
+}
+
+/* モバイル環境でのみ表示 */
+@media (max-width: 768px) {
+    .mv-mobile-close-button {
+        display: flex;
+    }
+}
+
+/* 横向き（ランドスケープ）モードでの調整 */
+@media (max-width: 768px) and (orientation: landscape) {
+    .mv-mobile-close-button {
+        /* 横向き時は上端からの距離を調整 */
+        top: env(safe-area-inset-top, 5px);
+        right: env(safe-area-inset-right, 5px);
+        /* サイズを少し小さく */
+        width: 40px;
+        height: 40px;
+        font-size: 20px;
+        /* 背景をより目立たせる */
+        background-color: rgba(0, 0, 0, 0.8);
+    }
+}
+
+/* ノッチ付きiPhoneのランドスケープモード対応 */
+@supports (padding-top: env(safe-area-inset-top)) {
+    @media (max-width: 768px) and (orientation: landscape) {
+        .mv-mobile-close-button {
+            top: max(env(safe-area-inset-top, 5px), 5px);
+            right: max(env(safe-area-inset-right, 5px), 5px);
+        }
+    }
+}
+
+/* ページめくりアニメーション */
+@keyframes turnPageForward {
+    0% {
+        transform: rotateY(0) translateZ(0);
+        filter: brightness(1);
+    }
+    20% {
+        transform: rotateY(40deg) translateZ(50px) skewY(5deg);
+        box-shadow: 30px 0 30px rgba(0, 0, 0, 0.4);
+        filter: brightness(1.03);
+    }
+    50% {
+        transform: rotateY(90deg) translateZ(100px) skewY(8deg);
+        box-shadow: 40px 20px 40px rgba(0, 0, 0, 0.5);
+        filter: brightness(1.05);
+    }
+    80% {
+        transform: rotateY(140deg) translateZ(50px) skewY(5deg);
+        box-shadow: 30px 0 30px rgba(0, 0, 0, 0.4);
+        filter: brightness(1.03);
+    }
+    100% {
+        transform: rotateY(180deg) translateZ(0);
+        filter: brightness(1);
+    }
+}
+@keyframes turnPageBackward {
+    0% {
+        transform: rotateY(0) translateZ(0);
+        filter: brightness(1);
+    }
+    20% {
+        transform: rotateY(-40deg) translateZ(50px) skewY(-5deg);
+        box-shadow: -30px 0 30px rgba(0, 0, 0, 0.4);
+        filter: brightness(1.03);
+    }
+    50% {
+        transform: rotateY(-90deg) translateZ(100px) skewY(-8deg);
+        box-shadow: -40px 20px 40px rgba(0, 0, 0, 0.5);
+        filter: brightness(1.05);
+    }
+    80% {
+        transform: rotateY(-140deg) translateZ(50px) skewY(-5deg);
+        box-shadow: -30px 0 30px rgba(0, 0, 0, 0.4);
+        filter: brightness(1.03);
+    }
+    100% {
+        transform: rotateY(-180deg) translateZ(0);
+        filter: brightness(1);
+    }
+}
+
+/* ページのエッジ効果用 */
+.mv-page-edge {
+    position: absolute;
+    height: 100%;
+    width: 10px;
+    top: 0;
+    background: linear-gradient(to right, rgba(0,0,0,0.1), rgba(0,0,0,0));
+}
+.mv-page-edge.left {
+    left: 0;
+}
+.mv-page-edge.right {
+    right: 0;
+    transform: scaleX(-1);
+}
+
+/* 3D変換の強化 */
+.mv-spread-container {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.mv-page-container {
+    transform-style: preserve-3d;
+    will-change: transform;
+}
+.mv-page {
+    backface-visibility: hidden;
+    transform-style: preserve-3d;
+    will-change: transform, z-index;
+}
+.mv-page-animating {
+    z-index: 10 !important;
+}
