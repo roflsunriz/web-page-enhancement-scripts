@@ -5,6 +5,8 @@
 // @author       roflsunriz
 // @description  Collect images from various hosts and export as archive.
 // @license      MIT
+// @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.user.js
+// @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.meta.js
 // @match        *://*
 // @match        *://*/*
 // @connect      *

@@ -6,8 +6,8 @@
 // @description  Copy image link from Imgur with TypeScript.
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=imgur.com
-// @downloadURL  https://gist.githubusercontent.com/roflsunriz/1fa7e451c8d505b68454f8e0fa52520a/raw/imgur_direct_link_copier.user.js
-// @updateURL    https://gist.githubusercontent.com/roflsunriz/1fa7e451c8d505b68454f8e0fa52520a/raw/imgur_direct_link_copier.user.js
+// @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/imgur-direct-link.user.js
+// @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/imgur-direct-link.meta.js
 // @match        https://imgur.com/*
 // @grant        GM_setClipboard
 // ==/UserScript==

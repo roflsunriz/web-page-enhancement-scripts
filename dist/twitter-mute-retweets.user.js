@@ -6,8 +6,8 @@
 // @description  閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=x.com
-// @downloadURL  https://gist.githubusercontent.com/roflsunriz/037ef3d4f08cfddb4a132d72e0d77480/raw/twitter_mute_retweets.user.js
-// @updateURL    https://gist.githubusercontent.com/roflsunriz/037ef3d4f08cfddb4a132d72e0d77480/raw/twitter_mute_retweets.user.js
+// @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.user.js
+// @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.meta.js
 // @match        https://x.com/*
 // @exclude      https://x.com/*/status/*
 // @grant        GM_getValue
