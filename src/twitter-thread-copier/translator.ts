@@ -1,5 +1,6 @@
 import { logger } from "./logger.js";
 
+const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const GOOGLE_TRANSLATE_ENDPOINT =
   "https://translate.googleapis.com/translate_a/single";
 
@@ -58,7 +59,7 @@ export async function translateText(text: string): Promise<string> {
       },
     );
 
-    const MAX_CHUNK_SIZE = 800;
+    const MAX_CHUNK_SIZE = 5000;
     const chunks: string[] = [];
     const paragraphs = textWithoutEmojis.split("\n");
     let currentChunk = "";
@@ -77,16 +78,62 @@ export async function translateText(text: string): Promise<string> {
     if (currentChunk) chunks.push(currentChunk);
 
     const translatedChunks = [];
-    for (let i = 0; i < chunks.length; i++) {
-      const chunk = chunks[i];
-      if (!chunk || chunk.trim().length === 0) {
-        translatedChunks.push("");
-        continue;
-      }
 
+    // --- OpenAI互換APIによる翻訳 ---
+    async function translateWithLocalAI(chunk: string): Promise<string | null> {
+      try {
+        const prompt = `<|plamo:op|>dataset
+translation
+<|plamo:op|>input lang=auto
+${chunk}
+<|plamo:op|>output lang=ja`;
+
+        const response = await new Promise<GM.Response<unknown>>(
+          (resolve, reject) => {
+            GM_xmlhttpRequest({
+              method: "POST",
+              url: LOCAL_AI_ENDPOINT,
+              headers: {
+                "Content-Type": "application/json",
+              },
+              data: JSON.stringify({
+                model: "plamo-13b-instruct",
+                messages: [{ role: "user", content: prompt }],
+                temperature: 0,
+                max_tokens: 4096,
+                stream: false,
+              }),
+              timeout: 30000, // 30秒に延長
+              onload: (res) =>
+                res.status >= 200 && res.status < 300
+                  ? resolve(res as GM.Response<unknown>)
+                  : reject(new Error(`API error: ${res.status}`)),
+              onerror: (err) => reject(err),
+              ontimeout: () => reject(new Error("Timeout")),
+            });
+          },
+        );
+
+        const data = JSON.parse(response.responseText as string);
+        const translated = data?.choices?.[0]?.message?.content;
+
+        if (translated && translated.trim().length > 0) {
+          logger.log("ローカルAIでの翻訳に成功しました。");
+          return translated;
+        }
+        throw new Error("ローカルAIからの翻訳結果が空です。");
+      } catch (error) {
+        logger.error(
+          `ローカルAIでの翻訳に失敗: ${(error as Error).message}`,
+        );
+        return null;
+      }
+    }
+
+    // --- Google翻訳によるフォールバック ---
+    async function translateWithGoogle(chunk: string): Promise<string> {
       const sourceLang = "auto";
       const targetLang = "ja";
-      let translatedText = "";
       let retryCount = 0;
       const MAX_RETRIES = 3;
 
@@ -116,33 +163,44 @@ export async function translateText(text: string): Promise<string> {
           if (!data?.sentences?.length) {
             throw new Error("Invalid translation response format.");
           }
-
-          translatedText = data.sentences
+          const translatedText = data.sentences
             .map((s: { trans: string }) => s?.trans || "")
             .join("");
-          if (!translatedText.trim()) {
-            throw new Error("Translation result is empty");
-          }
-
-          translatedChunks.push(translatedText);
-          break;
+          if (!translatedText.trim()) throw new Error("Translation result is empty");
+          return translatedText;
         } catch (error) {
           retryCount++;
-          logger.error(
-            `翻訳試行 ${retryCount}/${MAX_RETRIES} 失敗: ${
-              (error as Error).message
-            }`,
-          );
-          if (retryCount >= MAX_RETRIES) {
-            logger.error(`翻訳失敗後、元のテキストを使用します。`);
-            translatedChunks.push(chunk);
-            break;
-          }
-          await new Promise((res) =>
-            setTimeout(res, 1000 * Math.pow(2, retryCount)),
-          );
+          logger.error(`Google翻訳試行 ${retryCount}/${MAX_RETRIES} 失敗: ${(error as Error).message}`);
+          if (retryCount >= MAX_RETRIES) throw error;
+          await new Promise((res) => setTimeout(res, 1000 * Math.pow(2, retryCount)));
         }
       }
+      throw new Error("Google翻訳に失敗しました。");
+    }
+
+    for (let i = 0; i < chunks.length; i++) {
+      const chunk = chunks[i];
+      if (!chunk || chunk.trim().length === 0) {
+        translatedChunks.push("");
+        continue;
+      }
+
+      // 1. ローカルAIで試行
+      let translatedText = await translateWithLocalAI(chunk);
+
+      // 2. 失敗したらGoogle翻訳にフォールバック
+      if (!translatedText) {
+        logger.log("ローカルAIでの翻訳に失敗したため、Google翻訳にフォールバックします。");
+        try {
+          translatedText = await translateWithGoogle(chunk);
+        } catch (googleError) {
+          logger.error(`Google翻訳にも失敗しました: ${(googleError as Error).message}`);
+          logger.error("翻訳失敗後、元のテキストを使用します。");
+          translatedText = chunk; // 最終フォールバック
+        }
+      }
+      translatedChunks.push(translatedText);
+
       if (i < chunks.length - 1) {
         await new Promise((res) =>
           setTimeout(res, 1500 + Math.random() * 1000),

@@ -4,6 +4,15 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.1.0 - 2025-10-06
+### 追加
+- `twitter-thread-copier.user.js`
+  - ローカルAIによる翻訳をプライマリ翻訳APIエンドポイントとして利用するようにしました。
+  - Google翻訳による翻訳をフォールバックとして利用するようにしました。
+  - オススメモデルはplamo-2-translateです。有志がGGUFに変換したモデルを公開しています。llama.cppで推論可能です。
+  - 翻訳APIエンドポイントはhttp://localhost:3002/v1/chat/completionsを利用します。
+  - オススメ翻訳拡張機能はイマーシブ翻訳(Immersive Translate)です。OpenAIライクなAPIに対応しているため、llama.cppと接続できます。
+
 ## v1.0.1 - 2025-10-05
 ### 修正
 - `imgur-direct-link.user.js`
