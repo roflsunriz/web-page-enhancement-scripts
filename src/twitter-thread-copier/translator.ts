@@ -5,6 +5,9 @@ const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const GOOGLE_TRANSLATE_ENDPOINT =
   "https://translate.googleapis.com/translate_a/single";
 
+const LOCAL_AI_SYSTEM_PROMPT =
+  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
+
 type FixedSegment = {
   kind: "fixed";
   value: string;
@@ -180,7 +183,10 @@ ${text}
           },
           data: JSON.stringify({
             model: "plamo-13b-instruct",
-            messages: [{ role: "user", content: prompt }],
+            messages: [
+              { role: "system", content: LOCAL_AI_SYSTEM_PROMPT },
+              { role: "user", content: prompt },
+            ],
             temperature: 0,
             max_tokens: 4096,
             stream: false,
