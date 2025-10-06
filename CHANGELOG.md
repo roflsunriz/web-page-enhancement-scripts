@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.3.4 - 2025-10-07
+### 修正
+- `twitter-thread-copier.user.js`
+ - @connectにlocalhostを追加しました。
+
 ## v1.3.3 - 2025-10-07
 ### 修正
 - `twitter-thread-copier.user.js`

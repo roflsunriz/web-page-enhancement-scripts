@@ -13,6 +13,7 @@
 // @connect      translate.googleapis.com
 // @connect      *.googleapis.com
 // @connect      t.co
+// @connect      localhost
 // @grant        GM_xmlhttpRequest
 // @run-at       document-idle
 // ==/UserScript==

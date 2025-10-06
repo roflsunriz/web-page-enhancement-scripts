@@ -290,7 +290,7 @@ const twitterMuteRetweetsMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '5.4.0',
+  version: '5.4.1',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
@@ -301,6 +301,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
     'translate.googleapis.com',
     '*.googleapis.com',
     't.co',
+    'localhost',
   ],
   grant: ['GM_xmlhttpRequest'],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
