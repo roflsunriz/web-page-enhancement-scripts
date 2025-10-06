@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.2.2 - 2025-10-06
+### 修正
+- `d-anime-nico-comment-renderer.user.js`
+  - 自動再生ボタンがランダムに動画を再生する不具合を修正しました。
+
 ## v1.2.1 - 2025-10-06
 ### 修正
 - `d-anime-nico-comment-renderer.user.js`

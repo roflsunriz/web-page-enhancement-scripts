@@ -121,6 +121,9 @@ export class SettingsUI extends ShadowDOMComponent {
             .join(" ");
           this.scrollToSettings();
           this.setSearchKeyword(keyword);
+          // このボタンでコメント設定した動画を再生ボタンで対象にできるように
+          // クリック時にそのボタンのホスト要素を lastAutoButtonElement に設定する
+          this.lastAutoButtonElement = buttonHost;
           const results = await this.executeSearch(keyword);
           if (results.length === 0) {
             return;
