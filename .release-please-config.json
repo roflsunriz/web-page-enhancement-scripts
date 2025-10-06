@@ -1,0 +1,22 @@
+{
+  "include-component-in-tag": true,
+  "separate-pull-requests": true,
+  "packages": {
+    "src/chatgpt-notify": { "component": "chatgpt-notify", "release-type": "simple" },
+    "src/d-anime": { "component": "d-anime-nico-comment-renderer", "release-type": "simple" },
+    "src/fanbox-floating-menu": { "component": "fanbox-floating-menu", "release-type": "simple" },
+    "src/fanbox-pagination": { "component": "fanbox-pagination-helper", "release-type": "simple" },
+    "src/image-collector": { "component": "image-collector", "release-type": "simple" },
+    "src/imgur-direct-link": { "component": "imgur-direct-link", "release-type": "simple" },
+    "src/manga-viewer": { "component": "manga-viewer", "release-type": "simple" },
+    "src/twitter-full-size-image": { "component": "twitter-full-size-image", "release-type": "simple" },
+    "src/twitter-media-filter": { "component": "twitter-media-filter", "release-type": "simple" },
+    "src/twitter-mute-filter": { "component": "twitter-mute-filter", "release-type": "simple" },
+    "src/twitter-mute-retweets": { "component": "twitter-mute-retweets", "release-type": "simple" },
+    "src/twitter-thread-copier": { "component": "twitter-thread-copier", "release-type": "simple" },
+    "src/twitter-wide-layout-fix": { "component": "twitter-wide-layout-fix", "release-type": "simple" },
+    "src/youtube-info-copier": { "component": "youtube-info-copier", "release-type": "simple" }
+  }
+}
+
+

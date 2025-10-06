@@ -1,0 +1,18 @@
+{
+  "src/chatgpt-notify": "2.0.1",
+  "src/d-anime": "5.1.1",
+  "src/fanbox-floating-menu": "2.0.1",
+  "src/fanbox-pagination": "2.0.1",
+  "src/image-collector": "5.0.1",
+  "src/imgur-direct-link": "3.0.1",
+  "src/manga-viewer": "10.0.1",
+  "src/twitter-full-size-image": "2.0.1",
+  "src/twitter-media-filter": "2.0.1",
+  "src/twitter-mute-filter": "2.0.1",
+  "src/twitter-mute-retweets": "2.0.1",
+  "src/twitter-thread-copier": "5.3.2",
+  "src/twitter-wide-layout-fix": "2.0.1",
+  "src/youtube-info-copier": "2.0.1"
+}
+
+
