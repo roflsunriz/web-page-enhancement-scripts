@@ -164,11 +164,18 @@ class UIManager {
           opacity: 0;
           transform: translateY(12px);
           transition: all 0.3s ease;
-          pointer-events: auto;
+          pointer-events: none;
           order: 0;
-          position: relative;
+          position: absolute;
+          bottom: calc(100% + 12px);
+          right: 0;
+          will-change: transform, opacity;
       }
-      .copy-toast.visible { opacity: 1; transform: translateY(0); }
+      .copy-toast.visible {
+          opacity: 1;
+          transform: translateY(0);
+          pointer-events: auto;
+      }
       .toast-title { font-weight: bold; margin-bottom: 5px; }
       .toast-content { font-size: 13px; opacity: 0.9; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
       .start-point-button {
