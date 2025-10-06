@@ -675,17 +675,46 @@ export class SettingsUI extends ShadowDOMComponent {
       return;
     }
     button.addEventListener("click", () => {
-      const videoId = this.currentVideoInfo?.videoId;
-      if (!videoId) {
+      try {
+        const videoId = this.currentVideoInfo?.videoId;
+        if (!videoId) {
+          NotificationManager.show(
+            "再生できる動画が設定されていません",
+            "warning",
+          );
+          return;
+        }
+
+        // まず自動ボタンが挿入されたアイテム内のサムネイル再生リンクを探してクリックする
+        if (this.lastAutoButtonElement) {
+          const itemElement = this.lastAutoButtonElement.closest(
+            ".itemModule.list",
+          ) as HTMLElement | null;
+          const playLink = itemElement?.querySelector<HTMLAnchorElement>(
+            '.thumbnailContainer > a, .thumbnail-container > a, .thumbnailContainer a, .thumbnail-container a, a[href*="/watch/"]',
+          );
+          if (playLink) {
+            NotificationManager.show(
+              `「${this.currentVideoInfo?.title || "動画"}」を再生します...`,
+              "success",
+            );
+            // 少し遅延を入れてクリック（元の実装に合わせる）
+            setTimeout(() => {
+              playLink.click();
+            }, 300);
+            return;
+          }
+        }
+
+        // フォールバックは不要なので何もしない
         NotificationManager.show(
-          "再生できる動画が設定されていません",
+          "再生リンクが見つかりませんでした。自動再生はサムネイル内のリンクを介してのみ行われます",
           "warning",
         );
-        return;
+      } catch (error) {
+        logger.error("SettingsUI.playCurrentVideo", error as Error);
+        NotificationManager.show(`再生エラー: ${(error as Error).message}`, "error");
       }
-      const url = `https://www.nicovideo.jp/watch/${encodeURIComponent(videoId)}`;
-      const globalWindow = getUnsafeWindow();
-      globalWindow.open(url, "_blank", "noopener");
     });
     this.updatePlayButtonState(this.currentVideoInfo);
   }
