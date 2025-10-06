@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.2.0 - 2025-10-06
+### 修正
+- `twitter-thread-copier.user.js`
+- UI表示時にアイコンが表示されるように修正しました。
+
 ## v1.1.0 - 2025-10-06
 ### 追加
 - `twitter-thread-copier.user.js`

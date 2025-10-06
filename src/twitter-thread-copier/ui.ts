@@ -237,7 +237,6 @@ class UIManager {
     button.className = "copy-thread-button";
     button.id = "twitter-thread-copier-button";
     button.title = "スレッドをコピー";
-    this.updateMainButtonText();
 
     button.addEventListener("click", async () => {
       if (state.isSecondStage) {
@@ -248,6 +247,8 @@ class UIManager {
     });
 
     this.appendChild(button);
+    // ボタンを DOM に追加した後でテキスト（アイコン含む）を更新する
+    this.updateMainButtonText();
     logger.log("Copy button added to shadow DOM");
   }
 
