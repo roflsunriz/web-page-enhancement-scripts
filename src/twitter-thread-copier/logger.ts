@@ -7,4 +7,11 @@ export const logger = {
   error: (message: unknown) => {
     console.error(SCRIPT_NAME, message);
   },
+  warn: (message: unknown, error?: unknown) => {
+    if (error) {
+      console.warn(SCRIPT_NAME, message, error);
+    } else {
+      console.warn(SCRIPT_NAME, message);
+    }
+  },
 };

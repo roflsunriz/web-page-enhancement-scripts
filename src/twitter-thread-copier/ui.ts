@@ -20,9 +20,35 @@ const ICONS = {
 class UIManager {
   private shadowRoot: ShadowRoot | null = null;
   private container: HTMLDivElement | null = null;
+  private floatingContainer: HTMLDivElement | null = null;
+  private dragState:
+    | {
+        pointerId: number;
+        startX: number;
+        startY: number;
+        initialTop: number;
+        initialLeft: number;
+        moved: boolean;
+      }
+    | null = null;
+  private customPosition: { top: number; left: number } | null = null;
+  private ignoreNextClick = false;
+  private readonly handleResize = (): void => {
+    if (!this.floatingContainer || !this.customPosition) {
+      return;
+    }
+    const { top, left } = this.clampPosition(
+      this.customPosition.top,
+      this.customPosition.left,
+      this.floatingContainer,
+    );
+    this.applyPosition(top, left, this.floatingContainer);
+  };
 
   public init(): void {
-    if (this.shadowRoot) return;
+    if (this.shadowRoot) {
+      return;
+    }
 
     this.container = document.createElement("div");
     this.container.id = "twitter-thread-copier-shadow-host";
@@ -31,57 +57,84 @@ class UIManager {
 
     this.shadowRoot = this.container.attachShadow({ mode: "closed" });
     this.addStyles();
+    this.ensureFloatingContainer();
 
     document.body.appendChild(this.container);
+    window.addEventListener("resize", this.handleResize);
     logger.log("Shadow DOM initialized");
   }
 
   private addStyles(): void {
-    if (!this.shadowRoot) return;
+    if (!this.shadowRoot) {
+      return;
+    }
     const styleElement = document.createElement("style");
     styleElement.textContent = `
-      .copy-thread-button {
+      .floating-ui-container {
           position: fixed;
           bottom: 100px;
           right: 20px;
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: 12px;
+          z-index: 9999;
+          pointer-events: none;
+          user-select: none;
+      }
+      .floating-ui-container.has-custom-position {
+          bottom: auto;
+          right: auto;
+      }
+      .floating-ui-container.dragging {
+          cursor: grabbing;
+      }
+      .floating-ui-container > * {
+          pointer-events: auto;
+      }
+      .copy-thread-button {
           width: 50px;
           height: 50px;
           border-radius: 50%;
           background-color: #1DA1F2; /* Twitter Blue */
           color: white;
           border: none;
-          cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
-          z-index: 9999;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           transition: all 0.3s ease;
           pointer-events: auto;
+          order: 3;
+          position: relative;
+          touch-action: none;
       }
       .copy-thread-button:hover {
           transform: scale(1.1);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      }
+      .copy-thread-button.dragging {
+          cursor: grabbing;
+      }
+      .copy-thread-button:not(.dragging) {
+          cursor: grab;
       }
       .copy-thread-button.success { background-color: #4CAF50; }
       .copy-thread-button.ready { background-color: #1DA1F2; }
       .copy-thread-button.loading svg { animation: spinning 1.5s linear infinite; }
       .copy-thread-button svg { display: block; }
       .control-panel-container {
-          position: fixed;
-          bottom: 160px;
-          right: 20px;
           background-color: rgba(0, 0, 0, 0.7);
           color: white;
           padding: 8px 12px;
           border-radius: 20px;
-          z-index: 9999;
           display: flex;
           flex-direction: column;
           gap: 8px;
           font-size: 14px;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           pointer-events: auto;
+          order: 1;
       }
       .control-panel-container select, .control-panel-container input { margin-left: 8px; transform: scale(0.96); }
       .control-panel-container label { display: flex; align-items: center; white-space: nowrap; }
@@ -101,20 +154,18 @@ class UIManager {
       .copy-thread-button:hover .text { opacity: 1; visibility: visible; }
       @keyframes spinning { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
       .copy-toast {
-          position: fixed;
-          bottom: 180px;
-          right: 20px;
           background-color: rgba(0, 0, 0, 0.8);
           color: white;
           padding: 12px 20px;
           border-radius: 8px;
-          z-index: 10000;
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           max-width: 300px;
           opacity: 0;
-          transform: translateY(20px);
+          transform: translateY(12px);
           transition: all 0.3s ease;
           pointer-events: auto;
+          order: 0;
+          position: relative;
       }
       .copy-toast.visible { opacity: 1; transform: translateY(0); }
       .toast-title { font-weight: bold; margin-bottom: 5px; }
@@ -146,9 +197,6 @@ class UIManager {
       .start-point-button.active:hover { background-color: #1991DB; }
       article[data-testid="tweet"].start-point-set { background-color: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2); border-radius: 8px; }
       .reset-start-point {
-          position: fixed;
-          bottom: 220px;
-          right: 20px;
           padding: 8px 12px;
           background-color: #ff6b6b;
           color: white;
@@ -156,11 +204,11 @@ class UIManager {
           border-radius: 20px;
           cursor: pointer;
           font-size: 12px;
-          z-index: 9999;
           opacity: 0;
           visibility: hidden;
           transition: all 0.3s ease;
           pointer-events: auto;
+          order: 2;
       }
       .reset-start-point.visible { opacity: 1; visibility: visible; }
       .reset-start-point:hover { background-color: #ff5252; transform: scale(1.05); }
@@ -168,14 +216,13 @@ class UIManager {
     this.shadowRoot.appendChild(styleElement);
   }
 
-  private querySelector<E extends Element = Element>(
-    selector: string,
-  ): E | null {
+  private querySelector<E extends Element = Element>(selector: string): E | null {
     return this.shadowRoot ? this.shadowRoot.querySelector<E>(selector) : null;
   }
 
   private appendChild(element: HTMLElement): void {
-    this.shadowRoot?.appendChild(element);
+    const floating = this.ensureFloatingContainer();
+    floating.appendChild(element);
   }
 
   public destroy(): void {
@@ -184,11 +231,18 @@ class UIManager {
     }
     this.shadowRoot = null;
     this.container = null;
+    this.floatingContainer = null;
+    this.dragState = null;
+    this.customPosition = null;
+    this.ignoreNextClick = false;
+    window.removeEventListener("resize", this.handleResize);
     logger.log("Shadow DOM destroyed");
   }
 
   public addControlPanel(): void {
-    if (this.querySelector(".control-panel-container")) return;
+    if (this.querySelector(".control-panel-container")) {
+      return;
+    }
 
     const container = document.createElement("div");
     container.className = "control-panel-container";
@@ -228,10 +282,10 @@ class UIManager {
     logger.log("Control panel added to shadow DOM");
   }
 
-  public addMainButton(
-    onClick: (action: ButtonAction) => Promise<void>,
-  ): void {
-    if (this.querySelector(".copy-thread-button")) return;
+  public addMainButton(onClick: (action: ButtonAction) => Promise<void>): void {
+    if (this.querySelector(".copy-thread-button")) {
+      return;
+    }
 
     const button = document.createElement("button");
     button.className = "copy-thread-button";
@@ -239,6 +293,10 @@ class UIManager {
     button.title = "スレッドをコピー";
 
     button.addEventListener("click", async () => {
+      if (this.ignoreNextClick) {
+        this.ignoreNextClick = false;
+        return;
+      }
       if (state.isSecondStage) {
         await onClick("clipboard");
       } else {
@@ -247,8 +305,8 @@ class UIManager {
     });
 
     this.appendChild(button);
-    // ボタンを DOM に追加した後でテキスト（アイコン含む）を更新する
     this.updateMainButtonText();
+    this.initializeDrag(button);
     logger.log("Copy button added to shadow DOM");
   }
 
@@ -425,6 +483,127 @@ class UIManager {
     this.updateMainButtonText();
     this.showToast("起点リセット", "コピー起点をリセットしました");
     logger.log("Start point reset");
+  }
+
+  private ensureFloatingContainer(): HTMLDivElement {
+    if (!this.shadowRoot) {
+      throw new Error("Shadow root is not initialized");
+    }
+    if (!this.floatingContainer) {
+      const floating = document.createElement("div");
+      floating.className = "floating-ui-container";
+      this.shadowRoot.appendChild(floating);
+      if (this.customPosition) {
+        floating.classList.add("has-custom-position");
+        floating.style.top = `${this.customPosition.top}px`;
+        floating.style.left = `${this.customPosition.left}px`;
+        floating.style.bottom = "auto";
+        floating.style.right = "auto";
+      }
+      this.floatingContainer = floating;
+    }
+    return this.floatingContainer;
+  }
+
+  private initializeDrag(button: HTMLButtonElement): void {
+    if (button.dataset.dragInitialized === "true") {
+      return;
+    }
+    button.dataset.dragInitialized = "true";
+
+    button.addEventListener("pointerdown", (event: PointerEvent) => {
+      if (!event.isPrimary) {
+        return;
+      }
+      const floating = this.ensureFloatingContainer();
+      const rect = floating.getBoundingClientRect();
+      this.dragState = {
+        pointerId: event.pointerId,
+        startX: event.clientX,
+        startY: event.clientY,
+        initialTop: this.customPosition?.top ?? rect.top,
+        initialLeft: this.customPosition?.left ?? rect.left,
+        moved: false,
+      };
+      floating.classList.add("dragging");
+      button.classList.add("dragging");
+      try {
+        button.setPointerCapture(event.pointerId);
+      } catch (error) {
+        logger.warn("pointer capture failed", error);
+      }
+    });
+
+    button.addEventListener("pointermove", (event: PointerEvent) => {
+      if (!this.dragState || event.pointerId !== this.dragState.pointerId) {
+        return;
+      }
+      const floating = this.floatingContainer;
+      if (!floating) {
+        return;
+      }
+      const deltaX = event.clientX - this.dragState.startX;
+      const deltaY = event.clientY - this.dragState.startY;
+      if (!this.dragState.moved) {
+        const threshold = 4;
+        if (Math.abs(deltaX) < threshold && Math.abs(deltaY) < threshold) {
+          return;
+        }
+        this.dragState.moved = true;
+        floating.classList.add("has-custom-position");
+        floating.style.bottom = "auto";
+        floating.style.right = "auto";
+      }
+      const proposedTop = this.dragState.initialTop + deltaY;
+      const proposedLeft = this.dragState.initialLeft + deltaX;
+      const { top, left } = this.clampPosition(proposedTop, proposedLeft, floating);
+      this.applyPosition(top, left, floating);
+    });
+
+    const finalizeDrag = (event: PointerEvent) => {
+      if (!this.dragState || event.pointerId !== this.dragState.pointerId) {
+        return;
+      }
+      if (button.hasPointerCapture(event.pointerId)) {
+        button.releasePointerCapture(event.pointerId);
+      }
+      button.classList.remove("dragging");
+      this.floatingContainer?.classList.remove("dragging");
+      if (this.dragState.moved) {
+        this.ignoreNextClick = true;
+        this.handleResize();
+      }
+      this.dragState = null;
+    };
+
+    button.addEventListener("pointerup", finalizeDrag);
+    button.addEventListener("pointercancel", finalizeDrag);
+  }
+
+  private clampPosition(
+    top: number,
+    left: number,
+    container: HTMLDivElement,
+  ): { top: number; left: number } {
+    const margin = 16;
+    const containerHeight = container.offsetHeight || 0;
+    const containerWidth = container.offsetWidth || 0;
+    const maxTop = Math.max(margin, window.innerHeight - containerHeight - margin);
+    const maxLeft = Math.max(margin, window.innerWidth - containerWidth - margin);
+    return {
+      top: Math.min(Math.max(margin, top), maxTop),
+      left: Math.min(Math.max(margin, left), maxLeft),
+    };
+  }
+
+  private applyPosition(top: number, left: number, container?: HTMLDivElement): void {
+    const target = container ?? this.ensureFloatingContainer();
+    target.style.top = `${top}px`;
+    target.style.left = `${left}px`;
+    target.style.bottom = "auto";
+    target.style.right = "auto";
+    target.classList.add("has-custom-position");
+    this.customPosition = { top, left };
   }
 }
 
