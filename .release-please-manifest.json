@@ -10,7 +10,7 @@
   "src/twitter-media-filter": "2.0.1",
   "src/twitter-mute-filter": "2.0.1",
   "src/twitter-mute-retweets": "2.0.1",
-  "src/twitter-thread-copier": "5.3.2",
+  "src/twitter-thread-copier": "5.4.0",
   "src/twitter-wide-layout-fix": "2.0.1",
   "src/youtube-info-copier": "2.0.1"
 }
