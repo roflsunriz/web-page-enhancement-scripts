@@ -8,6 +8,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
     const processedIds = new Set<string>();
     let mainAuthorUsername = "";
     let mainAuthorHandle = "";
+    const threadUrl = window.location.href;
 
     // スクロール前の位置を記憶
     const originalScrollPos = window.scrollY;
@@ -77,7 +78,11 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         const quotedTweet = getQuotedTweet(tweetElement);
 
         // ツイート情報を保存
-        const tweetUrl = tweetLink.href ? tweetLink.href.split("?")[0] : "";
+        const tweetUrl = processedIds.size === 0
+          ? threadUrl
+          : tweetLink.href
+            ? tweetLink.href.split("?")[0]
+            : "";
         tweets.push({
           id: tweetId,
           author,
