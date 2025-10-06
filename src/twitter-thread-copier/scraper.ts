@@ -77,12 +77,14 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         const quotedTweet = getQuotedTweet(tweetElement);
 
         // ツイート情報を保存
+        const tweetUrl = tweetLink.href ? tweetLink.href.split("?")[0] : "";
         tweets.push({
           id: tweetId,
           author,
           handle,
           text: tweetText,
           time: formattedTime,
+          url: tweetUrl,
           mediaUrls,
           quotedTweet,
         });

@@ -8,6 +8,9 @@ import type { TweetData } from "@/shared/types";
  */
 export function formatSingleTweet(tweet: TweetData): string {
   let formatted = `${tweet.author} ${tweet.handle}\n${tweet.text}\n${tweet.time}\n`;
+  if (tweet.url) {
+    formatted += `${tweet.url}\n`;
+  }
 
   if (tweet.mediaUrls.length > 0) {
     formatted += tweet.mediaUrls.join("\n") + "\n";
