@@ -31,8 +31,9 @@ class UIManager {
         moved: boolean;
       }
     | null = null;
-  private customPosition: { top: number; left: number } | null = null;
+	private customPosition: { top: number; left: number } | null = null;
   private ignoreNextClick = false;
+	private readonly storageKey = "twitter-thread-copier-ui-position";
   private readonly handleResize = (): void => {
     if (!this.floatingContainer || !this.customPosition) {
       return;
@@ -493,13 +494,11 @@ class UIManager {
       const floating = document.createElement("div");
       floating.className = "floating-ui-container";
       this.shadowRoot.appendChild(floating);
-      if (this.customPosition) {
-        floating.classList.add("has-custom-position");
-        floating.style.top = `${this.customPosition.top}px`;
-        floating.style.left = `${this.customPosition.left}px`;
-        floating.style.bottom = "auto";
-        floating.style.right = "auto";
-      }
+			const stored = this.loadPosition();
+			if (stored) {
+				this.customPosition = stored;
+				this.applyPosition(stored.top, stored.left, floating);
+			}
       this.floatingContainer = floating;
     }
     return this.floatingContainer;
@@ -572,6 +571,7 @@ class UIManager {
       if (this.dragState.moved) {
         this.ignoreNextClick = true;
         this.handleResize();
+			this.savePosition();
       }
       this.dragState = null;
     };
@@ -604,6 +604,45 @@ class UIManager {
     target.style.right = "auto";
     target.classList.add("has-custom-position");
     this.customPosition = { top, left };
+		this.savePosition();
+	}
+
+	private loadPosition(): { top: number; left: number } | null {
+		try {
+			const raw = window.localStorage.getItem(this.storageKey);
+			if (!raw) {
+				return null;
+			}
+			const parsed = JSON.parse(raw) as {
+				top: unknown;
+				left: unknown;
+			};
+			if (
+				typeof parsed.top === "number" &&
+				typeof parsed.left === "number" &&
+				Number.isFinite(parsed.top) &&
+				Number.isFinite(parsed.left)
+			) {
+				return { top: parsed.top, left: parsed.left };
+			}
+			logger.warn("stored position is invalid", parsed);
+			return null;
+		} catch (error) {
+			logger.warn("failed to load UI position", error);
+			return null;
+		}
+	}
+
+	private savePosition(): void {
+		if (!this.customPosition) {
+			return;
+		}
+		try {
+			const payload = JSON.stringify(this.customPosition);
+			window.localStorage.setItem(this.storageKey, payload);
+		} catch (error) {
+			logger.warn("failed to save UI position", error);
+		}
   }
 }
 
