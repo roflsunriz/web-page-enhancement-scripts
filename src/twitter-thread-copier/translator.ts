@@ -191,7 +191,7 @@ ${text}
             max_tokens: 4096,
             stream: false,
           }),
-          timeout: 30000,
+          timeout: 120000, // 2 minutes
           onload: (res) =>
             res.status >= 200 && res.status < 300
               ? resolve(res as GM.Response<unknown>)
