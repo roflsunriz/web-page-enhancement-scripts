@@ -2,7 +2,7 @@ import { logger } from "./logger.js";
 import { state } from "./state.js";
 import { uiManager } from "./ui.js";
 import { scrapeTweets } from "./scraper.js";
-import { translateText } from "./translator.js";
+import { translateTweets } from "./translator.js";
 import {
   formatAllTweets,
   formatSingleTweet,
@@ -56,19 +56,39 @@ class TwitterThreadCopierApp {
         }
 
         let formattedText = "";
+        let tweetsForFormatting = tweetsToProcess;
+        let hasTranslation = false;
         if (tweetsToProcess.length > 0) {
+          if (state.translateEnabled) {
+            try {
+              state.translationInProgress = true;
+              uiManager.updateMainButtonText();
+              uiManager.showToast("翻訳中", "翻訳処理を実行しています...");
+              const translationResult = await translateTweets(tweetsToProcess);
+              tweetsForFormatting = translationResult.tweets;
+              hasTranslation = translationResult.hasTranslation;
+            } catch (translationError) {
+              logger.error(`Translation error: ${translationError}`);
+              uiManager.showToast("翻訳エラー", "翻訳中にエラーが発生しましたが、原文をコピーできます");
+              tweetsForFormatting = tweetsToProcess;
+              hasTranslation = false;
+            } finally {
+              state.translationInProgress = false;
+            }
+          }
+
           switch (state.copyMode) {
             case "first":
-              formattedText = formatSingleTweet(tweetsToProcess[0]);
+              formattedText = formatSingleTweet(tweetsForFormatting[0]);
               break;
             case "shitaraba":
-              formattedText = formatTweetsWithLimit(tweetsToProcess, 4096);
+              formattedText = formatTweetsWithLimit(tweetsForFormatting, 4096);
               break;
             case "5ch":
-              formattedText = formatTweetsWithLimit(tweetsToProcess, 2048);
+              formattedText = formatTweetsWithLimit(tweetsForFormatting, 2048);
               break;
             default:
-              formattedText = formatAllTweets(tweetsToProcess);
+              formattedText = formatAllTweets(tweetsForFormatting);
               break;
           }
         }
@@ -80,24 +100,8 @@ class TwitterThreadCopierApp {
           state.startFromTweetAuthor,
         );
 
-        if (state.translateEnabled && formattedText.trim().length > 0) {
-          state.translationInProgress = true;
-          uiManager.updateMainButtonText();
-          try {
-            uiManager.showToast("翻訳中", "翻訳処理を実行しています...");
-            const translatedText = await translateText(formattedText);
-            if (translatedText && translatedText.trim().length > 0) {
-              formattedText = translatedText;
-              summary += " (翻訳済み)";
-            } else {
-              uiManager.showToast("翻訳警告", "翻訳結果が空のため、原文を使用します");
-            }
-          } catch (translationError) {
-            logger.error(`Translation error: ${translationError}`);
-            uiManager.showToast("翻訳エラー", "翻訳中にエラーが発生しましたが、原文をコピーできます");
-          } finally {
-            state.translationInProgress = false;
-          }
+        if (state.translateEnabled && hasTranslation && formattedText.trim().length > 0) {
+          summary += " (翻訳済み)";
         }
 
         state.collectedThreadData = { formattedText, summary };
