@@ -1,4 +1,5 @@
 import { logger } from "./logger.js";
+import { state } from "./state.js";
 import type { TweetData, QuotedTweet } from "@/shared/types";
 
 // ツイートとリプライを収集
@@ -9,14 +10,20 @@ export async function scrapeTweets(): Promise<TweetData[]> {
     let mainAuthorUsername = "";
     let mainAuthorHandle = "";
     const threadUrl = window.location.href;
+    const collectOnlyFirstTweet = state.copyMode === "first";
+    let shouldStopCollecting = false;
 
     // スクロール前の位置を記憶
     const originalScrollPos = window.scrollY;
 
     // スレッド内のツイートを取得
     function collectVisibleTweets() {
-      const tweetElements = document.querySelectorAll<HTMLElement>(
-        'article[data-testid="tweet"]',
+      if (shouldStopCollecting) return;
+
+      const tweetElements = Array.from(
+        document.querySelectorAll<HTMLElement>(
+          'article[data-testid="tweet"]',
+        ),
       );
 
       // 最初のツイートの著者のユーザー名を取得
@@ -25,25 +32,33 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         mainAuthorHandle = getUsernameHandle(tweetElements[0]);
       }
 
-      tweetElements.forEach((tweetElement) => {
+      for (const tweetElement of tweetElements) {
         // ツイートのIDを取得
         const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
           'a[href*="/status/"]',
         );
-        if (!tweetLink) return;
+        if (!tweetLink) {
+          continue;
+        }
 
         const hrefParts = tweetLink.href.split("/");
         const statusIndex = hrefParts.indexOf("status");
-        if (statusIndex === -1 || statusIndex + 1 >= hrefParts.length) return;
+        if (statusIndex === -1 || statusIndex + 1 >= hrefParts.length) {
+          continue;
+        }
 
         const tweetId = hrefParts[statusIndex + 1].split("?")[0];
-        if (processedIds.has(tweetId)) return;
+        if (processedIds.has(tweetId)) {
+          continue;
+        }
 
         // 著者名とハンドルを取得
         const author = getDisplayName(tweetElement);
 
         // メインの著者でない場合はスキップ
-        if (mainAuthorUsername && author !== mainAuthorUsername) return;
+        if (mainAuthorUsername && author !== mainAuthorUsername) {
+          continue;
+        }
 
         // ハンドルを取得
         let handle = getUsernameHandle(tweetElement);
@@ -95,7 +110,11 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         });
 
         processedIds.add(tweetId);
-      });
+        if (collectOnlyFirstTweet) {
+          shouldStopCollecting = true;
+          break;
+        }
+      }
     }
 
     // スクロールしながらツイートを収集
@@ -107,6 +126,9 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         // 最初のスクロール前に一度展開処理
         await expandTruncatedTweets();
         collectVisibleTweets();
+        if (shouldStopCollecting) {
+          return;
+        }
         let lastTweetCount = tweets.length;
         let noNewTweetsCount = 0;
 
@@ -119,6 +141,9 @@ export async function scrapeTweets(): Promise<TweetData[]> {
             // スクロール後、表示された「さらに表示」ボタンを展開
             await expandTruncatedTweets();
             collectVisibleTweets();
+            if (shouldStopCollecting) {
+              return;
+            }
 
             if (tweets.length === lastTweetCount) {
               noNewTweetsCount++;
