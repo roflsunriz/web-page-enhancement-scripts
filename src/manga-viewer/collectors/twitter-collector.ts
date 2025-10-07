@@ -21,10 +21,13 @@ export class TwitterCollector implements ICollector {
   }
 
   private processTwitterImageUrl(imageUrl: string): string {
-    if (imageUrl.includes('format=')) {
-      return `?&name=orig`;
+    try {
+      const url = new URL(imageUrl);
+      url.searchParams.set('name', 'orig');
+      return url.toString();
+    } catch {
+      return imageUrl;
     }
-    return imageUrl;
   }
 
   private collectVisibleImages(collectedUrls: Set<string>): void {
