@@ -33,6 +33,11 @@ class UIManager {
     | null = null;
 	private customPosition: { top: number; left: number } | null = null;
   private ignoreNextClick = false;
+  private mainButton: HTMLButtonElement | null = null;
+  private controlPanel: HTMLDivElement | null = null;
+  private hoverInteractionConfigured = false;
+  private hoverPointerCount = 0;
+  private hoverHideTimeout: number | null = null;
 	private readonly storageKey = "twitter-thread-copier-ui-position";
   private readonly handleResize = (): void => {
     if (!this.floatingContainer || !this.customPosition) {
@@ -136,6 +141,19 @@ class UIManager {
           box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
           pointer-events: auto;
           order: 1;
+          transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+      }
+      .control-panel-container.hover-hidden {
+          opacity: 0;
+          visibility: hidden;
+          pointer-events: none;
+          transform: translateY(8px);
+      }
+      .floating-ui-container.show-hover-controls .control-panel-container.hover-hidden {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+          transform: translateY(0);
       }
       .control-panel-container select, .control-panel-container input { margin-left: 8px; transform: scale(0.96); }
       .control-panel-container label { display: flex; align-items: center; white-space: nowrap; }
@@ -243,6 +261,11 @@ class UIManager {
     this.dragState = null;
     this.customPosition = null;
     this.ignoreNextClick = false;
+    this.mainButton = null;
+    this.controlPanel = null;
+    this.hoverInteractionConfigured = false;
+    this.hoverPointerCount = 0;
+    this.clearHoverHideTimeout();
     window.removeEventListener("resize", this.handleResize);
     logger.log("Shadow DOM destroyed");
   }
@@ -258,10 +281,10 @@ class UIManager {
     const modeSelect = document.createElement("select");
     modeSelect.id = "copy-mode-select";
     modeSelect.innerHTML = `
-      <option value="all">全ツイート</option>
-      <option value="first">最初のツイートのみ</option>
-      <option value="shitaraba">したらば (4096文字)</option>
-      <option value="5ch">5ch (2048文字)</option>
+      <option value="all">全て</option>
+      <option value="first">最初</option>
+      <option value="shitaraba">4K</option>
+      <option value="5ch">2K</option>
     `;
     modeSelect.value = state.copyMode;
     modeSelect.addEventListener("change", (e: Event) => {
@@ -283,10 +306,12 @@ class UIManager {
       );
     });
     translateLabel.appendChild(checkbox);
-    translateLabel.appendChild(document.createTextNode("日本語に翻訳"));
+    translateLabel.appendChild(document.createTextNode("翻訳"));
     container.appendChild(translateLabel);
 
     this.appendChild(container);
+    this.controlPanel = container;
+    this.configureHoverVisibility();
     logger.log("Control panel added to shadow DOM");
   }
 
@@ -313,6 +338,8 @@ class UIManager {
     });
 
     this.appendChild(button);
+    this.mainButton = button;
+    this.configureHoverVisibility();
     this.updateMainButtonText();
     this.initializeDrag(button);
     logger.log("Copy button added to shadow DOM");
@@ -491,6 +518,87 @@ class UIManager {
     this.updateMainButtonText();
     this.showToast("起点リセット", "コピー起点をリセットしました");
     logger.log("Start point reset");
+  }
+
+  private configureHoverVisibility(): void {
+    if (
+      this.hoverInteractionConfigured ||
+      !this.mainButton ||
+      !this.controlPanel
+    ) {
+      return;
+    }
+    if (!this.supportsHover()) {
+      return;
+    }
+
+    this.hoverInteractionConfigured = true;
+    const floating = this.ensureFloatingContainer();
+    const controlPanel = this.controlPanel;
+    controlPanel.classList.add("hover-hidden");
+
+    const showControls = () => {
+      this.clearHoverHideTimeout();
+      floating.classList.add("show-hover-controls");
+    };
+
+    const scheduleHide = () => {
+      this.clearHoverHideTimeout();
+      this.hoverHideTimeout = window.setTimeout(() => {
+        if (this.hoverPointerCount === 0 && !this.hasFocusWithin(floating)) {
+          floating.classList.remove("show-hover-controls");
+        }
+      }, 150);
+    };
+
+    const handlePointerEnter = () => {
+      this.hoverPointerCount += 1;
+      showControls();
+    };
+
+    const handlePointerLeave = (event: PointerEvent) => {
+      this.hoverPointerCount = Math.max(0, this.hoverPointerCount - 1);
+      const next = event.relatedTarget as Node | null;
+      if (next && floating.contains(next)) {
+        return;
+      }
+      scheduleHide();
+    };
+
+    this.mainButton.addEventListener("pointerenter", handlePointerEnter);
+    this.mainButton.addEventListener("pointerleave", handlePointerLeave);
+    controlPanel.addEventListener("pointerenter", handlePointerEnter);
+    controlPanel.addEventListener("pointerleave", handlePointerLeave);
+
+    floating.addEventListener("focusin", showControls);
+    floating.addEventListener("focusout", (event: FocusEvent) => {
+      const next = event.relatedTarget as Node | null;
+      if (next && floating.contains(next)) {
+        return;
+      }
+      scheduleHide();
+    });
+  }
+
+  private clearHoverHideTimeout(): void {
+    if (this.hoverHideTimeout !== null) {
+      window.clearTimeout(this.hoverHideTimeout);
+      this.hoverHideTimeout = null;
+    }
+  }
+
+  private hasFocusWithin(element: HTMLElement): boolean {
+    const active = document.activeElement;
+    return !!active && element.contains(active);
+  }
+
+  private supportsHover(): boolean {
+    try {
+      return window.matchMedia("(hover: hover)").matches;
+    } catch (error) {
+      logger.warn("hover media query check failed", error);
+      return false;
+    }
   }
 
   private ensureFloatingContainer(): HTMLDivElement {
