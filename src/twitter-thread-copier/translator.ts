@@ -8,6 +8,8 @@ const GOOGLE_TRANSLATE_ENDPOINT =
 const LOCAL_AI_SYSTEM_PROMPT =
   "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
+const ZERO_WIDTH_CHARS_REGEX = /(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g;
+
 type FixedSegment = {
   kind: "fixed";
   value: string;
@@ -100,13 +102,20 @@ function joinSegments(segments: Segment[]): string {
   if (segments.length === 0) {
     return "";
   }
-  return segments
-    .map((segment) =>
-      segment.kind === "fixed"
-        ? segment.value
-        : segment.translated ?? segment.original,
-    )
-    .join("");
+
+  let result = "";
+  for (const segment of segments) {
+    if (segment.kind === "fixed") {
+      const value = segment.value;
+      if (isUrlLike(value)) {
+        result = normalizeTrailingColon(result);
+      }
+      result += value;
+    } else {
+      result += segment.translated ?? segment.original;
+    }
+  }
+  return result;
 }
 
 function segmentText(text: string): Segment[] {
@@ -128,7 +137,7 @@ function segmentText(text: string): Segment[] {
     }
     segments.push({
       kind: "fixed",
-      value: match[0],
+      value: sanitizeFixedSegmentValue(match[0]),
     });
     lastIndex = match.index + match[0].length;
   }
@@ -145,6 +154,32 @@ function segmentText(text: string): Segment[] {
   }
 
   return segments;
+}
+
+function sanitizeFixedSegmentValue(value: string): string {
+  if (isUrlLike(value)) {
+    const sanitized = normalizeUrlString(value);
+    return sanitized.length > 0 ? sanitized : value;
+  }
+  return value;
+}
+
+function isUrlLike(value: string): boolean {
+  return /^https?:\/\//i.test(value.trim());
+}
+
+function normalizeUrlString(value: string): string {
+  return value
+    .replace(ZERO_WIDTH_CHARS_REGEX, "")
+    .replace(/\s+/g, "")
+    .replace(/\u2026+$/gu, "");
+}
+
+function normalizeTrailingColon(text: string): string {
+  if (text.length === 0) {
+    return text;
+  }
+  return text.replace(/：\s*$/u, ": ").replace(/:\s*$/u, ": ");
 }
 
 async function translateSingleSegment(text: string): Promise<string> {

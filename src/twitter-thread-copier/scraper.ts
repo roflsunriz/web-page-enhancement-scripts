@@ -612,10 +612,15 @@ function getVideoUrl(posterUrl: string): string | null {
   }
 }
 
+const ZERO_WIDTH_CHARS_REGEX = /(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g;
+
 function getTweetFullText(tweetTextElement: HTMLElement): string {
   try {
+    const sanitizedElement = tweetTextElement.cloneNode(true) as HTMLElement;
+    replaceLinkTextWithResolvedUrls(sanitizedElement);
+
     // 「さらに表示」ボタンがあるか確認
-    const showMoreButton = tweetTextElement.querySelector('[role="button"]');
+    const showMoreButton = sanitizedElement.querySelector('[role="button"]');
     if (showMoreButton) {
       const buttonText = showMoreButton.textContent?.trim() ?? "";
       if (
@@ -626,7 +631,7 @@ function getTweetFullText(tweetTextElement: HTMLElement): string {
         // 隠れている要素も含めて全テキストノードを列挙
         const textNodes: string[] = [];
         const walker = document.createTreeWalker(
-          tweetTextElement,
+          sanitizedElement,
           NodeFilter.SHOW_TEXT,
           null,
         );
@@ -643,14 +648,14 @@ function getTweetFullText(tweetTextElement: HTMLElement): string {
         }
 
         // 全テキストノードを連結し、改行を維持
-        const fullText = preserveLineBreaks(textNodes, tweetTextElement);
+        const fullText = preserveLineBreaks(textNodes, sanitizedElement);
         // 「さらに表示」というテキストが混入している場合は除去
         return fullText.replace(/(さらに表示|Show more|もっと見る)/g, "").trim();
       }
     }
 
     // 「さらに表示」がない場合は、DOM構造から改行を維持しつつテキストを取得
-    return preserveLineBreaks([tweetTextElement.innerText], tweetTextElement);
+    return preserveLineBreaks([sanitizedElement.innerText], sanitizedElement);
   } catch (error) {
     logger.error(`ツイートテキスト取得エラー: ${(error as Error).message}`);
     return tweetTextElement.innerText; // フォールバック
@@ -677,6 +682,72 @@ function preserveLineBreaks(
     logger.error(`改行保持処理エラー: ${(error as Error).message}`);
     return textNodes.join(" ").trim();
   }
+}
+
+function replaceLinkTextWithResolvedUrls(container: HTMLElement): void {
+  const anchors = Array.from(container.querySelectorAll<HTMLAnchorElement>("a[href]"));
+  for (const anchor of anchors) {
+    const replacement = resolveAnchorReplacement(anchor);
+    if (replacement === null) {
+      continue;
+    }
+    const doc = container.ownerDocument ?? document;
+    const textNode = doc.createTextNode(replacement);
+    anchor.replaceWith(textNode);
+  }
+}
+
+function resolveAnchorReplacement(anchor: HTMLAnchorElement): string | null {
+  const rawText = anchor.textContent ?? "";
+  if (!rawText) {
+    return null;
+  }
+
+  if (!isLikelyUrlAnchor(anchor, rawText)) {
+    return rawText;
+  }
+
+  const expandedUrl =
+    anchor.getAttribute("data-expanded-url") ??
+    anchor.getAttribute("data-url") ??
+    anchor.getAttribute("title") ??
+    anchor.getAttribute("href") ??
+    rawText;
+
+  const sanitized = sanitizeUrlText(expandedUrl);
+  if (sanitized.length > 0) {
+    return sanitized;
+  }
+
+  const fallback = sanitizeUrlText(rawText);
+  return fallback.length > 0 ? fallback : rawText;
+}
+
+function isLikelyUrlAnchor(anchor: HTMLAnchorElement, text: string): boolean {
+  const trimmedText = text.trim();
+  if (/^https?:\/\//i.test(trimmedText)) {
+    return true;
+  }
+
+  if (anchor.hasAttribute("data-expanded-url")) {
+    return true;
+  }
+
+  if (/^https?:\/\//i.test(anchor.getAttribute("href") ?? "")) {
+    if (trimmedText.startsWith("@") || trimmedText.startsWith("#")) {
+      return false;
+    }
+    return true;
+  }
+
+  return false;
+}
+
+function sanitizeUrlText(value: string): string {
+  return value
+    .replace(ZERO_WIDTH_CHARS_REGEX, "")
+    .replace(/\s+/g, "")
+    .replace(/\u2026+$/gu, "");
 }
 
 async function expandTruncatedTweets(): Promise<number> {
