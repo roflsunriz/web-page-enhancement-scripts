@@ -7,6 +7,7 @@ import { LoadingSpinner } from './loading-spinner';
 import { ViewerComponent } from './viewer-component';
 import viewerStyles from './viewer.css?inline';
 import { win } from '../util';
+import { createShadowHost } from '@/shared/dom';
 
 // React.createElementのエイリアス（インポート後に定義）
 const e = React.createElement;
@@ -89,14 +90,13 @@ export class UIBuilder {
       this.spinner?.updateMessage('有効な画像を検索中です...');
     }
 
-    this.shadowHost = document.createElement('div');
+    const { host, root } = createShadowHost({ mode: 'closed' });
+    this.shadowHost = host;
     this.shadowHost.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       z-index: 10001; pointer-events: auto;
     `;
-    document.body.appendChild(this.shadowHost);
-
-    this.shadowRoot = this.shadowHost.attachShadow({ mode: 'closed' });
+    this.shadowRoot = root;
 
     const style = document.createElement('style');
     style.textContent = viewerStyles;

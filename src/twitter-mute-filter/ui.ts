@@ -1,7 +1,9 @@
 import { settings, updateSettings } from './settings';
 import { fetchTwitterMuteKeywords } from './importer';
+import { createShadowHost, type ShadowHostHandle } from '@/shared/dom';
 
 let shadowHost: HTMLDivElement | null = null;
+let shadowHandle: ShadowHostHandle | null = null;
 
 const getModalStyles = (): string => `
   .tf-modal-overlay {
@@ -76,12 +78,15 @@ const getModalStyles = (): string => `
 `;
 
 function createSettingsUI(): void {
-  if (shadowHost) {
-    shadowHost.remove();
-  }
+  shadowHandle?.dispose();
+  shadowHandle = null;
+  shadowHost = null;
 
-  shadowHost = document.createElement('div');
-  const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
+  const handle = createShadowHost({ mode: 'closed' });
+  shadowHandle = handle;
+  shadowHost = handle.host;
+  shadowHost.style.cssText = '';
+  const { root: shadowRoot } = handle;
 
   const style = document.createElement('style');
   style.textContent = getModalStyles();
@@ -133,7 +138,6 @@ function createSettingsUI(): void {
   `;
 
   shadowRoot.appendChild(modalOverlay);
-  document.body.appendChild(shadowHost);
 
   // Event Listeners
   const toggleSwitch = shadowRoot.getElementById('tf-toggle')!;
@@ -154,8 +158,9 @@ function createSettingsUI(): void {
   setupToggle(debugToggleSwitch);
 
   const closeModal = () => {
-    if (shadowHost) {
-      shadowHost.remove();
+    if (shadowHandle) {
+      shadowHandle.dispose();
+      shadowHandle = null;
       shadowHost = null;
     }
   };

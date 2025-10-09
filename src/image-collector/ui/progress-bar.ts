@@ -1,4 +1,5 @@
 import type { Logger } from "@/shared/logger";
+import { createShadowHost } from "@/shared/dom";
 
 export class ProgressBar {
   private progressContainer: HTMLDivElement | null = null;
@@ -26,9 +27,12 @@ export class ProgressBar {
   }
 
   private init(): void {
-    this.shadowHost = document.createElement("div");
-    this.shadowHost.id = "progress-shadow-host";
-    this.shadowRoot = this.shadowHost.attachShadow({ mode: "closed" });
+    const { host, root } = createShadowHost({
+      id: "progress-shadow-host",
+      mode: "closed",
+    });
+    this.shadowHost = host;
+    this.shadowRoot = root;
 
     const style = document.createElement("style");
     style.textContent = `
@@ -75,7 +79,6 @@ export class ProgressBar {
     this.progressContainer.appendChild(this.progressText);
 
     this.shadowRoot.appendChild(this.progressContainer);
-    document.body.appendChild(this.shadowHost);
 
     this.logger.debug("プログレスバーUIを初期化しました");
   }

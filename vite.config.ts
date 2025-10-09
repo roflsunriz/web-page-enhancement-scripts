@@ -109,7 +109,7 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.0.1',
+  version: '5.1.0',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -175,7 +175,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.2.0',
+  version: '10.3.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -242,7 +242,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterMediaFilterMeta: MonkeyUserScript = {
   name: 'twitter-media-filter',
   namespace: 'twitterMediaFilter',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'タイムライン/リスト/詳細ページで画像/動画を含まないツイートを非表示にする',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -258,7 +258,7 @@ const twitterMediaFilterMeta: MonkeyUserScript = {
 const twitterMuteFilterMeta: MonkeyUserScript = {
   name: 'twitter-mute-filter',
   namespace: 'twitterMuteFilter',
-  version: '2.0.1',
+  version: '2.1.0',
   description: '正規表現対応の強力なミュートフィルターをTwitter/Xに追加します。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -274,7 +274,7 @@ const twitterMuteFilterMeta: MonkeyUserScript = {
 const twitterMuteRetweetsMeta: MonkeyUserScript = {
   name: 'twitter-mute-retweets',
   namespace: 'twitterMuteRetweets',
-  version: '2.0.1',
+  version: '2.1.0',
   description: '閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする',
   author: 'roflsunriz',
   match: ['https://x.com/*'],

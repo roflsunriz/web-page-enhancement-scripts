@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-mute-retweets
 // @namespace    twitterMuteRetweets
-// @version      2.0.1
+// @version      2.1.0
 // @author       roflsunriz
 // @description  閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする
 // @license      MIT
@@ -18,7 +18,7 @@
 (function () {
   'use strict';
 
-  const h={debug:"debug",info:"info",warn:"warn",error:"error"},u=e=>{const t=`[${e}]`,o={};return Object.keys(h).forEach(i=>{const l=h[i];o[i]=(...a)=>{(console[l]??console.log)(t,...a);};}),o},S=u("twitter-mute-retweets"),v="tmf_retweet_settings",L={enabled:true,checkInterval:300};let n={...L,...GM_getValue(v,{})};function C(){GM_setValue(v,n),S.info("設定を保存しました:",n);}function T(e){n={...n,...e},C();}const B=u("twitter-mute-retweets");function R(e){let t=e;for(;t&&t.tagName!=="ARTICLE";)t=t.parentElement;return t}function k(){if(!n.enabled)return;const e=document.querySelectorAll(".r-15zivkp");B.debug(`${e.length}個のリツイートインジケータが見つかりました。`),e.forEach(t=>{const o=R(t);o&&!o.dataset.hidden&&(o.style.display="none",o.dataset.hidden="true");});}const f=u("twitter-mute-retweets");let c=null,m=location.href;function x(e,t){let o;return function(...l){const a=()=>{clearTimeout(o),e(...l);};clearTimeout(o),o=window.setTimeout(a,t);}}let d=x(k,n.checkInterval);function $(e){if(n.enabled){for(const t of e)if(t.type==="childList"&&t.addedNodes.length>0){d();return}}}function y(){if(c)return;const e=document.querySelector('main[role="main"]');if(!e){setTimeout(y,1e3);return}c=new MutationObserver($),c.observe(e,{childList:true,subtree:true}),f.info("タイムラインの監視を開始しました。"),d();}function z(){c&&(c.disconnect(),c=null,f.info("タイムラインの監視を停止しました。"));}function _(){d=x(k,n.checkInterval);}setInterval(()=>{m!==location.href&&(m=location.href,f.info("URLの変更を検知:",m),n.enabled&&setTimeout(d,500));},1e3);let r=null;const N=()=>`
+  const h={debug:"debug",info:"info",warn:"warn",error:"error"},u=t=>{const e=`[${t}]`,n={};return Object.keys(h).forEach(o=>{const c=h[o];n[o]=(...l)=>{(console[c]??console.log)(e,...l);};}),n},C=u("twitter-mute-retweets"),v="tmf_retweet_settings",L={enabled:true,checkInterval:300};let r={...L,...GM_getValue(v,{})};function T(){GM_setValue(v,r),C.info("設定を保存しました:",r);}function B(t){r={...r,...t},T();}const R=u("twitter-mute-retweets");function $(t){let e=t;for(;e&&e.tagName!=="ARTICLE";)e=e.parentElement;return e}function y(){if(!r.enabled)return;const t=document.querySelectorAll(".r-15zivkp");R.debug(`${t.length}個のリツイートインジケータが見つかりました。`),t.forEach(e=>{const n=$(e);n&&!n.dataset.hidden&&(n.style.display="none",n.dataset.hidden="true");});}const f=u("twitter-mute-retweets");let a=null,m=location.href;function k(t,e){let n;return function(...c){const l=()=>{clearTimeout(n),t(...c);};clearTimeout(n),n=window.setTimeout(l,e);}}let d=k(y,r.checkInterval);function z(t){if(r.enabled){for(const e of t)if(e.type==="childList"&&e.addedNodes.length>0){d();return}}}function x(){if(a)return;const t=document.querySelector('main[role="main"]');if(!t){setTimeout(x,1e3);return}a=new MutationObserver(z),a.observe(t,{childList:true,subtree:true}),f.info("タイムラインの監視を開始しました。"),d();}function _(){a&&(a.disconnect(),a=null,f.info("タイムラインの監視を停止しました。"));}function N(){d=k(y,r.checkInterval);}setInterval(()=>{m!==location.href&&(m=location.href,f.info("URLの変更を検知:",m),r.enabled&&setTimeout(d,500));},1e3);const O=(t={})=>{const e=document.createElement("div");t.id&&(e.id=t.id),e.style.position="relative";const n=e.attachShadow({mode:t.mode??"open"});if(t.cssText){const o=document.createElement("style");o.textContent=t.cssText,n.appendChild(o);}return t.adoptStyles?.length&&t.adoptStyles.forEach(o=>{const c=document.createElement("style");c.textContent=o,n.appendChild(c);}),document.body.appendChild(e),{host:e,root:n,dispose:()=>{e.remove();}}};let i=null;const A=()=>`
   .modal-backdrop {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
     background-color: rgba(0, 0, 0, 0.5); z-index: 2147483646;
@@ -58,22 +58,22 @@
   .button-secondary:hover { background-color: #d0d0d0; }
   .modal.dark .button-secondary { background-color: #38444d; color: #fff; }
   .modal.dark .button-secondary:hover { background-color: #5c6e7e; }
-`;function O(){r&&r.remove(),r=document.createElement("div"),r.id="retweet-settings-modal-host";const e=r.attachShadow({mode:"closed"}),t=document.createElement("style");t.textContent=N(),e.appendChild(t);const o=document.createElement("div");o.className="modal-backdrop";const i=document.createElement("div");i.className="modal",(document.body.style.backgroundColor==="rgb(21, 32, 43)"||window.matchMedia("(prefers-color-scheme: dark)").matches)&&i.classList.add("dark"),i.innerHTML=`
+`;function G(){i?.dispose(),i=null;const t=O({id:"retweet-settings-modal-host",mode:"closed"});i=t;const{root:e}=t,n=document.createElement("style");n.textContent=A(),e.appendChild(n);const o=document.createElement("div");o.className="modal-backdrop";const c=document.createElement("div");c.className="modal",(document.body.style.backgroundColor==="rgb(21, 32, 43)"||window.matchMedia("(prefers-color-scheme: dark)").matches)&&c.classList.add("dark"),c.innerHTML=`
     <h2>リツイート非表示の設定</h2>
     <div class="setting-item">
       <label>
-        <input type="checkbox" id="retweet-hide-enabled" ${n.enabled?"checked":""}>
+        <input type="checkbox" id="retweet-hide-enabled" ${r.enabled?"checked":""}>
         リツイート非表示を有効にする
       </label>
     </div>
     <div class="interval-setting">
       <label for="retweet-check-interval">更新間隔 (ミリ秒):</label>
-      <input type="number" id="retweet-check-interval" min="100" max="1000" step="100" value="${n.checkInterval}">
+      <input type="number" id="retweet-check-interval" min="100" max="1000" step="100" value="${r.checkInterval}">
     </div>
     <div class="button-group">
       <button class="button button-secondary" id="cancel-button">キャンセル</button>
       <button class="button button-primary" id="save-button">保存</button>
     </div>
-  `,o.appendChild(i),e.appendChild(o),document.body.appendChild(r);const a=e.getElementById("retweet-hide-enabled"),g=e.getElementById("retweet-check-interval"),E=e.getElementById("save-button"),I=e.getElementById("cancel-button"),b=()=>{r&&(r.remove(),r=null);};E.addEventListener("click",()=>{const s={enabled:a.checked,checkInterval:parseInt(g.value,10)||n.checkInterval},M=n.enabled;T(s),M!==s.enabled&&w(),_(),b();}),I.addEventListener("click",b),o.addEventListener("click",s=>{s.target===o&&b();});}const p=u("twitter-mute-retweets");function w(){n.enabled?(p.info("リツイート非表示機能が有効です。監視を開始します。"),y()):(p.info("リツイート非表示機能が無効です。監視を停止します。"),z());}function A(){p.info("スクリプトを初期化中..."),GM_registerMenuCommand("リツイート非表示の設定",O),w(),setTimeout(d,1e3);}A();
+  `,o.appendChild(c),e.appendChild(o);const g=e.getElementById("retweet-hide-enabled"),E=e.getElementById("retweet-check-interval"),I=e.getElementById("save-button"),S=e.getElementById("cancel-button"),b=()=>{i&&(i.dispose(),i=null);};I.addEventListener("click",()=>{const s={enabled:g.checked,checkInterval:parseInt(E.value,10)||r.checkInterval},M=r.enabled;B(s),M!==s.enabled&&w(),N(),b();}),S.addEventListener("click",b),o.addEventListener("click",s=>{s.target===o&&b();});}const p=u("twitter-mute-retweets");function w(){r.enabled?(p.info("リツイート非表示機能が有効です。監視を開始します。"),x()):(p.info("リツイート非表示機能が無効です。監視を停止します。"),_());}function j(){p.info("スクリプトを初期化中..."),GM_registerMenuCommand("リツイート非表示の設定",G),w(),setTimeout(d,1e3);}j();
 
 })();

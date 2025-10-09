@@ -2,6 +2,7 @@ import type { ZipDownloader } from "../core/zip-downloader";
 import type { Logger } from "@/shared/logger";
 import { UIBuilder } from "./ui-builder";
 import { gmRequest } from "@/shared/network";
+import { createShadowHost } from "@/shared/dom";
 export class UIEventHandler {
   constructor(
     private readonly uiBuilder: UIBuilder,
@@ -88,9 +89,10 @@ export class UIEventHandler {
   }
 
   private showFullScreenImage(imageUrl: string, originalUrl: string): void {
-    const shadowHost = document.createElement("div");
-    shadowHost.id = "fullscreen-shadow-host";
-    const shadowRoot = shadowHost.attachShadow({ mode: "closed" });
+    const { root: shadowRoot, dispose } = createShadowHost({
+      id: "fullscreen-shadow-host",
+      mode: "closed",
+    });
 
     const style = document.createElement("style");
     style.textContent = `
@@ -223,7 +225,7 @@ export class UIEventHandler {
     closeButton.textContent = "×";
     closeButton.addEventListener("click", () => {
       try {
-        document.body.removeChild(shadowHost);
+        dispose();
       } catch (error) {
         this.logger.error(
           "フルスクリーンモーダルの閉じる処理でエラーが発生しました",
@@ -236,7 +238,7 @@ export class UIEventHandler {
     container.addEventListener("click", (event) => {
       if (event.target === container) {
         try {
-          document.body.removeChild(shadowHost);
+          dispose();
         } catch (error) {
           this.logger.error(
             "フルスクリーンモーダルの削除中にエラーが発生しました",
@@ -247,7 +249,6 @@ export class UIEventHandler {
     });
 
     shadowRoot.appendChild(container);
-    document.body.appendChild(shadowHost);
   }
 
   private async downloadImage(imageUrl: string): Promise<void> {

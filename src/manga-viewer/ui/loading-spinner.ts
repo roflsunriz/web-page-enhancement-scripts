@@ -1,5 +1,6 @@
 import { setIntervalSafely, setTimeoutSafely } from '../util';
 import viewerStyles from './viewer.css?inline';
+import { createShadowHost } from '@/shared/dom';
 
 export class LoadingSpinner {
   private shadowHost: HTMLDivElement | null = null;
@@ -10,17 +11,13 @@ export class LoadingSpinner {
     try {
       this.hide();
 
-      this.shadowHost = document.createElement('div');
+      const { host, root } = createShadowHost({ mode: 'closed' });
+      this.shadowHost = host;
       this.shadowHost.style.cssText = `
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
         z-index: 10000; pointer-events: auto;
       `;
-
-      if (this.shadowHost.attachShadow) {
-        this.shadowRoot = this.shadowHost.attachShadow({ mode: 'closed' });
-      } else {
-        this.shadowRoot = this.shadowHost as unknown as ShadowRoot;
-      }
+      this.shadowRoot = root;
 
       const style = document.createElement('style');
       style.textContent = viewerStyles;
@@ -40,7 +37,6 @@ export class LoadingSpinner {
       `;
       this.shadowRoot.appendChild(spinnerElement);
 
-      document.body.appendChild(this.shadowHost);
       this.startProgressAnimation();
       return this.shadowHost;
     } catch (error) {

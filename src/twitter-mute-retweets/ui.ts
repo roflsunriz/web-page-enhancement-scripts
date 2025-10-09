@@ -1,8 +1,9 @@
 import { settings, updateSettings } from './settings';
 import { updateObserverState } from './main';
 import { updateDebounceWait } from './observer';
+import { createShadowHost, type ShadowHostHandle } from '@/shared/dom';
 
-let shadowHost: HTMLDivElement | null = null;
+let shadowHandle: ShadowHostHandle | null = null;
 
 const getModalStyles = (): string => `
   .modal-backdrop {
@@ -50,13 +51,12 @@ const getModalStyles = (): string => `
  * 設定モーダルを作成して表示します。
  */
 export function showSettingsModal(): void {
-  if (shadowHost) {
-    shadowHost.remove();
-  }
+  shadowHandle?.dispose();
+  shadowHandle = null;
 
-  shadowHost = document.createElement('div');
-  shadowHost.id = 'retweet-settings-modal-host';
-  const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
+  const handle = createShadowHost({ id: 'retweet-settings-modal-host', mode: 'closed' });
+  shadowHandle = handle;
+  const { root: shadowRoot } = handle;
 
   const style = document.createElement('style');
   style.textContent = getModalStyles();
@@ -96,7 +96,6 @@ export function showSettingsModal(): void {
 
   backdrop.appendChild(modal);
   shadowRoot.appendChild(backdrop);
-  document.body.appendChild(shadowHost);
 
   const enabledCheckbox = shadowRoot.getElementById('retweet-hide-enabled') as HTMLInputElement;
   const intervalInput = shadowRoot.getElementById('retweet-check-interval') as HTMLInputElement;
@@ -104,9 +103,9 @@ export function showSettingsModal(): void {
   const cancelButton = shadowRoot.getElementById('cancel-button')!;
 
   const closeModal = () => {
-    if (shadowHost) {
-      shadowHost.remove();
-      shadowHost = null;
+    if (shadowHandle) {
+      shadowHandle.dispose();
+      shadowHandle = null;
     }
   };
 

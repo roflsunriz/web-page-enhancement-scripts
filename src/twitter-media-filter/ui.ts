@@ -1,7 +1,9 @@
 import { settings, updateSettings } from './settings';
 import { processTimeline } from './filter';
+import { createShadowHost, type ShadowHostHandle } from '@/shared/dom';
 
 let shadowHost: HTMLDivElement | null = null;
+let shadowHandle: ShadowHostHandle | null = null;
 
 const getModalStyles = (): string => `
   :host {
@@ -135,13 +137,16 @@ const getModalStyles = (): string => `
 `;
 
 function createSettingsUI(): void {
-  if (shadowHost) {
-    shadowHost.remove();
-  }
+  shadowHandle?.dispose();
+  shadowHandle = null;
+  shadowHost = null;
 
-  shadowHost = document.createElement('div');
-  shadowHost.id = 'tmf-shadow-host';
-  const shadowRoot = shadowHost.attachShadow({ mode: 'closed' });
+  const handle = createShadowHost({ id: 'tmf-shadow-host', mode: 'closed' });
+  shadowHandle = handle;
+  shadowHost = handle.host;
+  shadowHost.style.cssText = '';
+  shadowHost.style.display = 'none';
+  const { root: shadowRoot } = handle;
 
   const style = document.createElement('style');
   style.textContent = getModalStyles();
@@ -166,7 +171,6 @@ function createSettingsUI(): void {
   `;
 
   shadowRoot.appendChild(modalContainer);
-  document.body.appendChild(shadowHost);
 
   shadowRoot.querySelector('.tmf-modal-close')?.addEventListener('click', () => shadowHost!.style.display = 'none');
   modalContainer.addEventListener('click', (e) => { if (e.target === modalContainer) shadowHost!.style.display = 'none'; });

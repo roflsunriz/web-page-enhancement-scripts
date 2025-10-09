@@ -1,5 +1,6 @@
 import type { Logger } from "@/shared/logger";
 import type { ToastType } from "@/shared/types";
+import { createShadowHost } from "@/shared/dom";
 
 export class Toast {
   private toastContainer: HTMLDivElement | null = null;
@@ -32,9 +33,12 @@ export class Toast {
   }
 
   private init(): void {
-    this.shadowHost = document.createElement("div");
-    this.shadowHost.id = "toast-shadow-host";
-    this.shadowRoot = this.shadowHost.attachShadow({ mode: "closed" });
+    const { host, root } = createShadowHost({
+      id: "toast-shadow-host",
+      mode: "closed",
+    });
+    this.shadowHost = host;
+    this.shadowRoot = root;
 
     const style = document.createElement("style");
     style.textContent = `
@@ -84,7 +88,6 @@ export class Toast {
     this.toastContainer = document.createElement("div");
     this.toastContainer.classList.add("ic", "toast-container");
     this.shadowRoot.appendChild(this.toastContainer);
-    document.body.appendChild(this.shadowHost);
 
     this.logger.debug("トーストUIを初期化しました");
   }

@@ -1,5 +1,6 @@
 import { setTimeoutSafely } from '@/manga-viewer/util';
 import { svgBookOpen, svgPlay, svgRefresh } from '@/shared/icons/mdi';
+import { createShadowHost } from '@/shared/dom';
 import { globalState } from '../state';
 
 export class GlassControlPanel {
@@ -26,13 +27,16 @@ export class GlassControlPanel {
 
   async init(): Promise<boolean> {
     try {
-      this.shadowHost = document.createElement('div');
-      this.shadowHost.id = 'manga-viewer-control-panel-host';
+      const { host, root } = createShadowHost({
+        id: 'manga-viewer-control-panel-host',
+        mode: 'closed',
+      });
+      this.shadowHost = host;
       this.shadowHost.style.cssText = `
         position: fixed !important; top: 20px !important; right: 12px !important;
         z-index: 9999 !important; pointer-events: none !important;
       `;
-      this.shadowRoot = this.shadowHost.attachShadow({ mode: 'closed' });
+      this.shadowRoot = root;
 
       const style = document.createElement('style');
       style.textContent = this.getGlassControlStyles();
@@ -60,7 +64,6 @@ export class GlassControlPanel {
         </div>
       `;
       this.shadowRoot.appendChild(this.containerElement);
-      document.body.appendChild(this.shadowHost);
 
       this.handleElement = this.shadowRoot.querySelector('.control-handle');
       this.panelElement = this.shadowRoot.querySelector('.control-panel');
