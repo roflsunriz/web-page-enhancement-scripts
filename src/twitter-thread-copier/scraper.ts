@@ -1,5 +1,6 @@
 import { logger } from "./logger.js";
 import { state } from "./state.js";
+import { xmlHttpRequest } from "@/shared/userscript";
 import type { TweetData, QuotedTweet } from "@/shared/types";
 
 // ツイートとリプライを収集
@@ -17,7 +18,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
     const originalScrollPos = window.scrollY;
 
     // スレッド内のツイートを取得
-    function collectVisibleTweets() {
+    async function collectVisibleTweets() {
       if (shouldStopCollecting) return;
 
       const tweetElements = Array.from(
@@ -76,7 +77,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
 
         if (tweetTextElement) {
           // ツイート本文全体を取得
-          tweetText = getTweetFullText(tweetTextElement);
+          tweetText = await getTweetFullText(tweetTextElement); // Error 1 fix
         }
 
         // 日時
@@ -90,7 +91,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         const mediaUrls = getMediaUrls(tweetElement);
 
         // 引用ツイートを取得
-        const quotedTweet = getQuotedTweet(tweetElement);
+        const quotedTweet = await getQuotedTweet(tweetElement);
 
         // ツイート情報を保存
         const tweetUrl = processedIds.size === 0
@@ -125,7 +126,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
       try {
         // 最初のスクロール前に一度展開処理
         await expandTruncatedTweets();
-        collectVisibleTweets();
+        await collectVisibleTweets();
         if (shouldStopCollecting) {
           return;
         }
@@ -140,7 +141,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
 
             // スクロール後、表示された「さらに表示」ボタンを展開
             await expandTruncatedTweets();
-            collectVisibleTweets();
+            await collectVisibleTweets(); // Error 1 fix
             if (shouldStopCollecting) {
               return;
             }
@@ -273,18 +274,18 @@ function getDisplayName(tweetElement: HTMLElement): string {
   }
 }
 
-function getQuotedTweet(tweetElement: HTMLElement): QuotedTweet | null {
+async function getQuotedTweet(tweetElement: HTMLElement): Promise<QuotedTweet | null> {
   // ... (Implementation from legacy.ts)
   const quotedTweetElement = tweetElement.querySelector(
     '[data-testid="tweetQuotedLink"]',
   );
   let foundQuotedTweet: QuotedTweet | null = null;
   if (quotedTweetElement) {
-    try {
+    try { // This try-catch is fine
       const quotedTweetContainer =
         quotedTweetElement.closest('div[role="link"]');
       if (quotedTweetContainer) {
-        foundQuotedTweet = extractQuotedTweetInfo(
+        foundQuotedTweet = await extractQuotedTweetInfo(
           quotedTweetContainer as HTMLElement,
         );
       }
@@ -312,7 +313,7 @@ function getQuotedTweet(tweetElement: HTMLElement): QuotedTweet | null {
               elementText.includes("日"))
           ) {
             try {
-              const extractedData = extractQuotedTweetInfo(element);
+              const extractedData = await extractQuotedTweetInfo(element);
               if (extractedData && extractedData.author && extractedData.text) {
                 foundQuotedTweet = extractedData;
                 break;
@@ -330,9 +331,9 @@ function getQuotedTweet(tweetElement: HTMLElement): QuotedTweet | null {
   return foundQuotedTweet;
 }
 
-function extractQuotedTweetInfo(
+async function extractQuotedTweetInfo(
   quotedTweetContainer: HTMLElement,
-): QuotedTweet | null {
+): Promise<QuotedTweet | null> {
   // ... (Implementation from legacy.ts)
   const quotedAuthorElement = quotedTweetContainer.querySelector(
     'div[dir="ltr"] > span',
@@ -351,7 +352,7 @@ function extractQuotedTweetInfo(
     'div[data-testid="tweetText"]',
   );
   if (quotedTextElement) {
-    quotedText = getTweetFullText(quotedTextElement as HTMLElement);
+    quotedText = await getTweetFullText(quotedTextElement as HTMLElement); // Error 2 fix
   } else {
     const textContent = quotedTweetContainer.innerText || "";
     const lines = textContent
@@ -612,11 +613,12 @@ function getVideoUrl(posterUrl: string): string | null {
   }
 }
 
-const ZERO_WIDTH_CHARS_REGEX = /(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g;
 
-function getTweetFullText(tweetTextElement: HTMLElement): string {
+async function getTweetFullText(tweetTextElement: HTMLElement): Promise<string> {
   try {
     const sanitizedElement = tweetTextElement.cloneNode(true) as HTMLElement;
+    const resolvedText = await replaceLinkTextWithResolvedUrls(sanitizedElement);
+    /*
     replaceLinkTextWithResolvedUrls(sanitizedElement);
 
     // 「さらに表示」ボタンがあるか確認
@@ -655,72 +657,59 @@ function getTweetFullText(tweetTextElement: HTMLElement): string {
     }
 
     // 「さらに表示」がない場合は、DOM構造から改行を維持しつつテキストを取得
-    return preserveLineBreaks([sanitizedElement.innerText], sanitizedElement);
+    return preserveLineBreaks([sanitizedElement.innerText], sanitizedElement);*/
+    return resolvedText;
   } catch (error) {
     logger.error(`ツイートテキスト取得エラー: ${(error as Error).message}`);
-    return tweetTextElement.innerText; // フォールバック
+    return tweetTextElement.innerText ?? ""; // フォールバック
   }
 }
 
-// テキストの改行を保持する補助関数
-function preserveLineBreaks(
-  textNodes: string[],
-  container: HTMLElement,
-): string {
-  try {
-    const paragraphElements = Array.from(
-      container.querySelectorAll('p, div[dir="auto"]'),
-    );
-    if (paragraphElements.length > 1) {
-      return paragraphElements
-        .map((el) => el.textContent?.trim() ?? "")
-        .filter((text) => !text.match(/(さらに表示|Show more|もっと見る)/i))
-        .join("\n");
-    }
-    return textNodes.join(" ").trim();
-  } catch (error) {
-    logger.error(`改行保持処理エラー: ${(error as Error).message}`);
-    return textNodes.join(" ").trim();
-  }
-}
-
-function replaceLinkTextWithResolvedUrls(container: HTMLElement): void {
+async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<string> {
   const anchors = Array.from(container.querySelectorAll<HTMLAnchorElement>("a[href]"));
+  const urlPromises: Promise<{ anchor: HTMLAnchorElement; resolvedUrl: string | null }>[] = [];
+
   for (const anchor of anchors) {
-    const replacement = resolveAnchorReplacement(anchor);
-    if (replacement === null) {
-      continue;
+    if (isLikelyUrlAnchor(anchor, anchor.textContent ?? "")) {
+      const href = anchor.getAttribute("href");
+      if (href && href.startsWith("https://t.co/")) {
+        urlPromises.push(
+          followRedirect(href).then(resolvedUrl => ({ anchor, resolvedUrl }))
+        );
+      }
     }
-    const doc = container.ownerDocument ?? document;
-    const textNode = doc.createTextNode(replacement);
-    anchor.replaceWith(textNode);
   }
+
+  if (urlPromises.length > 0) {
+    const results = await Promise.all(urlPromises);
+    for (const { anchor, resolvedUrl } of results) {
+      if (resolvedUrl) {
+        const textNode = document.createTextNode(resolvedUrl);
+        anchor.replaceWith(textNode);
+      }
+    }
+  }
+
+  return container.innerText;
 }
 
-function resolveAnchorReplacement(anchor: HTMLAnchorElement): string | null {
-  const rawText = anchor.textContent ?? "";
-  if (!rawText) {
-    return null;
-  }
-
-  if (!isLikelyUrlAnchor(anchor, rawText)) {
-    return rawText;
-  }
-
-  const expandedUrl =
-    anchor.getAttribute("data-expanded-url") ??
-    anchor.getAttribute("data-url") ??
-    anchor.getAttribute("title") ??
-    anchor.getAttribute("href") ??
-    rawText;
-
-  const sanitized = sanitizeUrlText(expandedUrl);
-  if (sanitized.length > 0) {
-    return sanitized;
-  }
-
-  const fallback = sanitizeUrlText(rawText);
-  return fallback.length > 0 ? fallback : rawText;
+function followRedirect(url: string): Promise<string | null> {
+  return new Promise((resolve) => {
+    xmlHttpRequest({
+      method: "HEAD",
+      url: url,
+      timeout: 10000,
+      onload: (response) => {
+        resolve(response.finalUrl || url);
+      },
+      onerror: () => {
+        resolve(url); // エラー時は元のURLを返す
+      },
+      ontimeout: () => {
+        resolve(url); // タイムアウト時も元のURLを返す
+      },
+    });
+  });
 }
 
 function isLikelyUrlAnchor(anchor: HTMLAnchorElement, text: string): boolean {
@@ -743,12 +732,6 @@ function isLikelyUrlAnchor(anchor: HTMLAnchorElement, text: string): boolean {
   return false;
 }
 
-function sanitizeUrlText(value: string): string {
-  return value
-    .replace(ZERO_WIDTH_CHARS_REGEX, "")
-    .replace(/\s+/g, "")
-    .replace(/\u2026+$/gu, "");
-}
 
 async function expandTruncatedTweets(): Promise<number> {
   // ... (Implementation from legacy.ts)

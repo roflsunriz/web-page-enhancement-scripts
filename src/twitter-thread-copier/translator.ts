@@ -1,5 +1,6 @@
 import { logger } from "./logger.js";
 import type { TweetData } from "@/shared/types";
+import { notify } from "@/shared/userscript";
 
 const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const GOOGLE_TRANSLATE_ENDPOINT =
@@ -242,6 +243,7 @@ ${text}
 
     if (translated && translated.trim().length > 0) {
       logger.log("ローカルAIでの翻訳に成功しました。");
+      notify("ローカルAIでの翻訳が完了しました。", "Twitter Thread Copier");
       return translated;
     }
     throw new Error("ローカルAIからの翻訳結果が空です。");
