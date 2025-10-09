@@ -1,10 +1,10 @@
+import { svgClose, svgContentCopy, svgFlash, svgMonitor } from '@/shared/icons/mdi';
+
 export const TEMPLATE_POLICY_NAME = 'youtube-info-copier-template';
 
 export function getTemplate(): string {
   return `
     <style>
-        @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
-        
         .glass-control-container {
             position: relative;
             pointer-events: none;
@@ -73,9 +73,17 @@ export function getTemplate(): string {
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        .panel-header .material-icons {
-            font-size: 20px;
+        .panel-icon {
+            display: inline-flex;
+            width: 20px;
+            height: 20px;
             color: rgba(255, 255, 255, 0.9);
+        }
+
+        .panel-icon svg {
+            width: 100%;
+            height: 100%;
+            display: block;
         }
 
         .panel-title {
@@ -131,8 +139,9 @@ export function getTemplate(): string {
             border-color: rgba(255, 0, 0, 0.4);
         }
 
-        .panel-button .material-icons {
-            font-size: 16px;
+        .panel-button .panel-icon {
+            width: 16px;
+            height: 16px;
             color: currentColor;
         }
 
@@ -193,10 +202,8 @@ export function getTemplate(): string {
             right: 8px;
             background: none;
             border: none;
-            font-size: 18px;
             cursor: pointer;
             color: #666;
-            font-family: 'Material Icons';
             width: 24px;
             height: 24px;
             display: flex;
@@ -209,6 +216,12 @@ export function getTemplate(): string {
         .popup-close:hover {
             background: rgba(0, 0, 0, 0.1);
             color: #333;
+        }
+
+        .popup-close svg {
+            width: 18px;
+            height: 18px;
+            display: block;
         }
 
         @media (max-width: 768px) {
@@ -230,23 +243,23 @@ export function getTemplate(): string {
         <div class="control-handle" aria-label="YouTube動画情報コピー" title="YouTube動画情報" tabindex="0"></div>
         <div class="control-panel">
             <div class="panel-header">
-                <span class="material-icons">smart_display</span>
+                <span class="panel-icon">${svgMonitor}</span>
                 <span class="panel-title">YouTube Info</span>
             </div>
             <div class="panel-content">
                 <button class="panel-button primary" data-action="copy">
-                    <span class="material-icons">content_copy</span>
+                    <span class="panel-icon">${svgContentCopy}</span>
                     動画情報をコピー
                 </button>
                 <button class="panel-button" data-action="quick-copy">
-                    <span class="material-icons">flash_on</span>
+                    <span class="panel-icon">${svgFlash}</span>
                     タイトル+URLのみ
                 </button>
             </div>
         </div>
         
         <div class="popup">
-            <button class="popup-close">close</button>
+            <button class="popup-close" aria-label="閉じる">${svgClose}</button>
             <div class="popup-title">コピーした概要</div>
             <div class="popup-content"></div>
         </div>

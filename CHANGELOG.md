@@ -5,6 +5,12 @@
 すべての重要な変更点をここに記録します。
 
 
+## v1.4.0 - 2025-10-09
+### 変更
+- `youtube-info-copier.user.js`
+- `manga-viewer.user.js`
+ - マテリアルデザインアイコンをフォント読み込みからnpmパッケージに変更しました。
+
 ## v1.3.9 - 2025-10-09
 ### 追加
 - `twitter-thread-copier.user.js`

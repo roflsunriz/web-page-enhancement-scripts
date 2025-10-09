@@ -175,7 +175,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.1.0',
+  version: '10.2.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -330,7 +330,7 @@ const twitterWideLayoutFixMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],

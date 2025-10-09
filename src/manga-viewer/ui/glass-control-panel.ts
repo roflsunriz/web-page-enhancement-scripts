@@ -1,4 +1,5 @@
 import { setTimeoutSafely } from '@/manga-viewer/util';
+import { svgBookOpen, svgPlay, svgRefresh } from '@/shared/icons/mdi';
 import { globalState } from '../state';
 
 export class GlassControlPanel {
@@ -43,16 +44,16 @@ export class GlassControlPanel {
         <div class="control-handle" aria-label="マンガビューアコントロール" title="マンガビューア"></div>
         <div class="control-panel">
             <div class="panel-header">
-                <span class="material-icons">auto_stories</span>
+                <span class="panel-icon">${svgBookOpen}</span>
                 <span class="panel-title">マンガビューア</span>
             </div>
             <div class="panel-content">
                 <button class="panel-button primary" data-action="launch">
-                    <span class="material-icons">play_arrow</span>
+                    <span class="panel-icon">${svgPlay}</span>
                     ビューア起動
                 </button>
                 <button class="panel-button" data-action="reanalyze">
-                    <span class="material-icons">refresh</span>
+                    <span class="panel-icon">${svgRefresh}</span>
                     再分析
                 </button>
             </div>
@@ -180,7 +181,6 @@ export class GlassControlPanel {
 
   private getGlassControlStyles(): string {
     return `
-      @import url('https://fonts.googleapis.com/icon?family=Material+Icons');
       .glass-control-container { position: relative; pointer-events: none; }
       .glass-control-container.hidden { display: none; }
       .control-handle { width: 6px; height: 60px; background: rgba(74, 144, 226, 0.8); backdrop-filter: blur(10px); border-top-left-radius: 8px; border-bottom-left-radius: 8px; cursor: pointer; transition: all 0.3s; pointer-events: auto; position: relative; z-index: 10; box-shadow: -2px 0 8px rgba(74, 144, 226, 0.4); }
@@ -188,14 +188,15 @@ export class GlassControlPanel {
       .control-panel { position: absolute; top: 0; right: 0; min-width: 280px; background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(20px); border: 1px solid rgba(255, 255, 255, 0.15); border-radius: 16px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1); overflow: hidden; opacity: 0; transform: translateX(100%) scale(0.8); transition: all 0.3s; pointer-events: none; z-index: 9; margin-right: 12px; }
       .control-panel.expanded { opacity: 1; transform: translateX(0) scale(1); pointer-events: auto; }
       .panel-header { background: rgba(255, 255, 255, 0.1); padding: 16px 20px; display: flex; align-items: center; gap: 12px; border-bottom: 1px solid rgba(255, 255, 255, 0.1); }
-      .panel-header .material-icons { font-size: 20px; color: rgba(255, 255, 255, 0.9); }
+      .panel-icon { display: inline-flex; width: 20px; height: 20px; color: rgba(255, 255, 255, 0.9); }
+      .panel-icon svg { width: 100%; height: 100%; display: block; }
       .panel-title { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 14px; font-weight: 600; color: rgba(255, 255, 255, 0.9); }
       .panel-content { padding: 12px; display: flex; flex-direction: column; gap: 8px; }
       .panel-button { width: 100%; padding: 12px 16px; background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; font-size: 13px; color: rgba(255, 255, 255, 0.85); transition: all 0.2s; text-align: left; }
       .panel-button:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); transform: translateY(-1px); }
       .panel-button.primary { background: rgba(74, 144, 226, 0.2); border-color: rgba(74, 144, 226, 0.3); color: rgba(255, 255, 255, 0.95); }
       .panel-button.primary:hover { background: rgba(74, 144, 226, 0.3); border-color: rgba(74, 144, 226, 0.4); }
-      .panel-button .material-icons { font-size: 16px; color: currentColor; }
+      .panel-button .panel-icon { width: 16px; height: 16px; color: currentColor; }
     `;
   }
 }

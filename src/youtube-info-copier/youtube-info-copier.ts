@@ -20,7 +20,6 @@ export class YouTubeInfoCopier {
 
   private init(): void {
     this.createShadowDOM();
-    this.loadMaterialIcons();
     this.setupFullscreenListener();
     this.logger.info('YouTubeInfoCopier initialized.');
   }
@@ -45,15 +44,6 @@ export class YouTubeInfoCopier {
     this.popup = this.shadowRoot.querySelector('.popup');
 
     this.setupEventListeners();
-  }
-
-  private loadMaterialIcons(): void {
-    if (!document.querySelector('link[href*="material-icons"]')) {
-      const link = document.createElement('link');
-      link.href = 'https://fonts.googleapis.com/icon?family=Material+Icons';
-      link.rel = 'stylesheet';
-      document.head.appendChild(link);
-    }
   }
 
   private setupEventListeners(): void {
