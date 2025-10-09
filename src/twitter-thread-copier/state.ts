@@ -13,6 +13,7 @@ export interface ScriptState {
   startFromTweetId: string | null;
   startFromTweetAuthor: string;
   startFromTweetText: string;
+  selectedTweetIds: string[];
 }
 
 export function createInitialState(): ScriptState {
@@ -26,6 +27,7 @@ export function createInitialState(): ScriptState {
     startFromTweetId: null,
     startFromTweetAuthor: "",
     startFromTweetText: "",
+    selectedTweetIds: [],
   };
 }
 
@@ -37,11 +39,13 @@ export class State {
   private _copyMode: CopyMode;
   private _translateEnabled: boolean;
   private _startFromTweetId: string | null;
+  private _selectedTweetIds: string[];
 
   constructor(initial: ScriptState) {
     this._copyMode = initial.copyMode;
     this._translateEnabled = initial.translateEnabled;
     this._startFromTweetId = initial.startFromTweetId;
+    this._selectedTweetIds = [...initial.selectedTweetIds];
   }
 
   get copyMode(): CopyMode {
@@ -66,5 +70,17 @@ export class State {
 
   setStartFromTweetId(id: string | null): void {
     this._startFromTweetId = id;
+  }
+
+  get selectedTweetIds(): string[] {
+    return [...this._selectedTweetIds];
+  }
+
+  setSelectedTweetIds(ids: string[]): void {
+    this._selectedTweetIds = [...ids];
+  }
+
+  clearSelectedTweetIds(): void {
+    this._selectedTweetIds = [];
   }
 }

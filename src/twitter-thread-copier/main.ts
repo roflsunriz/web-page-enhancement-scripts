@@ -48,7 +48,28 @@ class TwitterThreadCopierApp {
       try {
         const tweets = await scrapeTweets();
         let tweetsToProcess = tweets;
-        if (state.startFromTweetId) {
+        const selectedIds = state.selectedTweetIds ?? [];
+        if (selectedIds.length > 0) {
+          const tweetMap = new Map(tweets.map((tweet) => [tweet.id, tweet]));
+          const selectedTweets: typeof tweets = [];
+          for (const id of selectedIds) {
+            const found = tweetMap.get(id);
+            if (found) {
+              selectedTweets.push(found);
+            }
+          }
+          tweetsToProcess = selectedTweets;
+          if (tweetsToProcess.length === 0) {
+            logger.warn("選択済みツイートを取得できませんでした。");
+            state.collectedThreadData = null;
+            state.isSecondStage = false;
+            uiManager.showToast(
+              "選択エラー",
+              "選択したツイートが見つかりませんでした。再度読み込みしてください。",
+            );
+            return;
+          }
+        } else if (state.startFromTweetId) {
           const startIndex = tweets.findIndex(
             (tweet) => tweet.id === state.startFromTweetId,
           );
@@ -97,7 +118,7 @@ class TwitterThreadCopierApp {
           tweetsToProcess,
           formattedText,
           state.copyMode,
-          state.startFromTweetAuthor,
+          selectedIds.length === 0 ? state.startFromTweetAuthor : null,
         );
 
         if (state.translateEnabled && hasTranslation && formattedText.trim().length > 0) {

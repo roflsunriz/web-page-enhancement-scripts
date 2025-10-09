@@ -222,6 +222,57 @@ class UIManager {
       .start-point-button.active { background-color: #1DA1F2; color: white; opacity: 1; }
       .start-point-button.active:hover { background-color: #1991DB; }
       article[data-testid="tweet"].start-point-set { background-color: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2); border-radius: 8px; }
+      .select-tweet-button {
+          position: absolute;
+          top: 10px;
+          left: 10px;
+          width: 28px;
+          height: 28px;
+          border-radius: 50%;
+          background-color: rgba(29, 161, 242, 0.08);
+          border: 2px solid rgba(29, 161, 242, 0.4);
+          color: #1DA1F2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-weight: bold;
+          font-size: 13px;
+          pointer-events: auto;
+          opacity: 0;
+          transition: all 0.3s ease;
+      }
+      article[data-testid="tweet"]:hover .select-tweet-button { opacity: 1; }
+      .select-tweet-button:hover { transform: scale(1.1); }
+      .select-tweet-button.active {
+          background-color: #1DA1F2;
+          color: white;
+          border-color: #1DA1F2;
+          opacity: 1;
+      }
+      article[data-testid="tweet"].tweet-selected {
+          background-color: rgba(29, 161, 242, 0.04);
+          border: 1px solid rgba(29, 161, 242, 0.3);
+          border-radius: 8px;
+      }
+      article[data-testid="tweet"].tweet-selected.start-point-set {
+          box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.12);
+      }
+      .reset-selection {
+          padding: 8px 12px;
+          background-color: #5e72e4;
+          color: white;
+          border: none;
+          border-radius: 20px;
+          cursor: pointer;
+          font-size: 12px;
+          opacity: 0;
+          visibility: hidden;
+          transition: all 0.3s ease;
+          pointer-events: auto;
+          order: 1;
+      }
+      .reset-selection.visible { opacity: 1; visibility: visible; }
+      .reset-selection:hover { background-color: #4b5cd5; transform: scale(1.05); }
       .reset-start-point {
           padding: 8px 12px;
           background-color: #ff6b6b;
@@ -251,6 +302,17 @@ class UIManager {
     floating.appendChild(element);
   }
 
+  private extractTweetId(tweetElement: HTMLElement): string | null {
+    const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
+      'a[href*="/status/"]',
+    );
+    if (!tweetLink) {
+      return null;
+    }
+    const tweetId = tweetLink.href.split("/").pop()?.split("?")[0] ?? "";
+    return tweetId || null;
+  }
+
   public destroy(): void {
     if (this.container) {
       this.container.remove();
@@ -267,7 +329,137 @@ class UIManager {
     this.hoverPointerCount = 0;
     this.clearHoverHideTimeout();
     window.removeEventListener("resize", this.handleResize);
+    state.selectedTweetIds = [];
     logger.log("Shadow DOM destroyed");
+  }
+
+  private addSelectionButtons(): void {
+    document
+      .querySelectorAll<HTMLElement>('article[data-testid="tweet"]')
+      .forEach((tweetElement) => {
+        const tweetId = this.extractTweetId(tweetElement);
+        if (!tweetId) {
+          return;
+        }
+
+        let selectButton = Array.from(tweetElement.children).find((child) =>
+          child.classList.contains("select-tweet-button"),
+        ) as HTMLButtonElement | undefined;
+
+        if (!selectButton) {
+          selectButton = document.createElement("button");
+          selectButton.type = "button";
+          selectButton.className = "select-tweet-button";
+          selectButton.textContent = "+";
+          selectButton.title = "このツイートを選択";
+          selectButton.dataset.tweetId = tweetId;
+          selectButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            this.toggleTweetSelection(tweetElement, tweetId);
+          });
+          tweetElement.appendChild(selectButton);
+        } else if (!selectButton.dataset.tweetId) {
+          selectButton.dataset.tweetId = tweetId;
+        }
+      });
+
+    this.refreshSelectionIndicators();
+  }
+
+  private refreshSelectionIndicators(): void {
+    const orderMap = new Map<string, number>();
+    state.selectedTweetIds.forEach((id, index) => {
+      orderMap.set(id, index + 1);
+    });
+
+    document
+      .querySelectorAll<HTMLElement>('article[data-testid="tweet"]')
+      .forEach((tweetElement) => {
+        const tweetId = this.extractTweetId(tweetElement);
+        if (!tweetId) {
+          return;
+        }
+        const selectButton =
+          tweetElement.querySelector<HTMLButtonElement>(".select-tweet-button");
+        if (!selectButton) {
+          return;
+        }
+
+        if (orderMap.has(tweetId)) {
+          const order = orderMap.get(tweetId) ?? 0;
+          tweetElement.classList.add("tweet-selected");
+          selectButton.classList.add("active");
+          selectButton.textContent = order > 0 ? order.toString() : "✓";
+          selectButton.title = `選択中 (${order})`;
+        } else {
+          tweetElement.classList.remove("tweet-selected");
+          selectButton.classList.remove("active");
+          selectButton.textContent = "+";
+          selectButton.title = "このツイートを選択";
+        }
+      });
+
+    this.updateSelectionResetButton();
+  }
+
+  private toggleTweetSelection(tweetElement: HTMLElement, tweetId: string): void {
+    const alreadySelected = state.selectedTweetIds.includes(tweetId);
+    if (alreadySelected) {
+      state.selectedTweetIds = state.selectedTweetIds.filter((id) => id !== tweetId);
+    } else {
+      state.selectedTweetIds = [...state.selectedTweetIds, tweetId];
+    }
+
+    if (state.isSecondStage) {
+      state.isSecondStage = false;
+    }
+    state.collectedThreadData = null;
+
+    const selectedCount = state.selectedTweetIds.length;
+    const toastMessage =
+      selectedCount > 0 ? `${selectedCount}件選択中` : "選択をすべて解除しました";
+
+    this.refreshSelectionIndicators();
+    this.updateMainButtonText();
+
+    if (alreadySelected) {
+      this.showToast("選択解除", toastMessage);
+    } else {
+      this.showToast("選択追加", toastMessage);
+    }
+    logger.log(`Selected tweet ids: ${state.selectedTweetIds.join(",")}`);
+  }
+
+  private updateSelectionResetButton(): void {
+    let resetButton = this.querySelector<HTMLButtonElement>(".reset-selection");
+    if (state.selectedTweetIds.length > 0) {
+      if (!resetButton) {
+        resetButton = document.createElement("button");
+        resetButton.className = "reset-selection";
+        resetButton.textContent = "選択をリセット";
+        resetButton.addEventListener("click", () => this.resetSelection());
+        this.appendChild(resetButton as HTMLElement);
+      }
+      resetButton.classList.add("visible");
+    } else {
+      resetButton?.classList.remove("visible");
+    }
+  }
+
+  private resetSelection(): void {
+    if (state.selectedTweetIds.length === 0) {
+      return;
+    }
+    state.selectedTweetIds = [];
+    if (state.isSecondStage) {
+      state.isSecondStage = false;
+    }
+    state.collectedThreadData = null;
+    this.refreshSelectionIndicators();
+    this.updateMainButtonText();
+    this.showToast("選択リセット", "選択したツイートをすべて解除しました");
+    logger.log("Selections reset");
   }
 
   public addControlPanel(): void {
@@ -368,7 +560,17 @@ class UIManager {
     if (state.isSecondStage) {
       button.classList.add("ready");
       button.innerHTML = `<span class="text">クリックしてコピー</span>${ICONS.CLIPBOARD}`;
-    } else if (state.startFromTweetId) {
+      return;
+    }
+
+    const selectedCount = state.selectedTweetIds.length;
+    if (selectedCount > 0) {
+      button.classList.remove("ready");
+      button.innerHTML = `<span class="text">選択ツイート(${selectedCount})をコピー</span>${ICONS.COPY}`;
+      return;
+    }
+
+    if (state.startFromTweetId) {
       const startText =
         state.startFromTweetText.length > 20
           ? state.startFromTweetText.substring(0, 20) + "..."
@@ -407,6 +609,7 @@ class UIManager {
 
   public updateAllUI(): void {
     this.addControlPanel();
+    this.addSelectionButtons();
     this.addStartPointButtons();
     this.updateResetButton();
   }
@@ -421,12 +624,7 @@ class UIManager {
         );
         if (existingButton) return;
 
-        const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
-          'a[href*="/status/"]',
-        );
-        if (!tweetLink) return;
-
-        const tweetId = tweetLink.href.split("/").pop()?.split("?")[0] ?? "";
+        const tweetId = this.extractTweetId(tweetElement);
         if (!tweetId) return;
 
         const startButton = document.createElement("button");
