@@ -24,6 +24,13 @@ type TextSegment = {
 
 type Segment = FixedSegment | TextSegment;
 
+type TranslationProvider = "local" | "google" | "none";
+
+interface SegmentTranslationResult {
+  text: string;
+  provider: TranslationProvider;
+}
+
 export interface TranslateTweetsResult {
   tweets: TweetData[];
   hasTranslation: boolean;
@@ -40,6 +47,8 @@ export async function translateTweets(
   }));
 
   const translationQueue: TextSegment[] = [];
+
+  let usedLocalAiTranslation = false;
 
   for (const entry of segmentedTweets) {
     for (const segment of entry.textSegments) {
@@ -60,9 +69,14 @@ export async function translateTweets(
   for (let i = 0; i < translationQueue.length; i++) {
     const segment = translationQueue[i];
     try {
-      const translated = await translateSingleSegment(segment.original);
-      segment.translated = translated;
-      if (!hasTranslation && translated !== segment.original) {
+      const { text: translatedText, provider } = await translateSingleSegment(
+        segment.original,
+      );
+      segment.translated = translatedText;
+      if (provider === "local") {
+        usedLocalAiTranslation = true;
+      }
+      if (!hasTranslation && translatedText !== segment.original) {
         hasTranslation = true;
       }
     } catch (error) {
@@ -81,6 +95,10 @@ export async function translateTweets(
     if (entry.quotedSegments && entry.tweet.quotedTweet) {
       entry.tweet.quotedTweet.text = joinSegments(entry.quotedSegments);
     }
+  }
+
+  if (usedLocalAiTranslation) {
+    notify("ローカルAIでの翻訳が完了しました。", "Twitter Thread Copier");
   }
 
   return { tweets: clonedTweets, hasTranslation };
@@ -183,21 +201,24 @@ function normalizeTrailingColon(text: string): string {
   return text.replace(/：\s*$/u, ": ").replace(/:\s*$/u, ": ");
 }
 
-async function translateSingleSegment(text: string): Promise<string> {
+async function translateSingleSegment(
+  text: string,
+): Promise<SegmentTranslationResult> {
   if (text.trim().length === 0) {
-    return text;
+    return { text, provider: "none" };
   }
 
   const localResult = await translateWithLocalAI(text);
   if (localResult) {
-    return localResult;
+    return { text: localResult, provider: "local" };
   }
 
   try {
-    return await translateWithGoogle(text);
+    const googleResult = await translateWithGoogle(text);
+    return { text: googleResult, provider: "google" };
   } catch (error) {
     logger.error(`Google翻訳にも失敗しました: ${(error as Error).message}`);
-    return text;
+    return { text, provider: "none" };
   }
 }
 
@@ -243,7 +264,6 @@ ${text}
 
     if (translated && translated.trim().length > 0) {
       logger.log("ローカルAIでの翻訳に成功しました。");
-      notify("ローカルAIでの翻訳が完了しました。", "Twitter Thread Copier");
       return translated;
     }
     throw new Error("ローカルAIからの翻訳結果が空です。");
