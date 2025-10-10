@@ -37,8 +37,8 @@ export function isInvalidImage(
       const hostMatch = !rule.host || rule.host.test(urlObj.hostname);
       const pathMatch = !rule.path || rule.path.test(urlObj.pathname);
       const urlMatch = !rule.url || rule.url.test(url);
-      const widthMatch = !rule.width || (width !== undefined && width <= rule.width);
-      const heightMatch = !rule.height || (height !== undefined && height <= rule.height);
+      const widthMatch = rule.width === undefined || width === undefined || width <= rule.width;
+      const heightMatch = rule.height === undefined || height === undefined || height <= rule.height;
 
       return hostMatch && pathMatch && urlMatch && widthMatch && heightMatch;
     });

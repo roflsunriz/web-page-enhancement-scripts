@@ -187,8 +187,15 @@ export class GenericCollector implements ICollector {
     const validUrls: string[] = [];
     const minInitialUrls = 2;
 
+    const filteredUrlsWithMetadata = urlsWithMetadata.filter((item) => {
+      if (item.needsValidation) {
+        return true;
+      }
+      return !isInvalidImage(item.url);
+    });
+
     // 検証不要なURLを先に抽出
-    const preValidatedUrls = urlsWithMetadata
+    const preValidatedUrls = filteredUrlsWithMetadata
       .filter((item) => !item.needsValidation)
       .map((item) => item.url);
     validUrls.push(...preValidatedUrls);
@@ -197,7 +204,7 @@ export class GenericCollector implements ICollector {
 
     this.spinner?.updateMessage(
       `${preValidatedUrls.length}枚を即時追加。残り${
-        urlsWithMetadata.length - preValidatedUrls.length
+        filteredUrlsWithMetadata.length - preValidatedUrls.length
       }枚を検証中...`,
     );
 
@@ -207,7 +214,7 @@ export class GenericCollector implements ICollector {
         // バックグラウンドで検証処理
         (async () => {
           try {
-            const validationNeeded = urlsWithMetadata.filter((item) => item.needsValidation);
+            const validationNeeded = filteredUrlsWithMetadata.filter((item) => item.needsValidation);
             console.debug('[GenericCollector] validationNeeded count', { validationNeeded: validationNeeded.length });
             let validatedCount = 0;
 
