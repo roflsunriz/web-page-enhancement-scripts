@@ -1,6 +1,7 @@
 import type { LoadingSpinner } from '../ui/loading-spinner';
 import { ICollector, CollectionResult } from './i-collector';
 import { win } from '../util';
+import { isInvalidImage } from '../invalid-image-database';
 
 // unsafeWindowの型定義を拡張
 declare global {
@@ -260,7 +261,13 @@ export class GenericCollector implements ICollector {
   private isImageAccessible(url: string): Promise<boolean> {
     return new Promise((resolve) => {
       const img = new Image();
-      img.onload = () => resolve(img.naturalWidth > 100 && img.naturalHeight > 100);
+      img.onload = () => {
+        if (isInvalidImage(url, img.naturalWidth, img.naturalHeight)) {
+          resolve(false);
+          return;
+        }
+        resolve(img.naturalWidth > 100 && img.naturalHeight > 100);
+      };
       img.onerror = () => resolve(false);
       img.src = url;
     });
