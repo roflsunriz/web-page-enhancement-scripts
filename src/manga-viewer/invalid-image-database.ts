@@ -19,6 +19,19 @@ const invalidImageRules: InvalidImageRule[] = [
     path: /\/uploads\/avatars\//,
     url: /\.pagespeed\./,
   },
+  // nicomanga.comのロゴ画像を除外
+  {
+    host: /nicomanga\.com$/,
+    path: /\/uploads\/logos\//,
+    width: 300,
+    height: 300,
+  },
+  // nicomanga.comのロゴ画像で、pagespeedで最適化されたものも除外
+  {
+    host: /nicomanga\.com$/,
+    path: /\/uploads\/logos\//,
+    url: /\.pagespeed\./,
+  },
 ];
 
 export function isInvalidImage(
