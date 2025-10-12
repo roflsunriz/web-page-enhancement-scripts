@@ -491,12 +491,12 @@ position: relative;
 overflow: hidden;
 display: flex;
 align-items: center;
+gap: 8px;
 }
 
-.mask-button::before {
-content: '🔒';
-margin-right: 8px;
-font-size: 16px;
+.mask-button__icon svg {
+width: 18px;
+height: 18px;
 }
 
 .mask-button::after {
@@ -782,11 +782,12 @@ border: 1px solid rgba(255, 255, 255, 0.1) !important;
 padding: 6px 12px;
 display: inline-flex;
 align-items: center;
+gap: 8px;
 }
 
-.color-picker-button::before {
-content: '🎨';
-margin-right: 8px;
+.color-picker-button__icon svg {
+width: 20px;
+height: 20px;
 }
 
 .color-picker-button:hover {
@@ -1062,7 +1063,7 @@ animation: spin 0.7s linear infinite;
 background: var(--primary);
 color: white;
 border: none;
-padding: 4px 10px;
+padding: 4px;
 border-radius: 6px;
 cursor: pointer;
 font-size: 12px;
@@ -1070,13 +1071,15 @@ transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 box-shadow: 0 2px 8px rgba(127, 90, 240, 0.3);
 display: inline-flex;
 align-items: center;
+justify-content: center;
 font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+min-width: 28px;
+min-height: 28px;
 }
 
-.auto-comment-button::before {
-content: '💬';
-margin-right: 4px;
-font-size: 14px;
+.auto-comment-button svg {
+width: 16px;
+height: 16px;
 }
 
 .auto-comment-button:hover {

@@ -13,6 +13,7 @@ import {
   NicoSearchResultItem,
 } from "../services/nico-video-searcher";
 import { createLogger } from "@/shared/logger";
+import { svgComment, svgLock, svgPalette } from "@/shared/icons/mdi";
 
 const logger = createLogger("dAnime:SettingsUI");
 
@@ -109,7 +110,9 @@ export class SettingsUI extends ShadowDOMComponent {
 
       const button = document.createElement("button");
       button.className = "auto-comment-button";
-      button.textContent = "コメント設定";
+      button.innerHTML = svgComment;
+      button.setAttribute("aria-label", "コメント設定");
+      button.setAttribute("title", "コメント設定");
       button.setAttribute("type", "button");
       button.addEventListener("click", async (event) => {
         event.preventDefault();
@@ -216,8 +219,11 @@ export class SettingsUI extends ShadowDOMComponent {
             <div class="color-presets">
               ${["#FFFFFF", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"].map((color) => `<button class="color-preset-btn" data-color="${color}" style="background-color: ${color}"></button>`).join("")}
             </div>
-            <div class="color-picker-container">
-              <button id="openColorPicker" class="color-picker-button">カラーピッカー</button>
+          <div class="color-picker-container">
+              <button id="openColorPicker" class="color-picker-button" type="button">
+                <span class="color-picker-button__icon" aria-hidden="true">${svgPalette}</span>
+                <span class="color-picker-button__text">カラーピッカー</span>
+              </button>
               <div id="colorPicker" class="color-picker hidden">
                 <p class="color-picker-instruction">下のボックスをクリックするとブラウザのカラーピッカーが開きます。</p>
                 <input type="color" id="colorPickerInput" value="${this.settings.commentColor}">
@@ -240,14 +246,20 @@ export class SettingsUI extends ShadowDOMComponent {
         <div class="setting-group">
           <h3>NGワード設定</h3>
           <div class="ng-words-container">
-            <button id="showNgWords" class="mask-button">NGワードを表示</button>
+            <button id="showNgWords" class="mask-button" type="button">
+              <span class="mask-button__icon" aria-hidden="true">${svgLock}</span>
+              <span class="mask-button__text">NGワードを表示</span>
+            </button>
             <textarea class="ng-words hidden" id="ngWords" placeholder="NGワードを1行ずつ入力">${this.settings.ngWords.join("\n")}</textarea>
           </div>
         </div>
         <div class="setting-group">
           <h3>NG正規表現設定</h3>
           <div class="ng-regexp-container">
-            <button id="showNgRegexp" class="mask-button">NG正規表現を表示</button>
+            <button id="showNgRegexp" class="mask-button" type="button">
+              <span class="mask-button__icon" aria-hidden="true">${svgLock}</span>
+              <span class="mask-button__text">NG正規表現を表示</span>
+            </button>
             <textarea class="ng-words hidden" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${this.settings.ngRegexps.join("\n")}</textarea>
           </div>
         </div>
@@ -369,23 +381,25 @@ export class SettingsUI extends ShadowDOMComponent {
     );
 
     toggleWords?.addEventListener("click", () => {
-      if (!ngWordsArea) {
+      if (!ngWordsArea || !toggleWords) {
         return;
       }
       ngWordsArea.classList.toggle("hidden");
-      toggleWords.textContent = ngWordsArea.classList.contains("hidden")
+      const text = ngWordsArea.classList.contains("hidden")
         ? "NGワードを表示"
         : "NGワードを非表示";
+      this.updateMaskButtonText(toggleWords, text);
     });
 
     toggleRegex?.addEventListener("click", () => {
-      if (!ngRegexArea) {
+      if (!ngRegexArea || !toggleRegex) {
         return;
       }
       ngRegexArea.classList.toggle("hidden");
-      toggleRegex.textContent = ngRegexArea.classList.contains("hidden")
+      const text = ngRegexArea.classList.contains("hidden")
         ? "NG正規表現を表示"
         : "NG正規表現を非表示";
+      this.updateMaskButtonText(toggleRegex, text);
     });
   }
 
@@ -737,5 +751,12 @@ export class SettingsUI extends ShadowDOMComponent {
   private updateVisibilityToggleState(button: HTMLButtonElement): void {
     button.textContent = this.settings.isCommentVisible ? "表示中" : "非表示中";
     button.classList.toggle("off", !this.settings.isCommentVisible);
+  }
+
+  private updateMaskButtonText(button: HTMLButtonElement, text: string): void {
+    const label = button.querySelector<HTMLSpanElement>(".mask-button__text");
+    if (label) {
+      label.textContent = text;
+    }
   }
 }

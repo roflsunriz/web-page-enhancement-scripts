@@ -1,14 +1,17 @@
 import {
 	mdiBookOpenPageVariant,
+	mdiCommentOutline,
 	mdiClose,
 	mdiContentCopy,
 	mdiContentSave,
 	mdiDownload,
 	mdiFlash,
 	mdiMonitor,
+	mdiPalette,
 	mdiPlay,
 	mdiRefresh,
 	mdiTimerSandEmpty,
+	mdiLock,
 } from "@mdi/js";
 
 export function renderMdiSvg(pathD: string, size: number = 24): string {
@@ -27,5 +30,7 @@ export const svgMonitor: string = renderMdiSvg(mdiMonitor);
 export const svgContentCopy: string = renderMdiSvg(mdiContentCopy);
 export const svgFlash: string = renderMdiSvg(mdiFlash);
 export const svgClose: string = renderMdiSvg(mdiClose);
-
+export const svgPalette: string = renderMdiSvg(mdiPalette);
+export const svgLock: string = renderMdiSvg(mdiLock);
+export const svgComment: string = renderMdiSvg(mdiCommentOutline);
 

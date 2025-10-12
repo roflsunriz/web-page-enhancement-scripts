@@ -4,6 +4,12 @@
 
 すべての重要な変更点をここに記録します。
 
+
+## v1.6.3 - 2025-10-12
+### 変更
+- `d-anime-nico-comment-renderer.user.js`
+ - 絵文字をMaterial Design Iconsに変更しました。
+
 ## v1.6.2 - 2025-10-10
 ### 修正
 - `manga-viewer.user.js`
