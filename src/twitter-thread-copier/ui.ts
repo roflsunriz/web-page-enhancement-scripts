@@ -126,7 +126,22 @@ class UIManager {
           cursor: grab;
       }
       .copy-thread-button.success { background-color: #4CAF50; }
-      .copy-thread-button.ready { background-color: #1DA1F2; }
+      .copy-thread-button.ready {
+          background-color: #FFC400;
+          box-shadow: 0 4px 18px rgba(255, 196, 0, 0.55);
+          animation: copy-ready-pulse 1.8s ease-in-out infinite;
+      }
+      .copy-thread-button.ready::after {
+          content: "";
+          position: absolute;
+          inset: -5px;
+          border-radius: 50%;
+          border: 2px solid rgba(255, 232, 124, 0.0);
+          box-shadow: 0 0 0 0 rgba(255, 232, 124, 0.45);
+          opacity: 0.7;
+          pointer-events: none;
+          animation: copy-ready-wave 1.8s ease-out infinite;
+      }
       .copy-thread-button.loading svg { animation: spinning 1.5s linear infinite; }
       .copy-thread-button svg { display: block; }
       .control-panel-container {
@@ -172,6 +187,27 @@ class UIManager {
       }
       .copy-thread-button:hover .text { opacity: 1; visibility: visible; }
       @keyframes spinning { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+      @keyframes copy-ready-pulse {
+          0%, 100% { box-shadow: 0 4px 18px rgba(255, 196, 0, 0.45); }
+          50% { box-shadow: 0 6px 24px rgba(255, 196, 0, 0.65); }
+      }
+      @keyframes copy-ready-wave {
+          0% {
+              transform: scale(1);
+              opacity: 0.7;
+              box-shadow: 0 0 0 0 rgba(255, 232, 124, 0.45);
+          }
+          70% {
+              transform: scale(1.55);
+              opacity: 0;
+              box-shadow: 0 0 0 18px rgba(255, 232, 124, 0);
+          }
+          100% {
+              transform: scale(1.6);
+              opacity: 0;
+              box-shadow: 0 0 0 20px rgba(255, 232, 124, 0);
+          }
+      }
       .copy-toast {
           background-color: rgba(0, 0, 0, 0.8);
           color: white;
@@ -556,6 +592,7 @@ class UIManager {
     }
 
     button.classList.remove("loading");
+    button.classList.remove("ready");
 
     if (state.isSecondStage) {
       button.classList.add("ready");
@@ -565,7 +602,6 @@ class UIManager {
 
     const selectedCount = state.selectedTweetIds.length;
     if (selectedCount > 0) {
-      button.classList.remove("ready");
       button.innerHTML = `<span class="text">選択ツイート(${selectedCount})をコピー</span>${ICONS.COPY}`;
       return;
     }
@@ -576,10 +612,10 @@ class UIManager {
           ? state.startFromTweetText.substring(0, 20) + "..."
           : state.startFromTweetText;
       button.innerHTML = `<span class="text">${startText}からコピー</span>${ICONS.COPY}`;
-    } else {
-      button.classList.remove("ready");
-      button.innerHTML = `<span class="text">スレッドをコピー</span>${ICONS.COPY}`;
+      return;
     }
+
+    button.innerHTML = `<span class="text">スレッドをコピー</span>${ICONS.COPY}`;
   }
 
   public showToast(title: string, content: string): void {

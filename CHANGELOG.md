@@ -5,6 +5,11 @@
 すべての重要な変更点をここに記録します。
 
 
+## v1.6.4 - 2025-10-12
+### 変更
+- `twitter-thread-copier.user.js`
+ - コピー待ち受け状態の表示を強調するように改良しました。
+
 ## v1.6.3 - 2025-10-12
 ### 変更
 - `d-anime-nico-comment-renderer.user.js`
