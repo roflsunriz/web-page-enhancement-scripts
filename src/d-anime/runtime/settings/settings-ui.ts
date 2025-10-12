@@ -102,7 +102,7 @@ export class SettingsUI extends ShadowDOMComponent {
       buttonHost.className =
         "nico-comment-shadow-host auto-comment-button-host";
       buttonHost.style.cssText =
-        "position:absolute;left:65px;top:3px;margin-left:8px;";
+        "position:absolute;left:150px;top:3px;margin-left:8px;";
       const shadowRoot = buttonHost.attachShadow({ mode: "closed" });
       const style = document.createElement("style");
       style.textContent = ShadowStyleManager.getAutoButtonStyles();
