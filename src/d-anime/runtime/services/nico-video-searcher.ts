@@ -1,5 +1,6 @@
-import { gmRequest } from "@/shared/network/gmHttp";
 import { createLogger } from "@/shared/logger";
+import { buildNicovideoSearchUrl } from "@/shared/constants/urls";
+import { gmRequest } from "@/shared/network/gmHttp";
 
 const logger = createLogger("dAnime:NicoVideoSearcher");
 
@@ -60,7 +61,7 @@ export class NicoVideoSearcher {
       return this.cache.get(keyword) ?? [];
     }
 
-    const url = `https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}`;
+    const url = buildNicovideoSearchUrl(keyword);
     const html = await this.fetchText(url);
     const items = this.parseServerContext(html);
 

@@ -10,6 +10,7 @@ import {
   generateSummary,
 } from "./formatter.js";
 import { executeClipboardCopy } from "./clipboard.js";
+import { TWITTER_THREAD_URL_PATTERN } from "@/shared/constants/urls";
 
 class TwitterThreadCopierApp {
   constructor() {
@@ -155,7 +156,7 @@ class TwitterThreadCopierApp {
   }
 
   private isTwitterStatusPage(): boolean {
-    return /https?:\/\/(twitter\.com|x\.com)\/[^/]+\/status\/[0-9]+/.test(location.href);
+    return TWITTER_THREAD_URL_PATTERN.test(location.href);
   }
 
   private observeUrlChanges(): void {

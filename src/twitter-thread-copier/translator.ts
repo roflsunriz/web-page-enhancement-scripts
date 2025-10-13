@@ -1,10 +1,10 @@
 import { logger } from "./logger.js";
 import type { TweetData } from "@/shared/types";
 import { notify } from "@/shared/userscript";
+import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
 
 const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
-const GOOGLE_TRANSLATE_ENDPOINT =
-  "https://translate.googleapis.com/translate_a/single";
+const GOOGLE_TRANSLATE_ENDPOINT = GOOGLE_TRANSLATE_API_URL;
 
 const LOCAL_AI_SYSTEM_PROMPT =
   "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";

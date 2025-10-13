@@ -1,5 +1,6 @@
-import { gmRequest } from "@/shared/network/gmHttp";
 import { createLogger } from "@/shared/logger";
+import { buildNicovideoWatchUrl } from "@/shared/constants/urls";
+import { gmRequest } from "@/shared/network/gmHttp";
 
 const logger = createLogger("dAnime:NicoApiFetcher");
 
@@ -102,7 +103,7 @@ export class NicoApiFetcher {
       const safeVideoId = this.sanitizeVideoId(videoId);
       const response = await gmRequest({
         method: "GET",
-        url: `https://www.nicovideo.jp/watch/${safeVideoId}`,
+        url: buildNicovideoWatchUrl(safeVideoId),
         headers: { Accept: "text/html" },
       });
 

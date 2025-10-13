@@ -1,3 +1,4 @@
+import { CHATGPT_URLS } from "@/shared/constants/urls";
 import { Settings } from "@/shared/types";
 import { loadSettings, saveSettings } from "./settings";
 
@@ -59,7 +60,7 @@ export function createSettingsUI(): void {
         
         <div class="setting-item">
           <div class="setting-label">カスタム通知音URL（空白の場合はデフォルト）</div>
-          <input type="text" class="text-input" id="custom-sound" placeholder="https://example.com/sound.mp3">
+          <input type="text" class="text-input" id="custom-sound" placeholder="${CHATGPT_URLS.soundSample}">
         </div>
         
         <div class="button-container">

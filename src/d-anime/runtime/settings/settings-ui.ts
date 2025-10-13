@@ -15,6 +15,10 @@ import {
 import { createLogger } from "@/shared/logger";
 import { svgComment, svgLock, svgPalette } from "@/shared/icons/mdi";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
+import {
+  buildNicovideoSearchUrl,
+  NICOVIDEO_URLS,
+} from "@/shared/constants/urls";
 
 const logger = createLogger("dAnime:SettingsUI");
 
@@ -447,8 +451,8 @@ export class SettingsUI extends ShadowDOMComponent {
       event.preventDefault();
       const keyword = input?.value.trim();
       const url = keyword
-        ? `https://www.nicovideo.jp/search/${encodeURIComponent(keyword)}`
-        : "https://www.nicovideo.jp/search";
+        ? buildNicovideoSearchUrl(keyword)
+        : NICOVIDEO_URLS.searchBase;
       const globalWindow = getUnsafeWindow();
       globalWindow.open(url, "_blank", "noopener");
     });

@@ -3,6 +3,11 @@ import { state } from "./state.js";
 import { xmlHttpRequest } from "@/shared/userscript";
 import type { TweetData, QuotedTweet } from "@/shared/types";
 import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
+import {
+  buildTwitterStatusInfoUrl,
+  buildTwitterVideoUrl,
+  TWITTER_SHORT_URL_PREFIX,
+} from "@/shared/constants/urls";
 
 // ツイートとリプライを収集
 export async function scrapeTweets(): Promise<TweetData[]> {
@@ -483,7 +488,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
           const statusIndex = hrefParts.indexOf("status");
           if (statusIndex !== -1 && statusIndex + 1 < hrefParts.length) {
             const tweetId = hrefParts[statusIndex + 1].split("?")[0];
-            const tweetInfoUrl = `https://twitter.com/i/status/${tweetId}`;
+            const tweetInfoUrl = buildTwitterStatusInfoUrl(tweetId);
             if (!mediaUrls.includes(tweetInfoUrl)) {
               mediaUrls.push(`[動画] ${tweetInfoUrl}`);
             }
@@ -531,7 +536,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
           const statusIndex = hrefParts.indexOf("status");
           if (statusIndex !== -1 && statusIndex + 1 < hrefParts.length) {
             const tweetId = hrefParts[statusIndex + 1].split("?")[0];
-            const tweetInfoUrl = `https://twitter.com/i/status/${tweetId}`;
+            const tweetInfoUrl = buildTwitterStatusInfoUrl(tweetId);
             if (!mediaUrls.includes(tweetInfoUrl)) {
               mediaUrls.push(`[動画] ${tweetInfoUrl}`);
             }
@@ -606,7 +611,7 @@ function getVideoUrl(posterUrl: string): string | null {
     const match = posterUrl.match(/tweet_video_thumb\/([^.]+)/);
     if (!match || !match[1]) return null;
     const videoId = match[1];
-    const videoUrl = `https://video.twimg.com/tweet_video/${videoId}.mp4`;
+  const videoUrl = buildTwitterVideoUrl(videoId);
     return videoUrl;
   } catch (error) {
     logger.error(`動画URL生成エラー: ${(error as Error).message}`);
@@ -673,7 +678,7 @@ async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<
   for (const anchor of anchors) {
     if (isLikelyUrlAnchor(anchor, anchor.textContent ?? "")) {
       const href = anchor.getAttribute("href");
-      if (href && href.startsWith("https://t.co/")) {
+    if (href && href.startsWith(TWITTER_SHORT_URL_PREFIX)) {
         urlPromises.push(
           followRedirect(href).then(resolvedUrl => ({ anchor, resolvedUrl }))
         );

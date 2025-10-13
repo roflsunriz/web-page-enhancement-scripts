@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.7.1 - 2025-10-13
+### 変更
+- `d-anime-nico-comment-renderer.user.js`, `twitter-full-size-image.user.js`, `twitter-mute-filter.user.js`, `twitter-thread-copier.user.js`, `youtube-info-copier.user.js`
+ - 外部サイトに依存しているURLを定数ファイルに移動しました。
+
 ## v1.7.0 - 2025-10-13
 ### 変更
 - `twitter-full-size-image.user.js`以外のすべてのスクリプトのバージョンを更新しました。

@@ -1,3 +1,4 @@
+import { CHATGPT_URLS } from "@/shared/constants/urls";
 import { Settings } from "@/shared/types";
 
 /**
@@ -11,7 +12,7 @@ export function sendNotification(settings: Settings): void {
   GM_notification({
     text: "生成が完了しました！",
     title: "ChatGPT 完了通知",
-    image: "https://chat.openai.com/favicon.ico",
+    image: CHATGPT_URLS.favicon,
   });
 
   // 音を鳴らす設定がオンの場合

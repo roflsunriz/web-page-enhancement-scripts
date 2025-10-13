@@ -1,5 +1,6 @@
-import { createLogger } from '@/shared/logger';
 import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
+import { TWITTER_URLS } from '@/shared/constants/urls';
+import { createLogger } from '@/shared/logger';
 
 const logger = createLogger('twitter-mute-filter');
 
@@ -17,7 +18,7 @@ export async function fetchTwitterMuteKeywords(): Promise<string[] | null> {
       ) {
         return null;
       }
-      window.location.href = 'https://twitter.com/settings/muted_keywords';
+      window.location.href = TWITTER_URLS.mutedKeywords;
       return null;
     }
 

@@ -5,3 +5,4 @@ export * from './imgur';
 export * from './manga';
 export * from './twitter';
 export * from './youtube';
+export * from './urls';

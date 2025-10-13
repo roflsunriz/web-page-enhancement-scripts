@@ -23,7 +23,7 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
-  version: '2.1.0',
+  version: '2.1.1',
   description: 'Notify when ChatGPT generation is complete.',
   author: 'roflsunriz',
   match: [
@@ -48,7 +48,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '5.3.0',
+  version: '5.3.1',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -224,7 +224,7 @@ const mangaViewerMeta: MonkeyUserScript = {
 const twitterFullSizeImageMeta: MonkeyUserScript = {
   name: 'twitter-image-fullsize-redirect',
   namespace: 'twitterImageFullsizeRedirect',
-  version: '2.1.0',
+  version: '2.1.1',
   description: 'Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト',
   author: 'roflsunriz',
   match: [
@@ -258,7 +258,7 @@ const twitterMediaFilterMeta: MonkeyUserScript = {
 const twitterMuteFilterMeta: MonkeyUserScript = {
   name: 'twitter-mute-filter',
   namespace: 'twitterMuteFilter',
-  version: '2.2.0',
+  version: '2.2.1',
   description: '正規表現対応の強力なミュートフィルターをTwitter/Xに追加します。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -290,7 +290,7 @@ const twitterMuteRetweetsMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '5.9.0',
+  version: '5.9.1',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
@@ -331,7 +331,7 @@ const twitterWideLayoutFixMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.2.0',
+  version: '2.2.1',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],

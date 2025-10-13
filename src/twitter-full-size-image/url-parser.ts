@@ -1,4 +1,5 @@
 import { TWITTER_IMAGE_PATTERN, FULL_SIZE_NAMES } from "./constants";
+import { buildTwimgMediaBaseUrl } from "@/shared/constants/urls";
 
 /**
  * パースされたTwitter画像URLの情報
@@ -65,5 +66,6 @@ export function buildFullsizeUrl(
   const format = guessImageFormat(parsed.mediaId, searchParams);
   const baseMediaId = parsed.mediaId.split(".")[0];
 
-  return `https://${parsed.domain}.twimg.com/media/${baseMediaId}?format=${format}&name=orig`;
+  const mediaBaseUrl = buildTwimgMediaBaseUrl(parsed.domain);
+  return `${mediaBaseUrl}/media/${baseMediaId}?format=${format}&name=orig`;
 }

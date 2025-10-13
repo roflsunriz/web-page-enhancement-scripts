@@ -4,6 +4,7 @@ import { YouTubeVideoInfo } from '@/shared/types';
 import { expandDescriptionIfNeeded } from './dom-utils';
 import { TEMPLATE_POLICY_NAME, getTemplate } from './ui';
 import { YOUTUBE_SELECTORS } from '@/shared/constants/youtube';
+import { buildYoutubeShortUrl } from '@/shared/constants/urls';
 
 export class YouTubeInfoCopier {
   private container: HTMLDivElement | null = null;
@@ -143,7 +144,7 @@ export class YouTubeInfoCopier {
     const author = channelElement?.textContent?.trim() || '投稿者不明';
 
     const videoId = new URLSearchParams(window.location.search).get('v') || window.location.pathname.split('/').pop();
-    const url = videoId ? `https://youtu.be/${videoId}` : window.location.href;
+    const url = videoId ? buildYoutubeShortUrl(videoId) : window.location.href;
 
     await expandDescriptionIfNeeded(2000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
 
