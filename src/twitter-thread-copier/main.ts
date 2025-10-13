@@ -7,6 +7,7 @@ import {
   formatAllTweets,
   formatSingleTweet,
   formatTweetsWithLimit,
+  formatShitarabaTweetsWithLimit,
   generateSummary,
 } from "./formatter.js";
 import { executeClipboardCopy } from "./clipboard.js";
@@ -104,7 +105,10 @@ class TwitterThreadCopierApp {
               formattedText = formatSingleTweet(tweetsForFormatting[0]);
               break;
             case "shitaraba":
-              formattedText = formatTweetsWithLimit(tweetsForFormatting, 4096);
+              formattedText = formatShitarabaTweetsWithLimit(
+                tweetsForFormatting,
+                4096,
+              );
               break;
             case "5ch":
               formattedText = formatTweetsWithLimit(tweetsForFormatting, 2048);

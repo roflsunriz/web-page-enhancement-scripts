@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.7.2 - 2025-10-14
+### 変更
+- `twitter-thread-copier.user.js`
+ - バージョンを6.0.0に更新しました。したらば掲示板モード(4Kモード)でURLが6件まで（スレッド1件+画像5件）に制限される機能を追加しました。
+
 ## v1.7.1 - 2025-10-13
 ### 変更
 - `d-anime-nico-comment-renderer.user.js`, `twitter-full-size-image.user.js`, `twitter-mute-filter.user.js`, `twitter-thread-copier.user.js`, `youtube-info-copier.user.js`

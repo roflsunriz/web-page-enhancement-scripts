@@ -64,6 +64,142 @@ export function formatTweetsWithLimit(
   return result;
 }
 
+const SHITARABA_TEXT_URL_PATTERN = /https?:\/\/[^\s]+/g;
+
+class ShitarabaUrlLimiter {
+  private hasThreadUrlIncluded = false;
+  private remainingMediaSlots = 5;
+
+  consumeThreadUrl(url?: string): string | null {
+    if (!url || this.hasThreadUrlIncluded) {
+      return null;
+    }
+    this.hasThreadUrlIncluded = true;
+    return url;
+  }
+
+  consumeMediaUrls(urls: string[]): string[] {
+    if (this.remainingMediaSlots <= 0) {
+      return [];
+    }
+
+    const filtered = urls.filter((candidate) => candidate.trim().length > 0);
+    const allowed = filtered.slice(0, this.remainingMediaSlots);
+    this.remainingMediaSlots -= allowed.length;
+    return allowed;
+  }
+}
+
+function sanitizeTextForShitaraba(text: string): string {
+  if (!text) {
+    return "";
+  }
+
+  const withoutUrls = text
+    .replace(SHITARABA_TEXT_URL_PATTERN, "")
+    .replace(/[ \t]+\n/g, "\n");
+
+  const normalizedLines = withoutUrls
+    .split("\n")
+    .map((line) => line.replace(/[ \t]{2,}/g, " ").trim());
+
+  for (let i = normalizedLines.length - 1; i >= 0; i--) {
+    if (normalizedLines[i] !== "") {
+      break;
+    }
+    normalizedLines.pop();
+  }
+
+  return normalizedLines.join("\n");
+}
+
+function formatShitarabaTweet(
+  tweet: TweetData,
+  limiter: ShitarabaUrlLimiter,
+): string {
+  const lines: string[] = [];
+
+  lines.push(`${tweet.author} ${tweet.handle}`);
+
+  const sanitizedText = sanitizeTextForShitaraba(tweet.text);
+  if (sanitizedText.length > 0) {
+    lines.push(sanitizedText);
+  } else {
+    lines.push("");
+  }
+
+  lines.push(tweet.time);
+
+  const threadUrl = limiter.consumeThreadUrl(tweet.url);
+  if (threadUrl) {
+    lines.push(threadUrl);
+  }
+
+  const mediaUrls = limiter.consumeMediaUrls(tweet.mediaUrls);
+  if (mediaUrls.length > 0) {
+    lines.push(...mediaUrls);
+  }
+
+  if (tweet.quotedTweet) {
+    const { quotedTweet } = tweet;
+    if (quotedTweet) {
+      const quoteLines: string[] = [];
+      quoteLines.push(`> 引用元: ${quotedTweet.author} ${quotedTweet.handle}`);
+
+      const sanitizedQuoteText = sanitizeTextForShitaraba(quotedTweet.text);
+      if (sanitizedQuoteText.length > 0) {
+        quoteLines.push(
+          ...sanitizedQuoteText.split("\n").map((line) => `> ${line}`),
+        );
+      }
+
+      const quoteMediaUrls = limiter.consumeMediaUrls(quotedTweet.mediaUrls);
+      if (quoteMediaUrls.length > 0) {
+        quoteLines.push(...quoteMediaUrls.map((url) => `> ${url}`));
+      }
+
+      if (quoteLines.length > 0) {
+        lines.push("");
+        lines.push(...quoteLines);
+      }
+    }
+  }
+
+  return `${lines.join("\n")}\n`;
+}
+
+export function formatShitarabaTweetsWithLimit(
+  tweets: TweetData[],
+  limit: number,
+): string {
+  if (!tweets || tweets.length === 0) {
+    return "";
+  }
+
+  const limiter = new ShitarabaUrlLimiter();
+
+  let result = "";
+  const separator = "\n\n---\n\n";
+
+  for (let i = 0; i < tweets.length; i++) {
+    const tweet = tweets[i];
+    const formattedTweet = formatShitarabaTweet(tweet, limiter);
+    const textToAdd = i === 0 ? formattedTweet : separator + formattedTweet;
+
+    if (result.length + textToAdd.length > limit) {
+      const remaining = limit - result.length;
+      if (remaining > separator.length) {
+        result += textToAdd.substring(0, remaining - 3) + "...";
+      }
+      break;
+    }
+
+    result += textToAdd;
+  }
+
+  return result;
+}
+
 /**
  * 全てのツイートを連結してフォーマットする
  * @param tweets - ツイートデータの配列
