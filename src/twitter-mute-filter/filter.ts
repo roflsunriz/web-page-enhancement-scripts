@@ -1,5 +1,6 @@
 import { settings } from './settings';
 import { createLogger } from '@/shared/logger';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-mute-filter');
 
@@ -56,7 +57,7 @@ function shouldMute(tweetElement: HTMLElement): boolean {
  * @param tweetElement - 処理対象のツイート要素。
  */
 export function processTweet(tweetElement: HTMLElement): void {
-  const container = tweetElement.closest<HTMLElement>('[data-testid="cellInnerDiv"], [data-testid="tweet"], article');
+  const container = tweetElement.closest<HTMLElement>(TWITTER_SELECTORS.tweetContainerCandidates);
   if (container && !container.dataset.tfMuted && shouldMute(tweetElement)) {
     container.style.display = 'none';
     container.dataset.tfMuted = 'true';

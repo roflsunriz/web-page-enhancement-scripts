@@ -2,6 +2,7 @@ import { logger } from "./logger.js";
 import { state } from "./state.js";
 import { renderMdiSvg } from "../shared/icons/mdi.js";
 import { mdiContentCopy, mdiClipboardTextOutline, mdiProgressClock } from "@mdi/js";
+import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
 
 type ButtonAction = "copy" | "clipboard";
 
@@ -75,6 +76,7 @@ class UIManager {
       return;
     }
     const styleElement = document.createElement("style");
+    const tweetArticleSelector = TWITTER_SELECTORS.article;
     styleElement.textContent = `
       .floating-ui-container {
           position: fixed;
@@ -253,11 +255,11 @@ class UIManager {
           font-size: 14px;
           font-weight: bold;
       }
-      article[data-testid="tweet"]:hover .start-point-button { opacity: 1; }
+      ${tweetArticleSelector}:hover .start-point-button { opacity: 1; }
       .start-point-button:hover { background-color: rgba(29, 161, 242, 0.2); transform: scale(1.1); }
       .start-point-button.active { background-color: #1DA1F2; color: white; opacity: 1; }
       .start-point-button.active:hover { background-color: #1991DB; }
-      article[data-testid="tweet"].start-point-set { background-color: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2); border-radius: 8px; }
+      ${tweetArticleSelector}.start-point-set { background-color: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2); border-radius: 8px; }
       .select-tweet-button {
           position: absolute;
           top: 10px;
@@ -277,7 +279,7 @@ class UIManager {
           opacity: 0;
           transition: all 0.3s ease;
       }
-      article[data-testid="tweet"]:hover .select-tweet-button { opacity: 1; }
+      ${tweetArticleSelector}:hover .select-tweet-button { opacity: 1; }
       .select-tweet-button:hover { transform: scale(1.1); }
       .select-tweet-button.active {
           background-color: #1DA1F2;
@@ -285,12 +287,12 @@ class UIManager {
           border-color: #1DA1F2;
           opacity: 1;
       }
-      article[data-testid="tweet"].tweet-selected {
+      ${tweetArticleSelector}.tweet-selected {
           background-color: rgba(29, 161, 242, 0.04);
           border: 1px solid rgba(29, 161, 242, 0.3);
           border-radius: 8px;
       }
-      article[data-testid="tweet"].tweet-selected.start-point-set {
+      ${tweetArticleSelector}.tweet-selected.start-point-set {
           box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.12);
       }
       .reset-selection {
@@ -371,7 +373,7 @@ class UIManager {
 
   private addSelectionButtons(): void {
     document
-      .querySelectorAll<HTMLElement>('article[data-testid="tweet"]')
+      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
       .forEach((tweetElement) => {
         const tweetId = this.extractTweetId(tweetElement);
         if (!tweetId) {
@@ -410,7 +412,7 @@ class UIManager {
     });
 
     document
-      .querySelectorAll<HTMLElement>('article[data-testid="tweet"]')
+      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
       .forEach((tweetElement) => {
         const tweetId = this.extractTweetId(tweetElement);
         if (!tweetId) {
@@ -652,7 +654,7 @@ class UIManager {
 
   private addStartPointButtons(): void {
     document
-      .querySelectorAll<HTMLElement>('article[data-testid="tweet"]')
+      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
       .forEach((tweetElement) => {
         // 既にボタンが直接の子要素として存在するかチェック
         const existingButton = Array.from(tweetElement.children).find((child) =>
@@ -698,8 +700,8 @@ class UIManager {
         });
     }
 
-    const author = tweetElement.querySelector<HTMLElement>('div[data-testid="User-Name"]')?.innerText ?? "";
-    const tweetText = tweetElement.querySelector<HTMLElement>('div[data-testid="tweetText"]')?.innerText ?? "";
+    const author = tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.userName)?.innerText ?? "";
+    const tweetText = tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.tweetText)?.innerText ?? "";
 
     state.startFromTweetId = tweetId;
     state.startFromTweetAuthor = author;

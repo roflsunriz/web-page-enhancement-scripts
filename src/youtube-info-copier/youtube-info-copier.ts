@@ -3,6 +3,7 @@ import { setTrustedInnerHTML } from '@/shared/trusted-html';
 import { YouTubeVideoInfo } from '@/shared/types';
 import { expandDescriptionIfNeeded } from './dom-utils';
 import { TEMPLATE_POLICY_NAME, getTemplate } from './ui';
+import { YOUTUBE_SELECTORS } from '@/shared/constants/youtube';
 
 export class YouTubeInfoCopier {
   private container: HTMLDivElement | null = null;
@@ -130,18 +131,15 @@ export class YouTubeInfoCopier {
   }
 
   private async getVideoInfo(): Promise<YouTubeVideoInfo> {
-    const titleElement =
-      document.querySelector('h1.ytd-watch-metadata yt-formatted-string') ||
-      document.querySelector('#title h1 yt-formatted-string') ||
-      document.querySelector('h1.title');
+    const pickFirstElement = (selectors: readonly string[]): HTMLElement | null =>
+      selectors
+        .map((selector) => document.querySelector<HTMLElement>(selector))
+        .find((element): element is HTMLElement => element !== null) ?? null;
+
+    const titleElement = pickFirstElement(YOUTUBE_SELECTORS.titleCandidates);
     const title = titleElement?.textContent?.trim() || 'タイトル不明';
 
-    const channelElement =
-      document.querySelector('#owner #channel-name a') ||
-      document.querySelector('ytd-channel-name a') ||
-      document.querySelector('.ytd-video-owner-renderer a') ||
-      document.querySelector('#upload-info #channel-name a') ||
-      document.querySelector('#owner-text a');
+    const channelElement = pickFirstElement(YOUTUBE_SELECTORS.channelCandidates);
     const author = channelElement?.textContent?.trim() || '投稿者不明';
 
     const videoId = new URLSearchParams(window.location.search).get('v') || window.location.pathname.split('/').pop();
@@ -149,7 +147,7 @@ export class YouTubeInfoCopier {
 
     await expandDescriptionIfNeeded(2000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
 
-    const descriptionElement = document.querySelector<HTMLElement>('#description');
+    const descriptionElement = document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.descriptionRoot);
     let description = '概要取得に失敗しました';
     if (descriptionElement) {
       const spans = descriptionElement.querySelectorAll('span');

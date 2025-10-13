@@ -2,9 +2,8 @@ import { SettingsManager } from "../../services/settings-manager";
 import { NotificationManager } from "../notification-manager";
 import { SettingsUI } from "../settings/settings-ui";
 import type { DanimeGlobal } from "../globals";
+import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 
-const HEADER_SELECTOR = ".p-mypageHeader__title";
-const LIST_CONTAINER_SELECTOR = ".p-mypageMain";
 const RETRY_INTERVAL_MS = 100;
 
 export class MypageController {
@@ -22,7 +21,9 @@ export class MypageController {
   }
 
   private waitForHeader(settingsUI: SettingsUI): void {
-    const header = document.querySelector<HTMLElement>(HEADER_SELECTOR);
+    const header = document.querySelector<HTMLElement>(
+      DANIME_SELECTORS.mypageHeaderTitle,
+    );
     if (!header) {
       window.setTimeout(
         () => this.waitForHeader(settingsUI),
@@ -37,7 +38,9 @@ export class MypageController {
   }
 
   private observeList(settingsUI: SettingsUI): void {
-    const listContainer = document.querySelector(LIST_CONTAINER_SELECTOR);
+    const listContainer = document.querySelector(
+      DANIME_SELECTORS.mypageListContainer,
+    );
     if (!listContainer) {
       return;
     }

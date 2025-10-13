@@ -1,6 +1,7 @@
 import { settings } from './settings';
 import { removeRetweets } from './filter';
 import { createLogger } from '@/shared/logger';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-mute-retweets');
 
@@ -48,7 +49,7 @@ function mutationCallback(mutations: MutationRecord[]): void {
 export function startObserver(): void {
   if (observer) return;
 
-  const timelineContainer = document.querySelector('main[role="main"]');
+  const timelineContainer = document.querySelector(TWITTER_SELECTORS.timelineMain);
   if (!timelineContainer) {
     setTimeout(startObserver, 1000);
     return;

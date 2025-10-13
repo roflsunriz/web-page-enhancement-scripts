@@ -2,6 +2,7 @@ import { processTweet } from './filter';
 import { settings } from './settings';
 import { createLogger } from '@/shared/logger';
 import { showSettingsModal } from './ui';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-mute-filter');
 
@@ -11,7 +12,7 @@ const logger = createLogger('twitter-mute-filter');
 function processAllTweets(): void {
   if (!settings.enabled) return;
 
-  const tweets = document.querySelectorAll<HTMLElement>('[data-testid="tweet"], [id^=id__], article[role="article"]');
+  const tweets = document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.tweetObserverTargets);
   tweets.forEach(processTweet);
   logger.info(`${tweets.length}件のツイートをチェックしました`);
 }
@@ -29,10 +30,10 @@ export function setupObservers(): void {
         for (const node of Array.from(mutation.addedNodes)) {
           if (node.nodeType === Node.ELEMENT_NODE) {
             const element = node as HTMLElement;
-            const tweets = element.querySelectorAll<HTMLElement>('[data-testid="tweet"], [id^=id__]');
+            const tweets = element.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.tweetCandidates);
             tweets.forEach(processTweet);
 
-            if (element.matches('[data-testid="tweet"], [id^=id__]')) {
+            if (element.matches(TWITTER_SELECTORS.tweetCandidates)) {
               processTweet(element);
             }
           }

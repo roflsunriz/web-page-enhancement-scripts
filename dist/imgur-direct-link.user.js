@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         imgur-image-link-copier
 // @namespace    imgurImageLinkCopier
-// @version      3.0.1
+// @version      3.1.0
 // @author       roflsunriz
 // @description  Copy image link from Imgur with TypeScript.
 // @license      MIT
@@ -15,7 +15,7 @@
 (function () {
   'use strict';
 
-  const p={debug:"debug",info:"info",warn:"warn",error:"error"},a=t=>{const o=`[${t}]`,e={};return Object.keys(p).forEach(r=>{const n=p[r];e[r]=(...i)=>{(console[n]??console.log)(o,...i);};}),e};function b(){const t=document.querySelectorAll(".PostContent-imageWrapper"),o=[];return t.forEach(e=>{const r=e.querySelector("img"),n=e.querySelector("video source"),i=(r&&r instanceof HTMLImageElement?r.src:void 0)??(n&&n instanceof HTMLSourceElement?n.src:void 0);i&&o.push({url:i,wrapper:e});}),o}function c(){document.querySelectorAll('[id^="imgurCopyButton-container"]').forEach(t=>t.remove());}function u(t,o=true){const e=document.createElement("div");e.textContent=t,e.style.cssText=`
+  const p={debug:"debug",info:"info",warn:"warn",error:"error"},a=t=>{const o=`[${t}]`,e={};return Object.keys(p).forEach(r=>{const n=p[r];e[r]=(...i)=>{(console[n]??console.log)(o,...i);};}),e},b={mediaWrapper:".PostContent-imageWrapper"};function g(){const t=document.querySelectorAll(b.mediaWrapper),o=[];return t.forEach(e=>{const r=e.querySelector("img"),n=e.querySelector("video source"),i=(r&&r instanceof HTMLImageElement?r.src:void 0)??(n&&n instanceof HTMLSourceElement?n.src:void 0);i&&o.push({url:i,wrapper:e});}),o}function c(){document.querySelectorAll('[id^="imgurCopyButton-container"]').forEach(t=>t.remove());}function u(t,o=true){const e=document.createElement("div");e.textContent=t,e.style.cssText=`
     position: fixed;
     bottom: 20px;
     left: 50%;
@@ -28,7 +28,7 @@
     box-shadow: 0 2px 5px rgba(0,0,0,0.2);
     transition: opacity 0.5s ease;
     opacity: 1;
-  `,document.body.appendChild(e),setTimeout(()=>{e.style.opacity="0",setTimeout(()=>e.remove(),500);},3e3);}function g(t,o,e){const r=document.createElement("div");r.id=`imgurCopyButton-container-${t}`;const n=r.attachShadow({mode:"closed"}),i=document.createElement("style");i.textContent=`
+  `,document.body.appendChild(e),setTimeout(()=>{e.style.opacity="0",setTimeout(()=>e.remove(),500);},3e3);}function m(t,o,e){const r=document.createElement("div");r.id=`imgurCopyButton-container-${t}`;const n=r.attachShadow({mode:"closed"}),i=document.createElement("style");i.textContent=`
     .copy-button {
         position: absolute;
         top: 60px;
@@ -53,6 +53,6 @@
         transform: translateY(-2px);
     }
   `;const s=document.createElement("button");s.className="copy-button",s.textContent=`メディア${t+1}をコピー`,s.addEventListener("click",d=>{d.preventDefault(),d.stopPropagation(),navigator.clipboard.writeText(o).then(()=>{u(`メディア${t+1}のリンクがコピーされました:
-${o}`);}).catch(l=>{a("ImgurDirectLinkCopier").error("クリップボードへのコピーに失敗しました: ",l),u("クリップボードへのコピーに失敗しました",false);});}),n.append(i,s),e.style.position="relative",e.appendChild(r);}class m{lastUrl=location.href;observer=null;logger;debounceTimer=null;constructor(){this.logger=a("ImgurDirectLinkCopier");}start(){this.observer=new MutationObserver(()=>this.debouncedUpdate()),this.observer.observe(document.body,{childList:true,subtree:true}),this.update(),this.logger.info("Application started and observer is running.");}stop(){this.observer?.disconnect(),c(),this.logger.info("Application stopped and observer is disconnected.");}debouncedUpdate(){this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.update(),300);}update(){const o=b();if(o.length===0){c();return}c(),o.forEach((e,r)=>{g(r,e.url,e.wrapper);});}}function h(){const t=a("ImgurDirectLinkCopier");t.info("Userscript bootstrapping..."),new m().start(),t.info("Bootstrap complete.");}h();
+${o}`);}).catch(l=>{a("ImgurDirectLinkCopier").error("クリップボードへのコピーに失敗しました: ",l),u("クリップボードへのコピーに失敗しました",false);});}),n.append(i,s),e.style.position="relative",e.appendChild(r);}class h{lastUrl=location.href;observer=null;logger;debounceTimer=null;constructor(){this.logger=a("ImgurDirectLinkCopier");}start(){this.observer=new MutationObserver(()=>this.debouncedUpdate()),this.observer.observe(document.body,{childList:true,subtree:true}),this.update(),this.logger.info("Application started and observer is running.");}stop(){this.observer?.disconnect(),c(),this.logger.info("Application stopped and observer is disconnected.");}debouncedUpdate(){this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.update(),300);}update(){const o=g();if(o.length===0){c();return}c(),o.forEach((e,r)=>{m(r,e.url,e.wrapper);});}}function f(){const t=a("ImgurDirectLinkCopier");t.info("Userscript bootstrapping..."),new h().start(),t.info("Bootstrap complete.");}f();
 
 })();

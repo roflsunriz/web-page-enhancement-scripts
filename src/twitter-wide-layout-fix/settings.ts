@@ -1,5 +1,6 @@
 import { TwitterWideLayoutSettings } from '@/shared/types';
 import { createLogger } from '@/shared/logger';
+import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-wide-layout-fix');
 
@@ -10,8 +11,12 @@ const STORAGE_KEYS = {
 };
 
 export const DEFAULT_SETTINGS: TwitterWideLayoutSettings = {
-  css: ['.r-1ye8kvj {', '    max-width: {{WIDTH}} !important;', '}'].join('\n'),
-  xpath: '/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[5]',
+  css: [
+    `${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {`,
+    '    max-width: {{WIDTH}} !important;',
+    '}',
+  ].join('\n'),
+  xpath: TWITTER_LAYOUT_DEFAULTS.wideLayoutXPath,
   width: '900',
 };
 

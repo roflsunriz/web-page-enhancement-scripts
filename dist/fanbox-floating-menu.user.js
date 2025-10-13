@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         fanbox-floating-menu
 // @namespace    fanboxFloatingMenu
-// @version      2.0.1
+// @version      2.1.0
 // @author       roflsunriz
 // @description  Fanboxのページ移動用フローティングメニューを追加
 // @license      MIT
@@ -15,7 +15,7 @@
 (function () {
     'use strict';
 
-    const l="fanbox-floating-menu-container";class c{container=null;remove(){this.container?.remove(),this.container=null;}create(t){this.remove();const n=document.createElement("div");n.id=l,this.container=n;const e=n.attachShadow({mode:"closed"}),a=document.createElement("style");a.textContent=this.getStyle();const r=t.cloneNode(true);r.classList.add("floating-menu"),e.appendChild(a),e.appendChild(r),document.body.appendChild(n);}getStyle(){return `
+    const s={footerLinksWrapper:'[class*="FooterLinks__Wrapper-sc-"]',footerPrevLink:'div[class*="FooterLinks__PrevPostWrapper-sc-"]',footerNextLink:'div[class*="FooterLinks__NextPostWrapper-sc-"]',paginationWrapper:'[class*="Pagination__DesktopWrapper-sc-"]',creatorPostListWrapper:'[class*="CreatorPostList__Wrapper-sc-"]'},l="fanbox-floating-menu-container";class d{container=null;remove(){this.container?.remove(),this.container=null;}create(e){this.remove();const t=document.createElement("div");t.id=l,this.container=t;const o=t.attachShadow({mode:"closed"}),a=document.createElement("style");a.textContent=this.getStyle();const r=e.cloneNode(true);r.classList.add("floating-menu"),o.appendChild(a),o.appendChild(r),document.body.appendChild(t);}getStyle(){const{footerPrevLink:e,footerNextLink:t}=s;return `
       .floating-menu {
           position: fixed;
           left: 0;
@@ -31,8 +31,8 @@
           gap: 10px;
       }
       .floating-menu a,
-      .floating-menu div[class*="FooterLinks__PrevPostWrapper-sc-"],
-      .floating-menu div[class*="FooterLinks__NextPostWrapper-sc-"] {
+      .floating-menu ${e},
+      .floating-menu ${t} {
           padding: 5px 10px;
           border-radius: 3px;
           text-decoration: none;
@@ -40,10 +40,10 @@
           transition: background-color 0.2s;
       }
       .floating-menu a:hover,
-      .floating-menu div[class*="FooterLinks__PrevPostWrapper-sc-"]:hover,
-      .floating-menu div[class*="FooterLinks__NextPostWrapper-sc-"]:hover {
+      .floating-menu ${e}:hover,
+      .floating-menu ${t}:hover {
           background-color: rgba(0,0,0,0.1);
       }
-    `}}class d{lastUrl=location.href;callback;debounceTimer=null;constructor(t){this.callback=t;}start(){const t=history.pushState;history.pushState=(...e)=>{t.apply(history,e),this.handleUrlChange();};const n=history.replaceState;history.replaceState=(...e)=>{n.apply(history,e),this.handleUrlChange();},window.addEventListener("popstate",()=>this.handleUrlChange());}handleUrlChange(){this.lastUrl!==location.href&&(this.lastUrl=location.href,this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.callback(),500));}}function u(o,t=5e3){return new Promise((n,e)=>{const a=document.querySelector(o);if(a){n(a);return}const r=new MutationObserver(()=>{const s=document.querySelector(o);s&&(r.disconnect(),clearTimeout(i),n(s));}),i=setTimeout(()=>{r.disconnect(),e(new Error(`Element not found: ${o}`));},t);r.observe(document.body,{childList:true,subtree:true});})}const h='[class*="FooterLinks__Wrapper-sc-"]';async function p(){const o=new c,t=async()=>{try{const e=await u(h);o.create(e);}catch(e){o.remove(),console.error("[Fanbox Floating Menu] Could not display floating menu:",e.message);}};new d(t).start(),t();}p();
+    `}}class u{lastUrl=location.href;callback;debounceTimer=null;constructor(e){this.callback=e;}start(){const e=history.pushState;history.pushState=(...o)=>{e.apply(history,o),this.handleUrlChange();};const t=history.replaceState;history.replaceState=(...o)=>{t.apply(history,o),this.handleUrlChange();},window.addEventListener("popstate",()=>this.handleUrlChange());}handleUrlChange(){this.lastUrl!==location.href&&(this.lastUrl=location.href,this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.callback(),500));}}function p(n,e=5e3){return new Promise((t,o)=>{const a=document.querySelector(n);if(a){t(a);return}const r=new MutationObserver(()=>{const i=document.querySelector(n);i&&(r.disconnect(),clearTimeout(c),t(i));}),c=setTimeout(()=>{r.disconnect(),o(new Error(`Element not found: ${n}`));},e);r.observe(document.body,{childList:true,subtree:true});})}async function h(){const n=new d,e=async()=>{try{const o=await p(s.footerLinksWrapper);n.create(o);}catch(o){n.remove(),console.error("[Fanbox Floating Menu] Could not display floating menu:",o.message);}};new u(e).start(),e();}h();
 
 })();

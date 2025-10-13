@@ -1,8 +1,7 @@
 import { FloatingMenuUI } from './floating-menu-ui';
 import { UrlChangeObserver } from './url-change-observer';
 import { waitForElement } from './wait-for-element';
-
-const ORIGINAL_MENU_SELECTOR = '[class*="FooterLinks__Wrapper-sc-"]';
+import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
 
 /**
  * メイン処理
@@ -16,7 +15,7 @@ async function main() {
   const initOrUpdateMenu = async () => {
     try {
       // Fanboxのフッターにある元のメニューが表示されるのを待つ
-      const originalMenu = await waitForElement(ORIGINAL_MENU_SELECTOR);
+      const originalMenu = await waitForElement(FANBOX_SELECTORS.footerLinksWrapper);
       // 元のメニューを元にフローティングメニューを作成・表示する
       menuUI.create(originalMenu);
     } catch (error) {

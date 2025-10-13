@@ -1,8 +1,6 @@
 import { styles } from './styles';
 import { addStyle } from '@/shared/userscript';
-
-const PAGINATION_SELECTOR = '[class*="Pagination__DesktopWrapper-sc-"]';
-const CONTAINER_SELECTOR = '[class*="CreatorPostList__Wrapper-sc-"]';
+import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
 const TOP_PAGINATION_ID = 'fanbox-pagination-helper-top-pagination';
 
 /**
@@ -19,12 +17,12 @@ export class PaginationUI {
   create(): void {
     this.remove();
 
-    const originalPagination = document.querySelector<HTMLElement>(PAGINATION_SELECTOR);
+    const originalPagination = document.querySelector<HTMLElement>(FANBOX_SELECTORS.paginationWrapper);
     if (!originalPagination) {
       return;
     }
 
-    const container = document.querySelector<HTMLElement>(CONTAINER_SELECTOR);
+    const container = document.querySelector<HTMLElement>(FANBOX_SELECTORS.creatorPostListWrapper);
     if (!container) {
       return;
     }

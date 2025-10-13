@@ -1,4 +1,5 @@
 import { createLogger } from '@/shared/logger';
+import { YOUTUBE_SELECTORS } from '@/shared/constants/youtube';
 
 const logger = createLogger('youtube-info-copier:dom-utils');
 
@@ -9,14 +10,15 @@ const logger = createLogger('youtube-info-copier:dom-utils');
 export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void> {
   const start = Date.now();
 
-  const descriptionSelectors = ['#description', 'ytd-expander#description', '#meta-contents #description', '#meta-contents'];
-  const descriptionEl = descriptionSelectors.map((s) => document.querySelector<HTMLElement>(s)).find(Boolean);
+  const descriptionEl = YOUTUBE_SELECTORS.descriptionCandidates
+    .map((selector) => document.querySelector<HTMLElement>(selector))
+    .find(Boolean);
   if (!descriptionEl) return;
 
   const clickExpandButton = (): boolean => {
     const inlineExpander =
-      descriptionEl.querySelector<HTMLElement>('ytd-text-inline-expander') ||
-      document.querySelector<HTMLElement>('ytd-text-inline-expander#description-inline-expander');
+      descriptionEl.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpander) ||
+      document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpanderById);
 
     if (inlineExpander?.hasAttribute('is-expanded')) {
       return true;
@@ -26,9 +28,9 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
     const candidates: HTMLElement[] = [];
 
     if (inlineExpander) {
-      candidates.push(...Array.from(inlineExpander.querySelectorAll<HTMLElement>('tp-yt-paper-button, button, a')));
+      candidates.push(...Array.from(inlineExpander.querySelectorAll<HTMLElement>(YOUTUBE_SELECTORS.interactiveElements)));
     }
-    candidates.push(...Array.from(document.querySelectorAll<HTMLElement>('tp-yt-paper-button, button, a')));
+    candidates.push(...Array.from(document.querySelectorAll<HTMLElement>(YOUTUBE_SELECTORS.interactiveElements)));
 
     for (const el of candidates) {
       try {
@@ -51,8 +53,8 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
 
   const isExpanded = (): boolean => {
     const inlineExpander =
-      descriptionEl.querySelector<HTMLElement>('ytd-text-inline-expander') ||
-      document.querySelector<HTMLElement>('ytd-text-inline-expander#description-inline-expander');
+      descriptionEl.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpander) ||
+      document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpanderById);
     if (inlineExpander?.hasAttribute('is-expanded')) {
       return true;
     }

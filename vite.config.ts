@@ -23,7 +23,7 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'Notify when ChatGPT generation is complete.',
   author: 'roflsunriz',
   match: [
@@ -48,7 +48,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '5.2.1',
+  version: '5.3.0',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -78,7 +78,7 @@ const danimeMeta: MonkeyUserScript = {
 const fanboxFloatingMenuMeta: MonkeyUserScript = {
   name: 'fanbox-floating-menu',
   namespace: 'fanboxFloatingMenu',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'Fanboxのページ移動用フローティングメニューを追加',
   author: 'roflsunriz',
   match: ['https://*.fanbox.cc/*'],
@@ -93,7 +93,7 @@ const fanboxFloatingMenuMeta: MonkeyUserScript = {
 const fanboxPaginationHelperMeta: MonkeyUserScript = {
   name: 'fanbox-pagination-helper',
   namespace: 'fanboxPaginationHelper',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'Fanboxのページネーションを上部に追加',
   author: 'roflsunriz',
   match: ['https://*.fanbox.cc/*'],
@@ -109,7 +109,7 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.1.0',
+  version: '5.2.0',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -160,7 +160,7 @@ const imageCollectorMeta: MonkeyUserScript = {
 const imgurDirectLinkCopierMeta: MonkeyUserScript = {
   name: 'imgur-image-link-copier',
   namespace: 'imgurImageLinkCopier',
-  version: '3.0.1',
+  version: '3.1.0',
   description: 'Copy image link from Imgur with TypeScript.',
   author: 'roflsunriz',
   match: ['https://imgur.com/*'],
@@ -175,7 +175,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.4.2',
+  version: '10.5.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -224,7 +224,7 @@ const mangaViewerMeta: MonkeyUserScript = {
 const twitterFullSizeImageMeta: MonkeyUserScript = {
   name: 'twitter-image-fullsize-redirect',
   namespace: 'twitterImageFullsizeRedirect',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト',
   author: 'roflsunriz',
   match: [
@@ -242,7 +242,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterMediaFilterMeta: MonkeyUserScript = {
   name: 'twitter-media-filter',
   namespace: 'twitterMediaFilter',
-  version: '2.1.0',
+  version: '2.2.0',
   description: 'タイムライン/リスト/詳細ページで画像/動画を含まないツイートを非表示にする',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -258,7 +258,7 @@ const twitterMediaFilterMeta: MonkeyUserScript = {
 const twitterMuteFilterMeta: MonkeyUserScript = {
   name: 'twitter-mute-filter',
   namespace: 'twitterMuteFilter',
-  version: '2.1.0',
+  version: '2.2.0',
   description: '正規表現対応の強力なミュートフィルターをTwitter/Xに追加します。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -274,7 +274,7 @@ const twitterMuteFilterMeta: MonkeyUserScript = {
 const twitterMuteRetweetsMeta: MonkeyUserScript = {
   name: 'twitter-mute-retweets',
   namespace: 'twitterMuteRetweets',
-  version: '2.1.0',
+  version: '2.2.0',
   description: '閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする',
   author: 'roflsunriz',
   match: ['https://x.com/*'],
@@ -290,7 +290,7 @@ const twitterMuteRetweetsMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '5.8.0',
+  version: '5.9.0',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
@@ -316,7 +316,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const twitterWideLayoutFixMeta: MonkeyUserScript = {
   name: 'twitter-wide-layout-fix',
   namespace: 'twitterWideLayoutFix',
-  version: '2.0.1',
+  version: '2.1.0',
   description: 'Adjusts Twitter layout width using class and XPath selectors',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -331,7 +331,7 @@ const twitterWideLayoutFixMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.1.0',
+  version: '2.2.0',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],

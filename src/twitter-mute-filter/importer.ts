@@ -1,4 +1,5 @@
 import { createLogger } from '@/shared/logger';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-mute-filter');
 
@@ -26,9 +27,7 @@ export async function fetchTwitterMuteKeywords(): Promise<string[] | null> {
 
     const collectVisibleKeywords = (): number => {
       let foundCount = 0;
-      const keywordSpans = document.querySelectorAll<HTMLElement>(
-        "div[role='link'] > div > div[dir='ltr']:first-child > span",
-      );
+      const keywordSpans = document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.muteKeywordSpan);
 
       keywordSpans.forEach((span) => {
         const keywordValue = span.textContent?.trim();

@@ -1,5 +1,6 @@
 import { settings } from './settings';
 import { createLogger } from '@/shared/logger';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-mute-retweets');
 
@@ -23,7 +24,7 @@ export function removeRetweets(): void {
   if (!settings.enabled) return;
 
   // リツイートを示す要素を持つツイートを探して非表示にする
-  const retweetIndicators = document.querySelectorAll<HTMLElement>('.r-15zivkp');
+  const retweetIndicators = document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.retweetIndicator);
   logger.debug(`${retweetIndicators.length}個のリツイートインジケータが見つかりました。`);
 
   retweetIndicators.forEach((indicator) => {

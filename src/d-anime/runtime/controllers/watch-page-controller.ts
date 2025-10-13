@@ -7,8 +7,8 @@ import { NicoApiFetcher } from "../services/nico-api-fetcher";
 import { VideoSwitchHandler } from "../services/video-switch-handler";
 import { DebounceExecutor } from "../utils/debounce-executor";
 import type { DanimeGlobal } from "../globals";
+import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 
-const VIDEO_SELECTOR = "video#video";
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
 const SWITCH_COOLDOWN_MS = 3000;
@@ -41,8 +41,9 @@ export class WatchPageController {
       return;
     }
 
-    const videoElement =
-      document.querySelector<HTMLVideoElement>(VIDEO_SELECTOR);
+    const videoElement = document.querySelector<HTMLVideoElement>(
+      DANIME_SELECTORS.watchVideoElement,
+    );
     if (!videoElement) {
       window.setTimeout(
         () => this.waitForVideoElement(),

@@ -1,7 +1,6 @@
 import { PaginationUI } from './pagination-ui';
 import { UrlChangeObserver } from './url-change-observer';
-
-const PAGINATION_SELECTOR = '[class*="Pagination__DesktopWrapper-sc-"]';
+import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
 
 /**
  * メイン処理
@@ -23,7 +22,7 @@ function main() {
 
   // MutationObserverでページネーションの出現を監視
   // PAGINATION_SELECTORの要素を監視するように変更
-  const target = document.querySelector(PAGINATION_SELECTOR);
+  const target = document.querySelector(FANBOX_SELECTORS.paginationWrapper);
   if (target) {
     const observer = new MutationObserver(initOrUpdatePagination);
     observer.observe(target, { childList: true, subtree: true });

@@ -1,3 +1,5 @@
+import { IMGUR_SELECTORS } from '@/shared/constants/imgur';
+
 export type MediaEntry = {
   url: string;
   wrapper: HTMLElement;
@@ -7,7 +9,7 @@ export type MediaEntry = {
  * ページ上のすべてのメディア（画像・動画）のURLとラッパー要素を取得します。
  */
 export function getMediaEntries(): MediaEntry[] {
-  const mediaWrappers = document.querySelectorAll<HTMLElement>('.PostContent-imageWrapper');
+  const mediaWrappers = document.querySelectorAll<HTMLElement>(IMGUR_SELECTORS.mediaWrapper);
   const entries: MediaEntry[] = [];
 
   mediaWrappers.forEach((wrapper) => {

@@ -1,3 +1,5 @@
+import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
+
 const CONTAINER_ID = 'fanbox-floating-menu-container';
 
 /**
@@ -46,6 +48,7 @@ export class FloatingMenuUI {
    * @returns CSSスタイル文字列
    */
   private getStyle(): string {
+    const { footerPrevLink, footerNextLink } = FANBOX_SELECTORS;
     return `
       .floating-menu {
           position: fixed;
@@ -62,8 +65,8 @@ export class FloatingMenuUI {
           gap: 10px;
       }
       .floating-menu a,
-      .floating-menu div[class*="FooterLinks__PrevPostWrapper-sc-"],
-      .floating-menu div[class*="FooterLinks__NextPostWrapper-sc-"] {
+      .floating-menu ${footerPrevLink},
+      .floating-menu ${footerNextLink} {
           padding: 5px 10px;
           border-radius: 3px;
           text-decoration: none;
@@ -71,8 +74,8 @@ export class FloatingMenuUI {
           transition: background-color 0.2s;
       }
       .floating-menu a:hover,
-      .floating-menu div[class*="FooterLinks__PrevPostWrapper-sc-"]:hover,
-      .floating-menu div[class*="FooterLinks__NextPostWrapper-sc-"]:hover {
+      .floating-menu ${footerPrevLink}:hover,
+      .floating-menu ${footerNextLink}:hover {
           background-color: rgba(0,0,0,0.1);
       }
     `;

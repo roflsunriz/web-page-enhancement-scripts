@@ -1,3 +1,5 @@
+import { CHATGPT_SELECTORS } from "@/shared/constants/chatgpt";
+
 const observer = new MutationObserver((mutations) => {
   for (const mutation of mutations) {
     for (let i = 0; i < mutation.addedNodes.length; i++) {
@@ -5,9 +7,7 @@ const observer = new MutationObserver((mutations) => {
       if (!(node instanceof HTMLElement)) continue;
 
       // 終端要素が追加されたら終端と判断
-      if (
-        node.querySelector('[data-testid="good-response-turn-action-button"]')
-      ) {
+      if (node.querySelector(CHATGPT_SELECTORS.goodResponseButton)) {
         // コールバックが設定されていれば実行
         observerCallback?.();
         return; // 一度通知したらここで終了

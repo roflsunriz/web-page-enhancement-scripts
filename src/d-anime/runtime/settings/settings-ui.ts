@@ -14,6 +14,7 @@ import {
 } from "../services/nico-video-searcher";
 import { createLogger } from "@/shared/logger";
 import { svgComment, svgLock, svgPalette } from "@/shared/icons/mdi";
+import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 
 const logger = createLogger("dAnime:SettingsUI");
 
@@ -72,7 +73,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   insertIntoMypage(): void {
-    const target = document.querySelector(".p-mypageHeader__title");
+    const target = document.querySelector(DANIME_SELECTORS.mypageHeaderTitle);
     if (!target) {
       return;
     }
@@ -81,9 +82,11 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   addAutoCommentButtons(): void {
-    const items = document.querySelectorAll<HTMLDivElement>(".itemModule.list");
+    const items = document.querySelectorAll<HTMLDivElement>(
+      DANIME_SELECTORS.mypageItem,
+    );
     items.forEach((item) => {
-      const titleElement = item.querySelector(".line1");
+      const titleElement = item.querySelector(DANIME_SELECTORS.mypageItemTitle);
       if (
         !titleElement ||
         titleElement.querySelector(".auto-comment-button-host")
@@ -94,9 +97,13 @@ export class SettingsUI extends ShadowDOMComponent {
       const title =
         titleElement.querySelector("span")?.textContent?.trim() ?? "";
       const episodeNumber =
-        item.querySelector(".number.line1 span")?.textContent?.trim() ?? "";
+        item
+          .querySelector(DANIME_SELECTORS.mypageEpisodeNumber)
+          ?.textContent?.trim() ?? "";
       const episodeTitle =
-        item.querySelector(".episode.line1 span")?.textContent?.trim() ?? "";
+        item
+          .querySelector(DANIME_SELECTORS.mypageEpisodeTitle)
+          ?.textContent?.trim() ?? "";
 
       const buttonHost = document.createElement("div");
       buttonHost.className =

@@ -2,6 +2,7 @@ import { logger } from "./logger.js";
 import { state } from "./state.js";
 import { xmlHttpRequest } from "@/shared/userscript";
 import type { TweetData, QuotedTweet } from "@/shared/types";
+import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
 
 // ツイートとリプライを収集
 export async function scrapeTweets(): Promise<TweetData[]> {
@@ -22,9 +23,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
       if (shouldStopCollecting) return;
 
       const tweetElements = Array.from(
-        document.querySelectorAll<HTMLElement>(
-          'article[data-testid="tweet"]',
-        ),
+        document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article),
       );
 
       // 最初のツイートの著者のユーザー名を取得
@@ -36,7 +35,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
       for (const tweetElement of tweetElements) {
         // ツイートのIDを取得
         const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
-          'a[href*="/status/"]',
+          TWITTER_SELECTORS.statusLink,
         );
         if (!tweetLink) {
           continue;
@@ -71,7 +70,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
 
         // ツイート本文
         const tweetTextElement = tweetElement.querySelector<HTMLElement>(
-          'div[data-testid="tweetText"]',
+          TWITTER_SELECTORS.tweetText,
         );
         let tweetText = "";
 
@@ -219,7 +218,7 @@ function getUsernameHandle(tweetElement: HTMLElement): string {
       return handleSpan.textContent.trim();
     }
     const userLinks = Array.from(
-      tweetElement.querySelectorAll('a[role="link"][href^="/"]'),
+      tweetElement.querySelectorAll(TWITTER_SELECTORS.userLink),
     );
     for (const link of userLinks) {
       try {
@@ -237,7 +236,7 @@ function getUsernameHandle(tweetElement: HTMLElement): string {
       }
     }
     const userNameArea = tweetElement.querySelector(
-      'div[data-testid="User-Name"]',
+      TWITTER_SELECTORS.userName,
     );
     if (userNameArea) {
       const allUserNameSpans = userNameArea.querySelectorAll("span");
@@ -263,7 +262,7 @@ function getDisplayName(tweetElement: HTMLElement): string {
   // ... (Implementation from legacy.ts)
   try {
     const userNameElement = tweetElement.querySelector(
-      'div[data-testid="User-Name"] a[role="link"] span',
+      TWITTER_SELECTORS.userNameLinkSpan,
     );
     return userNameElement && userNameElement.textContent
       ? userNameElement.textContent.trim()
@@ -277,13 +276,14 @@ function getDisplayName(tweetElement: HTMLElement): string {
 async function getQuotedTweet(tweetElement: HTMLElement): Promise<QuotedTweet | null> {
   // ... (Implementation from legacy.ts)
   const quotedTweetElement = tweetElement.querySelector(
-    '[data-testid="tweetQuotedLink"]',
+    TWITTER_SELECTORS.quotedLink,
   );
   let foundQuotedTweet: QuotedTweet | null = null;
   if (quotedTweetElement) {
-    try { // This try-catch is fine
-      const quotedTweetContainer =
-        quotedTweetElement.closest('div[role="link"]');
+    try {
+      const quotedTweetContainer = quotedTweetElement.closest(
+        TWITTER_SELECTORS.roleLink,
+      );
       if (quotedTweetContainer) {
         foundQuotedTweet = await extractQuotedTweetInfo(
           quotedTweetContainer as HTMLElement,
@@ -299,8 +299,9 @@ async function getQuotedTweet(tweetElement: HTMLElement): Promise<QuotedTweet | 
         tweetText.includes("引用") ||
         tweetText.includes("Quote") ||
         tweetText.includes("quote");
-      const linkElements =
-        tweetElement.querySelectorAll<HTMLElement>('div[role="link"]');
+      const linkElements = tweetElement.querySelectorAll<HTMLElement>(
+        TWITTER_SELECTORS.roleLink,
+      );
       if (linkElements.length > 0 && hasQuoteKeyword) {
         for (let i = 0; i < linkElements.length; i++) {
           const element = linkElements[i];
@@ -336,20 +337,20 @@ async function extractQuotedTweetInfo(
 ): Promise<QuotedTweet | null> {
   // ... (Implementation from legacy.ts)
   const quotedAuthorElement = quotedTweetContainer.querySelector(
-    'div[dir="ltr"] > span',
+    TWITTER_SELECTORS.quotedAuthor,
   );
   const quotedAuthor = quotedAuthorElement
     ? quotedAuthorElement.textContent.trim()
     : "";
   const quotedHandleElement = quotedTweetContainer.querySelector(
-    'div[dir="ltr"] span:nth-child(2)',
+    TWITTER_SELECTORS.quotedHandle,
   );
   const quotedHandle = quotedHandleElement
     ? quotedHandleElement.textContent.trim()
     : "";
   let quotedText = "";
   const quotedTextElement = quotedTweetContainer.querySelector(
-    'div[data-testid="tweetText"]',
+    TWITTER_SELECTORS.tweetText,
   );
   if (quotedTextElement) {
     quotedText = await getTweetFullText(quotedTextElement as HTMLElement); // Error 2 fix
@@ -374,11 +375,11 @@ async function extractQuotedTweetInfo(
   }
   const quotedMediaUrls: string[] = [];
   const quotedPhotoElements = quotedTweetContainer.querySelectorAll<HTMLElement>(
-    '[data-testid="tweetPhoto"]',
+    TWITTER_SELECTORS.tweetPhoto,
   );
   quotedPhotoElements.forEach((photoElement) => {
     const imgElement = photoElement.querySelector<HTMLImageElement>(
-      'img[src*="pbs.twimg.com/media"]',
+      TWITTER_SELECTORS.tweetMediaImage,
     );
     if (imgElement) {
       const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -389,10 +390,10 @@ async function extractQuotedTweetInfo(
   });
   if (quotedMediaUrls.length === 0) {
     const groupElements =
-      quotedTweetContainer.querySelectorAll<HTMLElement>('[role="group"]');
+      quotedTweetContainer.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.roleGroup);
     groupElements.forEach((groupElement) => {
       const imgElements = groupElement.querySelectorAll<HTMLImageElement>(
-        'img[src*="pbs.twimg.com/media"]',
+        TWITTER_SELECTORS.tweetMediaImage,
       );
       imgElements.forEach((imgElement) => {
         const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -402,7 +403,7 @@ async function extractQuotedTweetInfo(
       });
     });
     const imgElements = quotedTweetContainer.querySelectorAll<HTMLImageElement>(
-      'img[src*="pbs.twimg.com/media"]',
+      TWITTER_SELECTORS.tweetMediaImage,
     );
     imgElements.forEach((imgElement) => {
       const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -414,7 +415,7 @@ async function extractQuotedTweetInfo(
   let quotedTweetId = "";
   let quotedTweetUrl = "";
   const quotedLinks = quotedTweetContainer.querySelectorAll<HTMLAnchorElement>(
-    'a[href*="/status/"]',
+    TWITTER_SELECTORS.statusLink,
   );
   for (const link of Array.from(quotedLinks)) {
     const href = link.href;
@@ -446,11 +447,11 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
   // ... (Implementation from legacy.ts)
   const mediaUrls: string[] = [];
   const photoElements = tweetElement.querySelectorAll<HTMLElement>(
-    '[data-testid="tweetPhoto"]',
+    TWITTER_SELECTORS.tweetPhoto,
   );
   photoElements.forEach((photoElement) => {
     const imgElement = photoElement.querySelector<HTMLImageElement>(
-      'img[src*="pbs.twimg.com/media"]',
+      TWITTER_SELECTORS.tweetMediaImage,
     );
     if (imgElement) {
       const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -475,7 +476,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
           }
         }
         const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
-          'a[href*="/status/"]'
+          TWITTER_SELECTORS.statusLink,
         );
         if (tweetLink) {
           const hrefParts = tweetLink.href.split("/");
@@ -523,7 +524,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
         }
       } else if (sourceElement.src && sourceElement.src.startsWith("blob:")) {
         const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
-          'a[href*="/status/"]',
+          TWITTER_SELECTORS.statusLink,
         );
         if (tweetLink) {
           const hrefParts = tweetLink.href.split("/");
@@ -541,10 +542,10 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
   });
   if (mediaUrls.length === 0) {
     const groupElements =
-      tweetElement.querySelectorAll<HTMLElement>('[role="group"]');
+      tweetElement.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.roleGroup);
     groupElements.forEach((groupElement) => {
       const imgElements = groupElement.querySelectorAll<HTMLImageElement>(
-        'img[src*="pbs.twimg.com/media"]',
+        TWITTER_SELECTORS.tweetMediaImage,
       );
       imgElements.forEach((imgElement) => {
         const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -556,7 +557,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
   }
   if (mediaUrls.length === 0) {
     const imgElements = tweetElement.querySelectorAll<HTMLImageElement>(
-      'img[src*="pbs.twimg.com/media"]',
+      TWITTER_SELECTORS.tweetMediaImage,
     );
     imgElements.forEach((imgElement) => {
       const mediaUrl = getHighQualityMediaUrl(imgElement.src);
@@ -737,7 +738,7 @@ async function expandTruncatedTweets(): Promise<number> {
   // ... (Implementation from legacy.ts)
   try {
     const expandButtons = document.querySelectorAll<HTMLElement>(
-      '[data-testid="tweet"] [role="button"]',
+      TWITTER_SELECTORS.tweetButtonsWithinArticle,
     );
     let expandedCount = 0;
     for (const button of Array.from(expandButtons)) {
@@ -752,7 +753,7 @@ async function expandTruncatedTweets(): Promise<number> {
           const isExpandButton =
             !button.hasAttribute("href") &&
             !button.querySelector("a") &&
-            button.closest('[data-testid="tweet"]');
+            button.closest(TWITTER_SELECTORS.tweetRoot);
           if (isExpandButton && button.click) {
             button.click();
             expandedCount++;

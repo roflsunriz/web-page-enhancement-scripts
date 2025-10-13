@@ -1,6 +1,7 @@
 import { createLogger } from '@/shared/logger';
 import { settings } from './settings';
 import { getPageType } from './observer';
+import { TWITTER_MEDIA_CARD_SELECTORS, TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-media-filter');
 
@@ -33,14 +34,7 @@ function isEnabledForCurrentPage(): boolean {
  * @returns {boolean} メディアが含まれている場合はtrue。
  */
 function hasTweetMedia(tweetElement: HTMLElement): boolean {
-  const mediaSelectors = [
-    'div[data-testid="tweetPhoto"]',
-    'div[data-testid="videoPlayer"]',
-    'div[data-testid="card.layoutSmall.media"]',
-    'div[data-testid="card.layoutLarge.media"]',
-  ];
-
-  return mediaSelectors.some((selector) => tweetElement.querySelector(selector));
+  return TWITTER_MEDIA_CARD_SELECTORS.some((selector) => tweetElement.querySelector(selector));
 }
 
 /**
@@ -53,7 +47,7 @@ export function processTimeline(): void {
 
   logger.info('タイムライン処理開始');
 
-  const tweets = document.querySelectorAll<HTMLElement>('article[data-testid="tweet"]');
+  const tweets = document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article);
 
   tweets.forEach((tweet) => {
     if (tweet.hasAttribute('data-media-filter-processed')) return;

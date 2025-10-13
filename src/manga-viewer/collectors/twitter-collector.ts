@@ -1,6 +1,7 @@
 import type { LoadingSpinner } from '../ui/loading-spinner';
 import { ICollector, CollectionResult } from './i-collector';
 import { win } from '../util';
+import { TWITTER_IMAGE_SOURCE_SELECTOR } from '@/shared/constants/twitter';
 
 /**
  * Twitter/Xから画像を収集するためのコレクター。
@@ -31,8 +32,7 @@ export class TwitterCollector implements ICollector {
   }
 
   private collectVisibleImages(collectedUrls: Set<string>): void {
-    const selector = 'img[src*="pbs.twimg.com/media"], img[src*="ton.twimg.com/media"]';
-    document.querySelectorAll(selector).forEach((img) => {
+    document.querySelectorAll(TWITTER_IMAGE_SOURCE_SELECTOR).forEach((img) => {
       const imageUrl = this.processTwitterImageUrl((img as HTMLImageElement).src);
       if (imageUrl && imageUrl.startsWith('http')) {
         collectedUrls.add(imageUrl);

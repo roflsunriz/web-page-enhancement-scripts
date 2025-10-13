@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         fanbox-pagination-helper
 // @namespace    fanboxPaginationHelper
-// @version      2.0.1
+// @version      2.1.0
 // @author       roflsunriz
 // @description  Fanboxのページネーションを上部に追加
 // @license      MIT

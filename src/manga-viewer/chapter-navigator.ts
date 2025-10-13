@@ -1,3 +1,5 @@
+import { MANGA_NAVIGATION_SELECTORS } from '@/shared/constants/manga';
+
 export class ChapterNavigator {
   private prevChapterSelectors: string[];
   private nextChapterSelectors: string[];
@@ -5,12 +7,10 @@ export class ChapterNavigator {
 
   constructor() {
     this.prevChapterSelectors = [
-      '.nav-button.prev',
-      '.rd_sd-button_item.rd_top-left',
+      ...MANGA_NAVIGATION_SELECTORS.defaultPrev,
     ];
     this.nextChapterSelectors = [
-      '.nav-button.next',
-      '.rd_sd-button_item.rd_top-right',
+      ...MANGA_NAVIGATION_SELECTORS.defaultNext,
     ];
 
     // nicomanga系ドメイン向けの優先セレクタを先頭に追加
@@ -18,18 +18,10 @@ export class ChapterNavigator {
     const isNicoManga = /nicomanga\.com$/.test(h) || /nico.*manga/.test(h);
     if (isNicoManga) {
       this.prevChapterSelectors.unshift(
-        'a[rel="prev"]',
-        'link[rel="prev"]',
-        '.pager__item--prev a',
-        'a.pager-prev',
-        'a[aria-label="前へ"]',
+        ...MANGA_NAVIGATION_SELECTORS.nicoPrevPriority,
       );
       this.nextChapterSelectors.unshift(
-        'a[rel="next"]',
-        'link[rel="next"]',
-        '.pager__item--next a',
-        'a.pager-next',
-        'a[aria-label="次へ"]',
+        ...MANGA_NAVIGATION_SELECTORS.nicoNextPriority,
       );
     }
   }
