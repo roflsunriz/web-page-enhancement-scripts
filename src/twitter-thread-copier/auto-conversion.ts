@@ -36,6 +36,11 @@ const GALLON_REGEX = new RegExp(
   "gu",
 );
 
+const POWER_REGEX = new RegExp(
+  `(?<amount>${COMPOSITE_NUMBER_PATTERN})\\s*(?<unit>(?:[kKｋＫmMｍＭgGｇＧtTｔＴ]?[wWｗＷ]|(?:キロ|メガ|ギガ|テラ)ワット))(?![A-Za-zａ-ｚＡ-Ｚ])`,
+  "gu",
+);
+
 const LETTER_SUFFIX_REGEX = new RegExp(
   `(?<prefix>約|およそ|ほぼ)?\\s*(?<amount>${COMPOSITE_NUMBER_PATTERN})\\s*(?<unit>[kKｋＫmMｍＭgGｇＧtTｔＴbBｂＢ])(?!(?:[A-Za-zａ-ｚＡ-Ｚ]))`,
   "gu",
@@ -93,6 +98,23 @@ export function applyAutoConversions(text: string): string {
     GALLON_REGEX,
     ["リットル", "l", "L", "ℓ"],
     (amount) => `${formatMeasurement(amount * GALLON_TO_LITER)}リットル`,
+  );
+  result = appendConversion(
+    result,
+    POWER_REGEX,
+    ["ワット", "W", "w", "Ｗ", "ｗ"],
+    (amount, groups, context) => {
+      const unit = groups.unit ?? "";
+      if (shouldSkipPowerConversion(context)) {
+        return null;
+      }
+      const multiplier = getPowerUnitMultiplier(unit);
+      if (multiplier === null) {
+        return null;
+      }
+      const watts = amount * multiplier;
+      return formatJapaneseLargeNumber(watts, "ワット");
+    },
   );
   result = appendConversion(
     result,
@@ -438,6 +460,67 @@ function formatNumberWithPrecision(
     maximumFractionDigits: fractionDigits,
     minimumFractionDigits: 0,
   }).format(adjustedValue);
+}
+
+function getPowerUnitMultiplier(rawUnit: string): number | null {
+  if (!rawUnit) {
+    return null;
+  }
+  const normalized = rawUnit
+    .replace(/[Ａ-Ｚａ-ｚ]/gu, (char) =>
+      String.fromCharCode(char.charCodeAt(0) - 0xfee0),
+    )
+    .replace(/\s+/gu, "");
+
+  if (normalized.length === 0) {
+    return null;
+  }
+
+  const uppercase = normalized.toUpperCase();
+  const firstChar = normalized[0];
+
+  if (
+    uppercase === "KW" &&
+    (firstChar === "K" || firstChar === "k")
+  ) {
+    return 1_000;
+  }
+
+  if (uppercase === "MW" && firstChar === "M") {
+    return 1_000_000;
+  }
+
+  if (uppercase === "GW" && firstChar === "G") {
+    return 1_000_000_000;
+  }
+
+  if (uppercase === "TW" && firstChar === "T") {
+    return 1_000_000_000_000;
+  }
+
+  if (uppercase === "W" && (firstChar === "W" || firstChar === "w")) {
+    return 1;
+  }
+
+  switch (normalized) {
+    case "ワット":
+      return 1;
+    case "キロワット":
+      return 1_000;
+    case "メガワット":
+      return 1_000_000;
+    case "ギガワット":
+      return 1_000_000_000;
+    case "テラワット":
+      return 1_000_000_000_000;
+    default:
+      return null;
+  }
+}
+
+function shouldSkipPowerConversion(context: ConversionContext): boolean {
+  const nextChar = context.text.slice(context.endIndex, context.endIndex + 1);
+  return nextChar === "時";
 }
 
 function getUnitMultiplier(rawUnit: string): number | null {
