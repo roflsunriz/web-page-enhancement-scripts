@@ -1,4 +1,5 @@
 import { logger } from "./logger.js";
+import { applyAutoConversions } from "./auto-conversion.js";
 import type { TweetData } from "@/shared/types";
 import { notify } from "@/shared/userscript";
 import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
@@ -75,11 +76,15 @@ export async function translateTweets(
       const { text: translatedText, provider } = await translateSingleSegment(
         segment.original,
       );
-      segment.translated = translatedText;
+      const processedText =
+        provider === "none"
+          ? translatedText
+          : applyAutoConversions(translatedText);
+      segment.translated = processedText;
       if (provider === "local") {
         usedLocalAiTranslation = true;
       }
-      if (!hasTranslation && translatedText !== segment.original) {
+      if (!hasTranslation && processedText !== segment.original) {
         hasTranslation = true;
       }
     } catch (error) {
