@@ -8,10 +8,7 @@ const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const GOOGLE_TRANSLATE_ENDPOINT = GOOGLE_TRANSLATE_API_URL;
 
 const LOCAL_AI_SYSTEM_PROMPT =
-  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text. " +
-  "Additionally, perform the following unit conversions within the text: " +
-  "1. Convert US dollars to Japanese Yen (e.g., $100 -> 100ドル(15,000円)). Use the rate 1 USD = 150 JPY. " +
-  "2. Convert imperial units to metric units: 1 yard = 0.9144 meters, 1 pound = 0.453592 kilograms, 1 US gallon = 3.78541 liters.";
+  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
 const ZERO_WIDTH_CHARS_REGEX = /(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g;
 

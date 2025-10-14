@@ -36,6 +36,16 @@ const GALLON_REGEX = new RegExp(
   "gu",
 );
 
+const LETTER_SUFFIX_REGEX = new RegExp(
+  `(?<prefix>約|およそ|ほぼ)?\\s*(?<amount>${COMPOSITE_NUMBER_PATTERN})\\s*(?<unit>[kKｋＫmMｍＭgGｇＧtTｔＴbBｂＢ])(?!(?:[A-Za-zａ-ｚＡ-Ｚ]))`,
+  "gu",
+);
+
+const TEXTUAL_SUFFIX_REGEX = new RegExp(
+  `(?<prefix>約|およそ|ほぼ)?\\s*(?<amount>${COMPOSITE_NUMBER_PATTERN})\\s*(?<unit>ミリオン|ビリオン|トリリオン|キロ|メガ|ギガ|テラ|million|Million|billion|Billion|trillion|Trillion|kilo|Kilo|mega|Mega|giga|Giga|tera|Tera)(?!(?:[A-Za-zａ-ｚＡ-Ｚ]))`,
+  "gu",
+);
+
 type NamedGroups = Record<string, string | undefined>;
 
 interface ParenthesesInfo {
@@ -44,6 +54,14 @@ interface ParenthesesInfo {
   closeChar: ")" | "）";
   inside: string;
   endIndex: number;
+}
+
+interface ConversionContext {
+  text: string;
+  match: RegExpMatchArray;
+  startIndex: number;
+  endIndex: number;
+  followingParentheses: ParenthesesInfo | null;
 }
 
 export function applyAutoConversions(text: string): string {
@@ -76,6 +94,38 @@ export function applyAutoConversions(text: string): string {
     ["リットル", "l", "L", "ℓ"],
     (amount) => `${formatMeasurement(amount * GALLON_TO_LITER)}リットル`,
   );
+  result = appendConversion(
+    result,
+    LETTER_SUFFIX_REGEX,
+    ["万", "億", "兆"],
+    (amount, groups, context) => {
+      const unit = groups.unit ?? "";
+      const multiplier = getUnitMultiplier(unit);
+      if (multiplier === null) {
+        return null;
+      }
+      if (shouldSkipDueToFollowingWord(unit, context)) {
+        return null;
+      }
+      return formatJapaneseLargeNumber(amount * multiplier);
+    },
+  );
+  result = appendConversion(
+    result,
+    TEXTUAL_SUFFIX_REGEX,
+    ["万", "億", "兆"],
+    (amount, groups, context) => {
+      const unit = groups.unit ?? "";
+      const multiplier = getUnitMultiplier(unit);
+      if (multiplier === null) {
+        return null;
+      }
+      if (shouldSkipDueToFollowingWord(unit, context)) {
+        return null;
+      }
+      return formatJapaneseLargeNumber(amount * multiplier);
+    },
+  );
 
   return result;
 }
@@ -84,7 +134,11 @@ function appendConversion(
   text: string,
   regex: RegExp,
   keywords: readonly string[],
-  converter: (amount: number, groups: NamedGroups) => string | null,
+  converter: (
+    amount: number,
+    groups: NamedGroups,
+    context: ConversionContext,
+  ) => string | null,
 ): string {
   const matches = [...text.matchAll(regex)];
   if (matches.length === 0) {
@@ -134,8 +188,15 @@ function appendConversion(
       continue;
     }
 
-    const convertedValue = converter(parsedAmount, groups);
-    if (!convertedValue) {
+    const context: ConversionContext = {
+      text,
+      match,
+      startIndex,
+      endIndex,
+      followingParentheses,
+    };
+    const convertedValue = converter(parsedAmount, groups, context);
+    if (convertedValue === null) {
       result += match[0];
       if (followingParentheses) {
         result +=
@@ -240,6 +301,19 @@ function isWhitespaceCharacter(char: string): boolean {
   return /\s/u.test(char);
 }
 
+function shouldSkipDueToFollowingWord(
+  rawUnit: string,
+  context: ConversionContext,
+): boolean {
+  if (!isMetricPrefix(rawUnit)) {
+    return false;
+  }
+  const nextSlice = context.text.slice(context.endIndex, context.endIndex + 6);
+  return /^(?:バイト|ビット|ヘルツ|メートル|リットル|グラム|ワット|ジュール|パスカル|ボルト|アンペア)/u.test(
+    nextSlice,
+  );
+}
+
 function parseJapaneseNumericString(raw: string): number | null {
   if (!raw) {
     return null;
@@ -305,12 +379,12 @@ function getJapaneseUnitMultiplier(unit: string): number {
   }
 }
 
-function formatYen(amount: number): string {
+function formatJapaneseLargeNumber(amount: number, suffix = ""): string {
   const absAmount = Math.abs(amount);
   const units = [
-    { threshold: 1_000_000_000_000, divisor: 1_000_000_000_000, suffix: "兆円" },
-    { threshold: 100_000_000, divisor: 100_000_000, suffix: "億円" },
-    { threshold: 10_000, divisor: 10_000, suffix: "万円" },
+    { threshold: 1_000_000_000_000, divisor: 1_000_000_000_000, suffix: `兆${suffix}` },
+    { threshold: 100_000_000, divisor: 100_000_000, suffix: `億${suffix}` },
+    { threshold: 10_000, divisor: 10_000, suffix: `万${suffix}` },
   ];
 
   for (const unit of units) {
@@ -320,7 +394,14 @@ function formatYen(amount: number): string {
     }
   }
 
-  return `${formatNumberWithPrecision(amount)}円`;
+  if (suffix.length > 0) {
+    return `${formatNumberWithPrecision(amount)}${suffix}`;
+  }
+  return formatNumberWithPrecision(amount);
+}
+
+function formatYen(amount: number): string {
+  return formatJapaneseLargeNumber(amount, "円");
 }
 
 function formatMeasurement(value: number): string {
@@ -357,4 +438,65 @@ function formatNumberWithPrecision(
     maximumFractionDigits: fractionDigits,
     minimumFractionDigits: 0,
   }).format(adjustedValue);
+}
+
+function getUnitMultiplier(rawUnit: string): number | null {
+  const normalized = rawUnit
+    .replace(/[Ａ-Ｚａ-ｚ]/gu, (char) =>
+      String.fromCharCode(char.charCodeAt(0) - 0xfee0),
+    )
+    .trim()
+    .toLowerCase();
+
+  switch (normalized) {
+    case "k":
+    case "kilo":
+    case "キロ":
+      return 1_000;
+    case "m":
+    case "mega":
+    case "million":
+    case "ミリオン":
+    case "メガ":
+      return 1_000_000;
+    case "b":
+    case "billion":
+    case "g":
+    case "giga":
+    case "ビリオン":
+    case "ギガ":
+      return 1_000_000_000;
+    case "t":
+    case "tera":
+    case "trillion":
+    case "テラ":
+    case "トリリオン":
+      return 1_000_000_000_000;
+    default:
+      return null;
+  }
+}
+
+function isMetricPrefix(rawUnit: string): boolean {
+  const normalized = rawUnit
+    .replace(/[Ａ-Ｚａ-ｚ]/gu, (char) =>
+      String.fromCharCode(char.charCodeAt(0) - 0xfee0),
+    )
+    .trim()
+    .toLowerCase();
+
+  return (
+    normalized === "k" ||
+    normalized === "kilo" ||
+    normalized === "キロ" ||
+    normalized === "m" ||
+    normalized === "mega" ||
+    normalized === "メガ" ||
+    normalized === "g" ||
+    normalized === "giga" ||
+    normalized === "ギガ" ||
+    normalized === "t" ||
+    normalized === "tera" ||
+    normalized === "テラ"
+  );
 }
