@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.8.2 - 2025-10-27
+### 変更
+- `d-anime-nico-comment-renderer.user.js`
+ - コメントエンジンをdanmakuに委譲しました。
+
 ## v1.8.1 - 2025-10-26
 ### 追加
 - `d-anime-nico-comment-renderer.user.js`
