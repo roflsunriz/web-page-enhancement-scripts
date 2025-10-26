@@ -5,6 +5,7 @@ import type { Notifier, NotificationType } from "./notification";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
+const LAST_DANIME_IDS_KEY = "lastDanimeIds";
 
 type SettingsObserver = (settings: RendererSettings) => void;
 
@@ -160,6 +161,32 @@ export class SettingsManager {
 
   getCurrentVideo(): VideoMetadata | null {
     return this.currentVideo ? { ...this.currentVideo } : null;
+  }
+
+  // --- 追加: dアニメの厳密な識別 (workId, partId) の保存/復元 ---
+  saveLastDanimeIds(ids: { workId: string; partId: string }): boolean {
+    try {
+      GM_setValue(LAST_DANIME_IDS_KEY, ids);
+      return true;
+    } catch (e) {
+      console.error("[SettingsManager] saveLastDanimeIds failed", e);
+      this.notify("ID情報の保存に失敗しました", "error");
+      return false;
+    }
+  }
+
+  loadLastDanimeIds(): { workId: string; partId: string } | null {
+    try {
+      const ids = GM_getValue<{ workId: string; partId: string } | null>(
+        LAST_DANIME_IDS_KEY,
+        null,
+      );
+      return ids ?? null;
+    } catch (e) {
+      console.error("[SettingsManager] loadLastDanimeIds failed", e);
+      this.notify("ID情報の読込に失敗しました", "error");
+      return null;
+    }
   }
 
   private notify(message: string, type: NotificationType = "info"): void {

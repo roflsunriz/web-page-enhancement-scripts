@@ -83,6 +83,15 @@ export class SettingsUI extends ShadowDOMComponent {
     }
     this.hostElement = this.createSettingsUI();
     target.parentElement?.insertBefore(this.hostElement, target.nextSibling);
+
+    this.waitMypageListStable()
+      .then(() => {
+        try {
+          this.tryRestoreByDanimeIds();
+        } catch (e) {
+          console.warn("[SettingsUI] restore failed:", e);
+        }
+      });
   }
 
   addAutoCommentButtons(): void {
@@ -135,9 +144,36 @@ export class SettingsUI extends ShadowDOMComponent {
             .join(" ");
           this.scrollToSettings();
           this.setSearchKeyword(keyword);
-          // このボタンでコメント設定した動画を再生ボタンで対象にできるように
-          // クリック時にそのボタンのホスト要素を lastAutoButtonElement に設定する
           this.lastAutoButtonElement = buttonHost;
+
+          // 追加: 厳密識別子 (workId, partId) を抽出して保存
+          try {
+            const workId =
+              item.querySelector<HTMLInputElement>('input[name="workId"]')
+                ?.value?.trim() ?? "";
+            // partId は a[onclick*="mypageContentPlayWrapper("...")"] か、テキスト側リンクの href クエリから取得
+            const thumbA = item.querySelector<HTMLAnchorElement>(
+              ".thumbnailContainer > a, .thumbnail-container > a",
+            );
+            const textA = item.querySelector<HTMLAnchorElement>(
+              'a.textContainer[href*="partId="]',
+            );
+            let partId = "";
+            const onclk = thumbA?.getAttribute("onclick") ?? "";
+            const m = onclk.match(/mypageContentPlayWrapper\(["'](\d+)["']\)/);
+            if (m) {
+              partId = m[1];
+            } else if (textA?.href) {
+              const u = new URL(textA.href, location.origin);
+              partId = (u.searchParams.get("partId") ?? "").trim();
+            }
+            if (workId && partId) {
+              this.settingsManager.saveLastDanimeIds({ workId, partId });
+            }
+          } catch (e) {
+            console.warn("[SettingsUI] save (workId, partId) skipped:", e);
+          }
+
           const results = await this.executeSearch(keyword);
           if (results.length === 0) {
             return;
@@ -152,6 +188,86 @@ export class SettingsUI extends ShadowDOMComponent {
       titleElement.appendChild(buttonHost);
       this.lastAutoButtonElement = buttonHost;
     });
+
+    this.waitMypageListStable()
+      .then(() => {
+        try {
+          this.tryRestoreByDanimeIds();
+        } catch (e) {
+          console.warn("[SettingsUI] restore failed:", e);
+        }
+      });
+  }
+
+  private async waitMypageListStable(): Promise<void> {
+    const container = document.querySelector<HTMLElement>(
+      DANIME_SELECTORS.mypageListContainer,
+    );
+    if (!container) return;
+    let lastCount = container.querySelectorAll(DANIME_SELECTORS.mypageItem).length;
+    const until = Date.now() + 1500;
+    return new Promise((resolve) => {
+      const obs = new MutationObserver(() => {
+        const c = container.querySelectorAll(DANIME_SELECTORS.mypageItem).length;
+        if (c !== lastCount) {
+          lastCount = c;
+          return;
+        }
+        if (Date.now() >= until) {
+          obs.disconnect();
+          resolve();
+        }
+      });
+      obs.observe(container, { childList: true, subtree: true });
+      setTimeout(() => {
+        try {
+          obs.disconnect();
+        } catch (e) {
+          // 既に切断済みの場合など
+          logger.debug("waitMypageListStable: observer already disconnected", e);
+        }
+        resolve();
+      }, 1600);
+    });
+  }
+
+  // --- 追加: (workId, partId) 完全一致で厳密復元 ---
+  private tryRestoreByDanimeIds(): boolean {
+    const ids = this.settingsManager.loadLastDanimeIds();
+    if (!ids) return false;
+    const items = Array.from(
+      document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem),
+    );
+    for (const it of items) {
+      const w =
+        it.querySelector<HTMLInputElement>('input[name="workId"]')?.value?.trim();
+      if (w !== ids.workId) continue;
+      // partId はテキスト側リンクか onclick から照合
+      const textA = it.querySelector<HTMLAnchorElement>(
+        'a.textContainer[href*="partId="]',
+      );
+      const hrefOk = (() => {
+        if (!textA?.href) return false;
+        const u = new URL(textA.href, location.origin);
+        return (u.searchParams.get("partId") ?? "") === ids.partId;
+      })();
+      const thumbA = it.querySelector<HTMLAnchorElement>(
+        ".thumbnailContainer > a, .thumbnail-container > a",
+      );
+      const onclickOk = (() => {
+        const onclk = thumbA?.getAttribute("onclick") ?? "";
+        const m = onclk.match(/mypageContentPlayWrapper\(["'](\d+)["']\)/);
+        return !!m && m[1] === ids.partId;
+      })();
+      if (hrefOk || onclickOk) {
+        const host =
+          it.querySelector<HTMLElement>(".auto-comment-button-host") ?? it;
+        this.lastAutoButtonElement = host;
+        this.updatePlayButtonState(this.currentVideoInfo);
+        return true;
+      }
+    }
+    return false;
   }
 
   private createSettingsUI(): HTMLDivElement {
@@ -712,31 +828,26 @@ export class SettingsUI extends ShadowDOMComponent {
           );
           return;
         }
-
-        // まず自動ボタンが挿入されたアイテム内のサムネイル再生リンクを探してクリックする
+        const itemElement = this.lastAutoButtonElement?.closest(
+          ".itemModule.list",
+        ) as HTMLElement | null;
         if (this.lastAutoButtonElement) {
-          const itemElement = this.lastAutoButtonElement.closest(
-            ".itemModule.list",
-          ) as HTMLElement | null;
           const playLink = itemElement?.querySelector<HTMLAnchorElement>(
-            '.thumbnailContainer > a, .thumbnail-container > a, .thumbnailContainer a, .thumbnail-container a, a[href*="/watch/"]',
+            ".thumbnailContainer > a, .thumbnail-container > a",
           );
           if (playLink) {
             NotificationManager.show(
               `「${this.currentVideoInfo?.title || "動画"}」を再生します...`,
               "success",
             );
-            // 少し遅延を入れてクリック（元の実装に合わせる）
             setTimeout(() => {
               playLink.click();
             }, 300);
             return;
           }
         }
-
-        // フォールバックは不要なので何もしない
         NotificationManager.show(
-          "再生リンクが見つかりませんでした。自動再生はサムネイル内のリンクを介してのみ行われます",
+          "再生リンクが見つかりませんでした（対象アイテム内に限定して検索済み）",
           "warning",
         );
       } catch (error) {
