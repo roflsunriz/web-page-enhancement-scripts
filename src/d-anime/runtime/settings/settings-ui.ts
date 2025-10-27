@@ -628,18 +628,34 @@ export class SettingsUI extends ShadowDOMComponent {
         const item = results[index];
         void this.applySearchResult(item);
       });
+
+      // Add event listener for the new "Open on Watch Page" link
+      const openWatchPageLink = element.querySelector<HTMLAnchorElement>(".open-search-page-direct-btn");
+      if (openWatchPageLink) {
+        openWatchPageLink.addEventListener("click", (event) => {
+          event.stopPropagation(); // Prevent the parent item's click listener from firing
+        });
+      }
     });
   }
 
   private renderSearchResultItem(item: NicoSearchResultItem): string {
     const postedAt = this.formatSearchResultDate(item.postedAt);
+    const distanceText =
+      typeof item.levenshteinDistance === "number"
+        ? ` / 距離: ${item.levenshteinDistance}`
+        : "";
     return `
       <div class="search-result-item">
         <img src="${item.thumbnail}" alt="thumbnail">
         <div class="search-result-info">
           <div class="title">${item.title}</div>
-          <div class="stats">再生 ${item.viewCount.toLocaleString()} / コメント ${item.commentCount.toLocaleString()} / マイリスト ${item.mylistCount.toLocaleString()}</div>
+          <div class="stats">再生 ${item.viewCount.toLocaleString()} / コメント ${item.commentCount.toLocaleString()} / マイリスト ${item.mylistCount.toLocaleString()}${distanceText}</div>
           <div class="date">${postedAt}</div>
+          <a href="${NICOVIDEO_URLS.watchBase}/${item.videoId}" target="_blank" rel="noopener"
+             class="open-search-page-direct-btn" style="margin-top: 8px; display: inline-block; text-decoration: none;">
+            視聴ページで開く
+          </a>
         </div>
       </div>
     `;

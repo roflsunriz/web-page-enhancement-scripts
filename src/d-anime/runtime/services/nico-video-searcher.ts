@@ -14,6 +14,7 @@ export interface NicoSearchResultItem {
   postedAt: string;
   owner?: { nickname?: string; name?: string } | null;
   channel?: { name?: string } | null;
+  levenshteinDistance?: number;
 }
 
 interface ServerResponseWrapper {
@@ -63,7 +64,12 @@ export class NicoVideoSearcher {
 
     const url = buildNicovideoSearchUrl(keyword);
     const html = await this.fetchText(url);
-    const items = this.parseServerContext(html);
+    const items = this.parseServerContext(html).map((item) => {
+      return {
+        ...item,
+        levenshteinDistance: this.calculateLevenshteinDistance(keyword, item.title),
+      };
+    });
 
     const unique: NicoSearchResultItem[] = [];
     const seen = new Set<string>();
@@ -77,7 +83,15 @@ export class NicoVideoSearcher {
       }
     }
 
-    unique.sort((a, b) => b.viewCount - a.viewCount);
+    unique.sort((a, b) => {
+      const distA = a.levenshteinDistance ?? Number.MAX_SAFE_INTEGER;
+      const distB = b.levenshteinDistance ?? Number.MAX_SAFE_INTEGER;
+      if (distA !== distB) {
+        return distA - distB;
+      }
+      return b.viewCount - a.viewCount;
+    });
+
     this.cache.set(keyword, unique);
     return unique;
   }
@@ -205,5 +219,32 @@ export class NicoVideoSearcher {
 
     traverse(root);
     return results;
+  }
+
+  private calculateLevenshteinDistance(a: string, b: string): number {
+    const an = a ? a.length : 0;
+    const bn = b ? b.length : 0;
+    if (an === 0) {
+      return bn;
+    }
+    if (bn === 0) {
+      return an;
+    }
+    const matrix = new Array<number[]>(bn + 1);
+    for (let i = 0; i <= bn; ++i) {
+      const row = (matrix[i] = new Array<number>(an + 1));
+      row[0] = i;
+    }
+    const firstRow = matrix[0];
+    for (let j = 1; j <= an; ++j) {
+      firstRow[j] = j;
+    }
+    for (let i = 1; i <= bn; ++i) {
+      for (let j = 1; j <= an; ++j) {
+        const cost = a[j - 1] === b[i - 1] ? 0 : 1;
+        matrix[i][j] = Math.min(matrix[i - 1][j] + 1, matrix[i][j - 1] + 1, matrix[i - 1][j - 1] + cost);
+      }
+    }
+    return matrix[bn][an];
   }
 }
