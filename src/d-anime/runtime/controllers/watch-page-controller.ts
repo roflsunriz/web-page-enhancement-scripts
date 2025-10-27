@@ -18,6 +18,10 @@ export class WatchPageController {
   private readonly switchDebounce = new DebounceExecutor(SWITCH_DEBOUNCE_MS);
   private switchCallback: (() => void) | null = null;
   private lastSwitchTimestamp = 0;
+  private currentVideoElement: HTMLVideoElement | null = null;
+  private videoMutationObserver: MutationObserver | null = null;
+  private domMutationObserver: MutationObserver | null = null;
+  private videoEndedListener: (() => void) | null = null;
 
   constructor(private readonly global: DanimeGlobal) {}
 
@@ -100,6 +104,7 @@ export class WatchPageController {
       const renderer = new CommentRenderer(settings);
       renderer.initialize(videoElement);
       this.global.instances.renderer = renderer;
+      this.currentVideoElement = videoElement;
 
       settingsManager.addObserver((newSettings) => {
         renderer.settings = this.mergeSettings(newSettings);
@@ -118,6 +123,7 @@ export class WatchPageController {
       this.global.instances.switchHandler = switchHandler;
 
       this.setupSwitchHandling(videoElement, switchHandler);
+      this.observeVideoElement();
 
       NotificationManager.show(
         `コメントの読み込みが完了しました（${comments.length}件）`,
@@ -147,23 +153,28 @@ export class WatchPageController {
     videoElement: HTMLVideoElement,
     switchHandler: VideoSwitchHandler,
   ): void {
+    this.currentVideoElement = videoElement;
+
     this.switchCallback = () => {
       const now = Date.now();
       if (now - this.lastSwitchTimestamp < SWITCH_COOLDOWN_MS) {
         return;
       }
       this.lastSwitchTimestamp = now;
-      void switchHandler.onVideoSwitch(videoElement);
+      const targetVideo = this.currentVideoElement;
+      void switchHandler.onVideoSwitch(targetVideo);
     };
 
-    const observer = new MutationObserver((mutations) => {
+    this.videoMutationObserver?.disconnect();
+    this.videoMutationObserver = new MutationObserver((mutations) => {
       if (!this.switchCallback) {
         return;
       }
       for (const mutation of mutations) {
         if (
           mutation.type === "attributes" &&
-          mutation.attributeName === "src"
+          mutation.attributeName === "src" &&
+          mutation.target === this.currentVideoElement
         ) {
           this.switchDebounce.resetExecution(this.switchCallback);
           this.switchDebounce.execOnce(this.switchCallback);
@@ -171,21 +182,83 @@ export class WatchPageController {
       }
     });
 
-    observer.observe(videoElement, {
+    this.videoMutationObserver.observe(videoElement, {
       attributes: true,
       attributeFilter: ["src"],
     });
 
-    videoElement.addEventListener("ended", () => {
+    this.global.utils.initializeWithVideo = async (video) => {
+      if (!video) {
+        return;
+      }
+      this.rebindVideoElement(video);
+      await switchHandler.onVideoSwitch(video);
+    };
+
+    this.currentVideoElement = videoElement;
+  }
+
+  private observeVideoElement(): void {
+    const videoElement = this.currentVideoElement;
+    if (!videoElement) {
+      return;
+    }
+
+    this.domMutationObserver?.disconnect();
+
+    this.domMutationObserver = new MutationObserver(() => {
+      const nextVideo = document.querySelector<HTMLVideoElement>(
+        DANIME_SELECTORS.watchVideoElement,
+      );
+      if (!nextVideo || nextVideo === this.currentVideoElement) {
+        return;
+      }
+      this.rebindVideoElement(nextVideo);
+    });
+
+    this.domMutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+
+    this.attachVideoEventListeners(videoElement);
+  }
+
+  private rebindVideoElement(videoElement: HTMLVideoElement): void {
+    this.detachVideoEventListeners();
+    this.currentVideoElement = videoElement;
+    const renderer = this.global.instances.renderer;
+    const switchHandler = this.global.instances.switchHandler;
+
+    if (renderer) {
+      renderer.destroy();
+      renderer.initialize(videoElement);
+    }
+    if (switchHandler) {
+      void switchHandler.onVideoSwitch(videoElement);
+      this.setupSwitchHandling(videoElement, switchHandler);
+    }
+    this.attachVideoEventListeners(videoElement);
+  }
+
+  private attachVideoEventListeners(video: HTMLVideoElement): void {
+    this.detachVideoEventListeners();
+    const listener = () => {
       if (!this.switchCallback) {
         return;
       }
       this.switchDebounce.resetExecution(this.switchCallback);
       this.switchDebounce.execOnce(this.switchCallback);
-    });
-
-    this.global.utils.initializeWithVideo = async (video) => {
-      await switchHandler.onVideoSwitch(video);
     };
+    video.addEventListener("ended", listener);
+    this.videoEndedListener = listener;
+  }
+
+  private detachVideoEventListeners(): void {
+    const video = this.currentVideoElement;
+    if (video && this.videoEndedListener) {
+      video.removeEventListener("ended", this.videoEndedListener);
+    }
+    this.videoEndedListener = null;
   }
 }

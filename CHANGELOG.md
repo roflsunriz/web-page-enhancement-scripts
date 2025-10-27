@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v2.0.0 - 2025-10-27
+### 修正
+- `d-anime-nico-comment-renderer.user.js`
+ - 動画切り替わり時にコメントが流れない問題を修正しました。
+
 ## v1.9.0 - 2025-10-27
 ### 変更
 - `d-anime-nico-comment-renderer.user.js`

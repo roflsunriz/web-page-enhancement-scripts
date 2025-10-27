@@ -2,6 +2,8 @@ import { SettingsManager } from "../../services/settings-manager";
 import type { VideoMetadata } from "@/shared/types";
 import { NotificationManager } from "../notification-manager";
 import { CommentRenderer } from "../comment-renderer";
+import { createLogger } from "@/shared/logger";
+import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import type {
   FetcherCommentResult,
   NicoApiFetcher,
@@ -12,8 +14,12 @@ import { DebounceExecutor } from "../utils/debounce-executor";
 const MONITOR_INTERVAL_MS = 1000;
 const PRELOAD_DEBOUNCE_MS = 100;
 const END_THRESHOLD_SECONDS = 30;
+const VIDEO_WAIT_TIMEOUT_MS = 10000;
+const VIDEO_WAIT_INTERVAL_MS = 100;
 
 const WATCH_DESCRIPTION_PATTERN = /watch\/(?:([a-z]{2}))?(\d+)/gi;
+
+const logger = createLogger("dAnime:VideoSwitchHandler");
 
 type Nullable<T> = T | null;
 
@@ -67,6 +73,7 @@ export class VideoSwitchHandler {
   private preloadedComments: Nullable<FetcherCommentResult[]> = null;
   private lastPreloadedComments: Nullable<FetcherCommentResult[]> = null;
   private lastVideoId: Nullable<string> = null;
+  private lastVideoSource: Nullable<string> = null;
   private checkIntervalId: number | null = null;
   private isSwitching = false;
   private readonly debounce: DebounceExecutor;
@@ -102,28 +109,62 @@ export class VideoSwitchHandler {
     this.isSwitching = true;
 
     try {
+      const resolvedVideoElement =
+        (await this.resolveVideoElement(videoElement)) ?? null;
+
       const backupPreloaded =
         this.preloadedComments ?? this.lastPreloadedComments ?? null;
       const elementId =
-        videoElement?.dataset?.videoId ??
-        videoElement?.getAttribute?.("data-video-id") ??
+        resolvedVideoElement?.dataset?.videoId ??
+        resolvedVideoElement?.getAttribute?.("data-video-id") ??
         null;
       const videoId = this.nextVideoId ?? elementId ?? this.lastVideoId;
 
-      if (!videoElement || (!videoId && !backupPreloaded)) {
+      if (!resolvedVideoElement || (!videoId && !backupPreloaded)) {
         this.handleMissingVideoInfo(backupPreloaded);
         return;
       }
 
+      logger.info("videoSwitch:start", {
+        videoId: videoId ?? null,
+        elementVideoId: resolvedVideoElement.dataset?.videoId ?? null,
+        preloadedCount: backupPreloaded?.length ?? 0,
+      });
+
       NotificationManager.show("動画の切り替わりを検知しました...", "info");
 
       const currentVideo = this.renderer.getVideoElement();
-      if (currentVideo !== videoElement && videoElement) {
-        if (currentVideo) {
-          this.renderer.destroy();
-        }
-        this.renderer.initialize(videoElement);
+      if (currentVideo !== resolvedVideoElement && resolvedVideoElement) {
+        logger.debug("videoSwitch:rebind", {
+          previousSrc: this.renderer.getCurrentVideoSource(),
+          newSrc:
+            (typeof resolvedVideoElement.currentSrc === "string" &&
+              resolvedVideoElement.currentSrc.length > 0)
+              ? resolvedVideoElement.currentSrc
+              : resolvedVideoElement.getAttribute("src") ?? null,
+        });
+        this.renderer.initialize(resolvedVideoElement);
+      } else if (
+        currentVideo === resolvedVideoElement &&
+        resolvedVideoElement &&
+        this.hasVideoSourceChanged(resolvedVideoElement)
+      ) {
+        logger.debug("videoSwitch:rebind:sameElement", {
+          previousSrc: this.lastVideoSource ?? null,
+          newSrc: this.getVideoSource(resolvedVideoElement),
+        });
+        this.renderer.destroy();
+        this.renderer.initialize(resolvedVideoElement);
+      } else if (!currentVideo && !resolvedVideoElement) {
+        logger.warn("videoSwitch:missingVideoElement", {
+          lastVideoId: this.lastVideoId,
+          nextVideoId: this.nextVideoId,
+        });
+        this.isSwitching = false;
+        return;
       }
+
+      this.resetRendererState(resolvedVideoElement);
 
       let apiData: NicoApiResponseBody | null = null;
       if (videoId) {
@@ -138,10 +179,19 @@ export class VideoSwitchHandler {
       if (loadedCount === 0) {
         this.renderer.clearComments();
         NotificationManager.show("コメントを取得できませんでした", "warning");
+        logger.warn("videoSwitch:commentsMissing", {
+          videoId: videoId ?? null,
+        });
+      } else {
+        logger.info("videoSwitch:commentsLoaded", {
+          videoId: videoId ?? null,
+          count: loadedCount,
+        });
       }
 
       this.nextVideoId = null;
       this.preloadedComments = null;
+      this.lastVideoSource = this.getVideoSource(resolvedVideoElement);
 
       if (apiData) {
         const metadata = toVideoMetadata(apiData);
@@ -154,10 +204,10 @@ export class VideoSwitchHandler {
         }
       }
     } catch (error) {
-      console.error(
-        "[VideoSwitchHandler] 動画切り替え中にエラーが発生しました",
-        error,
-      );
+      logger.error("videoSwitch:error", error as Error, {
+        nextVideoId: this.nextVideoId,
+        lastVideoId: this.lastVideoId,
+      });
       NotificationManager.show(
         `動画切り替えエラー: ${(error as Error).message}`,
         "error",
@@ -166,6 +216,98 @@ export class VideoSwitchHandler {
     } finally {
       this.isSwitching = false;
     }
+  }
+
+  private async resolveVideoElement(
+    videoElement: HTMLVideoElement | null,
+  ): Promise<HTMLVideoElement | null> {
+    if (videoElement) {
+      const currentSrc = this.getVideoSource(videoElement);
+      const previousSrc = this.lastVideoSource;
+      if (!currentSrc || currentSrc === previousSrc) {
+        await this.waitForSourceChange(videoElement);
+      }
+      return videoElement;
+    }
+
+    const deadline = Date.now() + VIDEO_WAIT_TIMEOUT_MS;
+    let latestElement: HTMLVideoElement | null = null;
+
+    while (Date.now() < deadline) {
+      const candidate = document.querySelector<HTMLVideoElement>(
+        DANIME_SELECTORS.watchVideoElement,
+      );
+      if (candidate) {
+        latestElement = candidate;
+        const sourceChanged = this.hasVideoSourceChanged(candidate);
+        if (candidate.readyState >= 2 || !candidate.paused || sourceChanged) {
+          if (sourceChanged) {
+            this.lastVideoSource = null;
+          }
+          return candidate;
+        }
+      }
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, VIDEO_WAIT_INTERVAL_MS),
+      );
+    }
+
+    return latestElement;
+  }
+
+  private async waitForSourceChange(
+    videoElement: HTMLVideoElement,
+  ): Promise<void> {
+    const initialSource = this.getVideoSource(videoElement);
+    if (!initialSource) {
+      return;
+    }
+
+    const deadline = Date.now() + VIDEO_WAIT_TIMEOUT_MS;
+
+    while (Date.now() < deadline) {
+      const currentSource = this.getVideoSource(videoElement);
+      if (currentSource && currentSource !== initialSource) {
+        this.lastVideoSource = null;
+        return;
+      }
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, VIDEO_WAIT_INTERVAL_MS),
+      );
+    }
+  }
+
+  private hasVideoSourceChanged(videoElement: HTMLVideoElement): boolean {
+    const currentSource = this.getVideoSource(videoElement);
+    if (!currentSource) {
+      return false;
+    }
+    if (!this.lastVideoSource) {
+      return true;
+    }
+    return this.lastVideoSource !== currentSource;
+  }
+
+  private getVideoSource(videoElement: HTMLVideoElement): string | null {
+    if (!videoElement) {
+      return null;
+    }
+    if (typeof videoElement.currentSrc === "string" && videoElement.currentSrc.length > 0) {
+      return videoElement.currentSrc;
+    }
+    const attributeSrc = videoElement.getAttribute("src");
+    return attributeSrc && attributeSrc.length > 0 ? attributeSrc : null;
+  }
+
+  private resetRendererState(videoElement: HTMLVideoElement): void {
+    try {
+      videoElement.currentTime = 0;
+    } catch (error) {
+      logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
+    }
+
+    this.renderer.clearComments();
+    this.renderer.resetState?.();
   }
 
   private async checkVideoEnd(): Promise<void> {
@@ -211,9 +353,11 @@ export class VideoSwitchHandler {
     backupPreloaded: Nullable<FetcherCommentResult[]>,
   ): Promise<NicoApiResponseBody | null> {
     try {
-      return await this.fetcher.fetchApiData(videoId);
+      const data = await this.fetcher.fetchApiData(videoId);
+      logger.debug("videoSwitch:apiFetched", { videoId });
+      return data;
     } catch (error) {
-      console.error("[VideoSwitchHandler] API取得エラー", error);
+      logger.error("videoSwitch:apiFetchError", error as Error, { videoId });
       if (!backupPreloaded) {
         throw error;
       }
@@ -240,8 +384,14 @@ export class VideoSwitchHandler {
     } else if (videoId) {
       try {
         comments = await this.fetcher.fetchAllData(videoId);
+        logger.debug("videoSwitch:commentsFetched", {
+          videoId,
+          count: comments.length,
+        });
       } catch (error) {
-        console.error("[VideoSwitchHandler] コメント取得エラー", error);
+        logger.error("videoSwitch:commentsFetchError", error as Error, {
+          videoId,
+        });
         NotificationManager.show(
           `コメント取得エラー: ${(error as Error).message}`,
           "error",
@@ -275,6 +425,7 @@ export class VideoSwitchHandler {
       const nextId = apiData.series?.video?.next?.id;
       if (nextId) {
         this.nextVideoId = nextId;
+        logger.debug("videoSwitch:detectedNext", { videoId: nextId });
         return;
       }
 
@@ -295,8 +446,15 @@ export class VideoSwitchHandler {
       });
 
       this.nextVideoId = sorted[0] ?? null;
+      if (this.nextVideoId) {
+        logger.debug("videoSwitch:candidateFromDescription", {
+          candidate: this.nextVideoId,
+        });
+      }
     } catch (error) {
-      console.error("[VideoSwitchHandler] 次の動画ID取得エラー", error);
+      logger.error("videoSwitch:nextIdError", error as Error, {
+        lastVideoId: this.lastVideoId,
+      });
     }
   }
 
@@ -311,8 +469,14 @@ export class VideoSwitchHandler {
         (comment) => !this.renderer.isNGComment(comment.text),
       );
       this.preloadedComments = filtered.length > 0 ? filtered : null;
+      logger.debug("videoSwitch:preloaded", {
+        videoId: this.nextVideoId,
+        count: filtered.length,
+      });
     } catch (error) {
-      console.error("[VideoSwitchHandler] コメントプリロードエラー", error);
+      logger.error("videoSwitch:preloadError", error as Error, {
+        videoId: this.nextVideoId,
+      });
       this.preloadedComments = null;
     }
   }

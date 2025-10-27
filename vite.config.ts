@@ -48,7 +48,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '5.5.2',
+  version: '5.5.3',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [

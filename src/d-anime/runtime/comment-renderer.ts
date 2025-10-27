@@ -79,7 +79,7 @@ export class CommentRenderer {
 
   initialize(videoElement: HTMLVideoElement): void {
     try {
-      this.logDebug("initialize:start", {
+      logger.debug("initialize:start", {
         readyState: videoElement.readyState,
         duration: videoElement.duration,
       });
@@ -89,6 +89,12 @@ export class CommentRenderer {
 
       this.videoElement = videoElement;
       this.duration = toMilliseconds(videoElement.duration);
+
+      logger.info("videoRenderer:boundVideo", {
+        src: this.resolveVideoSource(videoElement),
+        videoId: videoElement.dataset?.videoId ?? null,
+        durationMs: this.duration,
+      });
 
       const container = document.createElement("div");
       container.style.position = "absolute";
@@ -106,11 +112,6 @@ export class CommentRenderer {
       parent.appendChild(container);
 
       this.container = container;
-      this.logDebug("initialize:containerCreated", {
-        containerParent: parent.tagName,
-        width: rect.width,
-        height: rect.height,
-      });
 
       this.danmaku = new Danmaku({
         container,
@@ -124,7 +125,7 @@ export class CommentRenderer {
       this.setupVideoEventListeners(videoElement);
       this.setupKeyboardShortcuts();
       this.setupResizeListener(container, videoElement);
-      this.logDebug("initialize:completed");
+      logger.debug("initialize:completed");
     } catch (error) {
       logger.error("CommentRenderer.initialize", error as Error);
       throw error;
@@ -163,7 +164,20 @@ export class CommentRenderer {
     this.danmaku?.clear();
   }
 
+  resetState(): void {
+    this.clearComments();
+    this.currentTime = 0;
+    this.finalPhaseActive = false;
+  }
+
   destroy(): void {
+    const previousVideo = this.videoElement;
+    if (previousVideo) {
+      logger.info("videoRenderer:unbindVideo", {
+        src: this.resolveVideoSource(previousVideo),
+        videoId: previousVideo.dataset?.videoId ?? null,
+      });
+    }
     this.keyboardHandler?.stopListening();
     this.keyboardHandler = null;
     this.teardownResizeListener();
@@ -183,6 +197,11 @@ export class CommentRenderer {
 
   getVideoElement(): HTMLVideoElement | null {
     return this.videoElement;
+  }
+
+  getCurrentVideoSource(): string | null {
+    const video = this.videoElement;
+    return video ? this.resolveVideoSource(video) : null;
   }
 
   getCommentsSnapshot(): DanmakuComment[] {
@@ -292,10 +311,6 @@ export class CommentRenderer {
 
   private resize(width?: number, height?: number): void {
     if (!this.danmaku || !this.container) {
-      this.logDebug("resize:skipped:noInstance", {
-        hasDanmaku: Boolean(this.danmaku),
-        hasContainer: Boolean(this.container),
-      });
       return;
     }
     const video = this.videoElement;
@@ -303,10 +318,6 @@ export class CommentRenderer {
     const targetWidth = width ?? rect?.width ?? this.container.clientWidth;
     const targetHeight = height ?? rect?.height ?? this.container.clientHeight;
     if (targetWidth <= 0 || targetHeight <= 0) {
-      this.logDebug("resize:skipped:invalidSize", {
-        width: targetWidth,
-        height: targetHeight,
-      });
       return;
     }
     if (video && rect) {
@@ -315,10 +326,6 @@ export class CommentRenderer {
     this.container.style.width = `${targetWidth}px`;
     this.container.style.height = `${targetHeight}px`;
     this.danmaku.resize();
-    this.logDebug("resize:applied", {
-      width: targetWidth,
-      height: targetHeight,
-    });
   }
 
   private setupVideoEventListeners(videoElement: HTMLVideoElement): void {
@@ -383,7 +390,6 @@ export class CommentRenderer {
               (item) => item.target === videoElement,
             );
             if (!entry) {
-              this.logDebug("resizeObserver:entryMissing");
               return;
             }
             this.resize(entry.contentRect.width, entry.contentRect.height);
@@ -392,14 +398,8 @@ export class CommentRenderer {
           }
         });
         this.sizeObserver.observe(videoElement);
-        this.logDebug("setupResizeListener:observer", {
-          observer: "ResizeObserver",
-        });
       } else {
         window.addEventListener("resize", this.handleWindowResize);
-        this.logDebug("setupResizeListener:fallback", {
-          observer: "window",
-        });
       }
       this.addViewportEventListeners();
       this.resize();
@@ -412,29 +412,22 @@ export class CommentRenderer {
     if (this.sizeObserver) {
       this.sizeObserver.disconnect();
       this.sizeObserver = null;
-      this.logDebug("teardownResizeListener:observerDetached");
     }
     if (!this.isResizeObserverAvailable) {
       window.removeEventListener("resize", this.handleWindowResize);
-      this.logDebug("teardownResizeListener:fallbackDetached");
     }
     this.removeViewportEventListeners();
   }
 
   private handleWindowResize = () => {
-    this.logDebug("event:windowResize");
     this.resize();
   };
 
   private handleWindowScroll = () => {
-    this.logDebug("event:windowScroll");
     this.resize();
   };
 
   private handleFullscreenChange = () => {
-    this.logDebug("event:fullscreenChange", {
-      fullscreenElement: getFullscreenElement()?.nodeName ?? null,
-    });
     this.resize();
   };
 
@@ -444,14 +437,12 @@ export class CommentRenderer {
         passive: true,
       });
       this.scrollListenerAttached = true;
-      this.logDebug("viewportListeners:scrollAttached");
     }
     if (!this.fullscreenEventsAttached) {
       FULLSCREEN_EVENTS.forEach((eventName) => {
         document.addEventListener(eventName, this.handleFullscreenChange);
       });
       this.fullscreenEventsAttached = true;
-      this.logDebug("viewportListeners:fullscreenAttached");
     }
   }
 
@@ -459,14 +450,12 @@ export class CommentRenderer {
     if (this.scrollListenerAttached) {
       window.removeEventListener("scroll", this.handleWindowScroll);
       this.scrollListenerAttached = false;
-      this.logDebug("viewportListeners:scrollRemoved");
     }
     if (this.fullscreenEventsAttached) {
       FULLSCREEN_EVENTS.forEach((eventName) => {
         document.removeEventListener(eventName, this.handleFullscreenChange);
       });
       this.fullscreenEventsAttached = false;
-      this.logDebug("viewportListeners:fullscreenRemoved");
     }
   }
 
@@ -474,17 +463,12 @@ export class CommentRenderer {
     const container = this.container;
     const video = this.videoElement;
     if (!container || !video) {
-      this.logDebug("placement:skipped", {
-        hasContainer: Boolean(container),
-        hasVideo: Boolean(video),
-      });
       return;
     }
     this.syncContainerParent();
     const isFullscreen = Boolean(getFullscreenElement());
     const parent = container.parentElement;
     if (!parent) {
-      this.logDebug("placement:noParent");
       return;
     }
     if (isFullscreen) {
@@ -502,24 +486,12 @@ export class CommentRenderer {
     container.style.width = `${rect.width}px`;
     container.style.height = `${rect.height}px`;
     container.style.overflow = "hidden";
-    this.logDebug("placement:updated", {
-      top: rect.top,
-      left: rect.left,
-      width: rect.width,
-      height: rect.height,
-      isFullscreen,
-      parentTag: container.parentElement?.nodeName ?? null,
-    });
   }
 
   private syncContainerParent(): void {
     const container = this.container;
     const video = this.videoElement;
     if (!container || !video) {
-      this.logDebug("syncParent:skipped", {
-        hasContainer: Boolean(container),
-        hasVideo: Boolean(video),
-      });
       return;
     }
     const fullscreenElement = getFullscreenElement();
@@ -528,16 +500,9 @@ export class CommentRenderer {
       ? fullscreenElement
       : video.parentElement;
     if (!targetParent) {
-      this.logDebug("syncParent:noTarget", {
-        isVideoInFullscreen,
-        fullscreenElement: fullscreenElement?.nodeName ?? null,
-      });
       return;
     }
     if (container.parentElement === targetParent) {
-      this.logDebug("syncParent:alreadyAttached", {
-        parentTag: targetParent.nodeName,
-      });
       return;
     }
     container.remove();
@@ -546,10 +511,6 @@ export class CommentRenderer {
       style.position = "relative";
     }
     targetParent.appendChild(container);
-    this.logDebug("syncParent:reparented", {
-      parentTag: targetParent.nodeName,
-      isFullscreen: isVideoInFullscreen,
-    });
   }
 
   private createCommentStyle(
@@ -700,11 +661,11 @@ export class CommentRenderer {
     return !regexChanged;
   }
 
-  private logDebug(event: string, context?: Record<string, unknown>): void {
-    if (context) {
-      logger.debug(event, context);
-      return;
+  private resolveVideoSource(video: HTMLVideoElement): string | null {
+    if (typeof video.currentSrc === "string" && video.currentSrc.length > 0) {
+      return video.currentSrc;
     }
-    logger.debug(event);
+    const source = video.getAttribute("src");
+    return source && source.length > 0 ? source : null;
   }
 }
