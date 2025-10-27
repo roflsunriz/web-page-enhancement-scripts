@@ -15,6 +15,7 @@ export interface NicoSearchResultItem {
   owner?: { nickname?: string; name?: string } | null;
   channel?: { name?: string } | null;
   levenshteinDistance?: number;
+  similarity?: number;
 }
 
 interface ServerResponseWrapper {
@@ -65,9 +66,13 @@ export class NicoVideoSearcher {
     const url = buildNicovideoSearchUrl(keyword);
     const html = await this.fetchText(url);
     const items = this.parseServerContext(html).map((item) => {
+      const distance = this.calculateLevenshteinDistance(keyword, item.title);
+      const maxLength = Math.max(keyword.length, item.title.length);
+      const similarity = maxLength > 0 ? (1 - distance / maxLength) * 100 : 0;
       return {
         ...item,
-        levenshteinDistance: this.calculateLevenshteinDistance(keyword, item.title),
+        levenshteinDistance: distance,
+        similarity,
       };
     });
 
@@ -84,10 +89,10 @@ export class NicoVideoSearcher {
     }
 
     unique.sort((a, b) => {
-      const distA = a.levenshteinDistance ?? Number.MAX_SAFE_INTEGER;
-      const distB = b.levenshteinDistance ?? Number.MAX_SAFE_INTEGER;
-      if (distA !== distB) {
-        return distA - distB;
+      const simA = a.similarity ?? -1;
+      const simB = b.similarity ?? -1;
+      if (simA !== simB) {
+        return simB - simA;
       }
       return b.viewCount - a.viewCount;
     });
