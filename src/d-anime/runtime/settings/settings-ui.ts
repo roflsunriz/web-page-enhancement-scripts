@@ -281,6 +281,39 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setHTML(settingsHTML);
 
     this.applySettingsToUI();
+
+    // 類似度プログレスバー用のスタイルを追加
+    const progressBarStyles = `
+      .similarity-container {
+        position: relative;
+        width: 100px;
+        height: 18px;
+        background-color: var(--bg-primary);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 4px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .similarity-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 100%;
+        background: linear-gradient(90deg, var(--secondary), var(--primary));
+        opacity: 0.6;
+        transition: width 0.3s ease;
+      }
+      .similarity-text {
+        position: relative;
+        z-index: 1;
+        font-size: 12px;
+        color: var(--text-primary);
+        font-weight: 600;
+      }
+    `;
+    this.addStyles(progressBarStyles);
     this.setupEventListeners();
     return host;
   }
@@ -641,16 +674,22 @@ export class SettingsUI extends ShadowDOMComponent {
 
   private renderSearchResultItem(item: NicoSearchResultItem): string {
     const postedAt = this.formatSearchResultDate(item.postedAt);
-    const similarityText =
+    const similarityHtml =
       typeof item.similarity === "number"
-        ? ` / 類似度: ${item.similarity.toFixed(2)}%`
+        ? `
+          <div class="similarity-container" title="類似度: ${item.similarity.toFixed(2)}%">
+            <div class="similarity-bar" style="width: ${item.similarity.toFixed(2)}%;"></div>
+            <span class="similarity-text">${item.similarity.toFixed(0)}%</span>
+          </div>
+        `
         : "";
+
     return `
       <div class="search-result-item">
         <img src="${item.thumbnail}" alt="thumbnail">
         <div class="search-result-info">
           <div class="title">${item.title}</div>
-          <div class="stats">再生 ${item.viewCount.toLocaleString()} / コメント ${item.commentCount.toLocaleString()} / マイリスト ${item.mylistCount.toLocaleString()}${similarityText}</div>
+          <div class="stats">再生 ${item.viewCount.toLocaleString()} / コメ ${item.commentCount.toLocaleString()} / マイ ${item.mylistCount.toLocaleString()} ${similarityHtml}</div>
           <div class="date">${postedAt}</div>
           <a href="${NICOVIDEO_URLS.watchBase}/${item.videoId}" target="_blank" rel="noopener"
              class="open-search-page-direct-btn" style="margin-top: 8px; display: inline-block; text-decoration: none;">
