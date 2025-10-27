@@ -21,9 +21,12 @@ export interface RendererSettings {
   ngRegexps: string[];
 }
 
-export type DanmakuCommentStyle = Partial<
-  Pick<CSSStyleDeclaration, "color" | "opacity" | "font" | "textShadow">
->;
+export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
+  fillStyle?: string | CanvasPattern | CanvasGradient;
+  strokeStyle?: string | CanvasPattern | CanvasGradient;
+  lineWidth?: number;
+  globalAlpha?: number;
+};
 
 export interface DanmakuComment {
   text: string;
