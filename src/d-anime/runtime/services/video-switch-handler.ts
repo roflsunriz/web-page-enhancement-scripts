@@ -117,6 +117,14 @@ export class VideoSwitchHandler {
 
       NotificationManager.show("動画の切り替わりを検知しました...", "info");
 
+      const currentVideo = this.renderer.getVideoElement();
+      if (currentVideo !== videoElement && videoElement) {
+        if (currentVideo) {
+          this.renderer.destroy();
+        }
+        this.renderer.initialize(videoElement);
+      }
+
       let apiData: NicoApiResponseBody | null = null;
       if (videoId) {
         apiData = await this.fetchVideoApiData(videoId, backupPreloaded);
@@ -126,10 +134,9 @@ export class VideoSwitchHandler {
         }
       }
 
-      this.renderer.clearComments();
-
       const loadedCount = await this.populateComments(videoId, backupPreloaded);
       if (loadedCount === 0) {
+        this.renderer.clearComments();
         NotificationManager.show("コメントを取得できませんでした", "warning");
       }
 

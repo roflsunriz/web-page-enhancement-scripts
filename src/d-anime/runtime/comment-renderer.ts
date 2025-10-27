@@ -158,6 +158,8 @@ export class CommentRenderer {
 
   clearComments(): void {
     this.allComments = [];
+    this.lastEmittedIndex = -1;
+    this.finalPhaseActive = false;
     this.danmaku?.clear();
   }
 
