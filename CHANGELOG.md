@@ -4,6 +4,11 @@
 
 すべての重要な変更点をここに記録します。
 
+## v1.9.0 - 2025-10-27
+### 変更
+- `d-anime-nico-comment-renderer.user.js`
+ - コメントフォントサイズを動的に調整するように改良しました。
+
 ## v1.8.2 - 2025-10-27
 ### 変更
 - `d-anime-nico-comment-renderer.user.js`

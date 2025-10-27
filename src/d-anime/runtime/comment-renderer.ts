@@ -11,10 +11,16 @@ import Danmaku from "danmaku";
 const logger = createLogger("dAnime:CommentRenderer");
 
 const toMilliseconds = (seconds: number): number => seconds * 1000;
-const DEFAULT_COMMENT_FONT = "bold 24px 'MS PGothic', 'sans-serif'";
+const DEFAULT_FONT_WEIGHT = "bold";
+const DEFAULT_FONT_FAMILY = "'MS PGothic', 'sans-serif'";
+const FALLBACK_FONT_SIZE_PX = 24;
 const DEFAULT_TEXT_SHADOW =
   "1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000";
 const RESYNC_TIME_WINDOW_MS = 2000;
+const TARGET_LANE_COUNT = 16;
+const MIN_FONT_SIZE_PX = 18;
+const MAX_FONT_SIZE_PX = 60;
+const ESTIMATED_LINE_HEIGHT_RATIO = 1.2;
 const FULLSCREEN_EVENTS = [
   "fullscreenchange",
   "webkitfullscreenchange",
@@ -55,6 +61,8 @@ export class CommentRenderer {
   private container: HTMLDivElement | null = null;
   private fullscreenEventsAttached = false;
   private scrollListenerAttached = false;
+  private cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
+
 
   constructor(settings: RendererSettings | null) {
     this._settings = settings ? { ...settings } : cloneDefaultSettings();
@@ -545,19 +553,74 @@ export class CommentRenderer {
   private createCommentStyle(
     baseStyle?: DanmakuCommentStyle,
   ): DanmakuCommentStyle {
+    const fontSizePx = this.computeFontSizePx();
+    const font = this.composeFontString(baseStyle?.font, fontSizePx);
     const opacity = Number.isFinite(this._settings.commentOpacity)
       ? Math.max(0, Math.min(1, this._settings.commentOpacity))
       : 1;
+    const strokeWidth = this.resolveStrokeWidth(baseStyle?.lineWidth, fontSizePx);
     return {
-      font: baseStyle?.font ?? DEFAULT_COMMENT_FONT,
+      font,
       textShadow: baseStyle?.textShadow ?? DEFAULT_TEXT_SHADOW,
       color: this._settings.commentColor,
       fillStyle: this._settings.commentColor,
       strokeStyle: baseStyle?.strokeStyle ?? "#000000",
-      lineWidth: baseStyle?.lineWidth ?? 2,
+      lineWidth: strokeWidth,
       opacity: opacity.toString(),
       globalAlpha: opacity,
     };
+  }
+
+  private computeFontSizePx(): number {
+    const containerHeight = this.getContainerHeight();
+    if (containerHeight <= 0) {
+      this.cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
+      return this.cachedFontSizePx;
+    }
+    const idealFontSize =
+      containerHeight / (TARGET_LANE_COUNT * ESTIMATED_LINE_HEIGHT_RATIO);
+    const clamped = Math.min(
+      MAX_FONT_SIZE_PX,
+      Math.max(MIN_FONT_SIZE_PX, idealFontSize),
+    );
+    const rounded = Math.round(clamped);
+    this.cachedFontSizePx = rounded;
+    return rounded;
+  }
+
+  private getContainerHeight(): number {
+    if (this.container) {
+      const { height } = this.container.getBoundingClientRect();
+      if (Number.isFinite(height) && height > 0) {
+        return height;
+      }
+    }
+    const videoRect = this.videoElement?.getBoundingClientRect();
+    const videoHeight = videoRect?.height;
+    if (Number.isFinite(videoHeight) && videoHeight !== undefined && videoHeight > 0) {
+      return videoHeight;
+    }
+    return this.cachedFontSizePx * TARGET_LANE_COUNT * ESTIMATED_LINE_HEIGHT_RATIO;
+  }
+
+  private composeFontString(baseFont: string | undefined, fontSizePx: number): string {
+    if (typeof baseFont === "string" && baseFont.trim().length > 0) {
+      const fontSizePattern = /\d+(?:\.\d+)?px/iu;
+      if (fontSizePattern.test(baseFont)) {
+        return baseFont.replace(fontSizePattern, `${fontSizePx}px`).trim();
+      }
+    }
+    return `${DEFAULT_FONT_WEIGHT} ${fontSizePx}px ${DEFAULT_FONT_FAMILY}`;
+  }
+
+  private resolveStrokeWidth(
+    baseStrokeWidth: number | undefined,
+    fontSizePx: number,
+  ): number {
+    if (Number.isFinite(baseStrokeWidth) && baseStrokeWidth !== undefined) {
+      return baseStrokeWidth;
+    }
+    return Math.max(2, Math.floor(fontSizePx / 12));
   }
 
   private applySettingsToComments(): void {
