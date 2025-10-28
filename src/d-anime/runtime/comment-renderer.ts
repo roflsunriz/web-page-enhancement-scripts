@@ -18,6 +18,7 @@ const DEFAULT_TEXT_SHADOW =
   "1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000";
 const RESYNC_TIME_WINDOW_MS = 2000;
 const TARGET_LANE_COUNT = 16;
+const COMMENT_DURATION_SECONDS = 4;
 const MIN_FONT_SIZE_PX = 18;
 const MAX_FONT_SIZE_PX = 60;
 const ESTIMATED_LINE_HEIGHT_RATIO = 1.2;
@@ -113,12 +114,13 @@ export class CommentRenderer {
 
       this.container = container;
 
+      const commentSpeed = rect.width / COMMENT_DURATION_SECONDS;
       this.danmaku = new Danmaku({
         container,
         media: videoElement,
         comments: [],
         engine: "canvas",
-        speed: 144,
+        speed: commentSpeed,
       });
 
       this.canvas = container.querySelector("canvas");
@@ -326,6 +328,7 @@ export class CommentRenderer {
     this.container.style.width = `${targetWidth}px`;
     this.container.style.height = `${targetHeight}px`;
     this.danmaku.resize();
+    this.danmaku.speed = (targetWidth / COMMENT_DURATION_SECONDS) * (this.videoElement?.playbackRate ?? 1);
   }
 
   private setupVideoEventListeners(videoElement: HTMLVideoElement): void {
@@ -333,7 +336,9 @@ export class CommentRenderer {
       videoElement.addEventListener("seeking", () => this.onSeek());
       videoElement.addEventListener("ratechange", () => {
         if (this.danmaku) {
-          this.danmaku.speed = 144 * videoElement.playbackRate;
+          const containerWidth = this.container?.clientWidth ?? 0;
+          const baseSpeed = containerWidth / COMMENT_DURATION_SECONDS;
+          this.danmaku.speed = baseSpeed * videoElement.playbackRate;
         }
       });
       videoElement.addEventListener("timeupdate", () => this.updateComments());
