@@ -133,6 +133,8 @@ export class VideoSwitchHandler {
 
       NotificationManager.show("動画の切り替わりを検知しました...", "info");
 
+      this.resetRendererState(resolvedVideoElement);
+
       const currentVideo = this.renderer.getVideoElement();
       if (currentVideo !== resolvedVideoElement && resolvedVideoElement) {
         logger.debug("videoSwitch:rebind", {
@@ -163,8 +165,6 @@ export class VideoSwitchHandler {
         this.isSwitching = false;
         return;
       }
-
-      this.resetRendererState(resolvedVideoElement);
 
       let apiData: NicoApiResponseBody | null = null;
       if (videoId) {
@@ -307,7 +307,6 @@ export class VideoSwitchHandler {
     }
 
     this.renderer.clearComments();
-    this.renderer.resetState?.();
   }
 
   private async checkVideoEnd(): Promise<void> {
