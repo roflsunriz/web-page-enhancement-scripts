@@ -60,6 +60,7 @@ export class CommentRenderer {
   private sizeObserver: ResizeObserver | null = null;
   private readonly isResizeObserverAvailable: boolean;
   private container: HTMLDivElement | null = null;
+  private resizeRetryHandle: number | null = null;
   private fullscreenEventsAttached = false;
   private scrollListenerAttached = false;
   private cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
@@ -311,24 +312,37 @@ export class CommentRenderer {
     this.lastEmittedIndex = newIndex;
   }
 
-  private resize(width?: number, height?: number): void {
+  private lastReportedZeroSize = false;
+
+  resize(width?: number, height?: number): void {
     if (!this.danmaku || !this.container) {
       return;
+    }
+    if (this.resizeRetryHandle) {
+      cancelAnimationFrame(this.resizeRetryHandle);
+      this.resizeRetryHandle = null;
     }
     const video = this.videoElement;
     const rect = video?.getBoundingClientRect();
     const targetWidth = width ?? rect?.width ?? this.container.clientWidth;
     const targetHeight = height ?? rect?.height ?? this.container.clientHeight;
     if (targetWidth <= 0 || targetHeight <= 0) {
+      this.resizeRetryHandle = requestAnimationFrame(() => {
+        this.resize();
+        this.resizeRetryHandle = null;
+      });
       return;
     }
     if (video && rect) {
       this.updateContainerPlacement(rect);
     }
+
     this.container.style.width = `${targetWidth}px`;
     this.container.style.height = `${targetHeight}px`;
     this.danmaku.resize();
-    this.danmaku.speed = (targetWidth / COMMENT_DURATION_SECONDS) * (this.videoElement?.playbackRate ?? 1);
+    this.danmaku.speed =
+      (targetWidth / COMMENT_DURATION_SECONDS) *
+      (this.videoElement?.playbackRate ?? 1);
   }
 
   private setupVideoEventListeners(videoElement: HTMLVideoElement): void {
@@ -389,24 +403,43 @@ export class CommentRenderer {
     try {
       this.teardownResizeListener();
       if (this.isResizeObserverAvailable) {
+        const observeTarget = this._settings.useContainerResizeObserver
+          ? container
+          : videoElement;
+        // Firefox では <video> に対する ResizeObserver が発火しない/遅延する事例がある。
+        // 可視要素であるオーバーレイコンテナを監視対象に変更して確実に拾う。
         this.sizeObserver = new ResizeObserver((entries) => {
           try {
-            const entry = entries.find(
-              (item) => item.target === videoElement,
-            );
+            const entry = entries.find((item) => item.target === observeTarget);
             if (!entry) {
               return;
             }
-            this.resize(entry.contentRect.width, entry.contentRect.height);
+            const { width, height } = entry.contentRect;
+            // レイアウト確定前に 0×0 が来ることがあるので保険として再試行
+            if (width <= 0 || height <= 0) {
+              this.lastReportedZeroSize = true;
+              requestAnimationFrame(() => this.resize());
+              return;
+            }
+            if (this.lastReportedZeroSize) {
+              logger.debug("ResizeObserver recovered from 0x0 size", {
+                width,
+                height,
+              });
+              this.lastReportedZeroSize = false;
+            }
+            this.resize(width, height);
           } catch (error) {
             logger.error(error as Error, "CommentRenderer.resizeObserver");
           }
         });
-        this.sizeObserver.observe(videoElement);
+        // 監視対象は video ではなく container にする
+        this.sizeObserver.observe(observeTarget);
       } else {
         window.addEventListener("resize", this.handleWindowResize);
       }
       this.addViewportEventListeners();
+      // 初期レイアウト未確定対策：1フレーム遅らせて確実にサイズ反映
       this.resize();
     } catch (error) {
       logger.error(error as Error, "CommentRenderer.setupResizeListener");

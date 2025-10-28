@@ -233,6 +233,7 @@ export class WatchPageController {
     if (renderer) {
       renderer.destroy();
       renderer.initialize(videoElement);
+      renderer.resize();
     }
     if (switchHandler) {
       void switchHandler.onVideoSwitch(videoElement);

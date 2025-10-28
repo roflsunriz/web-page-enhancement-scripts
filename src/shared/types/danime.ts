@@ -17,6 +17,7 @@ export interface RendererSettings {
   commentColor: string;
   commentOpacity: number;
   isCommentVisible: boolean;
+  useContainerResizeObserver: boolean;
   ngWords: string[];
   ngRegexps: string[];
 }
@@ -26,6 +27,10 @@ export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
   strokeStyle?: string | CanvasPattern | CanvasGradient;
   lineWidth?: number;
   globalAlpha?: number;
+  font?: string;
+  textShadow?: string;
+  opacity?: string;
+  color?: string;
 };
 
 export interface DanmakuComment {
@@ -57,4 +62,3 @@ export interface VideoMetadata {
   channel?: VideoChannelInfo | null;
   [key: string]: unknown;
 }
-  

@@ -10,6 +10,10 @@ const baseSettings: RendererSettings = {
   commentColor: "#FFFFFF",
   commentOpacity: 0.75,
   isCommentVisible: true,
+  // FirefoxでのResizeObserverの挙動を安定させるためのフラグ
+  // true: コンテナを監視 (推奨)
+  // false: video要素を監視 (旧挙動、デバッグ用)
+  useContainerResizeObserver: true,
   ngWords: [],
   ngRegexps: [],
 };
