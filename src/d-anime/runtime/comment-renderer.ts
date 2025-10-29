@@ -327,10 +327,8 @@ export class CommentRenderer {
     const targetWidth = width ?? rect?.width ?? this.container.clientWidth;
     const targetHeight = height ?? rect?.height ?? this.container.clientHeight;
     if (targetWidth <= 0 || targetHeight <= 0) {
-      this.resizeRetryHandle = requestAnimationFrame(() => {
-        this.resize();
-        this.resizeRetryHandle = null;
-      });
+      // レイアウト未確定の可能性、次フレームで再試行
+      requestAnimationFrame(() => this.resize());
       return;
     }
     if (video && rect) {
@@ -362,6 +360,14 @@ export class CommentRenderer {
         }
       });
       videoElement.addEventListener("timeupdate", () => this.updateComments());
+      // 新エピソード切替直後のサイズ取りこぼし対策
+      videoElement.addEventListener("loadedmetadata", () => {
+        this.resize();
+        requestAnimationFrame(() => this.resize());
+      });
+      videoElement.addEventListener("play", () => {
+        this.resize();
+      });
     } catch (error) {
       logger.error(
         "CommentRenderer.setupVideoEventListeners",
@@ -408,70 +414,40 @@ export class CommentRenderer {
   private _handleWindowResize?: () => void;
 
   private setupResizeListener(
-    container: HTMLDivElement,
+    container: HTMLDivElement
   ): void {
     try {
       this.teardownResizeListener();
+
       if (this.isResizeObserverAvailable) {
         // Firefox では <video> に対する ResizeObserver が発火しない/遅延する事例がある。
         // 可視要素であるオーバーレイコンテナを監視対象に変更して確実に拾う。
         this.sizeObserver = new ResizeObserver((entries) => {
           try {
-            const entry = entries.find((item) => item.target === this._observedEl);
+            const entry = entries.find(
+              (item) => item.target === container,
+            );
             if (!entry) {
               return;
             }
-            const { width, height } = entry.contentRect;
-            // レイアウト確定前に 0×0 が来ることがあるので保険として再試行
-            if (width <= 0 || height <= 0) {
+            if (entry.contentRect.width <= 0 || entry.contentRect.height <= 0) {
               requestAnimationFrame(() => this.resize());
-              return;
+            } else {
+              this.resize(entry.contentRect.width, entry.contentRect.height);
             }
-            this.resize(width, height);
           } catch (error) {
             logger.error(error as Error, "CommentRenderer.resizeObserver");
           }
         });
-        // 監視対象は video ではなく container にする
-        this._observedEl = container;
-        this.sizeObserver.observe(this._observedEl);
+        // Firefoxでは<video>直監視が不安定なため、可視オーバーレイを監視
+        this.sizeObserver.observe(container);
       } else {
         window.addEventListener("resize", this.handleWindowResize);
       }
       this.addViewportEventListeners();
-      // 初期レイアウト未確定対策：1フレーム遅らせて確実にサイズ反映
       this.resize();
       requestAnimationFrame(() => this.resize());
-
-      this._onFullscreenChange = () => {
-        const fsEl = document.fullscreenElement as HTMLElement | null;
-        const host = fsEl?.contains(container) ? fsEl : container;
-
-        if (this.sizeObserver && host && host !== this._observedEl) {
-          try {
-            this.sizeObserver.unobserve(this._observedEl!);
-          } catch {
-            // empty
-          }
-          this._observedEl = host;
-          this.sizeObserver.observe(this._observedEl);
-        }
-
-        if (fsEl && !fsEl.contains(container)) {
-          try {
-            fsEl.appendChild(container);
-          } catch {
-            // empty
-          }
-        }
-
-        requestAnimationFrame(() => {
-          requestAnimationFrame(() => {
-            this.forceResizeByRect(this._observedEl || container);
-          });
-        });
-      };
-      document.addEventListener("fullscreenchange", this._onFullscreenChange);
+      this.resize();
     } catch (error) {
       logger.error(error as Error, "CommentRenderer.setupResizeListener");
     }
@@ -496,6 +472,7 @@ export class CommentRenderer {
       document.removeEventListener("fullscreenchange", this._onFullscreenChange);
       this._onFullscreenChange = undefined;
     }
+
     this.removeViewportEventListeners();
   }
 
@@ -513,7 +490,11 @@ export class CommentRenderer {
   };
 
   private handleFullscreenChange = () => {
+    // フルスクリーン直後はレイアウト未確定のことがあるため、rAF×2で確実に反映
     this.resize();
+    requestAnimationFrame(() => {
+      this.resize();
+    });
   };
 
   private addViewportEventListeners(): void {
