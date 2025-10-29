@@ -127,7 +127,7 @@ export class CommentRenderer {
       this.canvas = container.querySelector("canvas");
       this.setupVideoEventListeners(videoElement);
       this.setupKeyboardShortcuts();
-      this.setupResizeListener(container, videoElement);
+      this.setupResizeListener(container);
       logger.debug("initialize:completed");
     } catch (error) {
       logger.error("CommentRenderer.initialize", error as Error);
@@ -337,8 +337,14 @@ export class CommentRenderer {
       this.updateContainerPlacement(rect);
     }
 
+    const dpr = window.devicePixelRatio || 1;
+    if (this.canvas) {
+      this.canvas.getContext("2d")?.setTransform(dpr, 0, 0, dpr, 0, 0);
+    }
+
     this.container.style.width = `${targetWidth}px`;
     this.container.style.height = `${targetHeight}px`;
+
     this.danmaku.resize();
     this.danmaku.speed =
       (targetWidth / COMMENT_DURATION_SECONDS) *
@@ -396,37 +402,30 @@ export class CommentRenderer {
     }
   }
 
+  private _observedEl?: HTMLElement;
+  private _onFullscreenChange?: () => void;
+  private _lastDpr = 1;
+  private _handleWindowResize?: () => void;
+
   private setupResizeListener(
     container: HTMLDivElement,
-    videoElement: HTMLVideoElement,
   ): void {
     try {
       this.teardownResizeListener();
       if (this.isResizeObserverAvailable) {
-        const observeTarget = this._settings.useContainerResizeObserver
-          ? container
-          : videoElement;
         // Firefox では <video> に対する ResizeObserver が発火しない/遅延する事例がある。
         // 可視要素であるオーバーレイコンテナを監視対象に変更して確実に拾う。
         this.sizeObserver = new ResizeObserver((entries) => {
           try {
-            const entry = entries.find((item) => item.target === observeTarget);
+            const entry = entries.find((item) => item.target === this._observedEl);
             if (!entry) {
               return;
             }
             const { width, height } = entry.contentRect;
             // レイアウト確定前に 0×0 が来ることがあるので保険として再試行
             if (width <= 0 || height <= 0) {
-              this.lastReportedZeroSize = true;
               requestAnimationFrame(() => this.resize());
               return;
-            }
-            if (this.lastReportedZeroSize) {
-              logger.debug("ResizeObserver recovered from 0x0 size", {
-                width,
-                height,
-              });
-              this.lastReportedZeroSize = false;
             }
             this.resize(width, height);
           } catch (error) {
@@ -434,13 +433,45 @@ export class CommentRenderer {
           }
         });
         // 監視対象は video ではなく container にする
-        this.sizeObserver.observe(observeTarget);
+        this._observedEl = container;
+        this.sizeObserver.observe(this._observedEl);
       } else {
         window.addEventListener("resize", this.handleWindowResize);
       }
       this.addViewportEventListeners();
       // 初期レイアウト未確定対策：1フレーム遅らせて確実にサイズ反映
       this.resize();
+      requestAnimationFrame(() => this.resize());
+
+      this._onFullscreenChange = () => {
+        const fsEl = document.fullscreenElement as HTMLElement | null;
+        const host = fsEl?.contains(container) ? fsEl : container;
+
+        if (this.sizeObserver && host && host !== this._observedEl) {
+          try {
+            this.sizeObserver.unobserve(this._observedEl!);
+          } catch {
+            // empty
+          }
+          this._observedEl = host;
+          this.sizeObserver.observe(this._observedEl);
+        }
+
+        if (fsEl && !fsEl.contains(container)) {
+          try {
+            fsEl.appendChild(container);
+          } catch {
+            // empty
+          }
+        }
+
+        requestAnimationFrame(() => {
+          requestAnimationFrame(() => {
+            this.forceResizeByRect(this._observedEl || container);
+          });
+        });
+      };
+      document.addEventListener("fullscreenchange", this._onFullscreenChange);
     } catch (error) {
       logger.error(error as Error, "CommentRenderer.setupResizeListener");
     }
@@ -448,13 +479,29 @@ export class CommentRenderer {
 
   private teardownResizeListener(): void {
     if (this.sizeObserver) {
+      if (this._observedEl) {
+        try {
+          this.sizeObserver.unobserve(this._observedEl);
+        } catch {
+          // empty
+        }
+      }
       this.sizeObserver.disconnect();
       this.sizeObserver = null;
     }
     if (!this.isResizeObserverAvailable) {
       window.removeEventListener("resize", this.handleWindowResize);
     }
+    if (this._onFullscreenChange) {
+      document.removeEventListener("fullscreenchange", this._onFullscreenChange);
+      this._onFullscreenChange = undefined;
+    }
     this.removeViewportEventListeners();
+  }
+
+  private forceResizeByRect(target: HTMLElement) {
+    const rect = target.getBoundingClientRect();
+    this.resize(rect.width, rect.height);
   }
 
   private handleWindowResize = () => {
