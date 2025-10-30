@@ -731,7 +731,12 @@ export class CommentRenderer {
     if (typeof video.currentSrc === "string" && video.currentSrc.length > 0) {
       return video.currentSrc;
     }
-    const source = video.getAttribute("src");
-    return source && source.length > 0 ? source : null;
+    const attr = video.getAttribute("src");
+    if (attr && attr.length > 0) return attr;
+    const sourceEl = video.querySelector("source[src]") as HTMLSourceElement | null;
+    if (sourceEl && typeof sourceEl.src === "string" && sourceEl.src.length > 0) {
+      return sourceEl.src;
+    }
+    return null;
   }
 }
