@@ -63,6 +63,8 @@ export class CommentRenderer {
   private resizeRetryHandle: number | null = null;
   private fullscreenEventsAttached = false;
   private scrollListenerAttached = false;
+  // Danmaku再開/同期ウォッチドッグのクリーンアップ
+  private watchdogCleanup: (() => void) | null = null;
   private cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
 
 
@@ -124,6 +126,8 @@ export class CommentRenderer {
         speed: commentSpeed,
       });
 
+      this.bindDanmakuWatchdog(videoElement);
+
       this.canvas = container.querySelector("canvas");
       this.setupVideoEventListeners(videoElement);
       this.setupKeyboardShortcuts();
@@ -181,6 +185,9 @@ export class CommentRenderer {
         videoId: previousVideo.dataset?.videoId ?? null,
       });
     }
+    // ウォッチドッグ解除
+    this.watchdogCleanup?.();
+    this.watchdogCleanup = null;
     this.keyboardHandler?.stopListening();
     this.keyboardHandler = null;
     this.teardownResizeListener();
@@ -188,6 +195,107 @@ export class CommentRenderer {
     this.danmaku = null;
     this.videoElement = null;
     this.container = null;
+  }
+
+  /**
+   * Firefoxで発生する「videoは進んでいるのにdanmakuだけ停止・復帰しない」ケースを
+   * ユーザースクリプト側で監視して自動復帰させる。
+   * - timeupdate/playing: 再生中かつ dm 停止なら dm.play() を強制
+   * - loadedmetadata/seeked: 初期/遷移直後に dm.seek() を明示（同期ズレ防止）
+   * - リサイズ検知: ステージサイズ変化で dm.resize()
+   */
+  private bindDanmakuWatchdog(video: HTMLVideoElement): void {
+    // 既存があれば一旦解除
+    this.watchdogCleanup?.();
+    const dm = this.danmaku as unknown as {
+      _?: {
+        paused?: boolean;
+        requestID?: number;
+        stage?: HTMLElement;
+      };
+      play?: () => void;
+      seek?: () => void;
+      resize?: () => void;
+    };
+    if (!dm) return;
+
+    // 内部状態読み取り（privateでもJSでは参照可）
+    const isDmPaused = (): boolean => !!(dm._ && dm._.paused);
+    const dmRequestId = (): number => (dm._ && dm._.requestID) || 0;
+    const stageRect = (): { w: number; h: number } | null => {
+      const st = dm._ && dm._.stage;
+      if (!st) return null;
+      const r = st.getBoundingClientRect();
+      return { w: Math.round(r.width), h: Math.round(r.height) };
+    };
+    let lastStage = stageRect();
+
+    // 再開判定（最小限・安全側）
+    const tryResume = (): void => {
+      try {
+        if (!video.paused && isDmPaused() && dmRequestId() === 0) {
+          dm.play?.();
+          logger.debug("danmaku:resumed-by-watchdog", {
+            ct: video.currentTime,
+            rs: video.readyState,
+          });
+        }
+      } catch (e) {
+        logger.warn("danmaku:resume-failed", e as Error);
+      }
+    };
+
+    // シーク再同期
+    const trySeekSync = (): void => {
+      try {
+        dm.seek?.();
+        logger.debug("danmaku:seek-synced", { ct: video.currentTime });
+      } catch (e) {
+        logger.warn("danmaku:seek-sync-failed", e as Error);
+      }
+    };
+
+    // リサイズ検知 → resize()
+    const tryResize = (): void => {
+      try {
+        const cur = stageRect();
+        if (cur && lastStage && (cur.w !== lastStage.w || cur.h !== lastStage.h)) {
+          dm.resize?.();
+          logger.debug("danmaku:resized", { from: lastStage, to: cur });
+        }
+        lastStage = cur || lastStage;
+      } catch (e) {
+        logger.warn("danmaku:resize-failed", e as Error);
+      }
+    };
+
+    const onTimeUpdate = (): void => {
+      tryResume();
+      tryResize();
+    };
+    const onPlaying = (): void => { tryResume(); };
+    const onLoadedMeta = (): void => { trySeekSync(); tryResume(); tryResize(); };
+    const onSeeked = (): void => { trySeekSync(); tryResume(); };
+    const onRate = (): void => { tryResume(); };
+
+    video.addEventListener("timeupdate", onTimeUpdate);
+    video.addEventListener("playing", onPlaying);
+    video.addEventListener("loadedmetadata", onLoadedMeta);
+    video.addEventListener("seeked", onSeeked);
+    video.addEventListener("ratechange", onRate);
+    // 画面サイズやFS切替も拾う
+    window.addEventListener("resize", tryResize);
+    document.addEventListener("fullscreenchange", tryResize);
+
+    this.watchdogCleanup = () => {
+      video.removeEventListener("timeupdate", onTimeUpdate);
+      video.removeEventListener("playing", onPlaying);
+      video.removeEventListener("loadedmetadata", onLoadedMeta);
+      video.removeEventListener("seeked", onSeeked);
+      video.removeEventListener("ratechange", onRate);
+      window.removeEventListener("resize", tryResize);
+      document.removeEventListener("fullscreenchange", tryResize);
+    };
   }
 
   updateSettings(newSettings: RendererSettings): void {
