@@ -68,6 +68,28 @@ export class CommentRenderer {
   private cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
 
 
+  private isFirefox(): boolean {
+    return /firefox/i.test(navigator.userAgent);
+  }
+
+  private waitVideoReady(video: HTMLVideoElement, cb: () => void): void {
+    // metadata 未到達や videoWidth=0 を避ける
+    const ready = () =>
+      video.readyState >= 1 /* HAVE_METADATA */ &&
+      (video.videoWidth ?? 0) > 0 &&
+      (video.videoHeight ?? 0) > 0;
+    if (ready()) {
+      cb();
+      return;
+    }
+    const onReady = (): void => {
+      if (ready()) {
+        video.removeEventListener("loadedmetadata", onReady);
+        cb();
+      }
+    };
+    video.addEventListener("loadedmetadata", onReady, { once: true });
+  }
   constructor(settings: RendererSettings | null) {
     this._settings = settings ? { ...settings } : cloneDefaultSettings();
     this.isResizeObserverAvailable = typeof ResizeObserver !== "undefined";
@@ -117,18 +139,43 @@ export class CommentRenderer {
 
       this.container = container;
 
-      const commentSpeed = rect.width / COMMENT_DURATION_SECONDS;
-      this.danmaku = new Danmaku({
-        container,
-        media: videoElement,
-        comments: [],
-        engine: "canvas",
-        speed: commentSpeed,
-      });
+      const doInit = () => {
+        const commentSpeed = rect.width / COMMENT_DURATION_SECONDS;
+        this.danmaku = new Danmaku({
+          container,
+          media: videoElement,
+          comments: [],
+          engine: this.isFirefox() ? "dom" : "canvas",
+          speed: commentSpeed,
+        });
 
-      this.bindDanmakuWatchdog(videoElement);
+        this.bindDanmakuWatchdog(videoElement);
+        this.canvas = container.querySelector("canvas");
 
-      this.canvas = container.querySelector("canvas");
+        // 軽いリトライ窓口（初期5秒のみ）
+        const dm = this.danmaku as unknown as { _?: { requestID?: number, paused?: boolean }, resize?: () => void, play?: () => void };
+        let retries = 5;
+        const retryId = setInterval(() => {
+          try {
+            const req = dm?._?.requestID ?? 0;
+            const paused = !!dm?._?.paused;
+            if (!videoElement.paused && (req === 0 || paused)) {
+              dm?.resize?.();
+              dm?.play?.();
+            }
+          } catch {
+            // empty
+          }
+          if (--retries <= 0) clearInterval(retryId);
+        }, 1000);
+      };
+
+      if (videoElement.readyState < 1 || (videoElement.videoWidth ?? 0) === 0 || (videoElement.videoHeight ?? 0) === 0) {
+        this.waitVideoReady(videoElement, doInit);
+      } else {
+        doInit();
+      }
+
       this.setupVideoEventListeners(videoElement);
       this.setupKeyboardShortcuts();
       this.setupResizeListener(container);
