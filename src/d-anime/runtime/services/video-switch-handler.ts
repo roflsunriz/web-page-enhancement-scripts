@@ -292,11 +292,18 @@ export class VideoSwitchHandler {
     if (!videoElement) {
       return null;
     }
-    if (typeof videoElement.currentSrc === "string" && videoElement.currentSrc.length > 0) {
-      return videoElement.currentSrc;
+    // Firefoxでは src=null 期間や currentSrc 解決前があるため順にフォールバック
+    const cur =
+      typeof videoElement.currentSrc === "string" ? videoElement.currentSrc : "";
+    if (cur.length > 0) return cur;
+    const attr = videoElement.getAttribute("src") ?? "";
+    if (attr.length > 0) return attr;
+    // <source> 要素経由の指定も拾う
+    const sourceEl = videoElement.querySelector("source[src]");
+    if (sourceEl && sourceEl instanceof HTMLSourceElement && sourceEl.src) {
+      return sourceEl.src;
     }
-    const attributeSrc = videoElement.getAttribute("src");
-    return attributeSrc && attributeSrc.length > 0 ? attributeSrc : null;
+    return null;
   }
 
   private resetRendererState(videoElement: HTMLVideoElement): void {

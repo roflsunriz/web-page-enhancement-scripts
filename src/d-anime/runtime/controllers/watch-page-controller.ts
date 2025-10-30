@@ -166,25 +166,39 @@ export class WatchPageController {
     };
 
     this.videoMutationObserver?.disconnect();
+    // Firefoxでは同一videoノードのまま currentSrc が null→blob: に変わるケースがある。
+    // その場合、属性srcのMutationだけでは取りこぼすので、childList(= <source> 差し替え) と
+    // readyState変化由来のloadedmetadataイベントもトリガに加える。
     this.videoMutationObserver = new MutationObserver((mutations) => {
-      if (!this.switchCallback) {
-        return;
-      }
-      for (const mutation of mutations) {
+      if (!this.switchCallback) return;
+      let shouldTrigger = false;
+      for (const m of mutations) {
+        // 1) <video src> の直接変更
         if (
-          mutation.type === "attributes" &&
-          mutation.attributeName === "src" &&
-          mutation.target === this.currentVideoElement
+          m.type === "attributes" &&
+          m.attributeName === "src" &&
+          m.target === this.currentVideoElement
         ) {
-          this.switchDebounce.resetExecution(this.switchCallback);
-          this.switchDebounce.execOnce(this.switchCallback);
+          shouldTrigger = true;
+          break;
         }
+        // 2) <source> の差し替えや子要素変化
+        if (m.type === "childList" && m.target === this.currentVideoElement) {
+          shouldTrigger = true;
+          break;
+        }
+      }
+      if (shouldTrigger) {
+        this.switchDebounce.resetExecution(this.switchCallback);
+        this.switchDebounce.execOnce(this.switchCallback);
       }
     });
 
     this.videoMutationObserver.observe(videoElement, {
       attributes: true,
       attributeFilter: ["src"],
+      childList: true,
+      subtree: true,
     });
 
     this.global.utils.initializeWithVideo = async (video) => {
@@ -252,6 +266,14 @@ export class WatchPageController {
       this.switchDebounce.execOnce(this.switchCallback);
     };
     video.addEventListener("ended", listener);
+    // Firefox: 同一ノードで source が切り替わるときに必ず通るイベントをスイッチトリガに追加
+    video.addEventListener("loadedmetadata", listener);
+    video.addEventListener("emptied", () => {
+      // 前動画の残像（二重）を防ぐため、空になったタイミングで switch を促す
+      if (!this.switchCallback) return;
+      this.switchDebounce.resetExecution(this.switchCallback);
+      this.switchDebounce.execOnce(this.switchCallback);
+    });
     this.videoEndedListener = listener;
   }
 
