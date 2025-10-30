@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         d-anime-nico-comment-renderer
 // @namespace    dAnimeNicoCommentRenderer
-// @version      6.1.0
+// @version      6.1.1
 // @author       roflsunriz
 // @description  Render NicoNico style comments on dAnime Store player.
 // @license      MIT
@@ -82,6 +82,7 @@ letter-spacing: 0.5px;\r
 display: inline-block;\r
 background: linear-gradient(90deg, var(--primary), var(--accent));\r
 -webkit-background-clip: text;\r
+background-clip: text;\r
 -webkit-text-fill-color: transparent;\r
 }\r
 \r
@@ -268,6 +269,7 @@ margin-bottom: 6px;\r
 color: var(--text-primary);\r
 display: -webkit-box;\r
 -webkit-line-clamp: 2;\r
+line-clamp: 2;\r
 -webkit-box-orient: vertical;\r
 overflow: hidden;\r
 text-overflow: ellipsis;\r
@@ -290,6 +292,7 @@ gap: 12px;\r
 font-size: 13px;\r
 color: var(--text-secondary);\r
 opacity: 0.8;\r
+display: inline-block;\r
 }\r
 \r
 /* 入力要素のスタイル */\r
@@ -679,6 +682,7 @@ box-shadow: 0 2px 8px rgba(127, 90, 240, 0.2);\r
 #searchButton, #saveSettings {\r
 background: linear-gradient(135deg, var(--primary) 0%, #6E44FF 100%);\r
 border-radius: 8px;\r
+color: var(--text-primary);\r
 }\r
 \r
 .toggle-button {\r
@@ -1711,7 +1715,7 @@ box-shadow: 0 4px 15px rgba(255, 137, 6, 0.4);\r
           <span class="version-badge" aria-label="バージョン">${Ht}</span>
         </h2>
         <div class="setting-group current-settings">
-          <h3>現在の設定</h3>
+          <h3>オーバーレイする動画</h3>
           <div id="currentVideoInfo" class="current-video-info">
             <div class="thumbnail-wrapper">
               <div class="thumbnail-container">
@@ -1793,7 +1797,7 @@ box-shadow: 0 4px 15px rgba(255, 137, 6, 0.4);\r
                 <div class="search-container">
                   <input type="text" id="searchInput" placeholder="作品名 や エピソード名 で検索">
                   <button id="searchButton">検索</button>
-                  <button id="openSearchPageDirect" class="open-search-page-direct-btn">ニコニコ検索ページへ</button>
+                  <button id="openSearchPageDirect" class="open-search-page-direct-btn">検索ページ</button>
                 </div>
                 <div id="searchResults" class="search-results"></div>
               </div>
@@ -1888,8 +1892,8 @@ box-shadow: 0 4px 15px rgba(255, 137, 6, 0.4);\r
           </div>
           <div class="date">${e}</div>
           <a href="${bt.watchBase}/${t.videoId}" target="_blank" rel="noopener"
-             class="open-search-page-direct-btn" style="margin-top: 8px; display: inline-block; text-decoration: none;">
-            視聴ページで開く
+             class="open-search-page-direct-btn" style="margin-top: 8px; margin-left: 8px; display: inline-block; text-decoration: none;">
+            視聴ページ
           </a>
         </div>
       </div>
