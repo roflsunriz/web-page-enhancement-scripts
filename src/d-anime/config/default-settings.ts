@@ -26,3 +26,5 @@ export const cloneDefaultSettings = (): RendererSettings => ({
   ngWords: [...DEFAULT_RENDERER_SETTINGS.ngWords],
   ngRegexps: [...DEFAULT_RENDERER_SETTINGS.ngRegexps],
 });
+
+export const RENDERER_VERSION = "v6.1.0";

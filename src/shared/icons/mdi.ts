@@ -8,10 +8,19 @@ import {
 	mdiFlash,
 	mdiMonitor,
 	mdiPalette,
+	mdiLabelOutline,
+	mdiFormatTitle,
+	mdiAccountCircleOutline,
+	mdiEyeOutline,
+	mdiCommentTextOutline,
+	mdiPlaylistStar,
+	mdiCalendarClockOutline,
 	mdiPlay,
 	mdiRefresh,
 	mdiTimerSandEmpty,
 	mdiLock,
+	mdiStar,
+	mdiCommentText,
 } from "@mdi/js";
 
 export function renderMdiSvg(pathD: string, size: number = 24): string {
@@ -33,4 +42,12 @@ export const svgClose: string = renderMdiSvg(mdiClose);
 export const svgPalette: string = renderMdiSvg(mdiPalette);
 export const svgLock: string = renderMdiSvg(mdiLock);
 export const svgComment: string = renderMdiSvg(mdiCommentOutline);
-
+export const svgVideoId: string = renderMdiSvg(mdiLabelOutline);
+export const svgVideoTitle: string = renderMdiSvg(mdiFormatTitle);
+export const svgVideoOwner: string = renderMdiSvg(mdiAccountCircleOutline);
+export const svgViewCount: string = renderMdiSvg(mdiEyeOutline);
+export const svgCommentCount: string = renderMdiSvg(mdiCommentTextOutline);
+export const svgMylistCount: string = renderMdiSvg(mdiPlaylistStar);
+export const svgPostedAt: string = renderMdiSvg(mdiCalendarClockOutline);
+export const svgCommentText: string = renderMdiSvg(mdiCommentText);
+export const svgStar: string = renderMdiSvg(mdiStar);

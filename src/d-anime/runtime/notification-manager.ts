@@ -70,7 +70,7 @@ export class NotificationManager
         "position: fixed",
         "top: 0",
         "right: 0",
-        "z-index: 10000",
+        "z-index: 2147483647",
         "pointer-events: none",
       ].join(";");
       document.body.appendChild(this.hostElement);

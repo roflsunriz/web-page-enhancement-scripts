@@ -13,12 +13,28 @@ import {
   NicoSearchResultItem,
 } from "../services/nico-video-searcher";
 import { createLogger } from "@/shared/logger";
-import { svgComment, svgLock, svgPalette } from "@/shared/icons/mdi";
+import {
+  svgClose,
+  svgComment,
+  svgCommentCount,
+  svgLock,
+  svgMylistCount,
+  svgPalette,
+  svgPostedAt,
+  svgVideoId,
+  svgVideoOwner,
+  svgVideoTitle,
+  svgViewCount,
+  svgPlay,
+  svgCommentText,
+  svgStar,
+} from "@/shared/icons/mdi";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import {
   buildNicovideoSearchUrl,
   NICOVIDEO_URLS,
 } from "@/shared/constants/urls";
+import { RENDERER_VERSION } from "@/d-anime/config/default-settings";
 
 const logger = createLogger("dAnime:SettingsUI");
 
@@ -40,21 +56,60 @@ const SELECTORS = {
   currentThumbnail: "#currentThumbnail",
   colorValue: ".color-value",
   colorPreview: ".color-preview",
-  colorPicker: "#colorPicker",
   colorPickerInput: "#colorPickerInput",
-  openColorPicker: "#openColorPicker",
   ngWords: "#ngWords",
   ngRegexps: "#ngRegexps",
   showNgWords: "#showNgWords",
   showNgRegexps: "#showNgRegexp",
   playCurrentVideo: "#playCurrentVideo",
+  settingsModal: "#settingsModal",
+  closeSettingsModal: "#closeSettingsModal",
+  modalOverlay: ".settings-modal__overlay",
+  modalTabs: ".settings-modal__tab",
+  modalPane: ".settings-modal__pane",
 } as const;
 
 type SelectorKey = keyof typeof SELECTORS;
 
 type SearchResultRenderer = (item: NicoSearchResultItem) => string;
 
+const MODAL_TAB_KEYS = ["search", "display", "ng"] as const;
+type ModalTabKey = (typeof MODAL_TAB_KEYS)[number];
+
+const SIMILARITY_STYLES = `
+  .similarity-container {
+    position: relative;
+    width: 100px;
+    height: 18px;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .similarity-bar {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    background: linear-gradient(90deg, var(--secondary), var(--primary));
+    opacity: 0.6;
+    transition: width 0.3s ease;
+  }
+  .similarity-text {
+    position: relative;
+    z-index: 1;
+    font-size: 12px;
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+`;
+
 export class SettingsUI extends ShadowDOMComponent {
+  private static readonly FAB_HOST_ID = "danime-settings-fab-host";
+
   private readonly settingsManager: SettingsManager;
   private readonly fetcher: NicoApiFetcher;
   private readonly searcher: NicoVideoSearcher;
@@ -62,6 +117,23 @@ export class SettingsUI extends ShadowDOMComponent {
   private currentVideoInfo: VideoMetadata | null;
   private hostElement: HTMLDivElement | null = null;
   private lastAutoButtonElement: HTMLElement | null = null;
+  private activeTab: ModalTabKey = "search";
+  private modalElement: HTMLDivElement | null = null;
+  private overlayElement: HTMLDivElement | null = null;
+  private closeButtonElement: HTMLButtonElement | null = null;
+  private fabElement: HTMLButtonElement | null = null;
+  private fabHostElement: HTMLDivElement | null = null;
+  private fabShadowRoot: ShadowRoot | null = null;
+  private readonly handleFabClick = (event: MouseEvent): void => {
+    event.preventDefault();
+    this.openSettingsModal();
+  };
+  private readonly handleOverlayClick = (): void => {
+    this.closeSettingsModal();
+  };
+  private readonly handleCloseClick = (): void => {
+    this.closeSettingsModal();
+  };
 
   constructor(
     settingsManager: SettingsManager,
@@ -282,38 +354,7 @@ export class SettingsUI extends ShadowDOMComponent {
 
     this.applySettingsToUI();
 
-    // 類似度プログレスバー用のスタイルを追加
-    const progressBarStyles = `
-      .similarity-container {
-        position: relative;
-        width: 100px;
-        height: 18px;
-        background-color: var(--bg-primary);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        border-radius: 4px;
-        overflow: hidden;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-      }
-      .similarity-bar {
-        position: absolute;
-        top: 0;
-        left: 0;
-        height: 100%;
-        background: linear-gradient(90deg, var(--secondary), var(--primary));
-        opacity: 0.6;
-        transition: width 0.3s ease;
-      }
-      .similarity-text {
-        position: relative;
-        z-index: 1;
-        font-size: 12px;
-        color: var(--text-primary);
-        font-weight: 600;
-      }
-    `;
-    this.addStyles(progressBarStyles);
+    this.addStyles(SIMILARITY_STYLES);
     this.setupEventListeners();
     return host;
   }
@@ -339,18 +380,12 @@ export class SettingsUI extends ShadowDOMComponent {
     const video = this.currentVideoInfo;
     return `
       <div class="nico-comment-settings">
-        <h2>ニコニココメント設定</h2>
-        <div class="setting-group search-section">
-          <h3>ニコニコ動画検索</h3>
-          <div class="search-container">
-            <input type="text" id="searchInput" placeholder="作品名 や エピソード名 で検索">
-            <button id="searchButton">検索</button>
-            <button id="openSearchPageDirect" class="open-search-page-direct-btn">ニコニコ検索ページへ</button>
-          </div>
-          <div id="searchResults" class="search-results"></div>
-        </div>
+        <h2>
+          <span class="settings-title">d-anime-nico-comment-renderer</span>
+          <span class="version-badge" aria-label="バージョン">${RENDERER_VERSION}</span>
+        </h2>
         <div class="setting-group current-settings">
-          <h3>現在の設定</h3>
+          <h3>オーバーレイする動画</h3>
           <div id="currentVideoInfo" class="current-video-info">
             <div class="thumbnail-wrapper">
               <div class="thumbnail-container">
@@ -361,74 +396,161 @@ export class SettingsUI extends ShadowDOMComponent {
                 <span class="play-icon">▶</span>
               </button>
             </div>
-            <div class="info-container">
-              <p>動画ID: <span id="currentVideoId">${video?.videoId ?? "未設定"}</span></p>
-              <p>タイトル: <span id="currentTitle">${video?.title ?? "未設定"}</span></p>
-              <p>投稿者: <span id="currentOwner">${video?.owner?.nickname ?? video?.channel?.name ?? "-"}</span></p>
-              <p>再生数: <span id="currentViewCount">${renderNumber(video?.viewCount)}</span></p>
-              <p>コメント数: <span id="currentCommentCount">${renderNumber(video?.commentCount)}</span></p>
-              <p>マイリスト数: <span id="currentMylistCount">${renderNumber(video?.mylistCount)}</span></p>
-              <p>投稿日: <span id="currentPostedAt">${renderDate(video?.postedAt)}</span></p>
-            </div>
-          </div>
-        </div>
-        <div class="setting-group display-settings-group">
-          <h3>表示設定</h3>
-          <div class="color-setting">
-            <label>コメント色:</label>
-            <div class="color-presets">
-              ${["#FFFFFF", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"].map((color) => `<button class="color-preset-btn" data-color="${color}" style="background-color: ${color}"></button>`).join("")}
-            </div>
-          <div class="color-picker-container">
-              <button id="openColorPicker" class="color-picker-button" type="button">
-                <span class="color-picker-button__icon" aria-hidden="true">${svgPalette}</span>
-                <span class="color-picker-button__text">カラーピッカー</span>
-              </button>
-              <div id="colorPicker" class="color-picker hidden">
-                <p class="color-picker-instruction">下のボックスをクリックするとブラウザのカラーピッカーが開きます。</p>
-                <input type="color" id="colorPickerInput" value="${this.settings.commentColor}">
+            <div class="info-container" role="list">
+              <div class="info-item info-item--wide" role="listitem" title="動画ID">
+                <span class="info-icon" aria-hidden="true">${svgVideoId}</span>
+                <span class="sr-only">動画ID</span>
+                <span class="info-value" id="currentVideoId">${video?.videoId ?? "未設定"}</span>
+              </div>
+              <div class="info-item info-item--wide" role="listitem" title="タイトル">
+                <span class="info-icon" aria-hidden="true">${svgVideoTitle}</span>
+                <span class="sr-only">タイトル</span>
+                <span class="info-value" id="currentTitle">${video?.title ?? "未設定"}</span>
+              </div>
+              <div class="info-item info-item--wide" role="listitem" title="投稿者">
+                <span class="info-icon" aria-hidden="true">${svgVideoOwner}</span>
+                <span class="sr-only">投稿者</span>
+                <span class="info-value" id="currentOwner">${video?.owner?.nickname ?? video?.channel?.name ?? "-"}</span>
+              </div>
+              <div class="info-item" role="listitem" title="再生数">
+                <span class="info-icon" aria-hidden="true">${svgViewCount}</span>
+                <span class="sr-only">再生数</span>
+                <span class="info-value" id="currentViewCount">${renderNumber(video?.viewCount)}</span>
+              </div>
+              <div class="info-item" role="listitem" title="コメント数">
+                <span class="info-icon" aria-hidden="true">${svgCommentCount}</span>
+                <span class="sr-only">コメント数</span>
+                <span class="info-value" id="currentCommentCount">${renderNumber(video?.commentCount)}</span>
+              </div>
+              <div class="info-item" role="listitem" title="マイリスト数">
+                <span class="info-icon" aria-hidden="true">${svgMylistCount}</span>
+                <span class="sr-only">マイリスト数</span>
+                <span class="info-value" id="currentMylistCount">${renderNumber(video?.mylistCount)}</span>
+              </div>
+              <div class="info-item" role="listitem" title="投稿日">
+                <span class="info-icon" aria-hidden="true">${svgPostedAt}</span>
+                <span class="sr-only">投稿日</span>
+                <span class="info-value" id="currentPostedAt">${renderDate(video?.postedAt)}</span>
               </div>
             </div>
-            <span class="current-color-display">現在の色: <span class="color-preview" style="background-color: ${this.settings.commentColor}"></span><span class="color-value">${this.settings.commentColor}</span></span>
-          </div>
-          <div class="opacity-setting">
-            <label>
-              透明度:
-              <select id="commentOpacity">
-                ${["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.75", "0.8", "0.9", "1.0"].map((value) => `<option value="${value}">${value}</option>`).join("")}
-              </select>
-            </label>
-          </div>
-          <div class="visibility-toggle">
-            <button id="commentVisibilityToggle" class="toggle-button${this.settings.isCommentVisible ? "" : " off"}">${this.settings.isCommentVisible ? "表示中" : "非表示中"}</button>
           </div>
         </div>
-        <div class="setting-group">
-          <h3>NGワード設定</h3>
-          <div class="ng-words-container">
-            <button id="showNgWords" class="mask-button" type="button">
-              <span class="mask-button__icon" aria-hidden="true">${svgLock}</span>
-              <span class="mask-button__text">NGワードを表示</span>
+      </div>
+    `;
+  }
+
+  private buildModalHtml(): string {
+    const colorOptions = ["#FFFFFF", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"]
+      .map(
+        (color) =>
+          `<button class="color-preset-btn" data-color="${color}" style="background-color: ${color}"></button>`,
+      )
+      .join("");
+    const opacityOptions = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.75", "0.8", "0.9", "1.0"]
+      .map((value) => `<option value="${value}">${value}</option>`)
+      .join("");
+
+    return `
+      <div id="settingsModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-hidden="true">
+        <div class="settings-modal__overlay"></div>
+        <div class="settings-modal__content">
+          <header class="settings-modal__header">
+            <h3 id="settingsModalTitle">設定</h3>
+            <button id="closeSettingsModal" class="settings-modal__close" type="button" aria-label="設定を閉じる">
+              <span aria-hidden="true">${svgClose}</span>
             </button>
-            <textarea class="ng-words hidden" id="ngWords" placeholder="NGワードを1行ずつ入力">${this.settings.ngWords.join("\n")}</textarea>
-          </div>
-        </div>
-        <div class="setting-group">
-          <h3>NG正規表現設定</h3>
-          <div class="ng-regexp-container">
-            <button id="showNgRegexp" class="mask-button" type="button">
-              <span class="mask-button__icon" aria-hidden="true">${svgLock}</span>
-              <span class="mask-button__text">NG正規表現を表示</span>
+          </header>
+          <div class="settings-modal__tabs" role="tablist">
+            <button class="settings-modal__tab is-active" type="button" data-tab="search" role="tab" aria-selected="true" aria-controls="settingsPaneSearch" id="settingsTabSearch">
+              <span class="settings-modal__tab-icon" aria-hidden="true">${svgComment}</span>
+              <span class="settings-modal__tab-label">検索</span>
             </button>
-            <textarea class="ng-words hidden" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${this.settings.ngRegexps.join("\n")}</textarea>
+            <button class="settings-modal__tab" type="button" data-tab="display" role="tab" aria-selected="false" aria-controls="settingsPaneDisplay" id="settingsTabDisplay" tabindex="-1">
+              <span class="settings-modal__tab-icon" aria-hidden="true">${svgPalette}</span>
+              <span class="settings-modal__tab-label">表示</span>
+            </button>
+            <button class="settings-modal__tab" type="button" data-tab="ng" role="tab" aria-selected="false" aria-controls="settingsPaneNg" id="settingsTabNg" tabindex="-1">
+              <span class="settings-modal__tab-icon" aria-hidden="true">${svgLock}</span>
+              <span class="settings-modal__tab-label">NG</span>
+            </button>
           </div>
+          <div class="settings-modal__panes">
+            <section class="settings-modal__pane is-active" data-pane="search" role="tabpanel" id="settingsPaneSearch" aria-labelledby="settingsTabSearch">
+              <div class="setting-group search-section">
+                <h3>コメントをオーバーレイする動画を検索</h3>
+                <div class="search-container">
+                  <input type="text" id="searchInput" placeholder="作品名 や エピソード名 で検索">
+                  <button id="searchButton">検索</button>
+                  <button id="openSearchPageDirect" class="open-search-page-direct-btn">検索ページ</button>
+                </div>
+                <div id="searchResults" class="search-results"></div>
+              </div>
+            </section>
+            <section class="settings-modal__pane" data-pane="display" role="tabpanel" id="settingsPaneDisplay" aria-labelledby="settingsTabDisplay" aria-hidden="true">
+              <div class="setting-group display-settings-group">
+                <h3>表示設定</h3>
+                <div class="display-settings-grid">
+                  <section class="display-settings-item display-settings-item--color" aria-labelledby="displaySettingsColorTitle">
+                    <h4 id="displaySettingsColorTitle" class="display-settings-item__title">コメント色</h4>
+                    <div class="display-settings-item__body">
+                      <div class="color-presets">
+                        ${colorOptions}
+                      </div>
+                      <div class="color-picker">
+                        <label class="color-picker__label" for="colorPickerInput">カスタムカラー</label>
+                        <input type="color" id="colorPickerInput" value="${this.settings.commentColor}">
+                        <span class="current-color-display">
+                          <span class="color-preview" style="background-color: ${this.settings.commentColor}"></span>
+                          <span class="color-value">${this.settings.commentColor}</span>
+                        </span>
+                      </div>
+                      <p class="color-picker__note">プリセットで近い色を選んでから細かく調整できます。</p>
+                    </div>
+                  </section>
+                  <section class="display-settings-item" aria-labelledby="displaySettingsOpacityTitle">
+                    <h4 id="displaySettingsOpacityTitle" class="display-settings-item__title">透明度</h4>
+                    <div class="display-settings-item__body">
+                      <label class="opacity-setting" for="commentOpacity">
+                        <span class="opacity-setting__label">透明度</span>
+                        <select id="commentOpacity">
+                          ${opacityOptions}
+                        </select>
+                      </label>
+                    </div>
+                  </section>
+                  <section class="display-settings-item" aria-labelledby="displaySettingsVisibilityTitle">
+                    <h4 id="displaySettingsVisibilityTitle" class="display-settings-item__title">表示 / 非表示</h4>
+                    <div class="display-settings-item__body">
+                      <button id="commentVisibilityToggle" class="toggle-button${this.settings.isCommentVisible ? "" : " off"}">${this.settings.isCommentVisible ? "表示中" : "非表示中"}</button>
+                    </div>
+                  </section>
+                </div>
+              </div>
+            </section>
+            <section class="settings-modal__pane" data-pane="ng" role="tabpanel" id="settingsPaneNg" aria-labelledby="settingsTabNg" aria-hidden="true">
+              <div class="setting-group ng-settings">
+                <div class="ng-settings__column" aria-labelledby="ngWordsTitle">
+                  <h3 id="ngWordsTitle" class="ng-settings__title">NGワード</h3>
+                  <textarea class="ng-settings__textarea" id="ngWords" placeholder="NGワードを1行ずつ入力">${this.settings.ngWords.join("\n")}</textarea>
+                </div>
+                <div class="ng-settings__column" aria-labelledby="ngRegexTitle">
+                  <h3 id="ngRegexTitle" class="ng-settings__title">NG正規表現</h3>
+                  <textarea class="ng-settings__textarea" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${this.settings.ngRegexps.join("\n")}</textarea>
+                </div>
+              </div>
+            </section>
+          </div>
+          <footer class="settings-modal__footer">
+            <button id="saveSettings" type="button">設定を保存</button>
+          </footer>
         </div>
-        <button id="saveSettings">設定を保存</button>
       </div>
     `;
   }
 
   private setupEventListeners(): void {
+    this.setupModalControls();
+    this.setupModalTabs();
     this.setupColorPresets();
     this.setupColorPicker();
     this.setupOpacitySelect();
@@ -439,9 +561,153 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupPlayButton();
   }
 
+  private setupModalControls(): void {
+    this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
+    this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
+
+    const fab = this.createOrUpdateFab();
+
+    const modal = this.queryModalElement<HTMLDivElement>(SELECTORS.settingsModal);
+    const closeButton = this.queryModalElement<HTMLButtonElement>(
+      SELECTORS.closeSettingsModal,
+    );
+    const overlay = this.queryModalElement<HTMLDivElement>(SELECTORS.modalOverlay);
+
+    this.modalElement = modal ?? null;
+    this.closeButtonElement = closeButton ?? null;
+    this.overlayElement = overlay ?? null;
+
+    if (!modal || !closeButton || !overlay || !fab) {
+      return;
+    }
+
+    this.fabElement?.removeEventListener("click", this.handleFabClick);
+    fab.addEventListener("click", this.handleFabClick);
+    fab.setAttribute("aria-controls", modal.id);
+    fab.setAttribute("aria-haspopup", "dialog");
+    fab.setAttribute("aria-expanded", "false");
+    this.fabElement = fab;
+
+    closeButton.addEventListener("click", this.handleCloseClick);
+    overlay.addEventListener("click", this.handleOverlayClick);
+
+    this.shadowRoot?.addEventListener("keydown", (event) => {
+      const keyboardEvent = event as KeyboardEvent;
+      if (
+        keyboardEvent.key === "Escape" &&
+        !this.modalElement?.classList.contains("hidden")
+      ) {
+        keyboardEvent.preventDefault();
+        this.closeSettingsModal();
+      }
+    });
+
+    this.applySettingsToUI();
+  }
+
+  private setupModalTabs(): void {
+    const tabButtons = Array.from(
+      this.queryModalSelectorAll<HTMLButtonElement>(SELECTORS.modalTabs),
+    );
+    const panes = Array.from(
+      this.queryModalSelectorAll<HTMLElement>(SELECTORS.modalPane),
+    );
+    if (tabButtons.length === 0 || panes.length === 0) {
+      return;
+    }
+
+    const activateTab = (key: ModalTabKey) => {
+      tabButtons.forEach((button) => {
+        const tabKey = this.toModalTabKey(button.dataset.tab);
+        const isActive = tabKey === key;
+        button.classList.toggle("is-active", isActive);
+        button.setAttribute("aria-selected", String(isActive));
+        button.setAttribute("tabindex", isActive ? "0" : "-1");
+      });
+
+      panes.forEach((pane) => {
+        const paneKey = this.toModalTabKey(pane.dataset.pane);
+        const isActive = paneKey === key;
+        pane.classList.toggle("is-active", isActive);
+        pane.setAttribute("aria-hidden", String(!isActive));
+      });
+
+      this.activeTab = key;
+    };
+
+    tabButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const key = this.toModalTabKey(button.dataset.tab);
+        if (key) {
+          activateTab(key);
+        }
+      });
+
+      button.addEventListener("keydown", (event) => {
+        const keyboardEvent = event as KeyboardEvent;
+        if (keyboardEvent.key !== "ArrowRight" && keyboardEvent.key !== "ArrowLeft") {
+          return;
+        }
+        keyboardEvent.preventDefault();
+        const currentKey = this.toModalTabKey(button.dataset.tab);
+        if (!currentKey) {
+          return;
+        }
+        const direction = keyboardEvent.key === "ArrowRight" ? 1 : -1;
+        const nextIndex =
+          (MODAL_TAB_KEYS.indexOf(currentKey) + direction + MODAL_TAB_KEYS.length) %
+          MODAL_TAB_KEYS.length;
+        const nextKey = MODAL_TAB_KEYS[nextIndex];
+        activateTab(nextKey);
+        const nextButton = tabButtons.find(
+          (candidate) => this.toModalTabKey(candidate.dataset.tab) === nextKey,
+        );
+        nextButton?.focus({ preventScroll: true });
+      });
+    });
+
+    activateTab(this.activeTab);
+  }
+
+  private openSettingsModal(focusActiveTab: boolean = true): void {
+    if (!this.modalElement || !this.fabElement) {
+      return;
+    }
+    this.modalElement.classList.remove("hidden");
+    this.modalElement.setAttribute("aria-hidden", "false");
+    this.fabElement.setAttribute("aria-expanded", "true");
+    if (focusActiveTab) {
+      const activeTab = this.queryModalElement<HTMLButtonElement>(
+        `${SELECTORS.modalTabs}.is-active`,
+      );
+      activeTab?.focus({ preventScroll: true });
+    }
+  }
+
+  private closeSettingsModal(): void {
+    if (!this.modalElement || !this.fabElement) {
+      return;
+    }
+    this.modalElement.classList.add("hidden");
+    this.modalElement.setAttribute("aria-hidden", "true");
+    this.fabElement.setAttribute("aria-expanded", "false");
+    if (this.fabElement?.isConnected) {
+      this.fabElement.focus({ preventScroll: true });
+    }
+  }
+
+  private toModalTabKey(value?: string): ModalTabKey | null {
+    if (!value) {
+      return null;
+    }
+    return (MODAL_TAB_KEYS as readonly string[]).includes(value)
+      ? (value as ModalTabKey)
+      : null;
+  }
+
   private setupColorPresets(): void {
     const buttons =
-      this.querySelectorAll<HTMLButtonElement>(".color-preset-btn");
+      this.queryModalSelectorAll<HTMLButtonElement>(".color-preset-btn");
     buttons.forEach((button) => {
       button.addEventListener("click", () => {
         const color = button.dataset.color;
@@ -449,10 +715,12 @@ export class SettingsUI extends ShadowDOMComponent {
           return;
         }
         this.settings.commentColor = color;
-        const preview = this.querySelector<HTMLSpanElement>(
+        const preview = this.queryModalElement<HTMLSpanElement>(
           SELECTORS.colorPreview,
         );
-        const value = this.querySelector<HTMLSpanElement>(SELECTORS.colorValue);
+        const value = this.queryModalElement<HTMLSpanElement>(
+          SELECTORS.colorValue,
+        );
         if (preview) {
           preview.style.backgroundColor = color;
         }
@@ -464,29 +732,21 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupColorPicker(): void {
-    const toggle = this.querySelector<HTMLButtonElement>(
-      SELECTORS.openColorPicker,
-    );
-    const pickerContainer = this.querySelector<HTMLDivElement>(
-      SELECTORS.colorPicker,
-    );
-    const input = this.querySelector<HTMLInputElement>(
+    const input = this.queryModalElement<HTMLInputElement>(
       SELECTORS.colorPickerInput,
     );
-    if (!toggle || !pickerContainer || !input) {
+    if (!input) {
       return;
     }
 
-    toggle.addEventListener("click", () => {
-      pickerContainer.classList.toggle("hidden");
-    });
-
     input.addEventListener("input", () => {
       this.settings.commentColor = input.value;
-      const preview = this.querySelector<HTMLSpanElement>(
+      const preview = this.queryModalElement<HTMLSpanElement>(
         SELECTORS.colorPreview,
       );
-      const value = this.querySelector<HTMLSpanElement>(SELECTORS.colorValue);
+      const value = this.queryModalElement<HTMLSpanElement>(
+        SELECTORS.colorValue,
+      );
       if (preview) {
         preview.style.backgroundColor = input.value;
       }
@@ -497,7 +757,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupOpacitySelect(): void {
-    const select = this.querySelector<HTMLSelectElement>(
+    const select = this.queryModalElement<HTMLSelectElement>(
       SELECTORS.opacitySelect,
     );
     if (!select) {
@@ -513,7 +773,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupVisibilityToggle(): void {
-    const button = this.querySelector<HTMLButtonElement>(
+    const button = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.visibilityToggle,
     );
     if (!button) {
@@ -527,44 +787,23 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupNgControls(): void {
-    const ngWordsArea = this.querySelector<HTMLTextAreaElement>(
+    // 以前のトグル制御は不要になったため、初期表示だけ反映する
+    const ngWordsArea = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngWords,
     );
-    const ngRegexArea = this.querySelector<HTMLTextAreaElement>(
+    if (ngWordsArea) {
+      ngWordsArea.classList.remove("hidden");
+    }
+    const ngRegexArea = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngRegexps,
     );
-    const toggleWords = this.querySelector<HTMLButtonElement>(
-      SELECTORS.showNgWords,
-    );
-    const toggleRegex = this.querySelector<HTMLButtonElement>(
-      SELECTORS.showNgRegexps,
-    );
-
-    toggleWords?.addEventListener("click", () => {
-      if (!ngWordsArea || !toggleWords) {
-        return;
-      }
-      ngWordsArea.classList.toggle("hidden");
-      const text = ngWordsArea.classList.contains("hidden")
-        ? "NGワードを表示"
-        : "NGワードを非表示";
-      this.updateMaskButtonText(toggleWords, text);
-    });
-
-    toggleRegex?.addEventListener("click", () => {
-      if (!ngRegexArea || !toggleRegex) {
-        return;
-      }
-      ngRegexArea.classList.toggle("hidden");
-      const text = ngRegexArea.classList.contains("hidden")
-        ? "NG正規表現を表示"
-        : "NG正規表現を非表示";
-      this.updateMaskButtonText(toggleRegex, text);
-    });
+    if (ngRegexArea) {
+      ngRegexArea.classList.remove("hidden");
+    }
   }
 
   private setupSaveButton(): void {
-    const button = this.querySelector<HTMLButtonElement>(SELECTORS.saveButton);
+    const button = this.queryModalElement<HTMLButtonElement>(SELECTORS.saveButton);
     if (!button) {
       return;
     }
@@ -572,11 +811,13 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupSearch(): void {
-    const input = this.querySelector<HTMLInputElement>(SELECTORS.searchInput);
-    const button = this.querySelector<HTMLButtonElement>(
+    const input = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.searchInput,
+    );
+    const button = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.searchButton,
     );
-    const openPage = this.querySelector<HTMLButtonElement>(
+    const openPage = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.openSearchPage,
     );
 
@@ -631,10 +872,11 @@ export class SettingsUI extends ShadowDOMComponent {
       return;
     }
     this.hostElement.scrollIntoView({ behavior: "smooth", block: "start" });
+    this.openSettingsModal(false);
   }
 
   private setSearchKeyword(keyword: string): void {
-    const input = this.querySelector<HTMLInputElement>(SELECTORS.searchInput);
+    const input = this.queryModalElement<HTMLInputElement>(SELECTORS.searchInput);
     if (!input) {
       return;
     }
@@ -646,7 +888,7 @@ export class SettingsUI extends ShadowDOMComponent {
     results: NicoSearchResultItem[],
     renderer: SearchResultRenderer,
   ): void {
-    const container = this.querySelector<HTMLDivElement>(
+    const container = this.queryModalElement<HTMLDivElement>(
       SELECTORS.searchResults,
     );
     if (!container) {
@@ -689,11 +931,27 @@ export class SettingsUI extends ShadowDOMComponent {
         <img src="${item.thumbnail}" alt="thumbnail">
         <div class="search-result-info">
           <div class="title">${item.title}</div>
-          <div class="stats">再生 ${item.viewCount.toLocaleString()} / コメ ${item.commentCount.toLocaleString()} / マイ ${item.mylistCount.toLocaleString()} ${similarityHtml}</div>
+          <div class="stats">
+            <span class="stat-icon" title="再生">
+              ${svgPlay}
+            </span>
+            <span>${item.viewCount.toLocaleString()}</span>
+            <span style="margin: 0 8px;">/</span>
+            <span class="stat-icon" title="コメント">
+              ${svgCommentText}
+            </span>
+            <span>${item.commentCount.toLocaleString()}</span>
+            <span style="margin: 0 8px;">/</span>
+            <span class="stat-icon" title="マイリスト">
+              ${svgStar}
+            </span>
+            <span>${item.mylistCount.toLocaleString()}</span>
+            ${similarityHtml}
+          </div>
           <div class="date">${postedAt}</div>
           <a href="${NICOVIDEO_URLS.watchBase}/${item.videoId}" target="_blank" rel="noopener"
-             class="open-search-page-direct-btn" style="margin-top: 8px; display: inline-block; text-decoration: none;">
-            視聴ページで開く
+             class="open-search-page-direct-btn" style="margin-top: 8px; margin-left: 8px; display: inline-block; text-decoration: none;">
+            視聴ページ
           </a>
         </div>
       </div>
@@ -732,20 +990,20 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private applySettingsToUI(): void {
-    const opacitySelect = this.querySelector<HTMLSelectElement>(
+    const opacitySelect = this.queryModalElement<HTMLSelectElement>(
       SELECTORS.opacitySelect,
     );
-    const visibilityButton = this.querySelector<HTMLButtonElement>(
+    const visibilityButton = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.visibilityToggle,
     );
-    const colorPreview = this.querySelector<HTMLSpanElement>(
+    const colorPreview = this.queryModalElement<HTMLSpanElement>(
       SELECTORS.colorPreview,
     );
-    const colorValue = this.querySelector<HTMLSpanElement>(
+    const colorValue = this.queryModalElement<HTMLSpanElement>(
       SELECTORS.colorValue,
     );
-    const ngWords = this.querySelector<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.querySelector<HTMLTextAreaElement>(
+    const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngRegexps,
     );
 
@@ -771,11 +1029,11 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private saveSettings(): void {
-    const opacitySelect = this.querySelector<HTMLSelectElement>(
+    const opacitySelect = this.queryModalElement<HTMLSelectElement>(
       SELECTORS.opacitySelect,
     );
-    const ngWords = this.querySelector<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.querySelector<HTMLTextAreaElement>(
+    const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngRegexps,
     );
 
@@ -930,10 +1188,187 @@ export class SettingsUI extends ShadowDOMComponent {
     button.classList.toggle("off", !this.settings.isCommentVisible);
   }
 
-  private updateMaskButtonText(button: HTMLButtonElement, text: string): void {
-    const label = button.querySelector<HTMLSpanElement>(".mask-button__text");
-    if (label) {
-      label.textContent = text;
+  public override destroy(): void {
+    this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
+    this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
+    this.closeButtonElement = null;
+    this.overlayElement = null;
+    this.modalElement = null;
+    this.removeFabElement();
+    super.destroy();
+  }
+
+  private createOrUpdateFab(): HTMLButtonElement | null {
+    if (!document.body) {
+      return null;
     }
+    let host = this.fabHostElement;
+    if (!host || !host.isConnected) {
+      host?.remove();
+      host = document.createElement("div");
+      host.id = SettingsUI.FAB_HOST_ID;
+      host.style.position = "fixed";
+      host.style.bottom = "32px";
+      host.style.right = "32px";
+      host.style.zIndex = "2147483646";
+      host.style.display = "inline-block";
+      this.fabShadowRoot = host.attachShadow({ mode: "open" });
+      document.body.appendChild(host);
+      this.fabHostElement = host;
+    } else if (!this.fabShadowRoot) {
+      this.fabShadowRoot = host.shadowRoot ?? host.attachShadow({ mode: "open" });
+    }
+
+    const shadow = this.fabShadowRoot;
+    if (!shadow) {
+      return null;
+    }
+
+    let baseStyle = shadow.querySelector<HTMLStyleElement>(
+      "style[data-role='fab-base-style']",
+    );
+    if (!baseStyle) {
+      baseStyle = document.createElement("style");
+      baseStyle.dataset.role = "fab-base-style";
+      baseStyle.textContent = ShadowStyleManager.getCommonStyles();
+      shadow.appendChild(baseStyle);
+    }
+
+    let styleElement = shadow.querySelector<HTMLStyleElement>(
+      "style[data-role='fab-style']",
+    );
+    if (!styleElement) {
+      styleElement = document.createElement("style");
+      styleElement.dataset.role = "fab-style";
+      styleElement.textContent = `
+        :host {
+          all: initial;
+        }
+
+        .fab-container {
+          position: relative;
+          display: inline-block;
+        }
+
+        .fab-button {
+          position: relative;
+          width: 64px;
+          height: 64px;
+          border-radius: 50%;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          background: linear-gradient(135deg, #7F5AF0 0%, #6E44FF 100%);
+          color: #FFFFFE;
+          box-shadow: 0 18px 36px rgba(36, 13, 78, 0.55);
+          padding: 0;
+          border: none;
+          cursor: pointer;
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          font: inherit;
+        }
+
+        .fab-button:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 24px 42px rgba(36, 13, 78, 0.6);
+        }
+
+        .fab-button:active {
+          transform: scale(0.96);
+        }
+
+        .fab-button__icon {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .fab-button__icon svg {
+          width: 28px;
+          height: 28px;
+        }
+
+        .fab-button__label {
+          position: absolute;
+          width: 1px;
+          height: 1px;
+          padding: 0;
+          margin: -1px;
+          overflow: hidden;
+          clip: rect(0 0 0 0);
+          white-space: nowrap;
+          border: 0;
+        }
+      `;
+      shadow.appendChild(styleElement);
+    }
+
+    let similarityStyle = shadow.querySelector<HTMLStyleElement>(
+      "style[data-role='similarity-style']",
+    );
+    if (!similarityStyle) {
+      similarityStyle = document.createElement("style");
+      similarityStyle.dataset.role = "similarity-style";
+      similarityStyle.textContent = SIMILARITY_STYLES;
+      shadow.appendChild(similarityStyle);
+    }
+
+    let container = shadow.querySelector<HTMLDivElement>(".fab-container");
+    if (!container) {
+      container = document.createElement("div");
+      container.className = "fab-container";
+      shadow.appendChild(container);
+    }
+
+    let button = container.querySelector<HTMLButtonElement>("button.fab-button");
+    if (!button) {
+      button = document.createElement("button");
+      button.type = "button";
+      button.className = "fab-button";
+      container.appendChild(button);
+    }
+    button.innerHTML = `
+      <span class="fab-button__icon" aria-hidden="true">${svgComment}</span>
+      <span class="fab-button__label">設定</span>
+    `;
+    button.setAttribute("aria-label", "ニコニココメント設定を開く");
+    button.setAttribute("aria-haspopup", "dialog");
+
+    let modal = container.querySelector<HTMLDivElement>(SELECTORS.settingsModal);
+    if (!modal) {
+      container.insertAdjacentHTML("beforeend", this.buildModalHtml());
+      modal = container.querySelector<HTMLDivElement>(SELECTORS.settingsModal);
+    }
+    this.modalElement = modal ?? null;
+    return button;
+  }
+
+  private removeFabElement(): void {
+    if (this.fabElement) {
+      this.fabElement.removeEventListener("click", this.handleFabClick);
+    }
+    if (this.fabHostElement?.isConnected) {
+      this.fabHostElement.remove();
+    }
+    this.fabElement = null;
+    this.fabHostElement = null;
+    this.fabShadowRoot = null;
+  }
+
+  private queryModalElement<T extends Element>(selector: string): T | null {
+    if (!this.fabShadowRoot) {
+      return null;
+    }
+    return this.fabShadowRoot.querySelector<T>(selector);
+  }
+
+  private queryModalSelectorAll<T extends Element>(
+    selector: string,
+  ): NodeListOf<T> {
+    if (!this.fabShadowRoot) {
+      return document.createDocumentFragment()
+        .childNodes as unknown as NodeListOf<T>;
+    }
+    return this.fabShadowRoot.querySelectorAll<T>(selector);
   }
 }
