@@ -9,6 +9,7 @@
 - `d-anime-nico-comment-renderer.user.js`
  - Firefoxで動画切り替わり時にコメントが表示されない問題（全画面含む）を修正しました。
  - 設定UIをFAB+モーダル+タブビューのUIに変更しました。
+ - Firefoxでバグ対応のためフォールバックとして@ironkinoko/danmakuを利用するように修正しました。
 
 ## v2.0.1 - 2025-10-27
 ### 変更

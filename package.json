@@ -47,6 +47,7 @@
     "vite-plugin-monkey": "^7.1.4"
   },
   "dependencies": {
+    "@ironkinoko/danmaku": "^1.4.4",
     "@mdi/js": "7.4.47",
     "danmaku": "^2.0.9",
     "fflate": "^0.8.2",

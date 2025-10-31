@@ -7,6 +7,7 @@ import type {
 import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
 import { createLogger } from "@/shared/logger";
 import Danmaku from "danmaku";
+import FirefoxDanmaku from "@ironkinoko/danmaku";
 
 const logger = createLogger("dAnime:CommentRenderer");
 
@@ -34,6 +35,9 @@ type FullscreenDocument = Document & {
   mozFullScreenElement?: Element | null;
   msFullscreenElement?: Element | null;
 };
+
+type DanmakuOptions = ConstructorParameters<typeof Danmaku>[0];
+type DanmakuConstructor = new (options: DanmakuOptions) => Danmaku;
 
 const getFullscreenElement = (): Element | null => {
   const doc = document as FullscreenDocument;
@@ -70,6 +74,13 @@ export class CommentRenderer {
 
   private isFirefox(): boolean {
     return /firefox/i.test(navigator.userAgent);
+  }
+
+  private resolveDanmakuConstructor(): DanmakuConstructor {
+    if (this.isFirefox()) {
+      return FirefoxDanmaku as unknown as DanmakuConstructor;
+    }
+    return Danmaku as DanmakuConstructor;
   }
 
   private waitVideoReady(video: HTMLVideoElement, cb: () => void): void {
@@ -141,11 +152,19 @@ export class CommentRenderer {
 
       const doInit = () => {
         const commentSpeed = rect.width / COMMENT_DURATION_SECONDS;
-        this.danmaku = new Danmaku({
+        const isFirefox = this.isFirefox();
+        const Engine = this.resolveDanmakuConstructor();
+        const engineMode: NonNullable<DanmakuOptions["engine"]> =
+          isFirefox ? "dom" : "canvas";
+        logger.info("danmakuEngine:selected", {
+          engineMode,
+          library: isFirefox ? "@ironkinoko/danmaku" : "danmaku",
+        });
+        this.danmaku = new Engine({
           container,
           media: videoElement,
           comments: [],
-          engine: this.isFirefox() ? "dom" : "canvas",
+          engine: engineMode,
           speed: commentSpeed,
         });
 
