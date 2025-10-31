@@ -207,6 +207,33 @@ export class Comment {
       ctx.lineJoin = "round";
       ctx.strokeText(this.text, drawX, drawY);
 
+      const baseShadowOffset = Math.max(1, this.fontSize * 0.04);
+      const baseShadowBlur = this.fontSize * 0.18;
+      const shadowLayers: ReadonlyArray<{
+        readonly offsetMultiplier: number;
+        readonly blurMultiplier: number;
+        readonly alpha: number;
+      }> = [
+        { offsetMultiplier: 1, blurMultiplier: 0.6, alpha: 0.45 },
+        { offsetMultiplier: 2, blurMultiplier: 1, alpha: 0.3 },
+        { offsetMultiplier: 3.2, blurMultiplier: 1.6, alpha: 0.18 },
+      ];
+
+      shadowLayers.forEach((layer) => {
+        const offset = baseShadowOffset * layer.offsetMultiplier;
+        ctx.shadowColor = `rgba(0, 0, 0, ${layer.alpha})`;
+        ctx.shadowBlur = baseShadowBlur * layer.blurMultiplier;
+        ctx.shadowOffsetX = offset;
+        ctx.shadowOffsetY = offset;
+        ctx.fillStyle = this.color;
+        ctx.fillText(this.text, drawX, drawY);
+      });
+
+      ctx.shadowColor = "transparent";
+      ctx.shadowBlur = 0;
+      ctx.shadowOffsetX = 0;
+      ctx.shadowOffsetY = 0;
+
       ctx.fillStyle = this.color;
       ctx.fillText(this.text, drawX, drawY);
 
