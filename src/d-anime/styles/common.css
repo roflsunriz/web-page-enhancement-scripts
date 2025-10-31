@@ -1036,7 +1036,9 @@ position: relative;
 overflow: hidden;
 }
 
-#saveSettings:hover {
+#saveSettings:hover,
+#searchButton:hover,
+.settings-modal__play-button:hover {
 animation: pulse 1.5s infinite;
 }
 

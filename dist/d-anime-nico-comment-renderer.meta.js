@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         d-anime-nico-comment-renderer
 // @namespace    dAnimeNicoCommentRenderer
-// @version      6.2.2
+// @version      6.2.3
 // @author       roflsunriz
 // @description  Render NicoNico style comments on dAnime Store player.
 // @license      MIT
