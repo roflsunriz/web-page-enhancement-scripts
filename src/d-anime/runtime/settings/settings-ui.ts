@@ -107,6 +107,32 @@ const SIMILARITY_STYLES = `
   }
 `;
 
+const MODAL_PLAY_BUTTON_STYLES = `
+  .settings-modal__footer {
+    align-items: center;
+  }
+  .settings-modal__play-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    border-radius: 8px;
+    text-align: center;
+  }
+  .settings-modal__play-icon svg {
+    width: 18px;
+    height: 18px;
+    display:inline-block;
+    text-align: center;
+  }
+  .settings-modal__play-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+`;
+
 export class SettingsUI extends ShadowDOMComponent {
   private static readonly FAB_HOST_ID = "danime-settings-fab-host";
 
@@ -214,7 +240,7 @@ export class SettingsUI extends ShadowDOMComponent {
           const keyword = [title, episodeNumber, episodeTitle]
             .filter(Boolean)
             .join(" ");
-          this.scrollToSettings();
+          this.openSettingsModal(false);
           this.setSearchKeyword(keyword);
           this.lastAutoButtonElement = buttonHost;
 
@@ -392,9 +418,6 @@ export class SettingsUI extends ShadowDOMComponent {
                 <img id="currentThumbnail" src="${video?.thumbnail ?? ""}" alt="サムネイル">
                 <div class="thumbnail-overlay"></div>
               </div>
-              <button id="playCurrentVideo" class="play-button" title="この動画を再生">
-                <span class="play-icon">▶</span>
-              </button>
             </div>
             <div class="info-container" role="list">
               <div class="info-item info-item--wide" role="listitem" title="動画ID">
@@ -541,6 +564,10 @@ export class SettingsUI extends ShadowDOMComponent {
             </section>
           </div>
           <footer class="settings-modal__footer">
+            <button id="playCurrentVideo" class="settings-modal__play-button" type="button" title="この動画を再生">
+              <span class="settings-modal__play-icon" aria-hidden="true">${svgPlay}</span>
+              <span class="settings-modal__play-label">動画を再生</span>
+            </button>
             <button id="saveSettings" type="button">設定を保存</button>
           </footer>
         </div>
@@ -867,14 +894,6 @@ export class SettingsUI extends ShadowDOMComponent {
     }
   }
 
-  private scrollToSettings(): void {
-    if (!this.hostElement) {
-      return;
-    }
-    this.hostElement.scrollIntoView({ behavior: "smooth", block: "start" });
-    this.openSettingsModal(false);
-  }
-
   private setSearchKeyword(keyword: string): void {
     const input = this.queryModalElement<HTMLInputElement>(SELECTORS.searchInput);
     if (!input) {
@@ -1125,7 +1144,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupPlayButton(): void {
-    const button = this.querySelector<HTMLButtonElement>(
+    const button = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.playCurrentVideo,
     );
     if (!button) {
@@ -1172,7 +1191,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private updatePlayButtonState(videoInfo: VideoMetadata | null): void {
-    const button = this.querySelector<HTMLButtonElement>(
+    const button = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.playCurrentVideo,
     );
     if (!button) {
@@ -1311,6 +1330,16 @@ export class SettingsUI extends ShadowDOMComponent {
       similarityStyle.dataset.role = "similarity-style";
       similarityStyle.textContent = SIMILARITY_STYLES;
       shadow.appendChild(similarityStyle);
+    }
+
+    let modalPlayButtonStyle = shadow.querySelector<HTMLStyleElement>(
+      "style[data-role='modal-play-button-style']",
+    );
+    if (!modalPlayButtonStyle) {
+      modalPlayButtonStyle = document.createElement("style");
+      modalPlayButtonStyle.dataset.role = "modal-play-button-style";
+      modalPlayButtonStyle.textContent = MODAL_PLAY_BUTTON_STYLES;
+      shadow.appendChild(modalPlayButtonStyle);
     }
 
     let container = shadow.querySelector<HTMLDivElement>(".fab-container");
