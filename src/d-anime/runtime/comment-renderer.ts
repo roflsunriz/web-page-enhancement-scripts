@@ -24,6 +24,7 @@ const DEFAULT_TEXT_SHADOW =
   "1px 1px 2px #000, -1px -1px 2px #000, 1px -1px 2px #000, -1px 1px 2px #000";
 const RESYNC_TIME_WINDOW_MS = 2000;
 const TARGET_LANE_COUNT = 16;
+const TARGET_LANE_COUNT_DANMU = 24;
 const COMMENT_DURATION_SECONDS = 4;
 const MIN_FONT_SIZE_PX = 18;
 const MAX_FONT_SIZE_PX = 60;
@@ -49,7 +50,9 @@ class DanmuAdapter {
   private readonly manager: DanmuManager<DanmakuComment>;
   private readonly host: HTMLDivElement;
   private readonly cleanupTasks: Array<() => void> = [];
-  private speedValue = 0;
+  private speedPerMs = 0;
+  private playbackRate = 1;
+  private isFrozen = false;
   private width = 0;
   private height = 0;
   private durationMs: number;
@@ -73,7 +76,7 @@ class DanmuAdapter {
     this.container.appendChild(this.host);
 
     this.manager = createDanmuManager<DanmakuComment>({
-      direction: "left",
+      direction: "right",
       gap: 0,
       interval: 16,
       trackHeight: `${Math.max(24, Math.floor(this.container.clientHeight / (this.laneCount || 1)) || 24)}px`,
@@ -110,29 +113,49 @@ class DanmuAdapter {
 
     this.manager.mount(this.host);
     this.manager.setGap(0);
+    this.manager.setLimits({
+      view: Number.POSITIVE_INFINITY,
+      stash: Number.POSITIVE_INFINITY,
+    });
     this.manager.setRate(1);
-    this.manager.setDirection("left");
+    this.manager.setDirection("right");
+    this.updateLayoutMetrics();
     this.manager.startPlaying();
 
-    const onPlay = () => this.manager.startPlaying();
-    const onPause = () => this.manager.stopPlaying();
+    const onPlay = (): void => {
+      this.isFrozen = false;
+      this.syncPlaybackState();
+    };
+    const onPause = (): void => {
+      this.isFrozen = true;
+      this.syncPlaybackState();
+    };
+    const onRateChange = (): void => {
+      this.playbackRate = this.media.playbackRate || 1;
+      this.syncPlaybackState();
+    };
     this.media.addEventListener("play", onPlay);
     this.media.addEventListener("pause", onPause);
+    this.media.addEventListener("ratechange", onRateChange);
     this.cleanupTasks.push(() => {
       this.media.removeEventListener("play", onPlay);
       this.media.removeEventListener("pause", onPause);
+      this.media.removeEventListener("ratechange", onRateChange);
     });
 
     this.speed = initialSpeed;
     this.resize();
+    this.syncPlaybackState();
   }
 
   get speed(): number {
-    return this.speedValue;
+    return this.speedPerMs * 1000;
   }
 
   set speed(value: number) {
-    this.speedValue = Number.isFinite(value) && value > 0 ? value : 0;
+    const normalized =
+      Number.isFinite(value) && value > 0 ? value / 1000 : 0;
+    this.speedPerMs = normalized;
     this.updateTiming();
   }
 
@@ -145,7 +168,7 @@ class DanmuAdapter {
       duration: this.durationMs,
       direction: "left",
       rate: 1,
-      speed: this.speedValue > 0 ? this.speedValue : undefined,
+      speed: this.speedPerMs > 0 ? this.speedPerMs : undefined,
     });
   }
 
@@ -166,8 +189,11 @@ class DanmuAdapter {
     this.manager.container.setStyle("height", `${this.height}px`);
     this.manager.container.width = this.width;
     this.manager.container.height = this.height;
-    const laneHeight = Math.max(12, Math.floor(this.height / Math.max(1, this.laneCount)));
-    this.manager.setTrackHeight(laneHeight);
+    this.manager.setLimits({
+      view: Number.POSITIVE_INFINITY,
+      stash: Number.POSITIVE_INFINITY,
+    });
+    this.updateLayoutMetrics();
     this.updateTiming();
   }
 
@@ -211,17 +237,52 @@ class DanmuAdapter {
       return;
     }
     const computedDuration =
-      this.speedValue > 0
-        ? Math.max(500, Math.round((this.width / this.speedValue) * 1000))
+      this.speedPerMs > 0
+        ? Math.max(500, Math.round(this.width / this.speedPerMs))
         : this.baseDurationMs;
     this.durationMs = computedDuration;
     this.manager.setDurationRange([this.durationMs, this.durationMs]);
-    if (this.speedValue > 0) {
-      this.manager.setSpeed(this.speedValue);
+    const effectiveSpeed =
+      this.speedPerMs > 0
+        ? this.speedPerMs
+        : this.durationMs > 0
+          ? this.width / this.durationMs
+          : 0;
+    if (effectiveSpeed > 0) {
+      this.manager.setSpeed(effectiveSpeed);
     } else {
-      const fallbackSpeed = this.width / (this.durationMs / 1000);
-      this.manager.setSpeed(fallbackSpeed);
+      this.manager.setSpeed(undefined);
     }
+  }
+
+  private syncPlaybackState(): void {
+    const mediaPaused = this.media.paused || this.media.readyState < 2;
+    const desiredRate = this.media.playbackRate || this.playbackRate || 1;
+    this.playbackRate = desiredRate;
+    this.manager.setRate(desiredRate > 0 ? desiredRate : 1);
+    if (mediaPaused || this.isFrozen) {
+      this.manager.freeze();
+      this.manager.stopPlaying();
+    } else {
+      this.manager.unfreeze();
+      if (!this.manager.isPlaying()) {
+        this.manager.startPlaying();
+      }
+    }
+  }
+
+  private updateLayoutMetrics(): void {
+    if (this.width <= 0 || this.height <= 0) {
+      return;
+    }
+    const laneHeight = Math.max(18, Math.floor(this.height / Math.max(1, this.laneCount)));
+    this.manager.setTrackHeight(laneHeight);
+    const gapPx = Math.max(laneHeight, this.width * 0.02);
+    this.manager.setGap(Math.round(gapPx));
+    this.manager.setLimits({
+      view: Number.POSITIVE_INFINITY,
+      stash: Number.POSITIVE_INFINITY,
+    });
   }
 }
 
@@ -271,11 +332,11 @@ export class CommentRenderer {
     } else {
       node.style.color = this._settings.commentColor;
     }
-    if (style?.textShadow) {
-      node.style.textShadow = style.textShadow;
-    } else {
-      node.style.textShadow = DEFAULT_TEXT_SHADOW;
-    }
+    const textShadow =
+      typeof style?.textShadow === "string" && style.textShadow.trim().length > 0
+        ? style.textShadow
+        : "1px 1px 3px rgba(0, 0, 0, 0.85)";
+    node.style.textShadow = textShadow;
     const opacityFromStyle =
       typeof style?.opacity === "string" && style.opacity.length > 0
         ? style.opacity
@@ -290,13 +351,19 @@ export class CommentRenderer {
         ? style.strokeStyle
         : null;
     if (strokeColor && style?.lineWidth !== undefined) {
-      const lineWidth =
+      const rawLineWidth =
         typeof style.lineWidth === "number"
           ? style.lineWidth
           : Number(style.lineWidth) || 0;
+      const lineWidth = Number.isFinite(rawLineWidth)
+        ? Math.min(Math.max(rawLineWidth, 0), 1.5)
+        : 0;
       if (lineWidth > 0) {
         node.style.setProperty("-webkit-text-stroke", `${lineWidth}px ${strokeColor}`);
         node.style.setProperty("text-stroke", `${lineWidth}px ${strokeColor}`);
+      } else {
+        node.style.removeProperty("-webkit-text-stroke");
+        node.style.removeProperty("text-stroke");
       }
     }
     if (!style?.strokeStyle || style.lineWidth === undefined) {
@@ -387,7 +454,7 @@ export class CommentRenderer {
             container,
             videoElement,
             commentSpeed,
-            TARGET_LANE_COUNT,
+            TARGET_LANE_COUNT_DANMU,
             COMMENT_DURATION_SECONDS * 1000,
             this.applyDanmuStyleToNode,
           );
@@ -698,11 +765,12 @@ export class CommentRenderer {
       this.finalPhaseActive = false;
     }
 
-    const emitThreshold = this.currentTime + 2000;
+    const emitLeadMs = this.danmaku instanceof DanmuAdapter ? 250 : 2000;
+    const emitThreshold = this.currentTime + emitLeadMs;
     for (let i = this.lastEmittedIndex + 1; i < this.allComments.length; i++) {
       const comment = this.allComments[i];
       const vpos = comment.time * 1000;
-      if (vpos < emitThreshold) {
+      if (vpos <= emitThreshold) {
         if (!this.isNGComment(comment.text)) {
           this.danmaku.emit({
             ...comment,
