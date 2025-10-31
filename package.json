@@ -48,8 +48,6 @@
   },
   "dependencies": {
     "@mdi/js": "7.4.47",
-    "danmaku": "^2.0.9",
-    "danmu": "^0.18.1",
     "fflate": "^0.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

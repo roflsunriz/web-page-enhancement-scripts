@@ -27,4 +27,4 @@ export const cloneDefaultSettings = (): RendererSettings => ({
   ngRegexps: [...DEFAULT_RENDERER_SETTINGS.ngRegexps],
 });
 
-export const RENDERER_VERSION = "v6.2.3";
+export const RENDERER_VERSION = "v6.3.0";
