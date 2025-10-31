@@ -7,7 +7,12 @@ import type {
 import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
 import { createLogger } from "@/shared/logger";
 import Danmaku from "danmaku";
-import FirefoxDanmaku from "@ironkinoko/danmaku";
+import { create as createDanmuManager } from "danmu";
+import type {
+  Manager as DanmuManager,
+  Danmaku as DanmuEntity,
+  ManagerPlugin as DanmuManagerPlugin,
+} from "danmu";
 
 const logger = createLogger("dAnime:CommentRenderer");
 
@@ -37,7 +42,188 @@ type FullscreenDocument = Document & {
 };
 
 type DanmakuOptions = ConstructorParameters<typeof Danmaku>[0];
-type DanmakuConstructor = new (options: DanmakuOptions) => Danmaku;
+
+type DanmakuStyleApplicator = (node: HTMLElement, style?: DanmakuCommentStyle) => void;
+
+class DanmuAdapter {
+  private readonly manager: DanmuManager<DanmakuComment>;
+  private readonly host: HTMLDivElement;
+  private readonly cleanupTasks: Array<() => void> = [];
+  private speedValue = 0;
+  private width = 0;
+  private height = 0;
+  private durationMs: number;
+
+  constructor(
+    private readonly container: HTMLDivElement,
+    private readonly media: HTMLVideoElement,
+    initialSpeed: number,
+    private readonly laneCount: number,
+    private readonly baseDurationMs: number,
+    private readonly applyStyle: DanmakuStyleApplicator,
+  ) {
+    this.durationMs = baseDurationMs;
+    this.host = document.createElement("div");
+    this.host.style.position = "absolute";
+    this.host.style.top = "0";
+    this.host.style.left = "0";
+    this.host.style.width = "100%";
+    this.host.style.height = "100%";
+    this.host.style.pointerEvents = "none";
+    this.container.appendChild(this.host);
+
+    this.manager = createDanmuManager<DanmakuComment>({
+      direction: "left",
+      gap: 0,
+      interval: 16,
+      trackHeight: `${Math.max(24, Math.floor(this.container.clientHeight / (this.laneCount || 1)) || 24)}px`,
+      durationRange: [this.durationMs, this.durationMs],
+      mode: "strict",
+      rate: 1,
+      limits: {
+        stash: Number.POSITIVE_INFINITY,
+      },
+    });
+
+    this.manager.container.setStyle("position", "absolute");
+    this.manager.container.setStyle("top", "0");
+    this.manager.container.setStyle("left", "0");
+    this.manager.container.setStyle("width", "100%");
+    this.manager.container.setStyle("height", "100%");
+    this.manager.container.setStyle("pointerEvents", "none");
+
+    const plugin: DanmuManagerPlugin<DanmakuComment> = {
+      name: "danime-comment-style",
+      $createNode: (danmaku: DanmuEntity<DanmakuComment>, node: HTMLElement) => {
+        node.textContent = danmaku.data.text;
+        node.style.position = "absolute";
+        node.style.whiteSpace = "nowrap";
+        node.style.pointerEvents = "none";
+        node.style.willChange = "transform";
+        this.applyStyle(node, danmaku.data.style);
+      },
+      $appendNode: (danmaku: DanmuEntity<DanmakuComment>, node: HTMLElement) => {
+        this.applyStyle(node, danmaku.data.style);
+      },
+    };
+    this.manager.use(plugin);
+
+    this.manager.mount(this.host);
+    this.manager.setGap(0);
+    this.manager.setRate(1);
+    this.manager.setDirection("left");
+    this.manager.startPlaying();
+
+    const onPlay = () => this.manager.startPlaying();
+    const onPause = () => this.manager.stopPlaying();
+    this.media.addEventListener("play", onPlay);
+    this.media.addEventListener("pause", onPause);
+    this.cleanupTasks.push(() => {
+      this.media.removeEventListener("play", onPlay);
+      this.media.removeEventListener("pause", onPause);
+    });
+
+    this.speed = initialSpeed;
+    this.resize();
+  }
+
+  get speed(): number {
+    return this.speedValue;
+  }
+
+  set speed(value: number) {
+    this.speedValue = Number.isFinite(value) && value > 0 ? value : 0;
+    this.updateTiming();
+  }
+
+  emit(comment: DanmakuComment): void {
+    const prepared: DanmakuComment = {
+      ...comment,
+      style: comment.style ? { ...comment.style } : undefined,
+    };
+    this.manager.push(prepared, {
+      duration: this.durationMs,
+      direction: "left",
+      rate: 1,
+      speed: this.speedValue > 0 ? this.speedValue : undefined,
+    });
+  }
+
+  clear(): void {
+    this.manager.clear();
+  }
+
+  resize(): void {
+    const parentRect = this.container.getBoundingClientRect();
+    if (parentRect.width <= 0 || parentRect.height <= 0) {
+      return;
+    }
+    this.width = parentRect.width;
+    this.height = parentRect.height;
+    this.host.style.width = `${this.width}px`;
+    this.host.style.height = `${this.height}px`;
+    this.manager.container.setStyle("width", `${this.width}px`);
+    this.manager.container.setStyle("height", `${this.height}px`);
+    this.manager.container.width = this.width;
+    this.manager.container.height = this.height;
+    const laneHeight = Math.max(12, Math.floor(this.height / Math.max(1, this.laneCount)));
+    this.manager.setTrackHeight(laneHeight);
+    this.updateTiming();
+  }
+
+  play(): void {
+    this.manager.startPlaying();
+  }
+
+  pause(): void {
+    this.manager.stopPlaying();
+  }
+
+  show(): void {
+    void this.manager.show();
+  }
+
+  hide(): void {
+    void this.manager.hide();
+  }
+
+  seek(): void {
+    this.clear();
+  }
+
+  destroy(): void {
+    this.clear();
+    this.manager.stopPlaying();
+    this.manager.unmount();
+    this.cleanupTasks.forEach((task) => {
+      try {
+        task();
+      } catch {
+        // empty
+      }
+    });
+    this.cleanupTasks.length = 0;
+    this.host.remove();
+  }
+
+  private updateTiming(): void {
+    if (this.width <= 0) {
+      return;
+    }
+    const computedDuration =
+      this.speedValue > 0
+        ? Math.max(500, Math.round((this.width / this.speedValue) * 1000))
+        : this.baseDurationMs;
+    this.durationMs = computedDuration;
+    this.manager.setDurationRange([this.durationMs, this.durationMs]);
+    if (this.speedValue > 0) {
+      this.manager.setSpeed(this.speedValue);
+    } else {
+      const fallbackSpeed = this.width / (this.durationMs / 1000);
+      this.manager.setSpeed(fallbackSpeed);
+    }
+  }
+}
 
 const getFullscreenElement = (): Element | null => {
   const doc = document as FullscreenDocument;
@@ -52,7 +238,7 @@ const getFullscreenElement = (): Element | null => {
 
 export class CommentRenderer {
   private _settings: RendererSettings;
-  private danmaku: Danmaku | null = null;
+  private danmaku: Danmaku | DanmuAdapter | null = null;
   private allComments: DanmakuComment[] = [];
   private lastEmittedIndex = -1;
   private canvas: HTMLCanvasElement | null = null;
@@ -70,17 +256,57 @@ export class CommentRenderer {
   // Danmaku再開/同期ウォッチドッグのクリーンアップ
   private watchdogCleanup: (() => void) | null = null;
   private cachedFontSizePx = FALLBACK_FONT_SIZE_PX;
-
+  private readonly applyDanmuStyleToNode: DanmakuStyleApplicator = (
+    node,
+    style,
+  ) => {
+    if (style?.font) {
+      node.style.font = style.font;
+    } else {
+      const fontSize = this.computeFontSizePx();
+      node.style.font = this.composeFontString(undefined, fontSize);
+    }
+    if (style?.color) {
+      node.style.color = style.color;
+    } else {
+      node.style.color = this._settings.commentColor;
+    }
+    if (style?.textShadow) {
+      node.style.textShadow = style.textShadow;
+    } else {
+      node.style.textShadow = DEFAULT_TEXT_SHADOW;
+    }
+    const opacityFromStyle =
+      typeof style?.opacity === "string" && style.opacity.length > 0
+        ? style.opacity
+        : undefined;
+    const opacityFromAlpha =
+      typeof style?.globalAlpha === "number"
+        ? style.globalAlpha.toString()
+        : undefined;
+    node.style.opacity = opacityFromStyle ?? opacityFromAlpha ?? "1";
+    const strokeColor =
+      typeof style?.strokeStyle === "string" && style.strokeStyle.length > 0
+        ? style.strokeStyle
+        : null;
+    if (strokeColor && style?.lineWidth !== undefined) {
+      const lineWidth =
+        typeof style.lineWidth === "number"
+          ? style.lineWidth
+          : Number(style.lineWidth) || 0;
+      if (lineWidth > 0) {
+        node.style.setProperty("-webkit-text-stroke", `${lineWidth}px ${strokeColor}`);
+        node.style.setProperty("text-stroke", `${lineWidth}px ${strokeColor}`);
+      }
+    }
+    if (!style?.strokeStyle || style.lineWidth === undefined) {
+      node.style.removeProperty("-webkit-text-stroke");
+      node.style.removeProperty("text-stroke");
+    }
+  };
 
   private isFirefox(): boolean {
     return /firefox/i.test(navigator.userAgent);
-  }
-
-  private resolveDanmakuConstructor(): DanmakuConstructor {
-    if (this.isFirefox()) {
-      return FirefoxDanmaku as unknown as DanmakuConstructor;
-    }
-    return Danmaku as DanmakuConstructor;
   }
 
   private waitVideoReady(video: HTMLVideoElement, cb: () => void): void {
@@ -152,41 +378,61 @@ export class CommentRenderer {
 
       const doInit = () => {
         const commentSpeed = rect.width / COMMENT_DURATION_SECONDS;
-        const isFirefox = this.isFirefox();
-        const Engine = this.resolveDanmakuConstructor();
-        const engineMode: NonNullable<DanmakuOptions["engine"]> =
-          isFirefox ? "dom" : "canvas";
-        logger.info("danmakuEngine:selected", {
-          engineMode,
-          library: isFirefox ? "@ironkinoko/danmaku" : "danmaku",
-        });
-        this.danmaku = new Engine({
-          container,
-          media: videoElement,
-          comments: [],
-          engine: engineMode,
-          speed: commentSpeed,
-        });
+        if (this.isFirefox()) {
+          logger.info("danmakuEngine:selected", {
+            engineMode: "dom",
+            library: "danmu",
+          });
+          this.danmaku = new DanmuAdapter(
+            container,
+            videoElement,
+            commentSpeed,
+            TARGET_LANE_COUNT,
+            COMMENT_DURATION_SECONDS * 1000,
+            this.applyDanmuStyleToNode,
+          );
+          this.canvas = null;
+        } else {
+          const engineMode: NonNullable<DanmakuOptions["engine"]> = "canvas";
+          logger.info("danmakuEngine:selected", {
+            engineMode,
+            library: "danmaku",
+          });
+          this.danmaku = new Danmaku({
+            container,
+            media: videoElement,
+            comments: [],
+            engine: engineMode,
+            speed: commentSpeed,
+          });
 
-        this.bindDanmakuWatchdog(videoElement);
-        this.canvas = container.querySelector("canvas");
+          this.bindDanmakuWatchdog(videoElement);
+          this.canvas = container.querySelector("canvas");
 
         // 軽いリトライ窓口（初期5秒のみ）
-        const dm = this.danmaku as unknown as { _?: { requestID?: number, paused?: boolean }, resize?: () => void, play?: () => void };
-        let retries = 5;
-        const retryId = setInterval(() => {
-          try {
-            const req = dm?._?.requestID ?? 0;
-            const paused = !!dm?._?.paused;
-            if (!videoElement.paused && (req === 0 || paused)) {
-              dm?.resize?.();
-              dm?.play?.();
+          const dm = this.danmaku as unknown as {
+            _?: { requestID?: number; paused?: boolean };
+            resize?: () => void;
+            play?: () => void;
+          };
+          let retries = 5;
+          const retryId = window.setInterval(() => {
+            try {
+              const req = dm?._?.requestID ?? 0;
+              const paused = Boolean(dm?._?.paused);
+              if (!videoElement.paused && (req === 0 || paused)) {
+                dm?.resize?.();
+                dm?.play?.();
+              }
+            } catch {
+              // empty
             }
-          } catch {
-            // empty
-          }
-          if (--retries <= 0) clearInterval(retryId);
-        }, 1000);
+            retries -= 1;
+            if (retries <= 0) {
+              window.clearInterval(retryId);
+            }
+          }, 1000);
+        }
       };
 
       if (videoElement.readyState < 1 || (videoElement.videoWidth ?? 0) === 0 || (videoElement.videoHeight ?? 0) === 0) {
@@ -273,6 +519,10 @@ export class CommentRenderer {
   private bindDanmakuWatchdog(video: HTMLVideoElement): void {
     // 既存があれば一旦解除
     this.watchdogCleanup?.();
+    if (!this.danmaku || this.danmaku instanceof DanmuAdapter) {
+      this.watchdogCleanup = null;
+      return;
+    }
     const dm = this.danmaku as unknown as {
       _?: {
         paused?: boolean;
