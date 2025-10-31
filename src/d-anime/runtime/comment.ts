@@ -3,6 +3,17 @@ import { createLogger } from "@/shared/logger";
 
 const logger = createLogger("dAnime:Comment");
 
+export interface CommentPrepareOptions {
+  visibleWidth: number;
+  virtualExtension: number;
+  maxVisibleDurationMs: number;
+  minVisibleDurationMs: number;
+  maxWidthRatio: number;
+  bufferRatio: number;
+  baseBufferPx: number;
+  entryBufferPx: number;
+}
+
 export class Comment {
   text: string;
   vpos: number;
@@ -23,6 +34,12 @@ export class Comment {
   isPaused = false;
   lastUpdateTime = 0;
   reservationWidth = 0;
+  bufferWidth = 0;
+  visibleDurationMs = 0;
+  totalDurationMs = 0;
+  preCollisionDurationMs = 0;
+  speedPixelsPerMs = 0;
+  virtualStartX = 0;
 
   constructor(
     text: string,
@@ -46,32 +63,90 @@ export class Comment {
 
   prepare(
     ctx: CanvasRenderingContext2D,
-    canvasWidth: number,
+    visibleWidth: number,
     canvasHeight: number,
+    options: CommentPrepareOptions,
   ): void {
     try {
       if (!ctx) {
         throw new Error("Canvas context is required");
       }
-      if (!Number.isFinite(canvasWidth) || !Number.isFinite(canvasHeight)) {
+      if (!Number.isFinite(visibleWidth) || !Number.isFinite(canvasHeight)) {
         throw new Error("Canvas dimensions must be numbers");
       }
+      if (!options) {
+        throw new Error("Prepare options are required");
+      }
 
+      const safeVisibleWidth = Math.max(visibleWidth, 1);
       this.fontSize = Math.max(24, Math.floor(canvasHeight * 0.05));
       ctx.font = `${this.fontSize}px ${this.fontFamily}`;
       this.width = ctx.measureText(this.text).width;
       this.height = this.fontSize;
 
-      const maxReservationWidth = ctx.measureText("あ".repeat(150)).width;
-      this.reservationWidth = Math.min(maxReservationWidth, this.width * 5.0);
-      this.x = canvasWidth;
-      this.baseSpeed = (canvasWidth + this.reservationWidth) / (12 * 60);
+      const maxReservationWidth = ctx.measureText("��".repeat(150)).width;
+
+      const bufferFromWidth = this.width * Math.max(options.bufferRatio, 0);
+      this.bufferWidth = Math.max(options.baseBufferPx, bufferFromWidth);
+      const entryBuffer = Math.max(options.entryBufferPx, this.bufferWidth);
+
+      this.virtualStartX = safeVisibleWidth + options.virtualExtension;
+      this.x = this.virtualStartX;
+
+      const widthRatio = this.width / safeVisibleWidth;
+      let visibleDurationMs = options.maxVisibleDurationMs;
+      if (widthRatio > 1) {
+        const clampedRatio = Math.min(widthRatio, options.maxWidthRatio);
+        const adjustedDuration =
+          options.maxVisibleDurationMs / Math.max(clampedRatio, 1);
+        visibleDurationMs = Math.max(
+          options.minVisibleDurationMs,
+          Math.floor(adjustedDuration),
+        );
+      }
+
+      const visibleDistance =
+        safeVisibleWidth + this.width + this.bufferWidth + entryBuffer;
+      const safeVisibleDuration = Math.max(visibleDurationMs, 1);
+      const pixelsPerMs = visibleDistance / safeVisibleDuration;
+      const pixelsPerFrame = (pixelsPerMs * 1000) / 60;
+      this.baseSpeed = pixelsPerFrame;
       this.speed = this.baseSpeed;
+      this.speedPixelsPerMs = pixelsPerMs;
+
+      const travelDistance =
+        this.virtualStartX + this.width + this.bufferWidth + entryBuffer;
+      const preCollisionBoundary = safeVisibleWidth + entryBuffer;
+      const startRight =
+        this.virtualStartX + this.width + this.bufferWidth;
+      const safePixelsPerMs = Math.max(pixelsPerMs, Number.EPSILON);
+      const preCollisionDistance = Math.max(
+        0,
+        startRight - preCollisionBoundary,
+      );
+
+      this.visibleDurationMs = visibleDurationMs;
+      this.preCollisionDurationMs = Math.max(
+        0,
+        Math.ceil(preCollisionDistance / safePixelsPerMs),
+      );
+      this.totalDurationMs = Math.max(
+        this.preCollisionDurationMs,
+        Math.ceil(travelDistance / safePixelsPerMs),
+      );
+
+      const reservationBase =
+        this.width + this.bufferWidth + entryBuffer;
+      this.reservationWidth = Math.min(
+        maxReservationWidth,
+        reservationBase,
+      );
       this.lastUpdateTime = performance.now();
+      this.isPaused = false;
     } catch (error) {
       logger.error("Comment.prepare", error as Error, {
         text: this.text,
-        canvasWidth,
+        visibleWidth,
         canvasHeight,
         hasContext: Boolean(ctx),
       });
@@ -81,10 +156,18 @@ export class Comment {
 
   update(playbackRate = 1.0, isPaused = false): void {
     try {
-      if (!this.isActive || this.isPaused) {
+      if (!this.isActive) {
+        this.isPaused = isPaused;
         return;
       }
+
       const currentTime = performance.now();
+      if (isPaused) {
+        this.isPaused = true;
+        this.lastUpdateTime = currentTime;
+        return;
+      }
+
       const deltaTime = (currentTime - this.lastUpdateTime) / (1000 / 60);
       this.speed = this.baseSpeed * playbackRate;
       this.x -= this.speed * deltaTime;
@@ -92,7 +175,7 @@ export class Comment {
         this.isActive = false;
       }
       this.lastUpdateTime = currentTime;
-      this.isPaused = isPaused;
+      this.isPaused = false;
     } catch (error) {
       logger.error("Comment.update", error as Error, {
         text: this.text,

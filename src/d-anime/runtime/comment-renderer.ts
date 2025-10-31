@@ -1,6 +1,6 @@
 import { cloneDefaultSettings } from "../config/default-settings";
 import type { RendererSettings } from "@/shared/types";
-import { Comment } from "./comment";
+import { Comment, type CommentPrepareOptions } from "./comment";
 import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
 import { createLogger } from "@/shared/logger";
 
@@ -8,18 +8,31 @@ const logger = createLogger("dAnime:CommentRenderer");
 
 interface LaneReservation {
   comment: Comment;
+  startTime: number;
   endTime: number;
-  reservationWidth: number;
+  totalEndTime: number;
+  startLeft: number;
+  width: number;
+  speed: number;
+  buffer: number;
 }
 
 const toMilliseconds = (seconds: number): number => seconds * 1000;
 const FINAL_PHASE_THRESHOLD_MS = 10_000;
 const ACTIVE_WINDOW_MS = 2_000;
 const SEEK_WINDOW_MS = 4_000;
-const VIRTUAL_CANVAS_EXTENSION_PX = 1000;
+const VIRTUAL_CANVAS_EXTENSION_PX = 1_000;
+const MAX_VISIBLE_DURATION_MS = 4_000;
+const MIN_VISIBLE_DURATION_MS = 1_800;
+const MAX_COMMENT_WIDTH_RATIO = 3;
+const COLLISION_BUFFER_RATIO = 0.25;
+const BASE_COLLISION_BUFFER_PX = 32;
+const ENTRY_BUFFER_PX = 48;
+const RESERVATION_TIME_MARGIN_MS = 120;
 const MIN_LANE_COUNT = 1;
 const DEFAULT_LANE_COUNT = 12;
 const MIN_FONT_SIZE_PX = 24;
+const EDGE_EPSILON = 1e-3;
 
 export class CommentRenderer {
   private _settings: RendererSettings;
@@ -352,6 +365,7 @@ export class CommentRenderer {
     this.currentTime = toMilliseconds(video.currentTime);
     this.playbackRate = video.playbackRate;
     this.isPlaying = !video.paused;
+    const prepareOptions = this.buildPrepareOptions(canvas.width);
 
     const isNearEnd =
       this.duration > 0 &&
@@ -388,12 +402,13 @@ export class CommentRenderer {
         if (shouldShow) {
           comment.prepare(
             context,
-            canvas.width + VIRTUAL_CANVAS_EXTENSION_PX,
+            canvas.width,
             canvas.height,
+            prepareOptions,
           );
           comment.lane = this.findAvailableLane(comment);
           comment.y = comment.lane * this.laneHeight;
-          comment.x = canvas.width + VIRTUAL_CANVAS_EXTENSION_PX;
+          comment.x = comment.virtualStartX;
           comment.isActive = true;
           comment.hasShown = true;
         }
@@ -411,46 +426,219 @@ export class CommentRenderer {
     }
   }
 
+  private buildPrepareOptions(visibleWidth: number): CommentPrepareOptions {
+    return {
+      visibleWidth,
+      virtualExtension: VIRTUAL_CANVAS_EXTENSION_PX,
+      maxVisibleDurationMs: MAX_VISIBLE_DURATION_MS,
+      minVisibleDurationMs: MIN_VISIBLE_DURATION_MS,
+      maxWidthRatio: MAX_COMMENT_WIDTH_RATIO,
+      bufferRatio: COLLISION_BUFFER_RATIO,
+      baseBufferPx: BASE_COLLISION_BUFFER_PX,
+      entryBufferPx: ENTRY_BUFFER_PX,
+    };
+  }
+
   private findAvailableLane(comment: Comment): number {
     const currentTime = this.currentTime;
-    const commentEnd =
-      ((comment.reservationWidth + VIRTUAL_CANVAS_EXTENSION_PX) /
-        Math.max(comment.speed, 1)) *
-      2;
+    this.pruneLaneReservations(currentTime);
+    const laneCandidates = this.getLanePriorityOrder(currentTime);
+    const newReservation = this.createLaneReservation(comment, currentTime);
 
-    for (let lane = 0; lane < this.laneCount; lane += 1) {
-      let isAvailable = true;
-      const reservations = this.reservedLanes.get(lane) ?? [];
-
-      for (const reservation of reservations) {
-        const timeOverlap = currentTime < reservation.endTime;
-        const verticalOverlap =
-          Math.abs(lane * this.laneHeight - reservation.comment.y) <
-          comment.height;
-        const horizontalOverlap =
-          Math.abs(comment.x - reservation.comment.x) <
-          Math.max(comment.width, reservation.comment.width);
-
-        if (timeOverlap && (verticalOverlap || horizontalOverlap)) {
-          isAvailable = false;
-          break;
-        }
-      }
-
-      if (isAvailable) {
-        if (!this.reservedLanes.has(lane)) {
-          this.reservedLanes.set(lane, []);
-        }
-        this.reservedLanes.get(lane)?.push({
-          comment,
-          endTime: currentTime + commentEnd,
-          reservationWidth: comment.reservationWidth,
-        });
+    for (const lane of laneCandidates) {
+      if (this.isLaneAvailable(lane, newReservation, currentTime)) {
+        this.storeLaneReservation(lane, newReservation);
         return lane;
       }
     }
 
-    return Math.floor(Math.random() * Math.max(this.laneCount, MIN_LANE_COUNT));
+    const fallbackLane = laneCandidates[0] ?? 0;
+    this.storeLaneReservation(fallbackLane, newReservation);
+    return fallbackLane;
+  }
+
+  private pruneLaneReservations(currentTime: number): void {
+    for (const [lane, reservations] of this.reservedLanes.entries()) {
+      const filtered = reservations.filter(
+        (reservation) =>
+          reservation.totalEndTime + RESERVATION_TIME_MARGIN_MS > currentTime,
+      );
+      if (filtered.length > 0) {
+        this.reservedLanes.set(lane, filtered);
+      } else {
+        this.reservedLanes.delete(lane);
+      }
+    }
+  }
+
+  private getLanePriorityOrder(currentTime: number): number[] {
+    const indices = Array.from({ length: this.laneCount }, (_, index) => index);
+    return indices.sort((a, b) => {
+      const nextA = this.getLaneNextAvailableTime(a, currentTime);
+      const nextB = this.getLaneNextAvailableTime(b, currentTime);
+      if (Math.abs(nextA - nextB) <= EDGE_EPSILON) {
+        return a - b;
+      }
+      return nextA - nextB;
+    });
+  }
+
+  private getLaneNextAvailableTime(lane: number, currentTime: number): number {
+    const reservations = this.reservedLanes.get(lane);
+    if (!reservations || reservations.length === 0) {
+      return currentTime;
+    }
+    let nextTime = currentTime;
+    for (const reservation of reservations) {
+      nextTime = Math.max(nextTime, reservation.endTime);
+    }
+    return nextTime;
+  }
+
+  private createLaneReservation(
+    comment: Comment,
+    startTime: number,
+  ): LaneReservation {
+    const speed = Math.max(comment.speedPixelsPerMs, EDGE_EPSILON);
+    const endTime =
+      startTime + comment.preCollisionDurationMs + RESERVATION_TIME_MARGIN_MS;
+    const totalEndTime =
+      startTime + comment.totalDurationMs + RESERVATION_TIME_MARGIN_MS;
+    return {
+      comment,
+      startTime,
+      endTime: Math.max(startTime, endTime),
+      totalEndTime: Math.max(startTime, totalEndTime),
+      startLeft: comment.virtualStartX,
+      width: comment.width,
+      speed,
+      buffer: comment.bufferWidth,
+    };
+  }
+
+  private isLaneAvailable(
+    lane: number,
+    candidate: LaneReservation,
+    currentTime: number,
+  ): boolean {
+    const reservations = this.reservedLanes.get(lane);
+    if (!reservations || reservations.length === 0) {
+      return true;
+    }
+    for (const reservation of reservations) {
+      if (
+        reservation.totalEndTime + RESERVATION_TIME_MARGIN_MS <= currentTime
+      ) {
+        continue;
+      }
+      if (this.areReservationsConflicting(reservation, candidate)) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  private storeLaneReservation(
+    lane: number,
+    reservation: LaneReservation,
+  ): void {
+    const existing = this.reservedLanes.get(lane) ?? [];
+    const updated = [...existing, reservation].sort(
+      (a, b) => a.endTime - b.endTime,
+    );
+    this.reservedLanes.set(lane, updated);
+  }
+
+  private areReservationsConflicting(
+    a: LaneReservation,
+    b: LaneReservation,
+  ): boolean {
+    const overlapStart = Math.max(a.startTime, b.startTime);
+    const overlapEnd = Math.min(a.endTime, b.endTime);
+    if (overlapStart >= overlapEnd) {
+      return false;
+    }
+
+    const evaluationTimes = new Set<number>([
+      overlapStart,
+      overlapEnd,
+      overlapStart + (overlapEnd - overlapStart) / 2,
+    ]);
+
+    const forwardIntersection = this.solveLeftRightEqualityTime(a, b);
+    if (
+      forwardIntersection !== null &&
+      forwardIntersection >= overlapStart - EDGE_EPSILON &&
+      forwardIntersection <= overlapEnd + EDGE_EPSILON
+    ) {
+      evaluationTimes.add(forwardIntersection);
+    }
+
+    const backwardIntersection = this.solveLeftRightEqualityTime(b, a);
+    if (
+      backwardIntersection !== null &&
+      backwardIntersection >= overlapStart - EDGE_EPSILON &&
+      backwardIntersection <= overlapEnd + EDGE_EPSILON
+    ) {
+      evaluationTimes.add(backwardIntersection);
+    }
+
+    for (const time of evaluationTimes) {
+      if (time < overlapStart - EDGE_EPSILON || time > overlapEnd + EDGE_EPSILON) {
+        continue;
+      }
+      const forwardGap = this.computeForwardGap(a, b, time);
+      const backwardGap = this.computeForwardGap(b, a, time);
+      if (forwardGap <= EDGE_EPSILON && backwardGap <= EDGE_EPSILON) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private computeForwardGap(
+    from: LaneReservation,
+    to: LaneReservation,
+    time: number,
+  ): number {
+    const fromEdges = this.getBufferedEdges(from, time);
+    const toEdges = this.getBufferedEdges(to, time);
+    return fromEdges.left - toEdges.right;
+  }
+
+  private getBufferedEdges(
+    reservation: LaneReservation,
+    time: number,
+  ): { left: number; right: number } {
+    const elapsed = Math.max(0, time - reservation.startTime);
+    const displacement = reservation.speed * elapsed;
+    const rawLeft = reservation.startLeft - displacement;
+    const left = rawLeft - reservation.buffer;
+    const right = rawLeft + reservation.width + reservation.buffer;
+    return { left, right };
+  }
+
+  private solveLeftRightEqualityTime(
+    left: LaneReservation,
+    right: LaneReservation,
+  ): number | null {
+    const denominator = right.speed - left.speed;
+    if (Math.abs(denominator) < EDGE_EPSILON) {
+      return null;
+    }
+    const numerator =
+      right.startLeft +
+      right.speed * right.startTime +
+      right.width +
+      right.buffer -
+      left.startLeft -
+      left.speed * left.startTime +
+      left.buffer;
+    const time = numerator / denominator;
+    if (!Number.isFinite(time)) {
+      return null;
+    }
+    return time;
   }
 
   private draw(): void {
@@ -511,17 +699,20 @@ export class CommentRenderer {
     this.finalPhaseActive = false;
     this.currentTime = toMilliseconds(video.currentTime);
 
+    this.reservedLanes.clear();
+    const prepareOptions = this.buildPrepareOptions(canvas.width);
+
     this.comments.forEach((comment) => {
       if (
         comment.vpos >= this.currentTime - SEEK_WINDOW_MS &&
         comment.vpos <= this.currentTime + SEEK_WINDOW_MS
       ) {
-        comment.prepare(context, canvas.width, canvas.height);
+        comment.prepare(context, canvas.width, canvas.height, prepareOptions);
         comment.lane = this.findAvailableLane(comment);
         comment.y = comment.lane * this.laneHeight;
         const timeDiff = (this.currentTime - comment.vpos) / 1000;
         const distance = comment.speed * timeDiff * 60;
-        comment.x = canvas.width - distance;
+        comment.x = comment.virtualStartX - distance;
         comment.isActive = comment.x > -comment.width;
         if (comment.x < -comment.width) {
           comment.isActive = false;
@@ -531,8 +722,6 @@ export class CommentRenderer {
         comment.isActive = false;
       }
     });
-
-    this.reservedLanes.clear();
   }
 
   private setupVideoEventListeners(videoElement: HTMLVideoElement): void {
