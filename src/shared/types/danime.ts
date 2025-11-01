@@ -1,3 +1,5 @@
+import type { RendererSettings as OverlayRendererSettings } from "comment-overlay";
+
 export interface NicoCommentPacket {
   chat: NicoComment;
 }
@@ -13,14 +15,7 @@ export interface NicoComment {
   date: number;
 }
 
-export interface RendererSettings {
-  commentColor: string;
-  commentOpacity: number;
-  isCommentVisible: boolean;
-  useContainerResizeObserver: boolean;
-  ngWords: string[];
-  ngRegexps: string[];
-}
+export type RendererSettings = OverlayRendererSettings;
 
 export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
   fillStyle?: string | CanvasPattern | CanvasGradient;
