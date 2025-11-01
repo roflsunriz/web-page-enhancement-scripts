@@ -6,4 +6,4 @@ export { DEFAULT_RENDERER_SETTINGS } from "comment-overlay/dist/comment-overlay.
 export const cloneDefaultSettings = (): RendererSettings =>
   cloneOverlayDefaults();
 
-export const RENDERER_VERSION = "v6.5.1";
+export const RENDERER_VERSION = "v6.6.0";
