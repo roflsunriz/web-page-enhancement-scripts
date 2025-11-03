@@ -6,7 +6,8 @@ export interface NicoCommentPacket {
 
 export interface NicoComment {
   no: number;
-  vpos: number;
+  vpos?: number;
+  vposMs?: number;
   mail: string;
   content: string;
   user_id: string;

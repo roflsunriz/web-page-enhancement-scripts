@@ -78,10 +78,10 @@ export class CommentRenderer {
 
   addComment(
     text: string,
-    vpos: number,
+    vposMs: number,
     commands: string[] = [],
   ): Comment | null {
-    return this.renderer.addComment(text, vpos, commands);
+    return this.renderer.addComment(text, vposMs, commands);
   }
 
   clearComments(): void {

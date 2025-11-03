@@ -82,7 +82,7 @@ interface NicoCommentResponse {
 
 export interface FetcherCommentResult {
   text: string;
-  vpos: number;
+  vposMs: number;
   commands: string[];
 }
 
@@ -177,7 +177,7 @@ export class NicoApiFetcher {
       const result = (mainThread.comments ?? []).map<FetcherCommentResult>(
         (comment) => ({
           text: comment.body ?? "",
-          vpos: comment.vposMs ?? 0,
+          vposMs: comment.vposMs ?? 0,
           commands: comment.commands ?? [],
         }),
       );

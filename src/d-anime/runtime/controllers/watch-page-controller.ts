@@ -111,7 +111,7 @@ export class WatchPageController {
       });
 
       comments.forEach((comment) => {
-        renderer.addComment(comment.text, comment.vpos, comment.commands);
+        renderer.addComment(comment.text, comment.vposMs, comment.commands);
       });
 
       const switchHandler = new VideoSwitchHandler(

@@ -413,7 +413,7 @@ export class VideoSwitchHandler {
       (comment) => !this.renderer.isNGComment(comment.text),
     );
     filtered.forEach((comment) => {
-      this.renderer.addComment(comment.text, comment.vpos, comment.commands);
+      this.renderer.addComment(comment.text, comment.vposMs, comment.commands);
     });
 
     this.lastPreloadedComments = [...filtered];
