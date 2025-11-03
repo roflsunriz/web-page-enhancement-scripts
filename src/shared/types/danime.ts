@@ -58,3 +58,8 @@ export interface VideoMetadata {
   channel?: VideoChannelInfo | null;
   [key: string]: unknown;
 }
+
+export interface PlaybackSettings {
+  fixedModeEnabled: boolean;
+  fixedRate: number;
+}

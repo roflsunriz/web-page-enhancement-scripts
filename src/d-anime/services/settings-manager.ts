@@ -1,13 +1,19 @@
 import { GM_getValue, GM_setValue } from "$";
 import { cloneDefaultSettings } from "../config/default-settings";
-import type { RendererSettings, VideoMetadata } from "@/shared/types";
+import type {
+  PlaybackSettings,
+  RendererSettings,
+  VideoMetadata,
+} from "@/shared/types";
 import type { Notifier, NotificationType } from "./notification";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
 const LAST_DANIME_IDS_KEY = "lastDanimeIds";
+const PLAYBACK_SETTINGS_KEY = "playbackSettings";
 
 type SettingsObserver = (settings: RendererSettings) => void;
+type PlaybackSettingsObserver = (settings: PlaybackSettings) => void;
 
 const cloneSettings = (settings: RendererSettings): RendererSettings => ({
   ...settings,
@@ -15,16 +21,32 @@ const cloneSettings = (settings: RendererSettings): RendererSettings => ({
   ngRegexps: [...settings.ngRegexps],
 });
 
+const DEFAULT_PLAYBACK_SETTINGS: PlaybackSettings = {
+  fixedModeEnabled: false,
+  fixedRate: 1.11,
+};
+
+const clonePlaybackSettings = (
+  settings: PlaybackSettings,
+): PlaybackSettings => ({
+  fixedModeEnabled: settings.fixedModeEnabled,
+  fixedRate: settings.fixedRate,
+});
+
 export class SettingsManager {
   private settings: RendererSettings;
   private currentVideo: VideoMetadata | null;
   private readonly observers = new Set<SettingsObserver>();
+  private playbackSettings: PlaybackSettings;
+  private readonly playbackObservers = new Set<PlaybackSettingsObserver>();
 
   constructor(private readonly notifier?: Notifier) {
     this.settings = cloneDefaultSettings();
     this.currentVideo = null;
     this.loadSettings();
     this.currentVideo = this.loadVideoData();
+    this.playbackSettings = clonePlaybackSettings(DEFAULT_PLAYBACK_SETTINGS);
+    this.loadPlaybackSettings();
   }
 
   getSettings(): RendererSettings {
@@ -73,6 +95,82 @@ export class SettingsManager {
     }
   }
 
+  getPlaybackSettings(): PlaybackSettings {
+    return clonePlaybackSettings(this.playbackSettings);
+  }
+
+  loadPlaybackSettings(): PlaybackSettings {
+    try {
+      const stored = GM_getValue<PlaybackSettings | string | null>(
+        PLAYBACK_SETTINGS_KEY,
+        null,
+      );
+      if (!stored) {
+        this.playbackSettings = clonePlaybackSettings(DEFAULT_PLAYBACK_SETTINGS);
+        this.notifyPlaybackObservers();
+        return this.playbackSettings;
+      }
+
+      if (typeof stored === "string") {
+        const parsed = JSON.parse(stored) as Partial<PlaybackSettings>;
+        this.playbackSettings = {
+          fixedModeEnabled:
+            typeof parsed.fixedModeEnabled === "boolean"
+              ? parsed.fixedModeEnabled
+              : DEFAULT_PLAYBACK_SETTINGS.fixedModeEnabled,
+          fixedRate:
+            typeof parsed.fixedRate === "number"
+              ? parsed.fixedRate
+              : DEFAULT_PLAYBACK_SETTINGS.fixedRate,
+        };
+      } else {
+        this.playbackSettings = {
+          fixedModeEnabled: stored.fixedModeEnabled,
+          fixedRate: stored.fixedRate,
+        };
+      }
+      this.notifyPlaybackObservers();
+      return this.playbackSettings;
+    } catch (error) {
+      console.error(
+        "[SettingsManager] 再生設定の読み込みに失敗しました",
+        error,
+      );
+      this.notify("再生設定の読み込みに失敗しました", "error");
+      this.playbackSettings = clonePlaybackSettings(DEFAULT_PLAYBACK_SETTINGS);
+      this.notifyPlaybackObservers();
+      return this.playbackSettings;
+    }
+  }
+
+  updatePlaybackSettings(
+    newSettings: Partial<PlaybackSettings>,
+  ): boolean {
+    this.playbackSettings = {
+      ...this.playbackSettings,
+      ...newSettings,
+    };
+    return this.savePlaybackSettings();
+  }
+
+  private savePlaybackSettings(): boolean {
+    try {
+      GM_setValue(
+        PLAYBACK_SETTINGS_KEY,
+        JSON.stringify(this.playbackSettings),
+      );
+      this.notifyPlaybackObservers();
+      return true;
+    } catch (error) {
+      console.error(
+        "[SettingsManager] 再生設定の保存に失敗しました",
+        error,
+      );
+      this.notify("再生設定の保存に失敗しました", "error");
+      return false;
+    }
+  }
+
   saveSettings(): boolean {
     try {
       GM_setValue(SETTINGS_STORAGE_KEY, JSON.stringify(this.settings));
@@ -108,6 +206,19 @@ export class SettingsManager {
     this.observers.delete(observer);
   }
 
+  addPlaybackObserver(observer: PlaybackSettingsObserver): void {
+    this.playbackObservers.add(observer);
+    try {
+      observer(this.getPlaybackSettings());
+    } catch (error) {
+      console.error("[SettingsManager] 再生設定の登録通知でエラー", error);
+    }
+  }
+
+  removePlaybackObserver(observer: PlaybackSettingsObserver): void {
+    this.playbackObservers.delete(observer);
+  }
+
   private notifyObservers(): void {
     const snapshot = this.getSettings();
     for (const observer of this.observers) {
@@ -115,6 +226,17 @@ export class SettingsManager {
         observer(snapshot);
       } catch (error) {
         console.error("[SettingsManager] 設定変更通知でエラー", error);
+      }
+    }
+  }
+
+  private notifyPlaybackObservers(): void {
+    const snapshot = this.getPlaybackSettings();
+    for (const observer of this.playbackObservers) {
+      try {
+        observer(snapshot);
+      } catch (error) {
+        console.error("[SettingsManager] 再生設定通知でエラー", error);
       }
     }
   }

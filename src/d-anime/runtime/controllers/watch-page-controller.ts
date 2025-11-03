@@ -5,6 +5,7 @@ import { NotificationManager } from "../notification-manager";
 import { CommentRenderer } from "../comment-renderer";
 import { NicoApiFetcher } from "../services/nico-api-fetcher";
 import { VideoSwitchHandler } from "../services/video-switch-handler";
+import { PlaybackRateController } from "../services/playback-rate-controller";
 import { DebounceExecutor } from "../utils/debounce-executor";
 import type { DanimeGlobal } from "../globals";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
@@ -22,6 +23,7 @@ export class WatchPageController {
   private videoMutationObserver: MutationObserver | null = null;
   private domMutationObserver: MutationObserver | null = null;
   private videoEndedListener: (() => void) | null = null;
+  private playbackRateController: PlaybackRateController | null = null;
 
   constructor(private readonly global: DanimeGlobal) {}
 
@@ -106,6 +108,13 @@ export class WatchPageController {
       this.global.instances.renderer = renderer;
       this.currentVideoElement = videoElement;
 
+      const playbackRateController =
+        this.playbackRateController ??
+        new PlaybackRateController(settingsManager);
+      this.playbackRateController = playbackRateController;
+      this.global.instances.playbackRateController = playbackRateController;
+      playbackRateController.bind(videoElement);
+
       settingsManager.addObserver((newSettings) => {
         renderer.settings = this.mergeSettings(newSettings);
       });
@@ -170,6 +179,7 @@ export class WatchPageController {
         return;
       }
       this.rebindVideoElement(video);
+      this.playbackRateController?.bind(video);
       await switchHandler.onVideoSwitch(video);
     };
 
@@ -213,6 +223,7 @@ export class WatchPageController {
       renderer.initialize(videoElement);
       renderer.resize();
     }
+    this.playbackRateController?.bind(videoElement);
     if (switchHandler) {
       void switchHandler.onVideoSwitch(videoElement);
       this.setupSwitchHandling(videoElement, switchHandler);

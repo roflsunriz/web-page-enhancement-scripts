@@ -3,7 +3,11 @@ import { ShadowDOMComponent } from "../shadow/shadow-dom-component";
 import { ShadowStyleManager } from "../styles/shadow-style-manager";
 import { NotificationManager } from "../notification-manager";
 import { SettingsManager } from "../../services/settings-manager";
-import type { RendererSettings, VideoMetadata } from "@/shared/types";
+import type {
+  PlaybackSettings,
+  RendererSettings,
+  VideoMetadata,
+} from "@/shared/types";
 import {
   NicoApiFetcher,
   NicoApiResponseBody,
@@ -46,6 +50,7 @@ const SELECTORS = {
   saveButton: "#saveSettings",
   opacitySelect: "#commentOpacity",
   visibilityToggle: "#commentVisibilityToggle",
+  fixedPlaybackToggle: "#fixedPlaybackToggle",
   currentTitle: "#currentTitle",
   currentVideoId: "#currentVideoId",
   currentOwner: "#currentOwner",
@@ -140,6 +145,7 @@ export class SettingsUI extends ShadowDOMComponent {
   private readonly fetcher: NicoApiFetcher;
   private readonly searcher: NicoVideoSearcher;
   private settings: RendererSettings;
+  private playbackSettings: PlaybackSettings;
   private currentVideoInfo: VideoMetadata | null;
   private hostElement: HTMLDivElement | null = null;
   private lastAutoButtonElement: HTMLElement | null = null;
@@ -160,6 +166,9 @@ export class SettingsUI extends ShadowDOMComponent {
   private readonly handleCloseClick = (): void => {
     this.closeSettingsModal();
   };
+  private readonly handlePlaybackSettingsChanged: (
+    settings: PlaybackSettings,
+  ) => void;
 
   constructor(
     settingsManager: SettingsManager,
@@ -171,7 +180,13 @@ export class SettingsUI extends ShadowDOMComponent {
     this.fetcher = fetcher;
     this.searcher = searcher;
     this.settings = this.settingsManager.getSettings();
+    this.playbackSettings = this.settingsManager.getPlaybackSettings();
     this.currentVideoInfo = this.settingsManager.loadVideoData();
+    this.handlePlaybackSettingsChanged = (settings) => {
+      this.playbackSettings = settings;
+      this.applyPlaybackSettingsToUI();
+    };
+    this.settingsManager.addPlaybackObserver(this.handlePlaybackSettingsChanged);
   }
 
   insertIntoMypage(): void {
@@ -547,6 +562,25 @@ export class SettingsUI extends ShadowDOMComponent {
                       <button id="commentVisibilityToggle" class="toggle-button${this.settings.isCommentVisible ? "" : " off"}">${this.settings.isCommentVisible ? "表示中" : "非表示中"}</button>
                     </div>
                   </section>
+                  <section class="display-settings-item" aria-labelledby="displaySettingsPlaybackTitle">
+                    <h4 id="displaySettingsPlaybackTitle" class="display-settings-item__title">再生速度</h4>
+                    <div class="display-settings-item__body">
+                      <button
+                        id="fixedPlaybackToggle"
+                        class="toggle-button${this.playbackSettings.fixedModeEnabled ? "" : " off"}"
+                        type="button"
+                        aria-pressed="${this.playbackSettings.fixedModeEnabled ? "true" : "false"}"
+                      >
+                        ${
+                          this.playbackSettings.fixedModeEnabled
+                            ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定中`
+                            : "標準速度"
+                        }
+                      </button>
+                      <p class="display-settings-item__note">1.11倍の固定再生モードを有効にすると視聴時間を少し節約できます。</p>
+                      <p class="display-settings-item__note">参考:アニメ1話24分の場合、21分36秒で視聴可能です。</p>
+                    </div>
+                  </section>
                 </div>
               </div>
             </section>
@@ -582,6 +616,7 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupColorPicker();
     this.setupOpacitySelect();
     this.setupVisibilityToggle();
+    this.setupPlaybackToggle();
     this.setupNgControls();
     this.setupSaveButton();
     this.setupSearch();
@@ -811,6 +846,41 @@ export class SettingsUI extends ShadowDOMComponent {
       this.updateVisibilityToggleState(button);
     });
     this.updateVisibilityToggleState(button);
+  }
+
+  private setupPlaybackToggle(): void {
+    const button = this.queryModalElement<HTMLButtonElement>(
+      SELECTORS.fixedPlaybackToggle,
+    );
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", () => {
+      const nextEnabled = !this.playbackSettings.fixedModeEnabled;
+      const nextSettings: PlaybackSettings = {
+        ...this.playbackSettings,
+        fixedModeEnabled: nextEnabled,
+      };
+      const success =
+        this.settingsManager.updatePlaybackSettings(nextSettings);
+      if (!success) {
+        NotificationManager.show(
+          "再生速度の設定変更に失敗しました",
+          "error",
+        );
+        this.applyPlaybackSettingsToUI();
+        return;
+      }
+      this.playbackSettings = nextSettings;
+      this.updatePlaybackToggleState(button);
+      NotificationManager.show(
+        nextEnabled
+          ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定モードを有効にしました`
+          : "固定再生モードを無効にしました",
+        "success",
+      );
+    });
+    this.updatePlaybackToggleState(button);
   }
 
   private setupNgControls(): void {
@@ -1044,6 +1114,7 @@ export class SettingsUI extends ShadowDOMComponent {
     if (ngRegex) {
       ngRegex.value = this.settings.ngRegexps.join("\n");
     }
+    this.applyPlaybackSettingsToUI();
     this.updatePlayButtonState(this.currentVideoInfo);
   }
 
@@ -1143,6 +1214,12 @@ export class SettingsUI extends ShadowDOMComponent {
     }).format(date);
   }
 
+  private formatPlaybackRateLabel(rate: number): string {
+    const safeRate = Number.isFinite(rate) ? rate : 1.11;
+    const formatted = safeRate.toFixed(2);
+    return `${formatted.replace(/\.?0+$/, "")}倍`;
+  }
+
   private setupPlayButton(): void {
     const button = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.playCurrentVideo,
@@ -1207,6 +1284,25 @@ export class SettingsUI extends ShadowDOMComponent {
     button.classList.toggle("off", !this.settings.isCommentVisible);
   }
 
+  private applyPlaybackSettingsToUI(): void {
+    const button = this.queryModalElement<HTMLButtonElement>(
+      SELECTORS.fixedPlaybackToggle,
+    );
+    if (!button) {
+      return;
+    }
+    this.updatePlaybackToggleState(button);
+  }
+
+  private updatePlaybackToggleState(button: HTMLButtonElement): void {
+    const isEnabled = this.playbackSettings.fixedModeEnabled;
+    button.textContent = isEnabled
+      ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定中`
+      : "標準速度";
+    button.classList.toggle("off", !isEnabled);
+    button.setAttribute("aria-pressed", isEnabled ? "true" : "false");
+  }
+
   public override destroy(): void {
     this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
     this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
@@ -1214,6 +1310,9 @@ export class SettingsUI extends ShadowDOMComponent {
     this.overlayElement = null;
     this.modalElement = null;
     this.removeFabElement();
+    this.settingsManager.removePlaybackObserver(
+      this.handlePlaybackSettingsChanged,
+    );
     super.destroy();
   }
 

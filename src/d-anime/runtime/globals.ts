@@ -13,12 +13,14 @@ import { ShadowDOMComponent } from "./shadow/shadow-dom-component";
 import { ShadowStyleManager } from "./styles/shadow-style-manager";
 import { StyleManager } from "./styles/style-manager";
 import { SettingsUI } from "./settings/settings-ui";
+import { PlaybackRateController } from "./services/playback-rate-controller";
 
 export interface DanimeGlobalInstances {
   renderer?: CommentRenderer;
   fetcher?: NicoApiFetcher;
   switchHandler?: VideoSwitchHandler;
   settingsManager?: SettingsManager;
+  playbackRateController?: PlaybackRateController;
 }
 
 export interface DanimeGlobalApi {
@@ -36,6 +38,7 @@ export interface DanimeGlobalApi {
     DebounceExecutor: typeof DebounceExecutor;
     ShadowDOMComponent: typeof ShadowDOMComponent;
     ShadowStyleManager: typeof ShadowStyleManager;
+    PlaybackRateController: typeof PlaybackRateController;
   };
   instances: DanimeGlobalInstances;
   utils: {
@@ -80,6 +83,7 @@ export const ensureDanimeGlobal = (): DanimeGlobalApi => {
         DebounceExecutor,
         ShadowDOMComponent,
         ShadowStyleManager,
+        PlaybackRateController,
       },
       instances,
       utils: {
