@@ -40,11 +40,17 @@ export class ImgurCopierApp {
       return;
     }
 
-    // 既存のボタンをクリアしてから再生成
-    clearButtons();
+    // 不要になったボタンをクリア
+    const existingButtons = new Set(mediaEntries.map((_, i) => `imgurCopyButton-container-${i}`));
+    document.querySelectorAll('[data-imgur-direct-link-button-container]').forEach((btn) => {
+      if (!existingButtons.has(btn.id)) {
+        btn.remove();
+      }
+    });
 
     mediaEntries.forEach((entry, index) => {
-      createShadowButton(index, entry.url, entry.wrapper);
+      if (!entry.wrapper.querySelector(`#imgurCopyButton-container-${index}`))
+        createShadowButton(index, entry.url, entry.wrapper);
     });
   }
 }
