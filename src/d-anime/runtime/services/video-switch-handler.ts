@@ -146,6 +146,7 @@ export class VideoSwitchHandler {
               : resolvedVideoElement.getAttribute("src") ?? null,
         });
         this.renderer.initialize(resolvedVideoElement);
+        this.renderer.resetState();
       } else if (
         currentVideo === resolvedVideoElement &&
         resolvedVideoElement &&
@@ -155,8 +156,10 @@ export class VideoSwitchHandler {
           previousSrc: this.lastVideoSource ?? null,
           newSrc: this.getVideoSource(resolvedVideoElement),
         });
+        this.renderer.clearComments();
         this.renderer.destroy();
         this.renderer.initialize(resolvedVideoElement);
+        this.renderer.resetState();
       } else if (!currentVideo && !resolvedVideoElement) {
         logger.warn("videoSwitch:missingVideoElement", {
           lastVideoId: this.lastVideoId,
