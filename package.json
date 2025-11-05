@@ -48,7 +48,7 @@
   },
   "dependencies": {
     "@mdi/js": "7.4.47",
-    "comment-overlay": "^2.0.0",
+    "comment-overlay": "^2.2.0",
     "fflate": "^0.8.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0"

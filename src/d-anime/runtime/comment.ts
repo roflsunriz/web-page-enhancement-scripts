@@ -3,4 +3,4 @@ export type {
   CommentDependencies,
   TimeSource,
 } from "comment-overlay";
-export { Comment, createDefaultTimeSource } from "comment-overlay/dist/comment-overlay.es";
+export { Comment, createDefaultTimeSource } from "comment-overlay";

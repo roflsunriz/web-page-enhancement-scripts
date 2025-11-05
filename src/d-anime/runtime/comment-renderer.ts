@@ -3,7 +3,7 @@ import type {
   CommentRendererConfig,
   CommentRendererInitializeOptions,
 } from "comment-overlay";
-import { CommentRenderer as OverlayCommentRenderer } from "comment-overlay/dist/comment-overlay.es";
+import { CommentRenderer as OverlayCommentRenderer } from "comment-overlay";
 import type { RendererSettings } from "@/shared/types";
 import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
 import { createLogger } from "@/shared/logger";
