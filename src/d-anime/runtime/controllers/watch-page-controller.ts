@@ -219,8 +219,10 @@ export class WatchPageController {
     const switchHandler = this.global.instances.switchHandler;
 
     if (renderer) {
+      renderer.clearComments();
       renderer.destroy();
       renderer.initialize(videoElement);
+      renderer.resetState();
       renderer.resize();
     }
     this.playbackRateController?.bind(videoElement);
