@@ -16,7 +16,13 @@ export interface NicoComment {
   date: number;
 }
 
-export type RendererSettings = OverlayRendererSettings;
+export interface RendererSettings extends OverlayRendererSettings {
+  /**
+   * 動画再生後10秒後に再初期化処理を実行して強制再描画するかどうか
+   * @default true
+   */
+  enableForceRefresh?: boolean;
+}
 
 export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
   fillStyle?: string | CanvasPattern | CanvasGradient;

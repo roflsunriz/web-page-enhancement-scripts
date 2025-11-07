@@ -51,6 +51,7 @@ const SELECTORS = {
   opacitySelect: "#commentOpacity",
   visibilityToggle: "#commentVisibilityToggle",
   fixedPlaybackToggle: "#fixedPlaybackToggle",
+  forceRefreshToggle: "#forceRefreshToggle",
   currentTitle: "#currentTitle",
   currentVideoId: "#currentVideoId",
   currentOwner: "#currentOwner",
@@ -581,6 +582,21 @@ export class SettingsUI extends ShadowDOMComponent {
                       <p class="display-settings-item__note">参考:アニメ1話24分の場合、21分36秒で視聴可能です。</p>
                     </div>
                   </section>
+                  <section class="display-settings-item" aria-labelledby="displaySettingsForceRefreshTitle">
+                    <h4 id="displaySettingsForceRefreshTitle" class="display-settings-item__title">再起動処理</h4>
+                    <div class="display-settings-item__body">
+                      <button
+                        id="forceRefreshToggle"
+                        class="toggle-button${this.settings.enableForceRefresh !== false ? "" : " off"}"
+                        type="button"
+                        aria-pressed="${this.settings.enableForceRefresh !== false ? "true" : "false"}"
+                      >
+                        ${this.settings.enableForceRefresh !== false ? "有効" : "無効"}
+                      </button>
+                      <p class="display-settings-item__note">動画再生後10秒後にコメントエンジンを再初期化して強制再描画します。</p>
+                      <p class="display-settings-item__note">初期化後に描画済みコメントが残る問題の回避用です。</p>
+                    </div>
+                  </section>
                 </div>
               </div>
             </section>
@@ -617,6 +633,7 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupOpacitySelect();
     this.setupVisibilityToggle();
     this.setupPlaybackToggle();
+    this.setupForceRefreshToggle();
     this.setupNgControls();
     this.setupSaveButton();
     this.setupSearch();
@@ -881,6 +898,21 @@ export class SettingsUI extends ShadowDOMComponent {
       );
     });
     this.updatePlaybackToggleState(button);
+  }
+
+  private setupForceRefreshToggle(): void {
+    const button = this.queryModalElement<HTMLButtonElement>(
+      SELECTORS.forceRefreshToggle,
+    );
+    if (!button) {
+      return;
+    }
+    button.addEventListener("click", () => {
+      const nextEnabled = this.settings.enableForceRefresh === false;
+      this.settings.enableForceRefresh = nextEnabled;
+      this.updateForceRefreshToggleState(button);
+    });
+    this.updateForceRefreshToggleState(button);
   }
 
   private setupNgControls(): void {
@@ -1299,6 +1331,13 @@ export class SettingsUI extends ShadowDOMComponent {
     button.textContent = isEnabled
       ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定中`
       : "標準速度";
+    button.classList.toggle("off", !isEnabled);
+    button.setAttribute("aria-pressed", isEnabled ? "true" : "false");
+  }
+
+  private updateForceRefreshToggleState(button: HTMLButtonElement): void {
+    const isEnabled = this.settings.enableForceRefresh !== false;
+    button.textContent = isEnabled ? "有効" : "無効";
     button.classList.toggle("off", !isEnabled);
     button.setAttribute("aria-pressed", isEnabled ? "true" : "false");
   }
