@@ -25,10 +25,10 @@ git clone https://github.com/roflsunriz/web-page-enhancement-scripts.git
 cd web-page-enhancement-scripts
 ```
 
-2. 依存関係をインストールします（lockfile を変更しない運用を推奨）。
+2. 依存関係をインストールします。
 
 ```bash
-npm ci
+npm install
 ```
 
 3. 開発サーバを起動します（スクリプト毎にモードを指定）。例：
