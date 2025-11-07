@@ -5,6 +5,7 @@ web-page-enhancement-scripts
 [![TypeScript](https://img.shields.io/badge/types-TypeScript%205.x-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/pulls)
+[![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml/badge.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml)
 
 
 これは複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
@@ -76,11 +77,20 @@ npm run format       # prettier --write src/**/*.ts
 - `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
 - `dist/` — ビルド済みの userscript（配布用）
 
+各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
+
 配布・導入
 ---------
 
-1. `dist/` 内の `.user.js` ファイルを直接ブラウザで開くか、Tampermonkey の「新しいスクリプトを追加」から貼り付けてインストールします。
+1. `dist/` 内の `.user.js` ファイルを開いて右上のRawボタンを押すとTampermonkeyのユーザースクリプトとして読み込めます。そのままインストールするか、Tampermonkey の「新しいスクリプトを追加」から貼り付けてインストールします。
 2. `.meta.js` はメタ情報の参照やホスティング時に使用できます。
+
+アップデート手順
+---------------
+
+1.Tampermonkeyのアイコンを押し、ダッシュボードを開きます。
+2.「インストール済み」タブを開き、対象のスクリプトを選択します。
+3.「選択したスクリプトすべてにこの操作を適用」から「更新を確認」を選択し「実行」ボタンを押すと、最新版があれば自動的に更新されます。
 
 開発者向けノート
 -----------------
@@ -95,7 +105,7 @@ npm run format       # prettier --write src/**/*.ts
 PR 前に以下を実行してください：
 
 ```bash
-npm ci
+npm install
 npm run type-check
 npm run lint
 npm run build
@@ -107,29 +117,10 @@ npm run build
 MIT
 
 
-CI / Releases
+CI / PR Checks
 -------------
 
-このリポジトリは GitHub Actions を使った CI とリリースワークフローを提供します。
+このリポジトリは GitHub Actions を使った CI と PR Checksを提供します。
 
 - **CI**: `main` ブランチへの push および PR で `lint` / `type-check` / `build` を実行します。
 - **PR Quick Checks**: PR 作成時に `lint` と `type-check` を早期に検出します。
-- **Release**: `v*.*.*` タグを push すると `dist/` をビルドしてアーティファクトをリリースに添付します。
-
-リリース手順（ローカル）:
-
-```bash
-# 1. バージョンを更新して tag を作成
-git tag v1.2.3
-git push origin v1.2.3
-
-# 2. GitHub 上で Release が自動作成され、dist が添付されます
-```
-
-CI バッジ：
-
-```
-![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml/badge.svg)
-```
-
-
