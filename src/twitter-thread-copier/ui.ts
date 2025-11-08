@@ -573,7 +573,7 @@ class UIManager {
     modelInput.type = "text";
     modelInput.id = "openai-model-input";
     const storedModel = localStorage.getItem("openai_model");
-    modelInput.value = storedModel ?? "gpt-3.5-turbo";
+    modelInput.value = storedModel ?? "gpt-oss-120b";
     modelInput.addEventListener("change", (e: Event) => {
       const val = (e.target as HTMLInputElement).value.trim();
       if (val) {

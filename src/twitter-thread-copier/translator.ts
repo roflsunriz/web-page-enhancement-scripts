@@ -369,13 +369,13 @@ function ensureOpenAIConfig(): void {
     }
   }
   if (!localStorage.getItem(endpointKey)) {
-    const ep = prompt("OpenAI APIエンドポイント(URL)を入力してください");
+    const ep = prompt("OpenAI APIエンドポイント(URL)を入力してください(例:https://api.cerebras.ai/v1/chat/completions)");
     if (ep) {
       localStorage.setItem(endpointKey, ep);
     }
   }
   if (!localStorage.getItem(modelKey)) {
-    const model = prompt("OpenAIモデル名を入力してください (例: gpt-3.5-turbo)");
+    const model = prompt("OpenAIモデル名を入力してください (例: gpt-oss-120b)");
     if (model) {
       localStorage.setItem(modelKey, model);
     }
@@ -385,7 +385,7 @@ function ensureOpenAIConfig(): void {
 async function translateWithOpenAI(text: string): Promise<string | null> {
   const apiKey = localStorage.getItem("openai_api_key");
   const endpoint = localStorage.getItem("openai_endpoint");
-  const model = localStorage.getItem("openai_model") ?? "gpt-3.5-turbo";
+  const model = localStorage.getItem("openai_model") ?? "gpt-oss-120b";
   if (!apiKey || !endpoint) {
     logger.error("OpenAI の設定が不足しています。");
     return null;
