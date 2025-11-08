@@ -227,7 +227,7 @@ export class WatchPageController {
       renderer.clearComments();
       renderer.destroy();
       renderer.initialize(videoElement);
-      renderer.resetState();
+      renderer.hardReset();
       renderer.resize();
     }
     this.playbackRateController?.bind(videoElement);
@@ -313,9 +313,9 @@ export class WatchPageController {
         return;
       }
 
-      // コメントをクリアして内部状態をリセット
+      // ゴーストコメントを完全に削除して内部状態をリセット
       renderer.clearComments();
-      renderer.resetState();
+      renderer.hardReset();
 
       // 取得したコメントを再追加して強制再描画
       currentComments.forEach((comment) => {

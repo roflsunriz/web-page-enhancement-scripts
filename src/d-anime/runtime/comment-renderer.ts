@@ -92,6 +92,14 @@ export class CommentRenderer {
     this.renderer.resetState();
   }
 
+  /**
+   * 前エポックのゴーストコメントを強制掃除し、次のフレームで絶対時間同期を行う
+   * 動画ロード直後の初期化やソース変更時に使用
+   */
+  hardReset(): void {
+    this.renderer.hardReset();
+  }
+
   destroy(): void {
     this.teardownKeyboardShortcuts();
     this.renderer.destroy();
