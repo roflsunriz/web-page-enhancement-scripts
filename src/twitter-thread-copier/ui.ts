@@ -539,6 +539,53 @@ class UIManager {
     translateLabel.appendChild(document.createTextNode("翻訳"));
     container.appendChild(translateLabel);
 
+    // Translation provider selector
+    const providerLabel = document.createElement("label");
+    providerLabel.textContent = "翻訳プロバイダー:";
+    const providerSelect = document.createElement("select");
+    providerSelect.id = "provider-select";
+    providerSelect.innerHTML = `
+      <option value="local">ローカルAI</option>
+      <option value="google">Google翻訳</option>
+      <option value="openai">OpenAI</option>
+    `;
+    // Initialize from stored preference
+    const storedProvider = localStorage.getItem("translationProvider");
+    if (storedProvider === "local" || storedProvider === "google" || storedProvider === "openai") {
+      providerSelect.value = storedProvider;
+    } else {
+      providerSelect.value = "local";
+    }
+    providerSelect.addEventListener("change", (e: Event) => {
+      const val = (e.target as HTMLSelectElement).value as "local" | "google" | "openai";
+      localStorage.setItem("translationProvider", val);
+      logger.log(`Translation provider set to ${val}`);
+    });
+    const providerContainer = document.createElement("div");
+    providerContainer.appendChild(providerLabel);
+    providerContainer.appendChild(providerSelect);
+    container.appendChild(providerContainer);
+
+    // OpenAI model name input
+    const modelLabel = document.createElement("label");
+    modelLabel.textContent = "OpenAIモデル:";
+    const modelInput = document.createElement("input");
+    modelInput.type = "text";
+    modelInput.id = "openai-model-input";
+    const storedModel = localStorage.getItem("openai_model");
+    modelInput.value = storedModel ?? "gpt-3.5-turbo";
+    modelInput.addEventListener("change", (e: Event) => {
+      const val = (e.target as HTMLInputElement).value.trim();
+      if (val) {
+        localStorage.setItem("openai_model", val);
+        logger.log(`OpenAI model set to ${val}`);
+      }
+    });
+    const modelContainer = document.createElement("div");
+    modelContainer.appendChild(modelLabel);
+    modelContainer.appendChild(modelInput);
+    container.appendChild(modelContainer);
+
     this.appendChild(container);
     this.controlPanel = container;
     this.configureHoverVisibility();

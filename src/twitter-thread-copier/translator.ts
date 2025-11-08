@@ -25,7 +25,15 @@ type TextSegment = {
 
 type Segment = FixedSegment | TextSegment;
 
-type TranslationProvider = "local" | "google" | "none";
+type TranslationProvider = "local" | "google" | "openai" | "none";
+
+function getPreferredProvider(): TranslationProvider {
+  const stored = localStorage.getItem("translationProvider");
+  if (stored === "local" || stored === "google" || stored === "openai") {
+    return stored as TranslationProvider;
+  }
+  return "local";
+}
 
 interface SegmentTranslationResult {
   text: string;
@@ -213,18 +221,36 @@ async function translateSingleSegment(
     return { text, provider: "none" };
   }
 
-  const localResult = await translateWithLocalAI(text);
-  if (localResult) {
-    return { text: localResult, provider: "local" };
-  }
+  const provider = getPreferredProvider();
 
-  try {
-    const googleResult = await translateWithGoogle(text);
-    return { text: googleResult, provider: "google" };
-  } catch (error) {
-    logger.error(`Google翻訳にも失敗しました: ${(error as Error).message}`);
+  if (provider === "local") {
+    const localResult = await translateWithLocalAI(text);
+    if (localResult) {
+      return { text: localResult, provider: "local" };
+    }
     return { text, provider: "none" };
   }
+
+  if (provider === "google") {
+    try {
+      const googleResult = await translateWithGoogle(text);
+      return { text: googleResult, provider: "google" };
+    } catch (error) {
+      logger.error(`Google翻訳にも失敗しました: ${(error as Error).message}`);
+      return { text, provider: "none" };
+    }
+  }
+
+  if (provider === "openai") {
+    ensureOpenAIConfig();
+    const openaiResult = await translateWithOpenAI(text);
+    if (openaiResult) {
+      return { text: openaiResult, provider: "openai" };
+    }
+    return { text, provider: "none" };
+  }
+
+  return { text, provider: "none" };
 }
 
 async function translateWithLocalAI(text: string): Promise<string | null> {
@@ -330,6 +356,70 @@ async function translateWithGoogle(text: string): Promise<string> {
   }
 
   throw new Error("Google翻訳に失敗しました。");
+}
+
+function ensureOpenAIConfig(): void {
+  const apiKeyKey = "openai_api_key";
+  const endpointKey = "openai_endpoint";
+  const modelKey = "openai_model";
+  if (!localStorage.getItem(apiKeyKey)) {
+    const key = prompt("OpenAI APIキーを入力してください");
+    if (key) {
+      localStorage.setItem(apiKeyKey, key);
+    }
+  }
+  if (!localStorage.getItem(endpointKey)) {
+    const ep = prompt("OpenAI APIエンドポイント(URL)を入力してください");
+    if (ep) {
+      localStorage.setItem(endpointKey, ep);
+    }
+  }
+  if (!localStorage.getItem(modelKey)) {
+    const model = prompt("OpenAIモデル名を入力してください (例: gpt-3.5-turbo)");
+    if (model) {
+      localStorage.setItem(modelKey, model);
+    }
+  }
+}
+
+async function translateWithOpenAI(text: string): Promise<string | null> {
+  const apiKey = localStorage.getItem("openai_api_key");
+  const endpoint = localStorage.getItem("openai_endpoint");
+  const model = localStorage.getItem("openai_model") ?? "gpt-3.5-turbo";
+  if (!apiKey || !endpoint) {
+    logger.error("OpenAI の設定が不足しています。");
+    return null;
+  }
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${apiKey}`,
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: "system", content: LOCAL_AI_SYSTEM_PROMPT },
+          { role: "user", content: text },
+        ],
+        temperature: 0,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`API error: ${response.status}`);
+    }
+    const data = await response.json();
+    const translated = data?.choices?.[0]?.message?.content;
+    if (translated && translated.trim().length > 0) {
+      logger.log("OpenAIでの翻訳に成功しました。");
+      return translated;
+    }
+    throw new Error("OpenAI translation result is empty");
+  } catch (error) {
+    logger.error(`OpenAI翻訳に失敗: ${(error as Error).message}`);
+    return null;
+  }
 }
 
 function cloneTweet(tweet: TweetData): TweetData {
