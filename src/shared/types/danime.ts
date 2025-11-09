@@ -1,5 +1,3 @@
-import type { RendererSettings as OverlayRendererSettings } from "comment-overlay";
-
 export interface NicoCommentPacket {
   chat: NicoComment;
 }
@@ -16,9 +14,26 @@ export interface NicoComment {
   date: number;
 }
 
-export interface RendererSettings extends OverlayRendererSettings {
+export type ScrollDirection = "rtl" | "ltr";
+export type RenderStyle = "classic" | "outline-only";
+export type SyncMode = "raf" | "video-frame";
+
+export interface RendererSettings {
+  commentColor: string;
+  commentOpacity: number;
+  isCommentVisible: boolean;
+  useContainerResizeObserver: boolean;
+  ngWords: string[];
+  ngRegexps: string[];
+  scrollDirection: ScrollDirection;
+  renderStyle: RenderStyle;
+  syncMode: SyncMode;
+  scrollVisibleDurationMs: number | null;
+  useFixedLaneCount: boolean;
+  fixedLaneCount: number;
+  useDprScaling: boolean;
   /**
-   * 動画再生後10秒後に再初期化処理を実行して強制再描画するかどうか
+   * ����Đ���10�b��ɍď��������������s���ċ����ĕ`�悷�邩�ǂ���
    * @default true
    */
   enableForceRefresh?: boolean;
