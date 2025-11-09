@@ -50,10 +50,15 @@ const HEX_COLOR_PATTERN =
   /^#([0-9a-f]{3}|[0-9a-f]{4}|[0-9a-f]{6}|[0-9a-f]{8})$/i;
 
 const DEFAULT_FONT_FAMILY = FONT_FAMILY_MAP.defont;
-const DEFAULT_TEXT_SHADOW =
-  "0 0 3px rgba(0, 0, 0, 0.85), 0 0 6px rgba(0, 0, 0, 0.65)";
 const MIN_FONT_SIZE = 16;
 const DEFAULT_LINE_HEIGHT = 1.2;
+const COMMENT_TRAVEL_DURATION_SECONDS = 4;
+const DEFAULT_SCROLL_SPEED = 230;
+const CLASSIC_LINE_WIDTH_RATIO = 18;
+const OUTLINE_ONLY_LINE_WIDTH_RATIO = 9;
+const DEFAULT_STROKE_COLOR = "rgba(0, 0, 0, 0.85)";
+const DEFAULT_SHADOW_COLOR = "rgba(0, 0, 0, 0.65)";
+const DEFAULT_SHADOW_BLUR_RATIO = 0.35;
 
 export interface CommentRendererConfig {
   loggerNamespace?: string;
@@ -108,8 +113,7 @@ const isInitializeOptions = (
 const clamp = (value: number, min: number, max: number): number =>
   Math.min(max, Math.max(min, value));
 
-const toOpacityString = (value: number): string =>
-  clamp(value, 0, 1).toFixed(2);
+const toOpacityValue = (value: number): number => clamp(value, 0, 1);
 
 export class CommentRenderer {
   private danmaku: Danmaku | null = null;
@@ -272,6 +276,7 @@ export class CommentRenderer {
       }
     }
     this.danmaku?.resize();
+    this.updateDanmakuSpeed();
   }
 
   private resolveVideoElement(
@@ -307,10 +312,11 @@ export class CommentRenderer {
       container,
       media: video,
       comments: [],
-      speed: 230,
-      engine: "dom",
+      speed: this.computeScrollSpeed(container.clientWidth),
+      engine: "canvas",
     });
 
+    this.updateDanmakuSpeed();
     this.applyVisibility();
     this.setupResizeObserver(video);
     this.emitExistingComments();
@@ -378,6 +384,7 @@ export class CommentRenderer {
     host.style.left = `${offsetLeft}px`;
     host.style.width = `${clientWidth}px`;
     host.style.height = `${clientHeight}px`;
+    this.updateDanmakuSpeed();
   }
 
   private emitExistingComments(): void {
@@ -395,6 +402,24 @@ export class CommentRenderer {
     }
     this.danmaku.clear();
     this.emitExistingComments();
+  }
+
+  private computeScrollSpeed(width: number): number {
+    if (!Number.isFinite(width) || width <= 0) {
+      return DEFAULT_SCROLL_SPEED;
+    }
+    return width / COMMENT_TRAVEL_DURATION_SECONDS;
+  }
+
+  private updateDanmakuSpeed(): void {
+    if (!this.danmaku || !this.containerElement) {
+      return;
+    }
+    const width = this.containerElement.clientWidth;
+    if (width <= 0) {
+      return;
+    }
+    this.danmaku.speed = this.computeScrollSpeed(width);
   }
 
   private emitDanmaku(comment: Comment): void {
@@ -429,23 +454,16 @@ export class CommentRenderer {
     const lineHeight = this.getLineHeight(commands);
     const opacityMultiplier = this.hasCommand(commands, "_live") ? 0.5 : 1;
 
-    const style: DanmakuCommentStyle = {
+    const style = this.buildCanvasStyle({
       color,
-      fontSize: `${fontSize}px`,
+      fontSize,
       fontFamily,
-      fontWeight: "600",
-      whiteSpace: "pre",
-      textShadow: DEFAULT_TEXT_SHADOW,
-      opacity: toOpacityString(
-        this.settingsValue.commentOpacity * opacityMultiplier,
-      ),
-    };
+      lineHeight,
+      opacityMultiplier,
+    });
 
     if (letterSpacing !== 0) {
       style.letterSpacing = `${letterSpacing}px`;
-    }
-    if (lineHeight !== DEFAULT_LINE_HEIGHT) {
-      style.lineHeight = lineHeight.toString();
     }
 
     return {
@@ -453,6 +471,43 @@ export class CommentRenderer {
       time: Math.max(0, comment.vposMs / 1000),
       mode,
       style,
+    };
+  }
+
+  private buildCanvasStyle(params: {
+    color: string;
+    fontSize: number;
+    fontFamily: string;
+    lineHeight: number;
+    opacityMultiplier: number;
+  }): DanmakuCommentStyle {
+    const { color, fontSize, fontFamily, lineHeight, opacityMultiplier } =
+      params;
+    const lineHeightPx = Math.max(
+      Math.round(fontSize * lineHeight),
+      Math.ceil(fontSize),
+    );
+    const globalAlpha = toOpacityValue(
+      this.settingsValue.commentOpacity * opacityMultiplier,
+    );
+    const lineWidth =
+      this.settingsValue.renderStyle === "outline-only"
+        ? Math.max(1, fontSize / OUTLINE_ONLY_LINE_WIDTH_RATIO)
+        : Math.max(1, fontSize / CLASSIC_LINE_WIDTH_RATIO);
+    const shadowBlur =
+      this.settingsValue.renderStyle === "outline-only"
+        ? Math.max(1, fontSize * (DEFAULT_SHADOW_BLUR_RATIO / 2))
+        : Math.max(1, fontSize * DEFAULT_SHADOW_BLUR_RATIO);
+
+    return {
+      font: `600 ${fontSize}px/${lineHeightPx}px ${fontFamily}`,
+      fillStyle: color,
+      globalAlpha,
+      strokeStyle: DEFAULT_STROKE_COLOR,
+      lineWidth,
+      shadowColor: DEFAULT_SHADOW_COLOR,
+      shadowBlur,
+      textBaseline: "bottom",
     };
   }
 

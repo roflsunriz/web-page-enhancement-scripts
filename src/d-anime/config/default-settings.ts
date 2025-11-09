@@ -27,6 +27,6 @@ export const cloneDefaultSettings = (): RendererSettings => ({
   ngRegexps: [...DEFAULT_RENDERER_SETTINGS.ngRegexps],
 });
 
-// RENDERER_VERSION��Danmaku�̃o�[�W�����ł͂Ȃ��Ad-anime-nico-comment-renderer���[�U�[�X�N���v�g�̃o�[�W�����ł��B
-// �Ȃ̂ŕύX���Ȃ����ƁI�I�I UI��d-anime-nico-comment-renderer�̃o�[�W�������\������邽�߂̂��̂ł��B
-export const RENDERER_VERSION = "v7.0.0";
+// RENDERER_VERSIONはDanmakuのバージョンではなく、d-anime-nico-comment-rendererのバージョンです。
+// この値はUIに表示されるバージョンです。変更したときだけバージョンアップすること。
+export const RENDERER_VERSION = "v7.0.1";

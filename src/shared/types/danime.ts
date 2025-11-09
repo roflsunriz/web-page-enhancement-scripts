@@ -48,6 +48,11 @@ export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
   textShadow?: string;
   opacity?: string;
   color?: string;
+  shadowColor?: string;
+  shadowBlur?: number;
+  shadowOffsetX?: number;
+  shadowOffsetY?: number;
+  textBaseline?: CanvasTextBaseline;
 };
 
 export interface DanmakuComment {
