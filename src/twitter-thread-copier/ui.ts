@@ -340,28 +340,28 @@ class UIManager {
       }
       .reset-start-point.visible { opacity: 1; visibility: visible; }
       .reset-start-point:hover { background-color: #ff5252; transform: scale(1.05); }
-      .settings-button {
-          width: 40px;
-          height: 40px;
+      .control-panel-container .settings-button {
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
-          background-color: rgba(29, 161, 242, 0.1);
-          border: 2px solid #1DA1F2;
+          background-color: rgba(29, 161, 242, 0.15);
+          border: 1px solid rgba(29, 161, 242, 0.5);
           color: #1DA1F2;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.3s ease;
-          pointer-events: auto;
-          order: 1;
+          transition: all 0.2s ease;
+          margin-top: 4px;
       }
-      .settings-button:hover {
-          background-color: rgba(29, 161, 242, 0.2);
-          transform: scale(1.1);
+      .control-panel-container .settings-button:hover {
+          background-color: rgba(29, 161, 242, 0.3);
+          transform: scale(1.05);
+          border-color: #1DA1F2;
       }
-      .settings-button svg {
-          width: 20px;
-          height: 20px;
+      .control-panel-container .settings-button svg {
+          width: 18px;
+          height: 18px;
       }
       .settings-modal-overlay {
           position: fixed;
@@ -716,25 +716,14 @@ class UIManager {
     providerContainer.appendChild(providerSelect);
     container.appendChild(providerContainer);
 
-    // OpenAI model name input
-    const modelLabel = document.createElement("label");
-    modelLabel.textContent = "OpenAIモデル:";
-    const modelInput = document.createElement("input");
-    modelInput.type = "text";
-    modelInput.id = "openai-model-input";
-    const storedModel = localStorage.getItem("openai_model");
-    modelInput.value = storedModel ?? "gpt-oss-120b";
-    modelInput.addEventListener("change", (e: Event) => {
-      const val = (e.target as HTMLInputElement).value.trim();
-      if (val) {
-        localStorage.setItem("openai_model", val);
-        logger.log(`OpenAI model set to ${val}`);
-      }
-    });
-    const modelContainer = document.createElement("div");
-    modelContainer.appendChild(modelLabel);
-    modelContainer.appendChild(modelInput);
-    container.appendChild(modelContainer);
+    // Settings button
+    const settingsButton = document.createElement("button");
+    settingsButton.className = "settings-button";
+    settingsButton.type = "button";
+    settingsButton.title = "設定";
+    settingsButton.innerHTML = ICONS.SETTINGS;
+    settingsButton.addEventListener("click", () => this.showSettingsModal());
+    container.appendChild(settingsButton);
 
     this.appendChild(container);
     this.controlPanel = container;
@@ -847,7 +836,6 @@ class UIManager {
     this.addSelectionButtons();
     this.addStartPointButtons();
     this.updateResetButton();
-    this.addSettingsButton();
   }
 
   private addStartPointButtons(): void {
@@ -1192,22 +1180,6 @@ class UIManager {
 		} catch (error) {
 			logger.warn("failed to save UI position", error);
 		}
-  }
-
-  private addSettingsButton(): void {
-    if (this.querySelector(".settings-button")) {
-      return;
-    }
-
-    const button = document.createElement("button");
-    button.className = "settings-button";
-    button.title = "設定";
-    button.type = "button";
-    button.innerHTML = ICONS.SETTINGS;
-    button.addEventListener("click", () => this.showSettingsModal());
-
-    this.appendChild(button);
-    logger.log("Settings button added to shadow DOM");
   }
 
   private showSettingsModal(): void {
