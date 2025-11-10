@@ -1,8 +1,19 @@
 import { logger } from "./logger.js";
 import { state } from "./state.js";
 import { renderMdiSvg } from "../shared/icons/mdi.js";
-import { mdiContentCopy, mdiClipboardTextOutline, mdiProgressClock } from "@mdi/js";
+import {
+  mdiContentCopy,
+  mdiClipboardTextOutline,
+  mdiProgressClock,
+  mdiCog,
+} from "@mdi/js";
 import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
+import {
+  loadSettings,
+  saveSettings,
+  resetSettings,
+  type TranslatorSettings,
+} from "./settings.js";
 
 type ButtonAction = "copy" | "clipboard";
 
@@ -10,9 +21,10 @@ type ButtonAction = "copy" | "clipboard";
  * SVG icons used in the UI (from @mdi/js, Apache-2.0).
  */
 const ICONS = {
-	LOADING: renderMdiSvg(mdiProgressClock),
-	CLIPBOARD: renderMdiSvg(mdiClipboardTextOutline),
-	COPY: renderMdiSvg(mdiContentCopy),
+  LOADING: renderMdiSvg(mdiProgressClock),
+  CLIPBOARD: renderMdiSvg(mdiClipboardTextOutline),
+  COPY: renderMdiSvg(mdiContentCopy),
+  SETTINGS: renderMdiSvg(mdiCog),
 };
 
 /**
@@ -36,6 +48,7 @@ class UIManager {
   private ignoreNextClick = false;
   private mainButton: HTMLButtonElement | null = null;
   private controlPanel: HTMLDivElement | null = null;
+  private settingsModal: HTMLDivElement | null = null;
   private hoverInteractionConfigured = false;
   private hoverPointerCount = 0;
   private hoverHideTimeout: number | null = null;
@@ -327,6 +340,143 @@ class UIManager {
       }
       .reset-start-point.visible { opacity: 1; visibility: visible; }
       .reset-start-point:hover { background-color: #ff5252; transform: scale(1.05); }
+      .settings-button {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          background-color: rgba(29, 161, 242, 0.1);
+          border: 2px solid #1DA1F2;
+          color: #1DA1F2;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          pointer-events: auto;
+          order: 1;
+      }
+      .settings-button:hover {
+          background-color: rgba(29, 161, 242, 0.2);
+          transform: scale(1.1);
+      }
+      .settings-button svg {
+          width: 20px;
+          height: 20px;
+      }
+      .settings-modal-overlay {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background-color: rgba(0, 0, 0, 0.7);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          z-index: 10000;
+          opacity: 0;
+          visibility: hidden;
+          transition: opacity 0.3s ease, visibility 0.3s ease;
+          pointer-events: none;
+      }
+      .settings-modal-overlay.visible {
+          opacity: 1;
+          visibility: visible;
+          pointer-events: auto;
+      }
+      .settings-modal {
+          background-color: #1e1e1e;
+          color: white;
+          border-radius: 12px;
+          padding: 24px;
+          max-width: 600px;
+          width: 90%;
+          max-height: 80vh;
+          overflow-y: auto;
+          box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+          transform: scale(0.9);
+          transition: transform 0.3s ease;
+      }
+      .settings-modal-overlay.visible .settings-modal {
+          transform: scale(1);
+      }
+      .settings-modal h2 {
+          margin: 0 0 20px 0;
+          font-size: 24px;
+          color: #1DA1F2;
+      }
+      .settings-modal h3 {
+          margin: 16px 0 8px 0;
+          font-size: 18px;
+          color: #1DA1F2;
+          border-bottom: 1px solid #333;
+          padding-bottom: 4px;
+      }
+      .settings-modal label {
+          display: block;
+          margin-bottom: 8px;
+          font-size: 14px;
+          color: #ccc;
+      }
+      .settings-modal input[type="text"],
+      .settings-modal textarea {
+          width: 100%;
+          padding: 8px 12px;
+          margin-bottom: 16px;
+          background-color: #2a2a2a;
+          border: 1px solid #444;
+          border-radius: 6px;
+          color: white;
+          font-size: 14px;
+          font-family: inherit;
+          box-sizing: border-box;
+      }
+      .settings-modal textarea {
+          min-height: 80px;
+          resize: vertical;
+          font-family: monospace;
+      }
+      .settings-modal input[type="text"]:focus,
+      .settings-modal textarea:focus {
+          outline: none;
+          border-color: #1DA1F2;
+      }
+      .settings-modal-buttons {
+          display: flex;
+          gap: 12px;
+          justify-content: flex-end;
+          margin-top: 20px;
+      }
+      .settings-modal button {
+          padding: 10px 20px;
+          border-radius: 6px;
+          border: none;
+          cursor: pointer;
+          font-size: 14px;
+          font-weight: 500;
+          transition: all 0.2s ease;
+      }
+      .settings-modal .btn-save {
+          background-color: #1DA1F2;
+          color: white;
+      }
+      .settings-modal .btn-save:hover {
+          background-color: #1991DB;
+      }
+      .settings-modal .btn-reset {
+          background-color: #ff6b6b;
+          color: white;
+      }
+      .settings-modal .btn-reset:hover {
+          background-color: #ff5252;
+      }
+      .settings-modal .btn-cancel {
+          background-color: #444;
+          color: white;
+      }
+      .settings-modal .btn-cancel:hover {
+          background-color: #555;
+      }
     `;
     this.shadowRoot.appendChild(styleElement);
   }
@@ -697,6 +847,7 @@ class UIManager {
     this.addSelectionButtons();
     this.addStartPointButtons();
     this.updateResetButton();
+    this.addSettingsButton();
   }
 
   private addStartPointButtons(): void {
@@ -1041,6 +1192,155 @@ class UIManager {
 		} catch (error) {
 			logger.warn("failed to save UI position", error);
 		}
+  }
+
+  private addSettingsButton(): void {
+    if (this.querySelector(".settings-button")) {
+      return;
+    }
+
+    const button = document.createElement("button");
+    button.className = "settings-button";
+    button.title = "設定";
+    button.type = "button";
+    button.innerHTML = ICONS.SETTINGS;
+    button.addEventListener("click", () => this.showSettingsModal());
+
+    this.appendChild(button);
+    logger.log("Settings button added to shadow DOM");
+  }
+
+  private showSettingsModal(): void {
+    if (this.settingsModal) {
+      this.settingsModal.classList.add("visible");
+      return;
+    }
+
+    const overlay = document.createElement("div");
+    overlay.className = "settings-modal-overlay";
+
+    const modal = document.createElement("div");
+    modal.className = "settings-modal";
+
+    const settings = loadSettings();
+
+    modal.innerHTML = `
+      <h2>翻訳設定</h2>
+      
+      <h3>ローカルAI設定</h3>
+      <label>APIエンドポイント</label>
+      <input type="text" id="local-ai-endpoint" value="${this.escapeHtml(settings.localAiEndpoint)}" />
+      
+      <label>システムプロンプト</label>
+      <textarea id="local-ai-system-prompt">${this.escapeHtml(settings.localAiSystemPrompt)}</textarea>
+      
+      <h3>OpenAI設定</h3>
+      <label>APIエンドポイント</label>
+      <input type="text" id="openai-endpoint" value="${this.escapeHtml(settings.openaiEndpoint)}" />
+      
+      <label>モデル名</label>
+      <input type="text" id="openai-model" value="${this.escapeHtml(settings.openaiModel)}" />
+      
+      <label>システムプロンプト</label>
+      <textarea id="openai-system-prompt">${this.escapeHtml(settings.openaiSystemPrompt)}</textarea>
+      
+      <label>APIキー（オプション）</label>
+      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="必要な場合は入力してください" />
+      
+      <div class="settings-modal-buttons">
+        <button class="btn-reset" type="button">リセット</button>
+        <button class="btn-cancel" type="button">キャンセル</button>
+        <button class="btn-save" type="button">保存</button>
+      </div>
+    `;
+
+    overlay.appendChild(modal);
+
+    if (!this.shadowRoot) {
+      return;
+    }
+    this.shadowRoot.appendChild(overlay);
+    this.settingsModal = overlay;
+
+    // Event listeners
+    const saveButton = modal.querySelector(".btn-save") as HTMLButtonElement | null;
+    const cancelButton = modal.querySelector(".btn-cancel") as HTMLButtonElement | null;
+    const resetButton = modal.querySelector(".btn-reset") as HTMLButtonElement | null;
+
+    if (saveButton) {
+      saveButton.addEventListener("click", () => {
+        const newSettings: TranslatorSettings = {
+          localAiEndpoint:
+            (modal.querySelector("#local-ai-endpoint") as HTMLInputElement | null)?.value ??
+            settings.localAiEndpoint,
+          localAiSystemPrompt:
+            (modal.querySelector("#local-ai-system-prompt") as HTMLTextAreaElement | null)?.value ??
+            settings.localAiSystemPrompt,
+          openaiEndpoint:
+            (modal.querySelector("#openai-endpoint") as HTMLInputElement | null)?.value ??
+            settings.openaiEndpoint,
+          openaiModel:
+            (modal.querySelector("#openai-model") as HTMLInputElement | null)?.value ??
+            settings.openaiModel,
+          openaiSystemPrompt:
+            (modal.querySelector("#openai-system-prompt") as HTMLTextAreaElement | null)?.value ??
+            settings.openaiSystemPrompt,
+          openaiApiKey:
+            (modal.querySelector("#openai-api-key") as HTMLInputElement | null)?.value ??
+            settings.openaiApiKey,
+        };
+        saveSettings(newSettings);
+        this.hideSettingsModal();
+        this.showToast("設定保存", "設定を保存しました");
+      });
+    }
+
+    if (cancelButton) {
+      cancelButton.addEventListener("click", () => {
+        this.hideSettingsModal();
+      });
+    }
+
+    if (resetButton) {
+      resetButton.addEventListener("click", () => {
+        if (confirm("設定をデフォルトに戻しますか？")) {
+          resetSettings();
+          this.hideSettingsModal();
+          this.showToast("設定リセット", "設定をデフォルトに戻しました");
+        }
+      });
+    }
+
+    overlay.addEventListener("click", (event) => {
+      if (event.target === overlay) {
+        this.hideSettingsModal();
+      }
+    });
+
+    // Show modal
+    requestAnimationFrame(() => {
+      overlay.classList.add("visible");
+    });
+
+    logger.log("Settings modal opened");
+  }
+
+  private hideSettingsModal(): void {
+    if (!this.settingsModal) {
+      return;
+    }
+    this.settingsModal.classList.remove("visible");
+    setTimeout(() => {
+      this.settingsModal?.remove();
+      this.settingsModal = null;
+    }, 300);
+    logger.log("Settings modal closed");
+  }
+
+  private escapeHtml(text: string): string {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
   }
 }
 

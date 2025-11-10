@@ -3,12 +3,9 @@ import { applyAutoConversions } from "./auto-conversion.js";
 import type { TweetData } from "@/shared/types";
 import { notify } from "@/shared/userscript";
 import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
+import { loadSettings } from "./settings.js";
 
-const LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const GOOGLE_TRANSLATE_ENDPOINT = GOOGLE_TRANSLATE_API_URL;
-
-const LOCAL_AI_SYSTEM_PROMPT =
-  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
 const ZERO_WIDTH_CHARS_REGEX = /(?:\u200B|\u200C|\u200D|\u2060|\uFEFF)/g;
 
@@ -255,6 +252,7 @@ async function translateSingleSegment(
 
 async function translateWithLocalAI(text: string): Promise<string | null> {
   try {
+    const settings = loadSettings();
     const prompt = `<|plamo:op|>dataset
 translation
 <|plamo:op|>input lang=auto
@@ -265,14 +263,14 @@ ${text}
       (resolve, reject) => {
         GM_xmlhttpRequest({
           method: "POST",
-          url: LOCAL_AI_ENDPOINT,
+          url: settings.localAiEndpoint,
           headers: {
             "Content-Type": "application/json",
           },
           data: JSON.stringify({
             model: "plamo-13b-instruct",
             messages: [
-              { role: "system", content: LOCAL_AI_SYSTEM_PROMPT },
+              { role: "system", content: settings.localAiSystemPrompt },
               { role: "user", content: prompt },
             ],
             temperature: 0,
@@ -359,48 +357,33 @@ async function translateWithGoogle(text: string): Promise<string> {
 }
 
 function ensureOpenAIConfig(): void {
-  const apiKeyKey = "openai_api_key";
-  const endpointKey = "openai_endpoint";
-  const modelKey = "openai_model";
-  if (!localStorage.getItem(apiKeyKey)) {
-    const key = prompt("OpenAI APIキーを入力してください");
-    if (key) {
-      localStorage.setItem(apiKeyKey, key);
-    }
-  }
-  if (!localStorage.getItem(endpointKey)) {
-    const ep = prompt("OpenAI APIエンドポイント(URL)を入力してください(例:https://api.cerebras.ai/v1/chat/completions)");
-    if (ep) {
-      localStorage.setItem(endpointKey, ep);
-    }
-  }
-  if (!localStorage.getItem(modelKey)) {
-    const model = prompt("OpenAIモデル名を入力してください (例: gpt-oss-120b)");
-    if (model) {
-      localStorage.setItem(modelKey, model);
-    }
+  const settings = loadSettings();
+  if (!settings.openaiApiKey) {
+    logger.warn("OpenAI APIキーが設定されていません。設定画面から設定してください。");
   }
 }
 
 async function translateWithOpenAI(text: string): Promise<string | null> {
-  const apiKey = localStorage.getItem("openai_api_key");
-  const endpoint = localStorage.getItem("openai_endpoint");
-  const model = localStorage.getItem("openai_model") ?? "gpt-oss-120b";
-  if (!apiKey || !endpoint) {
-    logger.error("OpenAI の設定が不足しています。");
+  const settings = loadSettings();
+  if (!settings.openaiEndpoint) {
+    logger.error("OpenAI エンドポイントが設定されていません。");
     return null;
   }
   try {
-    const response = await fetch(endpoint, {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (settings.openaiApiKey) {
+      headers["Authorization"] = `Bearer ${settings.openaiApiKey}`;
+    }
+
+    const response = await fetch(settings.openaiEndpoint, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
-      },
+      headers,
       body: JSON.stringify({
-        model: model,
+        model: settings.openaiModel,
         messages: [
-          { role: "system", content: LOCAL_AI_SYSTEM_PROMPT },
+          { role: "system", content: settings.openaiSystemPrompt },
           { role: "user", content: text },
         ],
         temperature: 0,
