@@ -5,7 +5,7 @@ import type {
 } from "comment-overlay";
 import { CommentRenderer as OverlayCommentRenderer } from "comment-overlay";
 import type { RendererSettings } from "@/shared/types";
-import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
+import { KeyboardShortcutHandler } from "@/d-anime/input/keyboard-shortcut-handler";
 import { createLogger } from "@/shared/logger";
 
 const logger = createLogger("dAnime:CommentRenderer");

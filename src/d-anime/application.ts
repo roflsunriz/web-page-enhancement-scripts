@@ -1,9 +1,9 @@
 import { getUnsafeWindow } from "@/shared/userscript/getUnsafeWindow";
 import { createLogger, Logger } from "@/shared/logger";
-import { ensureDanimeGlobal } from "./globals";
-import { WatchPageController } from "./controllers/watch-page-controller";
-import { MypageController } from "./controllers/mypage-controller";
-import { StyleManager } from "./styles/style-manager";
+import { ensureDanimeGlobal } from "@/d-anime/globals";
+import { WatchPageController } from "@/d-anime/controllers/watch-page-controller";
+import { MypageController } from "@/d-anime/controllers/mypage-controller";
+import { StyleManager } from "@/d-anime/styles/style-manager";
 
 export class DanimeApplication {
   private readonly log: Logger;

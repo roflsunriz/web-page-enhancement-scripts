@@ -1,13 +1,13 @@
-import { cloneDefaultSettings } from "../../config/default-settings";
-import { SettingsManager } from "../../services/settings-manager";
+import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type { RendererSettings } from "@/shared/types";
-import { NotificationManager } from "../notification-manager";
-import { CommentRenderer } from "../comment-renderer";
-import { NicoApiFetcher } from "../services/nico-api-fetcher";
-import { VideoSwitchHandler } from "../services/video-switch-handler";
-import { PlaybackRateController } from "../services/playback-rate-controller";
-import { DebounceExecutor } from "../utils/debounce-executor";
-import type { DanimeGlobal } from "../globals";
+import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
+import { NicoApiFetcher } from "@/d-anime/services/nico-api-fetcher";
+import { VideoSwitchHandler } from "@/d-anime/services/video-switch-handler";
+import { PlaybackRateController } from "@/d-anime/services/playback-rate-controller";
+import { DebounceExecutor } from "@/d-anime/utils/debounce-executor";
+import type { DanimeGlobal } from "@/d-anime/globals";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 
 const INITIALIZATION_RETRY_MS = 100;
@@ -118,7 +118,7 @@ export class WatchPageController {
       this.global.instances.playbackRateController = playbackRateController;
       playbackRateController.bind(videoElement);
 
-      settingsManager.addObserver((newSettings) => {
+      settingsManager.addObserver((newSettings: RendererSettings) => {
         renderer.settings = this.mergeSettings(newSettings);
       });
 

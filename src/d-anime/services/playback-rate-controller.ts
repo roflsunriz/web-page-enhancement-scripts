@@ -1,6 +1,6 @@
 import { createLogger } from "@/shared/logger";
 import type { PlaybackSettings } from "@/shared/types";
-import { SettingsManager } from "../../services/settings-manager";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
 
 const logger = createLogger("dAnime:PlaybackRateController");
 const DEFAULT_PLAYBACK_RATE = 1;

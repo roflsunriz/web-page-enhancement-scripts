@@ -1,15 +1,15 @@
-import { SettingsManager } from "../../services/settings-manager";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type { VideoMetadata } from "@/shared/types";
-import { NotificationManager } from "../notification-manager";
-import { CommentRenderer } from "../comment-renderer";
+import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
 import { createLogger } from "@/shared/logger";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import type {
   FetcherCommentResult,
   NicoApiFetcher,
   NicoApiResponseBody,
-} from "./nico-api-fetcher";
-import { DebounceExecutor } from "../utils/debounce-executor";
+} from "@/d-anime/services/nico-api-fetcher";
+import { DebounceExecutor } from "@/d-anime/utils/debounce-executor";
 
 const MONITOR_INTERVAL_MS = 1000;
 const PRELOAD_DEBOUNCE_MS = 100;

@@ -1,5 +1,5 @@
 import { createLogger } from "@/shared/logger";
-import { DanimeApplication } from "./application";
+import { DanimeApplication } from "@/d-anime/application";
 
 const log = createLogger("dAnimeNicoCommentRenderer2");
 

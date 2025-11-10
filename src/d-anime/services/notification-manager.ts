@@ -1,6 +1,6 @@
-import { ShadowDOMComponent } from "./shadow/shadow-dom-component";
-import { ShadowStyleManager } from "./styles/shadow-style-manager";
-import type { NotificationType, Notifier } from "../services/notification";
+import { ShadowDOMComponent } from "@/d-anime/shadow/shadow-dom-component";
+import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
+import type { NotificationType, Notifier } from "@/d-anime/services/notification";
 
 type NotificationHandle = {
   element: HTMLDivElement;

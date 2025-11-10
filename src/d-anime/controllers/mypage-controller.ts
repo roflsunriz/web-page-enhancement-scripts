@@ -1,7 +1,7 @@
-import { SettingsManager } from "../../services/settings-manager";
-import { NotificationManager } from "../notification-manager";
-import { SettingsUI } from "../settings/settings-ui";
-import type { DanimeGlobal } from "../globals";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
+import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { SettingsUI } from "@/d-anime/settings/settings-ui";
+import type { DanimeGlobal } from "@/d-anime/globals";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 
 const RETRY_INTERVAL_MS = 100;

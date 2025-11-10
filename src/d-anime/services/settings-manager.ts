@@ -1,11 +1,11 @@
 import { GM_getValue, GM_setValue } from "$";
-import { cloneDefaultSettings } from "../config/default-settings";
+import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
 import type {
   PlaybackSettings,
   RendererSettings,
   VideoMetadata,
 } from "@/shared/types";
-import type { Notifier, NotificationType } from "./notification";
+import type { Notifier, NotificationType } from "@/d-anime/services/notification";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";

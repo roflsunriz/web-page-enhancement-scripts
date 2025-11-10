@@ -9,7 +9,9 @@ export interface NicoComment {
   vpos?: number;
   vposMs?: number;
   mail: string;
+  commands?: string[];
   content: string;
+  text: string;
   user_id: string;
   premium?: number;
   anonymity?: number;
@@ -22,25 +24,6 @@ export interface RendererSettings extends OverlayRendererSettings {
    * @default true
    */
   enableForceRefresh?: boolean;
-}
-
-export type DanmakuCommentStyle = Partial<CSSStyleDeclaration> & {
-  fillStyle?: string | CanvasPattern | CanvasGradient;
-  strokeStyle?: string | CanvasPattern | CanvasGradient;
-  lineWidth?: number;
-  globalAlpha?: number;
-  font?: string;
-  textShadow?: string;
-  opacity?: string;
-  color?: string;
-};
-
-export interface DanmakuComment {
-  text: string;
-  time: number;
-  mode?: "ltr" | "rtl" | "top" | "bottom";
-  style?: DanmakuCommentStyle;
-  commands?: string[];
 }
 
 export interface VideoOwnerInfo {

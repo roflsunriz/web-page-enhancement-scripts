@@ -1,8 +1,8 @@
 import { getUnsafeWindow } from "@/shared/userscript/getUnsafeWindow";
-import { ShadowDOMComponent } from "../shadow/shadow-dom-component";
-import { ShadowStyleManager } from "../styles/shadow-style-manager";
-import { NotificationManager } from "../notification-manager";
-import { SettingsManager } from "../../services/settings-manager";
+import { ShadowDOMComponent } from "@/d-anime/shadow/shadow-dom-component";
+import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
+import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type {
   PlaybackSettings,
   RendererSettings,
@@ -11,11 +11,11 @@ import type {
 import {
   NicoApiFetcher,
   NicoApiResponseBody,
-} from "../services/nico-api-fetcher";
+} from "@/d-anime/services/nico-api-fetcher";
 import {
   NicoVideoSearcher,
   NicoSearchResultItem,
-} from "../services/nico-video-searcher";
+} from "@/d-anime/services/nico-video-searcher";
 import { createLogger } from "@/shared/logger";
 import {
   svgClose,

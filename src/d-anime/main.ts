@@ -1,3 +1,3 @@
-import { bootstrapDanimeUserscript } from "./runtime/bootstrap";
+import { bootstrapDanimeUserscript } from "@/d-anime/bootstrap";
 
 void bootstrapDanimeUserscript();

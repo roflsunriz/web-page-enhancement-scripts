@@ -1,19 +1,19 @@
 import { getUnsafeWindow } from "@/shared/userscript/getUnsafeWindow";
-import { cloneDefaultSettings } from "../config/default-settings";
-import { SettingsManager } from "../services/settings-manager";
-import { Comment } from "./comment";
-import { CommentRenderer } from "./comment-renderer";
-import { KeyboardShortcutHandler } from "./input/keyboard-shortcut-handler";
-import { NotificationManager } from "./notification-manager";
-import { NicoApiFetcher } from "./services/nico-api-fetcher";
-import { NicoVideoSearcher } from "./services/nico-video-searcher";
-import { VideoSwitchHandler } from "./services/video-switch-handler";
-import { DebounceExecutor } from "./utils/debounce-executor";
-import { ShadowDOMComponent } from "./shadow/shadow-dom-component";
-import { ShadowStyleManager } from "./styles/shadow-style-manager";
-import { StyleManager } from "./styles/style-manager";
-import { SettingsUI } from "./settings/settings-ui";
-import { PlaybackRateController } from "./services/playback-rate-controller";
+import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
+import { SettingsManager } from "@/d-anime/services/settings-manager";
+import { Comment } from "@/d-anime/comments/comment";
+import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
+import { KeyboardShortcutHandler } from "@/d-anime/input/keyboard-shortcut-handler";
+import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { NicoApiFetcher } from "@/d-anime/services/nico-api-fetcher";
+import { NicoVideoSearcher } from "@/d-anime/services/nico-video-searcher";
+import { VideoSwitchHandler } from "@/d-anime/services/video-switch-handler";
+import { DebounceExecutor } from "@/d-anime/utils/debounce-executor";
+import { ShadowDOMComponent } from "@/d-anime/shadow/shadow-dom-component";
+import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
+import { StyleManager } from "@/d-anime/styles/style-manager";
+import { SettingsUI } from "@/d-anime/settings/settings-ui";
+import { PlaybackRateController } from "@/d-anime/services/playback-rate-controller";
 
 export interface DanimeGlobalInstances {
   renderer?: CommentRenderer;

@@ -1,6 +1,6 @@
-import commonStyles from "../../styles/common.css?raw";
-import notificationStyles from "../../styles/notification.css?raw";
-import autoButtonStyles from "../../styles/auto-button.css?raw";
+import commonStyles from "@/d-anime/styles/common.css?raw";
+import notificationStyles from "@/d-anime/styles/notification.css?raw";
+import autoButtonStyles from "@/d-anime/styles/auto-button.css?raw";
 
 export class ShadowStyleManager {
   static getCommonStyles(): string {
