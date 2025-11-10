@@ -604,11 +604,11 @@ export class SettingsUI extends ShadowDOMComponent {
               <div class="setting-group ng-settings">
                 <div class="ng-settings__column" aria-labelledby="ngWordsTitle">
                   <h3 id="ngWordsTitle" class="ng-settings__title">NGワード</h3>
-                  <textarea class="ng-settings__textarea" id="ngWords" placeholder="NGワードを1行ずつ入力">${this.settings.ngWords.join("\n")}</textarea>
+                  <textarea class="ng-settings__textarea" id="ngWords" placeholder="NGワードを1行ずつ入力">${(this.settings.ngWords ?? []).join("\n")}</textarea>
                 </div>
                 <div class="ng-settings__column" aria-labelledby="ngRegexTitle">
                   <h3 id="ngRegexTitle" class="ng-settings__title">NG正規表現</h3>
-                  <textarea class="ng-settings__textarea" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${this.settings.ngRegexps.join("\n")}</textarea>
+                  <textarea class="ng-settings__textarea" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${(this.settings.ngRegexps ?? []).join("\n")}</textarea>
                 </div>
               </div>
             </section>
@@ -842,7 +842,7 @@ export class SettingsUI extends ShadowDOMComponent {
     if (!select) {
       return;
     }
-    select.value = this.settings.commentOpacity.toString();
+    select.value = (this.settings.commentOpacity ?? 1).toString();
     select.addEventListener("change", () => {
       const value = Number(select.value);
       if (!Number.isNaN(value)) {
@@ -1129,22 +1129,22 @@ export class SettingsUI extends ShadowDOMComponent {
     );
 
     if (opacitySelect) {
-      opacitySelect.value = this.settings.commentOpacity.toString();
+      opacitySelect.value = (this.settings.commentOpacity ?? 1).toString();
     }
     if (visibilityButton) {
       this.updateVisibilityToggleState(visibilityButton);
     }
-    if (colorPreview) {
+    if (colorPreview && this.settings.commentColor) {
       colorPreview.style.backgroundColor = this.settings.commentColor;
     }
-    if (colorValue) {
+    if (colorValue && this.settings.commentColor) {
       colorValue.textContent = this.settings.commentColor;
     }
     if (ngWords) {
-      ngWords.value = this.settings.ngWords.join("\n");
+      ngWords.value = (this.settings.ngWords ?? []).join("\n");
     }
     if (ngRegex) {
-      ngRegex.value = this.settings.ngRegexps.join("\n");
+      ngRegex.value = (this.settings.ngRegexps ?? []).join("\n");
     }
     this.applyPlaybackSettingsToUI();
     this.updatePlayButtonState(this.currentVideoInfo);

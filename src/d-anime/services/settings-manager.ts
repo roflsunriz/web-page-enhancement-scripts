@@ -190,10 +190,10 @@ export class SettingsManager {
       ...newSettings,
       ngWords: newSettings.ngWords
         ? [...newSettings.ngWords]
-        : [...this.settings.ngWords],
+        : [...(this.settings.ngWords ?? [])],
       ngRegexps: newSettings.ngRegexps
         ? [...newSettings.ngRegexps]
-        : [...this.settings.ngRegexps],
+        : [...(this.settings.ngRegexps ?? [])],
     };
     return this.saveSettings();
   }
