@@ -10,6 +10,38 @@ web-page-enhancement-scripts
 
 これは複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
 
+ユーザースクリプトのサブスクライブ
+----------------------
+リンクをクリックすることでTampermonkeyが自動的にインストールウィンドウを開き、インストールを行うことができます。
+
+- [chatgpt-notify](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/chatgpt-notify.user.js)
+- [d-anime-nico-comment-renderer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js)
+- [fanbox-floating-menu](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-floating-menu.user.js)
+- [fanbox-pagination-helper](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-pagination-helper.user.js)
+- [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
+- [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
+- [manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
+- [twitter-full-size-image](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-full-size-image.user.js)
+- [twitter-media-filter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-media-filter.user.js)
+- [twitter-mute-filter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-mute-filter.user.js)
+- [twitter-mute-retweets](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-mute-retweets.user.js)
+- [twitter-thread-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-thread-copier.user.js)
+- [twitter-wide-layout-fix](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-wide-layout-fix.user.js)
+- [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
+
+配布・導入
+---------
+
+1. `dist/` 内の `.user.js` ファイルを開いて右上のRawボタンを押すとTampermonkeyのユーザースクリプトとして読み込めます。そのままインストールするか、Tampermonkey の「新しいスクリプトを追加」から貼り付けてインストールします。
+2. `.meta.js` はメタ情報の参照やホスティング時に使用できます。
+
+アップデート手順
+---------------
+
+1. Tampermonkeyのアイコンを押し、ダッシュボードを開きます。
+2. 「インストール済み」タブを開き、対象のスクリプトを選択します。
+3. 「選択したスクリプトすべてにこの操作を適用」から「更新を確認」を選択し「実行」ボタンを押すと、最新版があれば自動的に更新されます。
+
 インストール（開発環境）
 ----------------------
 
@@ -78,19 +110,6 @@ npm run format       # prettier --write src/**/*.ts
 - `dist/` — ビルド済みの userscript（配布用）
 
 各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
-
-配布・導入
----------
-
-1. `dist/` 内の `.user.js` ファイルを開いて右上のRawボタンを押すとTampermonkeyのユーザースクリプトとして読み込めます。そのままインストールするか、Tampermonkey の「新しいスクリプトを追加」から貼り付けてインストールします。
-2. `.meta.js` はメタ情報の参照やホスティング時に使用できます。
-
-アップデート手順
----------------
-
-1. Tampermonkeyのアイコンを押し、ダッシュボードを開きます。
-2. 「インストール済み」タブを開き、対象のスクリプトを選択します。
-3. 「選択したスクリプトすべてにこの操作を適用」から「更新を確認」を選択し「実行」ボタンを押すと、最新版があれば自動的に更新されます。
 
 開発者向けノート
 -----------------
