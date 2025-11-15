@@ -13,8 +13,6 @@ import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
 const SWITCH_COOLDOWN_MS = 3000;
-const FORCE_REFRESH_DELAY_MS = 10000;
-
 export class WatchPageController {
   private initialized = false;
   private readonly switchDebounce = new DebounceExecutor(SWITCH_DEBOUNCE_MS);
@@ -25,8 +23,6 @@ export class WatchPageController {
   private domMutationObserver: MutationObserver | null = null;
   private videoEndedListener: (() => void) | null = null;
   private playbackRateController: PlaybackRateController | null = null;
-  private forceRefreshTimer: ReturnType<typeof setTimeout> | null = null;
-  private hasForceRefreshed = false;
 
   constructor(private readonly global: DanimeGlobal) {}
 
@@ -217,8 +213,6 @@ export class WatchPageController {
 
   private rebindVideoElement(videoElement: HTMLVideoElement): void {
     this.detachVideoEventListeners();
-    this.clearForceRefreshTimer();
-    this.hasForceRefreshed = false;
     this.currentVideoElement = videoElement;
     const renderer = this.global.instances.renderer;
     const switchHandler = this.global.instances.switchHandler;
@@ -227,7 +221,6 @@ export class WatchPageController {
       renderer.clearComments();
       renderer.destroy();
       renderer.initialize(videoElement);
-      renderer.hardReset();
       renderer.resize();
     }
     this.playbackRateController?.bind(videoElement);
@@ -252,15 +245,6 @@ export class WatchPageController {
     video.addEventListener("loadedmetadata", listener);
     video.addEventListener("emptied", listener);
     this.videoEndedListener = listener;
-
-    // 動画再生開始時に再初期化タイマーを設定（初回のみ）
-    video.addEventListener(
-      "play",
-      () => {
-        this.scheduleForceRefresh();
-      },
-      { once: true },
-    );
   }
 
   private detachVideoEventListeners(): void {
@@ -273,67 +257,4 @@ export class WatchPageController {
     this.videoEndedListener = null;
   }
 
-  private scheduleForceRefresh(): void {
-    // 既に再初期化済みの場合はスキップ
-    if (this.hasForceRefreshed) {
-      return;
-    }
-
-    // 既存のタイマーをクリア
-    this.clearForceRefreshTimer();
-
-    // 設定で無効化されている場合はスキップ
-    const renderer = this.global.instances.renderer;
-    const settingsManager = this.global.settingsManager;
-    if (!renderer || !settingsManager) {
-      return;
-    }
-
-    const settings = settingsManager.getSettings();
-    if (settings.enableForceRefresh === false) {
-      return;
-    }
-
-    // 10秒後に再初期化処理を実行
-    this.forceRefreshTimer = setTimeout(() => {
-      this.forceRefreshComments();
-    }, FORCE_REFRESH_DELAY_MS);
-  }
-
-  private forceRefreshComments(): void {
-    const renderer = this.global.instances.renderer;
-    if (!renderer || this.hasForceRefreshed) {
-      return;
-    }
-
-    try {
-      // 現在のコメントをレンダラーから取得（SPA対応）
-      const currentComments = renderer.getCommentsSnapshot();
-      if (currentComments.length === 0) {
-        return;
-      }
-
-      // ゴーストコメントを完全に削除して内部状態をリセット
-      renderer.clearComments();
-      renderer.hardReset();
-
-      // 取得したコメントを再追加して強制再描画
-      currentComments.forEach((comment) => {
-        const commands = comment.commands ?? [];
-        renderer.addComment(comment.text, comment.vposMs, commands);
-      });
-
-      this.hasForceRefreshed = true;
-      this.clearForceRefreshTimer();
-    } catch (error) {
-      console.error("[WatchPageController] Force refresh failed", error);
-    }
-  }
-
-  private clearForceRefreshTimer(): void {
-    if (this.forceRefreshTimer !== null) {
-      clearTimeout(this.forceRefreshTimer);
-      this.forceRefreshTimer = null;
-    }
-  }
 }

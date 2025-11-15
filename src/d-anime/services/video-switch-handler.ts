@@ -146,7 +146,6 @@ export class VideoSwitchHandler {
               : resolvedVideoElement.getAttribute("src") ?? null,
         });
         this.renderer.initialize(resolvedVideoElement);
-        this.renderer.hardReset();
       } else if (
         currentVideo === resolvedVideoElement &&
         resolvedVideoElement &&
@@ -159,7 +158,6 @@ export class VideoSwitchHandler {
         this.renderer.clearComments();
         this.renderer.destroy();
         this.renderer.initialize(resolvedVideoElement);
-        this.renderer.hardReset();
       } else if (!currentVideo && !resolvedVideoElement) {
         logger.warn("videoSwitch:missingVideoElement", {
           lastVideoId: this.lastVideoId,
@@ -317,7 +315,6 @@ export class VideoSwitchHandler {
 
     // ゴーストコメントを完全に削除
     this.renderer.clearComments();
-    this.renderer.hardReset();
   }
 
   private async checkVideoEnd(): Promise<void> {

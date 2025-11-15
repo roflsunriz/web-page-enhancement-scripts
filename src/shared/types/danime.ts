@@ -30,13 +30,9 @@ export interface RendererSettings {
   useFixedLaneCount: boolean;
   fixedLaneCount: number;
   useDprScaling: boolean;
-  
+  enableAutoHardReset: boolean;
+
   // d-anime固有のプロパティ（オーバーライド・追加）
-  /**
-   * 動画再生後10秒後に再初期化処理を実行して強制再描画するかどうか
-   * @default true
-   */
-  enableForceRefresh?: boolean;
   commentColor: string;
   commentOpacity: number;
   isCommentVisible: boolean;
