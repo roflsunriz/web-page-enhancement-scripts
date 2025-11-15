@@ -10,6 +10,22 @@ web-page-enhancement-scripts
 
 これは複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
 
+プロジェクト構成（概要）
+-----------------------
+
+- `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
+  - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
+  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
+  - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
+  - `imgur-direct-link/` — Imgur 画像の直接リンク取得
+  - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
+  - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
+  - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
+- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
+- `dist/` — ビルド済みの userscript（配布用）
+
+各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
+
 ユーザースクリプトのサブスクライブ
 ----------------------
 リンクをクリックすることでTampermonkeyが自動的にインストールウィンドウを開き、インストールを行うことができます。
@@ -95,21 +111,6 @@ npm run lint         # eslint src/**/*.ts
 npm run format       # prettier --write src/**/*.ts
 ```
 
-プロジェクト構成（概要）
------------------------
-
-- `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
-  - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
-  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
-  - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
-  - `imgur-direct-link/` — Imgur 画像の直接リンク取得
-  - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
-  - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
-  - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
-- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
-- `dist/` — ビルド済みの userscript（配布用）
-
-各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
 
 開発者向けノート
 -----------------
