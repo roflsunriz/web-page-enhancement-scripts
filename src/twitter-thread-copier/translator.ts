@@ -274,7 +274,7 @@ ${text}
               { role: "user", content: prompt },
             ],
             temperature: 0,
-            max_tokens: 4096,
+            max_tokens: 8192,
             stream: false,
           }),
           timeout: 120000, // 2 minutes
@@ -369,40 +369,88 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
     logger.error("OpenAI互換 APIエンドポイントが設定されていません。");
     return null;
   }
-  try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
-    if (settings.openaiApiKey) {
-      headers["Authorization"] = `Bearer ${settings.openaiApiKey}`;
-    }
 
-    const response = await fetch(settings.openaiEndpoint, {
-      method: "POST",
-      headers,
-      body: JSON.stringify({
-        model: settings.openaiModel,
-        messages: [
-          { role: "system", content: settings.openaiSystemPrompt },
-          { role: "user", content: text },
-        ],
-        temperature: 0,
-      }),
-    });
-    if (!response.ok) {
-      throw new Error(`API error: ${response.status}`);
+  let retryCount = 0;
+  const MAX_RETRIES = 3;
+  const BASE_DELAY = 2000;
+
+  while (retryCount < MAX_RETRIES) {
+    try {
+      const headers: Record<string, string> = {
+        "Content-Type": "application/json",
+      };
+      if (settings.openaiApiKey) {
+        headers["Authorization"] = `Bearer ${settings.openaiApiKey}`;
+      }
+
+      // OpenRouter用のヘッダーを追加
+      const isOpenRouter = settings.openaiEndpoint.includes("openrouter.ai");
+      if (isOpenRouter) {
+        headers["HTTP-Referer"] = window.location.href;
+        headers["X-Title"] = "Twitter Thread Copier";
+      }
+
+      const userPrompt = `以下の英文を日本語に翻訳してください。翻訳結果のみを出力し、説明や注釈は不要です。\n\n${text}`;
+
+      const response = await new Promise<GM.Response<unknown>>(
+        (resolve, reject) => {
+          GM_xmlhttpRequest({
+            method: "POST",
+            url: settings.openaiEndpoint,
+            headers,
+            data: JSON.stringify({
+              model: settings.openaiModel,
+              messages: [
+                { role: "system", content: settings.openaiSystemPrompt },
+                { role: "user", content: userPrompt },
+              ],
+              temperature: 0,
+              max_tokens: 8192,
+            }),
+            timeout: 60000,
+            onload: (res) =>
+              res.status >= 200 && res.status < 300
+                ? resolve(res as GM.Response<unknown>)
+                : reject(
+                    new Error(`API error: ${res.status} - ${res.responseText}`),
+                  ),
+            onerror: (err) => reject(err),
+            ontimeout: () => reject(new Error("Timeout")),
+          });
+        },
+      );
+
+      const data = JSON.parse(response.responseText as string);
+      const translated = data?.choices?.[0]?.message?.content;
+      if (translated && translated.trim().length > 0) {
+        logger.log("OpenAI互換での翻訳に成功しました。");
+        return translated;
+      }
+      throw new Error("OpenAI Compatible translation result is empty");
+    } catch (error) {
+      const errorMessage = (error as Error).message;
+      const is429 = errorMessage.includes("429");
+
+      retryCount++;
+      logger.error(
+        `OpenAI互換翻訳試行 ${retryCount}/${MAX_RETRIES} 失敗: ${errorMessage}`,
+      );
+
+      if (retryCount >= MAX_RETRIES) {
+        logger.error(`OpenAI互換翻訳に失敗（最大リトライ回数到達）`);
+        return null;
+      }
+
+      // 429エラーの場合は待機時間を長くする
+      const delayMs = is429
+        ? BASE_DELAY * Math.pow(2, retryCount)
+        : BASE_DELAY * retryCount;
+      logger.log(`${delayMs}ms後にリトライします...`);
+      await delay(delayMs);
     }
-    const data = await response.json();
-    const translated = data?.choices?.[0]?.message?.content;
-    if (translated && translated.trim().length > 0) {
-      logger.log("OpenAI互換での翻訳に成功しました。");
-      return translated;
-    }
-    throw new Error("OpenAI Compatible translation result is empty");
-  } catch (error) {
-    logger.error(`OpenAI互換翻訳に失敗: ${(error as Error).message}`);
-    return null;
   }
+
+  return null;
 }
 
 function cloneTweet(tweet: TweetData): TweetData {
