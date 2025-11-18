@@ -359,14 +359,14 @@ async function translateWithGoogle(text: string): Promise<string> {
 function ensureOpenAIConfig(): void {
   const settings = loadSettings();
   if (!settings.openaiApiKey) {
-    logger.warn("OpenAI APIキーが設定されていません。設定画面から設定してください。");
+    logger.warn("OpenAI互換 APIキーが設定されていません。設定画面から設定してください。");
   }
 }
 
 async function translateWithOpenAI(text: string): Promise<string | null> {
   const settings = loadSettings();
   if (!settings.openaiEndpoint) {
-    logger.error("OpenAI エンドポイントが設定されていません。");
+    logger.error("OpenAI互換 APIエンドポイントが設定されていません。");
     return null;
   }
   try {
@@ -395,12 +395,12 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
     const data = await response.json();
     const translated = data?.choices?.[0]?.message?.content;
     if (translated && translated.trim().length > 0) {
-      logger.log("OpenAIでの翻訳に成功しました。");
+      logger.log("OpenAI互換での翻訳に成功しました。");
       return translated;
     }
-    throw new Error("OpenAI translation result is empty");
+    throw new Error("OpenAI Compatible translation result is empty");
   } catch (error) {
-    logger.error(`OpenAI翻訳に失敗: ${(error as Error).message}`);
+    logger.error(`OpenAI互換翻訳に失敗: ${(error as Error).message}`);
     return null;
   }
 }

@@ -13,12 +13,12 @@ const STORAGE_KEY = "twitter-thread-copier-settings";
 
 const DEFAULT_LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const DEFAULT_LOCAL_AI_SYSTEM_PROMPT =
-  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
+  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
 const DEFAULT_OPENAI_ENDPOINT = "https://api.cerebras.ai/v1/chat/completions";
 const DEFAULT_OPENAI_MODEL = "gpt-oss-120b";
 const DEFAULT_OPENAI_SYSTEM_PROMPT =
-  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into the target Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
+  "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
 export function getDefaultSettings(): TranslatorSettings {
   return {

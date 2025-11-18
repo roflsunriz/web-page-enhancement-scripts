@@ -662,9 +662,9 @@ class UIManager {
     modeSelect.id = "copy-mode-select";
     modeSelect.innerHTML = `
       <option value="all">全て</option>
-      <option value="first">最初</option>
-      <option value="shitaraba">4K</option>
-      <option value="5ch">2K</option>
+      <option value="first">最初のみ</option>
+      <option value="shitaraba">4K(shitaraba)</option>
+      <option value="5ch">2K(5ch)</option>
     `;
     modeSelect.value = state.copyMode;
     modeSelect.addEventListener("change", (e: Event) => {
@@ -697,7 +697,7 @@ class UIManager {
     providerSelect.innerHTML = `
       <option value="local">ローカルAI</option>
       <option value="google">Google翻訳</option>
-      <option value="openai">OpenAI</option>
+      <option value="openai">OpenAI互換</option>
     `;
     // Initialize from stored preference
     const storedProvider = localStorage.getItem("translationProvider");
@@ -1206,7 +1206,7 @@ class UIManager {
       <label>システムプロンプト</label>
       <textarea id="local-ai-system-prompt">${this.escapeHtml(settings.localAiSystemPrompt)}</textarea>
       
-      <h3>OpenAI設定</h3>
+      <h3>OpenAI互換設定</h3>
       <label>APIエンドポイント</label>
       <input type="text" id="openai-endpoint" value="${this.escapeHtml(settings.openaiEndpoint)}" />
       
@@ -1216,8 +1216,8 @@ class UIManager {
       <label>システムプロンプト</label>
       <textarea id="openai-system-prompt">${this.escapeHtml(settings.openaiSystemPrompt)}</textarea>
       
-      <label>APIキー（オプション）</label>
-      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="必要な場合は入力してください" />
+      <label>APIキー</label>
+      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="常に必要なので必ず入力してください" />
       
       <div class="settings-modal-buttons">
         <button class="btn-reset" type="button">リセット</button>

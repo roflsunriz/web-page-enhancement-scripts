@@ -290,7 +290,7 @@ const twitterMuteRetweetsMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '6.6.1',
+  version: '6.7.0',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
