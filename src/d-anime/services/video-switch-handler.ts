@@ -323,31 +323,44 @@ export class VideoSwitchHandler {
 
   private resetRendererState(videoElement: HTMLVideoElement): void {
     const beforeTime = videoElement.currentTime;
+    const currentSource = this.getVideoSource(videoElement);
+    const sourceChanged = this.lastVideoSource !== currentSource;
+
     logger.warn("videoSwitch:resetRendererState:before", {
       currentTime: beforeTime,
       duration: videoElement.duration,
-      src: this.getVideoSource(videoElement),
+      src: currentSource,
+      lastSrc: this.lastVideoSource ?? null,
+      sourceChanged,
       readyState: videoElement.readyState,
       paused: videoElement.paused,
     });
 
-    try {
-      // このcurrentTime=0が意図しない巻き戻しの原因になっている可能性がある
-      this.videoEventLogger.logManualSeek(
-        beforeTime,
-        0,
-        "resetRendererState called",
-      );
-      videoElement.currentTime = 0;
-      logger.warn("videoSwitch:resetRendererState:after", {
-        currentTime: videoElement.currentTime,
-        timeDiff: videoElement.currentTime - beforeTime,
+    // 動画ソースが実際に変わった場合のみcurrentTimeをリセット
+    // これにより、同じ動画での誤発火による10秒巻き戻しバグを防ぐ
+    if (sourceChanged) {
+      try {
+        this.videoEventLogger.logManualSeek(
+          beforeTime,
+          0,
+          "resetRendererState: video source changed",
+        );
+        videoElement.currentTime = 0;
+        logger.warn("videoSwitch:resetRendererState:seeked", {
+          currentTime: videoElement.currentTime,
+          timeDiff: videoElement.currentTime - beforeTime,
+        });
+      } catch (error) {
+        logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
+      }
+    } else {
+      logger.info("videoSwitch:resetRendererState:skipSeek", {
+        reason: "same video source, skipping currentTime reset",
+        currentTime: beforeTime,
       });
-    } catch (error) {
-      logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
     }
 
-    // ゴーストコメントを完全に削除
+    // ゴーストコメントを完全に削除（動画ソース変更に関係なく常に実行）
     this.renderer.clearComments();
   }
 
