@@ -9,10 +9,15 @@ import { PlaybackRateController } from "@/d-anime/services/playback-rate-control
 import { DebounceExecutor } from "@/d-anime/utils/debounce-executor";
 import type { DanimeGlobal } from "@/d-anime/globals";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
+import { createLogger } from "@/shared/logger";
+import { getGlobalVideoEventLogger } from "@/d-anime/debug/video-event-logger";
 
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
 const SWITCH_COOLDOWN_MS = 3000;
+
+const logger = createLogger("dAnime:WatchPageController");
+
 export class WatchPageController {
   private initialized = false;
   private readonly switchDebounce = new DebounceExecutor(SWITCH_DEBOUNCE_MS);
@@ -166,10 +171,18 @@ export class WatchPageController {
     this.switchCallback = () => {
       const now = Date.now();
       if (now - this.lastSwitchTimestamp < SWITCH_COOLDOWN_MS) {
+        logger.debug("watchPageController:switchCooldown", {
+          timeSinceLastSwitch: now - this.lastSwitchTimestamp,
+          cooldownMs: SWITCH_COOLDOWN_MS,
+        });
         return;
       }
       this.lastSwitchTimestamp = now;
       const targetVideo = this.currentVideoElement;
+      logger.info("watchPageController:switchHandlerTriggered", {
+        currentTime: targetVideo?.currentTime ?? null,
+        duration: targetVideo?.duration ?? null,
+      });
       void switchHandler.onVideoSwitch(targetVideo);
     };
 
@@ -233,10 +246,21 @@ export class WatchPageController {
 
   private attachVideoEventListeners(video: HTMLVideoElement): void {
     this.detachVideoEventListeners();
+
+    // グローバルイベントロガーをアタッチ
+    const globalLogger = getGlobalVideoEventLogger();
+    globalLogger.attach(video);
+
     const listener = (): void => {
       if (!this.switchCallback) {
         return;
       }
+      logger.info("watchPageController:eventTriggered", {
+        currentTime: video.currentTime,
+        duration: video.duration,
+        ended: video.ended,
+        paused: video.paused,
+      });
       this.switchDebounce.resetExecution(this.switchCallback);
       this.switchDebounce.execOnce(this.switchCallback);
     };
@@ -249,6 +273,11 @@ export class WatchPageController {
 
   private detachVideoEventListeners(): void {
     const video = this.currentVideoElement;
+
+    // グローバルイベントロガーをデタッチ
+    const globalLogger = getGlobalVideoEventLogger();
+    globalLogger.detach();
+
     if (video && this.videoEndedListener) {
       video.removeEventListener("ended", this.videoEndedListener);
       video.removeEventListener("loadedmetadata", this.videoEndedListener);

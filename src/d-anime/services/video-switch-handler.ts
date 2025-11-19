@@ -10,6 +10,7 @@ import type {
   NicoApiResponseBody,
 } from "@/d-anime/services/nico-api-fetcher";
 import { DebounceExecutor } from "@/d-anime/utils/debounce-executor";
+import { VideoEventLogger } from "@/d-anime/debug/video-event-logger";
 
 const MONITOR_INTERVAL_MS = 1000;
 const PRELOAD_DEBOUNCE_MS = 100;
@@ -77,6 +78,7 @@ export class VideoSwitchHandler {
   private checkIntervalId: number | null = null;
   private isSwitching = false;
   private readonly debounce: DebounceExecutor;
+  private readonly videoEventLogger: VideoEventLogger;
 
   constructor(
     private readonly renderer: CommentRenderer,
@@ -86,6 +88,7 @@ export class VideoSwitchHandler {
     debounceDelay = PRELOAD_DEBOUNCE_MS,
   ) {
     this.debounce = new DebounceExecutor(debounceDelay);
+    this.videoEventLogger = new VideoEventLogger("VideoSwitchHandler");
   }
 
   startMonitoring(): void {
@@ -129,9 +132,15 @@ export class VideoSwitchHandler {
         videoId: videoId ?? null,
         elementVideoId: resolvedVideoElement.dataset?.videoId ?? null,
         preloadedCount: backupPreloaded?.length ?? 0,
+        currentTime: resolvedVideoElement.currentTime,
+        duration: resolvedVideoElement.duration,
+        readyState: resolvedVideoElement.readyState,
       });
 
       NotificationManager.show("動画の切り替わりを検知しました...", "info");
+
+      // イベントロガーをアタッチ
+      this.videoEventLogger.attach(resolvedVideoElement);
 
       this.resetRendererState(resolvedVideoElement);
 
@@ -193,6 +202,12 @@ export class VideoSwitchHandler {
       this.nextVideoId = null;
       this.preloadedComments = null;
       this.lastVideoSource = this.getVideoSource(resolvedVideoElement);
+
+      logger.info("videoSwitch:complete", {
+        videoId: videoId ?? null,
+        finalTime: resolvedVideoElement.currentTime,
+        loadedCount,
+      });
 
       if (apiData) {
         const metadata = toVideoMetadata(apiData);
@@ -307,8 +322,27 @@ export class VideoSwitchHandler {
   }
 
   private resetRendererState(videoElement: HTMLVideoElement): void {
+    const beforeTime = videoElement.currentTime;
+    logger.warn("videoSwitch:resetRendererState:before", {
+      currentTime: beforeTime,
+      duration: videoElement.duration,
+      src: this.getVideoSource(videoElement),
+      readyState: videoElement.readyState,
+      paused: videoElement.paused,
+    });
+
     try {
+      // このcurrentTime=0が意図しない巻き戻しの原因になっている可能性がある
+      this.videoEventLogger.logManualSeek(
+        beforeTime,
+        0,
+        "resetRendererState called",
+      );
       videoElement.currentTime = 0;
+      logger.warn("videoSwitch:resetRendererState:after", {
+        currentTime: videoElement.currentTime,
+        timeDiff: videoElement.currentTime - beforeTime,
+      });
     } catch (error) {
       logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
     }
