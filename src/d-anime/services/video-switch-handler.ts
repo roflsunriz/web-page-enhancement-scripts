@@ -407,9 +407,20 @@ export class VideoSwitchHandler {
       commentsBeforeClear,
       sourceChanged,
     });
-    this.renderer.clearComments();
+    
+    // 動画ソース変更時はhardReset()を使用（画面上のDOMも含めて完全リセット）
+    if (sourceChanged) {
+      logger.warn("videoSwitch:resetRendererState:hardReset", {
+        reason: "video source changed, using hardReset for complete cleanup",
+      });
+      this.renderer.hardReset();
+    } else {
+      this.renderer.clearComments();
+    }
+    
     logger.warn("videoSwitch:resetRendererState:commentsCleared", {
       commentsAfterClear: this.renderer.getCommentsSnapshot().length,
+      usedHardReset: sourceChanged,
     });
   }
 

@@ -638,6 +638,15 @@ export class WatchPageController {
           });
           
           if (renderer && switchHandler) {
+            // エピソード切り替え時は画面上のコメントDOMを含めて完全クリア
+            logger.warn("watchPageController:onPartIdChanged:hardResetBefore", {
+              commentsBeforeReset: renderer.getCommentsSnapshot().length,
+            });
+            renderer.hardReset();
+            logger.warn("watchPageController:onPartIdChanged:hardResetAfter", {
+              commentsAfterReset: renderer.getCommentsSnapshot().length,
+            });
+            
             // lastVideoSourceをリセットして新しいエピソードとして認識させる
             switchHandler.resetVideoSource();
             
