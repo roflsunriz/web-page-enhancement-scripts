@@ -107,11 +107,22 @@ export class VideoSwitchHandler {
 
   async onVideoSwitch(videoElement: HTMLVideoElement | null): Promise<void> {
     if (this.isSwitching) {
+      logger.warn("videoSwitch:alreadySwitching", {
+        timestamp: Date.now(),
+      });
       return;
     }
     this.isSwitching = true;
 
     try {
+      logger.warn("videoSwitch:entry", {
+        videoElementProvided: !!videoElement,
+        currentRendererComments: this.renderer.getCommentsSnapshot().length,
+        lastVideoId: this.lastVideoId,
+        nextVideoId: this.nextVideoId,
+        lastVideoSource: this.lastVideoSource,
+      });
+
       const resolvedVideoElement =
         (await this.resolveVideoElement(videoElement)) ?? null;
 
@@ -128,13 +139,15 @@ export class VideoSwitchHandler {
         return;
       }
 
-      logger.info("videoSwitch:start", {
+      logger.warn("videoSwitch:start", {
         videoId: videoId ?? null,
         elementVideoId: resolvedVideoElement.dataset?.videoId ?? null,
         preloadedCount: backupPreloaded?.length ?? 0,
         currentTime: resolvedVideoElement.currentTime,
         duration: resolvedVideoElement.duration,
         readyState: resolvedVideoElement.readyState,
+        currentSrc: resolvedVideoElement.currentSrc,
+        lastVideoSource: this.lastVideoSource,
       });
 
       NotificationManager.show("動画の切り替わりを検知しました...", "info");
@@ -193,7 +206,7 @@ export class VideoSwitchHandler {
           videoId: videoId ?? null,
         });
       } else {
-        logger.info("videoSwitch:commentsLoaded", {
+        logger.warn("videoSwitch:commentsLoaded", {
           videoId: videoId ?? null,
           count: loadedCount,
         });
@@ -203,10 +216,11 @@ export class VideoSwitchHandler {
       this.preloadedComments = null;
       this.lastVideoSource = this.getVideoSource(resolvedVideoElement);
 
-      logger.info("videoSwitch:complete", {
+      logger.warn("videoSwitch:complete", {
         videoId: videoId ?? null,
         finalTime: resolvedVideoElement.currentTime,
         loadedCount,
+        finalCommentsCount: this.renderer.getCommentsSnapshot().length,
       });
 
       if (apiData) {
@@ -325,6 +339,7 @@ export class VideoSwitchHandler {
     const beforeTime = videoElement.currentTime;
     const currentSource = this.getVideoSource(videoElement);
     const sourceChanged = this.lastVideoSource !== currentSource;
+    const commentsBeforeClear = this.renderer.getCommentsSnapshot().length;
 
     logger.warn("videoSwitch:resetRendererState:before", {
       currentTime: beforeTime,
@@ -334,6 +349,7 @@ export class VideoSwitchHandler {
       sourceChanged,
       readyState: videoElement.readyState,
       paused: videoElement.paused,
+      commentsCount: commentsBeforeClear,
     });
 
     // 動画ソースが実際に変わった場合のみcurrentTimeをリセット
@@ -354,14 +370,22 @@ export class VideoSwitchHandler {
         logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
       }
     } else {
-      logger.info("videoSwitch:resetRendererState:skipSeek", {
+      logger.warn("videoSwitch:resetRendererState:skipSeek", {
         reason: "same video source, skipping currentTime reset",
         currentTime: beforeTime,
+        willClearComments: true,
       });
     }
 
     // ゴーストコメントを完全に削除（動画ソース変更に関係なく常に実行）
+    logger.warn("videoSwitch:resetRendererState:clearingComments", {
+      commentsBeforeClear,
+      sourceChanged,
+    });
     this.renderer.clearComments();
+    logger.warn("videoSwitch:resetRendererState:commentsCleared", {
+      commentsAfterClear: this.renderer.getCommentsSnapshot().length,
+    });
   }
 
   private async checkVideoEnd(): Promise<void> {
@@ -433,12 +457,22 @@ export class VideoSwitchHandler {
   ): Promise<number> {
     let comments: FetcherCommentResult[] | null = null;
 
+    logger.warn("videoSwitch:populateComments:start", {
+      videoId,
+      backupPreloadedCount: backupPreloaded?.length ?? 0,
+      hasBackupPreloaded: !!backupPreloaded,
+    });
+
     if (Array.isArray(backupPreloaded) && backupPreloaded.length > 0) {
       comments = backupPreloaded;
+      logger.warn("videoSwitch:populateComments:usingBackup", {
+        count: comments.length,
+      });
     } else if (videoId) {
       try {
+        logger.warn("videoSwitch:populateComments:fetching", { videoId });
         comments = await this.fetcher.fetchAllData(videoId);
-        logger.debug("videoSwitch:commentsFetched", {
+        logger.warn("videoSwitch:commentsFetched", {
           videoId,
           count: comments.length,
         });
@@ -455,14 +489,27 @@ export class VideoSwitchHandler {
     }
 
     if (!comments || comments.length === 0) {
+      logger.warn("videoSwitch:populateComments:noComments");
       return 0;
     }
 
     const filtered = comments.filter(
       (comment) => !this.renderer.isNGComment(comment.text),
     );
+    
+    logger.warn("videoSwitch:populateComments:addingToRenderer", {
+      filteredCount: filtered.length,
+      totalCount: comments.length,
+      rendererCommentsBeforeAdd: this.renderer.getCommentsSnapshot().length,
+    });
+    
     filtered.forEach((comment) => {
       this.renderer.addComment(comment.text, comment.vposMs, comment.commands);
+    });
+
+    logger.warn("videoSwitch:populateComments:complete", {
+      addedCount: filtered.length,
+      rendererCommentsAfterAdd: this.renderer.getCommentsSnapshot().length,
     });
 
     this.lastPreloadedComments = [...filtered];

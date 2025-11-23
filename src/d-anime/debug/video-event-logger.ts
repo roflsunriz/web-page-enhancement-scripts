@@ -115,6 +115,15 @@ export class VideoEventLogger {
 
     // currentTimeの変更を検出
     const timeDiff = Math.abs(video.currentTime - this.lastCurrentTime);
+    
+    // timeupdateイベントは完全にスキップ（ノイズが多いため）
+    if (eventName === "timeupdate") {
+      if (timeDiff > 0.1) {
+        this.lastCurrentTime = video.currentTime;
+      }
+      return;
+    }
+    
     if (timeDiff > 0.1) {
       logger.info(`${this.prefix}:event:${eventName}`, {
         ...logData,
@@ -122,8 +131,7 @@ export class VideoEventLogger {
         direction: video.currentTime > this.lastCurrentTime ? "forward" : "backward",
       });
       this.lastCurrentTime = video.currentTime;
-    } else if (eventName !== "timeupdate") {
-      // timeupdateは頻繁すぎるので、currentTime変更がない場合はスキップ
+    } else {
       logger.debug(`${this.prefix}:event:${eventName}`, logData);
     }
 

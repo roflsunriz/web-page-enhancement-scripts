@@ -529,9 +529,11 @@ export class WatchPageController {
       return;
     }
 
-    logger.info("watchPageController:partIdChanged", {
+    logger.warn("watchPageController:partIdChanged", {
       oldPartId: this.lastPartId,
       newPartId: currentPartId,
+      url: window.location.href,
+      timestamp: new Date().toISOString(),
     });
 
     this.lastPartId = currentPartId;
@@ -542,28 +544,59 @@ export class WatchPageController {
     try {
       const settingsManager = this.global.settingsManager;
       if (!settingsManager) {
+        logger.warn("watchPageController:onPartIdChanged:noSettingsManager");
         return;
       }
+
+      logger.info("watchPageController:onPartIdChanged:start", {
+        currentVideoElement: this.currentVideoElement ? "present" : "null",
+        rendererExists: !!this.global.instances.renderer,
+        switchHandlerExists: !!this.global.instances.switchHandler,
+      });
 
       NotificationManager.show("エピソード切り替えを検知しました...", "info");
 
       // 新しいエピソードのメタデータを取得して再設定
       const success = await this.autoSetupComments(settingsManager);
 
+      logger.info("watchPageController:onPartIdChanged:autoSetup", {
+        success,
+      });
+
       if (success) {
         // 動画要素を再初期化
         const videoElement = this.currentVideoElement ?? 
           document.querySelector<HTMLVideoElement>(DANIME_SELECTORS.watchVideoElement);
         
+        logger.warn("watchPageController:onPartIdChanged:videoElement", {
+          videoElementFound: !!videoElement,
+          currentTime: videoElement?.currentTime ?? null,
+          duration: videoElement?.duration ?? null,
+          src: videoElement?.currentSrc ?? null,
+          readyState: videoElement?.readyState ?? null,
+        });
+        
         if (videoElement) {
           const renderer = this.global.instances.renderer;
           const switchHandler = this.global.instances.switchHandler;
           
+          logger.warn("watchPageController:onPartIdChanged:beforeSwitch", {
+            rendererCommentCount: renderer?.getCommentsSnapshot().length ?? 0,
+            videoCurrentTime: videoElement.currentTime,
+          });
+          
           if (renderer && switchHandler) {
             await switchHandler.onVideoSwitch(videoElement);
+            
+            logger.warn("watchPageController:onPartIdChanged:afterSwitch", {
+              rendererCommentCount: renderer.getCommentsSnapshot().length,
+              videoCurrentTime: videoElement.currentTime,
+            });
           }
         }
       }
+      
+      logger.info("watchPageController:onPartIdChanged:complete");
     } catch (error) {
       logger.error("watchPageController:onPartIdChanged:error", error as Error);
       NotificationManager.show(
