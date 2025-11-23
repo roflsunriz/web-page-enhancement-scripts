@@ -1,6 +1,6 @@
 import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
 import { SettingsManager } from "@/d-anime/services/settings-manager";
-import type { RendererSettings } from "@/shared/types";
+import type { RendererSettings, VideoMetadata } from "@/shared/types";
 import { NotificationManager } from "@/d-anime/services/notification-manager";
 import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
 import { NicoApiFetcher } from "@/d-anime/services/nico-api-fetcher";
@@ -11,10 +11,12 @@ import type { DanimeGlobal } from "@/d-anime/globals";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import { createLogger } from "@/shared/logger";
 import { getGlobalVideoEventLogger } from "@/d-anime/debug/video-event-logger";
+import { NicoVideoSearcher } from "@/d-anime/services/nico-video-searcher";
 
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
 const SWITCH_COOLDOWN_MS = 3000;
+const PARTID_MONITOR_INTERVAL_MS = 2000;
 
 const logger = createLogger("dAnime:WatchPageController");
 
@@ -28,6 +30,8 @@ export class WatchPageController {
   private domMutationObserver: MutationObserver | null = null;
   private videoEndedListener: (() => void) | null = null;
   private playbackRateController: PlaybackRateController | null = null;
+  private lastPartId: string | null = null;
+  private partIdMonitorIntervalId: number | null = null;
 
   constructor(private readonly global: DanimeGlobal) {}
 
@@ -93,10 +97,31 @@ export class WatchPageController {
       this.global.settingsManager = settingsManager;
       this.global.instances.settingsManager = settingsManager;
 
-      const videoData = settingsManager.loadVideoData();
+      let videoData = settingsManager.loadVideoData();
+      
+      // 動画データがない場合は視聴ページから自動取得を試みる
+      if (!videoData?.videoId) {
+        logger.info("watchPageController:autoSetup", {
+          reason: "videoData not found, attempting auto-setup",
+        });
+        
+        const autoSetupSuccess = await this.autoSetupComments(settingsManager);
+        
+        if (autoSetupSuccess) {
+          videoData = settingsManager.loadVideoData();
+          logger.info("watchPageController:autoSetupSuccess", {
+            videoId: videoData?.videoId,
+          });
+        } else {
+          throw new Error(
+            "動画データが見つかりません。視聴ページからの自動取得にも失敗しました。",
+          );
+        }
+      }
+
       if (!videoData?.videoId) {
         throw new Error(
-          "動画データが見つかりません。マイページで設定してください。",
+          "動画データが見つかりません。",
         );
       }
 
@@ -137,6 +162,9 @@ export class WatchPageController {
 
       this.setupSwitchHandling(videoElement, switchHandler);
       this.observeVideoElement();
+
+      // partId監視を開始（エピソード切り替えの自動同期）
+      this.startPartIdMonitoring();
 
       NotificationManager.show(
         `コメントの読み込みが完了しました（${comments.length}件）`,
@@ -284,6 +312,228 @@ export class WatchPageController {
       video.removeEventListener("emptied", this.videoEndedListener);
     }
     this.videoEndedListener = null;
+  }
+
+  private extractMetadataFromPage(): {
+    animeTitle: string;
+    episodeNumber: string;
+    episodeTitle: string;
+  } | null {
+    try {
+      const animeTitleElement = document.querySelector(
+        DANIME_SELECTORS.watchPageAnimeTitle,
+      );
+      const episodeNumberElement = document.querySelector(
+        DANIME_SELECTORS.watchPageEpisodeNumber,
+      );
+      const episodeTitleElement = document.querySelector(
+        DANIME_SELECTORS.watchPageEpisodeTitle,
+      );
+
+      const animeTitle = animeTitleElement?.textContent?.trim() ?? "";
+      const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
+      const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
+
+      if (!animeTitle || !episodeNumber || !episodeTitle) {
+        logger.warn("watchPageController:extractMetadata:incomplete", {
+          animeTitle,
+          episodeNumber,
+          episodeTitle,
+        });
+        return null;
+      }
+
+      logger.info("watchPageController:extractMetadata:success", {
+        animeTitle,
+        episodeNumber,
+        episodeTitle,
+      });
+
+      return {
+        animeTitle,
+        episodeNumber,
+        episodeTitle,
+      };
+    } catch (error) {
+      logger.error("watchPageController:extractMetadata:error", error as Error);
+      return null;
+    }
+  }
+
+  private async autoSetupComments(
+    settingsManager: SettingsManager,
+  ): Promise<boolean> {
+    try {
+      // 視聴ページからメタデータを抽出
+      const metadata = this.extractMetadataFromPage();
+      if (!metadata) {
+        logger.warn("watchPageController:autoSetup:metadataNotFound");
+        return false;
+      }
+
+      // 検索キーワードを構築
+      const keyword = [
+        metadata.animeTitle,
+        metadata.episodeNumber,
+        metadata.episodeTitle,
+      ]
+        .filter(Boolean)
+        .join(" ");
+
+      logger.info("watchPageController:autoSetup:searching", { keyword });
+      NotificationManager.show(`「${keyword}」を検索中...`, "info");
+
+      // ニコニコ動画を検索
+      const searcher = new NicoVideoSearcher();
+      const results = await searcher.search(keyword);
+
+      if (results.length === 0) {
+        logger.warn("watchPageController:autoSetup:noResults", { keyword });
+        NotificationManager.show(
+          "ニコニコ動画が見つかりませんでした",
+          "warning",
+        );
+        return false;
+      }
+
+      // コメント数が最も多い動画を選択（既にコメント数順にソートされている）
+      const bestMatch = results[0];
+      logger.info("watchPageController:autoSetup:bestMatch", {
+        videoId: bestMatch.videoId,
+        title: bestMatch.title,
+        commentCount: bestMatch.commentCount,
+        similarity: bestMatch.similarity,
+      });
+
+      // 動画情報をフェッチして保存
+      const fetcher = new NicoApiFetcher();
+      const apiData = await fetcher.fetchApiData(bestMatch.videoId);
+
+      const videoMetadata: VideoMetadata = {
+        videoId: bestMatch.videoId,
+        title: bestMatch.title,
+        viewCount: apiData.video?.count?.view ?? bestMatch.viewCount,
+        commentCount: apiData.video?.count?.comment ?? bestMatch.commentCount,
+        mylistCount: apiData.video?.count?.mylist ?? bestMatch.mylistCount,
+        postedAt: apiData.video?.registeredAt ?? bestMatch.postedAt,
+        thumbnail: apiData.video?.thumbnail?.url ?? bestMatch.thumbnail,
+        owner: apiData.owner ?? bestMatch.owner ?? null,
+        channel: apiData.channel ?? bestMatch.channel ?? null,
+      };
+
+      const success = settingsManager.saveVideoData(
+        bestMatch.title,
+        videoMetadata,
+      );
+
+      if (success) {
+        logger.info("watchPageController:autoSetup:success", {
+          videoId: bestMatch.videoId,
+        });
+        NotificationManager.show(
+          `「${bestMatch.title}」を自動設定しました（コメント数: ${bestMatch.commentCount.toLocaleString()}件）`,
+          "success",
+        );
+        return true;
+      }
+
+      return false;
+    } catch (error) {
+      logger.error("watchPageController:autoSetup:error", error as Error);
+      NotificationManager.show(
+        `自動設定エラー: ${(error as Error).message}`,
+        "error",
+      );
+      return false;
+    }
+  }
+
+  private getCurrentPartId(): string | null {
+    try {
+      const urlParams = new URLSearchParams(window.location.search);
+      return urlParams.get("partId");
+    } catch (error) {
+      logger.error("watchPageController:getCurrentPartId:error", error as Error);
+      return null;
+    }
+  }
+
+  private startPartIdMonitoring(): void {
+    this.stopPartIdMonitoring();
+    
+    // 初期値を設定
+    this.lastPartId = this.getCurrentPartId();
+    
+    logger.info("watchPageController:startPartIdMonitoring", {
+      initialPartId: this.lastPartId,
+    });
+
+    this.partIdMonitorIntervalId = window.setInterval(() => {
+      void this.checkPartIdChange();
+    }, PARTID_MONITOR_INTERVAL_MS);
+  }
+
+  private stopPartIdMonitoring(): void {
+    if (this.partIdMonitorIntervalId !== null) {
+      window.clearInterval(this.partIdMonitorIntervalId);
+      this.partIdMonitorIntervalId = null;
+      logger.info("watchPageController:stopPartIdMonitoring");
+    }
+  }
+
+  private async checkPartIdChange(): Promise<void> {
+    const currentPartId = this.getCurrentPartId();
+    
+    if (currentPartId === null || currentPartId === this.lastPartId) {
+      return;
+    }
+
+    logger.info("watchPageController:partIdChanged", {
+      oldPartId: this.lastPartId,
+      newPartId: currentPartId,
+    });
+
+    this.lastPartId = currentPartId;
+    await this.onPartIdChanged();
+  }
+
+  private async onPartIdChanged(): Promise<void> {
+    try {
+      const settingsManager = this.global.settingsManager;
+      if (!settingsManager) {
+        logger.warn("watchPageController:onPartIdChanged:noSettingsManager");
+        return;
+      }
+
+      NotificationManager.show("エピソード切り替えを検知しました...", "info");
+
+      // 新しいエピソードのメタデータを取得して再設定
+      const success = await this.autoSetupComments(settingsManager);
+
+      if (success) {
+        // 動画要素を再初期化
+        const videoElement = this.currentVideoElement ?? 
+          document.querySelector<HTMLVideoElement>(DANIME_SELECTORS.watchVideoElement);
+        
+        if (videoElement) {
+          const renderer = this.global.instances.renderer;
+          const switchHandler = this.global.instances.switchHandler;
+          
+          if (renderer && switchHandler) {
+            logger.info("watchPageController:onPartIdChanged:triggerSwitch");
+            await switchHandler.onVideoSwitch(videoElement);
+          }
+        }
+      } else {
+        logger.warn("watchPageController:onPartIdChanged:autoSetupFailed");
+      }
+    } catch (error) {
+      logger.error("watchPageController:onPartIdChanged:error", error as Error);
+      NotificationManager.show(
+        `エピソード切り替えエラー: ${(error as Error).message}`,
+        "error",
+      );
+    }
   }
 
 }

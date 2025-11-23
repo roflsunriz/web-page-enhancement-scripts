@@ -6,4 +6,7 @@ export const DANIME_SELECTORS = {
   mypageItemTitle: '.line1',
   mypageEpisodeNumber: '.number.line1 span',
   mypageEpisodeTitle: '.episode.line1 span',
+  watchPageAnimeTitle: '.backInfoTxt1',
+  watchPageEpisodeNumber: '.backInfoTxt2',
+  watchPageEpisodeTitle: '.backInfoTxt3',
 } as const;

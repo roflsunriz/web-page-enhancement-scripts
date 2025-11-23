@@ -89,11 +89,17 @@ export class NicoVideoSearcher {
     }
 
     unique.sort((a, b) => {
+      // コメント数で降順ソート（多い順）
+      if (a.commentCount !== b.commentCount) {
+        return b.commentCount - a.commentCount;
+      }
+      // 同じコメント数なら類似度で判定
       const simA = a.similarity ?? -1;
       const simB = b.similarity ?? -1;
       if (simA !== simB) {
         return simB - simA;
       }
+      // それでも同じなら再生数で判定
       return b.viewCount - a.viewCount;
     });
 
