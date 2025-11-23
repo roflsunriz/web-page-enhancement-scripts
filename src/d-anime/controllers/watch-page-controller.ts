@@ -670,32 +670,47 @@ export class WatchPageController {
           });
           
           if (renderer && switchHandler) {
-            // エピソード切り替え時はレンダラーを完全破棄して再初期化
+            // エピソード切り替え時はレンダラーインスタンスを完全に作り直す
             logger.warn("watchPageController:onPartIdChanged:destroyBefore", {
               commentsBeforeDestroy: renderer.getCommentsSnapshot().length,
               currentVideoSrc: renderer.getCurrentVideoSource(),
               videoElement: renderer.getVideoElement() ? "attached" : "detached",
             });
             
-            // レンダラーを完全に破棄（DOM要素、イベントリスナー、内部状態すべて）
+            // 現在の設定を保存
+            const currentSettings = renderer.settings;
+            
+            // 古いレンダラーを完全に破棄
             renderer.destroy();
             
-            logger.warn("watchPageController:onPartIdChanged:destroyAfter", {
-              commentsAfterDestroy: renderer.getCommentsSnapshot().length,
+            logger.warn("watchPageController:onPartIdChanged:createNew", {
+              savedSettings: currentSettings,
             });
             
-            // レンダラーを再初期化
+            // 新しいCommentRendererインスタンスを作成
+            const newRenderer = new CommentRenderer(currentSettings, {
+              loggerNamespace: "dAnime:CommentRenderer",
+            });
+            
+            // グローバルインスタンスを差し替え
+            this.global.instances.renderer = newRenderer;
+            
             logger.warn("watchPageController:onPartIdChanged:reinitialize", {
               videoElementSrc: videoElement.currentSrc,
               videoElementReadyState: videoElement.readyState,
               videoElementCurrentTime: videoElement.currentTime,
             });
-            renderer.initialize(videoElement);
+            
+            // 新しいレンダラーを初期化
+            newRenderer.initialize(videoElement);
             
             logger.warn("watchPageController:onPartIdChanged:reinitializeComplete", {
-              commentsAfterReinitialize: renderer.getCommentsSnapshot().length,
-              newVideoSrc: renderer.getCurrentVideoSource(),
+              commentsAfterReinitialize: newRenderer.getCommentsSnapshot().length,
+              newVideoSrc: newRenderer.getCurrentVideoSource(),
             });
+            
+            // VideoSwitchHandlerに新しいrendererを設定
+            switchHandler.updateRenderer(newRenderer);
             
             // lastVideoSourceをリセットして新しいエピソードとして認識させる
             switchHandler.resetVideoSource();
@@ -703,9 +718,9 @@ export class WatchPageController {
             await switchHandler.onVideoSwitch(videoElement);
             
             logger.warn("watchPageController:onPartIdChanged:afterSwitch", {
-              rendererCommentCount: renderer.getCommentsSnapshot().length,
+              rendererCommentCount: newRenderer.getCommentsSnapshot().length,
               videoCurrentTime: videoElement.currentTime,
-              finalVideoSrc: renderer.getCurrentVideoSource(),
+              finalVideoSrc: newRenderer.getCurrentVideoSource(),
             });
           }
         }

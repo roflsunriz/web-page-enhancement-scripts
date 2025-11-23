@@ -81,7 +81,7 @@ export class VideoSwitchHandler {
   private readonly videoEventLogger: VideoEventLogger;
 
   constructor(
-    private readonly renderer: CommentRenderer,
+    private renderer: CommentRenderer,
     private readonly fetcher: NicoApiFetcher,
     private readonly settingsManager: SettingsManager,
     private readonly monitorInterval = MONITOR_INTERVAL_MS,
@@ -99,6 +99,18 @@ export class VideoSwitchHandler {
       previousSource: this.lastVideoSource,
     });
     this.lastVideoSource = null;
+  }
+
+  /**
+   * CommentRendererインスタンスを更新する
+   * エピソード切り替え時に新しいインスタンスを設定するために使用
+   */
+  updateRenderer(newRenderer: CommentRenderer): void {
+    logger.info("videoSwitch:updateRenderer", {
+      oldRendererExists: !!this.renderer,
+      newRendererExists: !!newRenderer,
+    });
+    this.renderer = newRenderer;
   }
 
   startMonitoring(): void {
