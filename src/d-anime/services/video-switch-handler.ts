@@ -134,7 +134,22 @@ export class VideoSwitchHandler {
         null;
       const videoId = this.nextVideoId ?? elementId ?? this.lastVideoId;
 
+      logger.warn("videoSwitch:videoIdResolution", {
+        videoId: videoId ?? null,
+        nextVideoId: this.nextVideoId,
+        elementId,
+        lastVideoId: this.lastVideoId,
+        hasBackupPreloaded: !!backupPreloaded,
+        backupPreloadedCount: backupPreloaded?.length ?? 0,
+      });
+
       if (!resolvedVideoElement || (!videoId && !backupPreloaded)) {
+        logger.warn("videoSwitch:earlyReturn", {
+          reason: !resolvedVideoElement ? "no video element" : "no videoId and no backup",
+          hasVideoElement: !!resolvedVideoElement,
+          hasVideoId: !!videoId,
+          hasBackupPreloaded: !!backupPreloaded,
+        });
         this.handleMissingVideoInfo(backupPreloaded);
         return;
       }
@@ -417,7 +432,16 @@ export class VideoSwitchHandler {
   private handleMissingVideoInfo(
     backupPreloaded: Nullable<FetcherCommentResult[]>,
   ): void {
+    logger.warn("videoSwitch:handleMissingVideoInfo", {
+      hasBackupPreloaded: !!backupPreloaded,
+      backupPreloadedCount: backupPreloaded?.length ?? 0,
+      willClearComments: !backupPreloaded,
+    });
+
     if (!backupPreloaded) {
+      logger.warn("videoSwitch:clearingCommentsInMissingInfo", {
+        currentCommentCount: this.renderer.getCommentsSnapshot().length,
+      });
       this.renderer.clearComments();
       NotificationManager.show(
         "次の動画のコメントを取得できませんでした。コメント表示をクリアします。",

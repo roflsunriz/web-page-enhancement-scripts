@@ -540,6 +540,29 @@ export class WatchPageController {
     await this.onPartIdChanged();
   }
 
+  private async waitForVideoReady(videoElement: HTMLVideoElement): Promise<void> {
+    const maxWaitMs = 5000;
+    const checkIntervalMs = 100;
+    const startTime = Date.now();
+
+    logger.info("watchPageController:waitForVideoReady:start", {
+      readyState: videoElement.readyState,
+      duration: videoElement.duration,
+      src: videoElement.currentSrc,
+    });
+
+    // readyState >= 2 (HAVE_CURRENT_DATA) まで待つ
+    while (videoElement.readyState < 2 && Date.now() - startTime < maxWaitMs) {
+      await new Promise((resolve) => window.setTimeout(resolve, checkIntervalMs));
+    }
+
+    logger.info("watchPageController:waitForVideoReady:complete", {
+      readyState: videoElement.readyState,
+      duration: videoElement.duration,
+      waited: Date.now() - startTime,
+    });
+  }
+
   private async onPartIdChanged(): Promise<void> {
     try {
       const settingsManager = this.global.settingsManager;
@@ -564,6 +587,13 @@ export class WatchPageController {
       });
 
       if (success) {
+        // 保存されたvideoDataを取得
+        const videoData = settingsManager.loadVideoData();
+        logger.warn("watchPageController:onPartIdChanged:loadedVideoData", {
+          videoId: videoData?.videoId ?? null,
+          title: videoData?.title ?? null,
+        });
+
         // 動画要素を再初期化
         const videoElement = this.currentVideoElement ?? 
           document.querySelector<HTMLVideoElement>(DANIME_SELECTORS.watchVideoElement);
@@ -576,13 +606,22 @@ export class WatchPageController {
           readyState: videoElement?.readyState ?? null,
         });
         
-        if (videoElement) {
+        if (videoElement && videoData?.videoId) {
+          // 動画のロード完了を待つ
+          await this.waitForVideoReady(videoElement);
+          
+          // videoIdをdata属性として設定（VideoSwitchHandlerが認識できるように）
+          videoElement.dataset.videoId = videoData.videoId;
+          
           const renderer = this.global.instances.renderer;
           const switchHandler = this.global.instances.switchHandler;
           
           logger.warn("watchPageController:onPartIdChanged:beforeSwitch", {
             rendererCommentCount: renderer?.getCommentsSnapshot().length ?? 0,
             videoCurrentTime: videoElement.currentTime,
+            videoReadyState: videoElement.readyState,
+            videoSrc: videoElement.currentSrc,
+            videoId: videoData.videoId,
           });
           
           if (renderer && switchHandler) {
