@@ -12,6 +12,12 @@ import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import { createLogger } from "@/shared/logger";
 import { getGlobalVideoEventLogger } from "@/d-anime/debug/video-event-logger";
 import { NicoVideoSearcher } from "@/d-anime/services/nico-video-searcher";
+import {
+  svgVideoTitle,
+  svgVideoOwner,
+  svgViewCount,
+  svgCommentCount,
+} from "@/shared/icons/mdi";
 
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
@@ -97,27 +103,19 @@ export class WatchPageController {
       this.global.settingsManager = settingsManager;
       this.global.instances.settingsManager = settingsManager;
 
-      let videoData = settingsManager.loadVideoData();
+      // DOMの準備完了を待つ
+      await this.waitForMetadataElements();
+
+      // 視聴ページから常にメタデータを取得して自動設定を試みる
+      const autoSetupSuccess = await this.autoSetupComments(settingsManager);
       
-      // 動画データがない場合は視聴ページから自動取得を試みる
-      if (!videoData?.videoId) {
-        logger.info("watchPageController:autoSetup", {
-          reason: "videoData not found, attempting auto-setup",
-        });
-        
-        const autoSetupSuccess = await this.autoSetupComments(settingsManager);
-        
-        if (autoSetupSuccess) {
-          videoData = settingsManager.loadVideoData();
-          logger.info("watchPageController:autoSetupSuccess", {
-            videoId: videoData?.videoId,
-          });
-        } else {
-          throw new Error(
-            "動画データが見つかりません。視聴ページからの自動取得にも失敗しました。",
-          );
-        }
+      if (!autoSetupSuccess) {
+        throw new Error(
+          "視聴ページからの自動取得に失敗しました。メタデータが取得できませんでした。",
+        );
       }
+
+      const videoData = settingsManager.loadVideoData();
 
       if (!videoData?.videoId) {
         throw new Error(
@@ -314,6 +312,39 @@ export class WatchPageController {
     this.videoEndedListener = null;
   }
 
+  private async waitForMetadataElements(): Promise<void> {
+    const maxRetries = 50;
+    const retryInterval = 100;
+
+    for (let i = 0; i < maxRetries; i++) {
+      const animeTitleElement = document.querySelector(
+        DANIME_SELECTORS.watchPageAnimeTitle,
+      );
+      const episodeNumberElement = document.querySelector(
+        DANIME_SELECTORS.watchPageEpisodeNumber,
+      );
+      const episodeTitleElement = document.querySelector(
+        DANIME_SELECTORS.watchPageEpisodeTitle,
+      );
+
+      const animeTitle = animeTitleElement?.textContent?.trim() ?? "";
+      const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
+      const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
+
+      if (animeTitle && episodeNumber && episodeTitle) {
+        return;
+      }
+
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, retryInterval),
+      );
+    }
+
+    logger.warn("watchPageController:waitForMetadata:timeout", {
+      maxRetries,
+    });
+  }
+
   private extractMetadataFromPage(): {
     animeTitle: string;
     episodeNumber: string;
@@ -335,19 +366,8 @@ export class WatchPageController {
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
 
       if (!animeTitle || !episodeNumber || !episodeTitle) {
-        logger.warn("watchPageController:extractMetadata:incomplete", {
-          animeTitle,
-          episodeNumber,
-          episodeTitle,
-        });
         return null;
       }
-
-      logger.info("watchPageController:extractMetadata:success", {
-        animeTitle,
-        episodeNumber,
-        episodeTitle,
-      });
 
       return {
         animeTitle,
@@ -367,7 +387,6 @@ export class WatchPageController {
       // 視聴ページからメタデータを抽出
       const metadata = this.extractMetadataFromPage();
       if (!metadata) {
-        logger.warn("watchPageController:autoSetup:metadataNotFound");
         return false;
       }
 
@@ -380,7 +399,12 @@ export class WatchPageController {
         .filter(Boolean)
         .join(" ");
 
-      logger.info("watchPageController:autoSetup:searching", { keyword });
+      logger.info("watchPageController:autoSetup", { 
+        keyword,
+        animeTitle: metadata.animeTitle,
+        episodeNumber: metadata.episodeNumber,
+        episodeTitle: metadata.episodeTitle,
+      });
       NotificationManager.show(`「${keyword}」を検索中...`, "info");
 
       // ニコニコ動画を検索
@@ -388,7 +412,6 @@ export class WatchPageController {
       const results = await searcher.search(keyword);
 
       if (results.length === 0) {
-        logger.warn("watchPageController:autoSetup:noResults", { keyword });
         NotificationManager.show(
           "ニコニコ動画が見つかりませんでした",
           "warning",
@@ -398,12 +421,6 @@ export class WatchPageController {
 
       // コメント数が最も多い動画を選択（既にコメント数順にソートされている）
       const bestMatch = results[0];
-      logger.info("watchPageController:autoSetup:bestMatch", {
-        videoId: bestMatch.videoId,
-        title: bestMatch.title,
-        commentCount: bestMatch.commentCount,
-        similarity: bestMatch.similarity,
-      });
 
       // 動画情報をフェッチして保存
       const fetcher = new NicoApiFetcher();
@@ -429,11 +446,40 @@ export class WatchPageController {
       if (success) {
         logger.info("watchPageController:autoSetup:success", {
           videoId: bestMatch.videoId,
+          title: bestMatch.title,
+          commentCount: bestMatch.commentCount,
         });
-        NotificationManager.show(
-          `「${bestMatch.title}」を自動設定しました（コメント数: ${bestMatch.commentCount.toLocaleString()}件）`,
-          "success",
-        );
+        
+        // 投稿者名を取得
+        const ownerName = bestMatch.owner?.nickname || 
+                         bestMatch.channel?.name || 
+                         "不明";
+        
+        // 詳細な通知を表示（表示時間を5秒に延長）
+        // HTMLとして表示するため、アイコンをインラインで配置
+        const message = [
+          `<div style="font-weight: 600; margin-bottom: 8px;">ニコニコ動画を自動設定しました</div>`,
+          `<div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">`,
+          `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoTitle}</span>`,
+          `  <span style="flex: 1; word-break: break-word;">${bestMatch.title}</span>`,
+          `</div>`,
+          `<div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">`,
+          `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoOwner}</span>`,
+          `  <span>${ownerName}</span>`,
+          `</div>`,
+          `<div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">`,
+          `  <div style="display: flex; align-items: center; gap: 4px;">`,
+          `    <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgViewCount}</span>`,
+          `    <span>${bestMatch.viewCount.toLocaleString()}</span>`,
+          `  </div>`,
+          `  <div style="display: flex; align-items: center; gap: 4px;">`,
+          `    <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgCommentCount}</span>`,
+          `    <span>${bestMatch.commentCount.toLocaleString()}</span>`,
+          `  </div>`,
+          `</div>`,
+        ].join('');
+        
+        NotificationManager.show(message, "success", 5000);
         return true;
       }
 
@@ -463,10 +509,6 @@ export class WatchPageController {
     
     // 初期値を設定
     this.lastPartId = this.getCurrentPartId();
-    
-    logger.info("watchPageController:startPartIdMonitoring", {
-      initialPartId: this.lastPartId,
-    });
 
     this.partIdMonitorIntervalId = window.setInterval(() => {
       void this.checkPartIdChange();
@@ -477,7 +519,6 @@ export class WatchPageController {
     if (this.partIdMonitorIntervalId !== null) {
       window.clearInterval(this.partIdMonitorIntervalId);
       this.partIdMonitorIntervalId = null;
-      logger.info("watchPageController:stopPartIdMonitoring");
     }
   }
 
@@ -501,7 +542,6 @@ export class WatchPageController {
     try {
       const settingsManager = this.global.settingsManager;
       if (!settingsManager) {
-        logger.warn("watchPageController:onPartIdChanged:noSettingsManager");
         return;
       }
 
@@ -520,12 +560,9 @@ export class WatchPageController {
           const switchHandler = this.global.instances.switchHandler;
           
           if (renderer && switchHandler) {
-            logger.info("watchPageController:onPartIdChanged:triggerSwitch");
             await switchHandler.onVideoSwitch(videoElement);
           }
         }
-      } else {
-        logger.warn("watchPageController:onPartIdChanged:autoSetupFailed");
       }
     } catch (error) {
       logger.error("watchPageController:onPartIdChanged:error", error as Error);

@@ -196,190 +196,21 @@ export class SettingsUI extends ShadowDOMComponent {
     }
     this.hostElement = this.createSettingsUI();
     target.parentElement?.insertBefore(this.hostElement, target.nextSibling);
-
-    this.waitMypageListStable()
-      .then(() => {
-        try {
-          this.tryRestoreByDanimeIds();
-        } catch (e) {
-          console.warn("[SettingsUI] restore failed:", e);
-        }
-      });
   }
 
   addAutoCommentButtons(): void {
-    const items = document.querySelectorAll<HTMLDivElement>(
-      DANIME_SELECTORS.mypageItem,
-    );
-    items.forEach((item) => {
-      const titleElement = item.querySelector(DANIME_SELECTORS.mypageItemTitle);
-      if (
-        !titleElement ||
-        titleElement.querySelector(".auto-comment-button-host")
-      ) {
-        return;
-      }
-
-      const title =
-        titleElement.querySelector("span")?.textContent?.trim() ?? "";
-      const episodeNumber =
-        item
-          .querySelector(DANIME_SELECTORS.mypageEpisodeNumber)
-          ?.textContent?.trim() ?? "";
-      const episodeTitle =
-        item
-          .querySelector(DANIME_SELECTORS.mypageEpisodeTitle)
-          ?.textContent?.trim() ?? "";
-
-      const buttonHost = document.createElement("div");
-      buttonHost.className =
-        "nico-comment-shadow-host auto-comment-button-host";
-      buttonHost.style.cssText =
-        "position:absolute;left:150px;top:3px;margin-left:8px;";
-      const shadowRoot = buttonHost.attachShadow({ mode: "closed" });
-      const style = document.createElement("style");
-      style.textContent = ShadowStyleManager.getAutoButtonStyles();
-      shadowRoot.appendChild(style);
-
-      const button = document.createElement("button");
-      button.className = "auto-comment-button";
-      button.innerHTML = svgComment;
-      button.setAttribute("aria-label", "コメント設定");
-      button.setAttribute("title", "コメント設定");
-      button.setAttribute("type", "button");
-      button.addEventListener("click", async (event) => {
-        event.preventDefault();
-        event.stopPropagation();
-        event.stopImmediatePropagation();
-        try {
-          const keyword = [title, episodeNumber, episodeTitle]
-            .filter(Boolean)
-            .join(" ");
-          this.openSettingsModal(false);
-          this.setSearchKeyword(keyword);
-          this.lastAutoButtonElement = buttonHost;
-
-          // 追加: 厳密識別子 (workId, partId) を抽出して保存
-          try {
-            const workId =
-              item.querySelector<HTMLInputElement>('input[name="workId"]')
-                ?.value?.trim() ?? "";
-            // partId は a[onclick*="mypageContentPlayWrapper("...")"] か、テキスト側リンクの href クエリから取得
-            const thumbA = item.querySelector<HTMLAnchorElement>(
-              ".thumbnailContainer > a, .thumbnail-container > a",
-            );
-            const textA = item.querySelector<HTMLAnchorElement>(
-              'a.textContainer[href*="partId="]',
-            );
-            let partId = "";
-            const onclk = thumbA?.getAttribute("onclick") ?? "";
-            const m = onclk.match(/mypageContentPlayWrapper\(["'](\d+)["']\)/);
-            if (m) {
-              partId = m[1];
-            } else if (textA?.href) {
-              const u = new URL(textA.href, location.origin);
-              partId = (u.searchParams.get("partId") ?? "").trim();
-            }
-            if (workId && partId) {
-              this.settingsManager.saveLastDanimeIds({ workId, partId });
-            }
-          } catch (e) {
-            console.warn("[SettingsUI] save (workId, partId) skipped:", e);
-          }
-
-          const results = await this.executeSearch(keyword);
-          if (results.length === 0) {
-            return;
-          }
-          await this.applySearchResult(results[0]);
-        } catch (error) {
-          logger.error("SettingsUI.autoCommentButton", error as Error);
-        }
-      });
-
-      shadowRoot.appendChild(button);
-      titleElement.appendChild(buttonHost);
-      this.lastAutoButtonElement = buttonHost;
-    });
-
-    this.waitMypageListStable()
-      .then(() => {
-        try {
-          this.tryRestoreByDanimeIds();
-        } catch (e) {
-          console.warn("[SettingsUI] restore failed:", e);
-        }
-      });
+    // 視聴ページで自動的にコメントが設定されるようになったため、
+    // 視聴履歴ページでの手動設定ボタンは不要になりました。
+    // UI簡略化のため、このメソッドは何もしません。
   }
 
+  // 以下のメソッドは視聴ページでの自動設定により不要になりました
   private async waitMypageListStable(): Promise<void> {
-    const container = document.querySelector<HTMLElement>(
-      DANIME_SELECTORS.mypageListContainer,
-    );
-    if (!container) return;
-    let lastCount = container.querySelectorAll(DANIME_SELECTORS.mypageItem).length;
-    const until = Date.now() + 1500;
-    return new Promise((resolve) => {
-      const obs = new MutationObserver(() => {
-        const c = container.querySelectorAll(DANIME_SELECTORS.mypageItem).length;
-        if (c !== lastCount) {
-          lastCount = c;
-          return;
-        }
-        if (Date.now() >= until) {
-          obs.disconnect();
-          resolve();
-        }
-      });
-      obs.observe(container, { childList: true, subtree: true });
-      setTimeout(() => {
-        try {
-          obs.disconnect();
-        } catch (e) {
-          // 既に切断済みの場合など
-          logger.debug("waitMypageListStable: observer already disconnected", e);
-        }
-        resolve();
-      }, 1600);
-    });
+    // 何もしない（互換性のため残す）
   }
 
-  // --- 追加: (workId, partId) 完全一致で厳密復元 ---
   private tryRestoreByDanimeIds(): boolean {
-    const ids = this.settingsManager.loadLastDanimeIds();
-    if (!ids) return false;
-    const items = Array.from(
-      document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem),
-    );
-    for (const it of items) {
-      const w =
-        it.querySelector<HTMLInputElement>('input[name="workId"]')?.value?.trim();
-      if (w !== ids.workId) continue;
-      // partId はテキスト側リンクか onclick から照合
-      const textA = it.querySelector<HTMLAnchorElement>(
-        'a.textContainer[href*="partId="]',
-      );
-      const hrefOk = (() => {
-        if (!textA?.href) return false;
-        const u = new URL(textA.href, location.origin);
-        return (u.searchParams.get("partId") ?? "") === ids.partId;
-      })();
-      const thumbA = it.querySelector<HTMLAnchorElement>(
-        ".thumbnailContainer > a, .thumbnail-container > a",
-      );
-      const onclickOk = (() => {
-        const onclk = thumbA?.getAttribute("onclick") ?? "";
-        const m = onclk.match(/mypageContentPlayWrapper\(["'](\d+)["']\)/);
-        return !!m && m[1] === ids.partId;
-      })();
-      if (hrefOk || onclickOk) {
-        const host =
-          it.querySelector<HTMLElement>(".auto-comment-button-host") ?? it;
-        this.lastAutoButtonElement = host;
-        this.updatePlayButtonState(this.currentVideoInfo);
-        return true;
-      }
-    }
+    // 何もしない（互換性のため残す）
     return false;
   }
 
@@ -516,6 +347,11 @@ export class SettingsUI extends ShadowDOMComponent {
             <section class="settings-modal__pane is-active" data-pane="search" role="tabpanel" id="settingsPaneSearch" aria-labelledby="settingsTabSearch">
               <div class="setting-group search-section">
                 <h3>コメントをオーバーレイする動画を検索</h3>
+                <p class="search-section__note" style="background: #7F5AF0; color: #FFFFFE; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
+                  ℹ️ <strong>自動設定機能が有効です</strong><br>
+                  視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
+                  手動で検索したい場合は、以下のフォームをご利用ください。
+                </p>
                 <div class="search-container">
                   <input type="text" id="searchInput" placeholder="作品名 や エピソード名 で検索">
                   <button id="searchButton">検索</button>
@@ -1146,11 +982,8 @@ export class SettingsUI extends ShadowDOMComponent {
         .filter(Boolean);
     }
 
-    if (this.settingsManager.updateSettings(this.settings)) {
-      NotificationManager.show("設定を保存しました", "success");
-    } else {
-      NotificationManager.show("設定の保存に失敗しました", "error");
-    }
+    // SettingsManagerが内部で通知を出すため、ここでは通知しない
+    this.settingsManager.updateSettings(this.settings);
   }
 
   private updateCurrentVideoInfo(videoInfo: VideoMetadata): void {

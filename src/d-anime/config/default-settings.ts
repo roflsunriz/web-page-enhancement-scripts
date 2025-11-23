@@ -12,4 +12,4 @@ export const cloneDefaultSettings = (): RendererSettings => ({
 
 // RENDERER_VERSIONはcomment-overlayのバージョンではなく、d-anime-nico-comment-rendererユーザースクリプトのバージョンです。
 // なので変更しないこと！！！ UIにd-anime-nico-comment-rendererのバージョンが表示されるためのものです。
-export const RENDERER_VERSION = "v6.15.0";
+export const RENDERER_VERSION = "v6.15.1";
