@@ -93,12 +93,21 @@ export class VideoSwitchHandler {
 
   /**
    * lastVideoSourceをリセットして次回の切り替えを強制的に新規動画として扱う
+   * エピソード切り替え時は古いコメントデータもすべてクリアする
    */
   resetVideoSource(): void {
     logger.info("videoSwitch:resetVideoSource", {
       previousSource: this.lastVideoSource,
+      previousLastPreloadedCount: this.lastPreloadedComments?.length ?? 0,
+      previousPreloadedCount: this.preloadedComments?.length ?? 0,
+      previousNextVideoId: this.nextVideoId,
     });
+    
+    // エピソード切り替え時は古いコメントデータをすべてクリア
     this.lastVideoSource = null;
+    this.lastPreloadedComments = null;
+    this.preloadedComments = null;
+    this.nextVideoId = null;
   }
 
   /**
