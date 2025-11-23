@@ -146,7 +146,7 @@ export class YouTubeInfoCopier {
     const videoId = new URLSearchParams(window.location.search).get('v') || window.location.pathname.split('/').pop();
     const url = videoId ? buildYoutubeShortUrl(videoId) : window.location.href;
 
-    await expandDescriptionIfNeeded(2000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
+    await expandDescriptionIfNeeded(5000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
 
     let description = '概要取得に失敗しました';
     

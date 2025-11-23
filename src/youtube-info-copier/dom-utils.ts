@@ -8,8 +8,6 @@ const logger = createLogger('youtube-info-copier:dom-utils');
  * @param timeoutMs - タイムアウト時間（ミリ秒）。
  */
 export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void> {
-  const start = Date.now();
-
   const descriptionEl = YOUTUBE_SELECTORS.descriptionCandidates
     .map((selector) => document.querySelector<HTMLElement>(selector))
     .find(Boolean);
@@ -56,53 +54,63 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
       descriptionEl.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpander) ||
       document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpanderById);
     
-    // is-expanded 属性をチェック
-    if (inlineExpander?.hasAttribute('is-expanded')) {
-      return true;
-    }
-    
-    // #expanded 要素に内容があるかチェック
+    // #expanded 要素に実際にコンテンツがあるかを最優先でチェック
     const expandedDiv = (inlineExpander || descriptionEl).querySelector<HTMLElement>('#expanded');
     if (expandedDiv) {
       const expandedText = (expandedDiv.textContent || expandedDiv.innerText || '').trim();
-      if (expandedText && expandedText.length > 100) {
-        logger.debug('Description is expanded (found content in #expanded)');
+      // 展開前は空（0文字）、展開後は数百文字以上になる
+      if (expandedText && expandedText.length > 200) {
+        logger.debug(`Description is expanded (found ${expandedText.length} chars in #expanded)`);
         return true;
       }
     }
     
-    // フォールバック: テキスト長で判定
-    const descText = (descriptionEl.textContent || '').trim();
-    const hasEnoughText = descText.length > 300 || descriptionEl.querySelectorAll('span').length > 5;
-    if (hasEnoughText) {
-      logger.debug('Description appears expanded based on length');
+    // is-expanded 属性だけでは不十分（属性は付くがコンテンツのロードが遅れる）
+    if (inlineExpander?.hasAttribute('is-expanded')) {
+      // 属性があっても、#expanded にコンテンツがあることを確認
+      if (expandedDiv) {
+        const expandedText = (expandedDiv.textContent || expandedDiv.innerText || '').trim();
+        if (expandedText && expandedText.length > 200) {
+          return true;
+        }
+        // 属性はあるがコンテンツがまだない場合は待つ
+        logger.debug('is-expanded attr found but content not yet loaded');
+        return false;
+      }
     }
-    return hasEnoughText;
+    
+    return false;
   };
 
   if (isExpanded()) return;
 
-  const initialLength = (descriptionEl.textContent || '').length;
   const clicked = clickExpandButton();
   if (!clicked) return;
 
   return new Promise((resolve) => {
+    let checkCount = 0;
+    const maxChecks = Math.ceil(timeoutMs / 150);
+    
     const interval = setInterval(() => {
-      const nowLen = (descriptionEl.textContent || '').length;
+      checkCount++;
+      const expandedDiv = descriptionEl.querySelector<HTMLElement>('#expanded');
+      const expandedLength = expandedDiv ? (expandedDiv.textContent || '').trim().length : 0;
       const expandedNow = isExpanded();
-      const lengthIncreased = nowLen > initialLength + 50;
-      const timedOut = Date.now() - start > timeoutMs;
+      const timedOut = checkCount >= maxChecks;
       
-      if (expandedNow || lengthIncreased || timedOut) {
+      logger.debug(`Check ${checkCount}: expanded=${expandedNow}, #expanded length=${expandedLength}`);
+      
+      if (expandedNow || timedOut) {
         clearInterval(interval);
-        if (expandedNow || lengthIncreased) {
-          logger.info(`Description expanded successfully (length: ${initialLength} -> ${nowLen})`);
+        if (expandedNow) {
+          logger.info(`Description expanded successfully (#expanded: ${expandedLength} chars)`);
+          // DOMの完全な更新を待つ
+          setTimeout(() => resolve(), 200);
         } else {
-          logger.warn('Description expansion timed out');
+          logger.warn(`Description expansion timed out after ${checkCount} checks`);
+          resolve();
         }
-        // DOMの更新を待つために少し遅延
-        setTimeout(() => resolve(), 100);
       }
-    }, 100);
+    }, 150);
   });
 }
