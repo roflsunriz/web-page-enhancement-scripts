@@ -20,5 +20,10 @@ export const YOUTUBE_SELECTORS = {
     '#upload-info #channel-name a',
     '#owner-text a',
   ],
-  descriptionRoot: '#description',
+  descriptionRoot: '#description-inline-expander',
+  descriptionExpandedContent: [
+    '#description-inline-expander #expanded yt-attributed-string',
+    '#description-inline-expander #expanded yt-formatted-string',
+    '#description-inline-expander #snippet yt-attributed-string',
+  ],
 } as const;

@@ -55,11 +55,29 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
     const inlineExpander =
       descriptionEl.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpander) ||
       document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpanderById);
+    
+    // is-expanded 属性をチェック
     if (inlineExpander?.hasAttribute('is-expanded')) {
       return true;
     }
+    
+    // #expanded 要素に内容があるかチェック
+    const expandedDiv = (inlineExpander || descriptionEl).querySelector<HTMLElement>('#expanded');
+    if (expandedDiv) {
+      const expandedText = (expandedDiv.textContent || expandedDiv.innerText || '').trim();
+      if (expandedText && expandedText.length > 100) {
+        logger.debug('Description is expanded (found content in #expanded)');
+        return true;
+      }
+    }
+    
+    // フォールバック: テキスト長で判定
     const descText = (descriptionEl.textContent || '').trim();
-    return descText.length > 200 || descriptionEl.querySelectorAll('span').length > 3;
+    const hasEnoughText = descText.length > 300 || descriptionEl.querySelectorAll('span').length > 5;
+    if (hasEnoughText) {
+      logger.debug('Description appears expanded based on length');
+    }
+    return hasEnoughText;
   };
 
   if (isExpanded()) return;
@@ -71,10 +89,20 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
   return new Promise((resolve) => {
     const interval = setInterval(() => {
       const nowLen = (descriptionEl.textContent || '').length;
-      if (isExpanded() || nowLen > initialLength + 20 || Date.now() - start > timeoutMs) {
+      const expandedNow = isExpanded();
+      const lengthIncreased = nowLen > initialLength + 50;
+      const timedOut = Date.now() - start > timeoutMs;
+      
+      if (expandedNow || lengthIncreased || timedOut) {
         clearInterval(interval);
-        resolve();
+        if (expandedNow || lengthIncreased) {
+          logger.info(`Description expanded successfully (length: ${initialLength} -> ${nowLen})`);
+        } else {
+          logger.warn('Description expansion timed out');
+        }
+        // DOMの更新を待つために少し遅延
+        setTimeout(() => resolve(), 100);
       }
-    }, 80);
+    }, 100);
   });
 }

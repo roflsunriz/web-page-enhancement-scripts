@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         youtube-info-copier
 // @namespace    youtubeInfoCopier
-// @version      2.2.1
+// @version      2.3.0
 // @author       roflsunriz
 // @description  YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）
 // @license      MIT

@@ -148,23 +148,48 @@ export class YouTubeInfoCopier {
 
     await expandDescriptionIfNeeded(2000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
 
-    const descriptionElement = document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.descriptionRoot);
     let description = '概要取得に失敗しました';
-    if (descriptionElement) {
-      const spans = descriptionElement.querySelectorAll('span');
-      if (spans.length > 0) {
-        const textSet = new Set<string>();
-        const orderedTexts: string[] = [];
-        spans.forEach((span) => {
-          const text = (span.textContent || span.innerText || '').trim();
-          if (text && !textSet.has(text)) {
-            textSet.add(text);
-            orderedTexts.push(text);
+    
+    // 展開後のコンテンツを優先的に取得
+    for (const selector of YOUTUBE_SELECTORS.descriptionExpandedContent) {
+      const expandedElement = document.querySelector<HTMLElement>(selector);
+      if (expandedElement) {
+        const text = (expandedElement.textContent || expandedElement.innerText || '').trim();
+        if (text && text.length > 50) {
+          description = text;
+          this.logger.debug(`Description found using selector: ${selector}`);
+          break;
+        }
+      }
+    }
+    
+    // フォールバック: 古い方法で取得
+    if (description === '概要取得に失敗しました') {
+      const descriptionElement = document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.descriptionRoot);
+      if (descriptionElement) {
+        // #expanded 要素を優先的に探す
+        const expandedDiv = descriptionElement.querySelector<HTMLElement>('#expanded');
+        if (expandedDiv) {
+          const expandedText = (expandedDiv.textContent || expandedDiv.innerText || '').trim();
+          if (expandedText && expandedText.length > 50) {
+            description = expandedText;
+            this.logger.debug('Description found in #expanded div');
           }
-        });
-        description = orderedTexts.join('').trim();
-      } else {
-        description = (descriptionElement.textContent || descriptionElement.innerText || '').trim();
+        }
+        
+        // まだ見つからない場合は innerText を使用
+        if (description === '概要取得に失敗しました') {
+          const fullText = (descriptionElement.innerText || '').trim();
+          // "...もっと見る" などのボタンテキストを除去
+          const cleanText = fullText
+            .replace(/\.\.\.もっと見る\n?/g, '')
+            .replace(/一部を表示\n?/g, '')
+            .trim();
+          if (cleanText && cleanText.length > 10) {
+            description = cleanText;
+            this.logger.debug('Description found using innerText');
+          }
+        }
       }
     }
 
