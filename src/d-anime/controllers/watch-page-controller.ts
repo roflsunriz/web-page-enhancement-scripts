@@ -638,13 +638,31 @@ export class WatchPageController {
           });
           
           if (renderer && switchHandler) {
-            // エピソード切り替え時は画面上のコメントDOMを含めて完全クリア
-            logger.warn("watchPageController:onPartIdChanged:hardResetBefore", {
-              commentsBeforeReset: renderer.getCommentsSnapshot().length,
+            // エピソード切り替え時はレンダラーを完全破棄して再初期化
+            logger.warn("watchPageController:onPartIdChanged:destroyBefore", {
+              commentsBeforeDestroy: renderer.getCommentsSnapshot().length,
+              currentVideoSrc: renderer.getCurrentVideoSource(),
+              videoElement: renderer.getVideoElement() ? "attached" : "detached",
             });
-            renderer.hardReset();
-            logger.warn("watchPageController:onPartIdChanged:hardResetAfter", {
-              commentsAfterReset: renderer.getCommentsSnapshot().length,
+            
+            // レンダラーを完全に破棄（DOM要素、イベントリスナー、内部状態すべて）
+            renderer.destroy();
+            
+            logger.warn("watchPageController:onPartIdChanged:destroyAfter", {
+              commentsAfterDestroy: renderer.getCommentsSnapshot().length,
+            });
+            
+            // レンダラーを再初期化
+            logger.warn("watchPageController:onPartIdChanged:reinitialize", {
+              videoElementSrc: videoElement.currentSrc,
+              videoElementReadyState: videoElement.readyState,
+              videoElementCurrentTime: videoElement.currentTime,
+            });
+            renderer.initialize(videoElement);
+            
+            logger.warn("watchPageController:onPartIdChanged:reinitializeComplete", {
+              commentsAfterReinitialize: renderer.getCommentsSnapshot().length,
+              newVideoSrc: renderer.getCurrentVideoSource(),
             });
             
             // lastVideoSourceをリセットして新しいエピソードとして認識させる
@@ -655,6 +673,7 @@ export class WatchPageController {
             logger.warn("watchPageController:onPartIdChanged:afterSwitch", {
               rendererCommentCount: renderer.getCommentsSnapshot().length,
               videoCurrentTime: videoElement.currentTime,
+              finalVideoSrc: renderer.getCurrentVideoSource(),
             });
           }
         }

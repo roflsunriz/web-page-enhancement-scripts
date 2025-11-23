@@ -131,6 +131,12 @@ export class VideoSwitchHandler {
         lastVideoId: this.lastVideoId,
         nextVideoId: this.nextVideoId,
         lastVideoSource: this.lastVideoSource,
+        rendererVideoElement: this.renderer.getVideoElement() ? "attached" : "detached",
+        rendererVideoSrc: this.renderer.getCurrentVideoSource(),
+        sampleCurrentComments: this.renderer.getCommentsSnapshot().slice(0, 3).map(c => ({
+          text: c.text?.substring(0, 30),
+          vposMs: c.vposMs,
+        })),
       });
 
       const resolvedVideoElement =
@@ -241,11 +247,18 @@ export class VideoSwitchHandler {
       this.preloadedComments = null;
       this.lastVideoSource = this.getVideoSource(resolvedVideoElement);
 
+      const finalComments = this.renderer.getCommentsSnapshot();
       logger.warn("videoSwitch:complete", {
         videoId: videoId ?? null,
         finalTime: resolvedVideoElement.currentTime,
         loadedCount,
-        finalCommentsCount: this.renderer.getCommentsSnapshot().length,
+        finalCommentsCount: finalComments.length,
+        rendererVideoSrc: this.renderer.getCurrentVideoSource(),
+        sampleFinalComments: finalComments.slice(0, 5).map(c => ({
+          text: c.text?.substring(0, 30),
+          vposMs: c.vposMs,
+          vposSec: (c.vposMs / 1000).toFixed(2),
+        })),
       });
 
       if (apiData) {
@@ -402,25 +415,18 @@ export class VideoSwitchHandler {
       });
     }
 
-    // ゴーストコメントを完全に削除（動画ソース変更に関係なく常に実行）
+    // コメントをクリア（エピソード切り替えの場合はコントローラー側でdestroy済み）
     logger.warn("videoSwitch:resetRendererState:clearingComments", {
       commentsBeforeClear,
       sourceChanged,
+      currentVideoSrc: this.renderer.getCurrentVideoSource(),
     });
     
-    // 動画ソース変更時はhardReset()を使用（画面上のDOMも含めて完全リセット）
-    if (sourceChanged) {
-      logger.warn("videoSwitch:resetRendererState:hardReset", {
-        reason: "video source changed, using hardReset for complete cleanup",
-      });
-      this.renderer.hardReset();
-    } else {
-      this.renderer.clearComments();
-    }
+    this.renderer.clearComments();
     
     logger.warn("videoSwitch:resetRendererState:commentsCleared", {
       commentsAfterClear: this.renderer.getCommentsSnapshot().length,
-      usedHardReset: sourceChanged,
+      rendererVideoSrc: this.renderer.getCurrentVideoSource(),
     });
   }
 
@@ -555,15 +561,32 @@ export class VideoSwitchHandler {
       filteredCount: filtered.length,
       totalCount: comments.length,
       rendererCommentsBeforeAdd: this.renderer.getCommentsSnapshot().length,
+      rendererVideoElement: this.renderer.getVideoElement() ? "attached" : "detached",
+      rendererVideoSrc: this.renderer.getCurrentVideoSource(),
     });
     
-    filtered.forEach((comment) => {
+    // コメントを1つずつ追加（最初の数件をログ出力）
+    filtered.forEach((comment, index) => {
       this.renderer.addComment(comment.text, comment.vposMs, comment.commands);
+      
+      if (index < 3) {
+        logger.warn(`videoSwitch:populateComments:addedComment[${index}]`, {
+          text: comment.text.substring(0, 30),
+          vposMs: comment.vposMs,
+          vposSec: (comment.vposMs / 1000).toFixed(2),
+          commands: comment.commands,
+        });
+      }
     });
 
     logger.warn("videoSwitch:populateComments:complete", {
       addedCount: filtered.length,
       rendererCommentsAfterAdd: this.renderer.getCommentsSnapshot().length,
+      rendererVideoSrcAfterAdd: this.renderer.getCurrentVideoSource(),
+      sampleComments: this.renderer.getCommentsSnapshot().slice(0, 3).map(c => ({
+        text: c.text?.substring(0, 30),
+        vposMs: c.vposMs,
+      })),
     });
 
     this.lastPreloadedComments = [...filtered];
