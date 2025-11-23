@@ -1,0 +1,518 @@
+23:27:12.265 JQMIGRATE: Migrate is installed, version 3.0.1 jquery-migrate-3.0.1.min.js:33:19
+23:27:12.362 SCRIPT RUN TIME[Pagetual]: 1ms - タイマー終了 Pagetual.user.js:2:246
+23:27:12.363 [dAnimeNicoCommentRenderer2] bootstrap start d-anime-nico-comment-renderer.user.js:31:182
+23:27:12.363 [DanimeApp] starting renderer d-anime-nico-comment-renderer.user.js:31:182
+23:27:12.363 [dAnimeNicoCommentRenderer2] bootstrap completed d-anime-nico-comment-renderer.user.js:31:182
+23:27:12.363 SCRIPT RUN TIME[d-anime-nico-comment-renderer]: 1ms - タイマー終了 d-anime-nico-comment-renderer.user.js:2:170
+23:27:12.377 [ImageCollector2] bootstrap start image-collector.user.js:54:184
+23:27:12.377 [ImageCollectorApp] starting legacy collector image-collector.user.js:54:184
+23:27:12.377 [ImageCollector2:Bootstrap] legacy collector bootstrap start image-collector.user.js:54:184
+23:27:12.378 [ImageCollector2:UIBuilder] モーダルの構築が完了しました image-collector.user.js:54:184
+23:27:12.378 [ImageCollector2] legacy bootstrap completed image-collector.user.js:54:184
+23:27:12.378 SCRIPT RUN TIME[image-collector]: 3ms - タイマー終了 image-collector.user.js:2:136
+23:27:12.379 [ImageCollector2:ProgressBar] プログレスバーUIを初期化しました image-collector.user.js:54:184
+23:27:12.379 [ImageCollector2:Toast] トーストUIを初期化しました image-collector.user.js:54:184
+23:27:12.379 [ImageCollector2:UIEventHandler] イベントハンドラーの設定が完了しました image-collector.user.js:54:184
+23:27:12.380 [ImageCollector2:MenuRegister] メニューコマンドを登録しました image-collector.user.js:54:184
+23:27:12.380 [ImageCollector2:Bootstrap] legacy collector components initialized image-collector.user.js:54:184
+23:27:12.605 ユーザー体験に対して好ましくない影響があるため、メインスレッドでの同期 XMLHttpRequest は推奨されません。詳しくは https://xhr.spec.whatwg.org/#sync-warning を参照してください。 jquery-3.5.1.min.js:2:81767
+23:27:13.139 XML パースエラー: 構文エラーです。
+URL: https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003
+行番号: 1, 列番号: 1: sc_d_pc:1:1
+23:27:13.595 [dAnime:WatchPageController] watchPageController:autoSetup 
+Object { keyword: "青春ブタ野郎はサンタクロースの夢を見ない 第3話 アイドルソング", animeTitle: "青春ブタ野郎はサンタクロースの夢を見ない", episodeNumber: "第3話", episodeTitle: "アイドルソング" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:13.681 <script> のソース “https://stlog.d.dmkt-sp.jp/js/regStlog.js” の読み込みに失敗しました。 sc_d_pc:1:1
+23:27:14.685 Uncaught ReferenceError: stlog is not defined
+    sendStoreLog https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2234
+PlayMovie.js:2234:4
+23:27:14.963 [dAnime:WatchPageController] watchPageController:autoSetup:success 
+Object { videoId: "so45192703", title: "青春ブタ野郎はサンタクロースの夢を見ない 第3話「アイドルソング」", commentCount: 3776 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:22.354 [dAnime:VideoEventLogger] global:attach 
+Object { src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", duration: 1440.0219167, currentTime: 91.807479, readyState: 4 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:22.356 [dAnime:VideoEventLogger] global:currentTimeWatcher:setup d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.735 [dAnime:VideoEventLogger] global:event:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046735, timeDiff: "100.46", … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.736 [dAnime:VideoEventLogger] global:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046735, from: 0, … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.737 [dAnime:VideoEventLogger] global:event:waiting 
+Object { event: "waiting", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046738 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.767 [dAnime:VideoEventLogger] global:event:seeked 
+Object { event: "seeked", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046767 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.767 [dAnime:VideoEventLogger] global:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046767 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.767 [dAnime:VideoEventLogger] global:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046767 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:26.767 [dAnime:VideoEventLogger] global:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/e4c383fd-ebac-4e61-9977-db6c6fad27e2", networkState: 2, timestamp: 1763908046767 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:27.534 [dAnime:VideoEventLogger] global:event:abort 
+Object { event: "abort", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908047534, timeDiff: "0.33", … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:27.534 [dAnime:VideoEventLogger] global:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908047535 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:27.535 [dAnime:VideoEventLogger] global:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908047535, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:27.535 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: NaN, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.316 [dAnime:VideoEventLogger] global:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908048317 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.317 [dAnime:VideoEventLogger] global:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908048317, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.317 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: NaN, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.317 [dAnime:VideoEventLogger] global:event:loadstart 
+Object { event: "loadstart", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908048317 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.417 [dAnime:WatchPageController] watchPageController:partIdChanged 
+Object { oldPartId: "28053003", newPartId: "28053002", url: "https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053002", timestamp: "2025-11-23T14:27:28.417Z" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.418 [dAnime:WatchPageController] watchPageController:onPartIdChanged:start 
+Object { currentVideoElement: "present", rendererExists: true, switchHandlerExists: true, isPartIdChanging: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.418 [dAnime:WatchPageController] watchPageController:autoSetup 
+Object { keyword: "青春ブタ野郎はサンタクロースの夢を見ない 第2話 空気の味は何の味？", animeTitle: "青春ブタ野郎はサンタクロースの夢を見ない", episodeNumber: "第2話", episodeTitle: "空気の味は何の味？" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.622 [dAnime:VideoEventLogger] global:event:loadedmetadata 
+Object { event: "loadedmetadata", currentTime: 0, duration: 1440.063625, readyState: 1, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908048622 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.623 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: 1440.063625, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:28.980 <script> のソース “https://stlog.d.dmkt-sp.jp/js/regStlog.js” の読み込みに失敗しました。 sc_d_pc:1:1
+23:27:29.392 [dAnime:VideoEventLogger] global:event:loadeddata 
+Object { event: "loadeddata", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049393 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.393 [dAnime:VideoEventLogger] global:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049394 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.397 [dAnime:VideoEventLogger] global:event:play 
+Object { event: "play", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049397 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.397 [dAnime:VideoEventLogger] global:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049397 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.398 [dAnime:VideoEventLogger] global:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049398 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.454 [dAnime:WatchPageController] watchPageController:autoSetup:success 
+Object { videoId: "so45172112", title: "青春ブタ野郎はサンタクロースの夢を見ない 第2話「空気の味は何の味？」", commentCount: 4173 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.454 [dAnime:WatchPageController] watchPageController:onPartIdChanged:autoSetup 
+Object { success: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.454 [dAnime:WatchPageController] watchPageController:onPartIdChanged:loadedVideoData 
+Object { videoId: "so45172112", title: "青春ブタ野郎はサンタクロースの夢を見ない 第2話「空気の味は何の味？」" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.454 [dAnime:WatchPageController] watchPageController:onPartIdChanged:videoElement 
+Object { videoElementFound: true, currentTime: 0, duration: 1440.063625, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", readyState: 4 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.455 [dAnime:WatchPageController] watchPageController:waitForVideoReady:start 
+Object { readyState: 4, duration: 1440.063625, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.455 [dAnime:WatchPageController] watchPageController:waitForVideoReady:complete 
+Object { readyState: 4, duration: 1440.063625, waited: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.455 [dAnime:WatchPageController] watchPageController:onPartIdChanged:beforeSwitch 
+Object { rendererCommentCount: 2332, videoCurrentTime: 0, videoReadyState: 4, videoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", videoId: "so45172112" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.455 [dAnime:WatchPageController] watchPageController:onPartIdChanged:destroyBefore 
+Object { commentsBeforeDestroy: 2332, currentVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", videoElement: "attached" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.456 [dAnime:WatchPageController] watchPageController:onPartIdChanged:destroyAfter 
+Object { commentsAfterDestroy: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.456 [dAnime:WatchPageController] watchPageController:onPartIdChanged:reinitialize 
+Object { videoElementSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", videoElementReadyState: 4, videoElementCurrentTime: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.458 [dAnime:WatchPageController] watchPageController:onPartIdChanged:reinitializeComplete 
+Object { commentsAfterReinitialize: 0, newVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.458 [dAnime:VideoSwitchHandler] videoSwitch:resetVideoSource 
+Object { previousSource: null }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.458 [dAnime:VideoSwitchHandler] videoSwitch:entry 
+Object { videoElementProvided: true, currentRendererComments: 0, lastVideoId: null, nextVideoId: null, lastVideoSource: null, rendererVideoElement: "attached", rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", sampleCurrentComments: [] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.459 [dAnime:VideoSwitchHandler] videoSwitch:videoIdResolution 
+Object { videoId: "so45172112", nextVideoId: null, elementId: "so45172112", lastVideoId: null, hasBackupPreloaded: false, backupPreloadedCount: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.459 [dAnime:VideoSwitchHandler] videoSwitch:start 
+Object { videoId: "so45172112", elementVideoId: "so45172112", preloadedCount: 0, currentTime: 0, duration: 1440.063625, readyState: 4, currentSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", lastVideoSource: null }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.459 [dAnime:VideoEventLogger] VideoSwitchHandler:attach 
+Object { src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", duration: 1440.063625, currentTime: 0, readyState: 4 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.459 [dAnime:VideoEventLogger] VideoSwitchHandler:currentTimeWatcher:setup d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:before 
+Object { currentTime: 0, duration: 1440.063625, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", lastSrc: null, sourceChanged: true, readyState: 4, paused: false, commentsCount: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoEventLogger] VideoSwitchHandler:manualSeek 
+Object { from: "0.00", to: "0.00", diff: "0.00", reason: "resetRendererState: video source changed", stackTrace: 'logManualSeek@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:10770\nresetRendererState@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:17180\nonVideoSwitch@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:13985\nasync*onPartIdChanged@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:14623\nasync*checkPartIdChange@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:12149\nwindow["__f__mibx1qhc.zhn"]/</startPartIdMonitoring/this.partIdMonitorIntervalId<@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:11711\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nir/a/t[n]@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:81:84\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nzo/<@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:32:325\ns/message/<@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:27:328\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:457\nmessage@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:27:318\nmessage@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:28:376\n@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:92:77\n_@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:22:407\n' }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:seeked 
+Object { currentTime: 0, timeDiff: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:clearingComments 
+Object { commentsBeforeClear: 0, sourceChanged: true, currentVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:commentsCleared 
+Object { commentsAfterClear: 0, rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.460 [dAnime:VideoSwitchHandler] videoSwitch:rebind:sameElement 
+Object { previousSrc: null, newSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.466 [dAnime:VideoEventLogger] global:event:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049466 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.466 [dAnime:VideoEventLogger] global:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049466, from: 0, … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.467 [dAnime:VideoEventLogger] VideoSwitchHandler:event:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049468 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.467 [dAnime:VideoEventLogger] VideoSwitchHandler:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049468, from: 0, … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.468 [dAnime:VideoEventLogger] global:event:waiting 
+Object { event: "waiting", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049468 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.468 [dAnime:VideoEventLogger] VideoSwitchHandler:event:waiting 
+Object { event: "waiting", currentTime: 0, duration: 1440.063625, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049468 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.511 [dAnime:VideoEventLogger] global:event:seeked 
+Object { event: "seeked", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049511 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.512 [dAnime:VideoEventLogger] VideoSwitchHandler:event:seeked 
+Object { event: "seeked", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049512 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.512 [dAnime:VideoEventLogger] global:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049512 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.512 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049512 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.513 [dAnime:VideoEventLogger] global:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049513 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.513 [dAnime:VideoEventLogger] VideoSwitchHandler:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049513 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.513 [dAnime:VideoEventLogger] global:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049513 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.513 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.063625, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", networkState: 2, timestamp: 1763908049513 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.638 [dAnime:WatchPageController] watchPageController:switchBlocked 
+Object { reason: "partId change in progress" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:29.976 Uncaught ReferenceError: stlog is not defined
+    sendStoreLog https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2234
+    setTimeout handler*sendStoreLog/< https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2233
+    setTimeout handler*sendStoreLog https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2224
+    onload https://animestore.docomo.ne.jp/js/cms/player.min.js?v=20250317132134:1
+PlayMovie.js:2234:4
+23:27:30.272 [dAnime:VideoSwitchHandler] videoSwitch:apiFetched 
+Object { videoId: "so45172112" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:30.273 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:start 
+Object { videoId: "so45172112", backupPreloadedCount: 0, hasBackupPreloaded: false }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:30.273 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:fetching 
+Object { videoId: "so45172112" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:32.182 [dAnime:VideoSwitchHandler] videoSwitch:commentsFetched 
+Object { videoId: "so45172112", count: 2471 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:32.186 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addingToRenderer 
+Object { filteredCount: 2447, totalCount: 2471, rendererCommentsBeforeAdd: 0, rendererVideoElement: "attached", rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:32.186 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[0] 
+Object { text: "顔色伺っただけで疑われるの笑う", vposMs: 19750, vposSec: "19.75", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:32.186 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[1] 
+Object { text: "咲太、卯月見つける、速い", vposMs: 945760, vposSec: "945.76", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:32.186 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[2] 
+Object { text: "ざつ旅", vposMs: 1061890, vposSec: "1061.89", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.181 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:complete 
+Object { addedCount: 2447, rendererCommentsAfterAdd: 2440, rendererVideoSrcAfterAdd: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", sampleComments: (3) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.182 [dAnime:VideoSwitchHandler] videoSwitch:commentsLoaded 
+Object { videoId: "so45172112", count: 2447 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.182 [dAnime:VideoSwitchHandler] videoSwitch:complete 
+Object { videoId: "so45172112", finalTime: 2.605462, loadedCount: 2447, finalCommentsCount: 2440, rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb", sampleFinalComments: (5) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.183 [dAnime:WatchPageController] watchPageController:onPartIdChanged:afterSwitch 
+Object { rendererCommentCount: 2440, videoCurrentTime: 2.605462, finalVideoSrc: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.183 [dAnime:WatchPageController] watchPageController:onPartIdChanged:complete d-anime-nico-comment-renderer.user.js:31:182
+23:27:37.183 [dAnime:WatchPageController] watchPageController:onPartIdChanged:flagReset 
+Object { isPartIdChanging: false }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.141 [dAnime:VideoEventLogger] global:event:abort 
+Object { event: "abort", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065142, timeDiff: "16.86", … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.142 [dAnime:VideoEventLogger] VideoSwitchHandler:event:abort 
+Object { event: "abort", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065142, timeDiff: "16.86", … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.147 [dAnime:VideoEventLogger] global:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065148 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.148 [dAnime:VideoEventLogger] global:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065148, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.148 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: NaN, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.148 [dAnime:VideoEventLogger] VideoSwitchHandler:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065148 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.148 [dAnime:VideoEventLogger] VideoSwitchHandler:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: null, networkState: 0, timestamp: 1763908065148, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.254 [dAnime:WatchPageController] watchPageController:partIdChanged 
+Object { oldPartId: "28053002", newPartId: "28053003", url: "https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003", timestamp: "2025-11-23T14:27:45.255Z" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.254 [dAnime:WatchPageController] watchPageController:onPartIdChanged:start 
+Object { currentVideoElement: "present", rendererExists: true, switchHandlerExists: true, isPartIdChanging: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.255 [dAnime:WatchPageController] watchPageController:autoSetup 
+Object { keyword: "青春ブタ野郎はサンタクロースの夢を見ない 第2話 空気の味は何の味？", animeTitle: "青春ブタ野郎はサンタクロースの夢を見ない", episodeNumber: "第2話", episodeTitle: "空気の味は何の味？" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.970 [dAnime:VideoEventLogger] global:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.970 [dAnime:VideoEventLogger] global:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.970 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: NaN, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.970 [dAnime:VideoEventLogger] VideoSwitchHandler:event:emptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.970 [dAnime:VideoEventLogger] VideoSwitchHandler:videoEmptied 
+Object { event: "emptied", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971, message: "動画要素が空になりました（src変更の可能性）" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.971 [dAnime:VideoEventLogger] global:event:loadstart 
+Object { event: "loadstart", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:45.971 [dAnime:VideoEventLogger] VideoSwitchHandler:event:loadstart 
+Object { event: "loadstart", currentTime: 0, duration: NaN, readyState: 0, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908065971 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.369 [dAnime:VideoEventLogger] global:event:loadedmetadata 
+Object { event: "loadedmetadata", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908066370 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.370 [dAnime:WatchPageController] watchPageController:eventTriggered 
+Object { currentTime: 0, duration: 1440.0219167, ended: false, paused: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.370 [dAnime:VideoEventLogger] VideoSwitchHandler:event:loadedmetadata 
+Object { event: "loadedmetadata", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: true, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908066371 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.447 [dAnime:WatchPageController] watchPageController:autoSetup:success 
+Object { videoId: "so45172112", title: "青春ブタ野郎はサンタクロースの夢を見ない 第2話「空気の味は何の味？」", commentCount: 4173 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.447 [dAnime:WatchPageController] watchPageController:onPartIdChanged:autoSetup 
+Object { success: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.447 [dAnime:WatchPageController] watchPageController:onPartIdChanged:loadedVideoData 
+Object { videoId: "so45172112", title: "青春ブタ野郎はサンタクロースの夢を見ない 第2話「空気の味は何の味？」" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.447 [dAnime:WatchPageController] watchPageController:onPartIdChanged:videoElement 
+Object { videoElementFound: true, currentTime: 0, duration: 1440.0219167, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", readyState: 1 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.448 [dAnime:WatchPageController] watchPageController:waitForVideoReady:start 
+Object { readyState: 1, duration: 1440.0219167, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:46.603 <script> のソース “https://stlog.d.dmkt-sp.jp/js/regStlog.js” の読み込みに失敗しました。 sc_d_pc:1:1
+23:27:47.178 [dAnime:VideoEventLogger] global:event:loadeddata 
+Object { event: "loadeddata", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067179 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.179 [dAnime:VideoEventLogger] VideoSwitchHandler:event:loadeddata 
+Object { event: "loadeddata", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067180 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.179 [dAnime:VideoEventLogger] global:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067180 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.180 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067180 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.181 [dAnime:VideoEventLogger] global:event:play 
+Object { event: "play", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067182 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.181 [dAnime:VideoEventLogger] VideoSwitchHandler:event:play 
+Object { event: "play", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067182 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.183 [dAnime:VideoEventLogger] global:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067184 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.184 [dAnime:VideoEventLogger] VideoSwitchHandler:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067184 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.184 [dAnime:VideoEventLogger] global:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067184 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.184 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067184 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.202 [dAnime:WatchPageController] watchPageController:waitForVideoReady:complete 
+Object { readyState: 4, duration: 1440.0219167, waited: 755 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.203 [dAnime:WatchPageController] watchPageController:onPartIdChanged:beforeSwitch 
+Object { rendererCommentCount: 2440, videoCurrentTime: 0, videoReadyState: 4, videoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", videoId: "so45172112" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.203 [dAnime:WatchPageController] watchPageController:onPartIdChanged:destroyBefore 
+Object { commentsBeforeDestroy: 2440, currentVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", videoElement: "attached" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.203 [dAnime:WatchPageController] watchPageController:onPartIdChanged:destroyAfter 
+Object { commentsAfterDestroy: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.204 [dAnime:WatchPageController] watchPageController:onPartIdChanged:reinitialize 
+Object { videoElementSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", videoElementReadyState: 4, videoElementCurrentTime: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.205 [dAnime:WatchPageController] watchPageController:onPartIdChanged:reinitializeComplete 
+Object { commentsAfterReinitialize: 0, newVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.205 [dAnime:VideoSwitchHandler] videoSwitch:resetVideoSource 
+Object { previousSource: "blob:https://animestore.docomo.ne.jp/10eeaea9-9f48-4c69-a992-224aa1e156bb" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.206 [dAnime:VideoSwitchHandler] videoSwitch:entry 
+Object { videoElementProvided: true, currentRendererComments: 0, lastVideoId: "so45172112", nextVideoId: null, lastVideoSource: null, rendererVideoElement: "attached", rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", sampleCurrentComments: [] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.206 [dAnime:VideoSwitchHandler] videoSwitch:videoIdResolution 
+Object { videoId: "so45172112", nextVideoId: null, elementId: "so45172112", lastVideoId: "so45172112", hasBackupPreloaded: true, backupPreloadedCount: 2447 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.206 [dAnime:VideoSwitchHandler] videoSwitch:start 
+Object { videoId: "so45172112", elementVideoId: "so45172112", preloadedCount: 2447, currentTime: 0, duration: 1440.0219167, readyState: 4, currentSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", lastVideoSource: null }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoEventLogger] VideoSwitchHandler:detach 
+Object { src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", finalTime: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoEventLogger] VideoSwitchHandler:attach 
+Object { src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", duration: 1440.0219167, currentTime: 0, readyState: 4 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoEventLogger] VideoSwitchHandler:currentTimeWatcher:setup d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:before 
+Object { currentTime: 0, duration: 1440.0219167, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", lastSrc: null, sourceChanged: true, readyState: 4, paused: false, commentsCount: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoEventLogger] VideoSwitchHandler:manualSeek 
+Object { from: "0.00", to: "0.00", diff: "0.00", reason: "resetRendererState: video source changed", stackTrace: 'logManualSeek@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:10770\nresetRendererState@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:17180\nonVideoSwitch@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:1708:13985\nasync*onPartIdChanged@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:14623\nasync*checkPartIdChange@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:12149\nwindow["__f__mibx1qhc.zhn"]/</startPartIdMonitoring/this.partIdMonitorIntervalId<@moz-extension://34c05dc5-d329-44db-aa71-ff90c1a14ff4/userscripts/d-anime-nico-comment-renderer.user.js?id=6658a1cc-b42f-41d6-94a1-59e1581c24fa:2042:11711\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nir/a/t[n]@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:81:84\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nzo/<@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:32:325\ns/message/<@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:27:328\nTt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:91\nt@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:10:457\nmessage@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:27:318\nmessage@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:28:376\n@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:92:77\n_@https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=28053003:22:407\n' }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:seeked 
+Object { currentTime: 0, timeDiff: 0 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:clearingComments 
+Object { commentsBeforeClear: 0, sourceChanged: true, currentVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoSwitchHandler] videoSwitch:resetRendererState:commentsCleared 
+Object { commentsAfterClear: 0, rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.207 [dAnime:VideoSwitchHandler] videoSwitch:rebind:sameElement 
+Object { previousSrc: null, newSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.215 [dAnime:VideoEventLogger] global:event:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067215 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.215 [dAnime:VideoEventLogger] global:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067215, from: 0, … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.216 [dAnime:VideoEventLogger] VideoSwitchHandler:event:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067216 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.216 [dAnime:VideoEventLogger] VideoSwitchHandler:seeking 
+Object { event: "seeking", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067216, from: 0, … }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.216 [dAnime:VideoEventLogger] global:event:waiting 
+Object { event: "waiting", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067216 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.216 [dAnime:VideoEventLogger] VideoSwitchHandler:event:waiting 
+Object { event: "waiting", currentTime: 0, duration: 1440.0219167, readyState: 1, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067216 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.246 [dAnime:VideoEventLogger] global:event:seeked 
+Object { event: "seeked", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067247 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.247 [dAnime:VideoEventLogger] VideoSwitchHandler:event:seeked 
+Object { event: "seeked", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067247 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.247 [dAnime:VideoEventLogger] global:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067248 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.248 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplay 
+Object { event: "canplay", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067248 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.248 [dAnime:VideoEventLogger] global:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067248 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.248 [dAnime:VideoEventLogger] VideoSwitchHandler:event:playing 
+Object { event: "playing", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067249 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.248 [dAnime:VideoEventLogger] global:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067249 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.248 [dAnime:VideoEventLogger] VideoSwitchHandler:event:canplaythrough 
+Object { event: "canplaythrough", currentTime: 0, duration: 1440.0219167, readyState: 4, paused: false, ended: false, src: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", networkState: 2, timestamp: 1763908067249 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.373 [dAnime:WatchPageController] watchPageController:switchBlocked 
+Object { reason: "partId change in progress" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.607 Uncaught ReferenceError: stlog is not defined
+    sendStoreLog https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2234
+    setTimeout handler*sendStoreLog/< https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2233
+    setTimeout handler*sendStoreLog https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130:2224
+    onload https://animestore.docomo.ne.jp/js/cms/player.min.js?v=20250317132134:1
+PlayMovie.js:2234:4
+23:27:47.990 [dAnime:VideoSwitchHandler] videoSwitch:apiFetched 
+Object { videoId: "so45172112" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.990 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:start 
+Object { videoId: "so45172112", backupPreloadedCount: 2447, hasBackupPreloaded: true }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.990 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:usingBackup 
+Object { count: 2447 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.992 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addingToRenderer 
+Object { filteredCount: 2447, totalCount: 2447, rendererCommentsBeforeAdd: 0, rendererVideoElement: "attached", rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.993 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[0] 
+Object { text: "顔色伺っただけで疑われるの笑う", vposMs: 19750, vposSec: "19.75", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.993 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[1] 
+Object { text: "咲太、卯月見つける、速い", vposMs: 945760, vposSec: "945.76", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:47.993 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:addedComment[2] 
+Object { text: "ざつ旅", vposMs: 1061890, vposSec: "1061.89", commands: (1) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.875 [dAnime:VideoSwitchHandler] videoSwitch:populateComments:complete 
+Object { addedCount: 2447, rendererCommentsAfterAdd: 2440, rendererVideoSrcAfterAdd: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", sampleComments: (3) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.876 [dAnime:VideoSwitchHandler] videoSwitch:commentsLoaded 
+Object { videoId: "so45172112", count: 2447 }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.876 [dAnime:VideoSwitchHandler] videoSwitch:complete 
+Object { videoId: "so45172112", finalTime: 0.434821, loadedCount: 2447, finalCommentsCount: 2440, rendererVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab", sampleFinalComments: (5) […] }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.877 [dAnime:WatchPageController] watchPageController:onPartIdChanged:afterSwitch 
+Object { rendererCommentCount: 2440, videoCurrentTime: 0.434821, finalVideoSrc: "blob:https://animestore.docomo.ne.jp/61c64341-b4fe-413c-b4cb-b2bcbcbccfab" }
+d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.877 [dAnime:WatchPageController] watchPageController:onPartIdChanged:complete d-anime-nico-comment-renderer.user.js:31:182
+23:27:52.877 [dAnime:WatchPageController] watchPageController:onPartIdChanged:flagReset 
+Object { isPartIdChanging: false }
+d-anime-nico-comment-renderer.user.js:31:182

@@ -321,11 +321,13 @@ export class WatchPageController {
     this.videoEndedListener = null;
   }
 
-  private async waitForMetadataElements(): Promise<void> {
+  private async waitForMetadataElements(expectedPartId?: string): Promise<void> {
     const maxRetries = 50;
     const retryInterval = 100;
+    const startTime = Date.now();
 
     for (let i = 0; i < maxRetries; i++) {
+      const currentPartId = this.getCurrentPartId();
       const animeTitleElement = document.querySelector(
         DANIME_SELECTORS.watchPageAnimeTitle,
       );
@@ -340,7 +342,19 @@ export class WatchPageController {
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
 
-      if (animeTitle && episodeNumber && episodeTitle) {
+      // partIdが期待値と一致し、メタデータが揃っていればOK
+      const partIdMatches = !expectedPartId || currentPartId === expectedPartId;
+      const metadataExists = animeTitle && episodeNumber && episodeTitle;
+
+      if (partIdMatches && metadataExists) {
+        logger.info("watchPageController:waitForMetadata:success", {
+          attempts: i + 1,
+          waited: Date.now() - startTime,
+          currentPartId,
+          expectedPartId,
+          episodeNumber,
+          episodeTitle,
+        });
         return;
       }
 
@@ -351,6 +365,9 @@ export class WatchPageController {
 
     logger.warn("watchPageController:waitForMetadata:timeout", {
       maxRetries,
+      waited: Date.now() - startTime,
+      currentPartId: this.getCurrentPartId(),
+      expectedPartId,
     });
   }
 
@@ -373,6 +390,13 @@ export class WatchPageController {
       const animeTitle = animeTitleElement?.textContent?.trim() ?? "";
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
+
+      logger.info("watchPageController:extractMetadata:rawValues", {
+        animeTitle,
+        episodeNumber,
+        episodeTitle,
+        currentPartId: this.getCurrentPartId(),
+      });
 
       if (!animeTitle || !episodeNumber || !episodeTitle) {
         return null;
@@ -588,9 +612,17 @@ export class WatchPageController {
         rendererExists: !!this.global.instances.renderer,
         switchHandlerExists: !!this.global.instances.switchHandler,
         isPartIdChanging: this.isPartIdChanging,
+        newPartId: this.getCurrentPartId(),
       });
 
       NotificationManager.show("エピソード切り替えを検知しました...", "info");
+
+      // 新しいpartIdのDOM更新を待つ
+      const newPartId = this.getCurrentPartId();
+      logger.info("watchPageController:onPartIdChanged:waitingForDomUpdate", {
+        newPartId,
+      });
+      await this.waitForMetadataElements(newPartId ?? undefined);
 
       // 新しいエピソードのメタデータを取得して再設定
       const success = await this.autoSetupComments(settingsManager);
