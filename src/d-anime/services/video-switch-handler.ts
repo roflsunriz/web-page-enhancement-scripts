@@ -91,6 +91,16 @@ export class VideoSwitchHandler {
     this.videoEventLogger = new VideoEventLogger("VideoSwitchHandler");
   }
 
+  /**
+   * lastVideoSourceをリセットして次回の切り替えを強制的に新規動画として扱う
+   */
+  resetVideoSource(): void {
+    logger.info("videoSwitch:resetVideoSource", {
+      previousSource: this.lastVideoSource,
+    });
+    this.lastVideoSource = null;
+  }
+
   startMonitoring(): void {
     this.stopMonitoring();
     this.checkIntervalId = window.setInterval(() => {
@@ -435,10 +445,14 @@ export class VideoSwitchHandler {
     logger.warn("videoSwitch:handleMissingVideoInfo", {
       hasBackupPreloaded: !!backupPreloaded,
       backupPreloadedCount: backupPreloaded?.length ?? 0,
-      willClearComments: !backupPreloaded,
+      hasLastPreloadedComments: !!this.lastPreloadedComments,
+      lastPreloadedCount: this.lastPreloadedComments?.length ?? 0,
+      willClearComments: !backupPreloaded && !this.lastPreloadedComments,
     });
 
-    if (!backupPreloaded) {
+    // backupもlastPreloadedもない場合のみクリア
+    // エピソード切り替え処理中はコメントを保持する
+    if (!backupPreloaded && !this.lastPreloadedComments) {
       logger.warn("videoSwitch:clearingCommentsInMissingInfo", {
         currentCommentCount: this.renderer.getCommentsSnapshot().length,
       });
@@ -447,6 +461,11 @@ export class VideoSwitchHandler {
         "次の動画のコメントを取得できませんでした。コメント表示をクリアします。",
         "warning",
       );
+    } else {
+      logger.info("videoSwitch:preservingComments", {
+        reason: "backup or last preloaded comments available",
+        currentCommentCount: this.renderer.getCommentsSnapshot().length,
+      });
     }
   }
 

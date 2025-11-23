@@ -38,6 +38,7 @@ export class WatchPageController {
   private playbackRateController: PlaybackRateController | null = null;
   private lastPartId: string | null = null;
   private partIdMonitorIntervalId: number | null = null;
+  private isPartIdChanging = false; // エピソード切り替え中フラグ
 
   constructor(private readonly global: DanimeGlobal) {}
 
@@ -195,6 +196,14 @@ export class WatchPageController {
     this.currentVideoElement = videoElement;
 
     this.switchCallback = () => {
+      // エピソード切り替え中はイベントベースのswitchをブロック
+      if (this.isPartIdChanging) {
+        logger.info("watchPageController:switchBlocked", {
+          reason: "partId change in progress",
+        });
+        return;
+      }
+
       const now = Date.now();
       if (now - this.lastSwitchTimestamp < SWITCH_COOLDOWN_MS) {
         logger.debug("watchPageController:switchCooldown", {
@@ -564,6 +573,9 @@ export class WatchPageController {
   }
 
   private async onPartIdChanged(): Promise<void> {
+    // エピソード切り替え中フラグを立てる
+    this.isPartIdChanging = true;
+
     try {
       const settingsManager = this.global.settingsManager;
       if (!settingsManager) {
@@ -575,6 +587,7 @@ export class WatchPageController {
         currentVideoElement: this.currentVideoElement ? "present" : "null",
         rendererExists: !!this.global.instances.renderer,
         switchHandlerExists: !!this.global.instances.switchHandler,
+        isPartIdChanging: this.isPartIdChanging,
       });
 
       NotificationManager.show("エピソード切り替えを検知しました...", "info");
@@ -625,6 +638,9 @@ export class WatchPageController {
           });
           
           if (renderer && switchHandler) {
+            // lastVideoSourceをリセットして新しいエピソードとして認識させる
+            switchHandler.resetVideoSource();
+            
             await switchHandler.onVideoSwitch(videoElement);
             
             logger.warn("watchPageController:onPartIdChanged:afterSwitch", {
@@ -642,6 +658,12 @@ export class WatchPageController {
         `エピソード切り替えエラー: ${(error as Error).message}`,
         "error",
       );
+    } finally {
+      // エピソード切り替え完了フラグを下ろす
+      this.isPartIdChanging = false;
+      logger.info("watchPageController:onPartIdChanged:flagReset", {
+        isPartIdChanging: this.isPartIdChanging,
+      });
     }
   }
 

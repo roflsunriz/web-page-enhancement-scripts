@@ -38,7 +38,7 @@ import {
   buildNicovideoSearchUrl,
   NICOVIDEO_URLS,
 } from "@/shared/constants/urls";
-import { RENDERER_VERSION } from "@/d-anime/config/default-settings";
+import { USERSCRIPT_VERSION_UI_DISPLAY } from "@/d-anime/config/default-settings";
 
 const logger = createLogger("dAnime:SettingsUI");
 
@@ -254,7 +254,7 @@ export class SettingsUI extends ShadowDOMComponent {
       <div class="nico-comment-settings">
         <h2>
           <span class="settings-title">d-anime-nico-comment-renderer</span>
-          <span class="version-badge" aria-label="バージョン">${RENDERER_VERSION}</span>
+          <span class="version-badge" aria-label="バージョン">${USERSCRIPT_VERSION_UI_DISPLAY}</span>
         </h2>
         <div class="setting-group current-settings">
           <h3>オーバーレイする動画</h3>
