@@ -19,9 +19,24 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
       document.querySelector<HTMLElement>(YOUTUBE_SELECTORS.inlineExpanderById);
 
     if (inlineExpander?.hasAttribute('is-expanded')) {
+      logger.debug('Already has is-expanded attribute');
       return true;
     }
 
+    // まず最も確実な方法: #description-inline-expander #expand を直接クリック
+    const expandButton = document.querySelector<HTMLElement>('tp-yt-paper-button#expand');
+    if (expandButton && expandButton.textContent?.includes('もっと見る')) {
+      try {
+        logger.debug('Clicking tp-yt-paper-button#expand directly');
+        expandButton.click();
+        logger.info('概要欄の「もっと見る」ボタンをクリックしました。');
+        return true;
+      } catch (err) {
+        logger.warn('Direct click failed:', err);
+      }
+    }
+
+    // フォールバック: 既存の方法
     const matchRegex = /(もっと見る|もっと表示|もっと読む|Show more|SHOW MORE|More|一部を表示|…|...もっと見る)/i;
     const candidates: HTMLElement[] = [];
 
@@ -36,8 +51,9 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
         const aria = el.getAttribute('aria-expanded');
         if (aria === 'false' || matchRegex.test(txt) || (el.id && /expand|more|collapse/i.test(el.id))) {
           if (typeof el.click === 'function') {
+            logger.debug(`Clicking element: ${el.tagName}#${el.id} "${txt}"`);
             el.click();
-            logger.info('概要欄の「もっと見る」ボタンをクリックしました。');
+            logger.info('概要欄の「もっと見る」ボタンをクリックしました（フォールバック）。');
             return true;
           }
         }
@@ -46,6 +62,7 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
       }
     }
 
+    logger.warn('No expand button found');
     return false;
   };
 
@@ -88,29 +105,69 @@ export async function expandDescriptionIfNeeded(timeoutMs = 4000): Promise<void>
   if (!clicked) return;
 
   return new Promise((resolve) => {
+    const startTime = Date.now();
     let checkCount = 0;
-    const maxChecks = Math.ceil(timeoutMs / 150);
+    let observer: MutationObserver | null = null;
+    let pollTimer: number | null = null;
     
-    const interval = setInterval(() => {
+    const cleanup = () => {
+      if (observer) {
+        observer.disconnect();
+        observer = null;
+      }
+      if (pollTimer) {
+        clearInterval(pollTimer);
+        pollTimer = null;
+      }
+    };
+    
+    const checkExpansion = (source: string) => {
       checkCount++;
       const expandedDiv = descriptionEl.querySelector<HTMLElement>('#expanded');
       const expandedLength = expandedDiv ? (expandedDiv.textContent || '').trim().length : 0;
       const expandedNow = isExpanded();
-      const timedOut = checkCount >= maxChecks;
+      const elapsed = Date.now() - startTime;
       
-      logger.debug(`Check ${checkCount}: expanded=${expandedNow}, #expanded length=${expandedLength}`);
+      logger.debug(`Check ${checkCount} (${source}): expanded=${expandedNow}, #expanded length=${expandedLength}, elapsed=${elapsed}ms`);
       
-      if (expandedNow || timedOut) {
-        clearInterval(interval);
-        if (expandedNow) {
-          logger.info(`Description expanded successfully (#expanded: ${expandedLength} chars)`);
-          // DOMの完全な更新を待つ
-          setTimeout(() => resolve(), 200);
-        } else {
-          logger.warn(`Description expansion timed out after ${checkCount} checks`);
-          resolve();
-        }
+      if (expandedNow) {
+        cleanup();
+        logger.info(`Description expanded successfully (#expanded: ${expandedLength} chars) after ${elapsed}ms`);
+        // DOMの完全な更新を待つ
+        setTimeout(() => resolve(), 200);
+        return true;
       }
-    }, 150);
+      
+      if (elapsed > timeoutMs) {
+        cleanup();
+        logger.warn(`Description expansion timed out after ${elapsed}ms (${checkCount} checks)`);
+        resolve();
+        return true;
+      }
+      
+      return false;
+    };
+    
+    // MutationObserverで #expanded の変化を監視
+    const expandedDiv = descriptionEl.querySelector<HTMLElement>('#expanded');
+    if (expandedDiv) {
+      observer = new MutationObserver(() => {
+        checkExpansion('mutation');
+      });
+      observer.observe(expandedDiv, { 
+        childList: true, 
+        subtree: true, 
+        characterData: true 
+      });
+      logger.debug('MutationObserver started on #expanded');
+    }
+    
+    // ポーリングも併用（MutationObserverが発火しない場合のバックアップ）
+    pollTimer = window.setInterval(() => {
+      checkExpansion('poll');
+    }, 200);
+    
+    // 最初のチェック
+    checkExpansion('initial');
   });
 }

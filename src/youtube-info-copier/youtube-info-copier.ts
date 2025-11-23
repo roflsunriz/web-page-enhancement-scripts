@@ -15,6 +15,8 @@ export class YouTubeInfoCopier {
   private isExpanded = false;
   private expandTimer: number | null = null;
   private logger = createLogger('youtube-info-copier');
+  private descriptionExpanded = false;
+  private preExpandPromise: Promise<void> | null = null;
 
   constructor() {
     this.init();
@@ -53,7 +55,11 @@ export class YouTubeInfoCopier {
 
     const popupClose = this.shadowRoot.querySelector<HTMLButtonElement>('.popup-close');
 
-    this.handleElement.addEventListener('mouseenter', () => this.expandPanel());
+    this.handleElement.addEventListener('mouseenter', () => {
+      this.expandPanel();
+      // パネル展開時に概要欄も事前展開（クリックのユーザーアクティベーション保持のため）
+      this.preExpandDescription();
+    });
     this.panelElement.addEventListener('mouseenter', () => this.expandPanel());
     this.container.addEventListener('mouseleave', (e) => {
       if (!this.container?.contains(e.relatedTarget as Node)) {
@@ -106,6 +112,15 @@ export class YouTubeInfoCopier {
 
   private async handleButtonClick(action: string): Promise<void> {
     try {
+      // 完全コピーの場合は準備完了を確認
+      if (action === 'copy') {
+        if (!this.descriptionExpanded) {
+          this.logger.info('Description not ready yet, please wait for animation...');
+          this.showNotReadyFeedback();
+          return;
+        }
+      }
+      
       switch (action) {
         case 'copy':
           await this.copyVideoInfo();
@@ -116,6 +131,56 @@ export class YouTubeInfoCopier {
       }
     } catch (error) {
       this.logger.error('Error handling button click:', error);
+    }
+  }
+
+  private preExpandDescription(): void {
+    if (this.descriptionExpanded || this.preExpandPromise) {
+      return;
+    }
+    
+    this.logger.info('Pre-expanding description...');
+    this.setPreparingState();
+    
+    this.preExpandPromise = expandDescriptionIfNeeded(5000)
+      .then(() => {
+        this.descriptionExpanded = true;
+        this.setReadyState();
+        this.logger.info('Pre-expansion completed - ready to copy!');
+      })
+      .catch((err) => {
+        this.logger.warn('Pre-expansion failed:', err);
+        this.setErrorState();
+      });
+  }
+
+  private setPreparingState(): void {
+    if (this.handleElement) {
+      this.handleElement.classList.add('preparing');
+      this.handleElement.classList.remove('ready', 'error');
+    }
+  }
+
+  private setReadyState(): void {
+    if (this.handleElement) {
+      this.handleElement.classList.remove('preparing', 'error');
+      this.handleElement.classList.add('ready');
+      // ハートバウンシングアニメーションを開始
+      this.handleElement.setAttribute('data-status', 'ready');
+    }
+  }
+
+  private setErrorState(): void {
+    if (this.handleElement) {
+      this.handleElement.classList.remove('preparing', 'ready');
+      this.handleElement.classList.add('error');
+    }
+  }
+
+  private clearState(): void {
+    if (this.handleElement) {
+      this.handleElement.classList.remove('preparing', 'ready', 'error');
+      this.handleElement.removeAttribute('data-status');
     }
   }
 
@@ -146,7 +211,12 @@ export class YouTubeInfoCopier {
     const videoId = new URLSearchParams(window.location.search).get('v') || window.location.pathname.split('/').pop();
     const url = videoId ? buildYoutubeShortUrl(videoId) : window.location.href;
 
-    await expandDescriptionIfNeeded(5000).catch((err) => this.logger.debug('expandDescriptionIfNeeded failed:', err));
+    // 準備完了状態ならすぐに概要取得、そうでなければエラー
+    if (!this.descriptionExpanded) {
+      this.logger.warn('getVideoInfo called before description expanded');
+    } else {
+      this.logger.debug('Description already expanded, fetching immediately');
+    }
 
     let description = '概要取得に失敗しました';
     
@@ -203,6 +273,7 @@ export class YouTubeInfoCopier {
       await navigator.clipboard.writeText(text);
       this.showPopup(info.description);
       this.showSuccessFeedback();
+      this.logger.info('Video info copied successfully');
     } catch (error) {
       this.logger.error('コピーエラー:', error);
       this.showErrorFeedback();
@@ -211,6 +282,7 @@ export class YouTubeInfoCopier {
 
   private showSuccessFeedback(): void {
     if (!this.handleElement) return;
+    this.clearState();
     this.handleElement.style.background = 'rgba(76, 175, 80, 0.8)';
     this.handleElement.style.boxShadow = '2px 0 12px rgba(76, 175, 80, 0.4)';
     setTimeout(() => {
@@ -223,6 +295,7 @@ export class YouTubeInfoCopier {
 
   private showErrorFeedback(): void {
     if (!this.handleElement) return;
+    this.clearState();
     this.handleElement.style.background = 'rgba(244, 67, 54, 0.8)';
     this.handleElement.style.boxShadow = '2px 0 12px rgba(244, 67, 54, 0.4)';
     setTimeout(() => {
@@ -231,6 +304,18 @@ export class YouTubeInfoCopier {
         this.handleElement.style.boxShadow = '';
       }
     }, 1500);
+  }
+
+  private showNotReadyFeedback(): void {
+    if (!this.handleElement) return;
+    this.handleElement.style.background = 'rgba(255, 152, 0, 0.8)';
+    this.handleElement.style.boxShadow = '2px 0 12px rgba(255, 152, 0, 0.4)';
+    setTimeout(() => {
+      if (this.handleElement) {
+        this.handleElement.style.background = '';
+        this.handleElement.style.boxShadow = '';
+      }
+    }, 800);
   }
 
   private showPopup(description: string): void {
@@ -273,6 +358,11 @@ export class YouTubeInfoCopier {
       const fullscreenEvents = ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'];
       fullscreenEvents.forEach((event) => document.removeEventListener(event, this.handleFullscreenChange, false));
       this.container?.remove();
+      
+      // 状態をリセット
+      this.descriptionExpanded = false;
+      this.preExpandPromise = null;
+      
       this.logger.info('YouTubeInfoCopier instance destroyed.');
     } catch (error) {
       this.logger.error('Error during cleanup:', error);

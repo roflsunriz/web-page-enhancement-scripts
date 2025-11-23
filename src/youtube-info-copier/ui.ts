@@ -37,6 +37,54 @@ export function getTemplate(): string {
             box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.5);
         }
 
+        /* 準備中状態 */
+        .control-handle.preparing {
+            background: rgba(255, 152, 0, 0.8);
+            box-shadow: 2px 0 8px rgba(255, 152, 0, 0.4);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        /* 準備完了状態 - ハートバウンシング */
+        .control-handle.ready {
+            background: rgba(76, 175, 80, 0.9);
+            box-shadow: 2px 0 12px rgba(76, 175, 80, 0.6);
+            animation: heartBounce 0.8s ease-in-out infinite;
+        }
+
+        .control-handle.error {
+            background: rgba(244, 67, 54, 0.8);
+            box-shadow: 2px 0 8px rgba(244, 67, 54, 0.4);
+        }
+
+        @keyframes pulse {
+            0%, 100% {
+                opacity: 1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.7;
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes heartBounce {
+            0%, 100% {
+                transform: scale(1);
+            }
+            10% {
+                transform: scale(1.1);
+            }
+            20% {
+                transform: scale(1);
+            }
+            30% {
+                transform: scale(1.15);
+            }
+            40% {
+                transform: scale(1);
+            }
+        }
+
         .control-panel {
             position: absolute;
             bottom: 0;

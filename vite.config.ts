@@ -331,7 +331,7 @@ const twitterWideLayoutFixMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.3.1',
+  version: '2.3.2',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
