@@ -42,6 +42,7 @@ export class WatchPageController {
   private partIdMonitorIntervalId: number | null = null;
   private isPartIdChanging = false; // エピソード切り替え中フラグ
   private cachedAnimeTitle: string | null = null; // アニメタイトルのキャッシュ
+  private lastEpisodeNumber: string | null = null; // 前回のエピソード番号
 
   constructor(private readonly global: DanimeGlobal) {
     // localStorageからアニメタイトルのキャッシュを読み込み
@@ -337,14 +338,10 @@ export class WatchPageController {
     this.videoEndedListener = null;
   }
 
-  private async waitForMetadataElements(expectedPartId?: string): Promise<void> {
+  private async waitForMetadataElements(expectedPartId?: string, previousEpisodeNumber?: string): Promise<void> {
     const maxRetries = 50;
     const retryInterval = 100;
     const startTime = Date.now();
-
-    // 初回のメタデータを記録（変化を検出するため）
-    let previousEpisodeNumber = "";
-    let previousEpisodeTitle = "";
 
     for (let i = 0; i < maxRetries; i++) {
       const currentPartId = this.getCurrentPartId();
@@ -362,22 +359,19 @@ export class WatchPageController {
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
 
-      // 初回の値を記録
       if (i === 0) {
-        previousEpisodeNumber = episodeNumber;
-        previousEpisodeTitle = episodeTitle;
-        logger.info("watchPageController:waitForMetadata:initial", {
+        logger.info("watchPageController:waitForMetadata:start", {
           currentPartId,
           expectedPartId,
           episodeNumber,
           episodeTitle,
           animeTitle: animeTitle || "(empty)",
           cachedAnimeTitle: this.cachedAnimeTitle || "(empty)",
+          previousEpisodeNumber: previousEpisodeNumber || "(none)",
         });
       }
 
       // 初回読み込み時（expectedPartIdなし）はanimeTitleの取得も試みる
-      // ただし、必須ではない（キャッシュがあれば動作可能）
       const shouldWaitForAnimeTitle = !expectedPartId && !this.cachedAnimeTitle && i < 20;
       if (shouldWaitForAnimeTitle && !animeTitle) {
         // animeTitleが取得できるまで待つ（最大2秒 = 20回 × 100ms）
@@ -390,31 +384,24 @@ export class WatchPageController {
       // partIdが期待値と一致し、メタデータが揃っていればOK
       const partIdMatches = !expectedPartId || currentPartId === expectedPartId;
       
-      // animeTitleは必須としない（ページによっては取得できない）
       // episodeNumberとepisodeTitleが存在すればOK
       const metadataExists = episodeNumber && episodeTitle;
       
-      // メタデータが変化していることを確認（エピソード切り替え時）
-      const metadataChanged = expectedPartId && (
-        episodeNumber !== previousEpisodeNumber ||
-        episodeTitle !== previousEpisodeTitle
-      );
+      // エピソード切り替え時は、前回のエピソード番号と異なることを確認
+      const isNewEpisode = !previousEpisodeNumber || episodeNumber !== previousEpisodeNumber;
 
-      if (partIdMatches && metadataExists) {
-        // 初期化時（expectedPartIdなし）またはメタデータが変化した場合のみ成功とする
-        if (!expectedPartId || metadataChanged) {
-          logger.info("watchPageController:waitForMetadata:success", {
-            attempts: i + 1,
-            waited: Date.now() - startTime,
-            currentPartId,
-            expectedPartId,
-            episodeNumber,
-            episodeTitle,
-            animeTitle: animeTitle || "(empty)",
-            metadataChanged,
-          });
-          return;
-        }
+      if (partIdMatches && metadataExists && isNewEpisode) {
+        logger.info("watchPageController:waitForMetadata:success", {
+          attempts: i + 1,
+          waited: Date.now() - startTime,
+          currentPartId,
+          expectedPartId,
+          episodeNumber,
+          episodeTitle,
+          animeTitle: animeTitle || "(empty)",
+          previousEpisodeNumber: previousEpisodeNumber || "(none)",
+        });
+        return;
       }
 
       await new Promise((resolve) =>
@@ -431,18 +418,16 @@ export class WatchPageController {
       waited: Date.now() - startTime,
       currentPartId: this.getCurrentPartId(),
       expectedPartId,
-      initialEpisodeNumber: previousEpisodeNumber,
-      initialEpisodeTitle: previousEpisodeTitle,
+      previousEpisodeNumber: previousEpisodeNumber || "(none)",
       finalEpisodeNumber,
       finalEpisodeTitle,
-      metadataChanged: finalEpisodeNumber !== previousEpisodeNumber || finalEpisodeTitle !== previousEpisodeTitle,
     });
 
     // タイムアウト時は処理を中断するためにエラーをthrow
     throw new Error(
       `DOM更新のタイムアウト: partId=${expectedPartId}, ` +
-      `初期エピソード="${previousEpisodeNumber}", ` +
-      `最終エピソード="${finalEpisodeNumber}"`
+      `前回エピソード="${previousEpisodeNumber || "なし"}", ` +
+      `現在エピソード="${finalEpisodeNumber}"`
     );
   }
 
@@ -511,6 +496,9 @@ export class WatchPageController {
           hasCache: !!this.cachedAnimeTitle,
         });
       }
+
+      // 現在のエピソード番号を記録（次回の切り替え検知用）
+      this.lastEpisodeNumber = episodeNumber;
 
       return {
         animeTitle,
@@ -733,12 +721,18 @@ export class WatchPageController {
         return;
       }
 
+      // 切り替え前の現在のエピソード番号を記録
+      const previousEpisodeNumber = this.lastEpisodeNumber ?? 
+        document.querySelector(DANIME_SELECTORS.watchPageEpisodeNumber)?.textContent?.trim() ?? 
+        null;
+
       logger.info("watchPageController:onPartIdChanged:start", {
         currentVideoElement: this.currentVideoElement ? "present" : "null",
         rendererExists: !!this.global.instances.renderer,
         switchHandlerExists: !!this.global.instances.switchHandler,
         isPartIdChanging: this.isPartIdChanging,
         newPartId: this.getCurrentPartId(),
+        previousEpisodeNumber,
       });
 
       NotificationManager.show("エピソード切り替えを検知しました...", "info");
@@ -747,10 +741,11 @@ export class WatchPageController {
       const newPartId = this.getCurrentPartId();
       logger.info("watchPageController:onPartIdChanged:waitingForDomUpdate", {
         newPartId,
+        previousEpisodeNumber,
       });
       
       try {
-        await this.waitForMetadataElements(newPartId ?? undefined);
+        await this.waitForMetadataElements(newPartId ?? undefined, previousEpisodeNumber ?? undefined);
       } catch (error) {
         // DOM更新のタイムアウト時はエラーを表示して処理を中断
         logger.error("watchPageController:onPartIdChanged:waitMetadataFailed", error as Error);
