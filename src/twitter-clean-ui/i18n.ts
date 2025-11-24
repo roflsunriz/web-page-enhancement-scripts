@@ -9,7 +9,7 @@ import type { Language, TranslationKeys } from './types';
  */
 const ja: TranslationKeys = {
   // 一般
-  appName: 'X きれいなメニューとサイドバー',
+  appName: 'twitter-clean-ui',
   settings: '設定',
   save: '保存',
   cancel: 'キャンセル',
@@ -74,7 +74,7 @@ const ja: TranslationKeys = {
  */
 const en: TranslationKeys = {
   // General
-  appName: 'X Clean Menu and Sidebar',
+  appName: 'twitter-clean-ui',
   settings: 'Settings',
   save: 'Save',
   cancel: 'Cancel',

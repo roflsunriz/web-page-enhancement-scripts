@@ -17,6 +17,9 @@ class TwitterCleanUI {
   private settingsManager: SettingsManager;
   private settingsUI: SettingsUI;
   private isInitialized: boolean = false;
+  private settingsWatcherInterval: ReturnType<typeof setInterval> | null = null;
+  private mutationObserver: MutationObserver | null = null;
+  private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 
   /**
    * コンストラクタ
@@ -53,8 +56,8 @@ class TwitterCleanUI {
       this.controller.applySettings(settings);
       console.log('[TwitterCleanUI] Settings applied');
 
-      // UI要素の監視を開始
-      this.detector.startObserving();
+      // UI要素の監視を開始（DOM変更時に設定を再適用）
+      this.startMutationObserver();
 
       // メニューコマンドを登録
       this.registerMenuCommand();
@@ -62,11 +65,57 @@ class TwitterCleanUI {
       // 広告の自動非表示（定期的にチェック）
       this.startPromotedTweetsWatcher();
 
+      // 設定の定期適用を開始（フォールバック）
+      this.startSettingsWatcher();
+
       this.isInitialized = true;
       console.log('[TwitterCleanUI] Initialized successfully');
     } catch (error) {
       console.error('[TwitterCleanUI] Initialization failed:', error);
     }
+  }
+
+  /**
+   * MutationObserverを開始してDOM変更時に設定を再適用
+   */
+  private startMutationObserver(): void {
+    this.mutationObserver = new MutationObserver(() => {
+      // デバウンス処理（短時間に複数回呼ばれることを防ぐ）
+      if (this.applySettingsDebounceTimer) {
+        clearTimeout(this.applySettingsDebounceTimer);
+      }
+      this.applySettingsDebounceTimer = setTimeout(() => {
+        this.detector.detectAll();
+        this.controller.applySettings(this.settingsManager.getSettings());
+      }, 100);
+    });
+
+    this.mutationObserver.observe(document.body, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  /**
+   * 設定の定期適用を開始（フォールバック）
+   */
+  private startSettingsWatcher(): void {
+    // 最初の5秒間は頻繁にチェック（初期ロード対応）
+    let checkCount = 0;
+    const initialInterval = setInterval(() => {
+      this.detector.detectAll();
+      this.controller.applySettings(this.settingsManager.getSettings());
+      checkCount++;
+      if (checkCount >= 10) {
+        clearInterval(initialInterval);
+      }
+    }, 500);
+
+    // その後は3秒ごとにチェック（SPA遷移対応）
+    this.settingsWatcherInterval = setInterval(() => {
+      this.detector.detectAll();
+      this.controller.applySettings(this.settingsManager.getSettings());
+    }, 3000);
   }
 
   /**
@@ -108,6 +157,15 @@ class TwitterCleanUI {
    * クリーンアップ
    */
   public destroy(): void {
+    if (this.settingsWatcherInterval) {
+      clearInterval(this.settingsWatcherInterval);
+    }
+    if (this.applySettingsDebounceTimer) {
+      clearTimeout(this.applySettingsDebounceTimer);
+    }
+    if (this.mutationObserver) {
+      this.mutationObserver.disconnect();
+    }
     this.detector.stopObserving();
     this.controller.destroy();
     this.settingsUI.destroy();

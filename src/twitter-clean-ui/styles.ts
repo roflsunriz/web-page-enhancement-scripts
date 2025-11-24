@@ -66,6 +66,9 @@ export const UI_STYLES = `
   padding: 20px;
   overflow-y: auto;
   flex: 1;
+  height: 500px;
+  min-height: 500px;
+  max-height: 500px;
 }
 
 .twitter-clean-ui-section {
