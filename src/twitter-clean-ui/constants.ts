@@ -359,46 +359,33 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     strategies: [
       {
         type: 'custom',
-        method: 'Premium subscribe section with border container',
-        confidence: 0.85,
+        method: 'Premium subscribe section - find bordered container first',
+        confidence: 0.9,
         finder: () => {
           const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
           if (!sidebar) return null;
 
-          // テキストを含む要素を探す（より厳格なマッチング）
-          const allDivs = Array.from(sidebar.querySelectorAll('div, section, aside'));
+          // 方式変更: ボーダー付きセクションを先に見つけて、その中にプレミアムテキストがあるかチェック
+          // これにより、検索バーなど他の要素を巻き込まない
+          const allDivs = Array.from(sidebar.querySelectorAll('div'));
+          
           for (const elem of allDivs) {
-            const text = elem.textContent || '';
-            // テキスト長が短い要素のみを対象（親要素を誤検出しないため）
-            if (text.length > 1000) continue;
+            const style = window.getComputedStyle(elem);
             
-            if (
-              text.includes('プレミアムにサブスクライブ') ||
-              text.includes('Subscribe to Premium')
-            ) {
-              // ボーダーを持つ親要素を探す（最大3階層、sidebarColumnを超えない）
-              let current: HTMLElement | null = elem as HTMLElement;
-              for (let i = 0; i < 3; i++) {
-                if (!current.parentElement) break;
-                // sidebarColumnを超えて遡らない
-                if (current.parentElement === sidebar || !sidebar.contains(current.parentElement)) {
-                  break;
-                }
-                
-                const style = window.getComputedStyle(current.parentElement);
-                // 1px以上のボーダーとborderRadiusを持つ要素を探す
-                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-                if (borderMatch && parseFloat(borderMatch[1]) > 0 && style.borderRadius !== '0px') {
-                  return current.parentElement;
-                }
-                current = current.parentElement;
+            // 1px以上のボーダーとborderRadiusを持つ要素を探す
+            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+            const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
+            const hasRadius = style.borderRadius !== '0px' && style.borderRadius !== '9999px'; // 検索バーの丸い枠を除外
+            
+            if (hasBorder && hasRadius) {
+              const text = elem.textContent || '';
+              // プレミアムテキストを含み、かつテキスト長が適切な範囲（検索バーを含まない）
+              if (
+                text.length < 500 &&
+                (text.includes('プレミアムにサブスクライブ') || text.includes('Subscribe to Premium'))
+              ) {
+                return elem as HTMLElement;
               }
-              // ボーダー付きコンテナが見つからない場合は1階層上のみ
-              // （2階層上まで遡ると広範囲を巻き込む可能性があるため）
-              if (elem.parentElement && sidebar.contains(elem.parentElement)) {
-                return elem.parentElement as HTMLElement;
-              }
-              return elem as HTMLElement;
             }
           }
           return null;
