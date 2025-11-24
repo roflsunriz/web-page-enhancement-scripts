@@ -106,6 +106,8 @@ export class ElementController {
       header[role="banner"] {
         width: ${layout.leftSidebarWidth}px !important;
         min-width: ${layout.leftSidebarWidth}px !important;
+        max-width: ${layout.leftSidebarWidth}px !important;
+        flex-shrink: 0 !important;
       }
 
       /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
@@ -124,10 +126,12 @@ export class ElementController {
       [data-testid="sidebarColumn"] {
         width: ${layout.rightSidebarWidth}px !important;
         min-width: ${layout.rightSidebarWidth}px !important;
+        max-width: ${layout.rightSidebarWidth}px !important;
+        flex-shrink: 0 !important;
       }
 
       /* メインコンテンツのパディング */
-      main[role="main"] > div {
+      [data-testid="primaryColumn"] > div:first-child {
         padding: ${layout.mainContentPadding}px !important;
       }
 
@@ -138,9 +142,14 @@ export class ElementController {
         padding-right: 0px !important;
       }
 
-      /* カラム間の間隔 */
-      main[role="main"] > div {
+      /* カラム間の間隔 - 横並びのメインコンテナを対象 */
+      main[role="main"] > div > div {
         gap: ${layout.gap}px !important;
+      }
+
+      /* 3カラムレイアウトのコンテナ（primaryColumnとsidebarColumnの親）*/
+      [data-testid="primaryColumn"]  {
+        /* タイムラインと右サイドバー間のマージンで間隔を実現 */
       }
     `;
 

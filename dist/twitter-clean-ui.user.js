@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-clean-ui
 // @namespace    twitterCleanUI
-// @version      1.3.3
+// @version      1.3.4
 // @author       roflsunriz
 // @description  X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。
 // @license      MIT
@@ -24,6 +24,8 @@
       header[role="banner"] {
         width: ${t.leftSidebarWidth}px !important;
         min-width: ${t.leftSidebarWidth}px !important;
+        max-width: ${t.leftSidebarWidth}px !important;
+        flex-shrink: 0 !important;
       }
 
       /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
@@ -42,10 +44,12 @@
       [data-testid="sidebarColumn"] {
         width: ${t.rightSidebarWidth}px !important;
         min-width: ${t.rightSidebarWidth}px !important;
+        max-width: ${t.rightSidebarWidth}px !important;
+        flex-shrink: 0 !important;
       }
 
       /* メインコンテンツのパディング */
-      main[role="main"] > div {
+      [data-testid="primaryColumn"] > div:first-child {
         padding: ${t.mainContentPadding}px !important;
       }
 
@@ -56,9 +60,14 @@
         padding-right: 0px !important;
       }
 
-      /* カラム間の間隔 */
-      main[role="main"] > div {
+      /* カラム間の間隔 - 横並びのメインコンテナを対象 */
+      main[role="main"] > div > div {
         gap: ${t.gap}px !important;
+      }
+
+      /* 3カラムレイアウトのコンテナ（primaryColumnとsidebarColumnの親）*/
+      [data-testid="primaryColumn"]  {
+        /* タイムラインと右サイドバー間のマージンで間隔を実現 */
       }
     `;this.styleElement.textContent=i,this.applyStyleByXpath(t.mainContentWidth);}applyStyleByXpath(e){const t=document.evaluate(y.wideLayoutXPath,document,null,XPathResult.FIRST_ORDERED_NODE_TYPE,null).singleNodeValue;t&&t.style.setProperty("max-width",`${e}px`,"important");}applySettings(e){const{visibility:t}=e;Object.entries(t).forEach(([i,r])=>{const n=i;if(n==="promotedTweets"){r||this.hideAllPromotedTweets();return}this.toggleElement(n,r);}),this.applyLayout(e);}reset(){this.hiddenElements.forEach(e=>{this.showElement(e);}),this.styleElement.textContent="",this.appliedStyles.clear(),this.hiddenElements.clear();}setElementWidth(e,t){const i=this.detector.getDetectedElement(e);i&&(i.element.style.setProperty("width",`${t}px`,"important"),i.element.style.setProperty("min-width",`${t}px`,"important"));}setElementPadding(e,t){const i=this.detector.getDetectedElement(e);i&&i.element.style.setProperty("padding",`${t}px`,"important");}isHidden(e){return this.hiddenElements.has(e)}destroy(){this.reset(),this.styleElement.parentNode&&this.styleElement.parentNode.removeChild(this.styleElement),this.appliedStyles.clear(),this.hiddenElements.clear();}}class E{currentSettings;profiles=new Map;currentProfileId="default";constructor(){this.currentSettings={...f},this.load();}async load(){try{const e=await this.loadFromStorage();e?(this.currentSettings=e.settings,this.currentProfileId=e.currentProfileId,Object.entries(e.profiles).forEach(([t,i])=>{this.profiles.set(t,i);})):this.createDefaultProfile();}catch(e){console.error("[SettingsManager] Failed to load settings:",e),this.createDefaultProfile();}}async loadFromStorage(){return new Promise(e=>{if(typeof GM_getValue>"u"){const t=localStorage.getItem(m);e(t?JSON.parse(t):null);}else {const t=GM_getValue(m,null);e(t?JSON.parse(t):null);}})}async saveToStorage(e){return new Promise(t=>{const i=JSON.stringify(e);typeof GM_setValue>"u"?localStorage.setItem(m,i):GM_setValue(m,i),t();})}createDefaultProfile(){const e=Date.now(),t={id:"default",name:"Default",settings:{...f},createdAt:e,updatedAt:e};this.profiles.set("default",t),this.currentProfileId="default",this.currentSettings={...f},this.save();}getSettings(){return {...this.currentSettings}}updateSettings(e){this.currentSettings={...this.currentSettings,...e,visibility:{...this.currentSettings.visibility,...e.visibility||{}},layout:{...this.currentSettings.layout,...e.layout||{}}};const t=this.profiles.get(this.currentProfileId);t&&(t.settings={...this.currentSettings},t.updatedAt=Date.now()),this.save();}async save(){const e={currentProfileId:this.currentProfileId,profiles:Object.fromEntries(this.profiles),settings:this.currentSettings};await this.saveToStorage(e);}reset(){this.currentSettings={...f},this.save();}createProfile(e){const t=`profile_${Date.now()}`,i=Date.now(),r={id:t,name:e,settings:{...this.currentSettings},createdAt:i,updatedAt:i};return this.profiles.set(t,r),this.save(),r}deleteProfile(e){if(e==="default")return console.warn("[SettingsManager] Cannot delete default profile"),false;const t=this.profiles.delete(e);return t&&(this.currentProfileId===e&&this.switchProfile("default"),this.save()),t}switchProfile(e){const t=this.profiles.get(e);return t?(this.currentProfileId=e,this.currentSettings={...t.settings},this.save(),true):(console.warn(`[SettingsManager] Profile not found: ${e}`),false)}getCurrentProfileId(){return this.currentProfileId}getProfile(e){return this.profiles.get(e)||null}getAllProfiles(){return Array.from(this.profiles.values())}exportSettings(){const e={currentProfileId:this.currentProfileId,profiles:Object.fromEntries(this.profiles),settings:this.currentSettings};return JSON.stringify(e,null,2)}importSettings(e){try{const t=JSON.parse(e);if(!t.settings||!t.profiles||!t.currentProfileId)throw new Error("Invalid settings data");return this.currentSettings=t.settings,this.currentProfileId=t.currentProfileId,this.profiles.clear(),Object.entries(t.profiles).forEach(([i,r])=>{this.profiles.set(i,r);}),this.save(),!0}catch(t){return console.error("[SettingsManager] Failed to import settings:",t),false}}renameProfile(e,t){const i=this.profiles.get(e);return i?(i.name=t,i.updatedAt=Date.now(),this.save(),true):false}}const x={appName:"twitter-clean-ui",settings:"設定",save:"保存",cancel:"キャンセル",reset:"リセット",apply:"適用",close:"閉じる",leftSidebarSettings:"左サイドバー設定",rightSidebarSettings:"右サイドバー設定",mainContentSettings:"メインコンテンツ設定",layoutSettings:"レイアウト設定",profileSettings:"プロファイル設定",leftSidebar:"左サイドバー全体",leftSidebar_Logo:"Xロゴ",leftSidebar_HomeLink:"ホーム",leftSidebar_ExploreLink:"話題を検索",leftSidebar_NotificationsLink:"通知",leftSidebar_MessagesLink:"メッセージ",leftSidebar_GrokLink:"Grok",leftSidebar_BookmarksLink:"ブックマーク",leftSidebar_ListsLink:"リスト",leftSidebar_CommunitiesLink:"コミュニティ",leftSidebar_ProfileLink:"プロフィール",leftSidebar_PremiumLink:"Premium",leftSidebar_MoreMenu:"もっと見る",leftSidebar_TweetButton:"ポストボタン",leftSidebar_ProfileMenu:"プロフィールメニュー",rightSidebar:"右サイドバー全体",rightSidebar_SearchBox:"検索ボックス",rightSidebar_PremiumSubscribe:"Premiumサブスクライブ",rightSidebar_TrendsList:"トレンド",rightSidebar_WhoToFollow:"おすすめユーザー",rightSidebar_Footer:"フッター",mainContent_TweetComposer:"ポスト作成ボックス",promotedTweets:"広告ポスト",leftSidebarWidth:"左サイドバーの幅",mainContentWidth:"メインコンテンツの幅",rightSidebarWidth:"右サイドバーの幅",mainContentPadding:"メインコンテンツの余白",timelineRightPadding:"タイムラインと右サイドバー間の余白",gap:"カラム間の間隔",enableRealTimePreview:"リアルタイムプレビュー",createNewProfile:"新しいプロファイルを作成",deleteProfile:"プロファイルを削除",exportSettings:"設定をエクスポート",importSettings:"設定をインポート"},k={appName:"twitter-clean-ui",settings:"Settings",save:"Save",cancel:"Cancel",reset:"Reset",apply:"Apply",close:"Close",leftSidebarSettings:"Left Sidebar Settings",rightSidebarSettings:"Right Sidebar Settings",mainContentSettings:"Main Content Settings",layoutSettings:"Layout Settings",profileSettings:"Profile Settings",leftSidebar:"Left Sidebar (Entire)",leftSidebar_Logo:"X Logo",leftSidebar_HomeLink:"Home",leftSidebar_ExploreLink:"Explore",leftSidebar_NotificationsLink:"Notifications",leftSidebar_MessagesLink:"Messages",leftSidebar_GrokLink:"Grok",leftSidebar_BookmarksLink:"Bookmarks",leftSidebar_ListsLink:"Lists",leftSidebar_CommunitiesLink:"Communities",leftSidebar_ProfileLink:"Profile",leftSidebar_PremiumLink:"Premium",leftSidebar_MoreMenu:"More",leftSidebar_TweetButton:"Post Button",leftSidebar_ProfileMenu:"Profile Menu",rightSidebar:"Right Sidebar (Entire)",rightSidebar_SearchBox:"Search Box",rightSidebar_PremiumSubscribe:"Premium Subscribe",rightSidebar_TrendsList:"Trends",rightSidebar_WhoToFollow:"Who to Follow",rightSidebar_Footer:"Footer",mainContent_TweetComposer:"Post Composer",promotedTweets:"Promoted Posts",leftSidebarWidth:"Left Sidebar Width",mainContentWidth:"Main Content Width",rightSidebarWidth:"Right Sidebar Width",mainContentPadding:"Main Content Padding",timelineRightPadding:"Timeline Right Padding",gap:"Column Gap",enableRealTimePreview:"Real-time Preview",createNewProfile:"Create New Profile",deleteProfile:"Delete Profile",exportSettings:"Export Settings",importSettings:"Import Settings"},T={ja:x,en:k};let w="ja";function _(a){w=a;}function P(){return navigator.language.toLowerCase().startsWith("ja")?"ja":"en"}function u(a){return T[w][a]}const L=`
 .twitter-clean-ui-overlay {
