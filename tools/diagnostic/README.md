@@ -2,7 +2,19 @@
 
 ## 概要
 
-`x-ui-diagnostic.js`は、twitter-clean-uiの不具合を調査するための診断ツールです。実際のDOM構造、適用されているスタイル、要素の階層構造を詳細に分析し、JSON形式でダウンロードできます。
+このフォルダには、twitter-clean-uiの不具合を調査するための診断ツールが含まれています。実際のDOM構造、適用されているスタイル、要素の階層構造を詳細に分析し、JSON形式でダウンロードできます。
+
+## 診断ツール一覧
+
+| ファイル名 | バージョン | 用途 |
+|-----------|-----------|------|
+| `x-ui-diagnostic.js` | v2.0.0 | Grok・コミュニティ要素の検出 |
+| `x-layout-diagnostic.js` | v1.0.0 | レイアウト設定の適用状況診断 |
+| `x-video-diagnostic.js` | - | 動画関連の診断 |
+
+---
+
+# x-ui-diagnostic.js
 
 ### 現在のバージョン: v2.0.0 (Grok & Communities detection)
 
@@ -304,6 +316,222 @@ if (diagnostic.diagnosticData.detectionSummary.communitiesFound) {
 - 初回リリース
 - タイムライン幅、プレミアムサブスクライブ、検索ボックスの診断機能を実装
 - JSON形式でのダウンロード機能を実装
+
+---
+
+# x-layout-diagnostic.js
+
+### 現在のバージョン: v1.1.0 (リアルタイム変更追跡対応)
+
+## 概要
+
+`x-layout-diagnostic.js`は、twitter-clean-uiの**レイアウト設定**が意図通り適用されない問題を調査するための診断ツールです。
+
+### ✨ v1.1.0 新機能: リアルタイム変更追跡
+
+twitter-clean-uiの設定UIでレイアウト値を変更した際に、**変更前後のスタイル状態を自動的に記録**します。これにより：
+- どの設定変更がどのように反映されたか
+- 反映されなかった設定はどれか
+- CSSの優先度問題があるか
+
+を詳細に追跡できます。
+
+### 調査対象の設定
+
+| 設定項目 | CSSセレクタ | 状態 |
+|---------|------------|------|
+| leftSidebarWidth (左サイドバーの幅) | `header[role="banner"]` | 🔍 要調査 |
+| mainContentWidth (メインコンテンツの幅) | `[data-testid="primaryColumn"]` | ✅ 動作確認済み |
+| rightSidebarWidth (右サイドバーの幅) | `[data-testid="sidebarColumn"]` | 🔍 要調査 |
+| mainContentPadding (パディング) | `main[role="main"] > div` | 🔍 要調査 |
+| timelineRightPadding (右余白) | `[data-testid="primaryColumn"]` | ✅ 動作確認済み |
+| gap (カラム間隔) | `main[role="main"] > div` | 🔍 要調査 |
+
+## 使用方法
+
+### 1. スクリプトを実行
+
+1. X/Twitter（https://x.com または https://twitter.com）のホームタイムラインを開く
+2. 開発者コンソール（F12）を開く
+3. `tools/diagnostic/x-layout-diagnostic.js`の内容をコピー＆ペースト
+4. Enterキーで実行
+
+### 2. 常駐モードで起動
+
+スクリプト実行後、以下のコマンドが利用可能になります：
+
+#### 🔍 基本診断
+```javascript
+collectLayoutDiagnostic()    // 現在のレイアウト状態を診断
+downloadLayoutDiagnostic()   // 診断結果をJSONでダウンロード
+```
+
+#### 🎯 リアルタイム変更追跡（推奨）
+```javascript
+startLayoutWatch()           // 設定変更の監視を開始
+stopLayoutWatch()            // 監視を停止
+getChangeHistory()           // 変更履歴を表示
+downloadChangeHistory()      // 変更履歴をJSONでダウンロード
+clearChangeHistory()         // 変更履歴をクリア
+```
+
+#### 🎨 視覚化
+```javascript
+highlightLayoutElements()    // レイアウト要素をハイライト
+clearLayoutHighlights()      // ハイライトを解除
+```
+
+### 3. リアルタイム変更追跡の使い方（推奨）
+
+**最も効果的な調査方法**です：
+
+1. `startLayoutWatch()` を実行して監視開始
+2. twitter-clean-uiの設定UIを開く
+3. レイアウト設定（幅、パディング、ギャップなど）を変更
+4. コンソールに変更内容がリアルタイムで表示される
+5. 問題の設定を特定したら `stopLayoutWatch()` で停止
+6. `downloadChangeHistory()` で全変更履歴をJSONダウンロード
+
+#### 出力例
+
+```
+━━━ 変更 #1 ━━━
+⏱️ 2025-11-24T12:34:56.789Z
+トリガー: style-mutation
+
+📝 CSS変更あり
+⚙️ 設定変更あり
+  変更前: { leftSidebarWidth: 275, ... }
+  変更後: { leftSidebarWidth: 300, ... }
+
+🎨 要素スタイル変更:
+  leftSidebar:
+    width: 275px → 275px        ← 変わっていない！問題発見！
+    width (inline): (なし) → (なし)
+```
+
+この例では、設定値は275→300に変更されたのに、実際のwidthは275pxのまま変わっていないことがわかります。
+
+### 3. 診断結果の確認
+
+`collectLayoutDiagnostic()`を実行すると、以下の情報がコンソールに表示されます：
+
+- **📊 サマリー**: 設定が正しく適用されているかどうかの概要
+- **⚙️ 保存された設定値**: GM_getValue/localStorageから取得した設定
+- **🎨 注入されたスタイル**: `#twitter-clean-ui-styles`要素の内容
+- **🔍 要素の検出状態**: 各セレクタでターゲット要素が見つかるか
+- **⚠️ 検出された問題**: CSS優先度の問題など
+
+### 4. 診断結果のダウンロード
+
+`downloadLayoutDiagnostic()`を実行すると、JSONファイルが自動的にダウンロードされます。
+
+## 診断結果のフォーマット
+
+### 基本診断 (`downloadLayoutDiagnostic`)
+
+```json
+{
+  "version": "1.1.0",
+  "timestamp": "2025-11-24T12:34:56.789Z",
+  "url": "https://x.com/home",
+  "viewport": { "width": 1920, "height": 1080 },
+  "summary": {
+    "status": "warning",
+    "message": "2個の設定が期待通りに適用されていません",
+    "matchingSettings": ["mainContentWidth", "timelineRightPadding"],
+    "mismatchedSettings": [
+      { "key": "leftSidebarWidth", "expected": 275, "actual": 240 },
+      { "key": "gap", "expected": 30, "actual": 0 }
+    ]
+  },
+  "savedSettings": { /* レイアウト設定 */ },
+  "injectedStyles": { /* 注入されたCSS */ },
+  "elementsInfo": { /* 各要素の検出状態 */ },
+  "settingsVsActual": { /* 設定値と実測値の比較 */ },
+  "cssIssues": [ /* 検出された問題 */ ]
+}
+```
+
+### 変更履歴 (`downloadChangeHistory`)
+
+```json
+{
+  "version": "1.1.0",
+  "recordedAt": "2025-11-24T12:45:00.000Z",
+  "totalChanges": 3,
+  "isWatching": false,
+  "changes": [
+    {
+      "id": 1,
+      "trigger": "style-mutation",
+      "timestamp": "2025-11-24T12:34:56.789Z",
+      "timeSincePrevious": 1234,
+      "cssChanged": true,
+      "settingsChanged": true,
+      "settingsDiff": {
+        "before": { "leftSidebarWidth": 275, ... },
+        "after": { "leftSidebarWidth": 300, ... }
+      },
+      "elementChanges": {
+        "leftSidebar": {
+          "width": { "before": "275px", "after": "275px" },
+          "_rect": { "before": { "width": 275 }, "after": { "width": 275 } }
+        }
+      },
+      "snapshotBefore": { /* 変更前の全状態 */ },
+      "snapshotAfter": { /* 変更後の全状態 */ }
+    }
+  ]
+}
+```
+
+#### 変更履歴の重要フィールド
+
+| フィールド | 説明 |
+|-----------|------|
+| `trigger` | 変更のトリガー（`style-mutation`, `inline-style-change`, `style-added`, `style-removed`）|
+| `cssChanged` | CSSテキストが変更されたか |
+| `settingsChanged` | 保存された設定が変更されたか |
+| `settingsDiff` | 設定の変更前後の値 |
+| `elementChanges` | 各要素のスタイル変化（**ここで問題を特定**）|
+
+## トラブルシューティング
+
+### 設定が反映されない場合のチェックポイント
+
+1. **スタイル要素が存在するか**: `injectedStyles.exists`が`true`か確認
+2. **CSSルールが正しいか**: `injectedStyles.cssRules`の内容を確認
+3. **要素が見つかるか**: `elementsInfo.*.found`が`true`か確認
+4. **インラインスタイルが適用されているか**: `inlineStyles`に値があるか確認
+5. **計算済みスタイルが期待通りか**: `computedStyles`の値を確認
+
+### よくある問題
+
+| 症状 | 原因 | 対処法 |
+|------|------|--------|
+| スタイル要素が存在しない | ユーザースクリプトが実行されていない | ユーザースクリプトマネージャーを確認 |
+| 要素が見つからない | X/Twitterのレイアウト変更 | セレクタの更新が必要 |
+| 設定値と実測値が異なる | 他のCSSに上書きされている | `!important`の競合を調査 |
+| インラインスタイルがない | CSSルール経由でのみ適用 | 他のスタイルシートとの優先度を確認 |
+
+## バージョン履歴
+
+### v1.1.0 (2025-11-24) - リアルタイム変更追跡対応
+- 🎯 MutationObserverを使用したリアルタイム変更追跡機能を追加
+- 設定変更時のスナップショット自動取得
+- 変更前後の差分を詳細に表示
+- 変更履歴の保存・ダウンロード機能
+- 新コマンド: `startLayoutWatch`, `stopLayoutWatch`, `getChangeHistory`, `downloadChangeHistory`, `clearChangeHistory`
+
+### v1.0.0 (2025-11-24) - Layout Settings Diagnostic
+- 🎯 レイアウト設定（幅、パディング、ギャップ）の診断に特化
+- 常駐モードで任意のタイミングでJSON出力可能
+- レイアウト変化の監視機能（`startLayoutMonitor`）
+- 要素のハイライト表示機能（`highlightLayoutElements`）
+- 設定値と実測値の比較分析機能
+
+---
 
 ## ライセンス
 
