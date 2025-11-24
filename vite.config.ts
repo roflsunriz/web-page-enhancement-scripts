@@ -344,6 +344,22 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
 };
 
+const twitterCleanUIMeta: MonkeyUserScript = {
+  name: 'X Clean Menu and Sidebar',
+  namespace: 'twitterCleanUI',
+  version: '1.0.0',
+  description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*', 'https://x.com/*'],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.user.js',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+};
+
 const SCRIPT_CONFIGS = {
   'chatgpt-notify': {
     entry: 'src/chatgpt-notify/main.ts',
@@ -415,6 +431,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'youtube-info-copier.user.js',
     meta: youtubeInfoCopierMeta,
   },
+  'twitter-clean-ui': {
+    entry: 'src/twitter-clean-ui/main.ts',
+    fileName: 'twitter-clean-ui.user.js',
+    meta: twitterCleanUIMeta,
+  },
 } as const;
 
 type ScriptKey = keyof typeof SCRIPT_CONFIGS;
@@ -450,6 +471,7 @@ export default defineConfig((configEnv) => {
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
         '@/twitter-wide-layout-fix': resolve(dir, 'src/twitter-wide-layout-fix'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
+        '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
         '@/shared': resolve(dir, 'src/shared')
       },
     },

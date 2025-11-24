@@ -1,0 +1,1974 @@
+{
+  "timestamp": "2025-11-24T17:31:07.083Z",
+  "url": "https://x.com/home",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+  "viewport": {
+    "width": 1869,
+    "height": 846
+  },
+  "elements": [
+    {
+      "name": "reactRoot",
+      "found": true,
+      "tagName": "div",
+      "id": "react-root",
+      "classes": [],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 1869,
+        "height": 846,
+        "top": 0,
+        "left": 0,
+        "right": 1869,
+        "bottom": 846
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 2
+      },
+      "description": "Reactアプリケーションのルート要素",
+      "detection": {
+        "method": "ID selector",
+        "selector": "#react-root",
+        "confidence": 0.95,
+        "xpath": "//*[@id=\"react-root\"]",
+        "cssSelector": "#react-root"
+      }
+    },
+    {
+      "name": "leftSidebar_HomeLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_Home_Link"
+      },
+      "ariaAttributes": {
+        "aria-label": "ホーム（新しい未読ポスト）"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 58,
+        "left": 310,
+        "right": 569,
+        "bottom": 108.25
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - ホームリンク",
+      "detection": {
+        "method": "data-testid: Home Link",
+        "selector": "a[data-testid=\"AppTabBar_Home_Link\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_ExploreLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_Explore_Link"
+      },
+      "ariaAttributes": {
+        "aria-label": "調べたいものを検索"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 108.25,
+        "left": 310,
+        "right": 569,
+        "bottom": 158.5
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - 話題を検索リンク",
+      "detection": {
+        "method": "data-testid: Explore Link",
+        "selector": "a[data-testid=\"AppTabBar_Explore_Link\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[2]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_NotificationsLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_Notifications_Link"
+      },
+      "ariaAttributes": {
+        "aria-label": "通知"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 158.5,
+        "left": 310,
+        "right": 569,
+        "bottom": 208.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - 通知リンク",
+      "detection": {
+        "method": "data-testid: Notifications Link",
+        "selector": "a[data-testid=\"AppTabBar_Notifications_Link\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[3]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_MessagesLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_DirectMessage_Link"
+      },
+      "ariaAttributes": {
+        "aria-label": "ダイレクトメッセージ"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 208.75,
+        "left": 310,
+        "right": 569,
+        "bottom": 259
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - メッセージリンク",
+      "detection": {
+        "method": "data-testid: DirectMessage Link",
+        "selector": "a[data-testid=\"AppTabBar_DirectMessage_Link\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[4]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_BookmarksLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "ブックマーク"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 359.5,
+        "left": 310,
+        "right": 569,
+        "bottom": 409.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - ブックマークリンク",
+      "detection": {
+        "method": "href: /i/bookmarks",
+        "selector": "a[href=\"/i/bookmarks\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[7]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_ListsLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "リスト"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 309.25,
+        "left": 310,
+        "right": 569,
+        "bottom": 359.5
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - リストリンク",
+      "detection": {
+        "method": "href: contains lists",
+        "selector": "a[href*=\"/lists\"]",
+        "confidence": 0.8,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[6]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_ProfileLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_Profile_Link"
+      },
+      "ariaAttributes": {
+        "aria-label": "プロフィール"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 510.25,
+        "left": 310,
+        "right": 569,
+        "bottom": 560.5
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - プロフィールリンク",
+      "detection": {
+        "method": "Profile link with username",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[10]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_MoreMenu",
+      "found": true,
+      "tagName": "button",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1loqt21",
+        "r-1ny4l3l"
+      ],
+      "dataAttributes": {
+        "data-testid": "AppTabBar_More_Menu"
+      },
+      "ariaAttributes": {
+        "aria-expanded": "false",
+        "aria-haspopup": "menu",
+        "aria-label": "その他のメニュー項目"
+      },
+      "role": "button",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 560.5,
+        "left": 310,
+        "right": 569,
+        "bottom": 610.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - もっと見るメニュー",
+      "detection": {
+        "method": "More menu button",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/button",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > button.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_PremiumLink",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-eqz5dr",
+        "r-16y2uox",
+        "r-1habvwh",
+        "r-13qz1uu",
+        "r-1mkv55d",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "premium-signup-tab"
+      },
+      "ariaAttributes": {
+        "aria-label": "プレミアム"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 259,
+        "height": 50.25,
+        "top": 460,
+        "left": 310,
+        "right": 569,
+        "bottom": 510.25
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - Premiumリンク",
+      "detection": {
+        "method": "href: premium_sign_up",
+        "selector": "a[href=\"/i/premium_sign_up\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav/a[9]",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh > a.css-175oi2r.r-6koalj.r-eqz5dr"
+      }
+    },
+    {
+      "name": "leftSidebar_CommunitiesLink",
+      "description": "左サイドバー - コミュニティリンク",
+      "found": false,
+      "triedStrategies": [
+        "href: /i/communities"
+      ]
+    },
+    {
+      "name": "leftSidebar_VerifiedOrgsLink",
+      "description": "左サイドバー - 認証済み組織リンク",
+      "found": false,
+      "triedStrategies": [
+        "href: verified-orgs"
+      ]
+    },
+    {
+      "name": "leftSidebar",
+      "found": true,
+      "tagName": "header",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-lrvibr",
+        "r-1g40b8q",
+        "r-obd0qt",
+        "r-16y2uox"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": "banner",
+      "dimensions": {
+        "width": 577,
+        "height": 11654,
+        "top": 0,
+        "left": 0,
+        "right": 577,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 6
+      },
+      "description": "左サイドバー（ナビゲーションメニュー）全体",
+      "detection": {
+        "method": "header banner element",
+        "selector": "header[role=\"banner\"]",
+        "confidence": 0.95,
+        "xpath": "/html/body/div/div/div/div[2]/header",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu > header.css-175oi2r.r-lrvibr.r-1g40b8q"
+      }
+    },
+    {
+      "name": "leftSidebar_Container",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-o96wvk",
+        "r-pt392"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 275,
+        "height": 0,
+        "top": 0,
+        "left": 302,
+        "right": 577,
+        "bottom": 0
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": false
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 7
+      },
+      "description": "左サイドバー - コンテナ（パディング調整用）",
+      "detection": {
+        "method": "Left sidebar inner container",
+        "selector": "custom",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/header/div",
+        "cssSelector": "div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu > header.css-175oi2r.r-lrvibr.r-1g40b8q > div.css-175oi2r.r-o96wvk.r-pt392"
+      }
+    },
+    {
+      "name": "leftSidebar_Logo",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-sdzlij",
+        "r-1phboty",
+        "r-rs99b7",
+        "r-lrvibr",
+        "r-19yznuf",
+        "r-64el8z",
+        "r-o7ynqc",
+        "r-6416eg",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "X"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 52,
+        "height": 52,
+        "top": 2,
+        "left": 310,
+        "right": 362,
+        "bottom": 54
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": false,
+        "nestLevel": 13
+      },
+      "description": "左サイドバー - Xロゴ",
+      "detection": {
+        "method": "X logo link in heading",
+        "selector": "h1[role=\"heading\"] a[aria-label*=\"X\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div/h1/a",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-dnmrzs.r-1559e4e > h1.css-175oi2r.r-1awozwy.r-1pz39u2 > a.css-175oi2r.r-sdzlij.r-1phboty"
+      }
+    },
+    {
+      "name": "leftSidebar_Navigation",
+      "found": true,
+      "tagName": "nav",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-eqz5dr",
+        "r-1habvwh"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "メインメニュー"
+      },
+      "role": "navigation",
+      "dimensions": {
+        "width": 259,
+        "height": 552.75,
+        "top": 58,
+        "left": 310,
+        "right": 569,
+        "bottom": 610.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 11,
+        "hasText": true,
+        "nestLevel": 12
+      },
+      "description": "左サイドバー - ナビゲーションメニュー全体",
+      "detection": {
+        "method": "Main navigation Japanese",
+        "selector": "nav[role=\"navigation\"][aria-label*=\"メイン\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav",
+        "cssSelector": "div.css-175oi2r.r-aqfbo4.r-1pi2tsx > div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh"
+      }
+    },
+    {
+      "name": "rightSidebar",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-aqfbo4",
+        "r-10f7w94",
+        "r-1hycxz",
+        "r-1udh08x"
+      ],
+      "dataAttributes": {
+        "data-testid": "sidebarColumn"
+      },
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 350,
+        "height": 11654,
+        "top": 0,
+        "left": 1377,
+        "right": 1727,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 10
+      },
+      "description": "右サイドバー（トレンド、おすすめユーザーなど）",
+      "detection": {
+        "method": "data-testid: sidebarColumn",
+        "selector": "[data-testid=\"sidebarColumn\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]",
+        "cssSelector": "main.css-175oi2r.r-16y2uox.r-1wbh5a2 > div.css-175oi2r.r-150rngu.r-16y2uox > div.css-175oi2r.r-aqfbo4.r-16y2uox > div.css-175oi2r.r-1oszu61.r-1niwhzg > div.css-175oi2r.r-aqfbo4.r-10f7w94"
+      }
+    },
+    {
+      "name": "rightSidebar_SearchBox",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1wbh5a2",
+        "r-16y2uox"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 318,
+        "height": 40,
+        "top": 6.5,
+        "left": 1407,
+        "right": 1725,
+        "bottom": 46.5
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": false,
+        "nestLevel": 26
+      },
+      "description": "右サイドバー - 検索ボックス全体",
+      "detection": {
+        "method": "Search box container in sidebar",
+        "selector": "custom",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div/div/div/div/form/div/div/div/div/div/div[2]",
+        "cssSelector": "div.css-175oi2r.r-1roi411.r-1phboty > div.css-175oi2r.r-42olwf.r-1phboty > div.css-175oi2r.r-1awozwy.r-18u37iz > div.css-175oi2r.r-1dqbpge.r-13awgt0 > div.css-175oi2r.r-1wbh5a2.r-16y2uox"
+      }
+    },
+    {
+      "name": "rightSidebar_PremiumSubscribe",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-vacyoi",
+        "r-ttdzmv"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 350,
+        "height": 1175.300048828125,
+        "top": 0,
+        "left": 1377,
+        "right": 1727,
+        "bottom": 1175.300048828125
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 7,
+        "hasText": true,
+        "nestLevel": 15
+      },
+      "description": "右サイドバー - Premiumサブスクライブセクション",
+      "detection": {
+        "method": "Premium subscribe section",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div",
+        "cssSelector": "div.css-175oi2r.r-1pi2tsx > div.css-175oi2r.r-1hycxz.r-1xcajam > div.css-175oi2r.r-1adg3ll > div.css-175oi2r > div.css-175oi2r.r-vacyoi.r-ttdzmv"
+      }
+    },
+    {
+      "name": "rightSidebar_WhatsHappening",
+      "description": "右サイドバー - いまどうしてる？/What's happening",
+      "found": false,
+      "triedStrategies": [
+        "Whats happening section"
+      ]
+    },
+    {
+      "name": "rightSidebar_TrendsList",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 348,
+        "height": 415,
+        "top": 282,
+        "left": 1378,
+        "right": 1726,
+        "bottom": 697
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 7,
+        "hasText": true,
+        "nestLevel": 19
+      },
+      "description": "右サイドバー - トレンド一覧",
+      "detection": {
+        "method": "Trends list container",
+        "selector": "custom",
+        "confidence": 0.8,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[5]/section/div/div",
+        "cssSelector": "div.css-175oi2r.r-vacyoi.r-ttdzmv > div.css-175oi2r.r-kemksi.r-1kqtdi0 > section.css-175oi2r > div.css-175oi2r > div.css-175oi2r"
+      }
+    },
+    {
+      "name": "rightSidebar_WhoToFollow",
+      "found": true,
+      "tagName": "aside",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "おすすめユーザー"
+      },
+      "role": "complementary",
+      "dimensions": {
+        "width": 348,
+        "height": 299.29998779296875,
+        "top": 715,
+        "left": 1378,
+        "right": 1726,
+        "bottom": 1014.2999877929688
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 3,
+        "hasText": true,
+        "nestLevel": 18
+      },
+      "description": "右サイドバー - おすすめユーザーセクション全体",
+      "detection": {
+        "method": "Who to follow section",
+        "selector": "custom",
+        "confidence": 0.8,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[6]/div/aside",
+        "cssSelector": "div.css-175oi2r > div.css-175oi2r.r-vacyoi.r-ttdzmv > div.css-175oi2r.r-kemksi.r-1kqtdi0 > div.css-175oi2r.r-1bro5k0 > aside.css-175oi2r"
+      }
+    },
+    {
+      "name": "rightSidebar_WhoToFollowList",
+      "found": true,
+      "tagName": "ul",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": "list",
+      "dimensions": {
+        "width": 348,
+        "height": 199.3000030517578,
+        "top": 763,
+        "left": 1378,
+        "right": 1726,
+        "bottom": 962.3000030517578
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 3,
+        "hasText": true,
+        "nestLevel": 19
+      },
+      "description": "右サイドバー - おすすめユーザー一覧",
+      "detection": {
+        "method": "Who to follow user list",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[6]/div/aside/ul",
+        "cssSelector": "div.css-175oi2r.r-vacyoi.r-ttdzmv > div.css-175oi2r.r-kemksi.r-1kqtdi0 > div.css-175oi2r.r-1bro5k0 > aside.css-175oi2r > ul.css-175oi2r"
+      }
+    },
+    {
+      "name": "rightSidebar_Footer",
+      "found": true,
+      "tagName": "nav",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-18u37iz",
+        "r-1w6e6rj",
+        "r-3pj75a"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "フッター"
+      },
+      "role": "navigation",
+      "dimensions": {
+        "width": 350,
+        "height": 64,
+        "top": 1031.300048828125,
+        "left": 1377,
+        "right": 1727,
+        "bottom": 1095.300048828125
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 7,
+        "hasText": true,
+        "nestLevel": 17
+      },
+      "description": "右サイドバー - フッターリンク",
+      "detection": {
+        "method": "Footer links in sidebar",
+        "selector": "custom",
+        "confidence": 0.7,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[7]/nav",
+        "cssSelector": "div.css-175oi2r.r-1adg3ll > div.css-175oi2r > div.css-175oi2r.r-vacyoi.r-ttdzmv > div.css-175oi2r.r-1kqtdi0.r-1867qdf > nav.css-175oi2r.r-18u37iz.r-1w6e6rj"
+      }
+    },
+    {
+      "name": "rightSidebar_RelevantPeople",
+      "description": "右サイドバー - 関連するユーザー",
+      "found": false,
+      "triedStrategies": [
+        "Relevant people section"
+      ]
+    },
+    {
+      "name": "mainContent",
+      "found": true,
+      "tagName": "main",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-16y2uox",
+        "r-1wbh5a2",
+        "r-1habvwh"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": "main",
+      "dimensions": {
+        "width": 1292,
+        "height": 11654,
+        "top": 0,
+        "left": 577,
+        "right": 1869,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 6
+      },
+      "description": "メインコンテンツエリア（タイムライン）",
+      "detection": {
+        "method": "main role",
+        "selector": "main[role=\"main\"]",
+        "confidence": 0.95,
+        "xpath": "/html/body/div/div/div/div[2]/main",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu > main.css-175oi2r.r-16y2uox.r-1wbh5a2"
+      }
+    },
+    {
+      "name": "mainContent_PrimaryColumn",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-kemksi",
+        "r-1kqtdi0",
+        "r-1ua6aaf",
+        "r-th6na",
+        "r-1phboty",
+        "r-16y2uox",
+        "r-184en5c",
+        "r-1abdc3e",
+        "r-1lg4w6u",
+        "r-f8sm7e",
+        "r-13qz1uu",
+        "r-1ye8kvj"
+      ],
+      "dataAttributes": {
+        "data-testid": "primaryColumn"
+      },
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 800,
+        "height": 11654,
+        "top": 0,
+        "left": 577,
+        "right": 1377,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 10
+      },
+      "description": "メインコンテンツ - プライマリカラム（タイムライン本体）",
+      "detection": {
+        "method": "data-testid: primaryColumn",
+        "selector": "[data-testid=\"primaryColumn\"]",
+        "confidence": 0.95,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div",
+        "cssSelector": "main.css-175oi2r.r-16y2uox.r-1wbh5a2 > div.css-175oi2r.r-150rngu.r-16y2uox > div.css-175oi2r.r-aqfbo4.r-16y2uox > div.css-175oi2r.r-1oszu61.r-1niwhzg > div.css-175oi2r.r-kemksi.r-1kqtdi0"
+      }
+    },
+    {
+      "name": "mainContent_TimelineHeader",
+      "description": "メインコンテンツ - タイムラインヘッダー",
+      "found": false,
+      "triedStrategies": [
+        "Timeline header with title"
+      ]
+    },
+    {
+      "name": "mainContent_TabBar",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1adg3ll",
+        "r-16y2uox",
+        "r-1wbh5a2",
+        "r-1pi2tsx"
+      ],
+      "dataAttributes": {
+        "data-testid": "ScrollSnap-SwipeableList"
+      },
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 798,
+        "height": 53,
+        "top": 0,
+        "left": 578,
+        "right": 1376,
+        "bottom": 53
+      },
+      "visibility": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 17
+      },
+      "description": "メインコンテンツ - タブバー（おすすめ/フォロー中）",
+      "detection": {
+        "method": "Tab bar in timeline",
+        "selector": "custom",
+        "confidence": 0.8,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div/div/div/div/div/nav/div/div[2]",
+        "cssSelector": "div.css-175oi2r.r-1e5uvyk.r-5zmot > div.css-175oi2r > nav.css-175oi2r.r-1awozwy.r-18u37iz > div.css-175oi2r.r-1awozwy.r-1ro0kt6 > div.css-175oi2r.r-1adg3ll.r-16y2uox"
+      }
+    },
+    {
+      "name": "mainContent_Container",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-150rngu",
+        "r-16y2uox",
+        "r-1wbh5a2",
+        "r-113js5t"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 1050,
+        "height": 11654,
+        "top": 0,
+        "left": 577,
+        "right": 1627,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 7
+      },
+      "description": "メインコンテンツ - コンテナ（パディング調整用）",
+      "detection": {
+        "method": "Main content outer container",
+        "selector": "custom",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div",
+        "cssSelector": "div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu > main.css-175oi2r.r-16y2uox.r-1wbh5a2 > div.css-175oi2r.r-150rngu.r-16y2uox"
+      }
+    },
+    {
+      "name": "header",
+      "found": true,
+      "tagName": "header",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-lrvibr",
+        "r-1g40b8q",
+        "r-obd0qt",
+        "r-16y2uox"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": "banner",
+      "dimensions": {
+        "width": 577,
+        "height": 11654,
+        "top": 0,
+        "left": 0,
+        "right": 577,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 6
+      },
+      "description": "ヘッダー",
+      "detection": {
+        "method": "header banner role",
+        "selector": "header[role=\"banner\"]",
+        "confidence": 0.95,
+        "xpath": "/html/body/div/div/div/div[2]/header",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu > header.css-175oi2r.r-lrvibr.r-1g40b8q"
+      }
+    },
+    {
+      "name": "searchBar",
+      "found": true,
+      "tagName": "input",
+      "id": null,
+      "classes": [
+        "r-30o5oe",
+        "r-1dz5y72",
+        "r-1niwhzg",
+        "r-17gur6a",
+        "r-1yadl64",
+        "r-deolkf",
+        "r-trznt1",
+        "r-homxoj",
+        "r-poiln3",
+        "r-1b43r93",
+        "r-1cwl3u0",
+        "r-ero68b",
+        "r-1ny4l3l",
+        "r-1c4vpko",
+        "r-1noe1sz",
+        "r-p1pxzi",
+        "r-1mnahxq",
+        "r-1mdbw0j",
+        "r-wk8lta",
+        "r-13qz1uu",
+        "r-fdjqy7"
+      ],
+      "dataAttributes": {
+        "data-testid": "SearchBox_Search_Input"
+      },
+      "ariaAttributes": {
+        "aria-activedescendant": "typeaheadFocus-0.39584446220679304",
+        "aria-autocomplete": "list",
+        "aria-label": "検索クエリ",
+        "aria-owns": "typeaheadDropdown-12"
+      },
+      "role": "combobox",
+      "dimensions": {
+        "width": 318,
+        "height": 40,
+        "top": 6.5,
+        "left": 1407,
+        "right": 1725,
+        "bottom": 46.5
+      },
+      "visibility": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 0,
+        "hasText": false,
+        "nestLevel": 28
+      },
+      "description": "検索バー",
+      "detection": {
+        "method": "data-testid: SearchBox",
+        "selector": "[data-testid=\"SearchBox_Search_Input\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div/div/div/div/form/div/div/div/div/div/div[2]/div/input",
+        "cssSelector": "div.css-175oi2r.r-1awozwy.r-18u37iz > div.css-175oi2r.r-1dqbpge.r-13awgt0 > div.css-175oi2r.r-1wbh5a2.r-16y2uox > div.css-146c3p1.r-bcqeeo.r-1ttztb7 > input.r-30o5oe.r-1dz5y72.r-1niwhzg"
+      }
+    },
+    {
+      "name": "tweetButton",
+      "found": true,
+      "tagName": "a",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-sdzlij",
+        "r-1phboty",
+        "r-rs99b7",
+        "r-lrvibr",
+        "r-19yznuf",
+        "r-64el8z",
+        "r-1fkl15p",
+        "r-o7ynqc",
+        "r-6416eg",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "SideNav_NewTweet_Button"
+      },
+      "ariaAttributes": {
+        "aria-label": "ポストする"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 233.10000610351562,
+        "height": 52,
+        "top": 618.75,
+        "left": 310,
+        "right": 543.1000061035156,
+        "bottom": 670.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 12
+      },
+      "description": "ツイート作成ボタン",
+      "detection": {
+        "method": "data-testid: NewTweet",
+        "selector": "a[data-testid=\"SideNav_NewTweet_Button\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[3]/a",
+        "cssSelector": "div.css-175oi2r.r-aqfbo4.r-1pi2tsx > div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-l00any.r-e7q0ms > a.css-175oi2r.r-sdzlij.r-1phboty"
+      }
+    },
+    {
+      "name": "promotedTweets",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {
+        "data-testid": "placementTracking"
+      },
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 798,
+        "height": 976.5,
+        "top": 569,
+        "left": 578,
+        "right": 1376,
+        "bottom": 1545.5
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 5,
+        "hasText": true,
+        "nestLevel": 19
+      },
+      "description": "広告ツイート",
+      "detection": {
+        "method": "data-testid: placementTracking",
+        "selector": "[data-testid=\"placementTracking\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div/div/div[5]/section/div/div/div[3]/div/div/div",
+        "cssSelector": "div > div.css-175oi2r > div.css-175oi2r.r-1igl3o0.r-qklmqi > div.css-175oi2r > div.css-175oi2r"
+      }
+    },
+    {
+      "name": "trendingSection",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-6koalj",
+        "r-1mmae3n",
+        "r-3pj75a",
+        "r-o7ynqc",
+        "r-6416eg",
+        "r-1ny4l3l",
+        "r-1loqt21"
+      ],
+      "dataAttributes": {
+        "data-testid": "trend"
+      },
+      "ariaAttributes": {
+        "aria-labelledby": "id__dxabmde3009"
+      },
+      "role": "link",
+      "dimensions": {
+        "width": 348,
+        "height": 109,
+        "top": 330,
+        "left": 1378,
+        "right": 1726,
+        "bottom": 439
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 22
+      },
+      "description": "トレンドセクション",
+      "detection": {
+        "method": "data-testid: trend",
+        "selector": "[data-testid=\"trend\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[5]/section/div/div/div[3]/div/div",
+        "cssSelector": "div.css-175oi2r > div.css-175oi2r > div.css-175oi2r.r-1adg3ll.r-1ny4l3l > div.css-175oi2r > div.css-175oi2r.r-6koalj.r-1mmae3n"
+      }
+    },
+    {
+      "name": "whoToFollow",
+      "found": true,
+      "tagName": "aside",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "おすすめユーザー"
+      },
+      "role": "complementary",
+      "dimensions": {
+        "width": 348,
+        "height": 299.29998779296875,
+        "top": 715,
+        "left": 1378,
+        "right": 1726,
+        "bottom": 1014.2999877929688
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 3,
+        "hasText": true,
+        "nestLevel": 18
+      },
+      "description": "おすすめユーザーセクション",
+      "detection": {
+        "method": "Who to follow heading search",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div/div[2]/div/div/div/div[6]/div/aside",
+        "cssSelector": "div.css-175oi2r > div.css-175oi2r.r-vacyoi.r-ttdzmv > div.css-175oi2r.r-kemksi.r-1kqtdi0 > div.css-175oi2r.r-1bro5k0 > aside.css-175oi2r"
+      }
+    },
+    {
+      "name": "timeline",
+      "found": true,
+      "tagName": "section",
+      "id": null,
+      "classes": [
+        "css-175oi2r"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-labelledby": "accessible-list-1"
+      },
+      "role": "region",
+      "dimensions": {
+        "width": 798,
+        "height": 11479,
+        "top": 175,
+        "left": 578,
+        "right": 1376,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 2,
+        "hasText": true,
+        "nestLevel": 13
+      },
+      "description": "タイムライン（ツイート一覧）",
+      "detection": {
+        "method": "primaryColumn region",
+        "selector": "[data-testid=\"primaryColumn\"] section[role=\"region\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div/div/div[5]/section",
+        "cssSelector": "div.css-175oi2r.r-1oszu61.r-1niwhzg > div.css-175oi2r.r-kemksi.r-1kqtdi0 > div.css-175oi2r > div.css-175oi2r.r-f8sm7e.r-13qz1uu > section.css-175oi2r"
+      }
+    },
+    {
+      "name": "navigationBar",
+      "found": true,
+      "tagName": "nav",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-eqz5dr",
+        "r-1habvwh"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "メインメニュー"
+      },
+      "role": "navigation",
+      "dimensions": {
+        "width": 259,
+        "height": 552.75,
+        "top": 58,
+        "left": 310,
+        "right": 569,
+        "bottom": 610.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 11,
+        "hasText": true,
+        "nestLevel": 12
+      },
+      "description": "ナビゲーションバー",
+      "detection": {
+        "method": "nav navigation role",
+        "selector": "nav[role=\"navigation\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav",
+        "cssSelector": "div.css-175oi2r.r-aqfbo4.r-1pi2tsx > div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh"
+      }
+    },
+    {
+      "name": "profileMenu",
+      "found": true,
+      "tagName": "button",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1awozwy",
+        "r-sdzlij",
+        "r-6koalj",
+        "r-18u37iz",
+        "r-xyw6el",
+        "r-1loqt21",
+        "r-o7ynqc",
+        "r-6416eg",
+        "r-1ny4l3l"
+      ],
+      "dataAttributes": {
+        "data-testid": "SideNav_AccountSwitcher_Button"
+      },
+      "ariaAttributes": {
+        "aria-label": "アカウントメニュー"
+      },
+      "role": "button",
+      "dimensions": {
+        "width": 259,
+        "height": 66.43333435058594,
+        "top": 767.566650390625,
+        "left": 310,
+        "right": 569,
+        "bottom": 833.9999847412109
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 3,
+        "hasText": true,
+        "nestLevel": 12
+      },
+      "description": "プロフィールメニュー",
+      "detection": {
+        "method": "data-testid: AccountSwitcher",
+        "selector": "[data-testid=\"SideNav_AccountSwitcher_Button\"]",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div[2]/div/button",
+        "cssSelector": "div.css-175oi2r.r-aqfbo4.r-1pi2tsx > div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-184id4b > div.css-175oi2r > button.css-175oi2r.r-1awozwy.r-sdzlij"
+      }
+    },
+    {
+      "name": "bottomNavBar",
+      "found": true,
+      "tagName": "nav",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-eqz5dr",
+        "r-1habvwh"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {
+        "aria-label": "メインメニュー"
+      },
+      "role": "navigation",
+      "dimensions": {
+        "width": 259,
+        "height": 552.75,
+        "top": 58,
+        "left": 310,
+        "right": 569,
+        "bottom": 610.75
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 11,
+        "hasText": true,
+        "nestLevel": 12
+      },
+      "description": "下部ナビゲーションバー（モバイル）",
+      "detection": {
+        "method": "last navigation element",
+        "selector": "nav[role=\"navigation\"]:last-of-type",
+        "confidence": 0.6,
+        "xpath": "/html/body/div/div/div/div[2]/header/div/div/div/div/div[2]/nav",
+        "cssSelector": "div.css-175oi2r.r-aqfbo4.r-1pi2tsx > div.css-175oi2r.r-1pi2tsx.r-1wtj0ep > div.css-175oi2r.r-1habvwh > div.css-175oi2r.r-15zivkp.r-1bymd8e > nav.css-175oi2r.r-eqz5dr.r-1habvwh"
+      }
+    },
+    {
+      "name": "layout_MainContainer",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-13awgt0",
+        "r-12vffkv"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 1869,
+        "height": 846,
+        "top": 0,
+        "left": 0,
+        "right": 1869,
+        "bottom": 846
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": true,
+        "nestLevel": 3
+      },
+      "description": "レイアウト - メインコンテナ（3カラムの親）",
+      "detection": {
+        "method": "Main layout container",
+        "selector": "custom",
+        "confidence": 0.9,
+        "xpath": "/html/body/div/div",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv"
+      }
+    },
+    {
+      "name": "layout_CenterColumn",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1f2l425",
+        "r-13qz1uu",
+        "r-417010",
+        "r-18u37iz"
+      ],
+      "dataAttributes": {
+        "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}"
+      },
+      "ariaAttributes": {
+        "aria-hidden": "false"
+      },
+      "role": null,
+      "dimensions": {
+        "width": 1869,
+        "height": 11654,
+        "top": 0,
+        "left": 0,
+        "right": 1869,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 4,
+        "hasText": true,
+        "nestLevel": 5
+      },
+      "description": "レイアウト - 中央カラム（header + main）",
+      "detection": {
+        "method": "Center column with header and main",
+        "selector": "custom",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu"
+      }
+    },
+    {
+      "name": "spacing_RightSidebarGap",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1f2l425",
+        "r-13qz1uu",
+        "r-417010",
+        "r-18u37iz"
+      ],
+      "dataAttributes": {
+        "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}"
+      },
+      "ariaAttributes": {
+        "aria-hidden": "false"
+      },
+      "role": null,
+      "dimensions": {
+        "width": 1869,
+        "height": 11654,
+        "top": 0,
+        "left": 0,
+        "right": 1869,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 4,
+        "hasText": true,
+        "nestLevel": 5
+      },
+      "description": "スペーシング - 右サイドバーとメインコンテンツの間",
+      "detection": {
+        "method": "Gap between main and sidebar",
+        "selector": "custom",
+        "confidence": 0.7,
+        "xpath": "/html/body/div/div/div/div[2]",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu"
+      }
+    },
+    {
+      "name": "spacing_LeftSidebarGap",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1f2l425",
+        "r-13qz1uu",
+        "r-417010",
+        "r-18u37iz"
+      ],
+      "dataAttributes": {
+        "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}"
+      },
+      "ariaAttributes": {
+        "aria-hidden": "false"
+      },
+      "role": null,
+      "dimensions": {
+        "width": 1869,
+        "height": 11654,
+        "top": 0,
+        "left": 0,
+        "right": 1869,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 4,
+        "hasText": true,
+        "nestLevel": 5
+      },
+      "description": "スペーシング - 左サイドバーとメインコンテンツの間",
+      "detection": {
+        "method": "Gap between header and main",
+        "selector": "custom",
+        "confidence": 0.7,
+        "xpath": "/html/body/div/div/div/div[2]",
+        "cssSelector": "div > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-13awgt0.r-12vffkv > div.css-175oi2r.r-1f2l425.r-13qz1uu"
+      }
+    },
+    {
+      "name": "rightSidebar_StickyContainer",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "css-175oi2r",
+        "r-1pi2tsx"
+      ],
+      "dataAttributes": {},
+      "ariaAttributes": {},
+      "role": null,
+      "dimensions": {
+        "width": 350,
+        "height": 11654,
+        "top": 0,
+        "left": 1377,
+        "right": 1727,
+        "bottom": 11654
+      },
+      "visibility": {
+        "display": "flex",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 2,
+        "hasText": true,
+        "nestLevel": 11
+      },
+      "description": "右サイドバー - Stickyコンテナ（スクロール固定用）",
+      "detection": {
+        "method": "Sticky container in sidebar",
+        "selector": "custom",
+        "confidence": 0.75,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div[2]/div",
+        "cssSelector": "div.css-175oi2r.r-150rngu.r-16y2uox > div.css-175oi2r.r-aqfbo4.r-16y2uox > div.css-175oi2r.r-1oszu61.r-1niwhzg > div.css-175oi2r.r-aqfbo4.r-10f7w94 > div.css-175oi2r.r-1pi2tsx"
+      }
+    },
+    {
+      "name": "mainContent_TweetComposer",
+      "found": true,
+      "tagName": "div",
+      "id": null,
+      "classes": [
+        "notranslate",
+        "public-DraftEditor-content"
+      ],
+      "dataAttributes": {
+        "data-testid": "tweetTextarea_0"
+      },
+      "ariaAttributes": {
+        "aria-activedescendant": "typeaheadFocus-0.9669870186344722",
+        "aria-autocomplete": "list",
+        "aria-controls": "typeaheadDropdownWrapped-11",
+        "aria-describedby": "placeholder-4ld54",
+        "aria-label": "ポスト本文",
+        "aria-multiline": "true"
+      },
+      "role": "textbox",
+      "dimensions": {
+        "width": 713,
+        "height": 28,
+        "top": 76,
+        "left": 645,
+        "right": 1358,
+        "bottom": 104
+      },
+      "visibility": {
+        "display": "block",
+        "visibility": "visible",
+        "opacity": "1",
+        "isVisible": true
+      },
+      "structure": {
+        "childrenCount": 1,
+        "hasText": false,
+        "nestLevel": 39
+      },
+      "description": "メインコンテンツ - ツイート作成ボックス",
+      "detection": {
+        "method": "data-testid: tweetTextarea",
+        "selector": "[data-testid=\"tweetTextarea_0\"]",
+        "confidence": 0.85,
+        "xpath": "/html/body/div/div/div/div[2]/main/div/div/div/div/div/div[3]/div/div[2]/div/div/div/div/div[2]/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div/div[2]/div",
+        "cssSelector": "div.false.draftjs-styles_0 > div.r-1niwhzg.r-17gur6a.r-1yadl64 > div.DraftEditor-root > div.DraftEditor-editorContainer > div.notranslate.public-DraftEditor-content"
+      }
+    }
+  ],
+  "statistics": {
+    "totalElements": 46,
+    "foundElements": 41,
+    "notFoundElements": 5,
+    "averageConfidence": 0.8390243902439026,
+    "byCategory": {
+      "基本要素": {
+        "total": 11,
+        "found": 11,
+        "notFound": 0
+      },
+      "左サイドバー": {
+        "total": 15,
+        "found": 13,
+        "notFound": 2
+      },
+      "右サイドバー": {
+        "total": 10,
+        "found": 8,
+        "notFound": 2
+      },
+      "メインコンテンツ": {
+        "total": 6,
+        "found": 5,
+        "notFound": 1
+      },
+      "レイアウト": {
+        "total": 4,
+        "found": 4,
+        "notFound": 0
+      }
+    }
+  }
+}

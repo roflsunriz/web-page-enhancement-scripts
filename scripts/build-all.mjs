@@ -16,6 +16,7 @@ const targets = [
   { mode: 'image-collector', clear: false },
   { mode: 'manga-viewer', clear: false },
   { mode: 'imgur-direct-link-copier', clear: false },
+  { mode: 'twitter-clean-ui', clear: false },
   { mode: 'twitter-full-size-image', clear: false },
   { mode: 'twitter-media-filter', clear: false },
   { mode: 'twitter-mute-filter', clear: false },

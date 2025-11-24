@@ -12,6 +12,7 @@
     "dev:image-collector": "vite --mode image-collector",
     "dev:imgur-direct-link-copier": "vite --mode imgur-direct-link-copier",
     "dev:mangaviewer": "vite --mode mangaviewer",
+    "dev:twitter-clean-ui": "vite --mode twitter-clean-ui",
     "dev:twitter-full-size-image": "vite --mode twitter-full-size-image",
     "dev:twitter-media-filter": "vite --mode twitter-media-filter",
     "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
