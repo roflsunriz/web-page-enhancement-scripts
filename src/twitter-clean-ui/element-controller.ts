@@ -4,6 +4,7 @@
 
 import type { UIElementId, Settings } from './types';
 import type { ElementDetector } from './element-detector';
+import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 
 /**
  * UI要素制御クラス
@@ -107,7 +108,12 @@ export class ElementController {
         min-width: ${layout.leftSidebarWidth}px !important;
       }
 
-      /* メインコンテンツの幅 */
+      /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
+      ${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {
+        max-width: ${layout.mainContentWidth}px !important;
+      }
+
+      /* メインコンテンツの幅 - data-testidセレクタ */
       [data-testid="primaryColumn"] {
         width: ${layout.mainContentWidth}px !important;
         max-width: ${layout.mainContentWidth}px !important;
@@ -139,6 +145,25 @@ export class ElementController {
     `;
 
     this.styleElement.textContent = css;
+
+    // XPathベースの要素にもスタイルを適用（twitter-wide-layout-fixから移植）
+    this.applyStyleByXpath(layout.mainContentWidth);
+  }
+
+  /**
+   * XPathを使用して要素にスタイルを適用（twitter-wide-layout-fixから移植）
+   */
+  private applyStyleByXpath(width: number): void {
+    const target = document.evaluate(
+      TWITTER_LAYOUT_DEFAULTS.wideLayoutXPath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue as HTMLElement | null;
+    if (target) {
+      target.style.setProperty('max-width', `${width}px`, 'important');
+    }
   }
 
   /**
