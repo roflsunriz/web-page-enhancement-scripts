@@ -190,10 +190,43 @@ export class ElementDetector {
 
   /**
    * 広告ツイートをすべて検出
+   * placementTracking は動画ツイートにも使われるため、
+   * 実際に広告であるかどうかを「プロモーション」「Promoted」ラベルで判定する
    */
   public detectAllPromotedTweets(): HTMLElement[] {
-    const elements = document.querySelectorAll('[data-testid="placementTracking"]');
-    return Array.from(elements) as HTMLElement[];
+    const elements = Array.from(
+      document.querySelectorAll('[data-testid="placementTracking"]')
+    );
+    const promotedTweets: HTMLElement[] = [];
+
+    for (const element of elements) {
+      // placementTracking要素の上位階層（ツイート全体）を探す
+      let tweetContainer: HTMLElement | null = element as HTMLElement;
+
+      // 最大20階層上まで探索してツイートのコンテナを見つける
+      for (let i = 0; i < 20; i++) {
+        if (!tweetContainer.parentElement) break;
+        tweetContainer = tweetContainer.parentElement;
+
+        // articleタグ（ツイートコンテナ）を見つけたら停止
+        if (tweetContainer.tagName === 'ARTICLE') break;
+      }
+
+      // ツイートコンテナ内に広告ラベルが含まれているかチェック
+      if (tweetContainer) {
+        const textContent = tweetContainer.textContent || '';
+        const isPromoted =
+          textContent.includes('プロモーション') ||
+          textContent.includes('Promoted') ||
+          textContent.includes('広告');
+
+        if (isPromoted) {
+          promotedTweets.push(element as HTMLElement);
+        }
+      }
+    }
+
+    return promotedTweets;
   }
 
   /**
