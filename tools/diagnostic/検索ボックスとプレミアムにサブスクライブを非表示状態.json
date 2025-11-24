@@ -1,0 +1,3378 @@
+{
+  "timestamp": "2025-11-24T18:57:39.331Z",
+  "url": "https://x.com/home",
+  "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:145.0) Gecko/20100101 Firefox/145.0",
+  "viewport": {
+    "width": 1869,
+    "height": 846
+  },
+  "elements": {
+    "timelineWidth": {
+      "primaryColumn": {
+        "description": "タイムラインのメインカラム",
+        "selector": "[data-testid=\"primaryColumn\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "100%",
+              "height": "auto",
+              "maxWidth": "1200px",
+              "minWidth": "0px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px",
+              "border": "",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "auto",
+              "left": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "transform": "none",
+              "overflow": "visible",
+              "zIndex": "1"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+                  "data-testid": "primaryColumn"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "100%",
+                  "maxWidth": "1200px",
+                  "padding": "0px",
+                  "border": "",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                  "style": "display: none !important;"
+                },
+                "computedStyle": {
+                  "display": "none",
+                  "position": "relative",
+                  "width": "100%",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "MAIN",
+                "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+                "id": "",
+                "attributes": {
+                  "role": "main",
+                  "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1359.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+            "id": "",
+            "tagName": "DIV",
+            "attributes": {
+              "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+              "data-testid": "primaryColumn"
+            },
+            "textContent": "おすすめフォロー中Singularityお前おもしろそうだなちいかわCute Illustration拓也やみんふぇありすちゃんuncensoredさんがポストしましたいまどうしてる？ポストするホーム"
+          }
+        ]
+      },
+      "mainRole": {
+        "description": "メインコンテンツエリア",
+        "selector": "main[role=\"main\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 509.5,
+              "width": 1359.5,
+              "height": 846,
+              "right": 1869,
+              "bottom": 846
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "1359.5px",
+              "height": "846px",
+              "maxWidth": "none",
+              "minWidth": "0px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px",
+              "border": "0px solid rgb(0, 0, 0)",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "0px",
+              "left": "0px",
+              "right": "0px",
+              "bottom": "0px",
+              "transform": "none",
+              "overflow": "visible",
+              "zIndex": "0"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "MAIN",
+                "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+                "id": "",
+                "attributes": {
+                  "role": "main",
+                  "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1359.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                "id": "",
+                "attributes": {
+                  "dir": "ltr",
+                  "class": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                  "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}",
+                  "aria-hidden": "false"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "",
+                "id": "react-root",
+                "attributes": {
+                  "id": "react-root",
+                  "style": "height:100%;display:flex;"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "static",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px rgb(251, 251, 254)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+            "id": "",
+            "tagName": "MAIN",
+            "attributes": {
+              "role": "main",
+              "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+            },
+            "textContent": "おすすめフォロー中Singularityお前おもしろそうだなちいかわCute Illustration拓也やみんふぇありすちゃんuncensoredさんがポストしましたいまどうしてる？ポストするホーム"
+          }
+        ]
+      },
+      "mainChildren": {
+        "description": "メインコンテンツの直下のdiv",
+        "selector": "main[role=\"main\"] > div",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 509.5,
+              "width": 1050,
+              "height": 846,
+              "right": 1559.5,
+              "bottom": 846
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "1050px",
+              "height": "846px",
+              "maxWidth": "none",
+              "minWidth": "0px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px",
+              "border": "0px solid rgb(0, 0, 0)",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "0px",
+              "left": "0px",
+              "right": "0px",
+              "bottom": "0px",
+              "transform": "none",
+              "overflow": "visible",
+              "zIndex": "0"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "MAIN",
+                "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+                "id": "",
+                "attributes": {
+                  "role": "main",
+                  "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1359.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                "id": "",
+                "attributes": {
+                  "dir": "ltr",
+                  "class": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                  "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}",
+                  "aria-hidden": "false"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+            "id": "",
+            "tagName": "DIV",
+            "attributes": {
+              "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+            },
+            "textContent": "おすすめフォロー中Singularityお前おもしろそうだなちいかわCute Illustration拓也やみんふぇありすちゃんuncensoredさんがポストしましたいまどうしてる？ポストするホーム"
+          }
+        ]
+      }
+    },
+    "premiumSubscribe": {
+      "description": "プレミアムサブスクライブセクション",
+      "found": 9,
+      "elements": [
+        {
+          "tagName": "DIV",
+          "textContentLength": 444,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "MAIN",
+              "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+              "id": "",
+              "attributes": {
+                "role": "main",
+                "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1359.5px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+              "id": "",
+              "attributes": {
+                "dir": "ltr",
+                "class": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}",
+                "aria-hidden": "false"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1869px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-13awgt0 r-12vffkv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-13awgt0 r-12vffkv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1869px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-1pi2tsx",
+          "attributes": {
+            "class": "css-175oi2r r-1pi2tsx",
+            "style": "min-height: 0px;"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 444,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "MAIN",
+              "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+              "id": "",
+              "attributes": {
+                "role": "main",
+                "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1359.5px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+              "id": "",
+              "attributes": {
+                "dir": "ltr",
+                "class": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}",
+                "aria-hidden": "false"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1869px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-1hycxz r-1xcajam",
+          "attributes": {
+            "class": "css-175oi2r r-1hycxz r-1xcajam",
+            "style": "top: 0px;"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 444,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "MAIN",
+              "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+              "id": "",
+              "attributes": {
+                "role": "main",
+                "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1359.5px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-1adg3ll",
+          "attributes": {
+            "class": "css-175oi2r r-1adg3ll"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 444,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r",
+          "attributes": {
+            "aria-label": "トレンド",
+            "tabindex": "0",
+            "class": "css-175oi2r"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 444,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "12px 0px 64px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-vacyoi r-ttdzmv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-vacyoi r-ttdzmv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "12px 0px 64px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "1050px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-vacyoi r-ttdzmv",
+          "attributes": {
+            "class": "css-175oi2r r-vacyoi r-ttdzmv"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 62,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-vacyoi r-ttdzmv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-vacyoi r-ttdzmv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "12px 0px 64px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "style": "display: none !important;"
+              },
+              "computedStyle": {
+                "display": "none",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r",
+          "attributes": {
+            "class": "css-175oi2r"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 62,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "1px solid rgb(47, 51, 54)",
+            "borderRadius": "16px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(47, 51, 54)",
+                "borderRadius": "16px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-vacyoi r-ttdzmv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-vacyoi r-ttdzmv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "12px 0px 64px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "data-testid": "sidebarColumn"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "300px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x",
+          "attributes": {
+            "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+          }
+        },
+        {
+          "tagName": "ASIDE",
+          "textContentLength": 62,
+          "textPreview": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "16px 20px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "ASIDE",
+              "className": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim",
+              "id": "",
+              "attributes": {
+                "aria-label": "プレミアムにサブスクライブ",
+                "role": "complementary",
+                "class": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "16px 20px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(47, 51, 54)",
+                "borderRadius": "16px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-vacyoi r-ttdzmv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-vacyoi r-ttdzmv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "12px 0px 64px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1pi2tsx",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1pi2tsx",
+                "style": "min-height: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim",
+          "attributes": {
+            "aria-label": "プレミアムにサブスクライブ",
+            "role": "complementary",
+            "class": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim"
+          },
+          "borderContainer": {
+            "level": 0,
+            "rect": {
+              "width": 0,
+              "height": 0,
+              "top": 0,
+              "left": 0
+            },
+            "computedStyle": {
+              "border": "1px solid rgb(47, 51, 54)",
+              "borderRadius": "16px",
+              "padding": "0px",
+              "display": "flex"
+            },
+            "tagName": "DIV",
+            "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+          }
+        },
+        {
+          "tagName": "DIV",
+          "textContentLength": 13,
+          "textPreview": "プレミアムにサブスクライブ",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "block",
+            "visibility": "visible",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "padding": "0px"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-adyw6z r-135wba7 r-b88u0q",
+              "id": "",
+              "attributes": {
+                "dir": "ltr",
+                "class": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-adyw6z r-135wba7 r-b88u0q",
+                "style": "color: rgb(231, 233, 234);"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "ASIDE",
+              "className": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim",
+              "id": "",
+              "attributes": {
+                "aria-label": "プレミアムにサブスクライブ",
+                "role": "complementary",
+                "class": "css-175oi2r r-1habvwh r-eqz5dr r-uaa2di r-w7s2jr r-u9wvl5 r-bnwqim"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "16px 20px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(47, 51, 54)",
+                "borderRadius": "16px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-vacyoi r-ttdzmv",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-vacyoi r-ttdzmv"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "12px 0px 64px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r",
+              "id": "",
+              "attributes": {
+                "aria-label": "トレンド",
+                "tabindex": "0",
+                "class": "css-175oi2r"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1adg3ll",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1adg3ll"
+              },
+              "computedStyle": {
+                "display": "block",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1hycxz r-1xcajam",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1hycxz r-1xcajam",
+                "style": "top: 0px;"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "className": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-adyw6z r-135wba7 r-b88u0q",
+          "attributes": {
+            "dir": "ltr",
+            "class": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-adyw6z r-135wba7 r-b88u0q",
+            "style": "color: rgb(231, 233, 234);"
+          },
+          "borderContainer": {
+            "level": 1,
+            "rect": {
+              "width": 0,
+              "height": 0,
+              "top": 0,
+              "left": 0
+            },
+            "computedStyle": {
+              "border": "1px solid rgb(47, 51, 54)",
+              "borderRadius": "16px",
+              "padding": "0px",
+              "display": "flex"
+            },
+            "tagName": "DIV",
+            "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1867qdf r-1phboty r-rs99b7 r-1ifxtd0 r-1udh08x"
+          }
+        }
+      ]
+    },
+    "searchBox": {
+      "searchInput": {
+        "description": "検索ボックスの入力フィールド",
+        "selector": "[data-testid=\"SearchBox_Search_Input\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "computedStyle": {
+              "display": "block",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "100%",
+              "height": "auto",
+              "maxWidth": "none",
+              "minWidth": "0px",
+              "padding": "0px 16px 0px 4px",
+              "paddingLeft": "4px",
+              "paddingRight": "16px",
+              "margin": "0px",
+              "border": "0px inset rgb(143, 143, 157)",
+              "borderRadius": "0px",
+              "position": "static",
+              "top": "auto",
+              "left": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "transform": "none",
+              "overflow": "clip",
+              "zIndex": "auto"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "INPUT",
+                "className": "r-30o5oe r-1dz5y72 r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-trznt1 r-homxoj r-poiln3 r-1b43r93 r-1cwl3u0 r-ero68b r-1ny4l3l r-1c4vpko r-1noe1sz r-p1pxzi r-1mnahxq r-1mdbw0j r-wk8lta r-13qz1uu r-fdjqy7",
+                "id": "",
+                "attributes": {
+                  "autocapitalize": "sentences",
+                  "autocomplete": "off",
+                  "autocorrect": "off",
+                  "placeholder": "検索",
+                  "spellcheck": "false",
+                  "enterkeyhint": "search",
+                  "type": "text",
+                  "dir": "auto",
+                  "aria-activedescendant": "typeaheadFocus-0.7198154454856645",
+                  "aria-autocomplete": "list",
+                  "aria-label": "検索クエリ",
+                  "aria-owns": "typeaheadDropdown-7",
+                  "role": "combobox",
+                  "class": "r-30o5oe r-1dz5y72 r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-trznt1 r-homxoj r-poiln3 r-1b43r93 r-1cwl3u0 r-ero68b r-1ny4l3l r-1c4vpko r-1noe1sz r-p1pxzi r-1mnahxq r-1mdbw0j r-wk8lta r-13qz1uu r-fdjqy7",
+                  "data-testid": "SearchBox_Search_Input",
+                  "value": ""
+                },
+                "computedStyle": {
+                  "display": "block",
+                  "position": "static",
+                  "width": "100%",
+                  "maxWidth": "none",
+                  "padding": "0px 16px 0px 4px",
+                  "border": "0px inset rgb(143, 143, 157)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+                "id": "",
+                "attributes": {
+                  "dir": "ltr",
+                  "class": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+                  "style": "color: rgb(231, 233, 234);"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "auto",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1wbh5a2 r-16y2uox",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1wbh5a2 r-16y2uox"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "auto",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+                  "data-testid": "SearchBox_Search_Input_label"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "auto",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1awozwy r-18u37iz",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1awozwy r-18u37iz"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "auto",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "r-30o5oe r-1dz5y72 r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-trznt1 r-homxoj r-poiln3 r-1b43r93 r-1cwl3u0 r-ero68b r-1ny4l3l r-1c4vpko r-1noe1sz r-p1pxzi r-1mnahxq r-1mdbw0j r-wk8lta r-13qz1uu r-fdjqy7",
+            "id": "",
+            "tagName": "INPUT",
+            "attributes": {
+              "autocapitalize": "sentences",
+              "autocomplete": "off",
+              "autocorrect": "off",
+              "placeholder": "検索",
+              "spellcheck": "false",
+              "enterkeyhint": "search",
+              "type": "text",
+              "dir": "auto",
+              "aria-activedescendant": "typeaheadFocus-0.7198154454856645",
+              "aria-autocomplete": "list",
+              "aria-label": "検索クエリ",
+              "aria-owns": "typeaheadDropdown-7",
+              "role": "combobox",
+              "class": "r-30o5oe r-1dz5y72 r-1niwhzg r-17gur6a r-1yadl64 r-deolkf r-trznt1 r-homxoj r-poiln3 r-1b43r93 r-1cwl3u0 r-ero68b r-1ny4l3l r-1c4vpko r-1noe1sz r-p1pxzi r-1mnahxq r-1mdbw0j r-wk8lta r-13qz1uu r-fdjqy7",
+              "data-testid": "SearchBox_Search_Input",
+              "value": ""
+            },
+            "textContent": ""
+          }
+        ]
+      },
+      "containerHierarchy": [
+        {
+          "level": 0,
+          "tagName": "DIV",
+          "className": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+              "id": "",
+              "attributes": {
+                "dir": "ltr",
+                "class": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+                "style": "color: rgb(231, 233, 234);"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1wbh5a2 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1wbh5a2 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+                "data-testid": "SearchBox_Search_Input_label"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "dir": "ltr",
+            "class": "css-146c3p1 r-bcqeeo r-1ttztb7 r-qvutc0 r-1tl8opc r-a023e6 r-rjixqe r-16dba41 r-6koalj",
+            "style": "color: rgb(231, 233, 234);"
+          }
+        },
+        {
+          "level": 1,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-1wbh5a2 r-16y2uox",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1wbh5a2 r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1wbh5a2 r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+                "data-testid": "SearchBox_Search_Input_label"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1awozwy r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1awozwy r-18u37iz"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-1wbh5a2 r-16y2uox"
+          }
+        },
+        {
+          "level": 2,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+                "data-testid": "SearchBox_Search_Input_label"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1awozwy r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1awozwy r-18u37iz"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-42olwf r-1phboty r-rs99b7",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-42olwf r-1phboty r-rs99b7"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgba(0, 0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-1dqbpge r-13awgt0 r-18u37iz",
+            "data-testid": "SearchBox_Search_Input_label"
+          }
+        },
+        {
+          "level": 3,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-1awozwy r-18u37iz",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1awozwy r-18u37iz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1awozwy r-18u37iz"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-42olwf r-1phboty r-rs99b7",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-42olwf r-1phboty r-rs99b7"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgba(0, 0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(51, 54, 57)",
+                "borderRadius": "9999px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-1awozwy r-18u37iz"
+          }
+        },
+        {
+          "level": 4,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-42olwf r-1phboty r-rs99b7",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "1px solid rgba(0, 0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-42olwf r-1phboty r-rs99b7",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-42olwf r-1phboty r-rs99b7"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgba(0, 0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(51, 54, 57)",
+                "borderRadius": "9999px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1wbh5a2",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1wbh5a2"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-42olwf r-1phboty r-rs99b7"
+          }
+        },
+        {
+          "level": 5,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "1px solid rgb(51, 54, 57)",
+            "borderRadius": "9999px",
+            "backgroundColor": "rgb(0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "1px solid rgb(51, 54, 57)",
+                "borderRadius": "9999px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1wbh5a2",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1wbh5a2"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "FORM",
+              "className": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0",
+              "id": "",
+              "attributes": {
+                "action": "#",
+                "aria-label": "検索",
+                "role": "search",
+                "class": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-1roi411 r-1phboty r-rs99b7 r-kemksi r-sdzlij r-eqz5dr r-16y2uox r-1wbh5a2 r-1777fci r-ero68b"
+          }
+        },
+        {
+          "level": 6,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-1wbh5a2",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1wbh5a2",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1wbh5a2"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "FORM",
+              "className": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0",
+              "id": "",
+              "attributes": {
+                "action": "#",
+                "aria-label": "検索",
+                "role": "search",
+                "class": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu",
+              "id": "",
+              "attributes": {
+                "class": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-1wbh5a2"
+          }
+        },
+        {
+          "level": 7,
+          "tagName": "FORM",
+          "className": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "FORM",
+              "className": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0",
+              "id": "",
+              "attributes": {
+                "action": "#",
+                "aria-label": "検索",
+                "role": "search",
+                "class": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu",
+              "id": "",
+              "attributes": {
+                "class": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "action": "#",
+            "aria-label": "検索",
+            "role": "search",
+            "class": "r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1oszu61 r-13awgt0"
+          }
+        },
+        {
+          "level": 8,
+          "tagName": "DIV",
+          "className": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu",
+              "id": "",
+              "attributes": {
+                "class": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "100%",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1iusvr4 r-18u37iz r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1iusvr4 r-18u37iz r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "r-1oszu61 r-1niwhzg r-vqxq0j r-deolkf r-6koalj r-1mlwlqe r-eqz5dr r-1ebb2ja r-crgep1 r-ifefl9 r-bcqeeo r-t60dpp r-bnwqim r-13wfysu r-417010 r-1wbh5a2 r-13qz1uu"
+          }
+        },
+        {
+          "level": 9,
+          "tagName": "DIV",
+          "className": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq",
+          "rect": {
+            "width": 0,
+            "height": 0,
+            "top": 0,
+            "left": 0
+          },
+          "computedStyle": {
+            "display": "flex",
+            "position": "relative",
+            "padding": "0px",
+            "margin": "0px",
+            "border": "0px solid rgb(0, 0, 0)",
+            "borderRadius": "0px",
+            "backgroundColor": "rgba(0, 0, 0, 0)"
+          },
+          "hierarchy": [
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1oszu61 r-1iusvr4 r-18u37iz r-16y2uox",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1oszu61 r-1iusvr4 r-18u37iz r-16y2uox"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "relative",
+                "width": "auto",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            },
+            {
+              "tagName": "DIV",
+              "className": "css-175oi2r r-1awozwy r-aqfbo4 r-kemksi r-18u37iz r-1h3ijdo r-6gpygo r-15ysp7h r-1xcajam r-ipm5af r-136ojw6 r-1hycxz",
+              "id": "",
+              "attributes": {
+                "class": "css-175oi2r r-1awozwy r-aqfbo4 r-kemksi r-18u37iz r-1h3ijdo r-6gpygo r-15ysp7h r-1xcajam r-ipm5af r-136ojw6 r-1hycxz"
+              },
+              "computedStyle": {
+                "display": "flex",
+                "position": "fixed",
+                "width": "350px",
+                "maxWidth": "none",
+                "padding": "0px",
+                "border": "0px solid rgb(0, 0, 0)",
+                "borderRadius": "0px"
+              }
+            }
+          ],
+          "isDirectChildOfSidebar": false,
+          "attributes": {
+            "class": "css-175oi2r r-13awgt0 r-eqz5dr r-bnwqim r-8fdsdq"
+          }
+        }
+      ],
+      "description": "検索ボックスとそのコンテナ階層"
+    },
+    "pageStructure": {
+      "leftSidebar": {
+        "description": "左サイドバー",
+        "selector": "header[role=\"banner\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 0,
+              "width": 509.5,
+              "height": 846,
+              "right": 509.5,
+              "bottom": 846
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "509.5px",
+              "height": "846px",
+              "maxWidth": "none",
+              "minWidth": "200px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px",
+              "border": "0px solid rgb(0, 0, 0)",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "0px",
+              "left": "0px",
+              "right": "0px",
+              "bottom": "0px",
+              "transform": "none",
+              "overflow": "visible",
+              "zIndex": "3"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "HEADER",
+                "className": "css-175oi2r r-lrvibr r-1g40b8q r-obd0qt r-16y2uox",
+                "id": "",
+                "attributes": {
+                  "role": "banner",
+                  "class": "css-175oi2r r-lrvibr r-1g40b8q r-obd0qt r-16y2uox"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "509.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                "id": "",
+                "attributes": {
+                  "dir": "ltr",
+                  "class": "css-175oi2r r-1f2l425 r-13qz1uu r-417010 r-18u37iz",
+                  "data-at-shortcutkeys": "{\"n\":\"新しいポスト\",\"CTRL Enter\":\"ポストを送信\",\"m\":\"選択した動画をミュート\",\"/\":\"検索\",\"l\":\"いいね\",\"r\":\"返信\",\"t\":\"リポスト\",\"s\":\"ポストを共有\",\"b\":\"ブックマーク\",\"u\":\"アカウントをミュート\",\"x\":\"アカウントをブロック\",\"Enter\":\"ポストの詳細を開く\",\"o\":\"画像を開く\",\"i\":\"メッセージドックを開く/閉じる\",\"k\":\"前のポスト\",\"space\":\"選択した動画を一時停止/再生\",\"a d\":\"音声ドックに移動\",\"a space\":\"音声ドックを再生/一時停止\",\"a m\":\"音声ドックをミュート/ミュート解除\",\"?\":\"ショートカットのヘルプ\",\"j\":\"次のポスト\",\"Space\":\"ページ下へ移動\",\".\":\"新しいポストを読み込む\",\"g h\":\"ホーム\",\"g e\":\"話題を検索\",\"g n\":\"通知\",\"g r\":\"@ツイート\",\"g p\":\"プロフィール\",\"g f\":\"下書き\",\"g t\":\"予約投稿ポスト\",\"g l\":\"いいね\",\"g i\":\"リスト\",\"g m\":\"ダイレクトメッセージ\",\"g g\":\"Grok\",\"g s\":\"設定\",\"g b\":\"ブックマーク\",\"g u\":\"プロフィールページを見る...\",\"g d\":\"表示設定\"}",
+                  "aria-hidden": "false"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-13awgt0 r-12vffkv",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-13awgt0 r-12vffkv"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "",
+                "id": "react-root",
+                "attributes": {
+                  "id": "react-root",
+                  "style": "height:100%;display:flex;"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "static",
+                  "width": "1869px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px rgb(251, 251, 254)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-lrvibr r-1g40b8q r-obd0qt r-16y2uox",
+            "id": "",
+            "tagName": "HEADER",
+            "attributes": {
+              "role": "banner",
+              "class": "css-175oi2r r-lrvibr r-1g40b8q r-obd0qt r-16y2uox"
+            },
+            "textContent": "ホーム 話題を検索 通知 メッセージ Grok リスト ブックマーク コミュニティ プレミアム プロフィール もっと見る ポストするGilberto Dominguez@GilbertoDominX"
+          }
+        ]
+      },
+      "rightSidebar": {
+        "description": "右サイドバー",
+        "selector": "[data-testid=\"sidebarColumn\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "300px",
+              "height": "auto",
+              "maxWidth": "none",
+              "minWidth": "300px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px 70px 0px 0px",
+              "border": "0px solid rgb(0, 0, 0)",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "auto",
+              "left": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "transform": "none",
+              "overflow": "hidden",
+              "zIndex": "0"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+                  "data-testid": "sidebarColumn"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "300px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                  "style": "display: none !important;"
+                },
+                "computedStyle": {
+                  "display": "none",
+                  "position": "relative",
+                  "width": "100%",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "MAIN",
+                "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+                "id": "",
+                "attributes": {
+                  "role": "main",
+                  "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1359.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+            "id": "",
+            "tagName": "DIV",
+            "attributes": {
+              "class": "css-175oi2r r-aqfbo4 r-10f7w94 r-1hycxz r-1udh08x",
+              "data-testid": "sidebarColumn"
+            },
+            "textContent": "プレミアムにサブスクライブサブスクライブして新機能を利用しましょう。資格を満たしている場合、収益配分を受け取れます。購入する速報「いま」を見つけようAmazonBlackFriday202512月1日"
+          }
+        ]
+      },
+      "mainContent": {
+        "description": "メインコンテンツ",
+        "selector": "[data-testid=\"primaryColumn\"]",
+        "found": 1,
+        "elements": [
+          {
+            "index": 0,
+            "rect": {
+              "top": 0,
+              "left": 0,
+              "width": 0,
+              "height": 0,
+              "right": 0,
+              "bottom": 0
+            },
+            "computedStyle": {
+              "display": "flex",
+              "visibility": "visible",
+              "opacity": "1",
+              "width": "100%",
+              "height": "auto",
+              "maxWidth": "1200px",
+              "minWidth": "0px",
+              "padding": "0px",
+              "paddingLeft": "0px",
+              "paddingRight": "0px",
+              "margin": "0px",
+              "border": "",
+              "borderRadius": "0px",
+              "position": "relative",
+              "top": "auto",
+              "left": "auto",
+              "right": "auto",
+              "bottom": "auto",
+              "transform": "none",
+              "overflow": "visible",
+              "zIndex": "1"
+            },
+            "inlineStyle": null,
+            "hierarchy": [
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+                  "data-testid": "primaryColumn"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "100%",
+                  "maxWidth": "1200px",
+                  "padding": "0px",
+                  "border": "",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-1oszu61 r-1niwhzg r-18u37iz r-16y2uox r-2llsf r-13qz1uu r-1wtj0ep",
+                  "style": "display: none !important;"
+                },
+                "computedStyle": {
+                  "display": "none",
+                  "position": "relative",
+                  "width": "100%",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-aqfbo4 r-16y2uox",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-aqfbo4 r-16y2uox"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "DIV",
+                "className": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t",
+                "id": "",
+                "attributes": {
+                  "class": "css-175oi2r r-150rngu r-16y2uox r-1wbh5a2 r-113js5t"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1050px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              },
+              {
+                "tagName": "MAIN",
+                "className": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh",
+                "id": "",
+                "attributes": {
+                  "role": "main",
+                  "class": "css-175oi2r r-16y2uox r-1wbh5a2 r-1habvwh"
+                },
+                "computedStyle": {
+                  "display": "flex",
+                  "position": "relative",
+                  "width": "1359.5px",
+                  "maxWidth": "none",
+                  "padding": "0px",
+                  "border": "0px solid rgb(0, 0, 0)",
+                  "borderRadius": "0px"
+                }
+              }
+            ],
+            "className": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+            "id": "",
+            "tagName": "DIV",
+            "attributes": {
+              "class": "css-175oi2r r-kemksi r-1kqtdi0 r-1ua6aaf r-th6na r-1phboty r-16y2uox r-184en5c r-1abdc3e r-1lg4w6u r-f8sm7e r-13qz1uu r-1ye8kvj",
+              "data-testid": "primaryColumn"
+            },
+            "textContent": "おすすめフォロー中Singularityお前おもしろそうだなちいかわCute Illustration拓也やみんふぇありすちゃんuncensoredさんがポストしましたいまどうしてる？ポストするホーム"
+          }
+        ]
+      }
+    }
+  },
+  "issues": [
+    {
+      "type": "searchBox",
+      "severity": "medium",
+      "message": "検索ボックスの適切なコンテナが特定できません",
+      "details": {
+        "totalLevels": 10,
+        "suggestion": "検出ロジックの見直しが必要"
+      }
+    }
+  ]
+}

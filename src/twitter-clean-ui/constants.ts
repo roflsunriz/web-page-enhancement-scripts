@@ -268,17 +268,46 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           );
           if (!searchInput) return null;
 
-          // 検索ボックス全体のコンテナを取得
+          const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
+          if (!sidebar) return null;
+
+          // 検索ボックス全体のコンテナを取得（より柔軟な探索）
           let container: HTMLElement | null = searchInput as HTMLElement;
-          for (let i = 0; i < 10; i++) {
+          for (let i = 0; i < 8; i++) {
             if (!container.parentElement) break;
             container = container.parentElement;
-            const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
-            if (sidebar?.contains(container) && container.parentElement === sidebar.firstElementChild) {
+            
+            // sidebarColumnを超えたら終了
+            if (container === sidebar) break;
+            if (!sidebar.contains(container)) break;
+
+            const style = window.getComputedStyle(container);
+            const hasBackground = style.backgroundColor !== 'rgba(0, 0, 0, 0)' && 
+                                 style.backgroundColor !== 'transparent';
+            const hasBorder = style.border !== '' && style.border !== '0px none rgb(0, 0, 0)';
+            const hasRoundedCorners = style.borderRadius !== '0px';
+            
+            // 背景色やボーダーを持つコンテナを検出
+            // かつ、sidebarColumnの直接の子要素の子要素程度まで
+            if ((hasBackground || hasBorder) && hasRoundedCorners) {
+              // さらに1階層上のコンテナがあればそれを返す（余白を含むため）
+              if (container.parentElement && 
+                  sidebar.contains(container.parentElement) && 
+                  container.parentElement !== sidebar) {
+                return container.parentElement;
+              }
               return container;
             }
           }
-          return null;
+          
+          // 見つからない場合は5階層上を返す（フォールバック）
+          let fallback: HTMLElement | null = searchInput as HTMLElement;
+          for (let i = 0; i < 5; i++) {
+            if (!fallback.parentElement) break;
+            if (fallback.parentElement === sidebar) break;
+            fallback = fallback.parentElement;
+          }
+          return fallback;
         },
       },
     ],
@@ -296,19 +325,26 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
           if (!sidebar) return null;
 
-          // テキストを含む要素を探す
+          // テキストを含む要素を探す（より厳格なマッチング）
           const allDivs = Array.from(sidebar.querySelectorAll('div, section, aside'));
           for (const elem of allDivs) {
             const text = elem.textContent || '';
+            // テキスト長が短い要素のみを対象（親要素を誤検出しないため）
+            if (text.length > 1000) continue;
+            
             if (
               text.includes('プレミアムにサブスクライブ') ||
-              text.includes('Subscribe to Premium') ||
-              (text.includes('認証マーク') && text.includes('プレミアム'))
+              text.includes('Subscribe to Premium')
             ) {
-              // ボーダーを持つ親要素を探す（最大5階層）
+              // ボーダーを持つ親要素を探す（最大3階層、sidebarColumnを超えない）
               let current: HTMLElement | null = elem as HTMLElement;
-              for (let i = 0; i < 5; i++) {
+              for (let i = 0; i < 3; i++) {
                 if (!current.parentElement) break;
+                // sidebarColumnを超えて遡らない
+                if (current.parentElement === sidebar || !sidebar.contains(current.parentElement)) {
+                  break;
+                }
+                
                 const style = window.getComputedStyle(current.parentElement);
                 // 1px以上のボーダーとborderRadiusを持つ要素を探す
                 const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
@@ -317,8 +353,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
                 }
                 current = current.parentElement;
               }
-              // ボーダー付きコンテナが見つからない場合は2階層上
-              return elem.parentElement?.parentElement as HTMLElement;
+              // ボーダー付きコンテナが見つからない場合は1階層上のみ
+              // （2階層上まで遡ると広範囲を巻き込む可能性があるため）
+              if (elem.parentElement && sidebar.contains(elem.parentElement)) {
+                return elem.parentElement as HTMLElement;
+              }
+              return elem as HTMLElement;
             }
           }
           return null;
