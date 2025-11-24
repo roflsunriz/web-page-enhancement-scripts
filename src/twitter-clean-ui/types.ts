@@ -113,6 +113,7 @@ export interface LayoutSettings {
   mainContentWidth: number; // px
   rightSidebarWidth: number; // px
   mainContentPadding: number; // px
+  timelineRightPadding: number; // px（タイムラインと右サイドバー間）
   gap: number; // px（カラム間の間隔）
 }
 
@@ -203,6 +204,7 @@ export interface TranslationKeys {
   mainContentWidth: string;
   rightSidebarWidth: string;
   mainContentPadding: string;
+  timelineRightPadding: string;
   gap: string;
 
   // その他

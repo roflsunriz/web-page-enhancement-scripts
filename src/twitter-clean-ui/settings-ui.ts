@@ -45,6 +45,11 @@ export class SettingsUI {
 
     this.overlay = this.createOverlay();
     document.body.appendChild(this.overlay);
+    
+    // デフォルトで最初のタブを表示（DOMに追加された後）
+    setTimeout(() => {
+      this.showTab('visibility');
+    }, 0);
   }
 
   /**
@@ -96,9 +101,6 @@ export class SettingsUI {
     body.className = 'twitter-clean-ui-body';
     body.id = 'twitter-clean-ui-body';
     modal.appendChild(body);
-
-    // デフォルトで最初のタブを表示
-    this.showTab('visibility');
 
     // フッター
     const footer = this.createFooter();
@@ -371,6 +373,24 @@ export class SettingsUI {
       }
     );
     section.appendChild(rightSidebarControl);
+
+    // タイムラインと右サイドバー間の余白
+    const timelinePaddingControl = this.createSliderControl(
+      t('timelineRightPadding'),
+      settings.layout.timelineRightPadding,
+      0,
+      100,
+      (value) => {
+        const partialLayout: Partial<typeof settings.layout> = { timelineRightPadding: value };
+        this.settingsManager.updateSettings({
+          layout: partialLayout as typeof settings.layout,
+        });
+        if (settings.enableRealTimePreview) {
+          this.controller.applyLayout(this.settingsManager.getSettings());
+        }
+      }
+    );
+    section.appendChild(timelinePaddingControl);
 
     // カラム間の間隔
     const gapControl = this.createSliderControl(

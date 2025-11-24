@@ -313,21 +313,6 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.user.js',
 };
 
-const twitterWideLayoutFixMeta: MonkeyUserScript = {
-  name: 'twitter-wide-layout-fix',
-  namespace: 'twitterWideLayoutFix',
-  version: '2.2.0',
-  description: 'Adjusts Twitter layout width using class and XPath selectors',
-  author: 'roflsunriz',
-  match: ['https://twitter.com/*', 'https://x.com/*'],
-  grant: ['GM_addStyle', 'GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-wide-layout-fix.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-wide-layout-fix.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
-};
-
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
@@ -345,7 +330,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 };
 
 const twitterCleanUIMeta: MonkeyUserScript = {
-  name: 'X Clean Menu and Sidebar',
+  name: 'twitter-clean-ui',
   namespace: 'twitterCleanUI',
   version: '1.0.0',
   description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。',
@@ -421,11 +406,6 @@ const SCRIPT_CONFIGS = {
     fileName: 'twitter-thread-copier.user.js',
     meta: twitterThreadCopierMeta,
   },
-  'twitter-wide-layout-fix': {
-    entry: 'src/twitter-wide-layout-fix/main.ts',
-    fileName: 'twitter-wide-layout-fix.user.js',
-    meta: twitterWideLayoutFixMeta,
-  },
   'youtube-info-copier': {
     entry: 'src/youtube-info-copier/main.ts',
     fileName: 'youtube-info-copier.user.js',
@@ -469,7 +449,6 @@ export default defineConfig((configEnv) => {
         '@/twitter-mute-filter': resolve(dir, 'src/twitter-mute-filter'),
         '@/twitter-mute-retweets': resolve(dir, 'src/twitter-mute-retweets'),
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
-        '@/twitter-wide-layout-fix': resolve(dir, 'src/twitter-wide-layout-fix'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
         '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
         '@/shared': resolve(dir, 'src/shared')

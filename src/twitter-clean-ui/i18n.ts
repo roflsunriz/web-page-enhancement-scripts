@@ -56,6 +56,7 @@ const ja: TranslationKeys = {
   mainContentWidth: 'メインコンテンツの幅',
   rightSidebarWidth: '右サイドバーの幅',
   mainContentPadding: 'メインコンテンツの余白',
+  timelineRightPadding: 'タイムラインと右サイドバー間の余白',
   gap: 'カラム間の間隔',
 
   // その他
@@ -118,6 +119,7 @@ const en: TranslationKeys = {
   mainContentWidth: 'Main Content Width',
   rightSidebarWidth: 'Right Sidebar Width',
   mainContentPadding: 'Main Content Padding',
+  timelineRightPadding: 'Timeline Right Padding',
   gap: 'Column Gap',
 
   // Other

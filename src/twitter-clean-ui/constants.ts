@@ -47,6 +47,7 @@ export const DEFAULT_SETTINGS: Settings = {
     mainContentWidth: 600, // 読みやすい幅
     rightSidebarWidth: 350,
     mainContentPadding: 0,
+    timelineRightPadding: 0,
     gap: 30,
   },
   enableRealTimePreview: true,
@@ -295,15 +296,26 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
           if (!sidebar) return null;
 
-          const sections = Array.from(sidebar.querySelectorAll('aside, section, div[role="complementary"]'));
-          for (const section of sections) {
-            const text = section.textContent || '';
+          const allDivs = Array.from(sidebar.querySelectorAll('div'));
+          for (const div of allDivs) {
+            const text = div.textContent || '';
             if (
-              text.includes('プレミアムにサブスクライブ') ||
-              text.includes('Subscribe to Premium') ||
-              (text.includes('認証マーク') && text.includes('プレミアム'))
+              (text.includes('プレミアムにサブスクライブ') || 
+               text.includes('Subscribe to Premium')) &&
+              div.querySelector('aside, section')
             ) {
-              return section.parentElement?.parentElement as HTMLElement;
+              // より上位のコンテナを取得（アウトラインを含む）
+              let container: HTMLElement = div;
+              for (let i = 0; i < 3; i++) {
+                if (!container.parentElement) break;
+                container = container.parentElement;
+                // sidebarColumnの直接の子要素のさらに子要素レベルを探す
+                const computedStyle = window.getComputedStyle(container);
+                if (computedStyle.marginBottom || computedStyle.marginTop) {
+                  return container;
+                }
+              }
+              return div;
             }
           }
           return null;
@@ -327,10 +339,21 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           const firstTrend = trends[0];
           let container: HTMLElement | null = firstTrend.parentElement as HTMLElement;
 
-          for (let i = 0; i < 5; i++) {
+          for (let i = 0; i < 8; i++) {
             if (!container) break;
             const foundTrends = container.querySelectorAll('[data-testid="trend"]');
             if (foundTrends.length > 1) {
+              // さらに上位のコンテナを探す（セクション全体を含む）
+              let parent = container.parentElement;
+              for (let j = 0; j < 3; j++) {
+                if (!parent) break;
+                const computedStyle = window.getComputedStyle(parent);
+                // marginやborderを持つコンテナを探す
+                if (computedStyle.marginBottom || computedStyle.border !== 'none') {
+                  return parent;
+                }
+                parent = parent.parentElement;
+              }
               return container.parentElement?.parentElement as HTMLElement;
             }
             container = container.parentElement as HTMLElement;
@@ -346,16 +369,26 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     description: 'おすすめユーザーセクション',
     strategies: [
       {
-        type: 'querySelector',
-        selector: 'aside[aria-label*="おすすめユーザー"]',
-        method: 'aria-label Japanese',
+        type: 'custom',
+        method: 'Who to follow with container',
         confidence: 0.9,
-      },
-      {
-        type: 'querySelector',
-        selector: 'aside[aria-label*="Who to follow"]',
-        method: 'aria-label English',
-        confidence: 0.9,
+        finder: () => {
+          const aside = document.querySelector('aside[aria-label*="おすすめユーザー"], aside[aria-label*="Who to follow"]') as HTMLElement;
+          if (!aside) return null;
+          
+          // asideを含む外側のコンテナを探す（アウトラインやボーダーを含む）
+          let container = aside.parentElement;
+          for (let i = 0; i < 3; i++) {
+            if (!container) break;
+            const computedStyle = window.getComputedStyle(container);
+            // marginやborderを持つコンテナを探す
+            if (computedStyle.marginBottom || computedStyle.marginTop) {
+              return container;
+            }
+            container = container.parentElement;
+          }
+          return aside.parentElement as HTMLElement;
+        },
       },
     ],
   },

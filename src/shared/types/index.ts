@@ -5,5 +5,4 @@ export * from "./chatgpt-notify";
 export * from "./twitter-media";
 export * from "./twitter-mute";
 export * from "./twitter-mute-retweets";
-export * from "./twitter-wide-layout";
 export * from "./youtube-info-copier";

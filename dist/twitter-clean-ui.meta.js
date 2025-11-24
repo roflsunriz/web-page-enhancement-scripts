@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name         X Clean Menu and Sidebar
+// @name         twitter-clean-ui
 // @namespace    twitterCleanUI
 // @version      1.0.0
 // @author       roflsunriz

@@ -47,8 +47,15 @@ export class ElementController {
       this.appliedStyles.set(elementId, originalDisplay);
     }
 
-    // 非表示
+    // 非表示（完全に消す）
     element.style.setProperty('display', 'none', 'important');
+    element.style.setProperty('visibility', 'hidden', 'important');
+    element.style.setProperty('opacity', '0', 'important');
+    element.style.setProperty('height', '0', 'important');
+    element.style.setProperty('margin', '0', 'important');
+    element.style.setProperty('padding', '0', 'important');
+    element.style.setProperty('border', 'none', 'important');
+    element.style.setProperty('overflow', 'hidden', 'important');
     this.hiddenElements.add(elementId);
   }
 
@@ -68,6 +75,15 @@ export class ElementController {
     } else {
       element.style.removeProperty('display');
     }
+    
+    // 非表示時に設定した他のスタイルも削除
+    element.style.removeProperty('visibility');
+    element.style.removeProperty('opacity');
+    element.style.removeProperty('height');
+    element.style.removeProperty('margin');
+    element.style.removeProperty('padding');
+    element.style.removeProperty('border');
+    element.style.removeProperty('overflow');
 
     this.hiddenElements.delete(elementId);
   }
@@ -121,6 +137,11 @@ export class ElementController {
       /* メインコンテンツのパディング */
       main[role="main"] > div {
         padding: ${layout.mainContentPadding}px !important;
+      }
+
+      /* タイムラインと右サイドバー間の余白 */
+      [data-testid="primaryColumn"] {
+        padding-right: ${layout.timelineRightPadding}px !important;
       }
 
       /* カラム間の間隔 */

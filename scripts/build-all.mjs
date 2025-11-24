@@ -22,7 +22,6 @@ const targets = [
   { mode: 'twitter-mute-filter', clear: false },
   { mode: 'twitter-mute-retweets', clear: false },
   { mode: 'twitter-thread-copier', clear: false },
-  { mode: 'twitter-wide-layout-fix', clear: false },
   { mode: 'youtube-info-copier', clear: false },
 ];
 
