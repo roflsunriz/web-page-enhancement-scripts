@@ -332,8 +332,8 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const twitterCleanUIMeta: MonkeyUserScript = {
   name: 'twitter-clean-ui',
   namespace: 'twitterCleanUI',
-  version: '1.1.1',
-  description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。',
+  version: '1.2.0',
+  description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],

@@ -13,8 +13,10 @@ export type UIElementId =
   | 'leftSidebar_ExploreLink'
   | 'leftSidebar_NotificationsLink'
   | 'leftSidebar_MessagesLink'
+  | 'leftSidebar_GrokLink'
   | 'leftSidebar_BookmarksLink'
   | 'leftSidebar_ListsLink'
+  | 'leftSidebar_CommunitiesLink'
   | 'leftSidebar_ProfileLink'
   | 'leftSidebar_PremiumLink'
   | 'leftSidebar_MoreMenu'
@@ -84,8 +86,10 @@ export interface VisibilitySettings {
   leftSidebar_ExploreLink: boolean;
   leftSidebar_NotificationsLink: boolean;
   leftSidebar_MessagesLink: boolean;
+  leftSidebar_GrokLink: boolean;
   leftSidebar_BookmarksLink: boolean;
   leftSidebar_ListsLink: boolean;
+  leftSidebar_CommunitiesLink: boolean;
   leftSidebar_ProfileLink: boolean;
   leftSidebar_PremiumLink: boolean;
   leftSidebar_MoreMenu: boolean;
@@ -179,8 +183,10 @@ export interface TranslationKeys {
   leftSidebar_ExploreLink: string;
   leftSidebar_NotificationsLink: string;
   leftSidebar_MessagesLink: string;
+  leftSidebar_GrokLink: string;
   leftSidebar_BookmarksLink: string;
   leftSidebar_ListsLink: string;
+  leftSidebar_CommunitiesLink: string;
   leftSidebar_ProfileLink: string;
   leftSidebar_PremiumLink: string;
   leftSidebar_MoreMenu: string;

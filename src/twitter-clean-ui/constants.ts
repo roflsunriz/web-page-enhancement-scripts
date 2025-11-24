@@ -22,8 +22,10 @@ export const DEFAULT_SETTINGS: Settings = {
     leftSidebar_ExploreLink: true,
     leftSidebar_NotificationsLink: true,
     leftSidebar_MessagesLink: true,
+    leftSidebar_GrokLink: true,
     leftSidebar_BookmarksLink: true,
     leftSidebar_ListsLink: true,
+    leftSidebar_CommunitiesLink: true,
     leftSidebar_ProfileLink: true,
     leftSidebar_PremiumLink: true,
     leftSidebar_MoreMenu: true,
@@ -140,6 +142,25 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     ],
   },
   {
+    id: 'leftSidebar_GrokLink',
+    category: 'leftSidebar',
+    description: 'Grokリンク',
+    strategies: [
+      {
+        type: 'querySelector',
+        selector: 'a[href="/i/grok"]',
+        method: 'href selector',
+        confidence: 0.95,
+      },
+      {
+        type: 'querySelector',
+        selector: 'a[aria-label="Grok"]',
+        method: 'aria-label',
+        confidence: 0.9,
+      },
+    ],
+  },
+  {
     id: 'leftSidebar_BookmarksLink',
     category: 'leftSidebar',
     description: 'ブックマークリンク',
@@ -162,6 +183,25 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
         selector: 'a[href*="/lists"]',
         method: 'href contains',
         confidence: 0.85,
+      },
+    ],
+  },
+  {
+    id: 'leftSidebar_CommunitiesLink',
+    category: 'leftSidebar',
+    description: 'コミュニティリンク',
+    strategies: [
+      {
+        type: 'querySelector',
+        selector: 'a[href*="/communities"]',
+        method: 'href contains',
+        confidence: 0.9,
+      },
+      {
+        type: 'querySelector',
+        selector: 'a[aria-label="コミュニティ"], a[aria-label="Communities"]',
+        method: 'aria-label',
+        confidence: 0.95,
       },
     ],
   },

@@ -4,6 +4,10 @@
 
 `x-ui-diagnostic.js`は、twitter-clean-uiの不具合を調査するための診断ツールです。実際のDOM構造、適用されているスタイル、要素の階層構造を詳細に分析し、JSON形式でダウンロードできます。
 
+### 現在のバージョン: v2.0.0 (Grok & Communities detection)
+
+このバージョンは、左サイドバーの**「Grok」**と**「コミュニティ」**要素を検出することに特化しています。twitter-clean-uiにこれらの要素の表示切り替え機能を追加するための準備段階として使用します。
+
 ## 使用方法
 
 ### 🎯 推奨される診断手順
@@ -82,54 +86,48 @@ runXUIDiagnostic()
   - `x-ui-diagnostic-WITH-clean-ui.json`
   - `x-ui-diagnostic-WITHOUT-clean-ui.json`
 
-## 調査項目
+## 調査項目（v2.0.0）
 
-### 1. タイムライン幅の調査
+### 1. 左サイドバーの構造分析
 
-**目的**: メインコンテンツの幅調整が正しく機能しているか確認
-
-**調査内容**:
-- `[data-testid="primaryColumn"]`の検出状況
-- 適用されている`max-width`、`padding-right`の値
-- 実際のレンダリング幅と設定値の比較
-- `main[role="main"]`とその子要素の構造
-
-**検出される問題**:
-- `paddingRight`が異常に大きい（50px以上）
-- `max-width`が正しく適用されていない
-- 実際の幅が期待値と異なる
-
-### 2. プレミアムサブスクライブセクションの調査
-
-**目的**: 「プレミアムにサブスクライブ」セクションの非表示処理が他の要素に影響していないか確認
+**目的**: 左サイドバー全体の構造を把握する
 
 **調査内容**:
-- 「プレミアムにサブスクライブ」テキストを含む要素の検出
-- ボーダー付きコンテナの特定（最大5階層まで探索）
-- 要素の階層構造（8階層まで）
-- タイムラインとの位置関係
+- `header[role="banner"]`内のすべてのリンクとボタンの列挙
+- 各要素のテキスト、href、aria-label、data-testid属性の取得
+- 要素の総数とインデックス情報
 
-**検出される問題**:
-- プレミアムサブスクライブの検出領域とタイムラインが重複
-- 親要素を過剰に取得している
-- 不適切なコンテナを対象にしている
+### 2. Grok要素の検出
 
-### 3. 検索ボックスの調査
-
-**目的**: 検索ボックスの非表示処理が正しく機能するか確認
+**目的**: 「Grok」リンクを正確に特定する
 
 **調査内容**:
-- `[data-testid="SearchBox_Search_Input"]`の検出状況
-- 検索ボックスのコンテナ階層（最大10階層まで探索）
-- サイドバーとの位置関係
-- 各階層の`display`、`position`、`padding`等のスタイル
+- 「Grok」テキストを含む要素の検索（完全一致と部分一致）
+- リンク要素（`<a>`タグ）の特定（最大5階層まで遡る）
+- `href`属性、`data-testid`属性、`className`の取得
+- 要素の階層構造（8階層）
+- 要素の位置とサイズ情報
 
-**検出される問題**:
-- 検索ボックスの入力フィールドが見つからない
-- 適切なコンテナが特定できない
-- 検出ロジックが機能していない
+**検出結果**:
+- ✅ 成功: Grok要素が正常に検出された
+- ❌ 失敗: Grok要素が見つからない（ユーザーがGrokにアクセスできない、またはUIに表示されていない）
 
-## 診断結果のフォーマット
+### 3. コミュニティ要素の検出
+
+**目的**: 「コミュニティ」リンクを正確に特定する
+
+**調査内容**:
+- 「コミュニティ」または「Communities」テキストを含む要素の検索
+- リンク要素（`<a>`タグ）の特定（最大5階層まで遡る）
+- `href`属性、`data-testid`属性、`className`の取得
+- 要素の階層構造（8階層）
+- 要素の位置とサイズ情報
+
+**検出結果**:
+- ✅ 成功: コミュニティ要素が正常に検出された
+- ❌ 失敗: コミュニティ要素が見つからない（ユーザーがコミュニティ機能にアクセスできない、またはUIに表示されていない）
+
+## 診断結果のフォーマット（v2.0.0）
 
 ```json
 {
@@ -140,29 +138,66 @@ runXUIDiagnostic()
     "width": 1920,
     "height": 1080
   },
-  "elements": {
-    "timelineWidth": { ... },
-    "premiumSubscribe": { ... },
-    "searchBox": { ... },
-    "pageStructure": { ... }
-  },
-  "issues": [
-    {
-      "type": "timelineWidth",
-      "severity": "high",
-      "message": "問題の説明",
-      "details": { ... }
+  "targetElements": {
+    "grok": {
+      "textKeyword": "Grok",
+      "textContent": "Grok",
+      "tagName": "A",
+      "className": "...",
+      "id": "",
+      "attributes": {
+        "href": "/i/grok",
+        "data-testid": "...",
+        "aria-label": "..."
+      },
+      "rect": {
+        "top": 123,
+        "left": 45,
+        "width": 200,
+        "height": 48
+      },
+      "computedStyle": {
+        "display": "flex",
+        "visibility": "visible"
+      },
+      "hierarchy": [
+        { "level": 0, "tagName": "A", ... },
+        { "level": 1, "tagName": "DIV", ... },
+        ...
+      ]
+    },
+    "communities": {
+      // Grokと同じ構造
     }
-  ]
+  },
+  "leftSidebarStructure": {
+    "totalElements": 15,
+    "elements": [
+      {
+        "index": 0,
+        "tagName": "A",
+        "text": "ホーム",
+        "href": "/home",
+        "ariaLabel": "ホーム",
+        "dataTestId": "AppTabBar_Home_Link",
+        "className": "..."
+      },
+      ...
+    ]
+  },
+  "detectionSummary": {
+    "grokFound": true,
+    "communitiesFound": true
+  }
 }
 ```
 
-### 重要度レベル
+### 重要なフィールド
 
-- **critical**: 致命的な問題（機能が完全に動作しない）
-- **high**: 高い問題（主要な機能に大きな影響がある）
-- **medium**: 中程度の問題（一部の機能に影響がある）
-- **low**: 軽微な問題（ユーザー体験に小さな影響）
+- **targetElements.grok**: Grok要素の詳細情報（最も重要）
+- **targetElements.communities**: コミュニティ要素の詳細情報（最も重要）
+- **leftSidebarStructure**: 左サイドバーの全要素リスト（参考情報）
+- **detectionSummary**: 検出成功/失敗のサマリー
 
 ## トラブルシューティング
 
@@ -216,47 +251,54 @@ console.log(results);
 diagnostic.downloadResults();
 ```
 
-### 特定の調査項目のみ実行
+### 特定の調査項目のみ実行（v2.0.0）
 
 ```javascript
 const diagnostic = new XUIDiagnostic();
 
-// タイムライン幅のみ調査
-diagnostic.investigateTimelineWidth();
-console.log(diagnostic.diagnosticData);
+// 左サイドバー構造のみ分析
+diagnostic.analyzeLeftSidebar();
+console.log(diagnostic.diagnosticData.leftSidebarStructure);
 
-// プレミアムサブスクライブのみ調査
-diagnostic.investigatePremiumSubscribe();
-console.log(diagnostic.diagnosticData);
+// Grok要素のみ検出
+diagnostic.detectGrok();
+console.log(diagnostic.diagnosticData.targetElements.grok);
 
-// 検索ボックスのみ調査
-diagnostic.investigateSearchBox();
-console.log(diagnostic.diagnosticData);
+// コミュニティ要素のみ検出
+diagnostic.detectCommunities();
+console.log(diagnostic.diagnosticData.targetElements.communities);
 ```
 
-### カスタム診断の追加
-
-`XUIDiagnostic`クラスに新しいメソッドを追加することで、追加の診断項目を実装できます：
+### 検出結果の確認
 
 ```javascript
-investigateCustomFeature() {
-    // カスタム調査ロジック
-    const data = this.collectElementInfo('selector', 'description');
-    this.diagnosticData.elements.customFeature = data;
-    
-    // 問題の検出
-    if (/* 条件 */) {
-        this.diagnosticData.issues.push({
-            type: 'customFeature',
-            severity: 'high',
-            message: '問題の説明',
-            details: { /* 詳細情報 */ }
-        });
-    }
+// 検出成功/失敗の確認
+const diagnostic = new XUIDiagnostic();
+diagnostic.runDiagnostics();
+
+if (diagnostic.diagnosticData.detectionSummary.grokFound) {
+    console.log('✅ Grokが見つかりました');
+    console.log('href:', diagnostic.diagnosticData.targetElements.grok.attributes.href);
+    console.log('data-testid:', diagnostic.diagnosticData.targetElements.grok.attributes['data-testid']);
+} else {
+    console.log('❌ Grokが見つかりませんでした');
+}
+
+if (diagnostic.diagnosticData.detectionSummary.communitiesFound) {
+    console.log('✅ コミュニティが見つかりました');
+} else {
+    console.log('❌ コミュニティが見つかりませんでした');
 }
 ```
 
 ## バージョン履歴
+
+### v2.0.0 (2025-11-24) - Grok & Communities detection
+- 🎯 左サイドバーの「Grok」と「コミュニティ」要素の検出に特化
+- 既存の診断項目を削除し、新機能追加の準備段階に最適化
+- 左サイドバー構造の詳細分析機能を追加
+- 検出結果を`targetElements`に集約し、よりシンプルな出力に変更
+- コンソール出力を見やすく改善
 
 ### v1.0.0 (2025-11-24)
 - 初回リリース
