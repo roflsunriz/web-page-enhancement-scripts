@@ -56,10 +56,8 @@ const ja: TranslationKeys = {
   // レイアウト
   leftSidebarWidth: '左サイドバーの幅',
   mainContentWidth: 'メインコンテンツの幅',
-  rightSidebarWidth: '右サイドバーの幅',
   mainContentPadding: 'メインコンテンツの余白',
   timelineRightPadding: 'タイムラインと右サイドバー間の余白',
-  gap: 'カラム間の間隔',
 
   // その他
   enableRealTimePreview: 'リアルタイムプレビュー',
@@ -121,10 +119,8 @@ const en: TranslationKeys = {
   // Layout
   leftSidebarWidth: 'Left Sidebar Width',
   mainContentWidth: 'Main Content Width',
-  rightSidebarWidth: 'Right Sidebar Width',
   mainContentPadding: 'Main Content Padding',
   timelineRightPadding: 'Timeline Right Padding',
-  gap: 'Column Gap',
 
   // Other
   enableRealTimePreview: 'Real-time Preview',

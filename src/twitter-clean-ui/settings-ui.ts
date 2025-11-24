@@ -358,24 +358,6 @@ export class SettingsUI {
     );
     section.appendChild(mainContentControl);
 
-    // 右サイドバーの幅
-    const rightSidebarControl = this.createSliderControl(
-      t('rightSidebarWidth'),
-      settings.layout.rightSidebarWidth,
-      300,
-      500,
-      (value) => {
-        const partialLayout: Partial<typeof settings.layout> = { rightSidebarWidth: value };
-        this.settingsManager.updateSettings({
-          layout: partialLayout as typeof settings.layout,
-        });
-        if (settings.enableRealTimePreview) {
-          this.controller.applyLayout(this.settingsManager.getSettings());
-        }
-      }
-    );
-    section.appendChild(rightSidebarControl);
-
     // タイムラインと右サイドバー間の余白
     const timelinePaddingControl = this.createSliderControl(
       t('timelineRightPadding'),
@@ -393,24 +375,6 @@ export class SettingsUI {
       }
     );
     section.appendChild(timelinePaddingControl);
-
-    // カラム間の間隔
-    const gapControl = this.createSliderControl(
-      t('gap'),
-      settings.layout.gap,
-      0,
-      60,
-      (value) => {
-        const partialLayout: Partial<typeof settings.layout> = { gap: value };
-        this.settingsManager.updateSettings({
-          layout: partialLayout as typeof settings.layout,
-        });
-        if (settings.enableRealTimePreview) {
-          this.controller.applyLayout(this.settingsManager.getSettings());
-        }
-      }
-    );
-    section.appendChild(gapControl);
 
     // リアルタイムプレビュー
     const previewControl = this.createToggleControl(

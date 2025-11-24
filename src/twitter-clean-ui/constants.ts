@@ -47,10 +47,8 @@ export const DEFAULT_SETTINGS: Settings = {
   layout: {
     leftSidebarWidth: 275, // デフォルトのX/Twitterの幅
     mainContentWidth: 600, // 読みやすい幅
-    rightSidebarWidth: 350,
     mainContentPadding: 0,
     timelineRightPadding: 0,
-    gap: 30,
   },
   enableRealTimePreview: true,
   language: 'ja',

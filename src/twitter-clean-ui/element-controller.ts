@@ -122,14 +122,6 @@ export class ElementController {
         min-width: ${layout.mainContentWidth}px !important;
       }
 
-      /* 右サイドバーの幅 */
-      [data-testid="sidebarColumn"] {
-        width: ${layout.rightSidebarWidth}px !important;
-        min-width: ${layout.rightSidebarWidth}px !important;
-        max-width: ${layout.rightSidebarWidth}px !important;
-        flex-shrink: 0 !important;
-      }
-
       /* メインコンテンツのパディング */
       [data-testid="primaryColumn"] > div:first-child {
         padding: ${layout.mainContentPadding}px !important;
@@ -140,16 +132,6 @@ export class ElementController {
         margin-right: ${layout.timelineRightPadding}px !important;
         /* パディングではなくマージンを使用することで、コンテンツ幅を維持 */
         padding-right: 0px !important;
-      }
-
-      /* カラム間の間隔 - 横並びのメインコンテナを対象 */
-      main[role="main"] > div > div {
-        gap: ${layout.gap}px !important;
-      }
-
-      /* 3カラムレイアウトのコンテナ（primaryColumnとsidebarColumnの親）*/
-      [data-testid="primaryColumn"]  {
-        /* タイムラインと右サイドバー間のマージンで間隔を実現 */
       }
     `;
 
