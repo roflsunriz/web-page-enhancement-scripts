@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-wide-layout-fix
 // @namespace    twitterWideLayoutFix
-// @version      2.1.0
+// @version      2.2.0
 // @author       roflsunriz
 // @description  Adjusts Twitter layout width using class and XPath selectors
 // @license      MIT

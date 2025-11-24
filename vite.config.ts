@@ -316,7 +316,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const twitterWideLayoutFixMeta: MonkeyUserScript = {
   name: 'twitter-wide-layout-fix',
   namespace: 'twitterWideLayoutFix',
-  version: '2.1.0',
+  version: '2.2.0',
   description: 'Adjusts Twitter layout width using class and XPath selectors',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
