@@ -206,6 +206,35 @@
 
 各検出方法には**信頼度スコア**（0.0〜1.0）が付与されており、より確実な方法ほど高いスコアが設定されています。
 
+## v2.0の新機能: アウトライン/ボーダー調査
+
+診断スニペット v2.0では、要素を非表示にした際にアウトラインが残る問題を調査できる機能が追加されました。
+
+### 追加された情報
+
+各要素について以下の情報が追加されています：
+
+- **`styles`**: border, outline, box-shadow, margin, padding等の詳細なスタイル情報
+- **`visualFeatures`**: 視覚的な装飾の有無（hasVisualBorder, hasBoxShadow, hasBackground等）
+- **`parentChain`**: 親要素の階層情報（最大5階層、各親要素のスタイルと視覚的特徴を含む）
+- **`recommendation`**: 非表示にする際の推奨ターゲット要素と理由
+
+### コンソール出力例
+
+```
+=== 非表示ターゲット推奨分析 ===
+rightSidebar_PremiumSubscribe: 親要素 (深さ 2) の div を非表示にすることを推奨
+  理由: border, box-shadow, background を持つ
+rightSidebar_TrendsList: 親要素 (深さ 3) の section を非表示にすることを推奨
+  理由: border, box-shadow を持つ
+```
+
+### 実装への適用方法
+
+1. JSONファイルで該当要素の `recommendation.suggestedHideTarget` を確認
+2. 「親要素 (深さ N)」の場合、`parentChain[N-1]` の情報から親要素を特定
+3. その親要素を検出して非表示にするロジックを実装
+
 ## パフォーマンスへの配慮
 
 - 検索範囲を`#react-root`や特定のコンテナに限定

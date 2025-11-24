@@ -290,32 +290,35 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     strategies: [
       {
         type: 'custom',
-        method: 'Premium subscribe section',
-        confidence: 0.8,
+        method: 'Premium subscribe section with border container',
+        confidence: 0.85,
         finder: () => {
           const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
           if (!sidebar) return null;
 
-          const allDivs = Array.from(sidebar.querySelectorAll('div'));
-          for (const div of allDivs) {
-            const text = div.textContent || '';
+          // テキストを含む要素を探す
+          const allDivs = Array.from(sidebar.querySelectorAll('div, section, aside'));
+          for (const elem of allDivs) {
+            const text = elem.textContent || '';
             if (
-              (text.includes('プレミアムにサブスクライブ') || 
-               text.includes('Subscribe to Premium')) &&
-              div.querySelector('aside, section')
+              text.includes('プレミアムにサブスクライブ') ||
+              text.includes('Subscribe to Premium') ||
+              (text.includes('認証マーク') && text.includes('プレミアム'))
             ) {
-              // より上位のコンテナを取得（アウトラインを含む）
-              let container: HTMLElement = div;
-              for (let i = 0; i < 3; i++) {
-                if (!container.parentElement) break;
-                container = container.parentElement;
-                // sidebarColumnの直接の子要素のさらに子要素レベルを探す
-                const computedStyle = window.getComputedStyle(container);
-                if (computedStyle.marginBottom || computedStyle.marginTop) {
-                  return container;
+              // ボーダーを持つ親要素を探す（最大5階層）
+              let current: HTMLElement | null = elem as HTMLElement;
+              for (let i = 0; i < 5; i++) {
+                if (!current.parentElement) break;
+                const style = window.getComputedStyle(current.parentElement);
+                // 1px以上のボーダーとborderRadiusを持つ要素を探す
+                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+                if (borderMatch && parseFloat(borderMatch[1]) > 0 && style.borderRadius !== '0px') {
+                  return current.parentElement;
                 }
+                current = current.parentElement;
               }
-              return div;
+              // ボーダー付きコンテナが見つからない場合は2階層上
+              return elem.parentElement?.parentElement as HTMLElement;
             }
           }
           return null;
@@ -330,8 +333,8 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     strategies: [
       {
         type: 'custom',
-        method: 'Trends list container',
-        confidence: 0.85,
+        method: 'Trends list with border container',
+        confidence: 0.9,
         finder: () => {
           const trends = document.querySelectorAll('[data-testid="trend"]');
           if (trends.length === 0) return null;
@@ -339,21 +342,24 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           const firstTrend = trends[0];
           let container: HTMLElement | null = firstTrend.parentElement as HTMLElement;
 
+          // 複数のtrendを含むコンテナを探す
           for (let i = 0; i < 8; i++) {
             if (!container) break;
             const foundTrends = container.querySelectorAll('[data-testid="trend"]');
             if (foundTrends.length > 1) {
-              // さらに上位のコンテナを探す（セクション全体を含む）
+              // さらに親要素でボーダー付きコンテナを探す
               let parent = container.parentElement;
-              for (let j = 0; j < 3; j++) {
+              for (let j = 0; j < 5; j++) {
                 if (!parent) break;
-                const computedStyle = window.getComputedStyle(parent);
-                // marginやborderを持つコンテナを探す
-                if (computedStyle.marginBottom || computedStyle.border !== 'none') {
+                const style = window.getComputedStyle(parent);
+                // 1px以上のボーダーとborderRadiusを持つ要素を探す
+                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+                if (borderMatch && parseFloat(borderMatch[1]) > 0 && style.borderRadius !== '0px') {
                   return parent;
                 }
                 parent = parent.parentElement;
               }
+              // ボーダー付きコンテナが見つからない場合は2階層上
               return container.parentElement?.parentElement as HTMLElement;
             }
             container = container.parentElement as HTMLElement;
@@ -370,24 +376,28 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     strategies: [
       {
         type: 'custom',
-        method: 'Who to follow with container',
+        method: 'Who to follow with border container',
         confidence: 0.9,
         finder: () => {
-          const aside = document.querySelector('aside[aria-label*="おすすめユーザー"], aside[aria-label*="Who to follow"]') as HTMLElement;
+          const aside = document.querySelector(
+            'aside[aria-label*="おすすめユーザー"], aside[aria-label*="Who to follow"]'
+          ) as HTMLElement;
           if (!aside) return null;
-          
-          // asideを含む外側のコンテナを探す（アウトラインやボーダーを含む）
-          let container = aside.parentElement;
-          for (let i = 0; i < 3; i++) {
-            if (!container) break;
-            const computedStyle = window.getComputedStyle(container);
-            // marginやborderを持つコンテナを探す
-            if (computedStyle.marginBottom || computedStyle.marginTop) {
-              return container;
+
+          // asideを含むボーダー付きコンテナを探す（最大5階層）
+          let current: HTMLElement | null = aside;
+          for (let i = 0; i < 5; i++) {
+            if (!current.parentElement) break;
+            const style = window.getComputedStyle(current.parentElement);
+            // 1px以上のボーダーとborderRadiusを持つ要素を探す
+            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+            if (borderMatch && parseFloat(borderMatch[1]) > 0 && style.borderRadius !== '0px') {
+              return current.parentElement;
             }
-            container = container.parentElement;
+            current = current.parentElement;
           }
-          return aside.parentElement as HTMLElement;
+          // ボーダー付きコンテナが見つからない場合は2階層上
+          return aside.parentElement?.parentElement as HTMLElement;
         },
       },
     ],

@@ -30,7 +30,69 @@
   };
 
   /**
-   * 要素情報を抽出する
+   * 親要素の情報を収集（最大5階層）
+   */
+  function getParentChain(element, maxDepth = 5) {
+    const chain = [];
+    let current = element.parentElement;
+    let depth = 0;
+
+    while (current && depth < maxDepth) {
+      const computedStyle = window.getComputedStyle(current);
+      const rect = current.getBoundingClientRect();
+      
+      const parentInfo = {
+        depth: depth + 1,
+        tagName: current.tagName.toLowerCase(),
+        id: current.id || null,
+        classes: Array.from(current.classList),
+        dataTestId: current.getAttribute('data-testid'),
+        role: current.getAttribute('role'),
+        dimensions: {
+          width: rect.width,
+          height: rect.height
+        },
+        styles: {
+          display: computedStyle.display,
+          position: computedStyle.position,
+          border: computedStyle.border,
+          borderRadius: computedStyle.borderRadius,
+          outline: computedStyle.outline,
+          boxShadow: computedStyle.boxShadow,
+          backgroundColor: computedStyle.backgroundColor,
+          margin: {
+            top: computedStyle.marginTop,
+            right: computedStyle.marginRight,
+            bottom: computedStyle.marginBottom,
+            left: computedStyle.marginLeft
+          },
+          padding: {
+            top: computedStyle.paddingTop,
+            right: computedStyle.paddingRight,
+            bottom: computedStyle.paddingBottom,
+            left: computedStyle.paddingLeft
+          }
+        },
+        hasVisualBorder: computedStyle.border !== '0px none rgb(0, 0, 0)' && 
+                         computedStyle.border !== 'none' &&
+                         computedStyle.border !== '0px',
+        hasOutline: computedStyle.outline !== 'none' &&
+                   computedStyle.outline !== 'rgb(0, 0, 0) none 0px',
+        hasBoxShadow: computedStyle.boxShadow !== 'none',
+        hasBackground: computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' &&
+                      computedStyle.backgroundColor !== 'transparent'
+      };
+
+      chain.push(parentInfo);
+      current = current.parentElement;
+      depth++;
+    }
+
+    return chain;
+  }
+
+  /**
+   * 要素情報を抽出する（アップグレード版）
    */
   function extractElementInfo(element, elementName) {
     if (!element) {
@@ -83,10 +145,59 @@
         opacity: computedStyle.opacity,
         isVisible: rect.width > 0 && rect.height > 0 && computedStyle.display !== 'none'
       },
+      styles: {
+        border: computedStyle.border,
+        borderTop: computedStyle.borderTop,
+        borderRight: computedStyle.borderRight,
+        borderBottom: computedStyle.borderBottom,
+        borderLeft: computedStyle.borderLeft,
+        borderRadius: computedStyle.borderRadius,
+        outline: computedStyle.outline,
+        boxShadow: computedStyle.boxShadow,
+        backgroundColor: computedStyle.backgroundColor,
+        margin: {
+          top: computedStyle.marginTop,
+          right: computedStyle.marginRight,
+          bottom: computedStyle.marginBottom,
+          left: computedStyle.marginLeft
+        },
+        padding: {
+          top: computedStyle.paddingTop,
+          right: computedStyle.paddingRight,
+          bottom: computedStyle.paddingBottom,
+          left: computedStyle.paddingLeft
+        }
+      },
+      visualFeatures: {
+        hasVisualBorder: (function() {
+          const border = computedStyle.border;
+          const borderWidth = computedStyle.borderWidth;
+          // 0px の border は視覚的なボーダーではない
+          if (border === 'none' || border.startsWith('0px ') || borderWidth === '0px') return false;
+          // 実際に幅のあるボーダーのみを検出
+          const match = border.match(/^(\d+(?:\.\d+)?)px/);
+          return match && parseFloat(match[1]) > 0;
+        })(),
+        hasOutline: (function() {
+          const outline = computedStyle.outline;
+          if (outline === 'none' || outline.endsWith(' 0px')) return false;
+          const match = outline.match(/(\d+(?:\.\d+)?)px/);
+          return match && parseFloat(match[1]) > 0;
+        })(),
+        hasBoxShadow: computedStyle.boxShadow !== 'none',
+        hasBackground: computedStyle.backgroundColor !== 'rgba(0, 0, 0, 0)' &&
+                      computedStyle.backgroundColor !== 'transparent',
+        hasBorderRadius: computedStyle.borderRadius !== '0px'
+      },
       structure: {
         childrenCount: element.children.length,
         hasText: (element.textContent || '').trim().length > 0,
         nestLevel: getElementDepth(element)
+      },
+      parentChain: getParentChain(element, 5),
+      recommendation: {
+        note: 'この要素を非表示にする場合、親要素のアウトライン/ボーダーが残る可能性があります',
+        suggestedHideTarget: null // 後で分析に基づいて設定
       }
     };
   }
@@ -1316,6 +1427,34 @@
     console.log(`${category}: ${stats.found}/${stats.total}件検出 (${stats.notFound}件未検出)`);
   });
 
+  // 推奨される非表示ターゲットを分析
+  console.log('\n=== 非表示ターゲット推奨分析 ===');
+  diagnosticResult.elements.forEach(elem => {
+    if (!elem.found) return;
+    
+    // 親要素で視覚的な装飾を持つものを探す
+    const parentWithVisuals = elem.parentChain?.find(parent => 
+      parent.hasVisualBorder || parent.hasBoxShadow || parent.hasBackground
+    );
+    
+    if (parentWithVisuals) {
+      elem.recommendation.suggestedHideTarget = `親要素 (深さ ${parentWithVisuals.depth}): ${parentWithVisuals.tagName}`;
+      elem.recommendation.reason = '親要素がボーダー/シャドウ/背景を持っているため、そちらを非表示にすることを推奨';
+      console.log(`${elem.name}: 親要素 (深さ ${parentWithVisuals.depth}) の ${parentWithVisuals.tagName} を非表示にすることを推奨`);
+      
+      // 詳細情報
+      const details = [];
+      if (parentWithVisuals.hasVisualBorder) details.push('border');
+      if (parentWithVisuals.hasBoxShadow) details.push('box-shadow');
+      if (parentWithVisuals.hasBackground) details.push('background');
+      console.log(`  理由: ${details.join(', ')} を持つ`);
+    } else {
+      elem.recommendation.suggestedHideTarget = '現在の要素';
+      elem.recommendation.reason = '親要素に視覚的な装飾がないため、現在の要素を非表示にすればOK';
+    }
+  });
+  console.log('===================================\n');
+
   const jsonString = JSON.stringify(diagnosticResult, null, 2);
   const blob = new Blob([jsonString], { type: 'application/json' });
   const url = URL.createObjectURL(blob);
@@ -1337,6 +1476,8 @@
 
   console.log(`[X UI Diagnostic] JSONファイルをダウンロードしました: ${filename}`);
   console.log('このファイルをアシスタントに共有してください。');
+  console.log('\nJSONファイルの parentChain と recommendation フィールドをチェックして、');
+  console.log('非表示すべき正確な要素を特定してください。');
   
   // コンソールにも出力
   console.log('\n=== 診断結果（詳細） ===');
