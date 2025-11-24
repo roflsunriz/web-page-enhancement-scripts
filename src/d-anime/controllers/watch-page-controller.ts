@@ -18,11 +18,13 @@ import {
   svgViewCount,
   svgCommentCount,
 } from "@/shared/icons/mdi";
+import { GM_getValue, GM_setValue } from "$";
 
 const INITIALIZATION_RETRY_MS = 100;
 const SWITCH_DEBOUNCE_MS = 1000;
 const SWITCH_COOLDOWN_MS = 3000;
 const PARTID_MONITOR_INTERVAL_MS = 2000;
+const ANIME_TITLE_CACHE_KEY = "cachedAnimeTitle";
 
 const logger = createLogger("dAnime:WatchPageController");
 
@@ -39,8 +41,22 @@ export class WatchPageController {
   private lastPartId: string | null = null;
   private partIdMonitorIntervalId: number | null = null;
   private isPartIdChanging = false; // エピソード切り替え中フラグ
+  private cachedAnimeTitle: string | null = null; // アニメタイトルのキャッシュ
 
-  constructor(private readonly global: DanimeGlobal) {}
+  constructor(private readonly global: DanimeGlobal) {
+    // localStorageからアニメタイトルのキャッシュを読み込み
+    try {
+      this.cachedAnimeTitle = GM_getValue<string | null>(ANIME_TITLE_CACHE_KEY, null);
+      if (this.cachedAnimeTitle) {
+        logger.info("watchPageController:constructor:loadedCachedTitle", {
+          cachedAnimeTitle: this.cachedAnimeTitle,
+        });
+      }
+    } catch (error) {
+      logger.error("watchPageController:constructor:loadCacheFailed", error as Error);
+      this.cachedAnimeTitle = null;
+    }
+  }
 
   async initialize(): Promise<void> {
     await this.ensureDocumentReady();
@@ -326,6 +342,10 @@ export class WatchPageController {
     const retryInterval = 100;
     const startTime = Date.now();
 
+    // 初回のメタデータを記録（変化を検出するため）
+    let previousEpisodeNumber = "";
+    let previousEpisodeTitle = "";
+
     for (let i = 0; i < maxRetries; i++) {
       const currentPartId = this.getCurrentPartId();
       const animeTitleElement = document.querySelector(
@@ -342,20 +362,59 @@ export class WatchPageController {
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
 
-      // partIdが期待値と一致し、メタデータが揃っていればOK
-      const partIdMatches = !expectedPartId || currentPartId === expectedPartId;
-      const metadataExists = animeTitle && episodeNumber && episodeTitle;
-
-      if (partIdMatches && metadataExists) {
-        logger.info("watchPageController:waitForMetadata:success", {
-          attempts: i + 1,
-          waited: Date.now() - startTime,
+      // 初回の値を記録
+      if (i === 0) {
+        previousEpisodeNumber = episodeNumber;
+        previousEpisodeTitle = episodeTitle;
+        logger.info("watchPageController:waitForMetadata:initial", {
           currentPartId,
           expectedPartId,
           episodeNumber,
           episodeTitle,
+          animeTitle: animeTitle || "(empty)",
+          cachedAnimeTitle: this.cachedAnimeTitle || "(empty)",
         });
-        return;
+      }
+
+      // 初回読み込み時（expectedPartIdなし）はanimeTitleの取得も試みる
+      // ただし、必須ではない（キャッシュがあれば動作可能）
+      const shouldWaitForAnimeTitle = !expectedPartId && !this.cachedAnimeTitle && i < 20;
+      if (shouldWaitForAnimeTitle && !animeTitle) {
+        // animeTitleが取得できるまで待つ（最大2秒 = 20回 × 100ms）
+        await new Promise((resolve) =>
+          window.setTimeout(resolve, retryInterval),
+        );
+        continue;
+      }
+
+      // partIdが期待値と一致し、メタデータが揃っていればOK
+      const partIdMatches = !expectedPartId || currentPartId === expectedPartId;
+      
+      // animeTitleは必須としない（ページによっては取得できない）
+      // episodeNumberとepisodeTitleが存在すればOK
+      const metadataExists = episodeNumber && episodeTitle;
+      
+      // メタデータが変化していることを確認（エピソード切り替え時）
+      const metadataChanged = expectedPartId && (
+        episodeNumber !== previousEpisodeNumber ||
+        episodeTitle !== previousEpisodeTitle
+      );
+
+      if (partIdMatches && metadataExists) {
+        // 初期化時（expectedPartIdなし）またはメタデータが変化した場合のみ成功とする
+        if (!expectedPartId || metadataChanged) {
+          logger.info("watchPageController:waitForMetadata:success", {
+            attempts: i + 1,
+            waited: Date.now() - startTime,
+            currentPartId,
+            expectedPartId,
+            episodeNumber,
+            episodeTitle,
+            animeTitle: animeTitle || "(empty)",
+            metadataChanged,
+          });
+          return;
+        }
       }
 
       await new Promise((resolve) =>
@@ -363,12 +422,28 @@ export class WatchPageController {
       );
     }
 
-    logger.warn("watchPageController:waitForMetadata:timeout", {
+    // タイムアウト時はエラーをログに記録
+    const finalEpisodeNumber = document.querySelector(DANIME_SELECTORS.watchPageEpisodeNumber)?.textContent?.trim() ?? "";
+    const finalEpisodeTitle = document.querySelector(DANIME_SELECTORS.watchPageEpisodeTitle)?.textContent?.trim() ?? "";
+    
+    logger.error("watchPageController:waitForMetadata:timeout", {
       maxRetries,
       waited: Date.now() - startTime,
       currentPartId: this.getCurrentPartId(),
       expectedPartId,
+      initialEpisodeNumber: previousEpisodeNumber,
+      initialEpisodeTitle: previousEpisodeTitle,
+      finalEpisodeNumber,
+      finalEpisodeTitle,
+      metadataChanged: finalEpisodeNumber !== previousEpisodeNumber || finalEpisodeTitle !== previousEpisodeTitle,
     });
+
+    // タイムアウト時は処理を中断するためにエラーをthrow
+    throw new Error(
+      `DOM更新のタイムアウト: partId=${expectedPartId}, ` +
+      `初期エピソード="${previousEpisodeNumber}", ` +
+      `最終エピソード="${finalEpisodeNumber}"`
+    );
   }
 
   private extractMetadataFromPage(): {
@@ -387,19 +462,54 @@ export class WatchPageController {
         DANIME_SELECTORS.watchPageEpisodeTitle,
       );
 
-      const animeTitle = animeTitleElement?.textContent?.trim() ?? "";
+      let animeTitle = animeTitleElement?.textContent?.trim() ?? "";
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement?.textContent?.trim() ?? "";
 
+      // animeTitleが取得できた場合はキャッシュを更新（メモリとlocalStorage両方）
+      if (animeTitle) {
+        this.cachedAnimeTitle = animeTitle;
+        try {
+          GM_setValue(ANIME_TITLE_CACHE_KEY, animeTitle);
+          logger.info("watchPageController:extractMetadata:cachedTitle", {
+            animeTitle,
+          });
+        } catch (error) {
+          logger.error("watchPageController:extractMetadata:saveCacheFailed", error as Error);
+        }
+      } else if (this.cachedAnimeTitle) {
+        // animeTitleが取得できない場合はキャッシュから復元
+        animeTitle = this.cachedAnimeTitle;
+        logger.info("watchPageController:extractMetadata:usedCachedTitle", {
+          cachedAnimeTitle: this.cachedAnimeTitle,
+        });
+      }
+
       logger.info("watchPageController:extractMetadata:rawValues", {
-        animeTitle,
+        animeTitle: animeTitle || "(empty)",
+        animeTitleElementExists: !!animeTitleElement,
+        animeTitleFromCache: !animeTitleElement && !!this.cachedAnimeTitle,
         episodeNumber,
+        episodeNumberElementExists: !!episodeNumberElement,
         episodeTitle,
+        episodeTitleElementExists: !!episodeTitleElement,
         currentPartId: this.getCurrentPartId(),
       });
 
-      if (!animeTitle || !episodeNumber || !episodeTitle) {
+      // episodeNumberとepisodeTitleは必須
+      if (!episodeNumber || !episodeTitle) {
+        logger.warn("watchPageController:extractMetadata:insufficient", {
+          episodeNumber: episodeNumber || "(empty)",
+          episodeTitle: episodeTitle || "(empty)",
+        });
         return null;
+      }
+
+      // animeTitleが空でもキャッシュがあればOK
+      if (!animeTitle) {
+        logger.warn("watchPageController:extractMetadata:noAnimeTitle", {
+          hasCache: !!this.cachedAnimeTitle,
+        });
       }
 
       return {
@@ -420,10 +530,25 @@ export class WatchPageController {
       // 視聴ページからメタデータを抽出
       const metadata = this.extractMetadataFromPage();
       if (!metadata) {
+        logger.warn("watchPageController:autoSetup:noMetadata");
         return false;
       }
 
-      // 検索キーワードを構築
+      // animeTitleが取得できない場合は検索精度が低下するため警告
+      if (!metadata.animeTitle) {
+        logger.warn("watchPageController:autoSetup:noAnimeTitle", {
+          episodeNumber: metadata.episodeNumber,
+          episodeTitle: metadata.episodeTitle,
+          cachedAnimeTitle: this.cachedAnimeTitle,
+        });
+        NotificationManager.show(
+          "アニメタイトルが取得できませんでした。検索精度が低下する可能性があります。",
+          "warning",
+        );
+        return false;
+      }
+
+      // 検索キーワードを構築（必ずanimeTitleを含める）
       const keyword = [
         metadata.animeTitle,
         metadata.episodeNumber,
@@ -437,6 +562,7 @@ export class WatchPageController {
         animeTitle: metadata.animeTitle,
         episodeNumber: metadata.episodeNumber,
         episodeTitle: metadata.episodeTitle,
+        usingCachedTitle: !!this.cachedAnimeTitle && !metadata.animeTitle,
       });
       NotificationManager.show(`「${keyword}」を検索中...`, "info");
 
@@ -622,7 +748,18 @@ export class WatchPageController {
       logger.info("watchPageController:onPartIdChanged:waitingForDomUpdate", {
         newPartId,
       });
-      await this.waitForMetadataElements(newPartId ?? undefined);
+      
+      try {
+        await this.waitForMetadataElements(newPartId ?? undefined);
+      } catch (error) {
+        // DOM更新のタイムアウト時はエラーを表示して処理を中断
+        logger.error("watchPageController:onPartIdChanged:waitMetadataFailed", error as Error);
+        NotificationManager.show(
+          `DOM更新の待機に失敗しました: ${(error as Error).message}`,
+          "error",
+        );
+        return;
+      }
 
       // 新しいエピソードのメタデータを取得して再設定
       const success = await this.autoSetupComments(settingsManager);
