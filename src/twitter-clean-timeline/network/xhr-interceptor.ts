@@ -29,7 +29,23 @@ export function updateXHRMuteFilterRegexes(): void {
  */
 function isHomeTimelineUrl(url: string): boolean {
   if (!url) return false;
-  return url.includes('/i/api/graphql/') && url.includes('/HomeTimeline');
+  
+  // デバッグモード時は全GraphQL URLをログ出力
+  if (settings.debugMode && url.includes('/i/api/graphql/')) {
+    logger.debug('GraphQL API検出:', url);
+  }
+  
+  // HomeTimeline系のエンドポイントをすべてキャッチ
+  // Twitter/Xは頻繁にエンドポイント名を変更するため、複数パターンに対応
+  const timelinePatterns = [
+    '/HomeTimeline',
+    '/HomeLatestTimeline',
+    '/ForYouTimeline',
+    // 他のタイムライン系エンドポイントも追加可能
+  ];
+  
+  return url.includes('/i/api/graphql/') && 
+         timelinePatterns.some(pattern => url.includes(pattern));
 }
 
 /**
@@ -37,9 +53,24 @@ function isHomeTimelineUrl(url: string): boolean {
  */
 function filterTimelineJson(response: HomeTimelineResponse): void {
   const timelineData = extractTimelineData(response);
-  if (!timelineData?.instructions) return;
+  
+  if (settings.debugMode) {
+    logger.debug('タイムラインデータ抽出結果:', {
+      hasData: !!timelineData,
+      hasInstructions: !!timelineData?.instructions,
+      instructionsCount: timelineData?.instructions?.length ?? 0,
+    });
+  }
+  
+  if (!timelineData?.instructions) {
+    if (settings.debugMode) {
+      logger.warn('タイムラインデータまたはinstructionsが見つかりません');
+    }
+    return;
+  }
 
   let totalFiltered = 0;
+  let totalProcessed = 0;
 
   for (const instruction of timelineData.instructions) {
     if (!instruction?.type || !Array.isArray(instruction.entries)) continue;
@@ -63,6 +94,8 @@ function filterTimelineJson(response: HomeTimelineResponse): void {
         content.itemContent?.tweet_results?.result;
 
       if (!tweet) return true;
+      
+      totalProcessed++;
 
       // 各フィルタを適用
       const filters = [mediaFilter, muteFilter, retweetFilter];
@@ -84,8 +117,8 @@ function filterTimelineJson(response: HomeTimelineResponse): void {
     totalFiltered += filtered;
   }
 
-  if (totalFiltered > 0 && settings.debugMode) {
-    logger.info(`JSONから ${totalFiltered} 件のツイートをフィルタしました`);
+  if (settings.debugMode) {
+    logger.info(`JSONフィルタリング完了: 処理=${totalProcessed}件, フィルタ=${totalFiltered}件`);
   }
 }
 
@@ -123,6 +156,10 @@ export function installXHRHook(): void {
     const shouldHook = isHomeTimelineUrl(url ?? '');
 
     if (shouldHook) {
+      if (settings.debugMode) {
+        logger.info('タイムラインAPIをフック:', url);
+      }
+      
       this.addEventListener('readystatechange', function () {
         if (this.readyState !== 4) return;
         // @ts-expect-error - カスタムプロパティ
@@ -132,9 +169,18 @@ export function installXHRHook(): void {
 
         try {
           const rawText = origRespTextGet.call(this);
-          if (typeof rawText !== 'string' || !rawText) return;
+          if (typeof rawText !== 'string' || !rawText) {
+            if (settings.debugMode) {
+              logger.warn('レスポンスが空または文字列ではありません');
+            }
+            return;
+          }
 
           const json = JSON.parse(rawText) as HomeTimelineResponse;
+          
+          if (settings.debugMode) {
+            logger.debug('JSONパース成功、フィルタリング開始');
+          }
 
           // JSONをフィルタリング
           filterTimelineJson(json);
@@ -165,6 +211,10 @@ export function installXHRHook(): void {
                 return newJson;
               },
             });
+          }
+          
+          if (settings.debugMode) {
+            logger.debug('レスポンス書き換え完了');
           }
         } catch (e) {
           logger.error('XHRフックエラー', e);

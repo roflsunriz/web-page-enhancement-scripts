@@ -7,6 +7,9 @@ import type { TweetResult, FilterResult, PageType } from '@/shared/types';
 import { settings } from '../settings';
 import { hasMediaInTweet } from '../network/timeline-parser';
 import { TWITTER_MEDIA_CARD_SELECTORS } from '@/shared/constants/twitter';
+import { createLogger } from '@/shared/logger';
+
+const logger = createLogger('twitter-clean-timeline:media-filter');
 
 export class MediaFilter extends BaseFilter {
   get name(): string {
@@ -61,6 +64,16 @@ export class MediaFilter extends BaseFilter {
 
     const hasMedia = hasMediaInTweet(tweet);
     
+    if (settings.debugMode) {
+      logger.debug('JSON メディアチェック:', {
+        hasMedia,
+        hasTweet: !!tweet,
+        hasLegacy: !!tweet?.legacy,
+        hasExtendedEntities: !!tweet?.legacy?.extended_entities,
+        hasBasicEntities: !!tweet?.legacy?.entities,
+      });
+    }
+    
     if (!hasMedia) {
       return {
         shouldHide: true,
@@ -81,7 +94,18 @@ export class MediaFilter extends BaseFilter {
       element.querySelector(selector)
     );
 
+    if (settings.debugMode) {
+      logger.debug('DOM メディアチェック:', {
+        hasMedia,
+        elementTagName: element.tagName,
+        checkedSelectors: TWITTER_MEDIA_CARD_SELECTORS.length,
+      });
+    }
+
     if (!hasMedia) {
+      if (settings.debugMode) {
+        logger.warn('DOMフォールバックでフィルタリング - JSONフィルタが動作していない可能性があります');
+      }
       return {
         shouldHide: true,
         reason: 'メディアなし (DOM)',
