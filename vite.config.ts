@@ -242,7 +242,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterCleanTimelineMeta: MonkeyUserScript = {
   name: 'twitter-clean-timeline',
   namespace: 'twitterCleanTimeline',
-  version: '1.3.1',
+  version: '1.3.2',
   description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],

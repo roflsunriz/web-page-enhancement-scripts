@@ -229,85 +229,148 @@ export function installXHRHook(): void {
 }
 
 /**
- * Fetchフックをインストール
+ * Fetchフックをページコンテキストに注入
  */
 export function installFetchHook(): void {
-  // unsafeWindowを使用してページのネイティブfetchにアクセス
-  const targetWindow = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
-  const originalFetch = targetWindow.fetch;
-
-  if (!originalFetch) {
-    logger.error('fetch APIが見つかりません');
-    return;
-  }
-
-  targetWindow.fetch = async function (...args: Parameters<typeof fetch>): Promise<Response> {
-    const [resource] = args;
-    const url = typeof resource === 'string' ? resource : resource instanceof Request ? resource.url : '';
-
-    // デバッグモード時はすべてのfetch呼び出しをログ出力
-    if (settings.debugMode && url.includes('/i/api/')) {
-      logger.debug('Fetch API呼び出し検出:', url);
-    }
-
-    const shouldHook = isHomeTimelineUrl(url);
-
-    if (shouldHook) {
-      if (settings.debugMode) {
-        logger.info('タイムラインAPIをフック (fetch):', url);
+  // フィルタリング関数をページコンテキストで実行できるようにシリアライズ
+  const filterFunctionCode = `
+    (function() {
+      const originalFetch = window.fetch;
+      const debugMode = ${settings.debugMode};
+      
+      // タイムラインエンドポイント判定
+      function isHomeTimelineUrl(url) {
+        if (!url) return false;
+        
+        if (debugMode && url.includes('/i/api/')) {
+          console.log('[twitter-clean-timeline:network] Fetch API呼び出し検出:', url);
+        }
+        
+        const timelinePatterns = [
+          '/HomeTimeline',
+          '/HomeLatestTimeline',
+          '/ForYouTimeline',
+        ];
+        
+        return url.includes('/i/api/graphql/') && 
+               timelinePatterns.some(pattern => url.includes(pattern));
       }
-
-      try {
-        // オリジナルのfetchを実行
-        const response = await originalFetch.apply(this, args);
-
-        // レスポンスをクローンして処理（元のレスポンスは消費されないようにする）
-        const clonedResponse = response.clone();
-        
-        const text = await clonedResponse.text();
-        
-        if (!text) {
-          if (settings.debugMode) {
-            logger.warn('レスポンスが空です');
+      
+      // フィルタリング処理
+      function filterTimelineJson(response) {
+        try {
+          const timelineData = response?.data?.home?.home_timeline_urt;
+          
+          if (!timelineData?.instructions) {
+            return response;
           }
+          
+          let totalFiltered = 0;
+          let totalProcessed = 0;
+          const mediaFilterEnabled = ${settings.mediaFilter.enabled};
+          
+          for (const instruction of timelineData.instructions) {
+            if (!instruction?.type || !Array.isArray(instruction.entries)) continue;
+            
+            if (!String(instruction.type).includes('AddEntries')) continue;
+            
+            const originalLength = instruction.entries.length;
+            
+            instruction.entries = instruction.entries.filter((entry) => {
+              const content = entry?.content;
+              if (!content) return true;
+              
+              if (content.entryType === 'TimelineTimelineCursor') return true;
+              if (content.entryType !== 'TimelineTimelineItem') return true;
+              
+              const tweet = content.itemContent?.tweet_results?.result;
+              if (!tweet) return true;
+              
+              totalProcessed++;
+              
+              // メディアフィルタ
+              if (mediaFilterEnabled) {
+                const legacy = tweet.legacy || tweet.tweet?.legacy;
+                if (legacy) {
+                  const extendedMedia = legacy.extended_entities?.media;
+                  const basicMedia = legacy.entities?.media;
+                  const mediaList = extendedMedia ?? basicMedia ?? [];
+                  const hasMedia = Array.isArray(mediaList) && mediaList.length > 0;
+                  
+                  if (!hasMedia) {
+                    if (debugMode) {
+                      console.log('[twitter-clean-timeline:network] JSONフィルタ: メディアなし');
+                    }
+                    return false;
+                  }
+                }
+              }
+              
+              return true;
+            });
+            
+            totalFiltered += originalLength - instruction.entries.length;
+          }
+          
+          if (debugMode && totalFiltered > 0) {
+            console.log('[twitter-clean-timeline:network] JSONフィルタリング完了: 処理=' + totalProcessed + '件, フィルタ=' + totalFiltered + '件');
+          }
+          
+          return response;
+        } catch (e) {
+          console.error('[twitter-clean-timeline:network] フィルタリングエラー:', e);
           return response;
         }
-
-        const json = JSON.parse(text) as HomeTimelineResponse;
-        
-        if (settings.debugMode) {
-          logger.debug('JSONパース成功、フィルタリング開始');
-        }
-
-        // JSONをフィルタリング
-        filterTimelineJson(json);
-
-        const newText = JSON.stringify(json);
-
-        // 新しいレスポンスオブジェクトを作成
-        const newResponse = new Response(newText, {
-          status: response.status,
-          statusText: response.statusText,
-          headers: response.headers,
-        });
-
-        if (settings.debugMode) {
-          logger.debug('レスポンス書き換え完了');
-        }
-
-        return newResponse;
-      } catch (e) {
-        logger.error('Fetchフックエラー', e);
-        // エラーの場合は元のfetchを実行
-        return originalFetch.apply(this, args);
       }
-    }
-
-    // フック対象外の場合は通常通り実行
-    return originalFetch.apply(this, args);
-  };
-
-  logger.info('Fetchフックをインストールしました');
+      
+      // fetchをフック
+      window.fetch = async function(...args) {
+        const [resource] = args;
+        const url = typeof resource === 'string' ? resource : resource instanceof Request ? resource.url : '';
+        
+        if (isHomeTimelineUrl(url)) {
+          if (debugMode) {
+            console.log('[twitter-clean-timeline:network] タイムラインAPIをフック (fetch):', url);
+          }
+          
+          try {
+            const response = await originalFetch.apply(this, args);
+            const clonedResponse = response.clone();
+            const text = await clonedResponse.text();
+            
+            if (!text) {
+              return response;
+            }
+            
+            const json = JSON.parse(text);
+            const filteredJson = filterTimelineJson(json);
+            const newText = JSON.stringify(filteredJson);
+            
+            return new Response(newText, {
+              status: response.status,
+              statusText: response.statusText,
+              headers: response.headers,
+            });
+          } catch (e) {
+            console.error('[twitter-clean-timeline:network] Fetchフックエラー:', e);
+            return originalFetch.apply(this, args);
+          }
+        }
+        
+        return originalFetch.apply(this, args);
+      };
+      
+      console.log('[twitter-clean-timeline:network] Fetchフック注入完了');
+    })();
+  `;
+  
+  // スクリプトタグを作成してページコンテキストに注入
+  const script = document.createElement('script');
+  script.textContent = filterFunctionCode;
+  (document.head || document.documentElement).appendChild(script);
+  script.remove();
+  
+  logger.info('Fetchフックをページコンテキストに注入しました');
 }
 
 /**
