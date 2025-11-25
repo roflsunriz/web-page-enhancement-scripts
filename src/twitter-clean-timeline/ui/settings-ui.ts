@@ -3,9 +3,10 @@
  */
 
 import { settings, saveSettings, resetSettings } from '../settings';
-import { updateMuteFilterRegexes } from '../dom/tweet-processor';
+import { updateMuteFilterRegexes, processTweetElement } from '../dom/tweet-processor';
 import { updateXHRMuteFilterRegexes } from '../network/xhr-interceptor';
 import { createLogger } from '@/shared/logger';
+import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 const logger = createLogger('twitter-clean-timeline:ui');
 
@@ -108,12 +109,12 @@ function createModal(): HTMLElement {
           ミュートフィルタ
         </label>
       </h3>
-      <div style="margin-left: 24px;">
+      <div style="margin-left: 24px; margin-right: 8px;">
         <label style="display: block; margin-bottom: 4px; font-weight: bold; color: #e7e9ea;">文字列キーワード（1行1個）</label>
-        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff;">${settings.muteFilter.stringKeywords.join('\n')}</textarea>
+        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${settings.muteFilter.stringKeywords.join('\n')}</textarea>
         
         <label style="display: block; margin: 12px 0 4px 0; font-weight: bold; color: #e7e9ea;">正規表現パターン（1行1個）</label>
-        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff;">${settings.muteFilter.regexKeywords.join('\n')}</textarea>
+        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${settings.muteFilter.regexKeywords.join('\n')}</textarea>
       </div>
     </div>
 
@@ -127,13 +128,13 @@ function createModal(): HTMLElement {
     </div>
 
     <div style="display: flex; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #38444d;">
-      <button id="ctl-save-btn" style="flex: 1; padding: 10px; background-color: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: bold;">
+      <button id="ctl-save-btn" style="padding: 10px 24px; background-color: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: bold;">
         保存
       </button>
-      <button id="ctl-reset-btn" style="padding: 10px 16px; background-color: #ef4444; color: white; border: none; border-radius: 9999px; cursor: pointer;">
+      <button id="ctl-reset-btn" style="padding: 10px 20px; background-color: #ef4444; color: white; border: none; border-radius: 9999px; cursor: pointer;">
         リセット
       </button>
-      <button id="ctl-cancel-btn" style="padding: 10px 16px; background-color: #6b7280; color: white; border: none; border-radius: 9999px; cursor: pointer;">
+      <button id="ctl-cancel-btn" style="padding: 10px 20px; background-color: #6b7280; color: white; border: none; border-radius: 9999px; cursor: pointer;">
         キャンセル
       </button>
     </div>
@@ -152,9 +153,17 @@ function createModal(): HTMLElement {
   resetBtn?.addEventListener('click', () => {
     if (confirm('すべての設定をリセットしますか？')) {
       resetSettings();
+      
+      // ミュートフィルタの正規表現を更新
+      updateMuteFilterRegexes();
+      updateXHRMuteFilterRegexes();
+      
+      // 即時適用: ページ上の全ツイートを再処理
+      reprocessAllTweets();
+      
       overlay.remove();
       logger.info('設定をリセットしました');
-      alert('設定をリセットしました。ページをリロードしてください。');
+      alert('設定をリセットして適用しました。');
     }
   });
 
@@ -170,6 +179,21 @@ function createModal(): HTMLElement {
 
   overlay.appendChild(modalContent);
   return overlay;
+}
+
+/**
+ * ページ上の全ツイートを再処理
+ */
+function reprocessAllTweets(): void {
+  const tweets = document.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article);
+  
+  // 処理済みフラグをクリアして再処理
+  tweets.forEach((tweet) => {
+    delete tweet.dataset.ctlProcessed;
+    processTweetElement(tweet);
+  });
+  
+  logger.info(`${tweets.length}件のツイートを再処理しました`);
 }
 
 /**
@@ -212,7 +236,10 @@ function saveSettingsFromModal(modal: HTMLElement): void {
   updateMuteFilterRegexes();
   updateXHRMuteFilterRegexes();
 
+  // 即時適用: ページ上の全ツイートを再処理
+  reprocessAllTweets();
+
   logger.info('設定を保存しました');
-  alert('設定を保存しました。ページをリロードすると反映されます。');
+  alert('設定を保存して適用しました。');
 }
 
