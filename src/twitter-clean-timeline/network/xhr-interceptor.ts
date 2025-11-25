@@ -1,5 +1,5 @@
 /**
- * twitter-clean-timeline - XHRインターセプター
+ * twitter-clean-timeline - ネットワークインターセプター（XHR & Fetch）
  */
 
 import { createLogger } from '@/shared/logger';
@@ -10,7 +10,7 @@ import { MuteFilter } from '../filters/mute-filter';
 import { RetweetFilter } from '../filters/retweet-filter';
 import { settings } from '../settings';
 
-const logger = createLogger('twitter-clean-timeline:xhr');
+const logger = createLogger('twitter-clean-timeline:network');
 
 // フィルタインスタンス
 const mediaFilter = new MediaFilter();
@@ -226,5 +226,83 @@ export function installXHRHook(): void {
   };
 
   logger.info('XHRフックをインストールしました');
+}
+
+/**
+ * Fetchフックをインストール
+ */
+export function installFetchHook(): void {
+  const originalFetch = window.fetch;
+
+  window.fetch = async function (...args: Parameters<typeof fetch>): Promise<Response> {
+    const [resource] = args;
+    const url = typeof resource === 'string' ? resource : resource instanceof Request ? resource.url : '';
+
+    const shouldHook = isHomeTimelineUrl(url);
+
+    if (shouldHook) {
+      if (settings.debugMode) {
+        logger.info('タイムラインAPIをフック (fetch):', url);
+      }
+
+      try {
+        // オリジナルのfetchを実行
+        const response = await originalFetch.apply(this, args);
+
+        // レスポンスをクローンして処理（元のレスポンスは消費されないようにする）
+        const clonedResponse = response.clone();
+        
+        const text = await clonedResponse.text();
+        
+        if (!text) {
+          if (settings.debugMode) {
+            logger.warn('レスポンスが空です');
+          }
+          return response;
+        }
+
+        const json = JSON.parse(text) as HomeTimelineResponse;
+        
+        if (settings.debugMode) {
+          logger.debug('JSONパース成功、フィルタリング開始');
+        }
+
+        // JSONをフィルタリング
+        filterTimelineJson(json);
+
+        const newText = JSON.stringify(json);
+
+        // 新しいレスポンスオブジェクトを作成
+        const newResponse = new Response(newText, {
+          status: response.status,
+          statusText: response.statusText,
+          headers: response.headers,
+        });
+
+        if (settings.debugMode) {
+          logger.debug('レスポンス書き換え完了');
+        }
+
+        return newResponse;
+      } catch (e) {
+        logger.error('Fetchフックエラー', e);
+        // エラーの場合は元のfetchを実行
+        return originalFetch.apply(this, args);
+      }
+    }
+
+    // フック対象外の場合は通常通り実行
+    return originalFetch.apply(this, args);
+  };
+
+  logger.info('Fetchフックをインストールしました');
+}
+
+/**
+ * すべてのネットワークフックをインストール
+ */
+export function installNetworkHooks(): void {
+  installXHRHook();
+  installFetchHook();
 }
 
