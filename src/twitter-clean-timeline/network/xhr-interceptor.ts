@@ -232,11 +232,23 @@ export function installXHRHook(): void {
  * Fetchフックをインストール
  */
 export function installFetchHook(): void {
-  const originalFetch = window.fetch;
+  // unsafeWindowを使用してページのネイティブfetchにアクセス
+  const targetWindow = typeof unsafeWindow !== 'undefined' ? unsafeWindow : window;
+  const originalFetch = targetWindow.fetch;
 
-  window.fetch = async function (...args: Parameters<typeof fetch>): Promise<Response> {
+  if (!originalFetch) {
+    logger.error('fetch APIが見つかりません');
+    return;
+  }
+
+  targetWindow.fetch = async function (...args: Parameters<typeof fetch>): Promise<Response> {
     const [resource] = args;
     const url = typeof resource === 'string' ? resource : resource instanceof Request ? resource.url : '';
+
+    // デバッグモード時はすべてのfetch呼び出しをログ出力
+    if (settings.debugMode && url.includes('/i/api/')) {
+      logger.debug('Fetch API呼び出し検出:', url);
+    }
 
     const shouldHook = isHomeTimelineUrl(url);
 

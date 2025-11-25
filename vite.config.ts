@@ -242,11 +242,11 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterCleanTimelineMeta: MonkeyUserScript = {
   name: 'twitter-clean-timeline',
   namespace: 'twitterCleanTimeline',
-  version: '1.3.0',
+  version: '1.3.1',
   description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand', 'unsafeWindow'],
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.meta.js',
   downloadURL:
