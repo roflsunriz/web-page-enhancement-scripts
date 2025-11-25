@@ -239,52 +239,20 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.user.js',
 };
 
-const twitterMediaFilterMeta: MonkeyUserScript = {
-  name: 'twitter-media-filter',
-  namespace: 'twitterMediaFilter',
-  version: '2.2.0',
-  description: 'タイムライン/リスト/詳細ページで画像/動画を含まないツイートを非表示にする',
+const twitterCleanTimelineMeta: MonkeyUserScript = {
+  name: 'twitter-clean-timeline',
+  namespace: 'twitterCleanTimeline',
+  version: '1.0.0',
+  description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-media-filter.meta.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.meta.js',
   downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-media-filter.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
-  'run-at': 'document-idle',
-};
-
-const twitterMuteFilterMeta: MonkeyUserScript = {
-  name: 'twitter-mute-filter',
-  namespace: 'twitterMuteFilter',
-  version: '2.2.1',
-  description: '正規表現対応の強力なミュートフィルターをTwitter/Xに追加します。',
-  author: 'roflsunriz',
-  match: ['https://twitter.com/*', 'https://x.com/*'],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-filter.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-filter.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
-  'run-at': 'document-idle',
-};
-
-const twitterMuteRetweetsMeta: MonkeyUserScript = {
-  name: 'twitter-mute-retweets',
-  namespace: 'twitterMuteRetweets',
-  version: '2.2.0',
-  description: '閲覧中のユーザがつぶやいていないツイート（リツイート）を非表示にする',
-  author: 'roflsunriz',
-  match: ['https://x.com/*'],
-  exclude: ['https://x.com/*/status/*'],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-mute-retweets.user.js',
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.user.js',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+  'run-at': 'document-start',
 };
 
 const twitterThreadCopierMeta: MonkeyUserScript = {
@@ -386,21 +354,6 @@ const SCRIPT_CONFIGS = {
     fileName: 'twitter-full-size-image.user.js',
     meta: twitterFullSizeImageMeta,
   },
-  'twitter-media-filter': {
-    entry: 'src/twitter-media-filter/main.ts',
-    fileName: 'twitter-media-filter.user.js',
-    meta: twitterMediaFilterMeta,
-  },
-  'twitter-mute-filter': {
-    entry: 'src/twitter-mute-filter/main.ts',
-    fileName: 'twitter-mute-filter.user.js',
-    meta: twitterMuteFilterMeta,
-  },
-  'twitter-mute-retweets': {
-    entry: 'src/twitter-mute-retweets/main.ts',
-    fileName: 'twitter-mute-retweets.user.js',
-    meta: twitterMuteRetweetsMeta,
-  },
   'twitter-thread-copier': {
     entry: 'src/twitter-thread-copier/main.ts',
     fileName: 'twitter-thread-copier.user.js',
@@ -415,6 +368,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/twitter-clean-ui/main.ts',
     fileName: 'twitter-clean-ui.user.js',
     meta: twitterCleanUIMeta,
+  },
+  'twitter-clean-timeline': {
+    entry: 'src/twitter-clean-timeline/main.ts',
+    fileName: 'twitter-clean-timeline.user.js',
+    meta: twitterCleanTimelineMeta,
   },
 } as const;
 
@@ -445,12 +403,10 @@ export default defineConfig((configEnv) => {
         '@/imgur-direct-link': resolve(dir, 'src/imgur-direct-link'),
         '@/manga-viewer': resolve(dir, 'src/manga-viewer'),
         '@/twitter-full-size-image': resolve(dir, 'src/twitter-full-size-image'),
-        '@/twitter-media-filter': resolve(dir, 'src/twitter-media-filter'),
-        '@/twitter-mute-filter': resolve(dir, 'src/twitter-mute-filter'),
-        '@/twitter-mute-retweets': resolve(dir, 'src/twitter-mute-retweets'),
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
         '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
+        '@/twitter-clean-timeline': resolve(dir, 'src/twitter-clean-timeline'),
         '@/shared': resolve(dir, 'src/shared')
       },
     },
