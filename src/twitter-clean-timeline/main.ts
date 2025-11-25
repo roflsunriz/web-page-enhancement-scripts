@@ -6,7 +6,6 @@
  */
 
 import { createLogger } from '@/shared/logger';
-import { installNetworkHooks } from './network/xhr-interceptor';
 import { startObserver } from './dom/observer';
 import { showSettingsModal } from './ui/settings-ui';
 import { settings } from './settings';
@@ -18,9 +17,6 @@ const logger = createLogger('twitter-clean-timeline');
  */
 function init(): void {
   logger.info('Twitter Clean Timeline を初期化中...');
-
-  // document-start で実行されるため、ネットワークフックを先にインストール
-  installNetworkHooks();
 
   // DOMが読み込まれたらオブザーバーを開始
   if (document.readyState === 'loading') {

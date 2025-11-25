@@ -3,9 +3,8 @@
  */
 
 import { BaseFilter } from './base-filter';
-import type { TweetResult, FilterResult } from '@/shared/types';
+import type { FilterResult } from '@/shared/types';
 import { settings } from '../settings';
-import { isRetweet } from '../network/timeline-parser';
 import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
 export class RetweetFilter extends BaseFilter {
@@ -29,22 +28,6 @@ export class RetweetFilter extends BaseFilter {
     );
   }
 
-  shouldHideFromJSON(tweet: TweetResult | undefined): FilterResult {
-    if (!this.enabled || !this.isProfilePage()) {
-      return { shouldHide: false };
-    }
-
-    if (isRetweet(tweet)) {
-      return {
-        shouldHide: true,
-        reason: 'リツイート',
-        filterName: this.name,
-      };
-    }
-
-    return { shouldHide: false };
-  }
-
   shouldHideFromDOM(element: HTMLElement): FilterResult {
     if (!this.enabled || !this.isProfilePage()) {
       return { shouldHide: false };
@@ -56,7 +39,7 @@ export class RetweetFilter extends BaseFilter {
     if (hasRetweetIndicator) {
       return {
         shouldHide: true,
-        reason: 'リツイート (DOM)',
+        reason: 'リツイート',
         filterName: this.name,
       };
     }

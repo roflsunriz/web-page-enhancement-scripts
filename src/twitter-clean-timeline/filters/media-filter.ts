@@ -3,9 +3,8 @@
  */
 
 import { BaseFilter } from './base-filter';
-import type { TweetResult, FilterResult, PageType } from '@/shared/types';
+import type { FilterResult, PageType } from '@/shared/types';
 import { settings } from '../settings';
-import { hasMediaInTweet } from '../network/timeline-parser';
 import { TWITTER_MEDIA_CARD_SELECTORS } from '@/shared/constants/twitter';
 import { createLogger } from '@/shared/logger';
 
@@ -57,34 +56,6 @@ export class MediaFilter extends BaseFilter {
     }
   }
 
-  shouldHideFromJSON(tweet: TweetResult | undefined): FilterResult {
-    if (!this.enabled || !this.isEnabledForCurrentPage()) {
-      return { shouldHide: false };
-    }
-
-    const hasMedia = hasMediaInTweet(tweet);
-    
-    if (settings.debugMode) {
-      logger.debug('JSON メディアチェック:', {
-        hasMedia,
-        hasTweet: !!tweet,
-        hasLegacy: !!tweet?.legacy,
-        hasExtendedEntities: !!tweet?.legacy?.extended_entities,
-        hasBasicEntities: !!tweet?.legacy?.entities,
-      });
-    }
-    
-    if (!hasMedia) {
-      return {
-        shouldHide: true,
-        reason: 'メディアなし',
-        filterName: this.name,
-      };
-    }
-
-    return { shouldHide: false };
-  }
-
   shouldHideFromDOM(element: HTMLElement): FilterResult {
     if (!this.enabled || !this.isEnabledForCurrentPage()) {
       return { shouldHide: false };
@@ -95,7 +66,7 @@ export class MediaFilter extends BaseFilter {
     );
 
     if (settings.debugMode) {
-      logger.debug('DOM メディアチェック:', {
+      logger.debug('DOMメディアチェック:', {
         hasMedia,
         elementTagName: element.tagName,
         checkedSelectors: TWITTER_MEDIA_CARD_SELECTORS.length,
@@ -103,12 +74,9 @@ export class MediaFilter extends BaseFilter {
     }
 
     if (!hasMedia) {
-      if (settings.debugMode) {
-        logger.warn('DOMフォールバックでフィルタリング - JSONフィルタが動作していない可能性があります');
-      }
       return {
         shouldHide: true,
-        reason: 'メディアなし (DOM)',
+        reason: 'メディアなし',
         filterName: this.name,
       };
     }

@@ -4,7 +4,6 @@
 
 import { settings, saveSettings, resetSettings } from '../settings';
 import { updateMuteFilterRegexes, processTweetElement } from '../dom/tweet-processor';
-import { updateXHRMuteFilterRegexes } from '../network/xhr-interceptor';
 import { createLogger } from '@/shared/logger';
 import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
@@ -156,7 +155,6 @@ function createModal(): HTMLElement {
       
       // ミュートフィルタの正規表現を更新
       updateMuteFilterRegexes();
-      updateXHRMuteFilterRegexes();
       
       // 即時適用: ページ上の全ツイートを再処理
       reprocessAllTweets();
@@ -234,7 +232,6 @@ function saveSettingsFromModal(modal: HTMLElement): void {
   
   // ミュートフィルタの正規表現を更新
   updateMuteFilterRegexes();
-  updateXHRMuteFilterRegexes();
 
   // 即時適用: ページ上の全ツイートを再処理
   reprocessAllTweets();

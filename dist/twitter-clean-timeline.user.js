@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-clean-timeline
 // @namespace    twitterCleanTimeline
-// @version      1.3.3
+// @version      1.4.0
 // @author       roflsunriz
 // @description  X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。
 // @license      MIT
@@ -20,204 +20,17 @@
 (function () {
   'use strict';
 
-  const v={debug:"debug",info:"info",warn:"warn",error:"error"},c=t=>{const e=`[${t}]`,r={};return Object.keys(v).forEach(i=>{const o=v[i];r[i]=(...l)=>{(console[o]??console.log)(e,...l);};}),r};function U(t){return t?.data?.home?.home_timeline_urt??null}function O(t){return t?t.legacy?t.legacy:t.tweet?.legacy?t.tweet.legacy:null:null}function V(t){const e=O(t);if(!e)return  false;const r=e.extended_entities?.media,i=e.entities?.media,o=r??i??[];return Array.isArray(o)&&o.length>0}function X(t){const e=O(t);return e?!!(e.retweeted_status_id_str||(e.full_text??"").startsWith("RT @")):false}function G(t){return O(t)?.full_text??""}function W(t){return t?t.core?.user_results?.result?.legacy?.screen_name??"":""}class S{shouldHide(e,r){if(!this.enabled)return {shouldHide:false};if(e){const i=this.shouldHideFromJSON(e);if(i.shouldHide)return i}return r?this.shouldHideFromDOM(r):{shouldHide:false}}}const Y=c("twitter-clean-timeline"),R="twitter_clean_timeline_settings",C={showPlaceholder:false,debugMode:false,mediaFilter:{enabled:false,enableOnTimeline:false,enableOnLists:false,enableOnProfile:false,enableOnSearch:false,enableOnTweetDetail:false},muteFilter:{enabled:false,stringKeywords:[],regexKeywords:[]},retweetFilter:{enabled:false}};let n={...C,...GM_getValue(R,{})};function _(){GM_setValue(R,n),Y.info("設定を保存しました",n);}function Q(){n={...C},_();}const u={article:'article[data-testid="tweet"]',tweetPhoto:'div[data-testid="tweetPhoto"]',tweetVideo:'div[data-testid="videoPlayer"]',mediaCardSmall:'div[data-testid="card.layoutSmall.media"]',mediaCardLarge:'div[data-testid="card.layoutLarge.media"]',retweetIndicator:".r-15zivkp"},$=[u.tweetPhoto,u.tweetVideo,u.mediaCardSmall,u.mediaCardLarge],x=c("twitter-clean-timeline:media-filter");class N extends S{get name(){return "media"}get enabled(){return n.mediaFilter.enabled}getPageType(){const e=window.location.pathname;return e==="/home"?"timeline":e.includes("/lists/")?"list":e.match(/^\/[^/]+$/)&&!e.match(/^\/search$|^\/explore$|^\/home$/)?"profile":e.match(/^\/search/)?"search":e.match(/\/status\//)?"tweetDetail":"other"}isEnabledForCurrentPage(){switch(this.getPageType()){case "timeline":return n.mediaFilter.enableOnTimeline;case "list":return n.mediaFilter.enableOnLists;case "profile":return n.mediaFilter.enableOnProfile;case "search":return n.mediaFilter.enableOnSearch;case "tweetDetail":return n.mediaFilter.enableOnTweetDetail;default:return  false}}shouldHideFromJSON(e){if(!this.enabled||!this.isEnabledForCurrentPage())return {shouldHide:false};const r=V(e);return n.debugMode&&x.debug("JSON メディアチェック:",{hasMedia:r,hasTweet:!!e,hasLegacy:!!e?.legacy,hasExtendedEntities:!!e?.legacy?.extended_entities,hasBasicEntities:!!e?.legacy?.entities}),r?{shouldHide:false}:{shouldHide:true,reason:"メディアなし",filterName:this.name}}shouldHideFromDOM(e){if(!this.enabled||!this.isEnabledForCurrentPage())return {shouldHide:false};const r=$.some(i=>e.querySelector(i));return n.debugMode&&x.debug("DOM メディアチェック:",{hasMedia:r,elementTagName:e.tagName,checkedSelectors:$.length}),r?{shouldHide:false}:(n.debugMode&&x.warn("DOMフォールバックでフィルタリング - JSONフィルタが動作していない可能性があります"),{shouldHide:true,reason:"メディアなし (DOM)",filterName:this.name})}}const Z=c("twitter-clean-timeline:mute-filter");class D extends S{muteRegexes=[];constructor(){super(),this.updateMuteRegexes();}get name(){return "mute"}get enabled(){return n.muteFilter.enabled}updateMuteRegexes(){this.muteRegexes=n.muteFilter.regexKeywords.filter(e=>e.trim()!=="").map(e=>{try{return new RegExp(e)}catch(r){return Z.error(`無効な正規表現パターン: ${e}`,r),null}}).filter(e=>e!==null);}isTextMuted(e){for(const r of n.muteFilter.stringKeywords)if(r&&e.includes(r))return {muted:true,keyword:r};for(const r of this.muteRegexes)if(r.test(e))return {muted:true,keyword:r.source};return {muted:false}}shouldHideFromJSON(e){if(!this.enabled)return {shouldHide:false};const r=G(e),i=W(e),o=`${r} @${i}`,l=this.isTextMuted(o);return l.muted?{shouldHide:true,reason:`ミュート: ${l.keyword}`,filterName:this.name}:{shouldHide:false}}shouldHideFromDOM(e){if(!this.enabled||!e.innerText)return {shouldHide:false};const r=e.innerText,i=this.isTextMuted(r);return i.muted?{shouldHide:true,reason:`ミュート (DOM): ${i.keyword}`,filterName:this.name}:{shouldHide:false}}}class A extends S{get name(){return "retweet"}get enabled(){return n.retweetFilter.enabled}isProfilePage(){const e=window.location.pathname;return e.match(/^\/[^/]+$/)!==null&&!e.match(/^\/search$|^\/explore$|^\/home$/)}shouldHideFromJSON(e){return !this.enabled||!this.isProfilePage()?{shouldHide:false}:X(e)?{shouldHide:true,reason:"リツイート",filterName:this.name}:{shouldHide:false}}shouldHideFromDOM(e){return !this.enabled||!this.isProfilePage()?{shouldHide:false}:e.querySelector(u.retweetIndicator)?{shouldHide:true,reason:"リツイート (DOM)",filterName:this.name}:{shouldHide:false}}}const s=c("twitter-clean-timeline:network"),ee=new N,J=new D,te=new A;function j(){J.updateMuteRegexes();}function ne(t){if(!t)return  false;n.debugMode&&t.includes("/i/api/graphql/")&&s.debug("GraphQL API検出:",t);const e=["/HomeTimeline","/HomeLatestTimeline","/ForYouTimeline"];return t.includes("/i/api/graphql/")&&e.some(r=>t.includes(r))}function re(t){const e=U(t);if(n.debugMode&&s.debug("タイムラインデータ抽出結果:",{hasData:!!e,hasInstructions:!!e?.instructions,instructionsCount:e?.instructions?.length??0}),!e?.instructions){n.debugMode&&s.warn("タイムラインデータまたはinstructionsが見つかりません");return}let r=0,i=0;for(const o of e.instructions){if(!o?.type||!Array.isArray(o.entries)||!String(o.type).includes("AddEntries"))continue;const l=o.entries.length;o.entries=o.entries.filter(d=>{const m=d?.content;if(!m||m.entryType==="TimelineTimelineCursor"||m.entryType!=="TimelineTimelineItem")return  true;const f=m.itemContent?.tweet_results?.result;if(!f)return  true;i++;const b=[ee,J,te];for(const g of b){const y=g.shouldHideFromJSON(f);if(y.shouldHide)return n.debugMode&&s.debug(`JSON フィルタ: ${y.reason??g.name}`),false}return  true});const a=l-o.entries.length;r+=a;}n.debugMode&&s.info(`JSONフィルタリング完了: 処理=${i}件, フィルタ=${r}件`);}function ie(){const t=XMLHttpRequest.prototype,e=Object.getOwnPropertyDescriptor(t,"responseText"),r=Object.getOwnPropertyDescriptor(t,"response");if(!e?.get||!r?.get){s.error("XMLHttpRequest.prototype の記述子を取得できません");return}const i=e.get,o=t.open,l=t.send;t.open=function(a,d,...m){return this.__ctlUrl=typeof d=="string"?d:String(d),o.apply(this,[a,d,...m])},t.send=function(a){const d=this.__ctlUrl;return ne(d??"")&&(n.debugMode&&s.info("タイムラインAPIをフック:",d),this.addEventListener("readystatechange",function(){if(this.readyState===4&&!this.__ctlPatched){this.__ctlPatched=true;try{const f=i.call(this);if(typeof f!="string"||!f){n.debugMode&&s.warn("レスポンスが空または文字列ではありません");return}const b=JSON.parse(f);n.debugMode&&s.debug("JSONパース成功、フィルタリング開始"),re(b);const g=JSON.stringify(b);if(Object.defineProperty(this,"responseText",{configurable:!0,get(){return g}}),this.responseType===""||this.responseType==="text")Object.defineProperty(this,"response",{configurable:!0,get(){return g}});else if(this.responseType==="json"){const y=JSON.parse(g);Object.defineProperty(this,"response",{configurable:!0,get(){return y}});}n.debugMode&&s.debug("レスポンス書き換え完了");}catch(f){s.error("XHRフックエラー",f);}}})),l.call(this,a)},s.info("XHRフックをインストールしました");}function oe(){const t=`
-    (function() {
-      const originalFetch = window.fetch;
-      const debugMode = ${n.debugMode};
-      
-      // タイムラインエンドポイント判定
-      function isHomeTimelineUrl(url) {
-        if (!url) return false;
-        
-        if (debugMode && url.includes('/i/api/')) {
-          console.log('[twitter-clean-timeline:network] Fetch API呼び出し検出:', url);
-        }
-        
-        const timelinePatterns = [
-          '/HomeTimeline',
-          '/HomeLatestTimeline',
-          '/ForYouTimeline',
-        ];
-        
-        return url.includes('/i/api/graphql/') && 
-               timelinePatterns.some(pattern => url.includes(pattern));
-      }
-      
-      // フィルタリング処理
-      function filterTimelineJson(response) {
-        try {
-          // レスポンス構造を検証
-          if (!response || typeof response !== 'object') {
-            if (debugMode) {
-              console.warn('[twitter-clean-timeline:network] 無効なレスポンス構造');
-            }
-            return response;
-          }
-          
-          const timelineData = response?.data?.home?.home_timeline_urt;
-          
-          if (!timelineData?.instructions) {
-            if (debugMode) {
-              console.log('[twitter-clean-timeline:network] タイムラインデータなし - フィルタリングスキップ');
-            }
-            return response;
-          }
-          
-          let totalFiltered = 0;
-          let totalProcessed = 0;
-          const mediaFilterEnabled = ${n.mediaFilter.enabled};
-          
-          if (!mediaFilterEnabled) {
-            if (debugMode) {
-              console.log('[twitter-clean-timeline:network] メディアフィルタ無効 - スキップ');
-            }
-            return response;
-          }
-          
-          for (const instruction of timelineData.instructions) {
-            if (!instruction?.type || !Array.isArray(instruction.entries)) continue;
-            
-            if (!String(instruction.type).includes('AddEntries')) continue;
-            
-            const originalLength = instruction.entries.length;
-            
-            instruction.entries = instruction.entries.filter((entry) => {
-              try {
-                const content = entry?.content;
-                if (!content) return true;
-                
-                // カーソルは必ず残す
-                if (content.entryType === 'TimelineTimelineCursor') return true;
-                if (content.entryType !== 'TimelineTimelineItem') return true;
-                
-                const tweet = content.itemContent?.tweet_results?.result;
-                if (!tweet) return true;
-                
-                totalProcessed++;
-                
-                // メディアフィルタ
-                const legacy = tweet.legacy || tweet.tweet?.legacy;
-                if (!legacy) return true;
-                
-                const extendedMedia = legacy.extended_entities?.media;
-                const basicMedia = legacy.entities?.media;
-                const mediaList = extendedMedia ?? basicMedia ?? [];
-                const hasMedia = Array.isArray(mediaList) && mediaList.length > 0;
-                
-                if (!hasMedia) {
-                  if (debugMode) {
-                    console.log('[twitter-clean-timeline:network] JSONフィルタ: メディアなし');
-                  }
-                  return false;
-                }
-                
-                return true;
-              } catch (entryError) {
-                console.error('[twitter-clean-timeline:network] エントリ処理エラー:', entryError);
-                return true; // エラー時は残す
-              }
-            });
-            
-            totalFiltered += originalLength - instruction.entries.length;
-          }
-          
-          if (debugMode) {
-            console.log('[twitter-clean-timeline:network] JSONフィルタリング完了: 処理=' + totalProcessed + '件, フィルタ=' + totalFiltered + '件');
-          }
-          
-          return response;
-        } catch (e) {
-          console.error('[twitter-clean-timeline:network] フィルタリングエラー:', e);
-          return response;
-        }
-      }
-      
-      // fetchをフック
-      window.fetch = async function(...args) {
-        const [resource] = args;
-        const url = typeof resource === 'string' ? resource : resource instanceof Request ? resource.url : '';
-        
-        if (isHomeTimelineUrl(url)) {
-          if (debugMode) {
-            console.log('[twitter-clean-timeline:network] タイムラインAPIをフック (fetch):', url);
-          }
-          
-          try {
-            const response = await originalFetch.apply(this, args);
-            
-            // レスポンスが正常でない場合はそのまま返す
-            if (!response.ok) {
-              if (debugMode) {
-                console.warn('[twitter-clean-timeline:network] レスポンスエラー:', response.status);
-              }
-              return response;
-            }
-            
-            const clonedResponse = response.clone();
-            const text = await clonedResponse.text();
-            
-            if (!text) {
-              if (debugMode) {
-                console.warn('[twitter-clean-timeline:network] レスポンスが空です');
-              }
-              return response;
-            }
-            
-            let json;
-            try {
-              json = JSON.parse(text);
-            } catch (parseError) {
-              console.error('[twitter-clean-timeline:network] JSON解析エラー:', parseError);
-              return response;
-            }
-            
-            if (debugMode) {
-              console.log('[twitter-clean-timeline:network] JSON解析成功、フィルタリング開始');
-            }
-            
-            const filteredJson = filterTimelineJson(json);
-            const newText = JSON.stringify(filteredJson);
-            
-            // レスポンスヘッダーをコピー
-            const newHeaders = new Headers(response.headers);
-            
-            // Content-Lengthを更新（新しいボディサイズに合わせる）
-            newHeaders.set('Content-Length', new Blob([newText]).size.toString());
-            
-            const newResponse = new Response(newText, {
-              status: response.status,
-              statusText: response.statusText,
-              headers: newHeaders,
-            });
-            
-            if (debugMode) {
-              console.log('[twitter-clean-timeline:network] レスポンス書き換え完了');
-            }
-            
-            return newResponse;
-          } catch (e) {
-            console.error('[twitter-clean-timeline:network] Fetchフックエラー:', e);
-            // エラーの場合は元のfetchを再実行
-            return originalFetch.apply(this, args);
-          }
-        }
-        
-        return originalFetch.apply(this, args);
-      };
-      
-      console.log('[twitter-clean-timeline:network] Fetchフック注入完了');
-    })();
-  `,e=document.createElement("script");e.textContent=t,(document.head||document.documentElement).appendChild(e),e.remove(),s.info("Fetchフックをページコンテキストに注入しました");}function le(){ie(),oe();}const se=c("twitter-clean-timeline:placeholder");function ae(t){const e=document.createElement("div");return e.dataset.twitterCleanTimelinePlaceholder="1",e.textContent=`フィルタ済み: ${t}`,Object.assign(e.style,{fontSize:"12px",color:"rgb(113, 118, 123)",opacity:"0.6",padding:"8px 16px",borderBottom:"1px solid rgb(239, 243, 244)",backgroundColor:"rgb(247, 249, 249)",fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto'}),e}function ce(t,e,r,i){const o=ae(e);try{if(t.replaceWith(o),i&&r>0){const l=o.getBoundingClientRect().height||0;return r-l}}catch(l){se.error("プレースホルダー置換エラー",l),t.style.display="none";}return 0}const k=c("twitter-clean-timeline:remover");let p=0,T=false;function P(t){t&&(p+=t,!T&&(T=true,requestAnimationFrame(()=>{p!==0&&(window.scrollBy(0,p),n.debugMode&&k.debug(`スクロール補正: ${p}px`),p=0),T=false;})));}function de(t,e){const r=t.getBoundingClientRect(),i=r.height||0,o=r.bottom<=0,l=t.closest("article")??t;if(n.showPlaceholder){const a=ce(l,e,i,o);a>0&&P(a);}else try{l.remove(),o&&i>0&&P(i);}catch(a){k.error("ツイート削除エラー",a),l.style.display="none";}n.debugMode&&k.debug(`ツイート削除: ${e} (高さ: ${i}px, 上側: ${o})`);}const ue=c("twitter-clean-timeline:processor"),fe=new N,q=new D,me=new A;function I(){q.updateMuteRegexes();}function z(t){if(!t)return;const e=[fe,q,me];for(const r of e){const i=r.shouldHideFromDOM(t);if(i.shouldHide){const o=i.reason??r.name;n.debugMode&&ue.debug(`ツイートをフィルタ: ${o}`),de(t,o);return}}}const F=c("twitter-clean-timeline:observer"),h=new Set;let M=false,w=null;function B(){M||(M=true,requestAnimationFrame(()=>{M=false;const t=Array.from(h);h.clear();for(const e of t)document.body.contains(e)&&(e.dataset.ctlProcessed||(z(e),e.dataset.ctlProcessed="true"));}));}function ge(t){for(const e of t)if(e.type==="childList")for(const r of Array.from(e.addedNodes)){if(!(r instanceof HTMLElement))continue;const i=r.matches(u.article)?r:r.querySelector(u.article);i&&h.add(i);}h.size>0&&B();}function E(){if(w){F.warn("オブザーバーは既に起動しています");return}w=new MutationObserver(ge);const t=document.querySelector("main");t?(w.observe(t,{childList:true,subtree:true}),F.info("メイン要素の監視を開始しました")):(w.observe(document.body,{childList:true,subtree:true}),F.info("body要素の監視を開始しました（main要素が見つかりません）")),document.querySelectorAll(u.article).forEach(r=>{r.dataset.ctlProcessed||h.add(r);}),h.size>0&&B();}const H=c("twitter-clean-timeline:ui");function he(){const t=document.querySelector("#ctl-settings-modal");t&&t.remove();const e=pe();document.body.appendChild(e);}function pe(){const t=document.createElement("div");t.id="ctl-settings-modal",Object.assign(t.style,{position:"fixed",top:"0",left:"0",width:"100%",height:"100%",backgroundColor:"rgba(0, 0, 0, 0.5)",display:"flex",justifyContent:"center",alignItems:"center",zIndex:"10000"});const e=document.createElement("div");Object.assign(e.style,{backgroundColor:"#15202b",color:"#ffffff",borderRadius:"16px",padding:"24px",width:"600px",maxWidth:"90vw",maxHeight:"90vh",overflow:"auto",boxShadow:"0 8px 32px rgba(0, 0, 0, 0.5)"}),e.innerHTML=`
+  const y={debug:"debug",info:"info",warn:"warn",error:"error"},d=t=>{const e=`[${t}]`,o={};return Object.keys(y).forEach(l=>{const i=y[l];o[l]=(...n)=>{(console[i]??console.log)(e,...n);};}),o},a={article:'article[data-testid="tweet"]',tweetPhoto:'div[data-testid="tweetPhoto"]',tweetVideo:'div[data-testid="videoPlayer"]',mediaCardSmall:'div[data-testid="card.layoutSmall.media"]',mediaCardLarge:'div[data-testid="card.layoutLarge.media"]',retweetIndicator:".r-15zivkp"},w=[a.tweetPhoto,a.tweetVideo,a.mediaCardSmall,a.mediaCardLarge],L=d("twitter-clean-timeline"),S="twitter_clean_timeline_settings",T={showPlaceholder:false,debugMode:false,mediaFilter:{enabled:false,enableOnTimeline:false,enableOnLists:false,enableOnProfile:false,enableOnSearch:false,enableOnTweetDetail:false},muteFilter:{enabled:false,stringKeywords:[],regexKeywords:[]},retweetFilter:{enabled:false}};let r={...T,...GM_getValue(S,{})};function $(){GM_setValue(S,r),L.info("設定を保存しました",r);}function R(){r={...T},$();}const H=d("twitter-clean-timeline:placeholder");function D(t){const e=document.createElement("div");return e.dataset.twitterCleanTimelinePlaceholder="1",e.textContent=`フィルタ済み: ${t}`,Object.assign(e.style,{fontSize:"12px",color:"rgb(113, 118, 123)",opacity:"0.6",padding:"8px 16px",borderBottom:"1px solid rgb(239, 243, 244)",backgroundColor:"rgb(247, 249, 249)",fontFamily:'system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto'}),e}function q(t,e,o,l){const i=D(e);try{if(t.replaceWith(i),l&&o>0){const n=i.getBoundingClientRect().height||0;return o-n}}catch(n){H.error("プレースホルダー置換エラー",n),t.style.display="none";}return 0}const g=d("twitter-clean-timeline:remover");let u=0,f=false;function F(t){t&&(u+=t,!f&&(f=true,requestAnimationFrame(()=>{u!==0&&(window.scrollBy(0,u),r.debugMode&&g.debug(`スクロール補正: ${u}px`),u=0),f=false;})));}function z(t,e){const o=t.getBoundingClientRect(),l=o.height||0,i=o.bottom<=0,n=t.closest("article")??t;if(r.showPlaceholder){const c=q(n,e,l,i);c>0&&F(c);}else try{n.remove(),i&&l>0&&F(l);}catch(c){g.error("ツイート削除エラー",c),n.style.display="none";}r.debugMode&&g.debug(`ツイート削除: ${e} (高さ: ${l}px, 上側: ${i})`);}class h{}const A=d("twitter-clean-timeline:media-filter");class I extends h{get name(){return "media"}get enabled(){return r.mediaFilter.enabled}getPageType(){const e=window.location.pathname;return e==="/home"?"timeline":e.includes("/lists/")?"list":e.match(/^\/[^/]+$/)&&!e.match(/^\/search$|^\/explore$|^\/home$/)?"profile":e.match(/^\/search/)?"search":e.match(/\/status\//)?"tweetDetail":"other"}isEnabledForCurrentPage(){switch(this.getPageType()){case "timeline":return r.mediaFilter.enableOnTimeline;case "list":return r.mediaFilter.enableOnLists;case "profile":return r.mediaFilter.enableOnProfile;case "search":return r.mediaFilter.enableOnSearch;case "tweetDetail":return r.mediaFilter.enableOnTweetDetail;default:return  false}}shouldHideFromDOM(e){if(!this.enabled||!this.isEnabledForCurrentPage())return {shouldHide:false};const o=w.some(l=>e.querySelector(l));return r.debugMode&&A.debug("DOMメディアチェック:",{hasMedia:o,elementTagName:e.tagName,checkedSelectors:w.length}),o?{shouldHide:false}:{shouldHide:true,reason:"メディアなし",filterName:this.name}}}const _=d("twitter-clean-timeline:mute-filter");class j extends h{muteRegexes=[];constructor(){super(),this.updateMuteRegexes();}get name(){return "mute"}get enabled(){return r.muteFilter.enabled}updateMuteRegexes(){this.muteRegexes=r.muteFilter.regexKeywords.filter(e=>e.trim()!=="").map(e=>{try{return new RegExp(e)}catch(o){return _.error(`無効な正規表現パターン: ${e}`,o),null}}).filter(e=>e!==null);}isTextMuted(e){for(const o of r.muteFilter.stringKeywords)if(o&&e.includes(o))return {muted:true,keyword:o};for(const o of this.muteRegexes)if(o.test(e))return {muted:true,keyword:o.source};return {muted:false}}shouldHideFromDOM(e){if(!this.enabled||!e.innerText)return {shouldHide:false};const o=e.innerText,l=this.isTextMuted(o);return l.muted?{shouldHide:true,reason:`ミュート: ${l.keyword}`,filterName:this.name}:{shouldHide:false}}}class B extends h{get name(){return "retweet"}get enabled(){return r.retweetFilter.enabled}isProfilePage(){const e=window.location.pathname;return e.match(/^\/[^/]+$/)!==null&&!e.match(/^\/search$|^\/explore$|^\/home$/)}shouldHideFromDOM(e){return !this.enabled||!this.isProfilePage()?{shouldHide:false}:e.querySelector(a.retweetIndicator)?{shouldHide:true,reason:"リツイート",filterName:this.name}:{shouldHide:false}}}const K=d("twitter-clean-timeline:processor"),N=new I,M=new j,V=new B;function O(){M.updateMuteRegexes();}function P(t){if(!t)return;const e=[N,M,V];for(const o of e){const l=o.shouldHideFromDOM(t);if(l.shouldHide){const i=l.reason??o.name;r.debugMode&&K.debug(`ツイートをフィルタ: ${i}`),z(t,i);return}}}const b=d("twitter-clean-timeline:observer"),s=new Set;let p=false,m=null;function E(){p||(p=true,requestAnimationFrame(()=>{p=false;const t=Array.from(s);s.clear();for(const e of t)document.body.contains(e)&&(e.dataset.ctlProcessed||(P(e),e.dataset.ctlProcessed="true"));}));}function W(t){for(const e of t)if(e.type==="childList")for(const o of Array.from(e.addedNodes)){if(!(o instanceof HTMLElement))continue;const l=o.matches(a.article)?o:o.querySelector(a.article);l&&s.add(l);}s.size>0&&E();}function v(){if(m){b.warn("オブザーバーは既に起動しています");return}m=new MutationObserver(W);const t=document.querySelector("main");t?(m.observe(t,{childList:true,subtree:true}),b.info("メイン要素の監視を開始しました")):(m.observe(document.body,{childList:true,subtree:true}),b.info("body要素の監視を開始しました（main要素が見つかりません）")),document.querySelectorAll(a.article).forEach(o=>{o.dataset.ctlProcessed||s.add(o);}),s.size>0&&E();}const x=d("twitter-clean-timeline:ui");function G(){const t=document.querySelector("#ctl-settings-modal");t&&t.remove();const e=U();document.body.appendChild(e);}function U(){const t=document.createElement("div");t.id="ctl-settings-modal",Object.assign(t.style,{position:"fixed",top:"0",left:"0",width:"100%",height:"100%",backgroundColor:"rgba(0, 0, 0, 0.5)",display:"flex",justifyContent:"center",alignItems:"center",zIndex:"10000"});const e=document.createElement("div");Object.assign(e.style,{backgroundColor:"#15202b",color:"#ffffff",borderRadius:"16px",padding:"24px",width:"600px",maxWidth:"90vw",maxHeight:"90vh",overflow:"auto",boxShadow:"0 8px 32px rgba(0, 0, 0, 0.5)"}),e.innerHTML=`
     <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold; color: #ffffff;">Twitter Clean Timeline 設定</h2>
     
     <div style="margin-bottom: 20px;">
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">グローバル設定</h3>
       <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-        <input type="checkbox" id="ctl-show-placeholder" ${n.showPlaceholder?"checked":""}>
+        <input type="checkbox" id="ctl-show-placeholder" ${r.showPlaceholder?"checked":""}>
         プレースホルダー表示（フィルタされたツイートを小さく表示）
       </label>
       <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-        <input type="checkbox" id="ctl-debug-mode" ${n.debugMode?"checked":""}>
+        <input type="checkbox" id="ctl-debug-mode" ${r.debugMode?"checked":""}>
         デバッグモード（コンソールに詳細ログを出力）
       </label>
     </div>
@@ -225,29 +38,29 @@
     <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
-          <input type="checkbox" id="ctl-media-enabled" ${n.mediaFilter.enabled?"checked":""}>
+          <input type="checkbox" id="ctl-media-enabled" ${r.mediaFilter.enabled?"checked":""}>
           メディアフィルタ
         </label>
       </h3>
       <div style="margin-left: 24px;">
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-          <input type="checkbox" id="ctl-media-timeline" ${n.mediaFilter.enableOnTimeline?"checked":""}>
+          <input type="checkbox" id="ctl-media-timeline" ${r.mediaFilter.enableOnTimeline?"checked":""}>
           ホームタイムライン
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-          <input type="checkbox" id="ctl-media-lists" ${n.mediaFilter.enableOnLists?"checked":""}>
+          <input type="checkbox" id="ctl-media-lists" ${r.mediaFilter.enableOnLists?"checked":""}>
           リスト
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-          <input type="checkbox" id="ctl-media-profile" ${n.mediaFilter.enableOnProfile?"checked":""}>
+          <input type="checkbox" id="ctl-media-profile" ${r.mediaFilter.enableOnProfile?"checked":""}>
           プロフィール
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-          <input type="checkbox" id="ctl-media-search" ${n.mediaFilter.enableOnSearch?"checked":""}>
+          <input type="checkbox" id="ctl-media-search" ${r.mediaFilter.enableOnSearch?"checked":""}>
           検索
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
-          <input type="checkbox" id="ctl-media-detail" ${n.mediaFilter.enableOnTweetDetail?"checked":""}>
+          <input type="checkbox" id="ctl-media-detail" ${r.mediaFilter.enableOnTweetDetail?"checked":""}>
           ツイート詳細
         </label>
       </div>
@@ -256,17 +69,17 @@
     <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
-          <input type="checkbox" id="ctl-mute-enabled" ${n.muteFilter.enabled?"checked":""}>
+          <input type="checkbox" id="ctl-mute-enabled" ${r.muteFilter.enabled?"checked":""}>
           ミュートフィルタ
         </label>
       </h3>
       <div style="margin-left: 24px; margin-right: 8px;">
         <label style="display: block; margin-bottom: 4px; font-weight: bold; color: #e7e9ea;">文字列キーワード（1行1個）</label>
-        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${n.muteFilter.stringKeywords.join(`
+        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${r.muteFilter.stringKeywords.join(`
 `)}</textarea>
         
         <label style="display: block; margin: 12px 0 4px 0; font-weight: bold; color: #e7e9ea;">正規表現パターン（1行1個）</label>
-        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${n.muteFilter.regexKeywords.join(`
+        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${r.muteFilter.regexKeywords.join(`
 `)}</textarea>
       </div>
     </div>
@@ -274,7 +87,7 @@
     <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
-          <input type="checkbox" id="ctl-retweet-enabled" ${n.retweetFilter.enabled?"checked":""}>
+          <input type="checkbox" id="ctl-retweet-enabled" ${r.retweetFilter.enabled?"checked":""}>
           リツイートフィルタ（プロフィールページで動作）
         </label>
       </h3>
@@ -291,8 +104,8 @@
         キャンセル
       </button>
     </div>
-  `;const r=e.querySelector("#ctl-save-btn"),i=e.querySelector("#ctl-reset-btn"),o=e.querySelector("#ctl-cancel-btn");return r?.addEventListener("click",()=>{be(e),t.remove();}),i?.addEventListener("click",()=>{confirm("すべての設定をリセットしますか？")&&(Q(),I(),j(),K(),t.remove(),H.info("設定をリセットしました"),alert("設定をリセットして適用しました。"));}),o?.addEventListener("click",()=>{t.remove();}),t.addEventListener("click",l=>{l.target===t&&t.remove();}),t.appendChild(e),t}function K(){const t=document.querySelectorAll(u.article);t.forEach(e=>{delete e.dataset.ctlProcessed,z(e);}),H.info(`${t.length}件のツイートを再処理しました`);}function be(t){const e=i=>t.querySelector(`#${i}`)?.checked??false,r=i=>t.querySelector(`#${i}`)?.value??"";n.showPlaceholder=e("ctl-show-placeholder"),n.debugMode=e("ctl-debug-mode"),n.mediaFilter.enabled=e("ctl-media-enabled"),n.mediaFilter.enableOnTimeline=e("ctl-media-timeline"),n.mediaFilter.enableOnLists=e("ctl-media-lists"),n.mediaFilter.enableOnProfile=e("ctl-media-profile"),n.mediaFilter.enableOnSearch=e("ctl-media-search"),n.mediaFilter.enableOnTweetDetail=e("ctl-media-detail"),n.muteFilter.enabled=e("ctl-mute-enabled"),n.muteFilter.stringKeywords=r("ctl-mute-strings").split(`
-`).map(i=>i.trim()).filter(i=>i.length>0),n.muteFilter.regexKeywords=r("ctl-mute-regexes").split(`
-`).map(i=>i.trim()).filter(i=>i.length>0),n.retweetFilter.enabled=e("ctl-retweet-enabled"),_(),I(),j(),K(),H.info("設定を保存しました"),alert("設定を保存して適用しました。");}const L=c("twitter-clean-timeline");function ye(){L.info("Twitter Clean Timeline を初期化中..."),le(),document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{E();}):E(),GM_registerMenuCommand("タイムラインフィルタ設定",he),L.info("初期化完了",{mediaFilter:n.mediaFilter.enabled,muteFilter:n.muteFilter.enabled,retweetFilter:n.retweetFilter.enabled,showPlaceholder:n.showPlaceholder});}ye();
+  `;const o=e.querySelector("#ctl-save-btn"),l=e.querySelector("#ctl-reset-btn"),i=e.querySelector("#ctl-cancel-btn");return o?.addEventListener("click",()=>{Y(e),t.remove();}),l?.addEventListener("click",()=>{confirm("すべての設定をリセットしますか？")&&(R(),O(),C(),t.remove(),x.info("設定をリセットしました"),alert("設定をリセットして適用しました。"));}),i?.addEventListener("click",()=>{t.remove();}),t.addEventListener("click",n=>{n.target===t&&t.remove();}),t.appendChild(e),t}function C(){const t=document.querySelectorAll(a.article);t.forEach(e=>{delete e.dataset.ctlProcessed,P(e);}),x.info(`${t.length}件のツイートを再処理しました`);}function Y(t){const e=l=>t.querySelector(`#${l}`)?.checked??false,o=l=>t.querySelector(`#${l}`)?.value??"";r.showPlaceholder=e("ctl-show-placeholder"),r.debugMode=e("ctl-debug-mode"),r.mediaFilter.enabled=e("ctl-media-enabled"),r.mediaFilter.enableOnTimeline=e("ctl-media-timeline"),r.mediaFilter.enableOnLists=e("ctl-media-lists"),r.mediaFilter.enableOnProfile=e("ctl-media-profile"),r.mediaFilter.enableOnSearch=e("ctl-media-search"),r.mediaFilter.enableOnTweetDetail=e("ctl-media-detail"),r.muteFilter.enabled=e("ctl-mute-enabled"),r.muteFilter.stringKeywords=o("ctl-mute-strings").split(`
+`).map(l=>l.trim()).filter(l=>l.length>0),r.muteFilter.regexKeywords=o("ctl-mute-regexes").split(`
+`).map(l=>l.trim()).filter(l=>l.length>0),r.retweetFilter.enabled=e("ctl-retweet-enabled"),$(),O(),C(),x.info("設定を保存しました"),alert("設定を保存して適用しました。");}const k=d("twitter-clean-timeline");function J(){k.info("Twitter Clean Timeline を初期化中..."),document.readyState==="loading"?document.addEventListener("DOMContentLoaded",()=>{v();}):v(),GM_registerMenuCommand("タイムラインフィルタ設定",G),k.info("初期化完了",{mediaFilter:r.mediaFilter.enabled,muteFilter:r.muteFilter.enabled,retweetFilter:r.retweetFilter.enabled,showPlaceholder:r.showPlaceholder});}J();
 
 })();

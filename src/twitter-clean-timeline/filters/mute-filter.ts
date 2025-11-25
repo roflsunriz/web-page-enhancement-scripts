@@ -3,9 +3,8 @@
  */
 
 import { BaseFilter } from './base-filter';
-import type { TweetResult, FilterResult } from '@/shared/types';
+import type { FilterResult } from '@/shared/types';
 import { settings } from '../settings';
-import { getTweetText, getTweetUsername } from '../network/timeline-parser';
 import { createLogger } from '@/shared/logger';
 
 const logger = createLogger('twitter-clean-timeline:mute-filter');
@@ -64,28 +63,6 @@ export class MuteFilter extends BaseFilter {
     return { muted: false };
   }
 
-  shouldHideFromJSON(tweet: TweetResult | undefined): FilterResult {
-    if (!this.enabled) {
-      return { shouldHide: false };
-    }
-
-    const text = getTweetText(tweet);
-    const username = getTweetUsername(tweet);
-    const combinedText = `${text} @${username}`;
-
-    const result = this.isTextMuted(combinedText);
-    
-    if (result.muted) {
-      return {
-        shouldHide: true,
-        reason: `ミュート: ${result.keyword}`,
-        filterName: this.name,
-      };
-    }
-
-    return { shouldHide: false };
-  }
-
   shouldHideFromDOM(element: HTMLElement): FilterResult {
     if (!this.enabled || !element.innerText) {
       return { shouldHide: false };
@@ -97,7 +74,7 @@ export class MuteFilter extends BaseFilter {
     if (result.muted) {
       return {
         shouldHide: true,
-        reason: `ミュート (DOM): ${result.keyword}`,
+        reason: `ミュート: ${result.keyword}`,
         filterName: this.name,
       };
     }
