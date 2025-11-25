@@ -2,7 +2,7 @@
  * twitter-clean-timeline - 設定管理
  */
 
-import { CleanTimelineSettings } from './types';
+import { CleanTimelineSettings } from '@/shared/types';
 import { createLogger } from '@/shared/logger';
 
 const logger = createLogger('twitter-clean-timeline');

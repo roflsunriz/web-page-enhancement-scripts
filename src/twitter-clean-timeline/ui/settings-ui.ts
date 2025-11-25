@@ -44,88 +44,89 @@ function createModal(): HTMLElement {
 
   const modalContent = document.createElement('div');
   Object.assign(modalContent.style, {
-    backgroundColor: 'white',
+    backgroundColor: '#15202b',
+    color: '#ffffff',
     borderRadius: '16px',
     padding: '24px',
     width: '600px',
     maxWidth: '90vw',
     maxHeight: '90vh',
     overflow: 'auto',
-    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.3)',
+    boxShadow: '0 8px 32px rgba(0, 0, 0, 0.5)',
   });
 
   modalContent.innerHTML = `
-    <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold;">Twitter Clean Timeline 設定</h2>
+    <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold; color: #ffffff;">Twitter Clean Timeline 設定</h2>
     
     <div style="margin-bottom: 20px;">
-      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">グローバル設定</h3>
-      <label style="display: block; margin-bottom: 8px;">
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">グローバル設定</h3>
+      <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
         <input type="checkbox" id="ctl-show-placeholder" ${settings.showPlaceholder ? 'checked' : ''}>
         プレースホルダー表示（フィルタされたツイートを小さく表示）
       </label>
-      <label style="display: block; margin-bottom: 8px;">
+      <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
         <input type="checkbox" id="ctl-debug-mode" ${settings.debugMode ? 'checked' : ''}>
         デバッグモード（コンソールに詳細ログを出力）
       </label>
     </div>
 
-    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #e1e8ed;">
-      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
-        <label>
+    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
+        <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-media-enabled" ${settings.mediaFilter.enabled ? 'checked' : ''}>
           メディアフィルタ
         </label>
       </h3>
       <div style="margin-left: 24px;">
-        <label style="display: block; margin-bottom: 8px;">
+        <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-timeline" ${settings.mediaFilter.enableOnTimeline ? 'checked' : ''}>
           ホームタイムライン
         </label>
-        <label style="display: block; margin-bottom: 8px;">
+        <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-lists" ${settings.mediaFilter.enableOnLists ? 'checked' : ''}>
           リスト
         </label>
-        <label style="display: block; margin-bottom: 8px;">
+        <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-profile" ${settings.mediaFilter.enableOnProfile ? 'checked' : ''}>
           プロフィール
         </label>
-        <label style="display: block; margin-bottom: 8px;">
+        <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-search" ${settings.mediaFilter.enableOnSearch ? 'checked' : ''}>
           検索
         </label>
-        <label style="display: block; margin-bottom: 8px;">
+        <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-detail" ${settings.mediaFilter.enableOnTweetDetail ? 'checked' : ''}>
           ツイート詳細
         </label>
       </div>
     </div>
 
-    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #e1e8ed;">
-      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
-        <label>
+    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
+        <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-mute-enabled" ${settings.muteFilter.enabled ? 'checked' : ''}>
           ミュートフィルタ
         </label>
       </h3>
       <div style="margin-left: 24px;">
-        <label style="display: block; margin-bottom: 4px; font-weight: bold;">文字列キーワード（1行1個）</label>
-        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">${settings.muteFilter.stringKeywords.join('\n')}</textarea>
+        <label style="display: block; margin-bottom: 4px; font-weight: bold; color: #e7e9ea;">文字列キーワード（1行1個）</label>
+        <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff;">${settings.muteFilter.stringKeywords.join('\n')}</textarea>
         
-        <label style="display: block; margin: 12px 0 4px 0; font-weight: bold;">正規表現パターン（1行1個）</label>
-        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: monospace;">${settings.muteFilter.regexKeywords.join('\n')}</textarea>
+        <label style="display: block; margin: 12px 0 4px 0; font-weight: bold; color: #e7e9ea;">正規表現パターン（1行1個）</label>
+        <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff;">${settings.muteFilter.regexKeywords.join('\n')}</textarea>
       </div>
     </div>
 
-    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #e1e8ed;">
-      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px;">
-        <label>
+    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
+        <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-retweet-enabled" ${settings.retweetFilter.enabled ? 'checked' : ''}>
           リツイートフィルタ（プロフィールページで動作）
         </label>
       </h3>
     </div>
 
-    <div style="display: flex; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #e1e8ed;">
+    <div style="display: flex; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #38444d;">
       <button id="ctl-save-btn" style="flex: 1; padding: 10px; background-color: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: bold;">
         保存
       </button>

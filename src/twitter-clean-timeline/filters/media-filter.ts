@@ -3,7 +3,7 @@
  */
 
 import { BaseFilter } from './base-filter';
-import type { TweetResult, FilterResult, PageType } from '../types';
+import type { TweetResult, FilterResult, PageType } from '@/shared/types';
 import { settings } from '../settings';
 import { hasMediaInTweet } from '../network/timeline-parser';
 import { TWITTER_MEDIA_CARD_SELECTORS } from '@/shared/constants/twitter';

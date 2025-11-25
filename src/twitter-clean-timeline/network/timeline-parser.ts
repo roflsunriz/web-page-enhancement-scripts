@@ -7,7 +7,7 @@ import type {
   TimelineData,
   TweetResult,
   TweetLegacy,
-} from '../types';
+} from '@/shared/types';
 
 /**
  * HomeTimelineレスポンスからタイムラインデータを取得

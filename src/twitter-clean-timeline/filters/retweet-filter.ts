@@ -3,7 +3,7 @@
  */
 
 import { BaseFilter } from './base-filter';
-import type { TweetResult, FilterResult } from '../types';
+import type { TweetResult, FilterResult } from '@/shared/types';
 import { settings } from '../settings';
 import { isRetweet } from '../network/timeline-parser';
 import { TWITTER_SELECTORS } from '@/shared/constants/twitter';

@@ -2,7 +2,7 @@
  * twitter-clean-timeline - フィルタ基底クラス
  */
 
-import type { TweetResult, FilterResult } from '../types';
+import type { TweetResult, FilterResult } from '@/shared/types';
 
 export abstract class BaseFilter {
   abstract get name(): string;

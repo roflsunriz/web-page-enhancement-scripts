@@ -4,7 +4,7 @@
 
 import { createLogger } from '@/shared/logger';
 import { extractTimelineData } from './timeline-parser';
-import type { HomeTimelineResponse, TweetResult } from '../types';
+import type { HomeTimelineResponse, TweetResult } from '@/shared/types';
 import { MediaFilter } from '../filters/media-filter';
 import { MuteFilter } from '../filters/mute-filter';
 import { RetweetFilter } from '../filters/retweet-filter';
