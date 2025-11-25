@@ -259,15 +259,33 @@ export function installFetchHook(): void {
       // フィルタリング処理
       function filterTimelineJson(response) {
         try {
+          // レスポンス構造を検証
+          if (!response || typeof response !== 'object') {
+            if (debugMode) {
+              console.warn('[twitter-clean-timeline:network] 無効なレスポンス構造');
+            }
+            return response;
+          }
+          
           const timelineData = response?.data?.home?.home_timeline_urt;
           
           if (!timelineData?.instructions) {
+            if (debugMode) {
+              console.log('[twitter-clean-timeline:network] タイムラインデータなし - フィルタリングスキップ');
+            }
             return response;
           }
           
           let totalFiltered = 0;
           let totalProcessed = 0;
           const mediaFilterEnabled = ${settings.mediaFilter.enabled};
+          
+          if (!mediaFilterEnabled) {
+            if (debugMode) {
+              console.log('[twitter-clean-timeline:network] メディアフィルタ無効 - スキップ');
+            }
+            return response;
+          }
           
           for (const instruction of timelineData.instructions) {
             if (!instruction?.type || !Array.isArray(instruction.entries)) continue;
@@ -277,42 +295,46 @@ export function installFetchHook(): void {
             const originalLength = instruction.entries.length;
             
             instruction.entries = instruction.entries.filter((entry) => {
-              const content = entry?.content;
-              if (!content) return true;
-              
-              if (content.entryType === 'TimelineTimelineCursor') return true;
-              if (content.entryType !== 'TimelineTimelineItem') return true;
-              
-              const tweet = content.itemContent?.tweet_results?.result;
-              if (!tweet) return true;
-              
-              totalProcessed++;
-              
-              // メディアフィルタ
-              if (mediaFilterEnabled) {
+              try {
+                const content = entry?.content;
+                if (!content) return true;
+                
+                // カーソルは必ず残す
+                if (content.entryType === 'TimelineTimelineCursor') return true;
+                if (content.entryType !== 'TimelineTimelineItem') return true;
+                
+                const tweet = content.itemContent?.tweet_results?.result;
+                if (!tweet) return true;
+                
+                totalProcessed++;
+                
+                // メディアフィルタ
                 const legacy = tweet.legacy || tweet.tweet?.legacy;
-                if (legacy) {
-                  const extendedMedia = legacy.extended_entities?.media;
-                  const basicMedia = legacy.entities?.media;
-                  const mediaList = extendedMedia ?? basicMedia ?? [];
-                  const hasMedia = Array.isArray(mediaList) && mediaList.length > 0;
-                  
-                  if (!hasMedia) {
-                    if (debugMode) {
-                      console.log('[twitter-clean-timeline:network] JSONフィルタ: メディアなし');
-                    }
-                    return false;
+                if (!legacy) return true;
+                
+                const extendedMedia = legacy.extended_entities?.media;
+                const basicMedia = legacy.entities?.media;
+                const mediaList = extendedMedia ?? basicMedia ?? [];
+                const hasMedia = Array.isArray(mediaList) && mediaList.length > 0;
+                
+                if (!hasMedia) {
+                  if (debugMode) {
+                    console.log('[twitter-clean-timeline:network] JSONフィルタ: メディアなし');
                   }
+                  return false;
                 }
+                
+                return true;
+              } catch (entryError) {
+                console.error('[twitter-clean-timeline:network] エントリ処理エラー:', entryError);
+                return true; // エラー時は残す
               }
-              
-              return true;
             });
             
             totalFiltered += originalLength - instruction.entries.length;
           }
           
-          if (debugMode && totalFiltered > 0) {
+          if (debugMode) {
             console.log('[twitter-clean-timeline:network] JSONフィルタリング完了: 処理=' + totalProcessed + '件, フィルタ=' + totalFiltered + '件');
           }
           
@@ -335,24 +357,60 @@ export function installFetchHook(): void {
           
           try {
             const response = await originalFetch.apply(this, args);
+            
+            // レスポンスが正常でない場合はそのまま返す
+            if (!response.ok) {
+              if (debugMode) {
+                console.warn('[twitter-clean-timeline:network] レスポンスエラー:', response.status);
+              }
+              return response;
+            }
+            
             const clonedResponse = response.clone();
             const text = await clonedResponse.text();
             
             if (!text) {
+              if (debugMode) {
+                console.warn('[twitter-clean-timeline:network] レスポンスが空です');
+              }
               return response;
             }
             
-            const json = JSON.parse(text);
+            let json;
+            try {
+              json = JSON.parse(text);
+            } catch (parseError) {
+              console.error('[twitter-clean-timeline:network] JSON解析エラー:', parseError);
+              return response;
+            }
+            
+            if (debugMode) {
+              console.log('[twitter-clean-timeline:network] JSON解析成功、フィルタリング開始');
+            }
+            
             const filteredJson = filterTimelineJson(json);
             const newText = JSON.stringify(filteredJson);
             
-            return new Response(newText, {
+            // レスポンスヘッダーをコピー
+            const newHeaders = new Headers(response.headers);
+            
+            // Content-Lengthを更新（新しいボディサイズに合わせる）
+            newHeaders.set('Content-Length', new Blob([newText]).size.toString());
+            
+            const newResponse = new Response(newText, {
               status: response.status,
               statusText: response.statusText,
-              headers: response.headers,
+              headers: newHeaders,
             });
+            
+            if (debugMode) {
+              console.log('[twitter-clean-timeline:network] レスポンス書き換え完了');
+            }
+            
+            return newResponse;
           } catch (e) {
             console.error('[twitter-clean-timeline:network] Fetchフックエラー:', e);
+            // エラーの場合は元のfetchを再実行
             return originalFetch.apply(this, args);
           }
         }

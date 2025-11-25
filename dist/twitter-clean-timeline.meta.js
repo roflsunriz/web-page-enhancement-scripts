@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-clean-timeline
 // @namespace    twitterCleanTimeline
-// @version      1.3.2
+// @version      1.3.3
 // @author       roflsunriz
 // @description  X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。
 // @license      MIT
