@@ -11,6 +11,9 @@ import { UI_ELEMENTS } from './constants';
 export class ElementDetector {
   private detectedElements: Map<UIElementId, DetectedElement> = new Map();
   private observer: MutationObserver | null = null;
+  private detectionCache: Map<string, HTMLElement | null> = new Map();
+  private cacheTimestamps: Map<string, number> = new Map();
+  private readonly CACHE_DURATION = 3000; // 3秒間キャッシュ
 
   /**
    * コンストラクタ
@@ -51,20 +54,71 @@ export class ElementDetector {
   }
 
   /**
-   * 単一の検出戦略を実行
+   * キャッシュキーを生成
+   */
+  private getCacheKey(strategy: DetectionStrategy): string {
+    return `${strategy.type}:${strategy.selector || strategy.xpath || strategy.method}`;
+  }
+
+  /**
+   * キャッシュから要素を取得
+   */
+  private getFromCache(strategy: DetectionStrategy): HTMLElement | null | undefined {
+    const key = this.getCacheKey(strategy);
+    const timestamp = this.cacheTimestamps.get(key);
+
+    // キャッシュが有効期限内の場合のみ返す
+    if (timestamp && Date.now() - timestamp < this.CACHE_DURATION) {
+      return this.detectionCache.get(key);
+    }
+
+    return undefined;
+  }
+
+  /**
+   * キャッシュに要素を保存
+   */
+  private saveToCache(strategy: DetectionStrategy, element: HTMLElement | null): void {
+    const key = this.getCacheKey(strategy);
+    this.detectionCache.set(key, element);
+    this.cacheTimestamps.set(key, Date.now());
+  }
+
+  /**
+   * キャッシュをクリア
+   */
+  public clearCache(): void {
+    this.detectionCache.clear();
+    this.cacheTimestamps.clear();
+  }
+
+  /**
+   * 単一の検出戦略を実行（キャッシュ機構付き）
    */
   private executeStrategy(strategy: DetectionStrategy): HTMLElement | null {
+    // カスタムファインダー以外はキャッシュを利用
+    if (strategy.type !== 'custom') {
+      const cached = this.getFromCache(strategy);
+      if (cached !== undefined) {
+        return cached;
+      }
+    }
+
     try {
+      let element: HTMLElement | null = null;
+
       switch (strategy.type) {
         case 'querySelector': {
           if (!strategy.selector) return null;
-          return document.querySelector(strategy.selector) as HTMLElement | null;
+          element = document.querySelector(strategy.selector) as HTMLElement | null;
+          break;
         }
 
         case 'querySelectorAll': {
           if (!strategy.selector) return null;
           const elements = document.querySelectorAll(strategy.selector);
-          return elements.length > 0 ? (elements[0] as HTMLElement) : null;
+          element = elements.length > 0 ? (elements[0] as HTMLElement) : null;
+          break;
         }
 
         case 'xpath': {
@@ -76,17 +130,26 @@ export class ElementDetector {
             XPathResult.FIRST_ORDERED_NODE_TYPE,
             null
           );
-          return result.singleNodeValue as HTMLElement | null;
+          element = result.singleNodeValue as HTMLElement | null;
+          break;
         }
 
         case 'custom': {
           if (!strategy.finder) return null;
-          return strategy.finder();
+          element = strategy.finder();
+          break;
         }
 
         default:
           return null;
       }
+
+      // キャッシュに保存（customファインダー以外）
+      if (strategy.type !== 'custom') {
+        this.saveToCache(strategy, element);
+      }
+
+      return element;
     } catch (error) {
       console.warn(`[ElementDetector] Strategy failed: ${strategy.method}`, error);
       return null;
@@ -189,7 +252,7 @@ export class ElementDetector {
   }
 
   /**
-   * 広告ツイートをすべて検出
+   * 広告ツイートをすべて検出（最適化版）
    * placementTracking は動画ツイートにも使われるため、
    * 実際に広告であるかどうかを「プロモーション」「Promoted」ラベルで判定する
    */
@@ -200,20 +263,22 @@ export class ElementDetector {
     const promotedTweets: HTMLElement[] = [];
 
     for (const element of elements) {
-      // placementTracking要素の上位階層（ツイート全体）を探す
-      let tweetContainer: HTMLElement | null = element as HTMLElement;
-
-      // 最大20階層上まで探索してツイートのコンテナを見つける
-      for (let i = 0; i < 20; i++) {
-        if (!tweetContainer.parentElement) break;
-        tweetContainer = tweetContainer.parentElement;
-
-        // articleタグ（ツイートコンテナ）を見つけたら停止
-        if (tweetContainer.tagName === 'ARTICLE') break;
-      }
+      // 最も近いarticleタグを取得（closest使用で高速化）
+      const tweetContainer = (element as HTMLElement).closest('article');
 
       // ツイートコンテナ内に広告ラベルが含まれているかチェック
       if (tweetContainer) {
+        // aria-label で判定（textContentより高速）
+        const promotedLabel = tweetContainer.querySelector(
+          '[aria-label*="プロモーション"], [aria-label*="Promoted"]'
+        );
+
+        if (promotedLabel) {
+          promotedTweets.push(element as HTMLElement);
+          continue;
+        }
+
+        // フォールバック: textContent で判定（重い処理）
         const textContent = tweetContainer.textContent || '';
         const isPromoted =
           textContent.includes('プロモーション') ||
@@ -235,6 +300,7 @@ export class ElementDetector {
   public destroy(): void {
     this.stopObserving();
     this.detectedElements.clear();
+    this.clearCache();
   }
 }
 

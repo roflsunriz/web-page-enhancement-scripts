@@ -4,6 +4,7 @@
 
 import type { UIElementId, Settings } from './types';
 import type { ElementDetector } from './element-detector';
+import { CSSInjector } from './css-injector';
 import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 
 /**
@@ -11,24 +12,27 @@ import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
  */
 export class ElementController {
   private detector: ElementDetector;
+  private cssInjector: CSSInjector;
   private appliedStyles: Map<UIElementId, string> = new Map();
   private hiddenElements: Set<UIElementId> = new Set();
   private styleElement: HTMLStyleElement;
+  private promotedTweetsCache: WeakSet<HTMLElement> = new WeakSet();
 
   /**
    * コンストラクタ
    */
   constructor(detector: ElementDetector) {
     this.detector = detector;
+    this.cssInjector = new CSSInjector();
     this.styleElement = this.createStyleElement();
   }
 
   /**
-   * スタイル要素を作成
+   * スタイル要素を作成（動的要素用のフォールバック）
    */
   private createStyleElement(): HTMLStyleElement {
     const style = document.createElement('style');
-    style.id = 'twitter-clean-ui-styles';
+    style.id = 'twitter-clean-ui-dynamic-styles';
     document.head.appendChild(style);
     return style;
   }
@@ -85,53 +89,39 @@ export class ElementController {
   }
 
   /**
-   * すべての広告ツイートを非表示
+   * すべての広告ツイートを非表示（キャッシュ機構付き）
    */
   public hideAllPromotedTweets(): void {
     const promotedTweets = this.detector.detectAllPromotedTweets();
     promotedTweets.forEach((tweet) => {
+      // 既に処理済みの要素はスキップ
+      if (this.promotedTweetsCache.has(tweet)) {
+        return;
+      }
+
       tweet.style.setProperty('display', 'none', 'important');
+      this.promotedTweetsCache.add(tweet);
     });
   }
 
   /**
-   * レイアウトを適用
+   * 広告ツイートのキャッシュをクリア
+   */
+  public clearPromotedTweetsCache(): void {
+    this.promotedTweetsCache = new WeakSet();
+  }
+
+  /**
+   * レイアウトを適用（XPath要素用の動的CSS）
    */
   public applyLayout(settings: Settings): void {
     const { layout } = settings;
 
-    // 動的CSSを生成
+    // XPathクラスセレクタ用の追加CSS（CSSInjectorではカバーできない部分）
     const css = `
-      /* 左サイドバーの幅 */
-      header[role="banner"] {
-        width: ${layout.leftSidebarWidth}px !important;
-        min-width: ${layout.leftSidebarWidth}px !important;
-        max-width: ${layout.leftSidebarWidth}px !important;
-        flex-shrink: 0 !important;
-      }
-
       /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
       ${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {
         max-width: ${layout.mainContentWidth}px !important;
-      }
-
-      /* メインコンテンツの幅 - data-testidセレクタ */
-      [data-testid="primaryColumn"] {
-        width: ${layout.mainContentWidth}px !important;
-        max-width: ${layout.mainContentWidth}px !important;
-        min-width: ${layout.mainContentWidth}px !important;
-      }
-
-      /* メインコンテンツのパディング */
-      [data-testid="primaryColumn"] > div:first-child {
-        padding: ${layout.mainContentPadding}px !important;
-      }
-
-      /* タイムラインと右サイドバー間の余白（マージンで実装） */
-      [data-testid="primaryColumn"] {
-        margin-right: ${layout.timelineRightPadding}px !important;
-        /* パディングではなくマージンを使用することで、コンテンツ幅を維持 */
-        padding-right: 0px !important;
       }
     `;
 
@@ -158,28 +148,20 @@ export class ElementController {
   }
 
   /**
-   * 設定を適用
+   * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
-    // 表示/非表示設定を適用
-    const { visibility } = settings;
+    // CSS静的インジェクションで静的要素を処理（最速）
+    this.cssInjector.applySettings(settings);
 
-    Object.entries(visibility).forEach(([key, visible]) => {
-      const elementId = key as UIElementId;
-      
-      // 広告ツイートは特別処理
-      if (elementId === 'promotedTweets') {
-        if (!visible) {
-          this.hideAllPromotedTweets();
-        }
-        return;
-      }
-
-      this.toggleElement(elementId, visible);
-    });
-
-    // レイアウト設定を適用
+    // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
+
+    // 動的要素（広告ツイート）を処理
+    const { visibility } = settings;
+    if (!visibility.promotedTweets) {
+      this.hideAllPromotedTweets();
+    }
   }
 
   /**
@@ -192,9 +174,11 @@ export class ElementController {
     });
 
     // スタイルをクリア
+    this.cssInjector.clear();
     this.styleElement.textContent = '';
     this.appliedStyles.clear();
     this.hiddenElements.clear();
+    this.clearPromotedTweetsCache();
   }
 
   /**
@@ -230,11 +214,13 @@ export class ElementController {
    */
   public destroy(): void {
     this.reset();
+    this.cssInjector.destroy();
     if (this.styleElement.parentNode) {
       this.styleElement.parentNode.removeChild(this.styleElement);
     }
     this.appliedStyles.clear();
     this.hiddenElements.clear();
+    this.clearPromotedTweetsCache();
   }
 }
 

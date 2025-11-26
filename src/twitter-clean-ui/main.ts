@@ -19,7 +19,9 @@ class TwitterCleanUI {
   private isInitialized: boolean = false;
   private settingsWatcherInterval: ReturnType<typeof setInterval> | null = null;
   private mutationObserver: MutationObserver | null = null;
+  private intersectionObserver: IntersectionObserver | null = null;
   private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private rafId: number | null = null;
 
   /**
    * コンストラクタ
@@ -62,7 +64,7 @@ class TwitterCleanUI {
       // メニューコマンドを登録
       this.registerMenuCommand();
 
-      // 広告の自動非表示（定期的にチェック）
+      // 広告の自動非表示（IntersectionObserverで効率的に検出）
       this.startPromotedTweetsWatcher();
 
       // 設定の定期適用を開始（フォールバック）
@@ -76,21 +78,34 @@ class TwitterCleanUI {
   }
 
   /**
-   * MutationObserverを開始してDOM変更時に設定を再適用
+   * MutationObserverを開始してDOM変更時に設定を再適用（最適化版）
    */
   private startMutationObserver(): void {
     this.mutationObserver = new MutationObserver(() => {
-      // デバウンス処理（短時間に複数回呼ばれることを防ぐ）
-      if (this.applySettingsDebounceTimer) {
-        clearTimeout(this.applySettingsDebounceTimer);
+      // requestAnimationFrameでバッチ処理（パフォーマンス最適化）
+      if (this.rafId !== null) {
+        cancelAnimationFrame(this.rafId);
       }
-      this.applySettingsDebounceTimer = setTimeout(() => {
-        this.detector.detectAll();
-        this.controller.applySettings(this.settingsManager.getSettings());
-      }, 100);
+
+      this.rafId = requestAnimationFrame(() => {
+        // デバウンス処理（500msに緩和）
+        if (this.applySettingsDebounceTimer) {
+          clearTimeout(this.applySettingsDebounceTimer);
+        }
+
+        this.applySettingsDebounceTimer = setTimeout(() => {
+          this.detector.detectAll();
+          this.controller.applySettings(this.settingsManager.getSettings());
+          this.rafId = null;
+        }, 500);
+      });
     });
 
-    this.mutationObserver.observe(document.body, {
+    // 監視範囲をメインコンテンツに限定（パフォーマンス最適化）
+    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
+    const observeTarget = primaryColumn || document.body;
+
+    this.mutationObserver.observe(observeTarget, {
       childList: true,
       subtree: true,
     });
@@ -111,11 +126,11 @@ class TwitterCleanUI {
       }
     }, 500);
 
-    // その後は3秒ごとにチェック（SPA遷移対応）
+    // その後は5秒ごとにチェック（SPA遷移対応、頻度を緩和）
     this.settingsWatcherInterval = setInterval(() => {
       this.detector.detectAll();
       this.controller.applySettings(this.settingsManager.getSettings());
-    }, 3000);
+    }, 5000);
   }
 
   /**
@@ -140,16 +155,39 @@ class TwitterCleanUI {
   }
 
   /**
-   * 広告ツイートの監視を開始
+   * 広告ツイートの監視を開始（IntersectionObserver使用）
    */
   private startPromotedTweetsWatcher(): void {
     const settings = this.settingsManager.getSettings();
     
     if (!settings.visibility.promotedTweets) {
-      // 広告を非表示にする設定の場合、定期的にチェック
-      setInterval(() => {
-        this.controller.hideAllPromotedTweets();
-      }, 2000); // 2秒ごとにチェック
+      // IntersectionObserverで画面に表示される広告のみ処理（効率的）
+      this.intersectionObserver = new IntersectionObserver(
+        (entries) => {
+          // 画面に表示された要素のみ処理
+          const visibleEntries = entries.filter((entry) => entry.isIntersecting);
+          if (visibleEntries.length > 0) {
+            // requestAnimationFrameでバッチ処理
+            requestAnimationFrame(() => {
+              this.controller.hideAllPromotedTweets();
+            });
+          }
+        },
+        {
+          root: null,
+          rootMargin: '100px', // 画面外100pxまで監視
+          threshold: 0.01, // 1%以上表示されたら反応
+        }
+      );
+
+      // タイムライン全体を監視
+      const timeline = document.querySelector('[data-testid="primaryColumn"]');
+      if (timeline) {
+        this.intersectionObserver.observe(timeline);
+      }
+
+      // 初回実行
+      this.controller.hideAllPromotedTweets();
     }
   }
 
@@ -163,8 +201,14 @@ class TwitterCleanUI {
     if (this.applySettingsDebounceTimer) {
       clearTimeout(this.applySettingsDebounceTimer);
     }
+    if (this.rafId !== null) {
+      cancelAnimationFrame(this.rafId);
+    }
     if (this.mutationObserver) {
       this.mutationObserver.disconnect();
+    }
+    if (this.intersectionObserver) {
+      this.intersectionObserver.disconnect();
     }
     this.detector.stopObserving();
     this.controller.destroy();
