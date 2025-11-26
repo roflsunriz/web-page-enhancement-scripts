@@ -157,11 +157,29 @@ export class ElementController {
     // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
 
-    // 動的要素（広告ツイート）を処理
+    // カスタムファインダー要素をJavaScriptで処理（CSS対応不可の要素）
     const { visibility } = settings;
-    if (!visibility.promotedTweets) {
-      this.hideAllPromotedTweets();
-    }
+    Object.entries(visibility).forEach(([key, visible]) => {
+      const elementId = key as UIElementId;
+      
+      // 広告ツイートは特別処理
+      if (elementId === 'promotedTweets') {
+        if (!visible) {
+          this.hideAllPromotedTweets();
+        }
+        return;
+      }
+
+      // 要素を検出してから処理（custom要素対応）
+      const detected = this.detector.getDetectedElement(elementId);
+      if (!detected) {
+        // 未検出の場合は検出を試みる
+        this.detector.detectElement(elementId);
+      }
+
+      // CSS静的インジェクションで処理できない要素のみJavaScriptで処理
+      this.toggleElement(elementId, visible);
+    });
   }
 
   /**
