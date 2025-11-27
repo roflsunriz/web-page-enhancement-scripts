@@ -481,8 +481,8 @@ export class WatchPageController {
         currentPartId: this.getCurrentPartId(),
       });
 
-      // episodeNumberとepisodeTitleは必須
-      if (!episodeNumber || !episodeTitle) {
+      // episodeNumberは必須（episodeTitleはオプショナル）
+      if (!episodeNumber) {
         logger.warn("watchPageController:extractMetadata:insufficient", {
           episodeNumber: episodeNumber || "(empty)",
           episodeTitle: episodeTitle || "(empty)",
