@@ -31,6 +31,11 @@ export const defaultSettings: CleanTimelineSettings = {
   retweetFilter: {
     enabled: false,
   },
+
+  replaceFilter: {
+    enabled: false,
+    replacements: [],
+  },
 };
 
 export let settings: CleanTimelineSettings = {

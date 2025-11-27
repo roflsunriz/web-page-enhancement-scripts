@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         twitter-clean-timeline
 // @namespace    twitterCleanTimeline
-// @version      1.4.0
+// @version      1.5.0
 // @author       roflsunriz
-// @description  X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。
+// @description  X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート・置き換え）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=x.com
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.user.js

@@ -6,6 +6,12 @@
 // 設定の型定義
 // ============================================================================
 
+export interface KeywordReplacement {
+  from: string;
+  to: string;
+  isRegex: boolean;
+}
+
 export interface CleanTimelineSettings {
   // グローバル設定
   showPlaceholder: boolean;
@@ -31,6 +37,12 @@ export interface CleanTimelineSettings {
   // リツイートフィルタ
   retweetFilter: {
     enabled: boolean;
+  };
+
+  // 置き換えフィルタ
+  replaceFilter: {
+    enabled: boolean;
+    replacements: KeywordReplacement[];
   };
 }
 

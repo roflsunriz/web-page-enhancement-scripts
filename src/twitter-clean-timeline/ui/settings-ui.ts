@@ -3,7 +3,7 @@
  */
 
 import { settings, saveSettings, resetSettings } from '../settings';
-import { updateMuteFilterRegexes, processTweetElement } from '../dom/tweet-processor';
+import { updateMuteFilterRegexes, updateReplaceFilterRules, processTweetElement } from '../dom/tweet-processor';
 import { createLogger } from '@/shared/logger';
 import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
 
@@ -21,6 +21,63 @@ export function showSettingsModal(): void {
 
   const modal = createModal();
   document.body.appendChild(modal);
+}
+
+/**
+ * 置き換えルールのテーブルHTMLを生成
+ */
+function createReplacementTableHTML(): string {
+  if (settings.replaceFilter.replacements.length === 0) {
+    return '<div style="color: #8b98a5; text-align: center; padding: 16px;">ルールがありません</div>';
+  }
+
+  return `
+    <table style="width: 100%; border-collapse: collapse;">
+      <thead>
+        <tr style="border-bottom: 1px solid #38444d;">
+          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">検索</th>
+          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">置き換え</th>
+          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">正規表現</th>
+          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">削除</th>
+        </tr>
+      </thead>
+      <tbody>
+        ${settings.replaceFilter.replacements
+          .map(
+            (rule, index) => `
+          <tr style="border-bottom: 1px solid #2f3336;">
+            <td style="padding: 8px;">
+              <input type="text" data-replace-index="${index}" data-replace-field="from" value="${escapeHtml(rule.from)}" 
+                style="width: 100%; padding: 4px; border: 1px solid #38444d; border-radius: 4px; background-color: #15202b; color: #ffffff; box-sizing: border-box;">
+            </td>
+            <td style="padding: 8px;">
+              <input type="text" data-replace-index="${index}" data-replace-field="to" value="${escapeHtml(rule.to)}" 
+                style="width: 100%; padding: 4px; border: 1px solid #38444d; border-radius: 4px; background-color: #15202b; color: #ffffff; box-sizing: border-box;">
+            </td>
+            <td style="padding: 8px; text-align: center;">
+              <input type="checkbox" data-replace-index="${index}" data-replace-field="isRegex" ${rule.isRegex ? 'checked' : ''}>
+            </td>
+            <td style="padding: 8px; text-align: center;">
+              <button data-replace-delete="${index}" style="padding: 4px 8px; background-color: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">
+                削除
+              </button>
+            </td>
+          </tr>
+        `
+          )
+          .join('')}
+      </tbody>
+    </table>
+  `;
+}
+
+/**
+ * HTMLエスケープ
+ */
+function escapeHtml(text: string): string {
+  const div = document.createElement('div');
+  div.textContent = text;
+  return div.innerHTML;
 }
 
 /**
@@ -126,6 +183,26 @@ function createModal(): HTMLElement {
       </h3>
     </div>
 
+    <div style="margin-bottom: 20px; padding-top: 16px; border-top: 1px solid #38444d;">
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
+        <label style="cursor: pointer;">
+          <input type="checkbox" id="ctl-replace-enabled" ${settings.replaceFilter.enabled ? 'checked' : ''}>
+          置き換えフィルタ
+        </label>
+      </h3>
+      <div style="margin-left: 24px; margin-right: 8px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
+          <label style="display: block; font-weight: bold; color: #e7e9ea;">置き換えルール</label>
+          <button id="ctl-replace-add-btn" style="padding: 4px 12px; background-color: #1d9bf0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
+            ルール追加
+          </button>
+        </div>
+        <div id="ctl-replace-table-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #38444d; border-radius: 4px; background-color: #192734; padding: 8px;">
+          ${createReplacementTableHTML()}
+        </div>
+      </div>
+    </div>
+
     <div style="display: flex; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #38444d;">
       <button id="ctl-save-btn" style="padding: 10px 24px; background-color: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: bold;">
         保存
@@ -143,6 +220,7 @@ function createModal(): HTMLElement {
   const saveBtn = modalContent.querySelector('#ctl-save-btn');
   const resetBtn = modalContent.querySelector('#ctl-reset-btn');
   const cancelBtn = modalContent.querySelector('#ctl-cancel-btn');
+  const replaceAddBtn = modalContent.querySelector('#ctl-replace-add-btn');
 
   saveBtn?.addEventListener('click', () => {
     saveSettingsFromModal(modalContent);
@@ -153,8 +231,9 @@ function createModal(): HTMLElement {
     if (confirm('すべての設定をリセットしますか？')) {
       resetSettings();
       
-      // ミュートフィルタの正規表現を更新
+      // ミュートフィルタと置き換えフィルタを更新
       updateMuteFilterRegexes();
+      updateReplaceFilterRules();
       
       // 即時適用: ページ上の全ツイートを再処理
       reprocessAllTweets();
@@ -169,6 +248,44 @@ function createModal(): HTMLElement {
     overlay.remove();
   });
 
+  replaceAddBtn?.addEventListener('click', () => {
+    settings.replaceFilter.replacements.push({ from: '', to: '', isRegex: false });
+    updateReplacementTable(modalContent);
+  });
+
+  // 置き換えテーブルの削除ボタン用イベント委譲
+  const replaceTableContainer = modalContent.querySelector('#ctl-replace-table-container');
+  replaceTableContainer?.addEventListener('click', (e) => {
+    const target = e.target as HTMLElement;
+    if (target.hasAttribute('data-replace-delete')) {
+      const index = Number(target.getAttribute('data-replace-delete'));
+      settings.replaceFilter.replacements.splice(index, 1);
+      updateReplacementTable(modalContent);
+    }
+  });
+
+  // 置き換えテーブルの入力フィールド用イベント委譲
+  replaceTableContainer?.addEventListener('input', (e) => {
+    const target = e.target as HTMLInputElement;
+    const index = target.getAttribute('data-replace-index');
+    const field = target.getAttribute('data-replace-field');
+    
+    if (index !== null && field !== null) {
+      const idx = Number(index);
+      const replacement = settings.replaceFilter.replacements[idx];
+      
+      if (replacement) {
+        if (field === 'from') {
+          replacement.from = target.value;
+        } else if (field === 'to') {
+          replacement.to = target.value;
+        } else if (field === 'isRegex') {
+          replacement.isRegex = target.checked;
+        }
+      }
+    }
+  });
+
   overlay.addEventListener('click', (e) => {
     if (e.target === overlay) {
       overlay.remove();
@@ -180,6 +297,16 @@ function createModal(): HTMLElement {
 }
 
 /**
+ * 置き換えテーブルを更新
+ */
+function updateReplacementTable(modal: HTMLElement): void {
+  const container = modal.querySelector('#ctl-replace-table-container');
+  if (container) {
+    container.innerHTML = createReplacementTableHTML();
+  }
+}
+
+/**
  * ページ上の全ツイートを再処理
  */
 function reprocessAllTweets(): void {
@@ -188,6 +315,7 @@ function reprocessAllTweets(): void {
   // 処理済みフラグをクリアして再処理
   tweets.forEach((tweet) => {
     delete tweet.dataset.ctlProcessed;
+    delete tweet.dataset.ctlReplaced;
     processTweetElement(tweet);
   });
   
@@ -228,10 +356,14 @@ function saveSettingsFromModal(modal: HTMLElement): void {
 
   settings.retweetFilter.enabled = getValue('ctl-retweet-enabled');
 
+  settings.replaceFilter.enabled = getValue('ctl-replace-enabled');
+  // replacements は既にリアルタイムで更新されている
+
   saveSettings();
   
-  // ミュートフィルタの正規表現を更新
+  // ミュートフィルタと置き換えフィルタを更新
   updateMuteFilterRegexes();
+  updateReplaceFilterRules();
 
   // 即時適用: ページ上の全ツイートを再処理
   reprocessAllTweets();
