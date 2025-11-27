@@ -6,6 +6,7 @@ import type { UIElementId, Settings } from './types';
 import type { ElementDetector } from './element-detector';
 import { CSSInjector } from './css-injector';
 import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
+import { UI_ELEMENTS } from './constants';
 
 /**
  * UI要素制御クラス
@@ -148,6 +149,20 @@ export class ElementController {
   }
 
   /**
+   * 要素がCSSInjectで処理可能かチェック
+   */
+  private canBeHandledByCSS(elementId: UIElementId): boolean {
+    const definition = UI_ELEMENTS.find((def) => def.id === elementId);
+    if (!definition) return false;
+
+    const firstStrategy = definition.strategies[0];
+    if (!firstStrategy) return false;
+
+    // querySelector/querySelectorAllの要素はCSSで処理可能
+    return firstStrategy.type === 'querySelector' || firstStrategy.type === 'querySelectorAll';
+  }
+
+  /**
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
@@ -157,7 +172,7 @@ export class ElementController {
     // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
 
-    // 動的要素を処理（カスタムファインダーで検出される要素）
+    // 動的要素を処理（カスタムファインダーで検出される要素のみ）
     const { visibility } = settings;
     
     // すべての要素に対して表示/非表示を適用
@@ -169,7 +184,12 @@ export class ElementController {
         return;
       }
       
-      // 検出された要素に対してのみ適用
+      // CSSで処理できる要素はスキップ（CSSInjectorに任せる）
+      if (this.canBeHandledByCSS(elementId)) {
+        return;
+      }
+      
+      // 検出された要素に対してのみ適用（カスタムファインダー要素）
       if (this.detector.isDetected(elementId)) {
         this.toggleElement(elementId, visible);
       }
