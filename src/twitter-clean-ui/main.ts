@@ -101,14 +101,33 @@ class TwitterCleanUI {
       });
     });
 
-    // 監視範囲をメインコンテンツに限定（パフォーマンス最適化）
+    // 監視範囲をメインコンテンツと右サイドバーに限定（パフォーマンス最適化）
     const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
-    const observeTarget = primaryColumn || document.body;
+    const sidebarColumn = document.querySelector('[data-testid="sidebarColumn"]');
 
-    this.mutationObserver.observe(observeTarget, {
-      childList: true,
-      subtree: true,
-    });
+    // メインコンテンツを監視
+    if (primaryColumn) {
+      this.mutationObserver.observe(primaryColumn, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    // 右サイドバーも監視（動的要素のリアルタイム制御のため）
+    if (sidebarColumn) {
+      this.mutationObserver.observe(sidebarColumn, {
+        childList: true,
+        subtree: true,
+      });
+    }
+
+    // どちらも見つからない場合はbody全体を監視（フォールバック）
+    if (!primaryColumn && !sidebarColumn) {
+      this.mutationObserver.observe(document.body, {
+        childList: true,
+        subtree: true,
+      });
+    }
   }
 
   /**
