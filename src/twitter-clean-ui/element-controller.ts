@@ -157,8 +157,25 @@ export class ElementController {
     // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
 
-    // 動的要素（広告ツイート）を処理
+    // 動的要素を処理（カスタムファインダーで検出される要素）
     const { visibility } = settings;
+    
+    // すべての要素に対して表示/非表示を適用
+    Object.entries(visibility).forEach(([key, visible]) => {
+      const elementId = key as UIElementId;
+      
+      // 広告ツイートは特別処理（後で処理）
+      if (elementId === 'promotedTweets') {
+        return;
+      }
+      
+      // 検出された要素に対してのみ適用
+      if (this.detector.isDetected(elementId)) {
+        this.toggleElement(elementId, visible);
+      }
+    });
+
+    // 広告ツイートの処理（別処理が必要）
     if (!visibility.promotedTweets) {
       this.hideAllPromotedTweets();
     }
