@@ -151,39 +151,17 @@ export class ElementController {
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
-    // 検出キャッシュをクリアして要素を再検出（設定変更時に確実に最新状態を取得）
-    this.detector.clearCache();
-    this.detector.detectAll();
-
     // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
 
     // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
 
-    // カスタムファインダー要素をJavaScriptで処理（CSS対応不可の要素）
+    // 動的要素（広告ツイート）を処理
     const { visibility } = settings;
-    Object.entries(visibility).forEach(([key, visible]) => {
-      const elementId = key as UIElementId;
-      
-      // 広告ツイートは特別処理
-      if (elementId === 'promotedTweets') {
-        if (!visible) {
-          this.hideAllPromotedTweets();
-        }
-        return;
-      }
-
-      // 要素を検出してから処理（custom要素対応）
-      const detected = this.detector.getDetectedElement(elementId);
-      if (!detected) {
-        // 未検出の場合は検出を試みる
-        this.detector.detectElement(elementId);
-      }
-
-      // CSS静的インジェクションで処理できない要素のみJavaScriptで処理
-      this.toggleElement(elementId, visible);
-    });
+    if (!visibility.promotedTweets) {
+      this.hideAllPromotedTweets();
+    }
   }
 
   /**
