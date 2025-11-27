@@ -67,12 +67,11 @@ export class ElementController {
     const element = detected.element;
     const originalDisplay = this.appliedStyles.get(elementId);
 
-    // CSSの!importantルールを上書きするため、setPropertyで!importantを使用
-    if (originalDisplay && originalDisplay !== 'none') {
-      element.style.setProperty('display', originalDisplay, 'important');
+    // 元のスタイルに戻す
+    if (originalDisplay) {
+      element.style.display = originalDisplay;
     } else {
-      // revertを使用して、元のスタイルに戻す
-      element.style.setProperty('display', 'revert', 'important');
+      element.style.removeProperty('display');
     }
 
     this.hiddenElements.delete(elementId);

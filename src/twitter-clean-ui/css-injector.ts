@@ -90,17 +90,12 @@ export class CSSInjector {
         return;
       }
 
-      const selector = this.generateSelector(elementId);
-      if (!selector) return;
-
-      // 表示/非表示の状態に応じてCSSルールを生成
+      // 非表示の場合のみCSSルールを追加
       if (!visible) {
-        // 非表示にする
-        rules.push(`${selector} { display: none !important; }`);
-      } else {
-        // 表示する（明示的にリセット）
-        // 以前に非表示にされていた場合でも、確実に表示されるようにする
-        rules.push(`${selector} { display: revert !important; }`);
+        const selector = this.generateSelector(elementId);
+        if (selector) {
+          rules.push(`${selector} { display: none !important; }`);
+        }
       }
     });
 
