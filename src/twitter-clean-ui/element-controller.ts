@@ -67,11 +67,12 @@ export class ElementController {
     const element = detected.element;
     const originalDisplay = this.appliedStyles.get(elementId);
 
-    // 元のスタイルに戻す
-    if (originalDisplay) {
-      element.style.display = originalDisplay;
+    // CSSの!importantルールを上書きするため、setPropertyで!importantを使用
+    if (originalDisplay && originalDisplay !== 'none') {
+      element.style.setProperty('display', originalDisplay, 'important');
     } else {
-      element.style.removeProperty('display');
+      // revertを使用して、元のスタイルに戻す
+      element.style.setProperty('display', 'revert', 'important');
     }
 
     this.hiddenElements.delete(elementId);
@@ -151,6 +152,10 @@ export class ElementController {
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
+    // 検出キャッシュをクリアして要素を再検出（設定変更時に確実に最新状態を取得）
+    this.detector.clearCache();
+    this.detector.detectAll();
+
     // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
 
