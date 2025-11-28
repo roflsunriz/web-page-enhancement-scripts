@@ -47,6 +47,7 @@ const ja: TranslationKeys = {
   rightSidebar_PremiumSubscribe: 'Premiumサブスクライブ',
   rightSidebar_TrendsList: 'トレンド',
   rightSidebar_WhoToFollow: 'おすすめユーザー',
+  rightSidebar_RelatedAccounts: '関連性の高いアカウント',
   rightSidebar_Footer: 'フッター',
 
   // メインコンテンツ
@@ -110,6 +111,7 @@ const en: TranslationKeys = {
   rightSidebar_PremiumSubscribe: 'Premium Subscribe',
   rightSidebar_TrendsList: 'Trends',
   rightSidebar_WhoToFollow: 'Who to Follow',
+  rightSidebar_RelatedAccounts: 'Relevant Accounts',
   rightSidebar_Footer: 'Footer',
 
   // Main Content

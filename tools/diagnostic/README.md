@@ -10,6 +10,7 @@
 |-----------|-----------|------|
 | `x-ui-diagnostic.js` | v2.0.0 | Grok・コミュニティ要素の検出 |
 | `x-layout-diagnostic.js` | v1.0.0 | レイアウト設定の適用状況診断 |
+| `x-related-accounts-diagnostic.js` | v1.0.0 | 関連性の高いアカウント要素の検出 |
 | `x-video-diagnostic.js` | - | 動画関連の診断 |
 
 ---
@@ -530,6 +531,322 @@ clearLayoutHighlights()      // ハイライトを解除
 - レイアウト変化の監視機能（`startLayoutMonitor`）
 - 要素のハイライト表示機能（`highlightLayoutElements`）
 - 設定値と実測値の比較分析機能
+
+---
+
+# x-related-accounts-diagnostic.js
+
+### 現在のバージョン: v1.0.0 (RelatedAccounts detection)
+
+このツールは、ツイート詳細ページに表示される**「関連性の高いアカウント」**セクションを検出することに特化しています。twitter-clean-uiにこの要素の表示切り替え機能を追加するための準備段階として使用します。
+
+## 使用方法
+
+### 🎯 推奨される診断手順
+
+#### 重要: ツイート詳細ページで実行してください
+
+このツールは**ツイート詳細ページ専用**です。タイムラインやプロフィールページでは正しく動作しません。
+
+### 1. ツイート詳細ページを開く
+
+1. X/Twitter（https://x.com または https://twitter.com）にアクセス
+2. 任意のツイートを開く（URLパターン: `https://x.com/username/status/1234567890`）
+3. ページが完全に読み込まれるまで待機
+4. ページを下にスクロールして「関連性の高いアカウント」セクションが表示されることを確認
+
+### 2. 開発者コンソールを開く
+
+- **Windows/Linux**: `F12` キーまたは `Ctrl + Shift + I`
+- **Mac**: `Cmd + Option + I`
+- または、ブラウザメニューから「開発者ツール」→「コンソール」を選択
+
+### 3. スクリプトを実行
+
+1. `tools/diagnostic/x-related-accounts-diagnostic.js` の内容を全てコピー
+2. 開発者コンソールに貼り付け
+3. `Enter` キーを押して実行
+4. 診断が自動的に開始されます
+
+### 4. 結果の確認
+
+- **コンソール出力**: 診断結果がカラフルな形式でコンソールに表示されます
+  - 📊 ページタイプの確認
+  - 🔍 検出された関連アカウント要素
+  - 🎨 視覚的なハイライト（オレンジ色の枠）
+  - 💾 ダウンロード完了メッセージ
+  
+- **JSONファイル**: 診断結果が自動的にダウンロードされます
+  - ファイル名: `x-related-accounts-diagnostic-[タイムスタンプ].json`
+  - 内容: ページ情報、検出された要素の詳細、構造分析結果
+
+- **視覚的ハイライト**: 検出された「関連性の高いアカウント」セクションがオレンジ色の枠で囲まれます
+
+### 5. 再実行する場合
+
+コンソールで以下のコマンドを実行：
+```javascript
+runXRelatedAccountsDiagnostic()
+```
+
+### 6. ハイライトを解除する場合
+
+```javascript
+clearXRelatedAccountsHighlight()
+```
+
+## 調査項目
+
+### 1. ページタイプの検出
+
+**目的**: 現在のページがツイート詳細ページかどうかを確認する
+
+**調査内容**:
+- URLパターンのマッチング（`/username/status/1234567890`）
+- ページの適合性チェック
+
+**結果**:
+- ✅ ツイート詳細ページ: 診断を継続
+- ❌ その他のページ: 警告を表示（診断は実行されるが推奨されない）
+
+### 2. 右サイドバーの構造分析
+
+**目的**: 右サイドバー全体の構造を把握する
+
+**調査内容**:
+- `[data-testid="sidebarColumn"]`内のすべての直接の子要素を列挙
+- 各要素のテキスト、位置、スタイル情報の取得
+
+### 3. メインコンテンツエリアの構造分析
+
+**目的**: メインコンテンツエリアの構造を把握する
+
+**調査内容**:
+- `[data-testid="primaryColumn"]`内のすべての直接の子要素を列挙
+- 各要素のテキスト、位置、スタイル情報の取得
+
+### 4. 関連性の高いアカウント要素の検出
+
+**目的**: 「関連性の高いアカウント」セクションを正確に特定する
+
+**検索キーワード**:
+- 「関連性の高いアカウント」（日本語）
+- "Relevant accounts"（英語）
+- "Relevant people"（英語）
+- 「関連アカウント」（日本語の別表現）
+- "Who to follow"（古い表現）
+- 「おすすめユーザー」（別の日本語表現）
+
+**調査内容**:
+- テキストマッチングによる候補要素の検索
+- ボーダー付き親コンテナの特定（最大5階層まで遡る）
+- 要素の位置（サイドバー or メインコンテンツ）の判定
+- 要素の可視性チェック
+- 内部構造の分析（見出し、リンク、アカウント名など）
+- 要素の階層構造（15階層）
+
+**検出結果**:
+- ✅ 成功: 関連アカウント要素が正常に検出された
+- ❌ 失敗: 関連アカウント要素が見つからない（ページに表示されていない）
+
+### 5. 最適な候補の選択
+
+複数の候補が見つかった場合、以下の基準で最適な要素を選択：
+1. 表示されている（`rect.isVisible === true`）
+2. ボーダー付きコンテナを使用している（`usedBorderedParent === true`）
+3. 上記を満たす最初の候補
+
+## 診断結果のフォーマット
+
+```json
+{
+  "timestamp": "2025-11-28T12:34:56.789Z",
+  "url": "https://x.com/username/status/1234567890",
+  "userAgent": "...",
+  "viewport": {
+    "width": 1920,
+    "height": 1080
+  },
+  "pageType": {
+    "url": "https://x.com/username/status/1234567890",
+    "pathname": "/username/status/1234567890",
+    "isTweetDetailPage": true,
+    "isValidForDiagnostic": true
+  },
+  "targetElements": {
+    "relatedAccounts": {
+      "matchedText": "関連性の高いアカウント",
+      "usedBorderedParent": true,
+      "levelsUp": 2,
+      "rect": {
+        "top": 456,
+        "left": 1234,
+        "width": 350,
+        "height": 400,
+        "isVisible": true
+      },
+      "location": "sidebar",
+      "details": {
+        "label": "Candidate: 関連性の高いアカウント",
+        "tagName": "DIV",
+        "className": "...",
+        "textContent": "...",
+        "hierarchy": [...],
+        "innerStructure": {
+          "directChildrenCount": 5,
+          "hasLinks": 3,
+          "hasImages": 3,
+          "hasButtons": 3,
+          "headingText": "関連性の高いアカウント",
+          "accountElements": ["@user1", "@user2", "@user3"],
+          "linkDetails": [...]
+        }
+      }
+    },
+    "candidates": [
+      // 検出されたすべての候補
+    ]
+  },
+  "sidebarStructure": {
+    "sidebarFound": true,
+    "directChildrenCount": 3,
+    "directChildren": [...]
+  },
+  "mainContentStructure": {
+    "primaryColumnFound": true,
+    "directChildrenCount": 5,
+    "directChildren": [...]
+  },
+  "detectionSummary": {
+    "relatedAccountsFound": true,
+    "detectionMethod": "bordered parent container",
+    "candidatesCount": 1,
+    "location": "sidebar"
+  }
+}
+```
+
+### 重要なフィールド
+
+- **pageType.isTweetDetailPage**: ツイート詳細ページかどうか（最も重要）
+- **targetElements.relatedAccounts**: 選択された関連アカウント要素の詳細（最も重要）
+- **targetElements.candidates**: 検出されたすべての候補（デバッグ用）
+- **detectionSummary**: 検出成功/失敗のサマリー
+- **detectionSummary.location**: 要素の位置（"sidebar" または "mainContent"）
+
+## トラブルシューティング
+
+### 要素が検出されない場合
+
+**原因1**: ページに「関連性の高いアカウント」が表示されていない
+- **対処法**: ページを下にスクロールして要素が表示されるか確認する
+- **対処法**: 別のツイートで試す（すべてのツイートで表示されるわけではない）
+- **対処法**: X/Twitterのアカウント設定や言語設定を確認する
+
+**原因2**: X/TwitterのUIが変更されてキーワードが一致しない
+- **対処法**: ページのHTMLを手動で確認し、新しいキーワードを特定する
+- **対処法**: 診断結果の `mainContentStructure` や `sidebarStructure` から手がかりを探す
+
+**原因3**: ツイート詳細ページ以外のページで実行している
+- **対処法**: URLパターン `/username/status/数字` のページで実行する
+
+### JSONファイルがダウンロードされない場合
+
+1. ブラウザのダウンロード設定を確認
+2. ポップアップブロッカーが有効になっていないか確認
+3. コンソールで以下を手動で実行：
+```javascript
+const diag = new XRelatedAccountsDiagnostic();
+const results = diag.runDiagnostics();
+diag.downloadResults();
+```
+
+### 視覚的ハイライトが表示されない場合
+
+1. 要素が検出されているか確認（コンソール出力を見る）
+2. ページをスクロールして要素が画面内に表示されているか確認
+3. ブラウザの開発者ツールでCSSが適用されているか確認
+
+## 開発者向け情報
+
+### 診断クラスの直接使用
+
+スクリプト実行後、グローバル関数が利用可能になります：
+
+```javascript
+// 簡易実行（推奨）
+runXRelatedAccountsDiagnostic()
+
+// ハイライトを解除
+clearXRelatedAccountsHighlight()
+
+// 詳細な制御
+const diagnostic = new XRelatedAccountsDiagnostic();
+const results = diagnostic.runDiagnostics();
+console.log(results.diagnosticData);
+diagnostic.downloadResults();
+if (results.highlightElement) {
+  diagnostic.highlightElement(results.highlightElement);
+}
+```
+
+### 特定の調査項目のみ実行
+
+```javascript
+const diagnostic = new XRelatedAccountsDiagnostic();
+
+// ページタイプをチェック
+const pageType = diagnostic.detectPageType();
+console.log(pageType);
+
+// 右サイドバー構造のみ分析
+diagnostic.analyzeRightSidebar();
+console.log(diagnostic.diagnosticData.sidebarStructure);
+
+// メインコンテンツ構造のみ分析
+diagnostic.analyzeMainContent();
+console.log(diagnostic.diagnosticData.mainContentStructure);
+
+// 関連アカウント要素のみ検出
+const result = diagnostic.detectRelatedAccounts();
+console.log(result);
+```
+
+### 検出結果の確認
+
+```javascript
+const diagnostic = new XRelatedAccountsDiagnostic();
+const results = diagnostic.runDiagnostics();
+
+if (results.diagnosticData.detectionSummary.relatedAccountsFound) {
+    console.log('✅ 関連性の高いアカウントが見つかりました');
+    console.log('位置:', results.diagnosticData.detectionSummary.location);
+    console.log('検出方法:', results.diagnosticData.detectionSummary.detectionMethod);
+    console.log('候補数:', results.diagnosticData.detectionSummary.candidatesCount);
+} else {
+    console.log('❌ 関連性の高いアカウントが見つかりませんでした');
+}
+```
+
+## 次のステップ
+
+診断結果を共有すると、以下の情報を基にtwitter-clean-uiに機能を追加できます：
+
+1. **検出方法の確認**: どのセレクタやキーワードが最も効果的か
+2. **要素の位置**: サイドバーかメインコンテンツか
+3. **階層構造**: 親要素までの階層数と適切な非表示方法
+4. **複数候補の扱い**: 複数の候補がある場合の優先順位付け
+
+## バージョン履歴
+
+### v1.0.0 (2025-11-28) - RelatedAccounts detection
+- 🎯 ツイート詳細ページの「関連性の高いアカウント」セクションの検出に特化
+- ページタイプの自動判定機能
+- サイドバーとメインコンテンツの構造分析
+- 複数言語対応（日本語・英語）のキーワード検索
+- ボーダー付きコンテナの自動検出
+- 視覚的ハイライト機能（オレンジ色）
+- JSON形式でのダウンロード機能
 
 ---
 

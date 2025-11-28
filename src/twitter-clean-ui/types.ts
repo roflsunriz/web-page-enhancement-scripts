@@ -28,6 +28,7 @@ export type UIElementId =
   | 'rightSidebar_PremiumSubscribe'
   | 'rightSidebar_TrendsList'
   | 'rightSidebar_WhoToFollow'
+  | 'rightSidebar_RelatedAccounts'
   | 'rightSidebar_Footer'
   // メインコンテンツ
   | 'mainContent'
@@ -102,6 +103,7 @@ export interface VisibilitySettings {
   rightSidebar_PremiumSubscribe: boolean;
   rightSidebar_TrendsList: boolean;
   rightSidebar_WhoToFollow: boolean;
+  rightSidebar_RelatedAccounts: boolean;
   rightSidebar_Footer: boolean;
 
   // メインコンテンツ
@@ -197,6 +199,7 @@ export interface TranslationKeys {
   rightSidebar_PremiumSubscribe: string;
   rightSidebar_TrendsList: string;
   rightSidebar_WhoToFollow: string;
+  rightSidebar_RelatedAccounts: string;
   rightSidebar_Footer: string;
 
   // メインコンテンツ

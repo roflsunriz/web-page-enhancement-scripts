@@ -38,6 +38,7 @@ export const DEFAULT_SETTINGS: Settings = {
     rightSidebar_PremiumSubscribe: false, // Premiumは非表示
     rightSidebar_TrendsList: true,
     rightSidebar_WhoToFollow: true,
+    rightSidebar_RelatedAccounts: true,
     rightSidebar_Footer: true,
 
     // メインコンテンツ
@@ -463,6 +464,81 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           }
           // ボーダー付きコンテナが見つからない場合は2階層上
           return aside.parentElement?.parentElement as HTMLElement;
+        },
+      },
+    ],
+  },
+  {
+    id: 'rightSidebar_RelatedAccounts',
+    category: 'rightSidebar',
+    description: '関連性の高いアカウント（ツイート詳細ページ）',
+    strategies: [
+      {
+        type: 'custom',
+        method: 'Related accounts section - find by heading text',
+        confidence: 0.9,
+        finder: () => {
+          const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
+          if (!sidebar) return null;
+
+          // ツイート詳細ページでのみ表示される「関連性の高いアカウント」を検索
+          const searchTexts = [
+            '関連性の高いアカウント',
+            'Relevant accounts',
+            'Relevant people',
+          ];
+
+          const allDivs = Array.from(sidebar.querySelectorAll('div, section, aside'));
+          
+          for (const elem of allDivs) {
+            const textContent = elem.textContent || '';
+            
+            // テキストが長すぎる場合はスキップ（親要素の可能性が高い）
+            if (textContent.length > 3000) continue;
+            
+            // 検索テキストとのマッチング
+            let matchedText: string | null = null;
+            for (const searchText of searchTexts) {
+              if (textContent.includes(searchText)) {
+                matchedText = searchText;
+                break;
+              }
+            }
+
+            if (matchedText) {
+              // ボーダー付きの親コンテナを探す（最大5階層まで遡る）
+              let current: HTMLElement | null = elem as HTMLElement;
+              
+              for (let i = 0; i < 5; i++) {
+                if (!current.parentElement) break;
+                
+                // sidebarColumnを超えて遡らない
+                if (current.parentElement === sidebar || !sidebar.contains(current.parentElement)) {
+                  break;
+                }
+                
+                const style = window.getComputedStyle(current.parentElement);
+                // 1px以上のボーダーとborderRadiusを持つ要素を探す
+                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+                const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
+                const hasRadius = style.borderRadius !== '0px';
+                
+                if (hasBorder && hasRadius) {
+                  return current.parentElement;
+                }
+                
+                current = current.parentElement;
+              }
+              
+              // ボーダー付きコンテナが見つからない場合は1階層上
+              if (elem.parentElement && sidebar.contains(elem.parentElement)) {
+                return elem.parentElement as HTMLElement;
+              }
+              return elem as HTMLElement;
+            }
+          }
+          
+          return null;
         },
       },
     ],
