@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-clean-ui
 // @namespace    twitterCleanUI
-// @version      1.4.0
+// @version      1.4.1
 // @author       roflsunriz
 // @description  X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。
 // @license      MIT

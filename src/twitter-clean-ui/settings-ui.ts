@@ -288,6 +288,7 @@ export class SettingsUI {
       'rightSidebar_PremiumSubscribe',
       'rightSidebar_TrendsList',
       'rightSidebar_WhoToFollow',
+      'rightSidebar_RelatedAccounts',
       'rightSidebar_Footer',
     ];
 
