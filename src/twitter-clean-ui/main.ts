@@ -22,6 +22,8 @@ class TwitterCleanUI {
   private intersectionObserver: IntersectionObserver | null = null;
   private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   private rafId: number | null = null;
+  private sidebarColumn: HTMLElement | null = null;
+  private sidebarColumnOriginalOpacity: string | null = null;
 
   /**
    * コンストラクタ
@@ -81,14 +83,20 @@ class TwitterCleanUI {
    * MutationObserverを開始してDOM変更時に設定を再適用（最適化版）
    */
   private startMutationObserver(): void {
+    // 右サイドバーの参照を取得
+    this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
+
     this.mutationObserver = new MutationObserver(() => {
+      // MutationObserverが反応した瞬間に右サイドバーをマスク
+      this.maskSidebarColumn();
+
       // requestAnimationFrameでバッチ処理（パフォーマンス最適化）
       if (this.rafId !== null) {
         cancelAnimationFrame(this.rafId);
       }
 
       this.rafId = requestAnimationFrame(() => {
-        // デバウンス処理（チラ見えを消したいので攻めた値にする）
+        // デバウンス処理（50msに短縮）
         if (this.applySettingsDebounceTimer) {
           clearTimeout(this.applySettingsDebounceTimer);
         }
@@ -96,8 +104,10 @@ class TwitterCleanUI {
         this.applySettingsDebounceTimer = setTimeout(() => {
           this.detector.detectAll();
           this.controller.applySettings(this.settingsManager.getSettings());
+          // applySettings完了後にマスクを解除
+          this.unmaskSidebarColumn();
           this.rafId = null;
-        }, 80);
+        }, 50);
       });
     });
 
@@ -127,6 +137,46 @@ class TwitterCleanUI {
         childList: true,
         subtree: true,
       });
+    }
+  }
+
+  /**
+   * 右サイドバーをマスク（opacity:0）
+   */
+  private maskSidebarColumn(): void {
+    // サイドバーの参照を再取得（DOMが再構築される可能性があるため）
+    if (!this.sidebarColumn || !document.contains(this.sidebarColumn)) {
+      this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
+    }
+
+    if (this.sidebarColumn) {
+      // 元のopacity値を保存（初回のみ）
+      if (this.sidebarColumnOriginalOpacity === null) {
+        const computedStyle = window.getComputedStyle(this.sidebarColumn);
+        this.sidebarColumnOriginalOpacity = computedStyle.opacity || '';
+      }
+
+      // opacity:0でマスク
+      this.sidebarColumn.style.setProperty('opacity', '0', 'important');
+    }
+  }
+
+  /**
+   * 右サイドバーのマスクを解除（opacityを元に戻す）
+   */
+  private unmaskSidebarColumn(): void {
+    // サイドバーの参照を再取得（DOMが再構築される可能性があるため）
+    if (!this.sidebarColumn || !document.contains(this.sidebarColumn)) {
+      this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
+    }
+
+    if (this.sidebarColumn && this.sidebarColumnOriginalOpacity !== null) {
+      // 元のopacity値に戻す
+      if (this.sidebarColumnOriginalOpacity === '') {
+        this.sidebarColumn.style.removeProperty('opacity');
+      } else {
+        this.sidebarColumn.style.setProperty('opacity', this.sidebarColumnOriginalOpacity, 'important');
+      }
     }
   }
 
@@ -214,6 +264,9 @@ class TwitterCleanUI {
    * クリーンアップ
    */
   public destroy(): void {
+    // マスクを解除
+    this.unmaskSidebarColumn();
+
     if (this.settingsWatcherInterval) {
       clearInterval(this.settingsWatcherInterval);
     }
@@ -232,6 +285,8 @@ class TwitterCleanUI {
     this.detector.stopObserving();
     this.controller.destroy();
     this.settingsUI.destroy();
+    this.sidebarColumn = null;
+    this.sidebarColumnOriginalOpacity = null;
     this.isInitialized = false;
     console.log('[TwitterCleanUI] Destroyed');
   }
