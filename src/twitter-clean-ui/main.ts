@@ -24,6 +24,7 @@ class TwitterCleanUI {
   private rafId: number | null = null;
   private sidebarColumn: HTMLElement | null = null;
   private sidebarColumnOriginalOpacity: string | null = null;
+  private isSidebarMasked: boolean = false;
 
   /**
    * コンストラクタ
@@ -87,8 +88,10 @@ class TwitterCleanUI {
     this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
 
     this.mutationObserver = new MutationObserver(() => {
-      // MutationObserverが反応した瞬間に右サイドバーをマスク
-      this.maskSidebarColumn();
+      // MutationObserverが反応した瞬間に右サイドバーをマスク（既にマスクされている場合はスキップ）
+      if (!this.isSidebarMasked) {
+        this.maskSidebarColumn();
+      }
 
       // requestAnimationFrameでバッチ処理（パフォーマンス最適化）
       if (this.rafId !== null) {
@@ -149,7 +152,7 @@ class TwitterCleanUI {
       this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
     }
 
-    if (this.sidebarColumn) {
+    if (this.sidebarColumn && !this.isSidebarMasked) {
       // 元のopacity値を保存（初回のみ）
       if (this.sidebarColumnOriginalOpacity === null) {
         const computedStyle = window.getComputedStyle(this.sidebarColumn);
@@ -158,6 +161,7 @@ class TwitterCleanUI {
 
       // opacity:0でマスク
       this.sidebarColumn.style.setProperty('opacity', '0', 'important');
+      this.isSidebarMasked = true;
     }
   }
 
@@ -165,6 +169,10 @@ class TwitterCleanUI {
    * 右サイドバーのマスクを解除（opacityを元に戻す）
    */
   private unmaskSidebarColumn(): void {
+    if (!this.isSidebarMasked) {
+      return;
+    }
+
     // サイドバーの参照を再取得（DOMが再構築される可能性があるため）
     if (!this.sidebarColumn || !document.contains(this.sidebarColumn)) {
       this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
@@ -177,6 +185,7 @@ class TwitterCleanUI {
       } else {
         this.sidebarColumn.style.setProperty('opacity', this.sidebarColumnOriginalOpacity, 'important');
       }
+      this.isSidebarMasked = false;
     }
   }
 
@@ -287,6 +296,7 @@ class TwitterCleanUI {
     this.settingsUI.destroy();
     this.sidebarColumn = null;
     this.sidebarColumnOriginalOpacity = null;
+    this.isSidebarMasked = false;
     this.isInitialized = false;
     console.log('[TwitterCleanUI] Destroyed');
   }
