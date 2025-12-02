@@ -99,7 +99,7 @@ class TwitterCleanUI {
       }
 
       this.rafId = requestAnimationFrame(() => {
-        // デバウンス処理（50msに短縮）
+        // デバウンス処理（500msに緩和）
         if (this.applySettingsDebounceTimer) {
           clearTimeout(this.applySettingsDebounceTimer);
         }
@@ -110,7 +110,7 @@ class TwitterCleanUI {
           // applySettings完了後にマスクを解除
           this.unmaskSidebarColumn();
           this.rafId = null;
-        }, 50);
+        }, 500);
       });
     });
 
