@@ -175,7 +175,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.5.0',
+  version: '10.5.1',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -300,7 +300,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const twitterCleanUIMeta: MonkeyUserScript = {
   name: 'twitter-clean-ui',
   namespace: 'twitterCleanUI',
-  version: '1.4.1',
+  version: '1.4.2',
   description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
