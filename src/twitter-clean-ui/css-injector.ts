@@ -134,6 +134,13 @@ export class CSSInjector {
         margin-right: ${layout.timelineRightPadding}px !important;
         padding-right: 0px !important;
       }
+
+      /* 右サイドバーのチラつき防止 */
+      /* Twitter/X本体のopacityアニメーションを無効化 */
+      [data-testid="sidebarColumn"] {
+        opacity: 1 !important;
+        transition: none !important;
+      }
     `.trim();
   }
 
