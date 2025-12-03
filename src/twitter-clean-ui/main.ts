@@ -87,7 +87,19 @@ class TwitterCleanUI {
     // 右サイドバーの参照を取得
     this.sidebarColumn = document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
 
-    this.mutationObserver = new MutationObserver(() => {
+    this.mutationObserver = new MutationObserver((mutations) => {
+      // 右サイドバー内の変更は無視（チラつきの原因となるため）
+      const sidebarColumn = this.sidebarColumn || document.querySelector<HTMLElement>('[data-testid="sidebarColumn"]');
+      if (sidebarColumn) {
+        const isSidebarMutation = mutations.some((mutation) => {
+          const target = mutation.target as Node;
+          return sidebarColumn.contains(target) || target === sidebarColumn;
+        });
+        if (isSidebarMutation) {
+          return; // 右サイドバー内の変更は無視
+        }
+      }
+
       // MutationObserverが反応した瞬間に右サイドバーをマスク（既にマスクされている場合はスキップ）
       if (!this.isSidebarMasked) {
         this.maskSidebarColumn();
@@ -114,9 +126,10 @@ class TwitterCleanUI {
       });
     });
 
-    // 監視範囲をメインコンテンツと右サイドバーに限定（パフォーマンス最適化）
+    // 監視範囲をメインコンテンツのみに限定（パフォーマンス最適化）
+    // 右サイドバーは監視しない（内部のDOM変更が頻繁に発生し、チラつきの原因となるため）
+    // 右サイドバーの要素はsettingsWatcherの定期チェック（5秒ごと）で処理される
     const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
-    const sidebarColumn = document.querySelector('[data-testid="sidebarColumn"]');
 
     // メインコンテンツを監視
     if (primaryColumn) {
@@ -124,18 +137,8 @@ class TwitterCleanUI {
         childList: true,
         subtree: true,
       });
-    }
-
-    // 右サイドバーも監視（動的要素のリアルタイム制御のため）
-    if (sidebarColumn) {
-      this.mutationObserver.observe(sidebarColumn, {
-        childList: true,
-        subtree: true,
-      });
-    }
-
-    // どちらも見つからない場合はbody全体を監視（フォールバック）
-    if (!primaryColumn && !sidebarColumn) {
+    } else {
+      // メインコンテンツが見つからない場合はbody全体を監視（フォールバック）
       this.mutationObserver.observe(document.body, {
         childList: true,
         subtree: true,
