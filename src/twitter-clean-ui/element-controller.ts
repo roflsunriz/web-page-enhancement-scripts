@@ -5,6 +5,7 @@
 import type { UIElementId, Settings } from './types';
 import type { ElementDetector } from './element-detector';
 import { CSSInjector } from './css-injector';
+import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 import { UI_ELEMENTS } from './constants';
 
 /**
@@ -88,6 +89,42 @@ export class ElementController {
   }
 
   /**
+   * レイアウトを適用（XPath要素用の動的CSS）
+   */
+  public applyLayout(settings: Settings): void {
+    const { layout } = settings;
+
+    // XPathクラスセレクタ用の追加CSS（CSSInjectorではカバーできない部分）
+    const css = `
+      /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
+      ${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {
+        max-width: ${layout.mainContentWidth}px !important;
+      }
+    `;
+
+    this.styleElement.textContent = css;
+
+    // XPathベースの要素にもスタイルを適用（twitter-wide-layout-fixから移植）
+    this.applyStyleByXpath(layout.mainContentWidth);
+  }
+
+  /**
+   * XPathを使用して要素にスタイルを適用（twitter-wide-layout-fixから移植）
+   */
+  private applyStyleByXpath(width: number): void {
+    const target = document.evaluate(
+      TWITTER_LAYOUT_DEFAULTS.wideLayoutXPath,
+      document,
+      null,
+      XPathResult.FIRST_ORDERED_NODE_TYPE,
+      null
+    ).singleNodeValue as HTMLElement | null;
+    if (target) {
+      target.style.setProperty('max-width', `${width}px`, 'important');
+    }
+  }
+
+  /**
    * 要素がCSSInjectで処理可能かチェック
    */
   private canBeHandledByCSS(elementId: UIElementId): boolean {
@@ -107,6 +144,9 @@ export class ElementController {
   public applySettings(settings: Settings): void {
     // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
+
+    // レイアウト設定を適用（XPath要素用の動的CSS）
+    this.applyLayout(settings);
 
     // 動的要素を処理（カスタムファインダーで検出される要素のみ）
     const { visibility } = settings;
