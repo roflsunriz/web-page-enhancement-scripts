@@ -29,11 +29,7 @@ export type UIElementId =
   | 'rightSidebar_TrendsList'
   | 'rightSidebar_WhoToFollow'
   | 'rightSidebar_RelatedAccounts'
-  | 'rightSidebar_Footer'
-  // メインコンテンツ
-  | 'mainContent'
-  | 'mainContent_TweetComposer'
-  | 'promotedTweets';
+  | 'rightSidebar_Footer';
 
 /**
  * UI要素のカテゴリ
@@ -41,7 +37,6 @@ export type UIElementId =
 export type UIElementCategory =
   | 'leftSidebar'
   | 'rightSidebar'
-  | 'mainContent'
   | 'layout';
 
 /**
@@ -105,10 +100,6 @@ export interface VisibilitySettings {
   rightSidebar_WhoToFollow: boolean;
   rightSidebar_RelatedAccounts: boolean;
   rightSidebar_Footer: boolean;
-
-  // メインコンテンツ
-  mainContent_TweetComposer: boolean;
-  promotedTweets: boolean;
 }
 
 /**
@@ -117,7 +108,6 @@ export interface VisibilitySettings {
 export interface LayoutSettings {
   leftSidebarWidth: number; // px
   mainContentWidth: number; // px
-  mainContentPadding: number; // px
   timelineRightPadding: number; // px（タイムラインと右サイドバー間）
 }
 
@@ -172,7 +162,6 @@ export interface TranslationKeys {
   // セクション
   leftSidebarSettings: string;
   rightSidebarSettings: string;
-  mainContentSettings: string;
   layoutSettings: string;
   profileSettings: string;
 
@@ -202,14 +191,9 @@ export interface TranslationKeys {
   rightSidebar_RelatedAccounts: string;
   rightSidebar_Footer: string;
 
-  // メインコンテンツ
-  mainContent_TweetComposer: string;
-  promotedTweets: string;
-
   // レイアウト
   leftSidebarWidth: string;
   mainContentWidth: string;
-  mainContentPadding: string;
   timelineRightPadding: string;
 
   // その他

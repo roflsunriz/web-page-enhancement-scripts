@@ -72,24 +72,6 @@ export class CSSInjector {
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
 
-      // 広告ツイートは特別処理（後でIntersectionObserverで処理）
-      if (elementId === 'promotedTweets') {
-        if (!visible) {
-          // CSS :has() セレクタで広告を非表示（モダンブラウザ対応）
-          rules.push(`
-            article:has([data-testid="placementTracking"]):has(:is(
-              [aria-label*="プロモーション"],
-              [aria-label*="Promoted"],
-              span:has-text("プロモーション"),
-              span:has-text("Promoted")
-            )) {
-              display: none !important;
-            }
-          `.trim());
-        }
-        return;
-      }
-
       // 非表示の場合のみCSSルールを追加
       if (!visible) {
         const selector = this.generateSelector(elementId);
@@ -122,15 +104,6 @@ export class CSSInjector {
         width: ${layout.mainContentWidth}px !important;
         max-width: ${layout.mainContentWidth}px !important;
         min-width: ${layout.mainContentWidth}px !important;
-      }
-
-      /* メインコンテンツのパディング */
-      [data-testid="primaryColumn"] > div:first-child {
-        padding: ${layout.mainContentPadding}px !important;
-      }
-
-      /* タイムラインと右サイドバー間の余白 */
-      [data-testid="primaryColumn"] {
         margin-right: ${layout.timelineRightPadding}px !important;
         padding-right: 0px !important;
       }

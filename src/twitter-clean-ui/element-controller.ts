@@ -5,7 +5,6 @@
 import type { UIElementId, Settings } from './types';
 import type { ElementDetector } from './element-detector';
 import { CSSInjector } from './css-injector';
-import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 import { UI_ELEMENTS } from './constants';
 
 /**
@@ -17,7 +16,6 @@ export class ElementController {
   private appliedStyles: Map<UIElementId, string> = new Map();
   private hiddenElements: Set<UIElementId> = new Set();
   private styleElement: HTMLStyleElement;
-  private promotedTweetsCache: WeakSet<HTMLElement> = new WeakSet();
 
   /**
    * コンストラクタ
@@ -90,65 +88,6 @@ export class ElementController {
   }
 
   /**
-   * すべての広告ツイートを非表示（キャッシュ機構付き）
-   */
-  public hideAllPromotedTweets(): void {
-    const promotedTweets = this.detector.detectAllPromotedTweets();
-    promotedTweets.forEach((tweet) => {
-      // 既に処理済みの要素はスキップ
-      if (this.promotedTweetsCache.has(tweet)) {
-        return;
-      }
-
-      tweet.style.setProperty('display', 'none', 'important');
-      this.promotedTweetsCache.add(tweet);
-    });
-  }
-
-  /**
-   * 広告ツイートのキャッシュをクリア
-   */
-  public clearPromotedTweetsCache(): void {
-    this.promotedTweetsCache = new WeakSet();
-  }
-
-  /**
-   * レイアウトを適用（XPath要素用の動的CSS）
-   */
-  public applyLayout(settings: Settings): void {
-    const { layout } = settings;
-
-    // XPathクラスセレクタ用の追加CSS（CSSInjectorではカバーできない部分）
-    const css = `
-      /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
-      ${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {
-        max-width: ${layout.mainContentWidth}px !important;
-      }
-    `;
-
-    this.styleElement.textContent = css;
-
-    // XPathベースの要素にもスタイルを適用（twitter-wide-layout-fixから移植）
-    this.applyStyleByXpath(layout.mainContentWidth);
-  }
-
-  /**
-   * XPathを使用して要素にスタイルを適用（twitter-wide-layout-fixから移植）
-   */
-  private applyStyleByXpath(width: number): void {
-    const target = document.evaluate(
-      TWITTER_LAYOUT_DEFAULTS.wideLayoutXPath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
-    ).singleNodeValue as HTMLElement | null;
-    if (target) {
-      target.style.setProperty('max-width', `${width}px`, 'important');
-    }
-  }
-
-  /**
    * 要素がCSSInjectで処理可能かチェック
    */
   private canBeHandledByCSS(elementId: UIElementId): boolean {
@@ -169,20 +108,12 @@ export class ElementController {
     // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
 
-    // レイアウト設定を適用（XPath要素用の動的CSS）
-    this.applyLayout(settings);
-
     // 動的要素を処理（カスタムファインダーで検出される要素のみ）
     const { visibility } = settings;
     
     // すべての要素に対して表示/非表示を適用
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
-      
-      // 広告ツイートは特別処理（後で処理）
-      if (elementId === 'promotedTweets') {
-        return;
-      }
       
       // CSSで処理できる要素はスキップ（CSSInjectorに任せる）
       if (this.canBeHandledByCSS(elementId)) {
@@ -194,11 +125,6 @@ export class ElementController {
         this.toggleElement(elementId, visible);
       }
     });
-
-    // 広告ツイートの処理（別処理が必要）
-    if (!visibility.promotedTweets) {
-      this.hideAllPromotedTweets();
-    }
   }
 
   /**
@@ -215,7 +141,6 @@ export class ElementController {
     this.styleElement.textContent = '';
     this.appliedStyles.clear();
     this.hiddenElements.clear();
-    this.clearPromotedTweetsCache();
   }
 
   /**
@@ -257,7 +182,6 @@ export class ElementController {
     }
     this.appliedStyles.clear();
     this.hiddenElements.clear();
-    this.clearPromotedTweetsCache();
   }
 }
 

@@ -235,41 +235,6 @@ export class SettingsUI {
 
     container.appendChild(leftSidebarSection);
 
-    // メインコンテンツセクション
-    const mainContentSection = this.createSection(t('mainContentSettings'));
-
-    const mainContentControl = this.createToggleControl(
-      t('mainContent_TweetComposer'),
-      settings.visibility.mainContent_TweetComposer,
-      (checked) => {
-        const partialVisibility: Partial<typeof settings.visibility> = { mainContent_TweetComposer: checked };
-        this.settingsManager.updateSettings({
-          visibility: partialVisibility as typeof settings.visibility,
-        });
-        if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applySettings(this.settingsManager.getSettings());
-        }
-      }
-    );
-    mainContentSection.appendChild(mainContentControl);
-
-    const promotedControl = this.createToggleControl(
-      t('promotedTweets'),
-      settings.visibility.promotedTweets,
-      (checked) => {
-        const partialVisibility: Partial<typeof settings.visibility> = { promotedTweets: checked };
-        this.settingsManager.updateSettings({
-          visibility: partialVisibility as typeof settings.visibility,
-        });
-        if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applySettings(this.settingsManager.getSettings());
-        }
-      }
-    );
-    mainContentSection.appendChild(promotedControl);
-
-    container.appendChild(mainContentSection);
-
     return container;
   }
 
@@ -335,7 +300,7 @@ export class SettingsUI {
           layout: partialLayout as typeof settings.layout,
         });
         if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applyLayout(this.settingsManager.getSettings());
+          this.controller.applySettings(this.settingsManager.getSettings());
         }
       }
     );
@@ -353,7 +318,7 @@ export class SettingsUI {
           layout: partialLayout as typeof settings.layout,
         });
         if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applyLayout(this.settingsManager.getSettings());
+          this.controller.applySettings(this.settingsManager.getSettings());
         }
       }
     );
@@ -371,7 +336,7 @@ export class SettingsUI {
           layout: partialLayout as typeof settings.layout,
         });
         if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applyLayout(this.settingsManager.getSettings());
+          this.controller.applySettings(this.settingsManager.getSettings());
         }
       }
     );

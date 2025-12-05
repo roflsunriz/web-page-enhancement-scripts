@@ -20,7 +20,6 @@ const ja: TranslationKeys = {
   // セクション
   leftSidebarSettings: '左サイドバー設定',
   rightSidebarSettings: '右サイドバー設定',
-  mainContentSettings: 'メインコンテンツ設定',
   layoutSettings: 'レイアウト設定',
   profileSettings: 'プロファイル設定',
 
@@ -50,14 +49,9 @@ const ja: TranslationKeys = {
   rightSidebar_RelatedAccounts: '関連性の高いアカウント',
   rightSidebar_Footer: 'フッター',
 
-  // メインコンテンツ
-  mainContent_TweetComposer: 'ポスト作成ボックス',
-  promotedTweets: '広告ポスト',
-
   // レイアウト
   leftSidebarWidth: '左サイドバーの幅',
   mainContentWidth: 'メインコンテンツの幅',
-  mainContentPadding: 'メインコンテンツの余白',
   timelineRightPadding: 'タイムラインと右サイドバー間の余白',
 
   // その他
@@ -84,7 +78,6 @@ const en: TranslationKeys = {
   // Sections
   leftSidebarSettings: 'Left Sidebar Settings',
   rightSidebarSettings: 'Right Sidebar Settings',
-  mainContentSettings: 'Main Content Settings',
   layoutSettings: 'Layout Settings',
   profileSettings: 'Profile Settings',
 
@@ -114,14 +107,9 @@ const en: TranslationKeys = {
   rightSidebar_RelatedAccounts: 'Relevant Accounts',
   rightSidebar_Footer: 'Footer',
 
-  // Main Content
-  mainContent_TweetComposer: 'Post Composer',
-  promotedTweets: 'Promoted Posts',
-
   // Layout
   leftSidebarWidth: 'Left Sidebar Width',
   mainContentWidth: 'Main Content Width',
-  mainContentPadding: 'Main Content Padding',
   timelineRightPadding: 'Timeline Right Padding',
 
   // Other

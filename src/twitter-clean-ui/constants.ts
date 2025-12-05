@@ -40,15 +40,10 @@ export const DEFAULT_SETTINGS: Settings = {
     rightSidebar_WhoToFollow: true,
     rightSidebar_RelatedAccounts: true,
     rightSidebar_Footer: true,
-
-    // メインコンテンツ
-    mainContent_TweetComposer: true,
-    promotedTweets: false, // 広告は非表示
   },
   layout: {
     leftSidebarWidth: 275, // デフォルトのX/Twitterの幅
     mainContentWidth: 600, // 読みやすい幅
-    mainContentPadding: 0,
     timelineRightPadding: 0,
   },
   enableRealTimePreview: true,
@@ -569,61 +564,5 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     ],
   },
 
-  // ========================================
-  // メインコンテンツ
-  // ========================================
-  {
-    id: 'mainContent',
-    category: 'mainContent',
-    description: 'メインコンテンツエリア',
-    strategies: [
-      {
-        type: 'querySelector',
-        selector: '[data-testid="primaryColumn"]',
-        method: 'data-testid',
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: 'mainContent_TweetComposer',
-    category: 'mainContent',
-    description: 'ツイート作成ボックス',
-    strategies: [
-      {
-        type: 'custom',
-        method: 'Tweet composer container',
-        confidence: 0.85,
-        finder: () => {
-          const textarea = document.querySelector('[data-testid="tweetTextarea_0"]');
-          if (!textarea) return null;
-
-          let container: HTMLElement | null = textarea as HTMLElement;
-          for (let i = 0; i < 15; i++) {
-            if (!container.parentElement) break;
-            container = container.parentElement;
-            const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
-            if (primaryColumn?.contains(container) && container.parentElement === primaryColumn) {
-              return container;
-            }
-          }
-          return null;
-        },
-      },
-    ],
-  },
-  {
-    id: 'promotedTweets',
-    category: 'mainContent',
-    description: '広告ツイート',
-    strategies: [
-      {
-        type: 'querySelectorAll',
-        selector: '[data-testid="placementTracking"]',
-        method: 'data-testid',
-        confidence: 0.9,
-      },
-    ],
-  },
 ];
 

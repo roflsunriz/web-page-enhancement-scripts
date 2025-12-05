@@ -19,7 +19,6 @@ class TwitterCleanUI {
   private isInitialized: boolean = false;
   private settingsWatcherInterval: ReturnType<typeof setInterval> | null = null;
   private mutationObserver: MutationObserver | null = null;
-  private intersectionObserver: IntersectionObserver | null = null;
   private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   private rafId: number | null = null;
 
@@ -63,9 +62,6 @@ class TwitterCleanUI {
 
       // メニューコマンドを登録
       this.registerMenuCommand();
-
-      // 広告の自動非表示（IntersectionObserverで効率的に検出）
-      this.startPromotedTweetsWatcher();
 
       // 設定の定期適用を開始（フォールバック）
       this.startSettingsWatcher();
@@ -164,43 +160,6 @@ class TwitterCleanUI {
   }
 
   /**
-   * 広告ツイートの監視を開始（IntersectionObserver使用）
-   */
-  private startPromotedTweetsWatcher(): void {
-    const settings = this.settingsManager.getSettings();
-    
-    if (!settings.visibility.promotedTweets) {
-      // IntersectionObserverで画面に表示される広告のみ処理（効率的）
-      this.intersectionObserver = new IntersectionObserver(
-        (entries) => {
-          // 画面に表示された要素のみ処理
-          const visibleEntries = entries.filter((entry) => entry.isIntersecting);
-          if (visibleEntries.length > 0) {
-            // requestAnimationFrameでバッチ処理
-            requestAnimationFrame(() => {
-              this.controller.hideAllPromotedTweets();
-            });
-          }
-        },
-        {
-          root: null,
-          rootMargin: '100px', // 画面外100pxまで監視
-          threshold: 0.01, // 1%以上表示されたら反応
-        }
-      );
-
-      // タイムライン全体を監視
-      const timeline = document.querySelector('[data-testid="primaryColumn"]');
-      if (timeline) {
-        this.intersectionObserver.observe(timeline);
-      }
-
-      // 初回実行
-      this.controller.hideAllPromotedTweets();
-    }
-  }
-
-  /**
    * クリーンアップ
    */
   public destroy(): void {
@@ -215,9 +174,6 @@ class TwitterCleanUI {
     }
     if (this.mutationObserver) {
       this.mutationObserver.disconnect();
-    }
-    if (this.intersectionObserver) {
-      this.intersectionObserver.disconnect();
     }
     this.detector.stopObserving();
     this.controller.destroy();
