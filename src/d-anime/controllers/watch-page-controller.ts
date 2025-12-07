@@ -121,6 +121,19 @@ export class WatchPageController {
       this.global.settingsManager = settingsManager;
       this.global.instances.settingsManager = settingsManager;
 
+      // 設定UIでコメント非表示の場合はAPI呼び出し前に早期リターン
+      const currentSettings = settingsManager.loadSettings();
+      if (!currentSettings.isCommentVisible) {
+        logger.info("watchPageController:initializeWithVideo:skipDueToVisibility", {
+          isCommentVisible: currentSettings.isCommentVisible,
+        });
+        NotificationManager.show(
+          "コメントは非表示に設定されています。設定を変更するにはフローティングボタンをクリックしてください。",
+          "info",
+        );
+        return;
+      }
+
       // DOMの準備完了を待つ
       await this.waitForMetadataElements();
 
@@ -718,6 +731,19 @@ export class WatchPageController {
       const settingsManager = this.global.settingsManager;
       if (!settingsManager) {
         logger.warn("watchPageController:onPartIdChanged:noSettingsManager");
+        return;
+      }
+
+      // 設定UIでコメント非表示の場合はAPI呼び出し前に早期リターン
+      const currentSettings = settingsManager.getSettings();
+      if (!currentSettings.isCommentVisible) {
+        logger.info("watchPageController:onPartIdChanged:skipDueToVisibility", {
+          isCommentVisible: currentSettings.isCommentVisible,
+        });
+        NotificationManager.show(
+          "コメント非表示設定のためスキップしました",
+          "info",
+        );
         return;
       }
 
