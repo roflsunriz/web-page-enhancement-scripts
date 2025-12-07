@@ -21,6 +21,7 @@ const targets = [
   { mode: 'twitter-full-size-image', clear: false },
   { mode: 'twitter-thread-copier', clear: false },
   { mode: 'youtube-info-copier', clear: false },
+  { mode: 'native-video-volume-setter', clear: false },
 ];
 
 async function run() {

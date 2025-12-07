@@ -18,6 +18,7 @@ web-page-enhancement-scripts
   - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
+  - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
@@ -36,6 +37,7 @@ web-page-enhancement-scripts
 - [fanbox-pagination-helper](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-pagination-helper.user.js)
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
+- [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
 - [twitter-clean-ui](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-ui.user.js)
 - [twitter-full-size-image](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-full-size-image.user.js)

@@ -313,6 +313,37 @@ const twitterCleanUIMeta: MonkeyUserScript = {
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
 };
 
+const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
+  name: 'native-video-volume-setter',
+  namespace: 'nativeVideoVolumeSetter',
+  version: '1.0.0',
+  description:
+    '新規タブで開かれたブラウザ標準のビデオプレーヤーの音量を好みの既定値に揃えるシンプルな補助スクリプト',
+  author: 'roflsunriz',
+  match: ['*://*/*'],
+  exclude: [
+    'https://www.youtube.com/*',
+    'https://youtu.be/*',
+    'https://twitter.com/*',
+    'https://x.com/*',
+    'https://www.netflix.com/*',
+    'https://www.primevideo.com/*',
+    'https://www.disneyplus.com/*',
+    'https://abema.tv/*',
+    'https://www.abema.tv/*',
+    'https://tver.jp/*',
+    'https://www.tver.jp/*',
+    'https://www.twitch.tv/*',
+  ],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  'run-at': 'document-end',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=videojs.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/native-video-volume-setter.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/native-video-volume-setter.user.js',
+};
+
 const SCRIPT_CONFIGS = {
   'chatgpt-notify': {
     entry: 'src/chatgpt-notify/main.ts',
@@ -374,6 +405,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'twitter-clean-timeline.user.js',
     meta: twitterCleanTimelineMeta,
   },
+  'native-video-volume-setter': {
+    entry: 'src/native-video-volume-setter/main.ts',
+    fileName: 'native-video-volume-setter.user.js',
+    meta: nativeVideoVolumeSetterMeta,
+  },
 } as const;
 
 type ScriptKey = keyof typeof SCRIPT_CONFIGS;
@@ -407,6 +443,7 @@ export default defineConfig((configEnv) => {
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
         '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
         '@/twitter-clean-timeline': resolve(dir, 'src/twitter-clean-timeline'),
+        '@/native-video-volume-setter': resolve(dir, 'src/native-video-volume-setter'),
         '@/shared': resolve(dir, 'src/shared')
       },
     },

@@ -18,6 +18,7 @@
     "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
     "dev:twitter-wide-layout-fix": "vite --mode twitter-wide-layout-fix",
     "dev:youtube-info-copier": "vite --mode youtube-info-copier",
+    "dev:native-video-volume-setter": "vite --mode native-video-volume-setter",
     "build": "node scripts/build-all.mjs",
     "type-check": "tsc --noEmit",
     "lint": "eslint src/**/*.ts",
