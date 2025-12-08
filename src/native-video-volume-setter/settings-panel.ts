@@ -13,44 +13,46 @@ const PANEL_STYLES = `
   inset: 0;
   z-index: 2147483647;
   font-family: "Inter", "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+  color: #e2e8f0;
 }
 .nvvs-overlay {
   pointer-events: auto;
   position: fixed;
   inset: 0;
-  background: rgba(3, 3, 3, 0.65);
-  backdrop-filter: blur(4px);
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
 .nvvs-panel {
-  background: #ffffff;
-  border-radius: 16px;
+  background: #0f172a;
+  border-radius: 18px;
   padding: 1.5rem;
-  width: min(320px, 100%);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  width: min(360px, 100%);
+  box-shadow: 0 20px 45px rgba(2, 6, 23, 0.85);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 .nvvs-heading {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111;
+  color: #f8fafc;
 }
 .nvvs-description {
   margin: 0;
-  color: #4a4a4a;
+  color: #cbd5f5;
   font-size: 0.95rem;
 }
 .nvvs-current-value {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1c1c1c;
+  color: #e0e7ff;
 }
 .nvvs-input-row {
   display: flex;
@@ -59,6 +61,50 @@ const PANEL_STYLES = `
 }
 .nvvs-range {
   flex: 1;
+  --nvvs-range-progress: 0%;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #3b82f6 var(--nvvs-range-progress),
+    #1f2937 var(--nvvs-range-progress)
+  );
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nvvs-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border-radius: 50%;
+  margin-top: -10px;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-ms-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-moz-range-track,
+.nvvs-range::-ms-track {
+  background: transparent;
+  border-color: transparent;
 }
 .nvvs-range,
 .nvvs-number {
@@ -67,13 +113,16 @@ const PANEL_STYLES = `
 }
 .nvvs-number {
   width: 90px;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.55rem;
   font-size: 0.95rem;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #111b30;
+  color: #f1f5f9;
+  text-align: center;
 }
 .nvvs-number:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 .nvvs-button-row {
@@ -82,18 +131,20 @@ const PANEL_STYLES = `
 }
 .nvvs-button {
   border: none;
-  background: #111;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #fff;
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .nvvs-button:hover {
-  background: #282828;
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 .nvvs-button:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #93c5fd;
   outline-offset: 2px;
 }
 `;
@@ -149,9 +200,14 @@ export const showVolumeSettingsPanel = ({
   numberInput.max = "100";
   numberInput.step = "1";
 
+  const setSliderPercent = (percent: number): void => {
+    slider.style.setProperty("--nvvs-range-progress", `${percent}%`);
+  };
+
   const percentValue = Math.round(clampVolume(initialVolume) * 100);
   slider.value = percentValue.toString();
   numberInput.value = slider.value;
+  setSliderPercent(percentValue);
 
   const inputRow = document.createElement("div");
   inputRow.className = "nvvs-input-row";
@@ -175,6 +231,7 @@ export const showVolumeSettingsPanel = ({
 
   const syncControls = (volume: number): void => {
     const percent = Math.round(clampVolume(volume) * 100);
+    setSliderPercent(percent);
     slider.value = percent.toString();
     numberInput.value = slider.value;
     currentValueLabel.textContent = `現在の音量: ${formatVolumeLabel(volume)}`;

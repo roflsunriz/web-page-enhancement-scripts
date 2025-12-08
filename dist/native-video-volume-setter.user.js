@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         native-video-volume-setter
 // @namespace    nativeVideoVolumeSetter
-// @version      1.1.0
+// @version      1.1.1
 // @author       roflsunriz
 // @description  新規タブで開かれたブラウザ標準のビデオプレーヤーの音量を好みの既定値に揃えるシンプルな補助スクリプト
 // @license      MIT
@@ -30,51 +30,53 @@
 (function () {
   'use strict';
 
-  const T="nativeVideoVolumeSetter:volume";const i=e=>Math.min(1,Math.max(0,e)),H=()=>{const e=GM_getValue(T,null);return typeof e!="number"||Number.isNaN(e)?.35:i(e)},P=e=>{const t=i(e);return GM_setValue(T,t),t},S=e=>`${Math.round(i(e)*100)}%`,R=[".mp4",".webm",".ogg",".mkv",".mov",".avi"];const z=e=>{const t=e.toLowerCase();return R.some(n=>t.includes(n))},U=()=>{const e=(document.contentType??"").toLowerCase();return e.startsWith("video/")||e==="application/octet-stream"},F=e=>{const t=document.body;if(!t)return  false;const n=t.querySelectorAll("*").length,o=t.querySelectorAll("video").length;return t.childElementCount<=6||n-o<=8||o===e.length},$=e=>{const t=window.innerWidth*window.innerHeight;return t===0?false:e.some(n=>{const{width:o,height:s}=n.getBoundingClientRect();return o>0&&s>0&&o*s/t>.4})},A=()=>Array.from(document.querySelectorAll("video")),k=e=>{if(e.length===0)return  false;const t=`${window.location.pathname}${window.location.search}`,n=z(t);return U()||n||$(e)&&F(e)},_=(e,t)=>{const n=i(t),o=s=>{s.volume=n,n>0&&s.muted&&(s.muted=false),n===0&&(s.muted=true);};e.forEach(s=>{if(s.readyState>=HTMLMediaElement.HAVE_METADATA){o(s);return}s.addEventListener("loadedmetadata",()=>o(s),{once:true});});},q=e=>{const t=[];return e.forEach(n=>{n.addedNodes.forEach(o=>{if(o instanceof HTMLVideoElement){t.push(o);return}o instanceof HTMLElement&&t.push(...Array.from(o.querySelectorAll("video")));});}),t},B=(e={})=>{const t=document.createElement("div");e.id&&(t.id=e.id),t.style.position="relative";const n=t.attachShadow({mode:e.mode??"open"});if(e.cssText){const o=document.createElement("style");o.textContent=e.cssText,n.appendChild(o);}return e.adoptStyles?.length&&e.adoptStyles.forEach(o=>{const s=document.createElement("style");s.textContent=o,n.appendChild(s);}),document.body.appendChild(t),{host:t,root:n,dispose:()=>{t.remove();}}},G=`
+  const A="nativeVideoVolumeSetter:volume";const c=e=>Math.min(1,Math.max(0,e)),z=()=>{const e=GM_getValue(A,null);return typeof e!="number"||Number.isNaN(e)?.35:c(e)},H=e=>{const t=c(e);return GM_setValue(A,t),t},C=e=>`${Math.round(c(e)*100)}%`,R=[".mp4",".webm",".ogg",".mkv",".mov",".avi"];const U=e=>{const t=e.toLowerCase();return R.some(n=>t.includes(n))},F=()=>{const e=(document.contentType??"").toLowerCase();return e.startsWith("video/")||e==="application/octet-stream"},$=e=>{const t=document.body;if(!t)return  false;const n=t.querySelectorAll("*").length,o=t.querySelectorAll("video").length;return t.childElementCount<=6||n-o<=8||o===e.length},Y=e=>{const t=window.innerWidth*window.innerHeight;return t===0?false:e.some(n=>{const{width:o,height:r}=n.getBoundingClientRect();return o>0&&r>0&&o*r/t>.4})},_=()=>Array.from(document.querySelectorAll("video")),O=e=>{if(e.length===0)return  false;const t=`${window.location.pathname}${window.location.search}`,n=U(t);return F()||n||Y(e)&&$(e)},D=(e,t)=>{const n=c(t),o=r=>{r.volume=n,n>0&&r.muted&&(r.muted=false),n===0&&(r.muted=true);};e.forEach(r=>{if(r.readyState>=HTMLMediaElement.HAVE_METADATA){o(r);return}r.addEventListener("loadedmetadata",()=>o(r),{once:true});});},q=e=>{const t=[];return e.forEach(n=>{n.addedNodes.forEach(o=>{if(o instanceof HTMLVideoElement){t.push(o);return}o instanceof HTMLElement&&t.push(...Array.from(o.querySelectorAll("video")));});}),t},B=(e={})=>{const t=document.createElement("div");e.id&&(t.id=e.id),t.style.position="relative";const n=t.attachShadow({mode:e.mode??"open"});if(e.cssText){const o=document.createElement("style");o.textContent=e.cssText,n.appendChild(o);}return e.adoptStyles?.length&&e.adoptStyles.forEach(o=>{const r=document.createElement("style");r.textContent=o,n.appendChild(r);}),document.body.appendChild(t),{host:t,root:n,dispose:()=>{t.remove();}}},G=`
 :host {
   all: initial;
   position: fixed;
   inset: 0;
   z-index: 2147483647;
   font-family: "Inter", "Noto Sans JP", "Segoe UI", system-ui, sans-serif;
+  color: #e2e8f0;
 }
 .nvvs-overlay {
   pointer-events: auto;
   position: fixed;
   inset: 0;
-  background: rgba(3, 3, 3, 0.65);
-  backdrop-filter: blur(4px);
+  background: rgba(2, 6, 23, 0.85);
+  backdrop-filter: blur(6px);
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 1rem;
 }
 .nvvs-panel {
-  background: #ffffff;
-  border-radius: 16px;
+  background: #0f172a;
+  border-radius: 18px;
   padding: 1.5rem;
-  width: min(320px, 100%);
-  box-shadow: 0 18px 40px rgba(0, 0, 0, 0.25);
+  width: min(360px, 100%);
+  box-shadow: 0 20px 45px rgba(2, 6, 23, 0.85);
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 .nvvs-heading {
   margin: 0;
   font-size: 1.25rem;
   font-weight: 600;
-  color: #111;
+  color: #f8fafc;
 }
 .nvvs-description {
   margin: 0;
-  color: #4a4a4a;
+  color: #cbd5f5;
   font-size: 0.95rem;
 }
 .nvvs-current-value {
   margin: 0;
   font-size: 0.95rem;
   font-weight: 500;
-  color: #1c1c1c;
+  color: #e0e7ff;
 }
 .nvvs-input-row {
   display: flex;
@@ -83,6 +85,50 @@
 }
 .nvvs-range {
   flex: 1;
+  --nvvs-range-progress: 0%;
+  height: 4px;
+  border-radius: 999px;
+  background: linear-gradient(
+    90deg,
+    #3b82f6 var(--nvvs-range-progress),
+    #1f2937 var(--nvvs-range-progress)
+  );
+  cursor: pointer;
+  outline: none;
+  transition: background 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+.nvvs-range::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 24px;
+  height: 24px;
+  background: transparent;
+  border-radius: 50%;
+  margin-top: -10px;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-moz-range-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-ms-thumb {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: transparent;
+  border: none;
+  cursor: inherit;
+}
+.nvvs-range::-moz-range-track,
+.nvvs-range::-ms-track {
+  background: transparent;
+  border-color: transparent;
 }
 .nvvs-range,
 .nvvs-number {
@@ -91,13 +137,16 @@
 }
 .nvvs-number {
   width: 90px;
-  padding: 0.25rem 0.5rem;
+  padding: 0.35rem 0.55rem;
   font-size: 0.95rem;
-  border-radius: 6px;
-  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background: #111b30;
+  color: #f1f5f9;
+  text-align: center;
 }
 .nvvs-number:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #2563eb;
   outline-offset: 2px;
 }
 .nvvs-button-row {
@@ -106,20 +155,22 @@
 }
 .nvvs-button {
   border: none;
-  background: #111;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
   color: #fff;
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
-  border-radius: 8px;
+  border-radius: 10px;
   cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 }
 .nvvs-button:hover {
-  background: #282828;
+  opacity: 0.9;
+  transform: translateY(-1px);
 }
 .nvvs-button:focus-visible {
-  outline: 2px solid #3b82f6;
+  outline: 2px solid #93c5fd;
   outline-offset: 2px;
 }
-`;let v=null;const Y=({initialVolume:e,applyVolume:t})=>{if(!document.body)return;v?.(),v=null;const{root:n,dispose:o}=B({id:"native-video-volume-setter-settings",cssText:G}),s=document.createElement("div");s.className="nvvs-overlay";const f=document.createElement("section");f.className="nvvs-panel";const b=document.createElement("h2");b.className="nvvs-heading",b.textContent="既定音量の調整";const E=document.createElement("p");E.className="nvvs-description",E.textContent="スライダーまたは数値入力で既定音量を微調整し、即時に反映できます。";const d=document.createElement("p");d.className="nvvs-current-value",d.textContent=`現在の音量: ${S(e)}`;const r=document.createElement("input");r.className="nvvs-range",r.type="range",r.min="0",r.max="100",r.step="1";const a=document.createElement("input");a.className="nvvs-number",a.type="number",a.min="0",a.max="100",a.step="1";const D=Math.round(i(e)*100);r.value=D.toString(),a.value=r.value;const h=document.createElement("div");h.className="nvvs-input-row",h.append(r,a);const y=document.createElement("div");y.className="nvvs-button-row";const c=document.createElement("button");c.className="nvvs-button",c.type="button",c.textContent="閉じる",y.append(c),f.append(b,E,d,h,y),s.append(f),n.append(s);let g=i(e);const V=l=>{const x=Math.round(i(l)*100);r.value=x.toString(),a.value=r.value,d.textContent=`現在の音量: ${S(l)}`;},w=l=>{if(!Number.isFinite(l))return;const x=Math.max(0,Math.min(100,l)),m=i(x/100);if(Math.abs(m-g)<1e-6){V(g);return}g=m,t(m),V(m);},I=()=>{w(Number(a.value));};r.addEventListener("input",()=>w(Number(r.value))),a.addEventListener("input",I);const L=l=>{l.target===s&&u();},N=l=>{l.key==="Escape"&&(l.preventDefault(),u());};s.addEventListener("click",L),c.addEventListener("click",u),document.addEventListener("keydown",N);let M=false;function u(){M||(M=true,s.removeEventListener("click",L),c.removeEventListener("click",u),document.removeEventListener("keydown",N),o(),v=null);}v=u;},p={value:H()},X=e=>{p.value=P(e),O();},j=()=>{GM_registerMenuCommand("既定音量の調整ウィンドウを開く",()=>{Y({initialVolume:p.value,applyVolume:X});});},O=()=>{const e=A();k(e)&&_(e,p.value);},K=()=>{if(!document.body)return;new MutationObserver(t=>{const n=q(t);if(n.length===0)return;const o=A();k(o)&&_(n,p.value);}).observe(document.body,{childList:true,subtree:true});},C=()=>{O(),K();};j();document.readyState==="loading"?document.addEventListener("DOMContentLoaded",C,{once:true}):C();
+`;let p=null;const X=({initialVolume:e,applyVolume:t})=>{if(!document.body)return;p?.(),p=null;const{root:n,dispose:o}=B({id:"native-video-volume-setter-settings",cssText:G}),r=document.createElement("div");r.className="nvvs-overlay";const g=document.createElement("section");g.className="nvvs-panel";const b=document.createElement("h2");b.className="nvvs-heading",b.textContent="既定音量の調整";const h=document.createElement("p");h.className="nvvs-description",h.textContent="スライダーまたは数値入力で既定音量を微調整し、即時に反映できます。";const u=document.createElement("p");u.className="nvvs-current-value",u.textContent=`現在の音量: ${C(e)}`;const s=document.createElement("input");s.className="nvvs-range",s.type="range",s.min="0",s.max="100",s.step="1";const i=document.createElement("input");i.className="nvvs-number",i.type="number",i.min="0",i.max="100",i.step="1";const w=a=>{s.style.setProperty("--nvvs-range-progress",`${a}%`);},V=Math.round(c(e)*100);s.value=V.toString(),i.value=s.value,w(V);const E=document.createElement("div");E.className="nvvs-input-row",E.append(s,i);const y=document.createElement("div");y.className="nvvs-button-row";const l=document.createElement("button");l.className="nvvs-button",l.type="button",l.textContent="閉じる",y.append(l),g.append(b,h,u,E,y),r.append(g),n.append(r);let x=c(e);const L=a=>{const m=Math.round(c(a)*100);w(m),s.value=m.toString(),i.value=s.value,u.textContent=`現在の音量: ${C(a)}`;},k=a=>{if(!Number.isFinite(a))return;const m=Math.max(0,Math.min(100,a)),v=c(m/100);if(Math.abs(v-x)<1e-6){L(x);return}x=v,t(v),L(v);},P=()=>{k(Number(i.value));};s.addEventListener("input",()=>k(Number(s.value))),i.addEventListener("input",P);const N=a=>{a.target===r&&d();},M=a=>{a.key==="Escape"&&(a.preventDefault(),d());};r.addEventListener("click",N),l.addEventListener("click",d),document.addEventListener("keydown",M);let S=false;function d(){S||(S=true,r.removeEventListener("click",N),l.removeEventListener("click",d),document.removeEventListener("keydown",M),o(),p=null);}p=d;},f={value:z()},j=e=>{f.value=H(e),I();},K=()=>{GM_registerMenuCommand("既定音量の調整ウィンドウを開く",()=>{X({initialVolume:f.value,applyVolume:j});});},I=()=>{const e=_();O(e)&&D(e,f.value);},W=()=>{if(!document.body)return;new MutationObserver(t=>{const n=q(t);if(n.length===0)return;const o=_();O(o)&&D(n,f.value);}).observe(document.body,{childList:true,subtree:true});},T=()=>{I(),W();};K();document.readyState==="loading"?document.addEventListener("DOMContentLoaded",T,{once:true}):T();
 
 })();
