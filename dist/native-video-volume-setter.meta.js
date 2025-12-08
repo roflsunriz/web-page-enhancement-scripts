@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         native-video-volume-setter
 // @namespace    nativeVideoVolumeSetter
-// @version      1.0.0
+// @version      1.1.0
 // @author       roflsunriz
 // @description  新規タブで開かれたブラウザ標準のビデオプレーヤーの音量を好みの既定値に揃えるシンプルな補助スクリプト
 // @license      MIT

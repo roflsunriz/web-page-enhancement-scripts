@@ -4,12 +4,8 @@ import {
   findVideoElements,
   isLikelyNativeVideoPage,
 } from "./video-controller";
-import {
-  clampVolume,
-  formatVolumeLabel,
-  loadVolume,
-  saveVolume,
-} from "./volume-settings";
+import { loadVolume, saveVolume } from "./volume-settings";
+import { showVolumeSettingsPanel } from "./settings-panel";
 
 type VolumeState = {
   value: number;
@@ -19,41 +15,18 @@ const volumeState: VolumeState = {
   value: loadVolume(),
 };
 
-const promptForVolume = (): number | null => {
-  const input = window.prompt(
-    `既定の音量を 0〜100 で入力してください。\n現在値: ${formatVolumeLabel(volumeState.value)}`,
-    Math.round(clampVolume(volumeState.value) * 100).toString(),
-  );
-
-  if (input === null) {
-    return null;
-  }
-
-  const parsed = Number(input.trim());
-
-  if (!Number.isFinite(parsed) || parsed < 0 || parsed > 100) {
-    window.alert("0〜100 の数値で入力してください。");
-    return null;
-  }
-
-  return clampVolume(parsed / 100);
+const persistVolume = (nextVolume: number): void => {
+  volumeState.value = saveVolume(nextVolume);
+  applyVolumeIfNative();
 };
 
 const registerMenu = (): void => {
-  GM_registerMenuCommand(
-    `デフォルト音量を設定（現在: ${formatVolumeLabel(volumeState.value)}）`,
-    () => {
-      const nextVolume = promptForVolume();
-
-      if (nextVolume === null) {
-        return;
-      }
-
-      volumeState.value = saveVolume(nextVolume);
-      applyVolumeIfNative();
-      window.alert(`既定音量を ${formatVolumeLabel(volumeState.value)} に設定しました。`);
-    },
-  );
+  GM_registerMenuCommand("既定音量の調整ウィンドウを開く", () => {
+    showVolumeSettingsPanel({
+      initialVolume: volumeState.value,
+      applyVolume: persistVolume,
+    });
+  });
 };
 
 const applyVolumeIfNative = (): void => {
