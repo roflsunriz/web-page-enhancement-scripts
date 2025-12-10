@@ -20,6 +20,10 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
     },
   });
 
+// ============================================================================
+// メタデータ定義（アルファベット順）
+// ============================================================================
+
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
@@ -221,98 +225,6 @@ const mangaViewerMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.user.js',
 };
 
-const twitterFullSizeImageMeta: MonkeyUserScript = {
-  name: 'twitter-image-fullsize-redirect',
-  namespace: 'twitterImageFullsizeRedirect',
-  version: '2.1.1',
-  description: 'Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト',
-  author: 'roflsunriz',
-  match: [
-    'https://pbs.twimg.com/media/*',
-    'https://ton.twimg.com/media/*',
-  ],
-  'run-at': 'document-start',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.user.js',
-};
-
-const twitterCleanTimelineMeta: MonkeyUserScript = {
-  name: 'twitter-clean-timeline',
-  namespace: 'twitterCleanTimeline',
-  version: '1.5.0',
-  description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート・置き換え）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
-  author: 'roflsunriz',
-  match: ['https://twitter.com/*', 'https://x.com/*'],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand', 'unsafeWindow'],
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
-  'run-at': 'document-start',
-};
-
-const twitterThreadCopierMeta: MonkeyUserScript = {
-  name: 'twitter-thread-copier',
-  namespace: 'twitterThreadCopier',
-  version: '6.7.1',
-  description: 'Copy entire Twitter/X threads with formatting and expansions.',
-  author: 'roflsunriz',
-  match: [
-    'https://twitter.com/*',
-    'https://x.com/*',
-  ],
-  connect: [
-    'translate.googleapis.com',
-    '*.googleapis.com',
-    't.co',
-    '*',
-    'localhost',
-  ],
-  grant: ['GM_xmlhttpRequest', 'GM_notification'],
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
-  'run-at': 'document-idle',
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.user.js',
-};
-
-const youtubeInfoCopierMeta: MonkeyUserScript = {
-  name: 'youtube-info-copier',
-  namespace: 'youtubeInfoCopier',
-  version: '2.3.2',
-  description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
-  author: 'roflsunriz',
-  match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
-  grant: ['GM_setClipboard'],
-  'run-at': 'document-start',
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
-};
-
-const twitterCleanUIMeta: MonkeyUserScript = {
-  name: 'twitter-clean-ui',
-  namespace: 'twitterCleanUI',
-  version: '1.5.1',
-  description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。',
-  author: 'roflsunriz',
-  match: ['https://twitter.com/*', 'https://x.com/*'],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
-  'run-at': 'document-end',
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.user.js',
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
-};
-
 const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
   name: 'native-video-volume-setter',
   namespace: 'nativeVideoVolumeSetter',
@@ -343,6 +255,119 @@ const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
   downloadURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/native-video-volume-setter.user.js',
 };
+
+const twitterCleanTimelineMeta: MonkeyUserScript = {
+  name: 'twitter-clean-timeline',
+  namespace: 'twitterCleanTimeline',
+  version: '1.5.0',
+  description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート・置き換え）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*', 'https://x.com/*'],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand', 'unsafeWindow'],
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-timeline.user.js',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+  'run-at': 'document-start',
+};
+
+const twitterCleanUIMeta: MonkeyUserScript = {
+  name: 'twitter-clean-ui',
+  namespace: 'twitterCleanUI',
+  version: '1.5.1',
+  description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。GrokとコミュニティのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*', 'https://x.com/*'],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-clean-ui.user.js',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+};
+
+const twitterFullSizeImageMeta: MonkeyUserScript = {
+  name: 'twitter-image-fullsize-redirect',
+  namespace: 'twitterImageFullsizeRedirect',
+  version: '2.1.1',
+  description: 'Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト',
+  author: 'roflsunriz',
+  match: [
+    'https://pbs.twimg.com/media/*',
+    'https://ton.twimg.com/media/*',
+  ],
+  'run-at': 'document-start',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.user.js',
+};
+
+const twitterThreadCopierMeta: MonkeyUserScript = {
+  name: 'twitter-thread-copier',
+  namespace: 'twitterThreadCopier',
+  version: '6.7.1',
+  description: 'Copy entire Twitter/X threads with formatting and expansions.',
+  author: 'roflsunriz',
+  match: [
+    'https://twitter.com/*',
+    'https://x.com/*',
+  ],
+  connect: [
+    'translate.googleapis.com',
+    '*.googleapis.com',
+    't.co',
+    '*',
+    'localhost',
+  ],
+  grant: ['GM_xmlhttpRequest', 'GM_notification'],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
+  'run-at': 'document-idle',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.user.js',
+};
+
+const xAutoSpamReporterMeta: MonkeyUserScript = {
+  name: 'x-auto-spam-reporter',
+  namespace: 'xAutoSpamReporter',
+  version: '1.0.0',
+  description:
+    'X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*/status/*', 'https://x.com/*/status/*'],
+  grant: ['GM_registerMenuCommand'],
+  'run-at': 'document-end',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.user.js',
+};
+
+const youtubeInfoCopierMeta: MonkeyUserScript = {
+  name: 'youtube-info-copier',
+  namespace: 'youtubeInfoCopier',
+  version: '2.3.2',
+  description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
+  author: 'roflsunriz',
+  match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
+  grant: ['GM_setClipboard'],
+  'run-at': 'document-start',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.user.js',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
+};
+
+// ============================================================================
+// スクリプト設定（アルファベット順）
+// ============================================================================
 
 const SCRIPT_CONFIGS = {
   'chatgpt-notify': {
@@ -380,6 +405,21 @@ const SCRIPT_CONFIGS = {
     fileName: 'manga-viewer.user.js',
     meta: mangaViewerMeta,
   },
+  'native-video-volume-setter': {
+    entry: 'src/native-video-volume-setter/main.ts',
+    fileName: 'native-video-volume-setter.user.js',
+    meta: nativeVideoVolumeSetterMeta,
+  },
+  'twitter-clean-timeline': {
+    entry: 'src/twitter-clean-timeline/main.ts',
+    fileName: 'twitter-clean-timeline.user.js',
+    meta: twitterCleanTimelineMeta,
+  },
+  'twitter-clean-ui': {
+    entry: 'src/twitter-clean-ui/main.ts',
+    fileName: 'twitter-clean-ui.user.js',
+    meta: twitterCleanUIMeta,
+  },
   'twitter-full-size-image': {
     entry: 'src/twitter-full-size-image/main.ts',
     fileName: 'twitter-full-size-image.user.js',
@@ -390,25 +430,15 @@ const SCRIPT_CONFIGS = {
     fileName: 'twitter-thread-copier.user.js',
     meta: twitterThreadCopierMeta,
   },
+  'x-auto-spam-reporter': {
+    entry: 'src/x-auto-spam-reporter/main.ts',
+    fileName: 'x-auto-spam-reporter.user.js',
+    meta: xAutoSpamReporterMeta,
+  },
   'youtube-info-copier': {
     entry: 'src/youtube-info-copier/main.ts',
     fileName: 'youtube-info-copier.user.js',
     meta: youtubeInfoCopierMeta,
-  },
-  'twitter-clean-ui': {
-    entry: 'src/twitter-clean-ui/main.ts',
-    fileName: 'twitter-clean-ui.user.js',
-    meta: twitterCleanUIMeta,
-  },
-  'twitter-clean-timeline': {
-    entry: 'src/twitter-clean-timeline/main.ts',
-    fileName: 'twitter-clean-timeline.user.js',
-    meta: twitterCleanTimelineMeta,
-  },
-  'native-video-volume-setter': {
-    entry: 'src/native-video-volume-setter/main.ts',
-    fileName: 'native-video-volume-setter.user.js',
-    meta: nativeVideoVolumeSetterMeta,
   },
 } as const;
 
@@ -438,13 +468,14 @@ export default defineConfig((configEnv) => {
         '@/image-collector': resolve(dir, 'src/image-collector'),
         '@/imgur-direct-link': resolve(dir, 'src/imgur-direct-link'),
         '@/manga-viewer': resolve(dir, 'src/manga-viewer'),
+        '@/native-video-volume-setter': resolve(dir, 'src/native-video-volume-setter'),
+        '@/shared': resolve(dir, 'src/shared'),
+        '@/twitter-clean-timeline': resolve(dir, 'src/twitter-clean-timeline'),
+        '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
         '@/twitter-full-size-image': resolve(dir, 'src/twitter-full-size-image'),
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
+        '@/x-auto-spam-reporter': resolve(dir, 'src/x-auto-spam-reporter'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
-        '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
-        '@/twitter-clean-timeline': resolve(dir, 'src/twitter-clean-timeline'),
-        '@/native-video-volume-setter': resolve(dir, 'src/native-video-volume-setter'),
-        '@/shared': resolve(dir, 'src/shared')
       },
     },
     build: {

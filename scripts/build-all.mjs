@@ -8,20 +8,22 @@ const __dirname = dirname(__filename);
 const projectRoot = resolve(__dirname, '..');
 const configFile = resolve(projectRoot, 'vite.config.ts');
 
+// アルファベット順
 const targets = [
   { mode: 'chatgpt-notify', clear: false },
   { mode: 'd-anime', clear: false },
   { mode: 'fanbox-floating-menu', clear: false },
   { mode: 'fanbox-pagination-helper', clear: false },
   { mode: 'image-collector', clear: false },
-  { mode: 'manga-viewer', clear: false },
   { mode: 'imgur-direct-link-copier', clear: false },
-  { mode: 'twitter-clean-ui', clear: false },
+  { mode: 'manga-viewer', clear: false },
+  { mode: 'native-video-volume-setter', clear: false },
   { mode: 'twitter-clean-timeline', clear: false },
+  { mode: 'twitter-clean-ui', clear: false },
   { mode: 'twitter-full-size-image', clear: false },
   { mode: 'twitter-thread-copier', clear: false },
+  { mode: 'x-auto-spam-reporter', clear: false },
   { mode: 'youtube-info-copier', clear: false },
-  { mode: 'native-video-volume-setter', clear: false },
 ];
 
 async function run() {

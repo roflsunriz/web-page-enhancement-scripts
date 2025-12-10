@@ -21,6 +21,13 @@ import {
 	mdiLock,
 	mdiStar,
 	mdiCommentText,
+	mdiAlertOctagon,
+	mdiCheck,
+	mdiCheckCircle,
+	mdiAlertCircle,
+	mdiAlert,
+	mdiInformationOutline,
+	mdiSync,
 } from "@mdi/js";
 
 export function renderMdiSvg(pathD: string, size: number = 24): string {
@@ -51,3 +58,12 @@ export const svgMylistCount: string = renderMdiSvg(mdiPlaylistStar);
 export const svgPostedAt: string = renderMdiSvg(mdiCalendarClockOutline);
 export const svgCommentText: string = renderMdiSvg(mdiCommentText);
 export const svgStar: string = renderMdiSvg(mdiStar);
+
+// スパム報告用アイコン
+export const svgAlertOctagon: string = renderMdiSvg(mdiAlertOctagon);
+export const svgCheck: string = renderMdiSvg(mdiCheck);
+export const svgCheckCircle: string = renderMdiSvg(mdiCheckCircle);
+export const svgAlertCircle: string = renderMdiSvg(mdiAlertCircle);
+export const svgAlert: string = renderMdiSvg(mdiAlert);
+export const svgInformation: string = renderMdiSvg(mdiInformationOutline);
+export const svgSync: string = renderMdiSvg(mdiSync);
