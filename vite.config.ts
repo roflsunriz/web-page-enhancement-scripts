@@ -335,7 +335,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const xAutoSpamReporterMeta: MonkeyUserScript = {
   name: 'x-auto-spam-reporter',
   namespace: 'xAutoSpamReporter',
-  version: '1.1.0',
+  version: '1.1.1',
   description:
     'X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック',
   author: 'roflsunriz',

@@ -23,6 +23,48 @@ function isStatusPage(): boolean {
 }
 
 /**
+ * ツイートコンテンツが読み込まれるまで待機
+ * @param timeout タイムアウト（ミリ秒）
+ * @returns コンテンツが見つかった場合はtrue、タイムアウトした場合はfalse
+ */
+function waitForContent(timeout: number = 10000): Promise<boolean> {
+  return new Promise((resolve) => {
+    const startTime = Date.now();
+
+    const check = (): void => {
+      // ツイートが1つでも存在すればOK
+      const tweets = document.querySelectorAll(SELECTORS.tweet);
+      if (tweets.length > 0) {
+        resolve(true);
+        return;
+      }
+
+      // primaryColumnが存在すればOK（ツイートがまだ読み込まれていなくても）
+      const primaryColumn = document.querySelector(SELECTORS.primaryColumn);
+      if (primaryColumn) {
+        // primaryColumnはあるがツイートがない場合、もう少し待つ
+        const elapsed = Date.now() - startTime;
+        if (elapsed > 2000) {
+          // 2秒以上経過していればprimaryColumnだけでOKとする
+          resolve(true);
+          return;
+        }
+      }
+
+      if (Date.now() - startTime > timeout) {
+        logger.warn('コンテンツの読み込みがタイムアウトしました');
+        resolve(false);
+        return;
+      }
+
+      setTimeout(check, 100);
+    };
+
+    check();
+  });
+}
+
+/**
  * メインアプリケーションクラス
  */
 class XAutoSpamReporter {
@@ -40,7 +82,7 @@ class XAutoSpamReporter {
   /**
    * 初期化
    */
-  public initialize(): void {
+  public async initialize(): Promise<void> {
     if (this.isInitialized) {
       logger.warn('既に初期化済みです');
       return;
@@ -50,7 +92,7 @@ class XAutoSpamReporter {
 
     // statusページでのみアクティブ化
     if (isStatusPage()) {
-      this.activate();
+      await this.activate();
     }
 
     this.registerMenuCommand();
@@ -60,9 +102,24 @@ class XAutoSpamReporter {
 
   /**
    * スクリプトをアクティブ化（statusページでのみ）
+   * コンテンツの読み込みを待ってからObserverを設定
    */
-  public activate(): void {
+  public async activate(): Promise<void> {
     if (this.isActive) return;
+
+    logger.info('statusページを検出 - アクティブ化待機中...');
+
+    // コンテンツが読み込まれるまで待機
+    const contentLoaded = await waitForContent();
+    if (!contentLoaded) {
+      logger.warn('コンテンツの読み込みに失敗しましたが、Observerは設定します');
+    }
+
+    // URL遷移中に別ページに移動した場合はキャンセル
+    if (!isStatusPage()) {
+      logger.info('アクティブ化中に別ページに遷移しました');
+      return;
+    }
 
     logger.info('statusページを検出 - アクティブ化');
     this.setupObserver();
@@ -89,14 +146,24 @@ class XAutoSpamReporter {
   /**
    * URL変更時の処理
    */
-  public handleUrlChange(): void {
+  public async handleUrlChange(): Promise<void> {
     if (isStatusPage()) {
       if (!this.isActive) {
         // 非アクティブ → アクティブ
-        this.activate();
+        await this.activate();
       } else {
-        // 別のstatusページに遷移した場合、既存ツイートを再処理
-        setTimeout(() => this.processExistingTweets(), 500);
+        // 別のstatusページに遷移した場合
+        logger.info('別のstatusページに遷移 - コンテンツ再読み込み待機');
+
+        // コンテンツが読み込まれるまで待機
+        const contentLoaded = await waitForContent();
+        if (!contentLoaded) {
+          logger.warn('コンテンツの読み込みに失敗');
+        }
+
+        // Observerを再設定（新しいprimaryColumnを監視するため）
+        this.setupObserver();
+        this.processExistingTweets();
       }
     } else {
       // statusページ以外に遷移
@@ -247,13 +314,16 @@ class XAutoSpamReporter {
 
 /**
  * URL変更を監視するクラス（SPA対応）
+ * history.pushState/replaceState のフック + setInterval によるフォールバック
  */
 class UrlChangeObserver {
   private lastUrl: string;
-  private callback: () => void;
+  private callback: () => Promise<void>;
   private debounceTimer: number | null = null;
+  private pollingIntervalId: number | null = null;
+  private isProcessing = false;
 
-  constructor(callback: () => void) {
+  constructor(callback: () => Promise<void>) {
     this.lastUrl = location.href;
     this.callback = callback;
   }
@@ -278,6 +348,29 @@ class UrlChangeObserver {
 
     // ブラウザの「戻る」「進む」ボタンによるURL変更を検知
     window.addEventListener('popstate', () => this.handleUrlChange());
+
+    // フォールバック: 定期的にURLをチェック
+    // （一部のSPAフレームワークはhistory APIをラップしていて検知できない場合がある）
+    this.pollingIntervalId = window.setInterval(() => {
+      if (this.lastUrl !== location.href) {
+        logger.info('ポーリングでURL変更を検出');
+        this.handleUrlChange();
+      }
+    }, 500);
+  }
+
+  /**
+   * 監視を停止
+   */
+  public stop(): void {
+    if (this.pollingIntervalId !== null) {
+      clearInterval(this.pollingIntervalId);
+      this.pollingIntervalId = null;
+    }
+    if (this.debounceTimer !== null) {
+      clearTimeout(this.debounceTimer);
+      this.debounceTimer = null;
+    }
   }
 
   private handleUrlChange(): void {
@@ -289,9 +382,21 @@ class UrlChangeObserver {
       clearTimeout(this.debounceTimer);
     }
     this.debounceTimer = window.setTimeout(() => {
-      this.callback();
       this.debounceTimer = null;
-    }, 300);
+      // 前回のコールバックが処理中の場合はスキップ
+      if (this.isProcessing) {
+        logger.info('前回の処理が実行中のためスキップ');
+        return;
+      }
+      this.isProcessing = true;
+      this.callback()
+        .catch((error: unknown) => {
+          logger.error('URL変更コールバックでエラー:', error);
+        })
+        .finally(() => {
+          this.isProcessing = false;
+        });
+    }, 100); // デバウンス時間を短縮（コンテンツ待機は別で行うため）
   }
 }
 
@@ -334,12 +439,12 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
 
     // アプリケーションを初期化
     const app = new XAutoSpamReporter();
-    app.initialize();
+    await app.initialize();
 
     // URL変更を監視
-    const urlObserver = new UrlChangeObserver(() => {
+    const urlObserver = new UrlChangeObserver(async () => {
       logger.info('URL変更を検出');
-      app.handleUrlChange();
+      await app.handleUrlChange();
     });
     urlObserver.start();
 
