@@ -335,11 +335,11 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const xAutoSpamReporterMeta: MonkeyUserScript = {
   name: 'x-auto-spam-reporter',
   namespace: 'xAutoSpamReporter',
-  version: '1.0.0',
+  version: '1.1.0',
   description:
     'X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック',
   author: 'roflsunriz',
-  match: ['https://twitter.com/*/status/*', 'https://x.com/*/status/*'],
+  match: ['https://twitter.com/*', 'https://x.com/*'],
   grant: ['GM_registerMenuCommand'],
   'run-at': 'document-end',
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',

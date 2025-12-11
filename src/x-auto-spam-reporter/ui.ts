@@ -219,10 +219,19 @@ export class ReporterUI {
   }
 
   /**
+   * すべてのボタンを削除（ページ遷移時など）
+   */
+  public removeAllButtons(): void {
+    document.querySelectorAll('.x-auto-spam-reporter-btn').forEach((btn) => btn.remove());
+    this.addedButtons = new WeakSet();
+    logger.debug('すべてのボタンを削除しました');
+  }
+
+  /**
    * クリーンアップ
    */
   public destroy(): void {
-    document.querySelectorAll('.x-auto-spam-reporter-btn').forEach((btn) => btn.remove());
+    this.removeAllButtons();
     document.querySelectorAll('.x-auto-spam-reporter-toast').forEach((el) => el.remove());
     this.toastElement = null;
     logger.debug('UIをクリーンアップしました');
