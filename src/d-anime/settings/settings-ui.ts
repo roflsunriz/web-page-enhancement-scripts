@@ -48,9 +48,11 @@ const SELECTORS = {
   openSearchPage: "#openSearchPageDirect",
   searchResults: "#searchResults",
   saveButton: "#saveSettings",
-  opacitySelect: "#commentOpacity",
+  opacitySlider: "#commentOpacity",
+  opacityValue: "#opacityValue",
   visibilityToggle: "#commentVisibilityToggle",
   fixedPlaybackToggle: "#fixedPlaybackToggle",
+  playbackOptionRow: "#playbackOptionRow",
   currentTitle: "#currentTitle",
   currentVideoId: "#currentVideoId",
   currentOwner: "#currentOwner",
@@ -59,9 +61,10 @@ const SELECTORS = {
   currentMylistCount: "#currentMylistCount",
   currentPostedAt: "#currentPostedAt",
   currentThumbnail: "#currentThumbnail",
-  colorValue: ".color-value",
-  colorPreview: ".color-preview",
+  colorHexInput: "#colorHexInput",
   colorPickerInput: "#colorPickerInput",
+  previewComment: "#previewComment",
+  previewHiddenMsg: "#previewHiddenMsg",
   ngWords: "#ngWords",
   ngRegexps: "#ngRegexps",
   showNgWords: "#showNgWords",
@@ -315,9 +318,6 @@ export class SettingsUI extends ShadowDOMComponent {
           `<button class="color-preset-btn" data-color="${color}" style="background-color: ${color}"></button>`,
       )
       .join("");
-    const opacityOptions = ["0.1", "0.2", "0.3", "0.4", "0.5", "0.6", "0.7", "0.75", "0.8", "0.9", "1.0"]
-      .map((value) => `<option value="${value}">${value}</option>`)
-      .join("");
 
     return `
       <div id="settingsModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-hidden="true">
@@ -361,62 +361,116 @@ export class SettingsUI extends ShadowDOMComponent {
               </div>
             </section>
             <section class="settings-modal__pane" data-pane="display" role="tabpanel" id="settingsPaneDisplay" aria-labelledby="settingsTabDisplay" aria-hidden="true">
-              <div class="setting-group display-settings-group">
-                <h3>表示設定</h3>
-                <div class="display-settings-grid">
-                  <section class="display-settings-item display-settings-item--color" aria-labelledby="displaySettingsColorTitle">
-                    <h4 id="displaySettingsColorTitle" class="display-settings-item__title">コメント色</h4>
-                    <div class="display-settings-item__body">
-                      <div class="color-presets">
-                        ${colorOptions}
-                      </div>
-                      <div class="color-picker">
-                        <label class="color-picker__label" for="colorPickerInput">カスタムカラー</label>
-                        <input type="color" id="colorPickerInput" value="${this.settings.commentColor}">
-                        <span class="current-color-display">
-                          <span class="color-preview" style="background-color: ${this.settings.commentColor}"></span>
-                          <span class="color-value">${this.settings.commentColor}</span>
-                        </span>
-                      </div>
-                      <p class="color-picker__note">プリセットで近い色を選んでから細かく調整できます。</p>
-                    </div>
-                  </section>
-                  <section class="display-settings-item" aria-labelledby="displaySettingsOpacityTitle">
-                    <h4 id="displaySettingsOpacityTitle" class="display-settings-item__title">透明度</h4>
-                    <div class="display-settings-item__body">
-                      <label class="opacity-setting" for="commentOpacity">
-                        <span class="opacity-setting__label">透明度</span>
-                        <select id="commentOpacity">
-                          ${opacityOptions}
-                        </select>
-                      </label>
-                    </div>
-                  </section>
-                  <section class="display-settings-item" aria-labelledby="displaySettingsVisibilityTitle">
-                    <h4 id="displaySettingsVisibilityTitle" class="display-settings-item__title">表示 / 非表示</h4>
-                    <div class="display-settings-item__body">
-                      <button id="commentVisibilityToggle" class="toggle-button${this.settings.isCommentVisible ? "" : " off"}">${this.settings.isCommentVisible ? "表示中" : "非表示中"}</button>
-                    </div>
-                  </section>
-                  <section class="display-settings-item" aria-labelledby="displaySettingsPlaybackTitle">
-                    <h4 id="displaySettingsPlaybackTitle" class="display-settings-item__title">再生速度</h4>
-                    <div class="display-settings-item__body">
+              <div class="display-panel">
+                <!-- 左カラム: コントロール -->
+                <div class="display-panel__controls">
+                  <!-- 外観セクション -->
+                  <section class="display-section" aria-labelledby="displayAppearanceTitle">
+                    <div class="display-section__header">
+                      <h4 id="displayAppearanceTitle" class="display-section__title">外観</h4>
                       <button
-                        id="fixedPlaybackToggle"
-                        class="toggle-button${this.playbackSettings.fixedModeEnabled ? "" : " off"}"
+                        id="commentVisibilityToggle"
                         type="button"
-                        aria-pressed="${this.playbackSettings.fixedModeEnabled ? "true" : "false"}"
+                        class="visibility-badge${this.settings.isCommentVisible ? "" : " visibility-badge--off"}"
+                        aria-pressed="${this.settings.isCommentVisible ? "true" : "false"}"
                       >
-                        ${
-                          this.playbackSettings.fixedModeEnabled
-                            ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定中`
-                            : "標準速度"
-                        }
+                        <span class="visibility-badge__icon" aria-hidden="true">${this.settings.isCommentVisible ? svgComment : svgLock}</span>
+                        <span class="visibility-badge__label">${this.settings.isCommentVisible ? "表示中" : "非表示"}</span>
                       </button>
-                      <p class="display-settings-item__note">1.11倍の固定再生モードを有効にすると視聴時間を少し節約できます。</p>
-                      <p class="display-settings-item__note">参考:アニメ1話24分の場合、21分36秒で視聴可能です。</p>
+                    </div>
+                    <div class="display-section__body">
+                      <!-- カラープリセット -->
+                      <div class="color-row">
+                        <div class="color-presets">
+                          ${colorOptions}
+                        </div>
+                        <div class="color-divider"></div>
+                        <div class="color-custom">
+                          <span class="color-custom__hex-label">HEX</span>
+                          <input
+                            type="text"
+                            id="colorHexInput"
+                            class="color-custom__hex-input"
+                            value="${this.settings.commentColor}"
+                            maxlength="7"
+                            spellcheck="false"
+                          >
+                          <input
+                            type="color"
+                            id="colorPickerInput"
+                            class="color-custom__picker"
+                            value="${this.settings.commentColor}"
+                          >
+                        </div>
+                      </div>
+                      <!-- 透明度スライダー -->
+                      <div class="opacity-row">
+                        <div class="opacity-row__labels">
+                          <span class="opacity-row__label">不透明度</span>
+                          <span class="opacity-row__value" id="opacityValue">${Math.round((this.settings.commentOpacity ?? 1) * 100)}%</span>
+                        </div>
+                        <input
+                          type="range"
+                          id="commentOpacity"
+                          class="opacity-slider"
+                          min="0.1"
+                          max="1"
+                          step="0.05"
+                          value="${this.settings.commentOpacity ?? 1}"
+                        >
+                      </div>
                     </div>
                   </section>
+
+                  <!-- 再生速度セクション -->
+                  <section class="display-section" aria-labelledby="displayPlaybackTitle">
+                    <h4 id="displayPlaybackTitle" class="display-section__title">再生</h4>
+                    <div
+                      class="playback-option${this.playbackSettings.fixedModeEnabled ? " playback-option--active" : ""}"
+                      id="playbackOptionRow"
+                      role="button"
+                      tabindex="0"
+                      aria-pressed="${this.playbackSettings.fixedModeEnabled ? "true" : "false"}"
+                    >
+                      <div class="playback-option__icon-wrapper${this.playbackSettings.fixedModeEnabled ? " playback-option__icon-wrapper--active" : ""}">
+                        ${svgPlay}
+                      </div>
+                      <div class="playback-option__text">
+                        <span class="playback-option__title">1.11倍速モード</span>
+                        <span class="playback-option__desc">24分アニメを約21分36秒で視聴</span>
+                      </div>
+                      <div class="playback-option__toggle">
+                        <input
+                          type="checkbox"
+                          id="fixedPlaybackToggle"
+                          class="playback-option__checkbox"
+                          ${this.playbackSettings.fixedModeEnabled ? "checked" : ""}
+                        >
+                        <span class="playback-option__switch"></span>
+                      </div>
+                    </div>
+                  </section>
+                </div>
+
+                <!-- 右カラム: ライブプレビュー -->
+                <div class="display-panel__preview">
+                  <h4 class="display-section__title">プレビュー</h4>
+                  <div class="preview-area" id="previewArea">
+                    <div class="preview-area__background"></div>
+                    <div
+                      class="preview-comment"
+                      id="previewComment"
+                      style="color: ${this.settings.commentColor}; opacity: ${this.settings.commentOpacity ?? 1}; display: ${this.settings.isCommentVisible ? "block" : "none"};"
+                    >
+                      設定変更がすぐ反映されますwww
+                    </div>
+                    <div class="preview-hidden-msg" id="previewHiddenMsg" style="display: ${this.settings.isCommentVisible ? "none" : "flex"};">
+                      ${svgLock}
+                      <span>コメント非表示中</span>
+                    </div>
+                    <span class="preview-area__label">Simulation Mode</span>
+                  </div>
+                  <p class="preview-note">実際の動画上の見え方をシミュレーションしています</p>
                 </div>
               </div>
             </section>
@@ -450,7 +504,8 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupModalTabs();
     this.setupColorPresets();
     this.setupColorPicker();
-    this.setupOpacitySelect();
+    this.setupColorHexInput();
+    this.setupOpacitySlider();
     this.setupVisibilityToggle();
     this.setupPlaybackToggle();
     this.setupNgControls();
@@ -613,18 +668,8 @@ export class SettingsUI extends ShadowDOMComponent {
           return;
         }
         this.settings.commentColor = color;
-        const preview = this.queryModalElement<HTMLSpanElement>(
-          SELECTORS.colorPreview,
-        );
-        const value = this.queryModalElement<HTMLSpanElement>(
-          SELECTORS.colorValue,
-        );
-        if (preview) {
-          preview.style.backgroundColor = color;
-        }
-        if (value) {
-          value.textContent = color;
-        }
+        this.updateColorUI(color);
+        this.updatePreview();
       });
     });
   }
@@ -639,33 +684,71 @@ export class SettingsUI extends ShadowDOMComponent {
 
     input.addEventListener("input", () => {
       this.settings.commentColor = input.value;
-      const preview = this.queryModalElement<HTMLSpanElement>(
-        SELECTORS.colorPreview,
-      );
-      const value = this.queryModalElement<HTMLSpanElement>(
-        SELECTORS.colorValue,
-      );
-      if (preview) {
-        preview.style.backgroundColor = input.value;
-      }
-      if (value) {
-        value.textContent = input.value;
-      }
+      this.updateColorUI(input.value);
+      this.updatePreview();
     });
   }
 
-  private setupOpacitySelect(): void {
-    const select = this.queryModalElement<HTMLSelectElement>(
-      SELECTORS.opacitySelect,
+  private setupColorHexInput(): void {
+    const hexInput = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.colorHexInput,
     );
-    if (!select) {
+    if (!hexInput) {
       return;
     }
-    select.value = (this.settings.commentOpacity ?? 1).toString();
-    select.addEventListener("change", () => {
-      const value = Number(select.value);
+
+    hexInput.addEventListener("input", () => {
+      const value = hexInput.value.trim();
+      // 有効なHEXカラーかチェック
+      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
+        this.settings.commentColor = value;
+        this.updateColorUI(value, false); // HEX入力自体は更新しない
+        this.updatePreview();
+      }
+    });
+
+    hexInput.addEventListener("blur", () => {
+      // フォーカスが外れたら現在の設定値で上書き
+      hexInput.value = this.settings.commentColor;
+    });
+  }
+
+  private updateColorUI(color: string, updateHexInput: boolean = true): void {
+    const pickerInput = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.colorPickerInput,
+    );
+    const hexInput = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.colorHexInput,
+    );
+
+    if (pickerInput) {
+      pickerInput.value = color;
+    }
+    if (hexInput && updateHexInput) {
+      hexInput.value = color;
+    }
+  }
+
+  private setupOpacitySlider(): void {
+    const slider = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.opacitySlider,
+    );
+    const valueDisplay = this.queryModalElement<HTMLSpanElement>(
+      SELECTORS.opacityValue,
+    );
+    if (!slider) {
+      return;
+    }
+    slider.value = (this.settings.commentOpacity ?? 1).toString();
+
+    slider.addEventListener("input", () => {
+      const value = Number(slider.value);
       if (!Number.isNaN(value)) {
         this.settings.commentOpacity = value;
+        if (valueDisplay) {
+          valueDisplay.textContent = `${Math.round(value * 100)}%`;
+        }
+        this.updatePreview();
       }
     });
   }
@@ -680,18 +763,23 @@ export class SettingsUI extends ShadowDOMComponent {
     button.addEventListener("click", () => {
       this.settings.isCommentVisible = !this.settings.isCommentVisible;
       this.updateVisibilityToggleState(button);
+      this.updatePreview();
     });
     this.updateVisibilityToggleState(button);
   }
 
   private setupPlaybackToggle(): void {
-    const button = this.queryModalElement<HTMLButtonElement>(
+    const checkbox = this.queryModalElement<HTMLInputElement>(
       SELECTORS.fixedPlaybackToggle,
     );
-    if (!button) {
+    const row = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.playbackOptionRow,
+    );
+    if (!checkbox || !row) {
       return;
     }
-    button.addEventListener("click", () => {
+
+    const togglePlayback = (): void => {
       const nextEnabled = !this.playbackSettings.fixedModeEnabled;
       const nextSettings: PlaybackSettings = {
         ...this.playbackSettings,
@@ -708,15 +796,38 @@ export class SettingsUI extends ShadowDOMComponent {
         return;
       }
       this.playbackSettings = nextSettings;
-      this.updatePlaybackToggleState(button);
+      this.updatePlaybackToggleState();
       NotificationManager.show(
         nextEnabled
           ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定モードを有効にしました`
           : "固定再生モードを無効にしました",
         "success",
       );
+    };
+
+    // 行クリックでトグル
+    row.addEventListener("click", (event) => {
+      // チェックボックス自体のクリックは二重発火を防ぐためスキップ
+      if ((event.target as HTMLElement).closest(".playback-option__toggle")) {
+        return;
+      }
+      togglePlayback();
     });
-    this.updatePlaybackToggleState(button);
+
+    // Enterキーでもトグル可能に
+    row.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        togglePlayback();
+      }
+    });
+
+    // チェックボックス変更
+    checkbox.addEventListener("change", () => {
+      togglePlayback();
+    });
+
+    this.updatePlaybackToggleState();
   }
 
   private setupNgControls(): void {
@@ -915,34 +1026,40 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private applySettingsToUI(): void {
-    const opacitySelect = this.queryModalElement<HTMLSelectElement>(
-      SELECTORS.opacitySelect,
+    const opacitySlider = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.opacitySlider,
+    );
+    const opacityValueDisplay = this.queryModalElement<HTMLSpanElement>(
+      SELECTORS.opacityValue,
     );
     const visibilityButton = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.visibilityToggle,
     );
-    const colorPreview = this.queryModalElement<HTMLSpanElement>(
-      SELECTORS.colorPreview,
+    const colorPickerInput = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.colorPickerInput,
     );
-    const colorValue = this.queryModalElement<HTMLSpanElement>(
-      SELECTORS.colorValue,
+    const colorHexInput = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.colorHexInput,
     );
     const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
     const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngRegexps,
     );
 
-    if (opacitySelect) {
-      opacitySelect.value = (this.settings.commentOpacity ?? 1).toString();
+    if (opacitySlider) {
+      opacitySlider.value = (this.settings.commentOpacity ?? 1).toString();
+    }
+    if (opacityValueDisplay) {
+      opacityValueDisplay.textContent = `${Math.round((this.settings.commentOpacity ?? 1) * 100)}%`;
     }
     if (visibilityButton) {
       this.updateVisibilityToggleState(visibilityButton);
     }
-    if (colorPreview && this.settings.commentColor) {
-      colorPreview.style.backgroundColor = this.settings.commentColor;
+    if (colorPickerInput && this.settings.commentColor) {
+      colorPickerInput.value = this.settings.commentColor;
     }
-    if (colorValue && this.settings.commentColor) {
-      colorValue.textContent = this.settings.commentColor;
+    if (colorHexInput && this.settings.commentColor) {
+      colorHexInput.value = this.settings.commentColor;
     }
     if (ngWords) {
       ngWords.value = (this.settings.ngWords ?? []).join("\n");
@@ -952,19 +1069,20 @@ export class SettingsUI extends ShadowDOMComponent {
     }
     this.applyPlaybackSettingsToUI();
     this.updatePlayButtonState(this.currentVideoInfo);
+    this.updatePreview();
   }
 
   private saveSettings(): void {
-    const opacitySelect = this.queryModalElement<HTMLSelectElement>(
-      SELECTORS.opacitySelect,
+    const opacitySlider = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.opacitySlider,
     );
     const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
     const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
       SELECTORS.ngRegexps,
     );
 
-    if (opacitySelect) {
-      const value = Number(opacitySelect.value);
+    if (opacitySlider) {
+      const value = Number(opacitySlider.value);
       if (!Number.isNaN(value)) {
         this.settings.commentOpacity = value;
       }
@@ -1113,27 +1231,63 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private updateVisibilityToggleState(button: HTMLButtonElement): void {
-    button.textContent = this.settings.isCommentVisible ? "表示中" : "非表示中";
-    button.classList.toggle("off", !this.settings.isCommentVisible);
+    const isVisible = this.settings.isCommentVisible;
+    button.classList.toggle("visibility-badge--off", !isVisible);
+    button.setAttribute("aria-pressed", isVisible ? "true" : "false");
+
+    // アイコンとラベルを更新
+    const iconSpan = button.querySelector(".visibility-badge__icon");
+    const labelSpan = button.querySelector(".visibility-badge__label");
+    if (iconSpan) {
+      iconSpan.innerHTML = isVisible ? svgComment : svgLock;
+    }
+    if (labelSpan) {
+      labelSpan.textContent = isVisible ? "表示中" : "非表示";
+    }
   }
 
   private applyPlaybackSettingsToUI(): void {
-    const button = this.queryModalElement<HTMLButtonElement>(
-      SELECTORS.fixedPlaybackToggle,
-    );
-    if (!button) {
-      return;
-    }
-    this.updatePlaybackToggleState(button);
+    this.updatePlaybackToggleState();
   }
 
-  private updatePlaybackToggleState(button: HTMLButtonElement): void {
+  private updatePlaybackToggleState(): void {
     const isEnabled = this.playbackSettings.fixedModeEnabled;
-    button.textContent = isEnabled
-      ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定中`
-      : "標準速度";
-    button.classList.toggle("off", !isEnabled);
-    button.setAttribute("aria-pressed", isEnabled ? "true" : "false");
+    const checkbox = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.fixedPlaybackToggle,
+    );
+    const row = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.playbackOptionRow,
+    );
+    const iconWrapper = row?.querySelector(".playback-option__icon-wrapper");
+
+    if (checkbox) {
+      checkbox.checked = isEnabled;
+    }
+    if (row) {
+      row.classList.toggle("playback-option--active", isEnabled);
+      row.setAttribute("aria-pressed", isEnabled ? "true" : "false");
+    }
+    if (iconWrapper) {
+      iconWrapper.classList.toggle("playback-option__icon-wrapper--active", isEnabled);
+    }
+  }
+
+  private updatePreview(): void {
+    const previewComment = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.previewComment,
+    );
+    const previewHiddenMsg = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.previewHiddenMsg,
+    );
+
+    if (previewComment) {
+      previewComment.style.color = this.settings.commentColor;
+      previewComment.style.opacity = String(this.settings.commentOpacity ?? 1);
+      previewComment.style.display = this.settings.isCommentVisible ? "block" : "none";
+    }
+    if (previewHiddenMsg) {
+      previewHiddenMsg.style.display = this.settings.isCommentVisible ? "none" : "flex";
+    }
   }
 
   public override destroy(): void {
