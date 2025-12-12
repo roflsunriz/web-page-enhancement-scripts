@@ -27,7 +27,6 @@ import {
   svgPostedAt,
   svgVideoId,
   svgVideoOwner,
-  svgVideoTitle,
   svgViewCount,
   svgPlay,
   svgCommentText,
@@ -253,56 +252,78 @@ export class SettingsUI extends ShadowDOMComponent {
     };
 
     const video = this.currentVideoInfo;
+    const thumbnailUrl = video?.thumbnail ?? "";
+    const hasVideo = Boolean(video?.videoId);
+
     return `
       <div class="nico-comment-settings">
         <h2>
           <span class="settings-title">d-anime-nico-comment-renderer</span>
           <span class="version-badge" aria-label="バージョン">${USERSCRIPT_VERSION_UI_DISPLAY}</span>
         </h2>
-        <div class="setting-group current-settings">
-          <h3>オーバーレイする動画</h3>
-          <div id="currentVideoInfo" class="current-video-info">
-            <div class="thumbnail-wrapper">
-              <div class="thumbnail-container">
-                <img id="currentThumbnail" src="${video?.thumbnail ?? ""}" alt="サムネイル">
-                <div class="thumbnail-overlay"></div>
+
+        <!-- Cinematic Glass Card -->
+        <div class="video-card${hasVideo ? "" : " video-card--empty"}">
+          <!-- 背景ブラー効果 -->
+          <div
+            class="video-card__ambient"
+            id="currentVideoAmbient"
+            style="background-image: url('${thumbnailUrl}');"
+          ></div>
+          <div class="video-card__gradient"></div>
+
+          <div class="video-card__body">
+            <!-- サムネイル -->
+            <div class="video-card__thumbnail">
+              <img id="currentThumbnail" src="${thumbnailUrl}" alt="サムネイル">
+              <div class="video-card__thumbnail-overlay">
+                ${svgPlay}
               </div>
             </div>
-            <div class="info-container" role="list">
-              <div class="info-item info-item--wide" role="listitem" title="動画ID">
-                <span class="info-icon" aria-hidden="true">${svgVideoId}</span>
-                <span class="sr-only">動画ID</span>
-                <span class="info-value" id="currentVideoId">${video?.videoId ?? "未設定"}</span>
+
+            <!-- 情報セクション -->
+            <div class="video-card__info">
+              <!-- 上部: ID & 日付 -->
+              <div class="video-card__meta-row">
+                <div class="video-card__id" title="動画ID">
+                  <span class="video-card__id-icon" aria-hidden="true">${svgVideoId}</span>
+                  <span class="sr-only">動画ID</span>
+                  <span id="currentVideoId">${video?.videoId ?? "未設定"}</span>
+                </div>
+                <div class="video-card__date" title="投稿日">
+                  <span class="video-card__date-icon" aria-hidden="true">${svgPostedAt}</span>
+                  <span class="sr-only">投稿日</span>
+                  <span id="currentPostedAt">${renderDate(video?.postedAt)}</span>
+                </div>
               </div>
-              <div class="info-item info-item--wide" role="listitem" title="タイトル">
-                <span class="info-icon" aria-hidden="true">${svgVideoTitle}</span>
-                <span class="sr-only">タイトル</span>
-                <span class="info-value" id="currentTitle">${video?.title ?? "未設定"}</span>
+
+              <!-- 中央: タイトル & 投稿者 -->
+              <div class="video-card__main">
+                <h3 class="video-card__title" id="currentTitle">${video?.title ?? "オーバーレイする動画が未設定です"}</h3>
+                <div class="video-card__owner" title="投稿者">
+                  <span class="video-card__owner-icon" aria-hidden="true">${svgVideoOwner}</span>
+                  <span class="sr-only">投稿者</span>
+                  <span id="currentOwner">${video?.owner?.nickname ?? video?.channel?.name ?? "-"}</span>
+                </div>
               </div>
-              <div class="info-item info-item--wide" role="listitem" title="投稿者">
-                <span class="info-icon" aria-hidden="true">${svgVideoOwner}</span>
-                <span class="sr-only">投稿者</span>
-                <span class="info-value" id="currentOwner">${video?.owner?.nickname ?? video?.channel?.name ?? "-"}</span>
-              </div>
-              <div class="info-item" role="listitem" title="再生数">
-                <span class="info-icon" aria-hidden="true">${svgViewCount}</span>
-                <span class="sr-only">再生数</span>
-                <span class="info-value" id="currentViewCount">${renderNumber(video?.viewCount)}</span>
-              </div>
-              <div class="info-item" role="listitem" title="コメント数">
-                <span class="info-icon" aria-hidden="true">${svgCommentCount}</span>
-                <span class="sr-only">コメント数</span>
-                <span class="info-value" id="currentCommentCount">${renderNumber(video?.commentCount)}</span>
-              </div>
-              <div class="info-item" role="listitem" title="マイリスト数">
-                <span class="info-icon" aria-hidden="true">${svgMylistCount}</span>
-                <span class="sr-only">マイリスト数</span>
-                <span class="info-value" id="currentMylistCount">${renderNumber(video?.mylistCount)}</span>
-              </div>
-              <div class="info-item" role="listitem" title="投稿日">
-                <span class="info-icon" aria-hidden="true">${svgPostedAt}</span>
-                <span class="sr-only">投稿日</span>
-                <span class="info-value" id="currentPostedAt">${renderDate(video?.postedAt)}</span>
+
+              <!-- 下部: 統計情報 -->
+              <div class="video-card__stats">
+                <div class="video-card__stat" title="再生数">
+                  <span class="video-card__stat-icon" aria-hidden="true">${svgViewCount}</span>
+                  <span class="sr-only">再生数</span>
+                  <span class="video-card__stat-value" id="currentViewCount">${renderNumber(video?.viewCount)}</span>
+                </div>
+                <div class="video-card__stat" title="コメント数">
+                  <span class="video-card__stat-icon" aria-hidden="true">${svgCommentCount}</span>
+                  <span class="sr-only">コメント数</span>
+                  <span class="video-card__stat-value" id="currentCommentCount">${renderNumber(video?.commentCount)}</span>
+                </div>
+                <div class="video-card__stat" title="マイリスト数">
+                  <span class="video-card__stat-icon" aria-hidden="true">${svgMylistCount}</span>
+                  <span class="sr-only">マイリスト数</span>
+                  <span class="video-card__stat-value" id="currentMylistCount">${renderNumber(video?.mylistCount)}</span>
+                </div>
               </div>
             </div>
           </div>
@@ -1133,6 +1154,18 @@ export class SettingsUI extends ShadowDOMComponent {
     if (thumbnail && videoInfo.thumbnail) {
       thumbnail.src = videoInfo.thumbnail;
       thumbnail.alt = videoInfo.title ?? "サムネイル";
+    }
+
+    // 背景ブラー用のアンビエント画像も更新
+    const ambient = this.querySelector<HTMLDivElement>("#currentVideoAmbient");
+    if (ambient && videoInfo.thumbnail) {
+      ambient.style.backgroundImage = `url('${videoInfo.thumbnail}')`;
+    }
+
+    // video-cardのemptyクラスを更新
+    const videoCard = this.querySelector<HTMLDivElement>(".video-card");
+    if (videoCard) {
+      videoCard.classList.toggle("video-card--empty", !videoInfo.videoId);
     }
 
     try {
