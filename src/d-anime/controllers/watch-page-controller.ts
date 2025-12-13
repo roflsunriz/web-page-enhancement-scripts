@@ -139,9 +139,29 @@ export class WatchPageController {
         logger.info("watchPageController:initializeWithVideo:manualMode", {
           autoSearchEnabled: currentSettings.autoSearchEnabled,
         });
-        NotificationManager.show(
-          "手動設定モードです。フローティングボタンから検索タブを開いて動画を選択してください。",
-          "info",
+
+        // 保存されているVideoMetadataを確認
+        const savedVideoData = settingsManager.loadVideoData();
+        if (!savedVideoData?.videoId) {
+          // VideoMetadataがない場合は手動設定を促す
+          NotificationManager.show(
+            "手動設定モードです。フローティングボタンから検索タブを開いて動画を選択してください。",
+            "info",
+          );
+          return;
+        }
+
+        // VideoMetadataがある場合はそれを使ってコメントを読み込む
+        logger.info("watchPageController:initializeWithVideo:manualMode:loadSavedVideo", {
+          videoId: savedVideoData.videoId,
+          title: savedVideoData.title,
+        });
+
+        // 以下、保存済みのVideoMetadataを使ってコメント読み込みを続行
+        await this.loadCommentsFromSavedVideo(
+          videoElement,
+          settingsManager,
+          savedVideoData,
         );
         return;
       }
@@ -960,6 +980,69 @@ export class WatchPageController {
       logger.info("watchPageController:onPartIdChanged:flagReset", {
         isPartIdChanging: this.isPartIdChanging,
       });
+    }
+  }
+
+  /**
+   * 保存されたVideoMetadataを使ってコメントを読み込む（手動設定モード用）
+   */
+  private async loadCommentsFromSavedVideo(
+    videoElement: HTMLVideoElement,
+    settingsManager: SettingsManager,
+    videoData: VideoMetadata,
+  ): Promise<void> {
+    try {
+      const fetcher = new NicoApiFetcher();
+      this.global.instances.fetcher = fetcher;
+
+      await fetcher.fetchApiData(videoData.videoId);
+      const comments = await fetcher.fetchComments();
+
+      const settings = this.mergeSettings(settingsManager.loadSettings());
+      const renderer = new CommentRenderer(settings);
+      renderer.initialize(videoElement);
+      this.global.instances.renderer = renderer;
+      this.currentVideoElement = videoElement;
+
+      const playbackRateController =
+        this.playbackRateController ??
+        new PlaybackRateController(settingsManager);
+      this.playbackRateController = playbackRateController;
+      this.global.instances.playbackRateController = playbackRateController;
+      playbackRateController.bind(videoElement);
+
+      settingsManager.addObserver((newSettings: RendererSettings) => {
+        renderer.settings = this.mergeSettings(newSettings);
+      });
+
+      comments.forEach((comment) => {
+        renderer.addComment(comment.text, comment.vposMs, comment.commands);
+      });
+
+      const switchHandler = new VideoSwitchHandler(
+        renderer,
+        fetcher,
+        settingsManager,
+      );
+      switchHandler.startMonitoring();
+      this.global.instances.switchHandler = switchHandler;
+
+      this.setupSwitchHandling(videoElement, switchHandler);
+      this.observeVideoElement();
+
+      // partId監視を開始（エピソード切り替えの自動同期）
+      this.startPartIdMonitoring();
+
+      NotificationManager.show(
+        `【手動設定モード】コメントの読み込みが完了しました（${comments.length}件）\n動画: ${videoData.title}`,
+        "success",
+      );
+    } catch (error) {
+      logger.error("watchPageController:loadCommentsFromSavedVideo:error", error as Error);
+      NotificationManager.show(
+        `コメント読み込みエラー: ${(error as Error).message}\nフローティングボタンから別の動画を選択してください。`,
+        "error",
+      );
     }
   }
 
