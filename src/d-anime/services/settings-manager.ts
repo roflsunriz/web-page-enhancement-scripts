@@ -1,6 +1,7 @@
 import { GM_getValue, GM_setValue } from "$";
 import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
 import type {
+  ManualSearchSettings,
   PlaybackSettings,
   RendererSettings,
   VideoMetadata,
@@ -11,6 +12,7 @@ const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
 const LAST_DANIME_IDS_KEY = "lastDanimeIds";
 const PLAYBACK_SETTINGS_KEY = "playbackSettings";
+const MANUAL_SEARCH_SETTINGS_KEY = "manualSearchSettings";
 
 type SettingsObserver = (settings: RendererSettings) => void;
 type PlaybackSettingsObserver = (settings: PlaybackSettings) => void;
@@ -307,6 +309,32 @@ export class SettingsManager {
     } catch (e) {
       console.error("[SettingsManager] loadLastDanimeIds failed", e);
       this.notify("ID情報の読込に失敗しました", "error");
+      return null;
+    }
+  }
+
+  // --- マニュアル検索設定の保存/読み込み ---
+  saveManualSearchSettings(settings: ManualSearchSettings): boolean {
+    try {
+      GM_setValue(MANUAL_SEARCH_SETTINGS_KEY, settings);
+      return true;
+    } catch (e) {
+      console.error("[SettingsManager] saveManualSearchSettings failed", e);
+      this.notify("検索設定の保存に失敗しました", "error");
+      return false;
+    }
+  }
+
+  loadManualSearchSettings(): ManualSearchSettings | null {
+    try {
+      const settings = GM_getValue<ManualSearchSettings | null>(
+        MANUAL_SEARCH_SETTINGS_KEY,
+        null,
+      );
+      return settings ?? null;
+    } catch (e) {
+      console.error("[SettingsManager] loadManualSearchSettings failed", e);
+      this.notify("検索設定の読込に失敗しました", "error");
       return null;
     }
   }

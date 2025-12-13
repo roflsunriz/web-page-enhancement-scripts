@@ -51,8 +51,52 @@ interface NicoSearchApiItem {
   isChannelVideo?: boolean;
 }
 
+/** dアニメストア公式チャンネル名 */
+const DANIME_OFFICIAL_CHANNEL = "dアニメストア ニコニコ支店";
+
 export class NicoVideoSearcher {
   private readonly cache = new Map<string, NicoSearchResultItem[]>();
+
+  /**
+   * 公式動画かどうかを判定する
+   * @param item 検索結果アイテム
+   * @param animeTitle アニメタイトル（比較用）
+   * @returns 公式動画の場合true
+   */
+  static isOfficialVideo(item: NicoSearchResultItem, animeTitle: string): boolean {
+    const ownerName = item.owner?.nickname ?? item.owner?.name ?? item.channel?.name ?? "";
+    
+    // 1. 「dアニメストア ニコニコ支店」
+    if (ownerName === DANIME_OFFICIAL_CHANNEL) {
+      return true;
+    }
+    
+    // 2. アニメタイトル完全一致
+    if (ownerName === animeTitle) {
+      return true;
+    }
+    
+    // 3. アニメタイトル + 接尾語（" 第Nクール"等）
+    // スペース入りの接尾語パターンをチェック
+    if (ownerName.startsWith(animeTitle + " ")) {
+      return true;
+    }
+    
+    return false;
+  }
+
+  /**
+   * 検索結果から公式動画のみをフィルタリングする
+   * @param results 検索結果
+   * @param animeTitle アニメタイトル
+   * @returns 公式動画のみの配列
+   */
+  static filterOfficialVideos(
+    results: NicoSearchResultItem[],
+    animeTitle: string,
+  ): NicoSearchResultItem[] {
+    return results.filter((item) => NicoVideoSearcher.isOfficialVideo(item, animeTitle));
+  }
 
   async search(keyword: string): Promise<NicoSearchResultItem[]> {
     if (!keyword.trim()) {

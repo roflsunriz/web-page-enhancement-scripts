@@ -36,6 +36,7 @@ export interface RendererSettings {
   commentColor: string;
   commentOpacity: number;
   isCommentVisible: boolean;
+  autoSearchEnabled: boolean;
   ngWords: string[];
   ngRegexps: string[];
 }
@@ -65,4 +66,17 @@ export interface VideoMetadata {
 export interface PlaybackSettings {
   fixedModeEnabled: boolean;
   fixedRate: number;
+}
+
+/**
+ * マニュアル検索設定
+ * 手動設定モード時に使用するアニメ情報
+ */
+export interface ManualSearchSettings {
+  /** アニメタイトル（例: "葬送のフリーレン"） */
+  animeTitle: string;
+  /** エピソード話数（例: "第1話", "＃01"） */
+  episodeNumber: string;
+  /** エピソードタイトル（例: "冒険の終わり"） */
+  episodeTitle: string;
 }

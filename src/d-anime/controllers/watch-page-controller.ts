@@ -134,6 +134,18 @@ export class WatchPageController {
         return;
       }
 
+      // 自動検索が無効の場合は手動設定モード
+      if (!currentSettings.autoSearchEnabled) {
+        logger.info("watchPageController:initializeWithVideo:manualMode", {
+          autoSearchEnabled: currentSettings.autoSearchEnabled,
+        });
+        NotificationManager.show(
+          "手動設定モードです。フローティングボタンから検索タブを開いて動画を選択してください。",
+          "info",
+        );
+        return;
+      }
+
       // DOMの準備完了を待つ
       await this.waitForMetadataElements();
 
@@ -569,9 +581,9 @@ export class WatchPageController {
 
       // ニコニコ動画を検索
       const searcher = new NicoVideoSearcher();
-      const results = await searcher.search(keyword);
+      const allResults = await searcher.search(keyword);
 
-      if (results.length === 0) {
+      if (allResults.length === 0) {
         NotificationManager.show(
           "ニコニコ動画が見つかりませんでした",
           "warning",
@@ -579,8 +591,32 @@ export class WatchPageController {
         return false;
       }
 
-      // コメント数が最も多い動画を選択（既にコメント数順にソートされている）
-      const bestMatch = results[0];
+      // 公式動画のみをフィルタリング（セーフガード）
+      const officialResults = NicoVideoSearcher.filterOfficialVideos(
+        allResults,
+        metadata.animeTitle,
+      );
+
+      logger.info("watchPageController:autoSetup:officialFilter", {
+        totalResults: allResults.length,
+        officialResults: officialResults.length,
+        animeTitle: metadata.animeTitle,
+      });
+
+      if (officialResults.length === 0) {
+        // 公式動画が見つからない場合は警告を出して最初の結果を使用
+        logger.warn("watchPageController:autoSetup:noOfficialVideos", {
+          animeTitle: metadata.animeTitle,
+          firstResultOwner: allResults[0]?.owner?.nickname ?? allResults[0]?.channel?.name ?? "不明",
+        });
+        NotificationManager.show(
+          "公式動画が見つかりませんでした。検索結果の最初の動画を使用します。",
+          "warning",
+        );
+      }
+
+      // 公式動画があればそこから、なければ全結果から最初の動画を選択
+      const bestMatch = officialResults.length > 0 ? officialResults[0] : allResults[0];
 
       // 動画情報をフェッチして保存
       const fetcher = new NicoApiFetcher();
@@ -748,9 +784,36 @@ export class WatchPageController {
       }
 
       // 切り替え前の現在のエピソード番号を記録
-      const previousEpisodeNumber = this.lastEpisodeNumber ?? 
-        document.querySelector(DANIME_SELECTORS.watchPageEpisodeNumber)?.textContent?.trim() ?? 
+      const previousEpisodeNumber = this.lastEpisodeNumber ??
+        document.querySelector(DANIME_SELECTORS.watchPageEpisodeNumber)?.textContent?.trim() ??
         null;
+
+      // 自動検索が無効の場合は手動設定モード（保存されたアニメタイトル+新エピソードで検索）
+      if (!currentSettings.autoSearchEnabled) {
+        logger.info("watchPageController:onPartIdChanged:manualMode", {
+          autoSearchEnabled: currentSettings.autoSearchEnabled,
+        });
+
+        // マニュアル検索設定を読み込み
+        const manualSettings = settingsManager.loadManualSearchSettings();
+        if (!manualSettings?.animeTitle) {
+          // アニメタイトルが保存されていない場合は通知のみ
+          NotificationManager.show(
+            "手動設定モードです。フローティングボタンから検索タブを開いてアニメタイトルを設定してください。",
+            "info",
+          );
+          // コメントをクリア
+          const renderer = this.global.instances.renderer;
+          if (renderer) {
+            renderer.clearComments();
+          }
+          return;
+        }
+
+        // マニュアル設定時のエピソード切替処理
+        await this.handleManualModeEpisodeSwitch(settingsManager, manualSettings.animeTitle, previousEpisodeNumber);
+        return;
+      }
 
       logger.info("watchPageController:onPartIdChanged:start", {
         currentVideoElement: this.currentVideoElement ? "present" : "null",
@@ -897,6 +960,196 @@ export class WatchPageController {
       logger.info("watchPageController:onPartIdChanged:flagReset", {
         isPartIdChanging: this.isPartIdChanging,
       });
+    }
+  }
+
+  /**
+   * マニュアル設定モード時のエピソード切替処理
+   * 保存されたアニメタイトルと新しいエピソード話数で検索し、公式動画を自動設定
+   */
+  private async handleManualModeEpisodeSwitch(
+    settingsManager: SettingsManager,
+    savedAnimeTitle: string,
+    previousEpisodeNumber: string | null,
+  ): Promise<void> {
+    try {
+      // 新しいpartIdのDOM更新を待つ
+      const newPartId = this.getCurrentPartId();
+      logger.info("watchPageController:manualModeSwitch:waitingForDomUpdate", {
+        newPartId,
+        previousEpisodeNumber,
+        savedAnimeTitle,
+      });
+
+      try {
+        await this.waitForMetadataElements(newPartId ?? undefined, previousEpisodeNumber ?? undefined);
+      } catch (error) {
+        logger.error("watchPageController:manualModeSwitch:waitMetadataFailed", error as Error);
+        NotificationManager.show(
+          `DOM更新の待機に失敗しました: ${(error as Error).message}`,
+          "error",
+        );
+        return;
+      }
+
+      // 新しいエピソード話数を取得
+      const newEpisodeNumber = document.querySelector(DANIME_SELECTORS.watchPageEpisodeNumber)?.textContent?.trim() ?? "";
+      
+      if (!newEpisodeNumber) {
+        logger.warn("watchPageController:manualModeSwitch:noEpisodeNumber");
+        NotificationManager.show(
+          "エピソード話数を取得できませんでした",
+          "warning",
+        );
+        return;
+      }
+
+      // 「アニメタイトル + 新エピソード話数」で検索
+      const keyword = `${savedAnimeTitle} ${newEpisodeNumber}`;
+      logger.info("watchPageController:manualModeSwitch:search", {
+        keyword,
+        savedAnimeTitle,
+        newEpisodeNumber,
+      });
+
+      NotificationManager.show(`「${keyword}」を検索中...`, "info");
+
+      const searcher = new NicoVideoSearcher();
+      const allResults = await searcher.search(keyword);
+
+      if (allResults.length === 0) {
+        NotificationManager.show(
+          "ニコニコ動画が見つかりませんでした。手動で検索してください。",
+          "warning",
+        );
+        // コメントをクリア
+        const renderer = this.global.instances.renderer;
+        if (renderer) {
+          renderer.clearComments();
+        }
+        return;
+      }
+
+      // 公式動画のみをフィルタリング（セーフガード）
+      const officialResults = NicoVideoSearcher.filterOfficialVideos(allResults, savedAnimeTitle);
+
+      logger.info("watchPageController:manualModeSwitch:officialFilter", {
+        totalResults: allResults.length,
+        officialResults: officialResults.length,
+        savedAnimeTitle,
+      });
+
+      if (officialResults.length === 0) {
+        NotificationManager.show(
+          "公式動画が見つかりませんでした。手動で検索してください。",
+          "warning",
+        );
+        // コメントをクリア
+        const renderer = this.global.instances.renderer;
+        if (renderer) {
+          renderer.clearComments();
+        }
+        return;
+      }
+
+      // コメント数が最も多い公式動画を選択
+      const bestMatch = officialResults[0];
+
+      // 動画情報をフェッチして保存
+      const fetcher = new NicoApiFetcher();
+      const apiData = await fetcher.fetchApiData(bestMatch.videoId);
+
+      const videoMetadata: VideoMetadata = {
+        videoId: bestMatch.videoId,
+        title: bestMatch.title,
+        viewCount: apiData.video?.count?.view ?? bestMatch.viewCount,
+        commentCount: apiData.video?.count?.comment ?? bestMatch.commentCount,
+        mylistCount: apiData.video?.count?.mylist ?? bestMatch.mylistCount,
+        postedAt: apiData.video?.registeredAt ?? bestMatch.postedAt,
+        thumbnail: apiData.video?.thumbnail?.url ?? bestMatch.thumbnail,
+        owner: apiData.owner ?? bestMatch.owner ?? null,
+        channel: apiData.channel ?? bestMatch.channel ?? null,
+      };
+
+      settingsManager.saveVideoData(bestMatch.title, videoMetadata);
+
+      // マニュアル検索設定も更新（話数を新しいものに）
+      settingsManager.saveManualSearchSettings({
+        animeTitle: savedAnimeTitle,
+        episodeNumber: newEpisodeNumber,
+        episodeTitle: "",
+      });
+
+      // 動画要素を取得してコメントを再設定
+      const videoElement = this.currentVideoElement ??
+        document.querySelector<HTMLVideoElement>(DANIME_SELECTORS.watchVideoElement);
+
+      if (videoElement) {
+        await this.waitForVideoReady(videoElement);
+        videoElement.dataset.videoId = bestMatch.videoId;
+
+        const renderer = this.global.instances.renderer;
+        const switchHandler = this.global.instances.switchHandler;
+
+        if (renderer && switchHandler) {
+          // レンダラーを再初期化
+          const currentSettings = renderer.settings;
+          renderer.destroy();
+
+          const newRenderer = new CommentRenderer(currentSettings, {
+            loggerNamespace: "dAnime:CommentRenderer",
+          });
+
+          this.global.instances.renderer = newRenderer;
+          newRenderer.initialize(videoElement);
+
+          switchHandler.updateRenderer(newRenderer);
+          switchHandler.resetVideoSource();
+          await switchHandler.onVideoSwitch(videoElement);
+        }
+      }
+
+      // 投稿者名を取得
+      const ownerName = bestMatch.owner?.nickname ??
+        bestMatch.channel?.name ??
+        "不明";
+
+      // 詳細な通知を表示
+      const message = [
+        `<div style="font-weight: 600; margin-bottom: 8px;">次のエピソードを自動設定しました</div>`,
+        `<div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">`,
+        `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoTitle}</span>`,
+        `  <span style="flex: 1; word-break: break-word;">${bestMatch.title}</span>`,
+        `</div>`,
+        `<div style="display: flex; align-items: center; gap: 6px; margin-top: 4px;">`,
+        `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoOwner}</span>`,
+        `  <span>${ownerName}</span>`,
+        `</div>`,
+        `<div style="display: flex; align-items: center; gap: 12px; margin-top: 4px;">`,
+        `  <div style="display: flex; align-items: center; gap: 4px;">`,
+        `    <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgViewCount}</span>`,
+        `    <span>${bestMatch.viewCount.toLocaleString()}</span>`,
+        `  </div>`,
+        `  <div style="display: flex; align-items: center; gap: 4px;">`,
+        `    <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgCommentCount}</span>`,
+        `    <span>${bestMatch.commentCount.toLocaleString()}</span>`,
+        `  </div>`,
+        `</div>`,
+      ].join('');
+
+      NotificationManager.show(message, "success", 5000);
+
+      logger.info("watchPageController:manualModeSwitch:success", {
+        videoId: bestMatch.videoId,
+        title: bestMatch.title,
+        commentCount: bestMatch.commentCount,
+      });
+    } catch (error) {
+      logger.error("watchPageController:manualModeSwitch:error", error as Error);
+      NotificationManager.show(
+        `エピソード切り替えエラー: ${(error as Error).message}`,
+        "error",
+      );
     }
   }
 
