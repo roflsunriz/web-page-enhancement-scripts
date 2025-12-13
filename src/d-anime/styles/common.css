@@ -918,8 +918,19 @@ box-shadow: 0 2px 8px rgba(127, 90, 240, 0.2);
 
 #searchButton, #saveSettings {
 background: linear-gradient(135deg, var(--primary) 0%, #6E44FF 100%);
-border-radius: 8px;
+border: 1px solid transparent;
+border-radius: 999px;
 color: var(--text-primary);
+padding: 10px 18px;
+font-weight: 500;
+box-shadow: 0 10px 24px rgba(127, 90, 240, 0.35);
+transition: all 0.25s ease;
+}
+
+#searchButton:hover, #saveSettings:hover {
+background: linear-gradient(135deg, #8B6AF5 0%, #7B54FF 100%);
+box-shadow: 0 12px 28px rgba(127, 90, 240, 0.45);
+transform: translateY(-2px);
 }
 
 .toggle-button {
@@ -1688,9 +1699,8 @@ position: relative;
 overflow: hidden;
 }
 
-#saveSettings:hover,
-#searchButton:hover,
-.settings-modal__play-button:hover {
+#saveSettings:focus,
+#searchButton:focus {
 animation: pulse 1.5s infinite;
 }
 

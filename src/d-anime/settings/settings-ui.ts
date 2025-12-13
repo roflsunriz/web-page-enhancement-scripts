@@ -74,7 +74,6 @@ const SELECTORS = {
   ngRegexps: "#ngRegexps",
   showNgWords: "#showNgWords",
   showNgRegexps: "#showNgRegexp",
-  playCurrentVideo: "#playCurrentVideo",
   settingsModal: "#settingsModal",
   closeSettingsModal: "#closeSettingsModal",
   modalOverlay: ".settings-modal__overlay",
@@ -177,32 +176,6 @@ const SEARCH_FIELDS_STYLES = `
   }
 `;
 
-const MODAL_PLAY_BUTTON_STYLES = `
-  .settings-modal__footer {
-    align-items: center;
-  }
-  .settings-modal__play-button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background-color: var(--primary);
-    color: var(--text-primary);
-    border-radius: 8px;
-    text-align: center;
-  }
-  .settings-modal__play-icon svg {
-    width: 18px;
-    height: 18px;
-    display:inline-block;
-    text-align: center;
-  }
-  .settings-modal__play-button:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-`;
-
 export class SettingsUI extends ShadowDOMComponent {
   private static readonly FAB_HOST_ID = "danime-settings-fab-host";
 
@@ -213,7 +186,6 @@ export class SettingsUI extends ShadowDOMComponent {
   private playbackSettings: PlaybackSettings;
   private currentVideoInfo: VideoMetadata | null;
   private hostElement: HTMLDivElement | null = null;
-  private lastAutoButtonElement: HTMLElement | null = null;
   private activeTab: ModalTabKey = "search";
   private modalElement: HTMLDivElement | null = null;
   private overlayElement: HTMLDivElement | null = null;
@@ -624,10 +596,6 @@ export class SettingsUI extends ShadowDOMComponent {
             </section>
           </div>
           <footer class="settings-modal__footer">
-            <button id="playCurrentVideo" class="settings-modal__play-button" type="button" title="この動画を再生">
-              <span class="settings-modal__play-icon" aria-hidden="true">${svgPlay}</span>
-              <span class="settings-modal__play-label">動画を再生</span>
-            </button>
             <button id="saveSettings" type="button">設定を保存</button>
           </footer>
         </div>
@@ -648,7 +616,6 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupNgControls();
     this.setupSaveButton();
     this.setupSearch();
-    this.setupPlayButton();
   }
 
   private setupModalControls(): void {
@@ -1384,7 +1351,6 @@ export class SettingsUI extends ShadowDOMComponent {
     this.applyPlaybackSettingsToUI();
     this.updateAutoSearchToggleState();
     this.updateSearchSectionNote();
-    this.updatePlayButtonState(this.currentVideoInfo);
     this.updatePreview();
   }
 
@@ -1468,7 +1434,6 @@ export class SettingsUI extends ShadowDOMComponent {
     } catch (error) {
       logger.error("SettingsUI.updateCurrentVideoInfo", error as Error);
     }
-    this.updatePlayButtonState(videoInfo);
   }
 
   private formatNumber(value?: number | null): string {
@@ -1497,65 +1462,6 @@ export class SettingsUI extends ShadowDOMComponent {
     const safeRate = Number.isFinite(rate) ? rate : 1.11;
     const formatted = safeRate.toFixed(2);
     return `${formatted.replace(/\.?0+$/, "")}倍`;
-  }
-
-  private setupPlayButton(): void {
-    const button = this.queryModalElement<HTMLButtonElement>(
-      SELECTORS.playCurrentVideo,
-    );
-    if (!button) {
-      return;
-    }
-    button.addEventListener("click", () => {
-      try {
-        const videoId = this.currentVideoInfo?.videoId;
-        if (!videoId) {
-          NotificationManager.show(
-            "再生できる動画が設定されていません",
-            "warning",
-          );
-          return;
-        }
-        const itemElement = this.lastAutoButtonElement?.closest(
-          ".itemModule.list",
-        ) as HTMLElement | null;
-        if (this.lastAutoButtonElement) {
-          const playLink = itemElement?.querySelector<HTMLAnchorElement>(
-            ".thumbnailContainer > a, .thumbnail-container > a",
-          );
-          if (playLink) {
-            NotificationManager.show(
-              `「${this.currentVideoInfo?.title || "動画"}」を再生します...`,
-              "success",
-            );
-            setTimeout(() => {
-              playLink.click();
-            }, 300);
-            return;
-          }
-        }
-        NotificationManager.show(
-          "再生リンクが見つかりませんでした（対象アイテム内に限定して検索済み）",
-          "warning",
-        );
-      } catch (error) {
-        logger.error("SettingsUI.playCurrentVideo", error as Error);
-        NotificationManager.show(`再生エラー: ${(error as Error).message}`, "error");
-      }
-    });
-    this.updatePlayButtonState(this.currentVideoInfo);
-  }
-
-  private updatePlayButtonState(videoInfo: VideoMetadata | null): void {
-    const button = this.queryModalElement<HTMLButtonElement>(
-      SELECTORS.playCurrentVideo,
-    );
-    if (!button) {
-      return;
-    }
-    const hasVideo = Boolean(videoInfo?.videoId);
-    button.disabled = !hasVideo;
-    button.setAttribute("aria-disabled", (!hasVideo).toString());
   }
 
   private updateVisibilityToggleState(button: HTMLButtonElement): void {
@@ -1754,16 +1660,6 @@ export class SettingsUI extends ShadowDOMComponent {
       searchFieldsStyle.dataset.role = "search-fields-style";
       searchFieldsStyle.textContent = SEARCH_FIELDS_STYLES;
       shadow.appendChild(searchFieldsStyle);
-    }
-
-    let modalPlayButtonStyle = shadow.querySelector<HTMLStyleElement>(
-      "style[data-role='modal-play-button-style']",
-    );
-    if (!modalPlayButtonStyle) {
-      modalPlayButtonStyle = document.createElement("style");
-      modalPlayButtonStyle.dataset.role = "modal-play-button-style";
-      modalPlayButtonStyle.textContent = MODAL_PLAY_BUTTON_STYLES;
-      shadow.appendChild(modalPlayButtonStyle);
     }
 
     let container = shadow.querySelector<HTMLDivElement>(".fab-container");
