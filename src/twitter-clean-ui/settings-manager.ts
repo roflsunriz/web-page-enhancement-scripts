@@ -28,12 +28,16 @@ export class SettingsManager {
     try {
       const data = await this.loadFromStorage();
       if (data) {
-        this.currentSettings = data.settings;
+        // デフォルト設定とマージして、新しいプロパティを追加
+        this.currentSettings = this.mergeWithDefaults(data.settings);
         this.currentProfileId = data.currentProfileId;
 
-        // プロファイルをマップに変換
+        // プロファイルをマップに変換（各プロファイルの設定もマージ）
         Object.entries(data.profiles).forEach(([id, profile]) => {
-          this.profiles.set(id, profile);
+          this.profiles.set(id, {
+            ...profile,
+            settings: this.mergeWithDefaults(profile.settings),
+          });
         });
       } else {
         // デフォルトプロファイルを作成
@@ -43,6 +47,24 @@ export class SettingsManager {
       console.error('[SettingsManager] Failed to load settings:', error);
       this.createDefaultProfile();
     }
+  }
+
+  /**
+   * 設定をデフォルト値とマージ（新しいプロパティを追加）
+   */
+  private mergeWithDefaults(settings: Settings): Settings {
+    return {
+      ...DEFAULT_SETTINGS,
+      ...settings,
+      visibility: {
+        ...DEFAULT_SETTINGS.visibility,
+        ...settings.visibility,
+      },
+      layout: {
+        ...DEFAULT_SETTINGS.layout,
+        ...settings.layout,
+      },
+    };
   }
 
   /**
