@@ -14,11 +14,13 @@ export type UIElementId =
   | 'leftSidebar_NotificationsLink'
   | 'leftSidebar_MessagesLink'
   | 'leftSidebar_GrokLink'
+  | 'leftSidebar_ConnectLink'
   | 'leftSidebar_BookmarksLink'
   | 'leftSidebar_ListsLink'
   | 'leftSidebar_CommunitiesLink'
   | 'leftSidebar_ProfileLink'
   | 'leftSidebar_PremiumLink'
+  | 'leftSidebar_BusinessLink'
   | 'leftSidebar_MoreMenu'
   | 'leftSidebar_TweetButton'
   | 'leftSidebar_ProfileMenu'
@@ -83,11 +85,13 @@ export interface VisibilitySettings {
   leftSidebar_NotificationsLink: boolean;
   leftSidebar_MessagesLink: boolean;
   leftSidebar_GrokLink: boolean;
+  leftSidebar_ConnectLink: boolean;
   leftSidebar_BookmarksLink: boolean;
   leftSidebar_ListsLink: boolean;
   leftSidebar_CommunitiesLink: boolean;
   leftSidebar_ProfileLink: boolean;
   leftSidebar_PremiumLink: boolean;
+  leftSidebar_BusinessLink: boolean;
   leftSidebar_MoreMenu: boolean;
   leftSidebar_TweetButton: boolean;
   leftSidebar_ProfileMenu: boolean;
@@ -173,11 +177,13 @@ export interface TranslationKeys {
   leftSidebar_NotificationsLink: string;
   leftSidebar_MessagesLink: string;
   leftSidebar_GrokLink: string;
+  leftSidebar_ConnectLink: string;
   leftSidebar_BookmarksLink: string;
   leftSidebar_ListsLink: string;
   leftSidebar_CommunitiesLink: string;
   leftSidebar_ProfileLink: string;
   leftSidebar_PremiumLink: string;
+  leftSidebar_BusinessLink: string;
   leftSidebar_MoreMenu: string;
   leftSidebar_TweetButton: string;
   leftSidebar_ProfileMenu: string;
