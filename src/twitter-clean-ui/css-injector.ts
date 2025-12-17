@@ -72,8 +72,9 @@ export class CSSInjector {
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
 
-      // 非表示の場合のみCSSルールを追加
-      if (!visible) {
+      // 明示的にfalseの場合のみ非表示CSSルールを追加
+      // undefinedやtrueの場合は表示（CSSルールを追加しない）
+      if (visible === false) {
         const selector = this.generateSelector(elementId);
         if (selector) {
           rules.push(`${selector} { display: none !important; }`);
