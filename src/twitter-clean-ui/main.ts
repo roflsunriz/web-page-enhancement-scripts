@@ -44,6 +44,11 @@ class TwitterCleanUI {
     console.log('[TwitterCleanUI] Initializing...');
 
     try {
+      // 設定マネージャーの初期化完了を待機
+      console.log('[TwitterCleanUI] Waiting for SettingsManager initialization...');
+      await this.settingsManager.initialize();
+      console.log('[TwitterCleanUI] SettingsManager initialized');
+
       // 言語設定
       const settings = this.settingsManager.getSettings();
       console.log('[TwitterCleanUI] Initial settings:', settings);

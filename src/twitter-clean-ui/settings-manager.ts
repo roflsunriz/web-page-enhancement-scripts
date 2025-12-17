@@ -12,13 +12,37 @@ export class SettingsManager {
   private currentSettings: Settings;
   private profiles: Map<string, Profile> = new Map();
   private currentProfileId: string = 'default';
+  private initialized: boolean = false;
+  private initPromise: Promise<void> | null = null;
 
   /**
    * コンストラクタ
    */
   constructor() {
     this.currentSettings = { ...DEFAULT_SETTINGS };
-    this.load();
+    // 非同期初期化を開始（awaitはinitialize()で行う）
+    this.initPromise = this.load();
+  }
+
+  /**
+   * 初期化完了を待機
+   */
+  public async initialize(): Promise<void> {
+    if (this.initialized) {
+      return;
+    }
+    if (this.initPromise) {
+      await this.initPromise;
+      this.initialized = true;
+      console.log('[SettingsManager] Initialization complete');
+    }
+  }
+
+  /**
+   * 初期化が完了しているかどうか
+   */
+  public isInitialized(): boolean {
+    return this.initialized;
   }
 
   /**
