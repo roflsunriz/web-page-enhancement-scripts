@@ -219,16 +219,22 @@ export class SettingsUI {
 
     leftSidebarElements.forEach((elementId) => {
       const visibility = settings.visibility as unknown as Record<string, boolean>;
+      const currentValue = visibility[elementId];
+      console.log(`[SettingsUI] Creating toggle for ${elementId}: value=${currentValue}, type=${typeof currentValue}, fallback=${currentValue ?? true}`);
       const control = this.createToggleControl(
         t(elementId as keyof typeof import('./i18n').getTranslations),
-        visibility[elementId] ?? true,
+        currentValue ?? true,
         (checked) => {
+          console.log(`[SettingsUI] Toggle changed for ${elementId}: ${checked}`);
           const partialVisibility: Partial<typeof settings.visibility> = { [elementId]: checked };
           this.settingsManager.updateSettings({
             visibility: partialVisibility as typeof settings.visibility,
           });
-          if (this.settingsManager.getSettings().enableRealTimePreview) {
-            this.controller.applySettings(this.settingsManager.getSettings());
+          const newSettings = this.settingsManager.getSettings();
+          console.log(`[SettingsUI] After update - ${elementId}:`, newSettings.visibility[elementId as keyof typeof newSettings.visibility]);
+          if (newSettings.enableRealTimePreview) {
+            console.log('[SettingsUI] Applying settings for real-time preview');
+            this.controller.applySettings(newSettings);
           }
         }
       );

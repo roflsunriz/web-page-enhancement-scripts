@@ -38,28 +38,39 @@ export class CSSInjector {
    */
   private generateSelector(elementId: UIElementId): string {
     const definition = UI_ELEMENTS.find((def) => def.id === elementId);
-    if (!definition) return '';
+    if (!definition) {
+      console.log(`[CSSInjector] generateSelector: No definition found for ${elementId}`);
+      return '';
+    }
 
     // 最初の戦略からセレクタを取得
     const firstStrategy = definition.strategies[0];
-    if (!firstStrategy) return '';
+    if (!firstStrategy) {
+      console.log(`[CSSInjector] generateSelector: No strategy found for ${elementId}`);
+      return '';
+    }
 
+    let selector = '';
     switch (firstStrategy.type) {
       case 'querySelector':
       case 'querySelectorAll':
-        return firstStrategy.selector || '';
+        selector = firstStrategy.selector || '';
+        break;
 
       case 'xpath':
         // XPathは複雑なのでスキップ
-        return '';
+        break;
 
       case 'custom':
         // カスタムファインダーは動的なのでスキップ
-        return '';
+        break;
 
       default:
-        return '';
+        break;
     }
+    
+    console.log(`[CSSInjector] generateSelector for ${elementId}: type=${firstStrategy.type}, selector=${selector}`);
+    return selector;
   }
 
   /**
@@ -69,6 +80,10 @@ export class CSSInjector {
     const rules: string[] = [];
     const { visibility } = settings;
 
+    console.log('[CSSInjector] generateVisibilityCSS called with visibility:', visibility);
+    console.log('[CSSInjector] ConnectLink value:', visibility.leftSidebar_ConnectLink, 'type:', typeof visibility.leftSidebar_ConnectLink);
+    console.log('[CSSInjector] BusinessLink value:', visibility.leftSidebar_BusinessLink, 'type:', typeof visibility.leftSidebar_BusinessLink);
+
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
 
@@ -76,12 +91,14 @@ export class CSSInjector {
       // undefinedやtrueの場合は表示（CSSルールを追加しない）
       if (visible === false) {
         const selector = this.generateSelector(elementId);
+        console.log(`[CSSInjector] Element ${elementId} is false, selector: ${selector}`);
         if (selector) {
           rules.push(`${selector} { display: none !important; }`);
         }
       }
     });
 
+    console.log('[CSSInjector] Generated CSS rules:', rules);
     return rules.join('\n');
   }
 

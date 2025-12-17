@@ -142,6 +142,11 @@ export class ElementController {
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
+    console.log('[ElementController] applySettings called');
+    console.log('[ElementController] visibility:', settings.visibility);
+    console.log('[ElementController] ConnectLink:', settings.visibility.leftSidebar_ConnectLink);
+    console.log('[ElementController] BusinessLink:', settings.visibility.leftSidebar_BusinessLink);
+    
     // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
 
