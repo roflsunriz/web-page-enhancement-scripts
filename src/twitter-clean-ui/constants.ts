@@ -159,19 +159,25 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
   {
     id: 'leftSidebar_ConnectLink',
     category: 'leftSidebar',
-    description: 'つながるリンク',
+    description: 'フォロー/つながるリンク',
     strategies: [
       {
         type: 'querySelector',
-        selector: 'a[data-testid="AppTabBar_Connect_Link"]',
-        method: 'data-testid',
+        selector: 'a[data-testid="AppTabBar_Follow_Link"]',
+        method: 'data-testid (Follow)',
         confidence: 0.95,
+      },
+      {
+        type: 'querySelector',
+        selector: 'a[data-testid="AppTabBar_Connect_Link"]',
+        method: 'data-testid (Connect - legacy)',
+        confidence: 0.9,
       },
       {
         type: 'querySelector',
         selector: 'a[href="/i/connect_people"]',
         method: 'href selector',
-        confidence: 0.9,
+        confidence: 0.85,
       },
     ],
   },

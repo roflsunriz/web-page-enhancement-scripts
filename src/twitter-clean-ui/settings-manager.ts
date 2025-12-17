@@ -34,7 +34,6 @@ export class SettingsManager {
     if (this.initPromise) {
       await this.initPromise;
       this.initialized = true;
-      console.log('[SettingsManager] Initialization complete');
     }
   }
 
@@ -51,14 +50,9 @@ export class SettingsManager {
   private async load(): Promise<void> {
     try {
       const data = await this.loadFromStorage();
-      console.log('[SettingsManager] Loaded data from storage:', data);
       if (data) {
-        console.log('[SettingsManager] Before merge - data.settings.visibility:', data.settings?.visibility);
         // デフォルト設定とマージして、新しいプロパティを追加
         this.currentSettings = this.mergeWithDefaults(data.settings);
-        console.log('[SettingsManager] After merge - currentSettings.visibility:', this.currentSettings.visibility);
-        console.log('[SettingsManager] ConnectLink:', this.currentSettings.visibility.leftSidebar_ConnectLink);
-        console.log('[SettingsManager] BusinessLink:', this.currentSettings.visibility.leftSidebar_BusinessLink);
         this.currentProfileId = data.currentProfileId;
 
         // プロファイルをマップに変換（各プロファイルの設定もマージ）
@@ -69,7 +63,6 @@ export class SettingsManager {
           });
         });
       } else {
-        console.log('[SettingsManager] No data found, creating default profile');
         // デフォルトプロファイルを作成
         this.createDefaultProfile();
       }
@@ -83,7 +76,7 @@ export class SettingsManager {
    * 設定をデフォルト値とマージ（新しいプロパティを追加）
    */
   private mergeWithDefaults(settings: Settings): Settings {
-    const merged = {
+    return {
       ...DEFAULT_SETTINGS,
       ...settings,
       visibility: {
@@ -95,8 +88,6 @@ export class SettingsManager {
         ...settings.layout,
       },
     };
-    console.log('[SettingsManager] mergeWithDefaults result:', merged.visibility);
-    return merged;
   }
 
   /**

@@ -45,16 +45,10 @@ class TwitterCleanUI {
 
     try {
       // 設定マネージャーの初期化完了を待機
-      console.log('[TwitterCleanUI] Waiting for SettingsManager initialization...');
       await this.settingsManager.initialize();
-      console.log('[TwitterCleanUI] SettingsManager initialized');
 
       // 言語設定
       const settings = this.settingsManager.getSettings();
-      console.log('[TwitterCleanUI] Initial settings:', settings);
-      console.log('[TwitterCleanUI] visibility keys:', Object.keys(settings.visibility));
-      console.log('[TwitterCleanUI] ConnectLink in settings:', settings.visibility.leftSidebar_ConnectLink);
-      console.log('[TwitterCleanUI] BusinessLink in settings:', settings.visibility.leftSidebar_BusinessLink);
       setLanguage(settings.language || detectBrowserLanguage());
 
       // UI要素を検出
