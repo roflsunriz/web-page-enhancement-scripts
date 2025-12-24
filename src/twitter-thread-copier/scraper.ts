@@ -676,9 +676,21 @@ async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<
   const urlPromises: Promise<{ anchor: HTMLAnchorElement; resolvedUrl: string | null }>[] = [];
 
   for (const anchor of anchors) {
-    if (isLikelyUrlAnchor(anchor, anchor.textContent ?? "")) {
-      const href = anchor.getAttribute("href");
-    if (href && href.startsWith(TWITTER_SHORT_URL_PREFIX)) {
+    const textContent = anchor.textContent ?? "";
+    if (isLikelyUrlAnchor(anchor, textContent)) {
+      // textContent がURL形式なら直接使用（HTTPリクエスト不要）
+      // TwitterのUIでは展開されたURLがテキストコンテンツとして表示される
+      const trimmedText = textContent.trim();
+      if (/^https?:\/\//i.test(trimmedText)) {
+        urlPromises.push(
+          Promise.resolve({ anchor, resolvedUrl: trimmedText })
+        );
+        continue;
+      }
+
+      // フォールバック: href からリダイレクト先を解決
+      const href = anchor.href;
+      if (href && href.startsWith(TWITTER_SHORT_URL_PREFIX)) {
         urlPromises.push(
           followRedirect(href).then(resolvedUrl => ({ anchor, resolvedUrl }))
         );
@@ -721,10 +733,6 @@ function followRedirect(url: string): Promise<string | null> {
 function isLikelyUrlAnchor(anchor: HTMLAnchorElement, text: string): boolean {
   const trimmedText = text.trim();
   if (/^https?:\/\//i.test(trimmedText)) {
-    return true;
-  }
-
-  if (anchor.hasAttribute("data-expanded-url")) {
     return true;
   }
 
