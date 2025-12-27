@@ -98,7 +98,7 @@ export class CommentRenderer {
   }
 
   updateSettings(newSettings: RendererSettings): void {
-    this.renderer.updateSettings(newSettings);
+    this.renderer.settings = newSettings;
   }
 
   getVideoElement(): HTMLVideoElement | null {
@@ -131,7 +131,7 @@ export class CommentRenderer {
           ...currentSettings,
           isCommentVisible: !currentSettings.isCommentVisible,
         };
-        this.renderer.updateSettings(nextSettings);
+        this.renderer.settings = nextSettings;
         this.syncGlobalSettings(nextSettings);
       } catch (error) {
         logger.error("CommentRenderer.keyboardShortcut", error as Error);
