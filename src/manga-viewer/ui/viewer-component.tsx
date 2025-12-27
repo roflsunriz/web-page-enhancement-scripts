@@ -172,11 +172,6 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         message: string,
         phase: 'init' | 'loading' | 'complete' | string | null = null,
       ) => {
-        // ログ出力
-        try {
-          console.debug('[MangaViewer] updateProgress called:', { percent, message, phase });
-        } catch { /* ignore */ }
-
         // 既存の状態更新ロジック
         setProgressState((prev) => {
           let newPhase = phase || prev.phase;
@@ -194,16 +189,9 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         }
         if (shouldUseFallback && percent < 100) {
           progressFallbackTimer.current = window.setTimeout(() => {
-            try {
-              console.warn('[MangaViewer] progress fallback triggered: forcing complete');
-            } catch { /* ignore */ }
             setProgressState((prev) => ({ ...prev, phase: 'complete' }));
             setTimeout(() => setProgressState((prev) => ({ ...prev, visible: false })), 2000);
           }, 8000);
-        } else {
-          try {
-            console.debug('[MangaViewer] fallback not set (phase)', { phase });
-          } catch { /* ignore */ }
         }
 
         if (percent >= 100) {
@@ -216,23 +204,18 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         const mvHolder = win as unknown as { MangaViewer?: { _progressBuffer?: Array<[number, string, string | null]> } };
         const buffer = mvHolder.MangaViewer?._progressBuffer;
         if (Array.isArray(buffer) && buffer.length > 0) {
-          try {
-            console.debug('[MangaViewer] flushing progress buffer', { count: buffer.length });
-          } catch (err) {
-            console.debug('[MangaViewer] flushing progress buffer debug error', err);
-          }
           for (const [p, m, ph] of buffer) {
             try {
               // ph は null である可能性があるので string にフォールバック
               win.MangaViewer.updateProgress(p, m, ph ?? 'loading');
-            } catch (err) {
-              console.error('[MangaViewer] error flushing progress buffer', err);
+            } catch {
+              // エラーを無視
             }
           }
           mvHolder.MangaViewer!._progressBuffer = [];
         }
-      } catch (err) {
-        console.error('[MangaViewer] flushing progress buffer error', err);
+      } catch {
+        // エラーを無視
       }
       return () => {
         if (win.MangaViewer) win.MangaViewer.updateProgress = undefined;

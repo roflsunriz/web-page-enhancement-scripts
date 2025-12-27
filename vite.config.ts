@@ -179,7 +179,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.5.1',
+  version: '10.5.2',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -275,7 +275,7 @@ const twitterCleanTimelineMeta: MonkeyUserScript = {
 const twitterCleanUIMeta: MonkeyUserScript = {
   name: 'twitter-clean-ui',
   namespace: 'twitterCleanUI',
-  version: '1.7.1',
+  version: '1.7.2',
   description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。Grok、コミュニティ、フォローのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -291,7 +291,7 @@ const twitterCleanUIMeta: MonkeyUserScript = {
 const twitterFullSizeImageMeta: MonkeyUserScript = {
   name: 'twitter-image-fullsize-redirect',
   namespace: 'twitterImageFullsizeRedirect',
-  version: '2.1.1',
+  version: '2.1.2',
   description: 'Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト',
   author: 'roflsunriz',
   match: [
@@ -309,7 +309,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '6.7.2',
+  version: '6.7.3',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [

@@ -43,11 +43,6 @@ export class GenericCollector implements ICollector {
   }
 
   public async collect(): Promise<CollectionResult> {
-    try {
-      console.debug('[GenericCollector] collect start');
-    } catch (err) {
-      console.debug('[GenericCollector] collect debug error:', err);
-    }
     this.spinner?.updateMessage('ページ上の画像を収集しています...');
 
     // 1. 初期表示されている画像を収集
@@ -179,11 +174,6 @@ export class GenericCollector implements ICollector {
   private async validateUrlsWithMetadata(
     urlsWithMetadata: { url: string; needsValidation: boolean }[],
   ): Promise<CollectionResult> {
-    try {
-      console.debug('[GenericCollector] validateUrlsWithMetadata start', { total: urlsWithMetadata.length });
-    } catch (err) {
-      console.debug('[GenericCollector] validateUrlsWithMetadata debug error:', err);
-    }
     const validUrls: string[] = [];
     const minInitialUrls = 2;
 
@@ -215,7 +205,6 @@ export class GenericCollector implements ICollector {
         (async () => {
           try {
             const validationNeeded = filteredUrlsWithMetadata.filter((item) => item.needsValidation);
-            console.debug('[GenericCollector] validationNeeded count', { validationNeeded: validationNeeded.length });
             let validatedCount = 0;
 
             for (const item of validationNeeded) {
@@ -226,21 +215,11 @@ export class GenericCollector implements ICollector {
               validatedCount++;
               if (typeof win.MangaViewer?.updateProgress === 'function') {
                 const percent = Math.round((validatedCount / validationNeeded.length) * 100);
-                try {
-                  console.debug('[GenericCollector] updateProgress ->', { percent, total: validationNeeded.length });
-                } catch (err) {
-                  console.debug('[GenericCollector] updateProgress debug error:', err);
-                }
                 this.safeUpdateProgress(percent, `画像検証中... /${validationNeeded.length}`, 'loading');
               }
             }
 
-            try {
-              console.debug('[GenericCollector] about to call final updateProgress', { validCount: validUrls.length });
-              this.safeUpdateProgress(100, `検証完了: ${validUrls.length}枚の有効な画像`, 'complete');
-            } catch (err) {
-              console.error('[GenericCollector] error calling final updateProgress', err);
-            }
+            this.safeUpdateProgress(100, `検証完了: ${validUrls.length}枚の有効な画像`, 'complete');
             callback(validUrls);
           } catch (err) {
             console.error('[GenericCollector] validation error', err);

@@ -26,14 +26,12 @@ export function handleRedirect(currentUrl: string): void {
     sessionStorage.getItem(REDIRECT_SESSION_KEY) || "0",
   );
   if (redirectCount >= MAX_REDIRECTS) {
-    console.log("Maximum redirect count reached, stopping redirect.");
     sessionStorage.removeItem(REDIRECT_SESSION_KEY);
     return;
   }
 
   // 既にフルサイズの場合はカウンターをリセットして終了
   if (isAlreadyFullsize(currentUrl)) {
-    console.log("Already fullsize image URL:", currentUrl);
     sessionStorage.removeItem(REDIRECT_SESSION_KEY);
     return;
   }
@@ -45,7 +43,5 @@ export function handleRedirect(currentUrl: string): void {
   const fullsizeUrl = buildFullsizeUrl(currentUrl, parsedUrl);
 
   // リダイレクト実行
-  console.log("Redirecting from:", currentUrl);
-  console.log("Redirecting to:", fullsizeUrl);
   window.location.replace(fullsizeUrl);
 }

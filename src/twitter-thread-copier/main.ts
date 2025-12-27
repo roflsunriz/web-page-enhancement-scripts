@@ -166,13 +166,12 @@ class TwitterThreadCopierApp {
   private observeUrlChanges(): void {
     let lastUrl = location.href;
 
-    const handleUrlChange = (source: string) => {
+    const handleUrlChange = () => {
       // URLが実際に変更された場合のみ処理を実行
       if (location.href !== lastUrl) {
         lastUrl = location.href;
         // 少し遅延させてから実行することで、DOMの更新を待つ
         setTimeout(() => this.updateButtonVisibility(), 300);
-        console.log(`URL changed (${source}): ${lastUrl}`);
       }
     };
 
@@ -180,19 +179,19 @@ class TwitterThreadCopierApp {
     const originalPushState = history.pushState;
     history.pushState = function (...args) {
       originalPushState.apply(this, args);
-      handleUrlChange("pushState");
+      handleUrlChange();
     };
 
     const originalReplaceState = history.replaceState;
     history.replaceState = function (...args) {
       originalReplaceState.apply(this, args);
-      handleUrlChange("replaceState");
+      handleUrlChange();
     };
 
-    window.addEventListener("popstate", () => handleUrlChange("popstate"));
+    window.addEventListener("popstate", () => handleUrlChange());
 
     // DOMの変更を監視して、SPAでのページ遷移を捕捉する
-    const observer = new MutationObserver(() => handleUrlChange("mutation"));
+    const observer = new MutationObserver(() => handleUrlChange());
     observer.observe(document.body, { childList: true, subtree: true });
   }
 }

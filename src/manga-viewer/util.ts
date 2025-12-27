@@ -217,11 +217,6 @@ try {
       }
     };
   }
-} catch (err) {
-  try {
-    console.debug('[MangaViewer] init global progress buffer error', err);
-  } catch (innerErr) {
-    // ignore nested debug errors
-    void innerErr;
-  }
+} catch {
+  // エラーを無視
 }

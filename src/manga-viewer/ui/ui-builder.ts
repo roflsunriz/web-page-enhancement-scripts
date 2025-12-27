@@ -6,7 +6,6 @@ import { setTimeoutSafely } from '../util';
 import { LoadingSpinner } from './loading-spinner';
 import { ViewerComponent } from './viewer-component';
 import viewerStyles from './viewer.css?inline';
-import { win } from '../util';
 import { createShadowHost } from '@/shared/dom';
 
 // React.createElementのエイリアス（インポート後に定義）
@@ -107,11 +106,11 @@ export class UIBuilder {
     this.reactRoot = createRoot(reactContainer) as ReactRoot;
 
     // 初回レンダリング
-    this.renderViewer(initialImageUrls, options, onCloseCallback, true);
+    this.renderViewer(initialImageUrls, options, onCloseCallback);
 
     // 画像更新用のコールバックを設定
     this.updateImagesCallback = (newImages: string[]) => {
-      this.renderViewer(newImages, options, onCloseCallback, false);
+      this.renderViewer(newImages, options, onCloseCallback);
     };
 
     // フォールバックでフォーカスを設定。安全なタイマーヘルパーを利用して例外を吸収する
@@ -126,19 +125,8 @@ export class UIBuilder {
     images: string[],
     options: { initialAutoNav?: boolean },
     onCloseCallback: () => void,
-    isFirstRender: boolean,
   ) {
     if (!this.reactRoot) return;
-
-    if (typeof win !== 'undefined' && images.length > 0 && isFirstRender) {
-      try {
-        console.debug('[UIBuilder] first render: images count', { count: images.length });
-      } catch (err) {
-        // ignore error in debug logging, reference variable to satisfy linter
-        void err;
-      }
-      // 初期の無意味な 0% 通知は削除。実際の進捗はコレクター/プリロード側で報告される。
-    }
 
     this.reactRoot.render(
       e(ViewerComponent, {

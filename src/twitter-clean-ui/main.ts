@@ -37,11 +37,8 @@ class TwitterCleanUI {
    */
   public async initialize(): Promise<void> {
     if (this.isInitialized) {
-      console.log('[TwitterCleanUI] Already initialized');
       return;
     }
-
-    console.log('[TwitterCleanUI] Initializing...');
 
     try {
       // 設定マネージャーの初期化完了を待機
@@ -53,12 +50,9 @@ class TwitterCleanUI {
 
       // UI要素を検出
       this.detector.detectAll();
-      const stats = this.detector.getStatistics();
-      console.log(`[TwitterCleanUI] Detected ${stats.detected}/${stats.total} elements`);
 
       // 設定を適用
       this.controller.applySettings(settings);
-      console.log('[TwitterCleanUI] Settings applied');
 
       // UI要素の監視を開始（DOM変更時に設定を再適用）
       this.startMutationObserver();
@@ -70,7 +64,6 @@ class TwitterCleanUI {
       this.startSettingsWatcher();
 
       this.isInitialized = true;
-      console.log('[TwitterCleanUI] Initialized successfully');
     } catch (error) {
       console.error('[TwitterCleanUI] Initialization failed:', error);
     }
@@ -158,7 +151,6 @@ class TwitterCleanUI {
           this.settingsUI.show();
         }
       });
-      console.log('[TwitterCleanUI] Keyboard shortcut registered: Ctrl + Shift + X');
     }
   }
 
@@ -182,7 +174,6 @@ class TwitterCleanUI {
     this.controller.destroy();
     this.settingsUI.destroy();
     this.isInitialized = false;
-    console.log('[TwitterCleanUI] Destroyed');
   }
 }
 
@@ -230,15 +221,11 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
  */
 (async () => {
   try {
-    console.log('[TwitterCleanUI] Starting...');
-
     // ページが読み込まれるまで待機
     await waitForPageLoad();
-    console.log('[TwitterCleanUI] Page loaded');
 
     // react-rootが読み込まれるまで待機
     await waitForReactRoot();
-    console.log('[TwitterCleanUI] React root found');
 
     // アプリケーションを初期化
     const app = new TwitterCleanUI();
