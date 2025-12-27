@@ -126,40 +126,17 @@ export class CommentRenderer {
     const handler = new KeyboardShortcutHandler();
     handler.addShortcut("C", "Shift", () => {
       try {
-        const currentSettings = this.renderer.settings;
-        const nextSettings: RendererSettings = {
-          ...currentSettings,
-          isCommentVisible: !currentSettings.isCommentVisible,
-        };
-        this.renderer.settings = nextSettings;
-        this.syncGlobalSettings(nextSettings);
-
-        // コメント非表示時にキャンバスをクリアして画面上のコメントを消す
-        // comment-overlayライブラリはisCommentVisible=falseの時processFrameが
-        // 早期リターンしてdraw()を呼ばないため、手動でクリアが必要
-        if (!nextSettings.isCommentVisible) {
-          this.clearCanvas();
-        }
+        const nextVisible = !this.renderer.settings.isCommentVisible;
+        // comment-overlay v3.0.0+ の setCommentVisibility() を使用
+        // 非表示時に自動でキャンバスがクリアされる
+        this.renderer.setCommentVisibility(nextVisible);
+        this.syncGlobalSettings(this.renderer.settings);
       } catch (error) {
         logger.error("CommentRenderer.keyboardShortcut", error as Error);
       }
     });
     handler.startListening();
     this.keyboardHandler = handler;
-  }
-
-  private clearCanvas(): void {
-    const canvas = this.renderer.canvas;
-    const ctx = this.renderer.ctx;
-    if (!canvas || !ctx) {
-      return;
-    }
-    // DPRスケーリングが適用されている可能性があるため、論理サイズを使用
-    const displayWidth = this.renderer.displayWidth;
-    const displayHeight = this.renderer.displayHeight;
-    const width = displayWidth > 0 ? displayWidth : canvas.width;
-    const height = displayHeight > 0 ? displayHeight : canvas.height;
-    ctx.clearRect(0, 0, width, height);
   }
 
   private teardownKeyboardShortcuts(): void {
