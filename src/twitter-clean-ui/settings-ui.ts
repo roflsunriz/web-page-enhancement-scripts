@@ -290,24 +290,6 @@ export class SettingsUI {
 
     const section = this.createSection(t('layoutSettings'));
 
-    // 左サイドバーの幅
-    const leftSidebarControl = this.createSliderControl(
-      t('leftSidebarWidth'),
-      settings.layout.leftSidebarWidth,
-      200,
-      400,
-      (value) => {
-        const partialLayout: Partial<typeof settings.layout> = { leftSidebarWidth: value };
-        this.settingsManager.updateSettings({
-          layout: partialLayout as typeof settings.layout,
-        });
-        if (this.settingsManager.getSettings().enableRealTimePreview) {
-          this.controller.applySettings(this.settingsManager.getSettings());
-        }
-      }
-    );
-    section.appendChild(leftSidebarControl);
-
     // メインコンテンツの幅
     const mainContentControl = this.createSliderControl(
       t('mainContentWidth'),

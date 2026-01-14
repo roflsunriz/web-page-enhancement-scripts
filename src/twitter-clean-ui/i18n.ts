@@ -52,7 +52,6 @@ const ja: TranslationKeys = {
   rightSidebar_Footer: 'フッター',
 
   // レイアウト
-  leftSidebarWidth: '左サイドバーの幅',
   mainContentWidth: 'メインコンテンツの幅',
   timelineRightPadding: 'タイムラインと右サイドバー間の余白',
 
@@ -112,7 +111,6 @@ const en: TranslationKeys = {
   rightSidebar_Footer: 'Footer',
 
   // Layout
-  leftSidebarWidth: 'Left Sidebar Width',
   mainContentWidth: 'Main Content Width',
   timelineRightPadding: 'Timeline Right Padding',
 

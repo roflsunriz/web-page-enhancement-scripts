@@ -110,7 +110,6 @@ export interface VisibilitySettings {
  * レイアウト設定
  */
 export interface LayoutSettings {
-  leftSidebarWidth: number; // px
   mainContentWidth: number; // px
   timelineRightPadding: number; // px（タイムラインと右サイドバー間）
 }
@@ -198,7 +197,6 @@ export interface TranslationKeys {
   rightSidebar_Footer: string;
 
   // レイアウト
-  leftSidebarWidth: string;
   mainContentWidth: string;
   timelineRightPadding: string;
 

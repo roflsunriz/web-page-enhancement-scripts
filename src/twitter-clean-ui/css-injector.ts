@@ -96,14 +96,6 @@ export class CSSInjector {
     const { layout } = settings;
 
     return `
-      /* 左サイドバーの幅 */
-      header[role="banner"] {
-        width: ${layout.leftSidebarWidth}px !important;
-        min-width: ${layout.leftSidebarWidth}px !important;
-        max-width: ${layout.leftSidebarWidth}px !important;
-        flex-shrink: 0 !important;
-      }
-
       /* メインコンテンツの幅 - data-testidセレクタ */
       [data-testid="primaryColumn"] {
         width: ${layout.mainContentWidth}px !important;

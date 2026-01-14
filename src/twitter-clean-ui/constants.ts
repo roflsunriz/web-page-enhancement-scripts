@@ -44,7 +44,6 @@ export const DEFAULT_SETTINGS: Settings = {
     rightSidebar_Footer: true,
   },
   layout: {
-    leftSidebarWidth: 275, // デフォルトのX/Twitterの幅
     mainContentWidth: 600, // 読みやすい幅
     timelineRightPadding: 0,
   },
