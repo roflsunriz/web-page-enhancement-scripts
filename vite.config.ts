@@ -228,7 +228,7 @@ const mangaViewerMeta: MonkeyUserScript = {
 const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
   name: 'native-video-volume-setter',
   namespace: 'nativeVideoVolumeSetter',
-  version: '1.1.1',
+  version: '1.1.2',
   description:
     '新規タブで開かれたブラウザ標準のビデオプレーヤーの音量を好みの既定値に揃えるシンプルな補助スクリプト',
   author: 'roflsunriz',

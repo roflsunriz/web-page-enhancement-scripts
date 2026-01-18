@@ -1,49 +1,15 @@
 import { clampVolume } from "./volume-settings";
 
 const VIDEO_EXTENSIONS = [".mp4", ".webm", ".ogg", ".mkv", ".mov", ".avi"];
-const MAX_BODY_CHILDREN_FOR_NATIVE = 6;
 
-const hasVideoLikeExtension = (url: string): boolean => {
-  const lower = url.toLowerCase();
-  return VIDEO_EXTENSIONS.some((extension) => lower.includes(extension));
+const hasVideoFileExtension = (pathname: string): boolean => {
+  const lower = pathname.toLowerCase();
+  return VIDEO_EXTENSIONS.some((ext) => lower.endsWith(ext));
 };
 
 const hasVideoContentType = (): boolean => {
   const contentType = (document.contentType ?? "").toLowerCase();
-  return (
-    contentType.startsWith("video/") ||
-    contentType === "application/octet-stream"
-  );
-};
-
-const isMinimalLayout = (videos: HTMLVideoElement[]): boolean => {
-  const body = document.body;
-
-  if (!body) {
-    return false;
-  }
-
-  const totalElements = body.querySelectorAll("*").length;
-  const totalVideoElements = body.querySelectorAll("video").length;
-
-  return (
-    body.childElementCount <= MAX_BODY_CHILDREN_FOR_NATIVE ||
-    totalElements - totalVideoElements <= 8 ||
-    totalVideoElements === videos.length
-  );
-};
-
-const hasDominantVideoElement = (videos: HTMLVideoElement[]): boolean => {
-  const viewportArea = window.innerWidth * window.innerHeight;
-
-  if (viewportArea === 0) {
-    return false;
-  }
-
-  return videos.some((video) => {
-    const { width, height } = video.getBoundingClientRect();
-    return width > 0 && height > 0 && (width * height) / viewportArea > 0.4;
-  });
+  return contentType.startsWith("video/");
 };
 
 export const findVideoElements = (): HTMLVideoElement[] =>
@@ -56,14 +22,7 @@ export const isLikelyNativeVideoPage = (
     return false;
   }
 
-  const urlHint = `${window.location.pathname}${window.location.search}`;
-  const videoLikeUrl = hasVideoLikeExtension(urlHint);
-
-  return (
-    hasVideoContentType() ||
-    videoLikeUrl ||
-    (hasDominantVideoElement(videos) && isMinimalLayout(videos))
-  );
+  return hasVideoContentType() || hasVideoFileExtension(window.location.pathname);
 };
 
 export const applyVolumeToVideos = (
