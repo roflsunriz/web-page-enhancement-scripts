@@ -11,7 +11,7 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import { svgAlertCircle, svgProcessing } from "@/shared/icons/mdi";
+import { svgAlertCircle, svgCheckCircle, svgProcessing } from "@/shared/icons/mdi";
 import type {
   RankData,
   RankTier,
@@ -72,6 +72,15 @@ const ICON_STYLE = `
   width: 14px;
   height: 14px;
   vertical-align: middle;
+`;
+
+/** チェックマークのスタイル（小さめ） */
+const CHECK_ICON_STYLE = `
+  width: 12px;
+  height: 12px;
+  vertical-align: middle;
+  margin-left: 2px;
+  opacity: 0.9;
 `;
 
 // =============================================================================
@@ -192,6 +201,13 @@ function createIconHtml(svg: string): string {
 }
 
 /**
+ * チェックマークのHTMLを生成する
+ */
+function createCheckIconHtml(svg: string): string {
+  return `<span style="${CHECK_ICON_STYLE}">${svg}</span>`;
+}
+
+/**
  * エラー状態のバッジを作成する
  */
 export function createErrorBadge(
@@ -230,7 +246,7 @@ export function createRankBadge(
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-rank";
   badge.setAttribute("style", getTierStyle(rankData.tier));
-  badge.textContent = `第${rankData.rank}位`;
+  badge.innerHTML = `第${rankData.rank}位${createCheckIconHtml(svgCheckCircle)}`;
 
   const tooltipData = buildTooltipData(rankData, cacheEntry);
   const tooltipContent = formatTooltipContent(tooltipData);
@@ -285,7 +301,7 @@ export function updateBadge(
     // 順位表示
     badge.className = "cf-ranking-badge cf-ranking-rank";
     badge.setAttribute("style", getTierStyle(rankData.tier));
-    badge.textContent = `第${rankData.rank}位`;
+    badge.innerHTML = `第${rankData.rank}位${createCheckIconHtml(svgCheckCircle)}`;
     badge.style.cursor = "default";
 
     const tooltipData = buildTooltipData(rankData, cacheEntry);
