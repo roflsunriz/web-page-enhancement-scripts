@@ -1,13 +1,14 @@
 /**
  * 作品カード検出
  *
- * - `.itemModule.list[data-workid]` 作品カード検出
+ * - 作品カード検出（複数セレクタ対応）
  * - タイトル抽出（複数セレクタ対応）
+ * - workId抽出（複数パターン対応）
  * - MutationObserver（動的カード追加対応）
  *
  * 対応ページ:
- * - CF/* ページ（タイトル: .newTVtitle span）
- * - CF/shinban-* ページ（タイトル: .textContainer h2 span）
+ * - CF/* ページ（カード: .itemModule.list[data-workid], タイトル: .newTVtitle span）
+ * - CF/shinban-* ページ（カード: .itemModule.list, タイトル: .textContainer h2 span, workId: .check input[data-workid]）
  */
 
 import { createLogger } from "@/shared/logger";
@@ -19,14 +20,24 @@ const logger = createLogger("dAnimeCfRanking:CardDetector");
 // セレクタ定義
 // =============================================================================
 
-/** 作品カードセレクタ */
-const CARD_SELECTOR = ".itemModule.list[data-workid]";
+/**
+ * 作品カードセレクタ（複数パターン対応）
+ * - CF/* ページ: .itemModule.list[data-workid]
+ * - shinban-* ページ: .itemModule.list（data-workidがカード要素にない）
+ */
+const CARD_SELECTORS = [
+  ".itemModule.list[data-workid]",  // CF/* ページ
+  ".itemModule.list",               // CF/shinban-* ページ（汎用）
+];
 
 /** タイトルセレクタ（カード内）- 複数パターン対応 */
 const TITLE_SELECTORS = [
   ".newTVtitle span",        // CF/* ページ
   ".textContainer h2 span",  // CF/shinban-* ページ
 ];
+
+/** workId取得用セレクタ（カード内）- shinban-* ページ用 */
+const WORKID_INPUT_SELECTOR = ".check input[data-workid]";
 
 /** 円形グラフセレクタ（カード内）- CF/* ページのみ */
 const CIRCLE_PROGRESS_SELECTOR = ".circleProgress";
@@ -80,9 +91,16 @@ function isElementVisible(element: HTMLElement): boolean {
  * @returns 作品カード情報の配列
  */
 export function detectAllCards(): AnimeCard[] {
-  const cardElements = document.querySelectorAll<HTMLElement>(CARD_SELECTOR);
+  // 複数セレクタを試行してカード要素を収集
+  const cardElements = new Set<HTMLElement>();
+  for (const selector of CARD_SELECTORS) {
+    const elements = document.querySelectorAll<HTMLElement>(selector);
+    elements.forEach((el) => cardElements.add(el));
+  }
+
   const cards: AnimeCard[] = [];
   const seenTitles = new Set<string>();
+  const seenWorkIds = new Set<string>();
   let hiddenCount = 0;
 
   cardElements.forEach((element) => {
@@ -93,14 +111,15 @@ export function detectAllCards(): AnimeCard[] {
     }
 
     const card = parseCardElement(element);
-    if (card && !seenTitles.has(card.title)) {
+    if (card && !seenTitles.has(card.title) && !seenWorkIds.has(card.workId)) {
       cards.push(card);
       seenTitles.add(card.title);
+      seenWorkIds.add(card.workId);
     }
   });
 
   logger.debug("Cards detected", { 
-    total: cardElements.length,
+    total: cardElements.size,
     visible: cards.length, 
     hidden: hiddenCount 
   });
@@ -124,15 +143,38 @@ function extractTitle(element: HTMLElement): string | null {
 }
 
 /**
+ * カード要素からworkIdを抽出する（複数パターン対応）
+ * - CF/* ページ: element.dataset.workid
+ * - shinban-* ページ: .check input[data-workid]
+ * @param element カード要素
+ * @returns workId（見つからない場合はnull）
+ */
+function extractWorkId(element: HTMLElement): string | null {
+  // パターン1: カード要素自体にdata-workidがある場合（CF/* ページ）
+  const directWorkId = element.dataset["workid"];
+  if (directWorkId) {
+    return directWorkId;
+  }
+
+  // パターン2: .check input[data-workid]から取得（shinban-* ページ）
+  const workIdInput = element.querySelector<HTMLInputElement>(WORKID_INPUT_SELECTOR);
+  if (workIdInput?.dataset["workid"]) {
+    return workIdInput.dataset["workid"];
+  }
+
+  return null;
+}
+
+/**
  * カード要素をパースしてAnimeCard情報を抽出する
  * @param element カード要素
  * @returns AnimeCard（パース失敗時はnull）
  */
 export function parseCardElement(element: HTMLElement): AnimeCard | null {
-  // 作品ID
-  const workId = element.dataset["workid"];
+  // 作品ID（複数パターンから取得）
+  const workId = extractWorkId(element);
   if (!workId) {
-    logger.warn("Card has no workid", { element });
+    // ログはデバッグ時のみ（多くのカードでworkIdがない場合がある）
     return null;
   }
 
@@ -182,7 +224,7 @@ export function findInsertionPoint(cardElement: HTMLElement): HTMLElement | null
 
   // どちらも見つからない場合
   logger.warn("Insertion point not found", {
-    workId: cardElement.dataset["workid"],
+    workId: extractWorkId(cardElement),
     hasCircleProgress: !!circleProgress,
     hasCheck: !!check,
   });
@@ -240,6 +282,30 @@ function isBadgeRelatedNode(node: Node): boolean {
 }
 
 /**
+ * 要素がカードセレクタにマッチするかどうかを判定する
+ * @param element 判定する要素
+ * @returns いずれかのカードセレクタにマッチすればtrue
+ */
+function matchesCardSelector(element: HTMLElement): boolean {
+  return CARD_SELECTORS.some((selector) => element.matches(selector));
+}
+
+/**
+ * 要素内からカード要素を検索する
+ * @param element 検索対象の親要素
+ * @returns カード要素の配列
+ */
+function findCardElementsIn(element: HTMLElement): HTMLElement[] {
+  const cards: HTMLElement[] = [];
+  for (const selector of CARD_SELECTORS) {
+    const found = Array.from(element.querySelectorAll<HTMLElement>(selector));
+    cards.push(...found);
+  }
+  // 重複除去
+  return [...new Set(cards)];
+}
+
+/**
  * 動的に追加されるカードを監視するObserverを作成する
  * @param callback 新しいカードが検出されたときのコールバック
  * @returns MutationObserver
@@ -247,6 +313,7 @@ function isBadgeRelatedNode(node: Node): boolean {
 export function createCardObserver(callback: CardAddedCallback): MutationObserver {
   const observer = new MutationObserver((mutations) => {
     const newCards: AnimeCard[] = [];
+    const seenWorkIds = new Set<string>();
 
     for (const mutation of mutations) {
       if (mutation.type !== "childList") continue;
@@ -259,20 +326,22 @@ export function createCardObserver(callback: CardAddedCallback): MutationObserve
         if (isBadgeRelatedNode(node)) continue;
 
         // 追加されたノード自体がカードの場合
-        if (node.matches(CARD_SELECTOR)) {
+        if (matchesCardSelector(node)) {
           const card = parseCardElement(node);
-          if (card && !isBadgeInserted(node)) {
+          if (card && !isBadgeInserted(node) && !seenWorkIds.has(card.workId)) {
             newCards.push(card);
+            seenWorkIds.add(card.workId);
           }
         }
 
         // 追加されたノードの子孫にカードがある場合
-        const childCards = Array.from(node.querySelectorAll<HTMLElement>(CARD_SELECTOR));
+        const childCards = findCardElementsIn(node);
         childCards.forEach((cardElement) => {
           if (!isBadgeInserted(cardElement)) {
             const card = parseCardElement(cardElement);
-            if (card) {
+            if (card && !seenWorkIds.has(card.workId)) {
               newCards.push(card);
+              seenWorkIds.add(card.workId);
             }
           }
         });
