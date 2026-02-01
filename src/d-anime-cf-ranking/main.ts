@@ -98,12 +98,12 @@ async function main(): Promise<void> {
   fetchController = createFetchController();
   fetchController.setOnComplete(handleFetchComplete);
 
-  // カード検出
-  allCards = detectAllCards();
+  // カードが表示されるまで待機（動的ページ対応）
+  allCards = await waitForCards();
   log(`Detected ${allCards.length} cards`);
 
   if (allCards.length === 0) {
-    log("No cards found, exiting");
+    log("No cards found after waiting, exiting");
     return;
   }
 
@@ -118,6 +118,29 @@ async function main(): Promise<void> {
   }, 1000);
 
   log("Initialization complete");
+}
+
+/**
+ * カードがDOMに表示されるまで待機する
+ * @returns 検出されたカード配列
+ */
+async function waitForCards(): Promise<AnimeCard[]> {
+  const MAX_ATTEMPTS = 30; // 最大30回（15秒）
+  const POLL_INTERVAL_MS = 500;
+
+  for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
+    const cards = detectAllCards();
+    if (cards.length > 0) {
+      log(`Cards found on attempt ${attempt + 1}`);
+      return cards;
+    }
+
+    log(`Waiting for cards... (attempt ${attempt + 1}/${MAX_ATTEMPTS})`);
+    await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
+  }
+
+  log("Timeout waiting for cards");
+  return [];
 }
 
 // =============================================================================
