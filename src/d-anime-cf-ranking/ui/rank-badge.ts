@@ -11,7 +11,12 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import { svgAlertCircle, svgCheckCircle, svgProcessing } from "@/shared/icons/mdi";
+import { renderMdiSvg } from "@/shared/icons/mdi";
+import {
+  mdiAlertCircle,
+  mdiCheckCircle,
+  mdiTimerSandEmpty,
+} from "@mdi/js";
 import type {
   RankData,
   RankTier,
@@ -69,15 +74,13 @@ const ERROR_STYLE = `
 
 /** アイコンのスタイル */
 const ICON_STYLE = `
-  width: 14px;
-  height: 14px;
+  display: inline-flex;
   vertical-align: middle;
 `;
 
 /** チェックマークのスタイル（小さめ） */
 const CHECK_ICON_STYLE = `
-  width: 12px;
-  height: 12px;
+  display: inline-flex;
   vertical-align: middle;
   margin-left: 2px;
   opacity: 0.9;
@@ -187,24 +190,24 @@ export function createLoadingBadge(title: string): HTMLElement {
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-loading";
   badge.setAttribute("style", LOADING_STYLE);
-  badge.innerHTML = createIconHtml(svgProcessing);
+  badge.innerHTML = createIconHtml(mdiTimerSandEmpty);
   badge.__cfRanking = { title };
 
   return badge;
 }
 
 /**
- * アイコンのHTMLを生成する
+ * アイコンのHTMLを生成する（14px）
  */
-function createIconHtml(svg: string): string {
-  return `<span style="${ICON_STYLE}">${svg}</span>`;
+function createIconHtml(pathD: string): string {
+  return `<span style="${ICON_STYLE}">${renderMdiSvg(pathD, 14)}</span>`;
 }
 
 /**
- * チェックマークのHTMLを生成する
+ * チェックマークのHTMLを生成する（12px）
  */
-function createCheckIconHtml(svg: string): string {
-  return `<span style="${CHECK_ICON_STYLE}">${svg}</span>`;
+function createCheckIconHtml(pathD: string): string {
+  return `<span style="${CHECK_ICON_STYLE}">${renderMdiSvg(pathD, 12)}</span>`;
 }
 
 /**
@@ -218,7 +221,7 @@ export function createErrorBadge(
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-error";
   badge.setAttribute("style", ERROR_STYLE);
-  badge.innerHTML = createIconHtml(svgAlertCircle);
+  badge.innerHTML = createIconHtml(mdiAlertCircle);
 
   const tooltipContent = `取得失敗: ${errorMessage}\nクリックでリトライ`;
   badge.__cfRanking = { title, retryCallback, tooltipContent };
@@ -237,18 +240,23 @@ export function createErrorBadge(
 
 /**
  * 順位バッジを作成する
+ * @param isRankingFinalized 全カードのフェッチが完了しているか
  */
 export function createRankBadge(
   title: string,
   rankData: RankData,
-  cacheEntry: CacheEntry
+  cacheEntry: CacheEntry,
+  isRankingFinalized = false
 ): HTMLElement {
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-rank";
   badge.setAttribute("style", getTierStyle(rankData.tier));
-  badge.innerHTML = `第${rankData.rank}位${createCheckIconHtml(svgCheckCircle)}`;
+  
+  // 全カード取得完了時のみチェックマークを表示
+  const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
+  badge.innerHTML = `第${rankData.rank}位${checkMark}`;
 
-  const tooltipData = buildTooltipData(rankData, cacheEntry);
+  const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);
   const tooltipContent = formatTooltipContent(tooltipData);
   badge.__cfRanking = { title, tooltipContent };
 
@@ -267,12 +275,14 @@ export function createRankBadge(
 
 /**
  * バッジを更新する（ローディング→順位 or エラー）
+ * @param isRankingFinalized 全カードのフェッチが完了しているか
  */
 export function updateBadge(
   badge: HTMLElement,
   rankData: RankData | null,
   cacheEntry: CacheEntry,
-  retryCallback?: RetryCallback
+  retryCallback?: RetryCallback,
+  isRankingFinalized = false
 ): void {
   const badgeEl = badge as BadgeElement;
   const title = badgeEl.__cfRanking?.title ?? cacheEntry.title;
@@ -286,7 +296,7 @@ export function updateBadge(
     // エラー状態
     badge.className = "cf-ranking-badge cf-ranking-error";
     badge.setAttribute("style", ERROR_STYLE);
-    badge.innerHTML = createIconHtml(svgAlertCircle);
+    badge.innerHTML = createIconHtml(mdiAlertCircle);
 
     const tooltipContent = `取得失敗: ${cacheEntry.failureReason ?? "不明なエラー"}\nクリックでリトライ`;
     badgeEl.__cfRanking = { title, retryCallback, tooltipContent };
@@ -301,10 +311,13 @@ export function updateBadge(
     // 順位表示
     badge.className = "cf-ranking-badge cf-ranking-rank";
     badge.setAttribute("style", getTierStyle(rankData.tier));
-    badge.innerHTML = `第${rankData.rank}位${createCheckIconHtml(svgCheckCircle)}`;
+    
+    // 全カード取得完了時のみチェックマークを表示
+    const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
+    badge.innerHTML = `第${rankData.rank}位${checkMark}`;
     badge.style.cursor = "default";
 
-    const tooltipData = buildTooltipData(rankData, cacheEntry);
+    const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);
     const tooltipContent = formatTooltipContent(tooltipData);
     badgeEl.__cfRanking = { title, tooltipContent };
 
@@ -343,7 +356,11 @@ function setupTooltipEvents(badge: HTMLElement): void {
 // ツールチップデータ
 // =============================================================================
 
-function buildTooltipData(rankData: RankData, cacheEntry: CacheEntry): TooltipData {
+function buildTooltipData(
+  rankData: RankData,
+  cacheEntry: CacheEntry,
+  isRankingFinalized: boolean
+): TooltipData {
   return {
     rank: rankData.rank,
     totalCount: rankData.totalCount,
@@ -358,14 +375,16 @@ function buildTooltipData(rankData: RankData, cacheEntry: CacheEntry): TooltipDa
     normalizedMetrics: rankData.score.normalizedMetrics,
     representativeVideo: cacheEntry.representativeVideo,
     fetchedAt: cacheEntry.fetchedAt,
+    isRankingFinalized,
   };
 }
 
 function formatTooltipContent(data: TooltipData): string {
   const lines: string[] = [];
 
-  // 順位
-  lines.push(`【${data.tier}ランク】第${data.rank}位 / ${data.totalCount}作品中`);
+  // 順位（確定状態を表示）
+  const status = data.isRankingFinalized ? "✓確定" : "⏳暫定";
+  lines.push(`【${data.tier}ランク】第${data.rank}位 / ${data.totalCount}作品中 ${status}`);
   lines.push(`総合スコア: ${(data.totalScore * 100).toFixed(1)}点`);
   lines.push("");
 
@@ -455,7 +474,7 @@ function handleRetryClick(
   // ローディング状態に変更
   badge.className = "cf-ranking-badge cf-ranking-loading";
   badge.setAttribute("style", LOADING_STYLE);
-  badge.innerHTML = createIconHtml(svgProcessing);
+  badge.innerHTML = createIconHtml(mdiTimerSandEmpty);
 
   callback(title);
 }

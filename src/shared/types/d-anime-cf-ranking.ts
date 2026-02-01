@@ -204,6 +204,8 @@ export interface TooltipData {
   representativeVideo: RepresentativeVideo | null;
   /** データ取得日時 */
   fetchedAt: string;
+  /** ランキング確定済みか */
+  isRankingFinalized: boolean;
 }
 
 // =============================================================================

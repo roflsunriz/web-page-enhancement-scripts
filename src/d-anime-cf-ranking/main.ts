@@ -19,7 +19,7 @@ import {
 import { getSettings, registerMenuCommands } from "./config/settings";
 
 // キャッシュ
-import { initDatabase } from "./services/cache-manager";
+import { initDatabase, getAllCacheEntries, isCacheValid } from "./services/cache-manager";
 
 // DOM操作
 import {
@@ -63,6 +63,9 @@ let backgroundFetchIndex = 0;
 /** バックグラウンドフェッチタイマー */
 let backgroundFetchTimer: ReturnType<typeof setTimeout> | null = null;
 
+/** 全カードのフェッチが完了したか（順位確定状態） */
+let isRankingFinalized = false;
+
 // =============================================================================
 // メイン処理
 // =============================================================================
@@ -78,6 +81,9 @@ async function main(): Promise<void> {
 
   registerMenuCommands();
   await initDatabase();
+
+  // 既存キャッシュを読み込む
+  await loadCachedEntries();
 
   fetchController = createFetchController();
   fetchController.setOnComplete(handleFetchComplete);
@@ -130,12 +136,42 @@ async function waitForCards(): Promise<AnimeCard[]> {
   return [];
 }
 
+/**
+ * IndexedDBから既存キャッシュを読み込み、有効なエントリをcacheEntryMapにセットする
+ */
+async function loadCachedEntries(): Promise<void> {
+  try {
+    const allEntries = await getAllCacheEntries();
+    let validCount = 0;
+
+    for (const entry of allEntries) {
+      if (isCacheValid(entry)) {
+        cacheEntryMap.set(entry.title, entry);
+        validCount++;
+      }
+    }
+
+    logger.info("Loaded cached entries", { total: allEntries.length, valid: validCount });
+  } catch (error) {
+    logger.error("Failed to load cached entries", error as Error);
+  }
+}
+
 // =============================================================================
 // バックグラウンドフェッチ（全カード順次取得）
 // =============================================================================
 
 function startBackgroundFetch(): void {
   if (!fetchController) return;
+
+  // 全カードがキャッシュ済みかチェック
+  const allCached = allCards.every((card) => cacheEntryMap.has(card.title));
+  if (allCached && allCards.length > 0) {
+    isRankingFinalized = true;
+    logger.info("All cards cached, ranking finalized immediately");
+    recalculateRanks();
+    return;
+  }
 
   backgroundFetchIndex = 0;
   scheduleNextBackgroundFetch();
@@ -154,7 +190,13 @@ function scheduleNextBackgroundFetch(): void {
 
 function processNextBackgroundFetch(): void {
   if (!fetchController || backgroundFetchIndex >= allCards.length) {
-    logger.info("Background fetch complete", { total: cacheEntryMap.size });
+    // 全カードのフェッチが完了
+    if (!isRankingFinalized) {
+      isRankingFinalized = true;
+      logger.info("Ranking finalized", { total: cacheEntryMap.size });
+      // 確定状態でバッジを再描画
+      recalculateRanks();
+    }
     return;
   }
 
@@ -326,7 +368,7 @@ function recalculateRanks(): void {
     if (!badge || !entry) continue;
     if (entry.status === "pending") continue;
 
-    updateBadge(badge, output.rankData, entry, handleRetry);
+    updateBadge(badge, output.rankData, entry, handleRetry, isRankingFinalized);
   }
 }
 
