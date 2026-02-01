@@ -4,11 +4,16 @@
  * dアニメストアのCFページ（クール別ページ）上の作品カードに、
  * ニコニコ動画の人気指標を基にした総合順位をオーバーレイ表示する
  *
- * v1.0.3 - デバッグ版（問題切り分け用）
+ * v1.1.0 - フルバージョン（最適化済み）
  */
 
+import { createLogger } from "@/shared/logger";
 import type { AnimeCard, CacheEntry } from "@/shared/types/d-anime-cf-ranking";
-import { RECALCULATE_THROTTLE_MS } from "@/shared/types/d-anime-cf-ranking";
+import {
+  RECALCULATE_THROTTLE_MS,
+  VIEWPORT_DEBOUNCE_MS,
+  MAX_VIEWPORT_ITEMS,
+} from "@/shared/types/d-anime-cf-ranking";
 
 // 設定
 import { getSettings, registerMenuCommands } from "./config/settings";
@@ -19,6 +24,8 @@ import { initDatabase } from "./services/cache-manager";
 // DOM操作
 import {
   detectAllCards,
+  createCardObserver,
+  startCardObserver,
   filterUnprocessedCards,
   markBadgeInserted,
 } from "./dom/card-detector";
@@ -32,14 +39,7 @@ import { calculateRanks, type ScoreInput } from "./services/score-calculator";
 // UI
 import { createLoadingBadge, updateBadge } from "./ui/rank-badge";
 
-// =============================================================================
-// デバッグ用ログ（軽量）
-// =============================================================================
-
-const DEBUG = true;
-const log = (msg: string, data?: unknown) => {
-  if (DEBUG) console.log(`[cf-ranking] ${msg}`, data ?? "");
-};
+const logger = createLogger("dAnimeCfRanking");
 
 // =============================================================================
 // グローバル状態
@@ -57,14 +57,26 @@ const badgeMap = new Map<string, HTMLElement>();
 /** フェッチコントローラー */
 let fetchController: FetchController | null = null;
 
+/** MutationObserver */
+let cardObserver: MutationObserver | null = null;
+
+/** IntersectionObserver */
+let viewportObserver: IntersectionObserver | null = null;
+
 /** 順位再計算のスロットルタイマー */
 let recalculateTimer: ReturnType<typeof setTimeout> | null = null;
 
 /** 順位再計算がペンディング中かどうか */
 let recalculatePending = false;
 
-/** フェッチ中のカードタイトルSet */
-const fetchingTitles = new Set<string>();
+/** ビューポート変更のデバウンスタイマー */
+let viewportDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** 現在ビューポート内にあるカード要素 */
+const visibleCardElements = new Set<HTMLElement>();
+
+/** 初期化完了フラグ */
+let isInitialized = false;
 
 // =============================================================================
 // メイン処理
@@ -74,12 +86,12 @@ const fetchingTitles = new Set<string>();
  * アプリケーションのメインエントリポイント
  */
 async function main(): Promise<void> {
-  log("Starting...");
+  logger.info("d-anime-cf-ranking starting...");
 
   // 設定チェック
   const settings = getSettings();
   if (!settings.enabled) {
-    log("Disabled by settings");
+    logger.info("Ranking display is disabled");
     return;
   }
 
@@ -87,12 +99,7 @@ async function main(): Promise<void> {
   registerMenuCommands();
 
   // IndexedDB初期化
-  try {
-    await initDatabase();
-    log("IndexedDB initialized");
-  } catch (e) {
-    log("IndexedDB init failed", e);
-  }
+  await initDatabase();
 
   // フェッチコントローラー初期化
   fetchController = createFetchController();
@@ -100,112 +107,158 @@ async function main(): Promise<void> {
 
   // カードが表示されるまで待機（動的ページ対応）
   allCards = await waitForCards();
-  log(`Detected ${allCards.length} cards`);
+  logger.info("Cards detected", { count: allCards.length });
 
   if (allCards.length === 0) {
-    log("No cards found after waiting, exiting");
+    logger.warn("No cards found after waiting");
     return;
   }
 
-  // バッジ挿入（同期的だが軽量）
+  // バッジ挿入
   insertLoadingBadges(allCards);
-  log("Badges inserted");
 
-  // 初期フェッチ（最初の10件のみ、1秒後に開始）
+  // IntersectionObserver初期化（軽量版）
+  initViewportObserver();
+
+  // 全カードをビューポート監視に追加
+  for (const card of allCards) {
+    viewportObserver?.observe(card.element);
+  }
+
+  // 動的カード監視開始
+  cardObserver = createCardObserver(handleNewCards);
+  startCardObserver(cardObserver);
+
+  // 初期化完了
+  isInitialized = true;
+
+  // 初期フェッチ（少し遅延させて安定化）
   setTimeout(() => {
-    log("Starting initial fetch...");
-    fetchVisibleCards();
-  }, 1000);
+    triggerViewportFetch();
+  }, 500);
 
-  log("Initialization complete");
+  logger.info("d-anime-cf-ranking initialized");
 }
 
 /**
  * カードがDOMに表示されるまで待機する
- * @returns 検出されたカード配列
  */
 async function waitForCards(): Promise<AnimeCard[]> {
-  const MAX_ATTEMPTS = 30; // 最大30回（15秒）
+  const MAX_ATTEMPTS = 30;
   const POLL_INTERVAL_MS = 500;
 
   for (let attempt = 0; attempt < MAX_ATTEMPTS; attempt++) {
     const cards = detectAllCards();
     if (cards.length > 0) {
-      log(`Cards found on attempt ${attempt + 1}`);
+      logger.debug("Cards found", { attempt: attempt + 1 });
       return cards;
     }
 
-    log(`Waiting for cards... (attempt ${attempt + 1}/${MAX_ATTEMPTS})`);
+    logger.debug("Waiting for cards...", { attempt: attempt + 1 });
     await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
   }
 
-  log("Timeout waiting for cards");
   return [];
 }
 
 // =============================================================================
-// フェッチ処理
+// IntersectionObserver（軽量版）
 // =============================================================================
 
 /**
- * ビューポート内（上位10件）のカードをフェッチする
+ * IntersectionObserverを初期化する
  */
-function fetchVisibleCards(): void {
-  // 画面上部から順に10件のみフェッチ
-  const cardsToFetch = allCards
-    .filter((card) => {
-      // 既にフェッチ済みまたはフェッチ中はスキップ
-      if (cacheEntryMap.has(card.title)) return false;
-      if (fetchingTitles.has(card.title)) return false;
-      return true;
-    })
-    .slice(0, 10);
+function initViewportObserver(): void {
+  viewportObserver = new IntersectionObserver(
+    (entries) => {
+      let hasChange = false;
 
-  if (cardsToFetch.length === 0) {
-    log("No cards to fetch");
-    return;
-  }
+      for (const entry of entries) {
+        const element = entry.target as HTMLElement;
+        const wasVisible = visibleCardElements.has(element);
+        const isVisible = entry.isIntersecting;
 
-  log(`Fetching ${cardsToFetch.length} cards`);
+        if (wasVisible !== isVisible) {
+          hasChange = true;
+          if (isVisible) {
+            visibleCardElements.add(element);
+          } else {
+            visibleCardElements.delete(element);
+          }
+        }
+      }
 
-  // 1件ずつ順番にフェッチ（並列を避ける）
-  fetchSequentially(cardsToFetch, 0);
+      if (hasChange && isInitialized) {
+        scheduleViewportFetch();
+      }
+    },
+    {
+      root: null,
+      rootMargin: "50px",
+      threshold: 0,
+    }
+  );
 }
 
 /**
- * カードを1件ずつ順番にフェッチする
+ * ビューポートフェッチをデバウンスしてスケジュールする
  */
-function fetchSequentially(cards: AnimeCard[], index: number): void {
-  if (index >= cards.length || !fetchController) {
-    log("Sequential fetch complete");
+function scheduleViewportFetch(): void {
+  if (viewportDebounceTimer !== null) {
+    clearTimeout(viewportDebounceTimer);
+  }
+
+  viewportDebounceTimer = setTimeout(() => {
+    viewportDebounceTimer = null;
+    triggerViewportFetch();
+  }, VIEWPORT_DEBOUNCE_MS);
+}
+
+/**
+ * ビューポート内のカードをフェッチする
+ */
+function triggerViewportFetch(): void {
+  if (!fetchController) return;
+
+  // ビューポート内のカードを取得（上から順に並べ替え）
+  const visibleCards = allCards.filter((card) =>
+    visibleCardElements.has(card.element)
+  );
+
+  // DOM順にソート
+  visibleCards.sort((a, b) => {
+    const rectA = a.element.getBoundingClientRect();
+    const rectB = b.element.getBoundingClientRect();
+    return rectA.top - rectB.top;
+  });
+
+  // 最大件数で制限
+  const cardsToProcess = visibleCards.slice(0, MAX_VIEWPORT_ITEMS);
+
+  // 未取得のカードのみをフェッチ
+  const cardsToFetch = cardsToProcess.filter((card) => {
+    const cached = cacheEntryMap.get(card.title);
+    return !cached;
+  });
+
+  if (cardsToFetch.length === 0) {
+    logger.debug("No cards to fetch in viewport");
     return;
   }
 
-  const card = cards[index];
-  if (!card) return;
+  logger.debug("Fetching viewport cards", { count: cardsToFetch.length });
 
-  fetchingTitles.add(card.title);
-
-  fetchController
-    .fetch(card.title)
-    .then((entry) => {
-      // キャッシュヒット時もhandleFetchCompleteを呼ぶ
-      handleFetchComplete(card.title, entry);
-
-      // 500ms待ってから次をフェッチ
-      setTimeout(() => {
-        fetchSequentially(cards, index + 1);
-      }, 500);
-    })
-    .catch((error) => {
-      log(`Fetch failed: ${card.title}`, error);
-      setTimeout(() => {
-        fetchSequentially(cards, index + 1);
-      }, 500);
-    })
-    .finally(() => {
-      fetchingTitles.delete(card.title);
-    });
+  // フェッチを実行（並列だがFetchControllerが制限する）
+  for (const card of cardsToFetch) {
+    fetchController
+      .fetch(card.title)
+      .then((entry) => {
+        handleFetchComplete(card.title, entry);
+      })
+      .catch((error) => {
+        logger.error("Fetch failed", error as Error, { title: card.title });
+      });
+  }
 }
 
 // =============================================================================
@@ -216,7 +269,10 @@ function fetchSequentially(cards: AnimeCard[], index: number): void {
  * フェッチ完了時のハンドラー
  */
 function handleFetchComplete(title: string, entry: CacheEntry): void {
-  log(`Fetch complete: ${title}`, { status: entry.status });
+  // 既に処理済みの場合はスキップ（重複防止）
+  if (cacheEntryMap.has(title)) {
+    return;
+  }
 
   // キャッシュマップを更新
   cacheEntryMap.set(title, entry);
@@ -232,7 +288,7 @@ function scheduleRecalculateRanks(): void {
   recalculatePending = true;
 
   if (recalculateTimer !== null) {
-    return; // 既にスケジュール済み
+    return;
   }
 
   recalculateTimer = setTimeout(() => {
@@ -242,6 +298,24 @@ function scheduleRecalculateRanks(): void {
       recalculateRanks();
     }
   }, RECALCULATE_THROTTLE_MS);
+}
+
+/**
+ * 新しいカードが追加されたときのハンドラー
+ */
+function handleNewCards(newCards: AnimeCard[]): void {
+  logger.debug("New cards added", { count: newCards.length });
+
+  // グローバルリストに追加
+  allCards = [...allCards, ...newCards];
+
+  // ローディングバッジを挿入
+  insertLoadingBadges(newCards);
+
+  // ビューポート監視に追加
+  for (const card of newCards) {
+    viewportObserver?.observe(card.element);
+  }
 }
 
 // =============================================================================
@@ -256,6 +330,7 @@ function insertLoadingBadges(cards: AnimeCard[]): void {
 
   for (const card of unprocessed) {
     if (!card.insertionPoint) {
+      logger.warn("No insertion point for card", { title: card.title });
       continue;
     }
 
@@ -265,14 +340,14 @@ function insertLoadingBadges(cards: AnimeCard[]): void {
     badgeMap.set(card.title, badge);
     markBadgeInserted(card.element);
   }
+
+  logger.debug("Loading badges inserted", { count: unprocessed.length });
 }
 
 /**
  * 順位を再計算してバッジを更新する
  */
 function recalculateRanks(): void {
-  log("Recalculating ranks...");
-
   // スコア計算用の入力を準備
   const scoreInputs: ScoreInput[] = allCards.map((card) => {
     const entry = cacheEntryMap.get(card.title);
@@ -298,20 +373,28 @@ function recalculateRanks(): void {
     updateBadge(badge, output.rankData, entry, handleRetry);
   }
 
-  const rankedCount = rankOutputs.filter((o) => o.rankData !== null).length;
-  log(`Ranks updated: ${rankedCount}/${allCards.length}`);
+  logger.debug("Ranks recalculated", {
+    total: allCards.length,
+    ranked: rankOutputs.filter((o) => o.rankData !== null).length,
+  });
 }
 
 /**
  * リトライボタンが押されたときのハンドラー
  */
 function handleRetry(title: string): void {
-  log(`Retry: ${title}`);
+  logger.info("Retry requested", { title });
 
   if (!fetchController) return;
 
-  fetchController.fetch(title, true).catch((error) => {
-    log(`Retry failed: ${title}`, error);
+  // キャッシュマップから削除して再取得可能にする
+  cacheEntryMap.delete(title);
+
+  // 強制再取得
+  fetchController.fetch(title, true).then((entry) => {
+    handleFetchComplete(title, entry);
+  }).catch((error) => {
+    logger.error("Retry fetch failed", error as Error, { title });
   });
 }
 
@@ -320,5 +403,5 @@ function handleRetry(title: string): void {
 // =============================================================================
 
 main().catch((error: unknown) => {
-  console.error("[cf-ranking] Fatal error:", error);
+  logger.error("d-anime-cf-ranking failed to initialize", error as Error);
 });
