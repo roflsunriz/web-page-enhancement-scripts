@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         d-anime-cf-ranking
 // @namespace    dAnimeCfRanking
-// @version      1.0.6
+// @version      1.0.7
 // @author       roflsunriz
 // @description  dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示
 // @license      MIT
@@ -9,6 +9,7 @@
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.user.js
 // @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.meta.js
 // @match        https://animestore.docomo.ne.jp/animestore/CF/*
+// @match        https://animestore.docomo.ne.jp/animestore/CF/shinban-*
 // @connect      nicovideo.jp
 // @connect      *.nicovideo.jp
 // @grant        GM_addStyle

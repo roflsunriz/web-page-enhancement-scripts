@@ -2,8 +2,12 @@
  * 作品カード検出
  *
  * - `.itemModule.list[data-workid]` 作品カード検出
- * - `.newTVtitle span` タイトル抽出
+ * - タイトル抽出（複数セレクタ対応）
  * - MutationObserver（動的カード追加対応）
+ *
+ * 対応ページ:
+ * - CF/* ページ（タイトル: .newTVtitle span）
+ * - CF/shinban-* ページ（タイトル: .textContainer h2 span）
  */
 
 import { createLogger } from "@/shared/logger";
@@ -18,10 +22,13 @@ const logger = createLogger("dAnimeCfRanking:CardDetector");
 /** 作品カードセレクタ */
 const CARD_SELECTOR = ".itemModule.list[data-workid]";
 
-/** タイトルセレクタ（カード内） */
-const TITLE_SELECTOR = ".newTVtitle span";
+/** タイトルセレクタ（カード内）- 複数パターン対応 */
+const TITLE_SELECTORS = [
+  ".newTVtitle span",        // CF/* ページ
+  ".textContainer h2 span",  // CF/shinban-* ページ
+];
 
-/** 円形グラフセレクタ（カード内） */
+/** 円形グラフセレクタ（カード内）- CF/* ページのみ */
 const CIRCLE_PROGRESS_SELECTOR = ".circleProgress";
 
 /** チェック（ハート）セレクタ（カード内） */
@@ -101,6 +108,22 @@ export function detectAllCards(): AnimeCard[] {
 }
 
 /**
+ * カード要素からタイトルを抽出する（複数セレクタ対応）
+ * @param element カード要素
+ * @returns タイトル文字列（見つからない場合はnull）
+ */
+function extractTitle(element: HTMLElement): string | null {
+  for (const selector of TITLE_SELECTORS) {
+    const titleElement = element.querySelector<HTMLElement>(selector);
+    const title = titleElement?.textContent?.trim();
+    if (title) {
+      return title;
+    }
+  }
+  return null;
+}
+
+/**
  * カード要素をパースしてAnimeCard情報を抽出する
  * @param element カード要素
  * @returns AnimeCard（パース失敗時はnull）
@@ -113,9 +136,8 @@ export function parseCardElement(element: HTMLElement): AnimeCard | null {
     return null;
   }
 
-  // タイトル
-  const titleElement = element.querySelector<HTMLElement>(TITLE_SELECTOR);
-  const title = titleElement?.textContent?.trim();
+  // タイトル（複数セレクタから検索）
+  const title = extractTitle(element);
   if (!title) {
     logger.warn("Card has no title", { workId });
     return null;
