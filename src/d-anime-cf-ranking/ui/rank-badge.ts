@@ -368,7 +368,7 @@ function formatDate(isoString: string): string {
 function getUploaderTypeLabel(type: string): string {
   switch (type) {
     case "danime":
-      return "dアニメ支店";
+      return "dアニメストア ニコニコ支店";
     case "official":
       return "公式";
     default:

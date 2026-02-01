@@ -3,7 +3,7 @@
  *
  * 作品の代表動画（第一話相当）を決定する
  * - 投稿者ガード適用後の動画群から「最古投稿日」の動画を選択
- * - dアニメ支店投稿者フォールバック
+ * - dアニメストア ニコニコ支店投稿者フォールバック
  * - 見つからない場合は失敗扱い
  */
 
@@ -34,9 +34,9 @@ export interface SelectionResult {
  * 代表動画を選択する
  *
  * 選択ルール:
- * 1. 公式動画（dアニメ支店 or 作品タイトル投稿者）のみをフィルタ
+ * 1. 公式動画（dアニメストア ニコニコ支店 or 作品タイトル投稿者）のみをフィルタ
  * 2. フィルタ後の動画群から「最古投稿日」の動画を選択
- * 3. 公式動画が見つからない場合、dアニメ支店の動画のみで再試行
+ * 3. 公式動画が見つからない場合、dアニメストア ニコニコ支店の動画のみで再試行
  * 4. それでも見つからない場合は失敗
  *
  * @param searchResults 検索結果
@@ -77,7 +77,7 @@ export function selectRepresentativeVideo(
     }
   }
 
-  // Step 3: dアニメ支店のみでフォールバック
+  // Step 3: dアニメストア ニコニコ支店のみでフォールバック
   const danimeVideos = searchResults.filter((item) => {
     const uploaderType = apiClient.determineUploaderType(item.ownerName, animeTitle);
     return uploaderType === "danime";

@@ -44,13 +44,13 @@ dアニメストアのCFページ（クール別ページ）上の作品カー�
 - [x] `src/d-anime-cf-ranking/services/nico-api-client.ts`
   - [x] 検索API（タイトル検索）※既存NicoVideoSearcher参照
   - [x] 視聴ページAPI（指標取得: view/mylist/comment/like）
-  - [x] 投稿者名ガード（dアニメ支店 vs 作品タイトル投稿者）
+  - [x] 投稿者名ガード（dアニメストア ニコニコ支店 vs 作品タイトル投稿者）
 
 ## Phase 6: 代表動画決定 ✅
 
 - [x] `src/d-anime-cf-ranking/services/representative-selector.ts`
   - [x] 投稿者ガード適用後の動画群から「最古投稿日」の動画を選択
-  - [x] dアニメ支店投稿者フォールバック
+  - [x] dアニメストア ニコニコ支店投稿者フォールバック
   - [x] 見つからない場合は失敗扱い
 - [ ] Vitestユニットテスト（Phase 13で実施）
 

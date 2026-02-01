@@ -3,7 +3,7 @@
  *
  * - タイトル検索（検索ページのserver-responseから取得）
  * - 視聴ページから4指標取得（view/mylist/comment/like）
- * - 投稿者名ガード（dアニメ支店 vs 作品タイトル投稿者）
+ * - 投稿者名ガード（dアニメストア ニコニコ支店 vs 作品タイトル投稿者）
  */
 
 import { createLogger } from "@/shared/logger";
