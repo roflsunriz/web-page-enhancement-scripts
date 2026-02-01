@@ -7,6 +7,7 @@
 
 import { createLogger } from "@/shared/logger";
 import type { AnimeCard, CacheEntry } from "@/shared/types/d-anime-cf-ranking";
+import { RECALCULATE_THROTTLE_MS } from "@/shared/types/d-anime-cf-ranking";
 
 // 設定
 import { getSettings, registerMenuCommands } from "./config/settings";
@@ -58,6 +59,12 @@ let fetchController: FetchController | null = null;
 
 /** MutationObserver */
 let cardObserver: MutationObserver | null = null;
+
+/** 順位再計算のスロットルタイマー */
+let recalculateTimer: ReturnType<typeof setTimeout> | null = null;
+
+/** 順位再計算がペンディング中かどうか */
+let recalculatePending = false;
 
 // =============================================================================
 // メイン処理
@@ -136,8 +143,27 @@ function handleFetchComplete(title: string, entry: CacheEntry): void {
   // キャッシュマップを更新
   cacheEntryMap.set(title, entry);
 
-  // 順位を再計算（全カードのデータが揃った分だけ）
-  recalculateRanks();
+  // 順位を再計算（スロットル化）
+  scheduleRecalculateRanks();
+}
+
+/**
+ * 順位再計算をスロットル化してスケジュールする
+ */
+function scheduleRecalculateRanks(): void {
+  recalculatePending = true;
+
+  if (recalculateTimer !== null) {
+    return; // 既にスケジュール済み
+  }
+
+  recalculateTimer = setTimeout(() => {
+    recalculateTimer = null;
+    if (recalculatePending) {
+      recalculatePending = false;
+      recalculateRanks();
+    }
+  }, RECALCULATE_THROTTLE_MS);
 }
 
 /**

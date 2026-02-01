@@ -217,10 +217,16 @@ export const CACHE_TTL_MS = 24 * 60 * 60 * 1000;
 export const MAX_VIEWPORT_ITEMS = 10;
 
 /** 並列取得数 */
-export const MAX_CONCURRENT_FETCHES = 5;
+export const MAX_CONCURRENT_FETCHES = 3;
 
 /** リトライクールダウン（ミリ秒） */
 export const RETRY_COOLDOWN_MS = 3000;
+
+/** 順位再計算のスロットル間隔（ミリ秒） */
+export const RECALCULATE_THROTTLE_MS = 500;
+
+/** ビューポート変更のデバウンス間隔（ミリ秒） */
+export const VIEWPORT_DEBOUNCE_MS = 300;
 
 /** IndexedDBデータベース名 */
 export const IDB_DATABASE_NAME = "dAnimeCfRankingCache";

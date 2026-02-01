@@ -30,6 +30,9 @@ const CHECK_SELECTOR = ".check";
 /** 順位バッジを挿入済みかを示すdata属性 */
 const BADGE_INSERTED_ATTR = "data-cf-ranking-badge";
 
+/** 順位バッジのクラス名 */
+const BADGE_CLASS = "cf-ranking-badge";
+
 // =============================================================================
 // カード検出
 // =============================================================================
@@ -154,6 +157,23 @@ export function filterUnprocessedCards(cards: AnimeCard[]): AnimeCard[] {
 type CardAddedCallback = (cards: AnimeCard[]) => void;
 
 /**
+ * 追加されたノードがバッジ要素（またはその子孫）かどうかを判定する
+ * @param node ノード
+ * @returns バッジ関連のノードならtrue
+ */
+function isBadgeRelatedNode(node: Node): boolean {
+  if (!(node instanceof HTMLElement)) return false;
+
+  // ノード自体がバッジの場合
+  if (node.classList.contains(BADGE_CLASS)) return true;
+
+  // 親要素がバッジの場合（ツールチップなど）
+  if (node.closest(`.${BADGE_CLASS}`)) return true;
+
+  return false;
+}
+
+/**
  * 動的に追加されるカードを監視するObserverを作成する
  * @param callback 新しいカードが検出されたときのコールバック
  * @returns MutationObserver
@@ -168,6 +188,9 @@ export function createCardObserver(callback: CardAddedCallback): MutationObserve
       const addedNodes = Array.from(mutation.addedNodes);
       for (const node of addedNodes) {
         if (!(node instanceof HTMLElement)) continue;
+
+        // バッジ関連のノードは無視（自己トリガー防止）
+        if (isBadgeRelatedNode(node)) continue;
 
         // 追加されたノード自体がカードの場合
         if (node.matches(CARD_SELECTOR)) {

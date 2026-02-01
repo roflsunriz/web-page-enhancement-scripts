@@ -8,7 +8,7 @@
 
 import { createLogger } from "@/shared/logger";
 import type { AnimeCard } from "@/shared/types/d-anime-cf-ranking";
-import { MAX_VIEWPORT_ITEMS } from "@/shared/types/d-anime-cf-ranking";
+import { MAX_VIEWPORT_ITEMS, VIEWPORT_DEBOUNCE_MS } from "@/shared/types/d-anime-cf-ranking";
 
 const logger = createLogger("dAnimeCfRanking:ViewportObserver");
 
@@ -38,7 +38,7 @@ export class ViewportObserver {
   private callback: ViewportChangeCallback | null = null;
   private maxItems: number = MAX_VIEWPORT_ITEMS;
   private debounceTimer: ReturnType<typeof setTimeout> | null = null;
-  private debounceDelay = 100; // ms
+  private debounceDelay = VIEWPORT_DEBOUNCE_MS;
 
   /**
    * 監視を開始する
