@@ -49,6 +49,32 @@ const chatgptNotifyMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/chatgpt-notify.user.js',
 };
 
+const danimeCfRankingMeta: MonkeyUserScript = {
+  name: 'd-anime-cf-ranking',
+  namespace: 'dAnimeCfRanking',
+  version: '1.0.0',
+  description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
+  author: 'roflsunriz',
+  match: ['https://animestore.docomo.ne.jp/animestore/CF/*'],
+  grant: [
+    'GM_xmlhttpRequest',
+    'GM_setValue',
+    'GM_getValue',
+    'GM_registerMenuCommand',
+    'GM_addStyle',
+  ],
+  connect: [
+    'nicovideo.jp',
+    '*.nicovideo.jp',
+  ],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=animestore.docomo.ne.jp',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.user.js',
+};
+
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
@@ -347,32 +373,6 @@ const xAutoSpamReporterMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.meta.js',
   downloadURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.user.js',
-};
-
-const danimeCfRankingMeta: MonkeyUserScript = {
-  name: 'd-anime-cf-ranking',
-  namespace: 'dAnimeCfRanking',
-  version: '1.0.0',
-  description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
-  author: 'roflsunriz',
-  match: ['https://animestore.docomo.ne.jp/animestore/CF/*'],
-  grant: [
-    'GM_xmlhttpRequest',
-    'GM_setValue',
-    'GM_getValue',
-    'GM_registerMenuCommand',
-    'GM_addStyle',
-  ],
-  connect: [
-    'nicovideo.jp',
-    '*.nicovideo.jp',
-  ],
-  icon: 'https://www.google.com/s2/favicons?sz=64&domain=animestore.docomo.ne.jp',
-  'run-at': 'document-end',
-  updateURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.meta.js',
-  downloadURL:
-    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.user.js',
 };
 
 const youtubeInfoCopierMeta: MonkeyUserScript = {

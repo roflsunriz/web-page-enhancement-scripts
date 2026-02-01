@@ -16,6 +16,7 @@ web-page-enhancement-scripts
 - `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
   - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
   - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
+  - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
@@ -33,6 +34,7 @@ web-page-enhancement-scripts
 リンクをクリックすることでTampermonkeyが自動的にインストールウィンドウを開き、インストールを行うことができます。
 
 - [chatgpt-notify](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/chatgpt-notify.user.js)
+- [d-anime-cf-ranking](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-cf-ranking.user.js)
 - [d-anime-nico-comment-renderer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js)
 - [fanbox-floating-menu](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-floating-menu.user.js)
 - [fanbox-pagination-helper](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-pagination-helper.user.js)
