@@ -188,7 +188,10 @@ function fetchSequentially(cards: AnimeCard[], index: number): void {
 
   fetchController
     .fetch(card.title)
-    .then(() => {
+    .then((entry) => {
+      // キャッシュヒット時もhandleFetchCompleteを呼ぶ
+      handleFetchComplete(card.title, entry);
+
       // 500ms待ってから次をフェッチ
       setTimeout(() => {
         fetchSequentially(cards, index + 1);
