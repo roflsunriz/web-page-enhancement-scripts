@@ -2,8 +2,8 @@
  * 代表動画選択ロジック
  *
  * 作品の代表動画（第一話相当）を決定する
- * - 投稿者ガード適用後の動画群から「最古投稿日」の動画を選択
- * - dアニメストア ニコニコ支店投稿者フォールバック
+ * - dアニメストア ニコニコ支店と作品タイトル投稿者の両方がある場合、再生数が多い方を優先
+ * - 片方のみの場合はそちらを選択
  * - 見つからない場合は失敗扱い
  */
 
@@ -34,10 +34,11 @@ export interface SelectionResult {
  * 代表動画を選択する
  *
  * 選択ルール:
- * 1. 公式動画（dアニメストア ニコニコ支店 or 作品タイトル投稿者）のみをフィルタ
- * 2. フィルタ後の動画群から「最古投稿日」の動画を選択
- * 3. 公式動画が見つからない場合、dアニメストア ニコニコ支店の動画のみで再試行
- * 4. それでも見つからない場合は失敗
+ * 1. dアニメストア ニコニコ支店の動画から最古を選択
+ * 2. 作品タイトル投稿者の動画から最古を選択
+ * 3. 両方存在する場合 → 再生数が多い方を優先
+ * 4. 片方のみの場合 → そちらを選択
+ * 5. どちらもない場合は失敗
  *
  * @param searchResults 検索結果
  * @param animeTitle アニメタイトル（投稿者ガード用）
@@ -57,54 +58,87 @@ export function selectRepresentativeVideo(
     };
   }
 
-  // Step 1: 公式動画のみをフィルタ
-  const officialVideos = apiClient.filterOfficialVideos(searchResults, animeTitle);
-
-  if (officialVideos.length > 0) {
-    // Step 2: 最古投稿日の動画を選択
-    const oldest = findOldestVideo(officialVideos);
-    if (oldest) {
-      logger.info("Representative video selected (official)", {
-        animeTitle,
-        videoId: oldest.videoId,
-        postedAt: oldest.postedAt,
-      });
-      return {
-        success: true,
-        video: oldest,
-        failureReason: null,
-      };
-    }
-  }
-
-  // Step 3: dアニメストア ニコニコ支店のみでフォールバック
+  // Step 1: dアニメストア ニコニコ支店の動画を抽出
   const danimeVideos = searchResults.filter((item) => {
     const uploaderType = apiClient.determineUploaderType(item.ownerName, animeTitle);
     return uploaderType === "danime";
   });
 
-  if (danimeVideos.length > 0) {
-    const oldest = findOldestVideo(danimeVideos);
-    if (oldest) {
-      logger.info("Representative video selected (dAnime fallback)", {
-        animeTitle,
-        videoId: oldest.videoId,
-        postedAt: oldest.postedAt,
-      });
-      return {
-        success: true,
-        video: oldest,
-        failureReason: null,
-      };
-    }
+  // Step 2: 作品タイトル投稿者の動画を抽出（official = アニメタイトル投稿者）
+  const titleUploaderVideos = searchResults.filter((item) => {
+    const uploaderType = apiClient.determineUploaderType(item.ownerName, animeTitle);
+    return uploaderType === "official";
+  });
+
+  // 各グループから最古の動画を取得
+  const oldestDanime = findOldestVideo(danimeVideos);
+  const oldestTitle = findOldestVideo(titleUploaderVideos);
+
+  logger.debug("Candidate videos", {
+    animeTitle,
+    danimeCount: danimeVideos.length,
+    titleUploaderCount: titleUploaderVideos.length,
+    danimeVideo: oldestDanime ? { id: oldestDanime.videoId, views: oldestDanime.viewCount } : null,
+    titleVideo: oldestTitle ? { id: oldestTitle.videoId, views: oldestTitle.viewCount } : null,
+  });
+
+  // Step 3: 両方存在する場合、再生数で比較
+  if (oldestDanime && oldestTitle) {
+    const danimeViews = oldestDanime.viewCount ?? 0;
+    const titleViews = oldestTitle.viewCount ?? 0;
+
+    const selected = danimeViews >= titleViews ? oldestDanime : oldestTitle;
+    const source = danimeViews >= titleViews ? "dAnime" : "titleUploader";
+
+    logger.info("Representative video selected (compared by viewCount)", {
+      animeTitle,
+      videoId: selected.videoId,
+      viewCount: selected.viewCount,
+      source,
+      danimeViews,
+      titleViews,
+    });
+
+    return {
+      success: true,
+      video: selected,
+      failureReason: null,
+    };
   }
 
-  // Step 4: 失敗
+  // Step 4: 片方のみの場合
+  if (oldestDanime) {
+    logger.info("Representative video selected (dAnime only)", {
+      animeTitle,
+      videoId: oldestDanime.videoId,
+      viewCount: oldestDanime.viewCount,
+    });
+    return {
+      success: true,
+      video: oldestDanime,
+      failureReason: null,
+    };
+  }
+
+  if (oldestTitle) {
+    logger.info("Representative video selected (titleUploader only)", {
+      animeTitle,
+      videoId: oldestTitle.videoId,
+      viewCount: oldestTitle.viewCount,
+    });
+    return {
+      success: true,
+      video: oldestTitle,
+      failureReason: null,
+    };
+  }
+
+  // Step 5: 失敗
   logger.warn("No representative video found", {
     animeTitle,
     totalResults: searchResults.length,
-    officialCount: officialVideos.length,
     danimeCount: danimeVideos.length,
+    titleUploaderCount: titleUploaderVideos.length,
   });
 
   return {
