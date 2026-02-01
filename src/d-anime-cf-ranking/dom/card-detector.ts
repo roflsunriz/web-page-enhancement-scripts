@@ -38,17 +38,19 @@ const BADGE_CLASS = "cf-ranking-badge";
 // =============================================================================
 
 /**
- * ページ内の全作品カードを検出する
+ * ページ内の全作品カードを検出する（重複除去）
  * @returns 作品カード情報の配列
  */
 export function detectAllCards(): AnimeCard[] {
   const cardElements = document.querySelectorAll<HTMLElement>(CARD_SELECTOR);
   const cards: AnimeCard[] = [];
+  const seenTitles = new Set<string>();
 
   cardElements.forEach((element) => {
     const card = parseCardElement(element);
-    if (card) {
+    if (card && !seenTitles.has(card.title)) {
       cards.push(card);
+      seenTitles.add(card.title);
     }
   });
 

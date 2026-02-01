@@ -57,11 +57,17 @@ export interface RankOutput {
  * @returns ランク帯
  */
 export function determineRankTier(percentile: number): RankTier {
-  if (percentile <= 10) return "S"; // 上位10%
-  if (percentile <= 25) return "A"; // 10-25%
-  if (percentile <= 50) return "B"; // 25-50%
-  if (percentile <= 75) return "C"; // 50-75%
-  return "D"; // 75-100%
+  if (percentile <= 3) return "S+++"; // 上位3%
+  if (percentile <= 6) return "S++";  // 3-6%
+  if (percentile <= 10) return "S+";  // 6-10%
+  if (percentile <= 15) return "S";   // 10-15%
+  if (percentile <= 25) return "A";   // 15-25%
+  if (percentile <= 40) return "B";   // 25-40%
+  if (percentile <= 55) return "C";   // 40-55%
+  if (percentile <= 70) return "D";   // 55-70%
+  if (percentile <= 85) return "E";   // 70-85%
+  if (percentile <= 95) return "F";   // 85-95%
+  return "G";                          // 95-100%
 }
 
 // =============================================================================
@@ -223,6 +229,7 @@ export function calculateRanks(inputs: ScoreInput[]): RankOutput[] {
   });
 
   // 順位を付ける
+  // totalCountはスコアが有効なカード数（ランキング対象数）を使用
   const totalCount = validScores.length;
   const rankMap = new Map<number, number>();
 

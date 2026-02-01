@@ -33,11 +33,17 @@ const logger = createLogger("dAnimeCfRanking:RankBadge");
 
 /** ランク帯別の色定義 */
 const TIER_COLORS: Record<RankTier, { bg: string; text: string; border: string }> = {
-  S: { bg: "#ffd700", text: "#000", border: "#b8860b" }, // Gold
-  A: { bg: "#c0c0c0", text: "#000", border: "#808080" }, // Silver
-  B: { bg: "#cd7f32", text: "#fff", border: "#8b4513" }, // Bronze
-  C: { bg: "#4a90d9", text: "#fff", border: "#2e5a88" }, // Blue
-  D: { bg: "#808080", text: "#fff", border: "#505050" }, // Gray
+  "S+++": { bg: "#ff1493", text: "#fff", border: "#c71585" }, // DeepPink (レジェンド)
+  "S++": { bg: "#ff4500", text: "#fff", border: "#cc3700" },  // OrangeRed
+  "S+": { bg: "#ffd700", text: "#000", border: "#b8860b" },   // Gold
+  "S": { bg: "#ffc107", text: "#000", border: "#c79100" },    // Amber
+  "A": { bg: "#c0c0c0", text: "#000", border: "#808080" },    // Silver
+  "B": { bg: "#cd7f32", text: "#fff", border: "#8b4513" },    // Bronze
+  "C": { bg: "#4a90d9", text: "#fff", border: "#2e5a88" },    // Blue
+  "D": { bg: "#5cb85c", text: "#fff", border: "#449d44" },    // Green
+  "E": { bg: "#808080", text: "#fff", border: "#505050" },    // Gray
+  "F": { bg: "#6c757d", text: "#fff", border: "#495057" },    // Dark Gray
+  "G": { bg: "#4a4a4a", text: "#fff", border: "#333333" },    // Charcoal
 };
 
 /** バッジの基本スタイル */
@@ -239,6 +245,16 @@ export function createErrorBadge(
 }
 
 /**
+ * バッジに表示するテキストを生成する
+ * 形式: "S+++ランク - 第1位(85.5点)"
+ */
+function formatBadgeText(rankData: RankData, isRankingFinalized: boolean): string {
+  const scorePoints = (rankData.score.totalScore * 100).toFixed(1);
+  const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
+  return `${rankData.tier} - 第${rankData.rank}位(${scorePoints}点)${checkMark}`;
+}
+
+/**
  * 順位バッジを作成する
  * @param isRankingFinalized 全カードのフェッチが完了しているか
  */
@@ -251,10 +267,7 @@ export function createRankBadge(
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-rank";
   badge.setAttribute("style", getTierStyle(rankData.tier));
-  
-  // 全カード取得完了時のみチェックマークを表示
-  const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
-  badge.innerHTML = `第${rankData.rank}位${checkMark}`;
+  badge.innerHTML = formatBadgeText(rankData, isRankingFinalized);
 
   const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);
   const tooltipContent = formatTooltipContent(tooltipData);
@@ -311,10 +324,7 @@ export function updateBadge(
     // 順位表示
     badge.className = "cf-ranking-badge cf-ranking-rank";
     badge.setAttribute("style", getTierStyle(rankData.tier));
-    
-    // 全カード取得完了時のみチェックマークを表示
-    const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
-    badge.innerHTML = `第${rankData.rank}位${checkMark}`;
+    badge.innerHTML = formatBadgeText(rankData, isRankingFinalized);
     badge.style.cursor = "default";
 
     const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);

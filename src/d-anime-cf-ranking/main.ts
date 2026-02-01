@@ -72,6 +72,7 @@ let isRankingFinalized = false;
 
 async function main(): Promise<void> {
   logger.info("d-anime-cf-ranking starting...");
+  console.log("[CF-RANKING DEBUG] === 初期化開始 ===");
 
   const settings = getSettings();
   if (!settings.enabled) {
@@ -84,12 +85,25 @@ async function main(): Promise<void> {
 
   // 既存キャッシュを読み込む
   await loadCachedEntries();
+  console.log("[CF-RANKING DEBUG] キャッシュ読み込み後:", {
+    cacheEntryMapSize: cacheEntryMap.size,
+    cacheEntryTitles: Array.from(cacheEntryMap.keys()).slice(0, 10),
+  });
 
   fetchController = createFetchController();
   fetchController.setOnComplete(handleFetchComplete);
 
   allCards = await waitForCards();
   logger.info("Cards detected", { count: allCards.length });
+  console.log("[CF-RANKING DEBUG] カード検出:", {
+    allCardsLength: allCards.length,
+    cardTitles: allCards.map((c) => c.title).slice(0, 10),
+    uniqueTitles: new Set(allCards.map((c) => c.title)).size,
+  });
+
+  // DOM上のカード数も確認
+  const domCardCount = document.querySelectorAll(".itemModule.list[data-workid]").length;
+  console.log("[CF-RANKING DEBUG] DOM上のカード数:", domCardCount);
 
   if (allCards.length === 0) {
     logger.warn("No cards found");
@@ -97,6 +111,9 @@ async function main(): Promise<void> {
   }
 
   insertLoadingBadges(allCards);
+  console.log("[CF-RANKING DEBUG] バッジ挿入後:", {
+    badgeMapSize: badgeMap.size,
+  });
 
   initViewportObserver();
   for (const card of allCards) {
@@ -119,6 +136,7 @@ async function main(): Promise<void> {
   }, 2000);
 
   logger.info("d-anime-cf-ranking initialized");
+  console.log("[CF-RANKING DEBUG] === 初期化完了 ===");
 }
 
 async function waitForCards(): Promise<AnimeCard[]> {
@@ -143,15 +161,24 @@ async function loadCachedEntries(): Promise<void> {
   try {
     const allEntries = await getAllCacheEntries();
     let validCount = 0;
+    let invalidCount = 0;
 
     for (const entry of allEntries) {
       if (isCacheValid(entry)) {
         cacheEntryMap.set(entry.title, entry);
         validCount++;
+      } else {
+        invalidCount++;
       }
     }
 
     logger.info("Loaded cached entries", { total: allEntries.length, valid: validCount });
+    console.log("[CF-RANKING DEBUG] キャッシュ読み込み詳細:", {
+      totalInIndexedDB: allEntries.length,
+      validEntries: validCount,
+      invalidEntries: invalidCount,
+      titles: allEntries.map((e) => e.title).slice(0, 20),
+    });
   } catch (error) {
     logger.error("Failed to load cached entries", error as Error);
   }
@@ -164,11 +191,24 @@ async function loadCachedEntries(): Promise<void> {
 function startBackgroundFetch(): void {
   if (!fetchController) return;
 
+  console.log("[CF-RANKING DEBUG] === バックグラウンドフェッチ開始 ===");
+  console.log("[CF-RANKING DEBUG] allCards:", allCards.length);
+  console.log("[CF-RANKING DEBUG] cacheEntryMap:", cacheEntryMap.size);
+
   // 全カードがキャッシュ済みかチェック
-  const allCached = allCards.every((card) => cacheEntryMap.has(card.title));
+  const cachedTitles = allCards.filter((card) => cacheEntryMap.has(card.title));
+  const uncachedTitles = allCards.filter((card) => !cacheEntryMap.has(card.title));
+  console.log("[CF-RANKING DEBUG] キャッシュ状況:", {
+    cached: cachedTitles.length,
+    uncached: uncachedTitles.length,
+    uncachedTitles: uncachedTitles.map((c) => c.title).slice(0, 10),
+  });
+
+  const allCached = uncachedTitles.length === 0;
   if (allCached && allCards.length > 0) {
     isRankingFinalized = true;
     logger.info("All cards cached, ranking finalized immediately");
+    console.log("[CF-RANKING DEBUG] 全カードキャッシュ済み - 即時確定");
     recalculateRanks();
     return;
   }
@@ -194,6 +234,12 @@ function processNextBackgroundFetch(): void {
     if (!isRankingFinalized) {
       isRankingFinalized = true;
       logger.info("Ranking finalized", { total: cacheEntryMap.size });
+      console.log("[CF-RANKING DEBUG] === フェッチ完了・順位確定 ===");
+      console.log("[CF-RANKING DEBUG] 最終状態:", {
+        allCards: allCards.length,
+        cacheEntryMap: cacheEntryMap.size,
+        badgeMap: badgeMap.size,
+      });
       // 確定状態でバッジを再描画
       recalculateRanks();
     }
@@ -324,10 +370,29 @@ function scheduleRecalculateRanks(): void {
 }
 
 function handleNewCards(newCards: AnimeCard[]): void {
-  allCards = [...allCards, ...newCards];
-  insertLoadingBadges(newCards);
+  console.log("[CF-RANKING DEBUG] === 新しいカード検出 ===");
+  console.log("[CF-RANKING DEBUG] 検出されたカード:", newCards.length);
 
-  for (const card of newCards) {
+  // 既存のカードと重複しないものだけ追加
+  const existingTitles = new Set(allCards.map((c) => c.title));
+  const uniqueNewCards = newCards.filter((c) => !existingTitles.has(c.title));
+  const duplicateCards = newCards.filter((c) => existingTitles.has(c.title));
+
+  console.log("[CF-RANKING DEBUG] 重複チェック:", {
+    total: newCards.length,
+    unique: uniqueNewCards.length,
+    duplicates: duplicateCards.length,
+    duplicateTitles: duplicateCards.map((c) => c.title),
+  });
+  
+  if (uniqueNewCards.length === 0) return;
+  
+  allCards = [...allCards, ...uniqueNewCards];
+  console.log("[CF-RANKING DEBUG] allCards更新後:", allCards.length);
+
+  insertLoadingBadges(uniqueNewCards);
+
+  for (const card of uniqueNewCards) {
     viewportObserver?.observe(card.element);
   }
 }
@@ -351,6 +416,8 @@ function insertLoadingBadges(cards: AnimeCard[]): void {
 }
 
 function recalculateRanks(): void {
+  console.log("[CF-RANKING DEBUG] === 順位再計算 ===");
+
   const scoreInputs: ScoreInput[] = allCards.map((card) => {
     const entry = cacheEntryMap.get(card.title);
     return {
@@ -359,17 +426,60 @@ function recalculateRanks(): void {
     };
   });
 
+  // スコアが有効な件数をカウント
+  const validInputs = scoreInputs.filter((i) => i.metrics !== null);
+  console.log("[CF-RANKING DEBUG] 順位計算入力:", {
+    totalInputs: scoreInputs.length,
+    validInputs: validInputs.length,
+    invalidInputs: scoreInputs.length - validInputs.length,
+    isRankingFinalized,
+  });
+
   const rankOutputs = calculateRanks(scoreInputs);
+
+  // 順位の範囲を確認
+  const validRanks = rankOutputs.filter((o) => o.rankData !== null);
+  const ranks = validRanks.map((o) => o.rankData?.rank ?? 0);
+  console.log("[CF-RANKING DEBUG] 順位計算結果:", {
+    totalOutputs: rankOutputs.length,
+    validRanks: validRanks.length,
+    minRank: Math.min(...ranks),
+    maxRank: Math.max(...ranks),
+    totalCount: validRanks[0]?.rankData?.totalCount,
+  });
+
+  let updatedCount = 0;
+  let skippedNoBadge = 0;
+  let skippedNoEntry = 0;
+  let skippedPending = 0;
 
   for (const output of rankOutputs) {
     const badge = badgeMap.get(output.title);
     const entry = cacheEntryMap.get(output.title);
 
-    if (!badge || !entry) continue;
-    if (entry.status === "pending") continue;
+    if (!badge) {
+      skippedNoBadge++;
+      continue;
+    }
+    if (!entry) {
+      skippedNoEntry++;
+      continue;
+    }
+    if (entry.status === "pending") {
+      skippedPending++;
+      continue;
+    }
 
     updateBadge(badge, output.rankData, entry, handleRetry, isRankingFinalized);
+    updatedCount++;
   }
+
+  console.log("[CF-RANKING DEBUG] バッジ更新結果:", {
+    updated: updatedCount,
+    skippedNoBadge,
+    skippedNoEntry,
+    skippedPending,
+  });
 }
 
 function handleRetry(title: string): void {
