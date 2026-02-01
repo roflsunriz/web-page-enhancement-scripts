@@ -388,10 +388,22 @@ export class NicoApiClient {
       });
     };
 
-    const traverse = (obj: unknown): void => {
+    // 深さ制限付きの探索（パフォーマンス最適化）
+    const MAX_DEPTH = 10;
+    const MAX_ITEMS = 100;
+
+    const traverse = (obj: unknown, depth: number): void => {
+      // 深さ制限チェック
+      if (depth > MAX_DEPTH) return;
+      // 十分なアイテムが見つかったら終了
+      if (results.length >= MAX_ITEMS) return;
+
       if (!obj) return;
       if (Array.isArray(obj)) {
-        obj.forEach(traverse);
+        for (const item of obj) {
+          if (results.length >= MAX_ITEMS) return;
+          traverse(item, depth + 1);
+        }
         return;
       }
       if (typeof obj !== "object" || obj === null) return;
@@ -400,10 +412,31 @@ export class NicoApiClient {
       if (item.id || item.contentId || item.watchId) {
         pushItem(item);
       }
-      Object.values(obj).forEach(traverse);
+
+      // 必要なプロパティのみを探索（パフォーマンス最適化）
+      const priorityKeys = ["data", "items", "searchResult", "search", "result", "videos", "list"];
+      const objRecord = obj as Record<string, unknown>;
+
+      // まず優先キーを探索
+      for (const key of priorityKeys) {
+        if (results.length >= MAX_ITEMS) return;
+        if (key in objRecord) {
+          traverse(objRecord[key], depth + 1);
+        }
+      }
+
+      // それでも見つからない場合は他のキーも探索（ただし深さを加速）
+      if (results.length === 0 && depth < MAX_DEPTH - 3) {
+        for (const [key, value] of Object.entries(objRecord)) {
+          if (results.length >= MAX_ITEMS) return;
+          if (!priorityKeys.includes(key) && typeof value === "object") {
+            traverse(value, depth + 2); // 深さを加速して探索を早く打ち切る
+          }
+        }
+      }
     };
 
-    traverse(root);
+    traverse(root, 0);
     return results;
   }
 

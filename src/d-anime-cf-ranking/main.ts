@@ -66,6 +66,9 @@ let recalculateTimer: ReturnType<typeof setTimeout> | null = null;
 /** 順位再計算がペンディング中かどうか */
 let recalculatePending = false;
 
+/** 初期化完了フラグ */
+let isInitialized = false;
+
 // =============================================================================
 // メイン処理
 // =============================================================================
@@ -100,17 +103,50 @@ async function main(): Promise<void> {
   allCards = detectAllCards();
   logger.info("Initial cards detected", { count: allCards.length });
 
-  // 全カードにローディングバッジを挿入
-  insertLoadingBadges(allCards);
-
-  // ビューポート監視開始
-  viewportObserver.observeAll(allCards);
-
-  // 動的カード監視開始
+  // 動的カード監視開始（先に開始）
   cardObserver = createCardObserver(handleNewCards);
   startCardObserver(cardObserver);
 
+  // バッジ挿入とビューポート監視をバッチ処理で遅延実行
+  await initializeCardsInBatches(allCards);
+
+  // 初期化完了をマーク（フェッチ開始を許可）
+  isInitialized = true;
+
+  // 初期フェッチをトリガー（少し遅延させて安定化）
+  setTimeout(() => {
+    if (viewportObserver) {
+      const visibleCards = viewportObserver.getVisibleCards();
+      handleViewportChange(visibleCards);
+    }
+  }, 100);
+
   logger.info("d-anime-cf-ranking initialized");
+}
+
+/**
+ * カードをバッチ処理で初期化する（パフォーマンス最適化）
+ */
+async function initializeCardsInBatches(cards: AnimeCard[]): Promise<void> {
+  const BATCH_SIZE = 10;
+  const BATCH_DELAY_MS = 50;
+
+  for (let i = 0; i < cards.length; i += BATCH_SIZE) {
+    const batch = cards.slice(i, i + BATCH_SIZE);
+
+    // バッジ挿入
+    insertLoadingBadges(batch);
+
+    // ビューポート監視に追加
+    if (viewportObserver) {
+      viewportObserver.observeAll(batch);
+    }
+
+    // 次のバッチまで少し待機（UIスレッドを解放）
+    if (i + BATCH_SIZE < cards.length) {
+      await new Promise((resolve) => setTimeout(resolve, BATCH_DELAY_MS));
+    }
+  }
 }
 
 // =============================================================================
@@ -121,6 +157,12 @@ async function main(): Promise<void> {
  * ビューポート内カードが変わったときのハンドラー
  */
 function handleViewportChange(visibleCards: AnimeCard[]): void {
+  // 初期化完了前はフェッチしない
+  if (!isInitialized) {
+    logger.debug("Skipping viewport change - not yet initialized");
+    return;
+  }
+
   logger.debug("Viewport changed", { visibleCount: visibleCards.length });
 
   // 未取得のカードのみをフェッチ
