@@ -24,10 +24,14 @@ import { initDatabase, getAllCacheEntries, isCacheValid } from "./services/cache
 // DOM操作
 import {
   detectAllCards,
+  detectAllCardElements,
   createCardObserver,
   startCardObserver,
+  createVisibilityObserver,
+  startVisibilityObserver,
   filterUnprocessedCards,
   markBadgeInserted,
+  isElementVisible,
 } from "./dom/card-detector";
 
 // フェッチ制御
@@ -51,11 +55,15 @@ const badgeMap = new Map<string, HTMLElement>();
 let fetchController: FetchController | null = null;
 let cardObserver: MutationObserver | null = null;
 let viewportObserver: IntersectionObserver | null = null;
+let visibilityObserver: MutationObserver | null = null;
 let recalculateTimer: ReturnType<typeof setTimeout> | null = null;
 let recalculatePending = false;
 let viewportDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 const visibleCardElements = new Set<HTMLElement>();
 let isInitialized = false;
+
+/** 非表示カード要素のセット（ビジビリティ監視対象） */
+const hiddenCardElements = new Set<HTMLElement>();
 
 /** バックグラウンドフェッチのインデックス */
 let backgroundFetchIndex = 0;
@@ -93,19 +101,27 @@ async function main(): Promise<void> {
   fetchController = createFetchController();
   fetchController.setOnComplete(handleFetchComplete);
 
+  // DOM上の全カード要素を取得（表示/非表示問わず）
+  const allCardElements = detectAllCardElements();
+  
   allCards = await waitForCards();
   logger.info("Cards detected", { count: allCards.length });
 
-  // DOM上のカード数も確認（表示/非表示含む）
-  const domCardCount = document.querySelectorAll(".itemModule.list[data-workid]").length;
+  // 非表示カードを追跡対象に追加
+  for (const element of allCardElements) {
+    if (!isElementVisible(element)) {
+      hiddenCardElements.add(element);
+    }
+  }
+
   console.log("[CF-RANKING DEBUG] カード検出:", {
-    domTotal: domCardCount,
+    domTotal: allCardElements.length,
     visibleCards: allCards.length,
-    hiddenCards: domCardCount - allCards.length,
+    hiddenCards: hiddenCardElements.size,
     cardTitles: allCards.map((c) => c.title).slice(0, 10),
   });
 
-  if (allCards.length === 0) {
+  if (allCards.length === 0 && hiddenCardElements.size === 0) {
     logger.warn("No cards found");
     return;
   }
@@ -122,6 +138,13 @@ async function main(): Promise<void> {
 
   cardObserver = createCardObserver(handleNewCards);
   startCardObserver(cardObserver);
+
+  // ビジビリティ変更の監視を開始（非表示カードが表示されたら検知）
+  if (hiddenCardElements.size > 0) {
+    visibilityObserver = createVisibilityObserver(hiddenCardElements, handleNewlyVisibleCards);
+    startVisibilityObserver(visibilityObserver);
+    logger.info("Visibility observer started for hidden cards", { count: hiddenCardElements.size });
+  }
 
   isInitialized = true;
 
@@ -395,6 +418,25 @@ function handleNewCards(newCards: AnimeCard[]): void {
   for (const card of uniqueNewCards) {
     viewportObserver?.observe(card.element);
   }
+
+  // 新しいカードが追加されたら順位を再計算（確定状態をリセット）
+  if (isRankingFinalized) {
+    isRankingFinalized = false;
+    // バックグラウンドフェッチを再開
+    startBackgroundFetch();
+  }
+}
+
+/**
+ * ビジビリティ変更により新しく表示されたカードを処理する
+ */
+function handleNewlyVisibleCards(newlyVisibleCards: AnimeCard[]): void {
+  console.log("[CF-RANKING DEBUG] === カードが表示状態に変更 ===");
+  console.log("[CF-RANKING DEBUG] 新しく表示されたカード:", newlyVisibleCards.length);
+  console.log("[CF-RANKING DEBUG] タイトル:", newlyVisibleCards.map((c) => c.title));
+
+  // handleNewCardsと同じ処理を行う
+  handleNewCards(newlyVisibleCards);
 }
 
 // =============================================================================

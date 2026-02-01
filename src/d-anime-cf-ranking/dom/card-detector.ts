@@ -63,7 +63,7 @@ const BADGE_CLASS = "cf-ranking-badge";
  * @param element 判定する要素
  * @returns 表示されていればtrue
  */
-function isElementVisible(element: HTMLElement): boolean {
+export function isElementVisible(element: HTMLElement): boolean {
   // offsetParent が null の場合、要素または祖先が display: none
   // ただし body や position: fixed の要素は例外
   if (element.offsetParent === null) {
@@ -380,4 +380,118 @@ export function startCardObserver(
 export function stopCardObserver(observer: MutationObserver): void {
   observer.disconnect();
   logger.info("Card observer stopped");
+}
+
+// =============================================================================
+// ビジビリティ監視（表示状態の変更検知）
+// =============================================================================
+
+type VisibilityChangeCallback = (newlyVisibleCards: AnimeCard[]) => void;
+
+/**
+ * ページ内の全カード要素を取得する（表示/非表示問わず）
+ * @returns カード要素の配列
+ */
+export function detectAllCardElements(): HTMLElement[] {
+  const cardElements = new Set<HTMLElement>();
+  for (const selector of CARD_SELECTORS) {
+    const elements = document.querySelectorAll<HTMLElement>(selector);
+    elements.forEach((el) => cardElements.add(el));
+  }
+  return [...cardElements];
+}
+
+/**
+ * カードのビジビリティ変更を監視するObserverを作成する
+ * 属性（style, class）の変更を監視し、カードが表示状態になったら通知
+ * @param trackedCards 監視対象のカード要素（未表示のもの）
+ * @param callback 新しく表示されたカードが検出されたときのコールバック
+ * @returns MutationObserver
+ */
+export function createVisibilityObserver(
+  trackedCards: Set<HTMLElement>,
+  callback: VisibilityChangeCallback
+): MutationObserver {
+  let debounceTimer: ReturnType<typeof setTimeout> | null = null;
+  const pendingCheck = new Set<HTMLElement>();
+
+  const checkVisibility = (): void => {
+    const newlyVisible: AnimeCard[] = [];
+
+    for (const element of pendingCheck) {
+      if (!trackedCards.has(element)) continue;
+
+      if (isElementVisible(element)) {
+        const card = parseCardElement(element);
+        if (card && !isBadgeInserted(element)) {
+          newlyVisible.push(card);
+          trackedCards.delete(element);
+        }
+      }
+    }
+
+    pendingCheck.clear();
+
+    if (newlyVisible.length > 0) {
+      logger.debug("Cards became visible", { count: newlyVisible.length });
+      callback(newlyVisible);
+    }
+  };
+
+  const scheduleCheck = (element: HTMLElement): void => {
+    // 対象のカード要素またはその祖先・子孫をチェック対象に追加
+    for (const tracked of trackedCards) {
+      if (element.contains(tracked) || tracked.contains(element) || element === tracked) {
+        pendingCheck.add(tracked);
+      }
+    }
+
+    // デバウンス
+    if (debounceTimer !== null) {
+      clearTimeout(debounceTimer);
+    }
+    debounceTimer = setTimeout(() => {
+      debounceTimer = null;
+      checkVisibility();
+    }, 100);
+  };
+
+  const observer = new MutationObserver((mutations) => {
+    for (const mutation of mutations) {
+      if (mutation.type === "attributes") {
+        const target = mutation.target as HTMLElement;
+        // バッジ関連の変更は無視
+        if (isBadgeRelatedNode(target)) continue;
+        scheduleCheck(target);
+      }
+    }
+  });
+
+  return observer;
+}
+
+/**
+ * ビジビリティ監視を開始する
+ * @param observer MutationObserver
+ * @param targetElement 監視対象要素（デフォルト: document.body）
+ */
+export function startVisibilityObserver(
+  observer: MutationObserver,
+  targetElement: Element = document.body
+): void {
+  observer.observe(targetElement, {
+    attributes: true,
+    attributeFilter: ["style", "class"],
+    subtree: true,
+  });
+  logger.info("Visibility observer started");
+}
+
+/**
+ * ビジビリティ監視を停止する
+ * @param observer MutationObserver
+ */
+export function stopVisibilityObserver(observer: MutationObserver): void {
+  observer.disconnect();
+  logger.info("Visibility observer stopped");
 }
