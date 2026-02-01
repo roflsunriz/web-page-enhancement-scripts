@@ -38,15 +38,53 @@ const BADGE_CLASS = "cf-ranking-badge";
 // =============================================================================
 
 /**
- * ページ内の全作品カードを検出する（重複除去）
+ * 要素が実際に表示されているかを判定する
+ * - display: none でないか
+ * - visibility: hidden でないか
+ * - 親要素が非表示でないか（offsetParentがnullでないか）
+ * @param element 判定する要素
+ * @returns 表示されていればtrue
+ */
+function isElementVisible(element: HTMLElement): boolean {
+  // offsetParent が null の場合、要素または祖先が display: none
+  // ただし body や position: fixed の要素は例外
+  if (element.offsetParent === null) {
+    const style = window.getComputedStyle(element);
+    if (style.display === "none") return false;
+    if (style.position === "fixed") return true;
+    // 祖先を遡ってチェック
+    let parent = element.parentElement;
+    while (parent) {
+      const parentStyle = window.getComputedStyle(parent);
+      if (parentStyle.display === "none") return false;
+      parent = parent.parentElement;
+    }
+  }
+
+  const style = window.getComputedStyle(element);
+  if (style.display === "none") return false;
+  if (style.visibility === "hidden") return false;
+
+  return true;
+}
+
+/**
+ * ページ内の全作品カードを検出する（重複除去、非表示カード除外）
  * @returns 作品カード情報の配列
  */
 export function detectAllCards(): AnimeCard[] {
   const cardElements = document.querySelectorAll<HTMLElement>(CARD_SELECTOR);
   const cards: AnimeCard[] = [];
   const seenTitles = new Set<string>();
+  let hiddenCount = 0;
 
   cardElements.forEach((element) => {
+    // 非表示のカードはスキップ
+    if (!isElementVisible(element)) {
+      hiddenCount++;
+      return;
+    }
+
     const card = parseCardElement(element);
     if (card && !seenTitles.has(card.title)) {
       cards.push(card);
@@ -54,7 +92,11 @@ export function detectAllCards(): AnimeCard[] {
     }
   });
 
-  logger.debug("Cards detected", { count: cards.length });
+  logger.debug("Cards detected", { 
+    total: cardElements.length,
+    visible: cards.length, 
+    hidden: hiddenCount 
+  });
   return cards;
 }
 

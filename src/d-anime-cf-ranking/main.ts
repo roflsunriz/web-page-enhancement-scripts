@@ -95,15 +95,15 @@ async function main(): Promise<void> {
 
   allCards = await waitForCards();
   logger.info("Cards detected", { count: allCards.length });
-  console.log("[CF-RANKING DEBUG] カード検出:", {
-    allCardsLength: allCards.length,
-    cardTitles: allCards.map((c) => c.title).slice(0, 10),
-    uniqueTitles: new Set(allCards.map((c) => c.title)).size,
-  });
 
-  // DOM上のカード数も確認
+  // DOM上のカード数も確認（表示/非表示含む）
   const domCardCount = document.querySelectorAll(".itemModule.list[data-workid]").length;
-  console.log("[CF-RANKING DEBUG] DOM上のカード数:", domCardCount);
+  console.log("[CF-RANKING DEBUG] カード検出:", {
+    domTotal: domCardCount,
+    visibleCards: allCards.length,
+    hiddenCards: domCardCount - allCards.length,
+    cardTitles: allCards.map((c) => c.title).slice(0, 10),
+  });
 
   if (allCards.length === 0) {
     logger.warn("No cards found");
