@@ -1,0 +1,2005 @@
+JQMIGRATE: Migrate is installed, version 3.0.1 jquery-migrate-3.0.1.min.js:33:19
+ページの読み込みが完了する前にレイアウトの開始が強制されました。スタイルシートがまだ読み込まれていない場合、スタイル付けされていないコンテンツがちらつく原因となる可能性があります。 jquery-3.5.1.min.js:2:52641
+[CF-DEBUG] 0. Script loaded, calling main() <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 1. main() started <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 2. settings loaded 
+Object { enabled: true }
+d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:Settings] Menu commands registered 
+Object { enabled: true }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] 3. menu registered <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] IndexedDB initialized d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] 4. IndexedDB initialized <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 5. fetchController created <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 6. waiting for cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CardDetector] Cards detected 
+Object { count: 0 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] waitForCards: attempt 1/30, no cards yet <empty string> d-anime-cf-ranking.user.js:113:629
+Local Translate AI content script loaded content.js:448:11
+[dAnimeCfRanking:CardDetector] Cards detected 
+Object { count: 0 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] waitForCards: attempt 2/30, no cards yet <empty string> d-anime-cf-ranking.user.js:113:629
+Cookie “__Secure-YEC” はクロスサイトのコンテキスト内で “SameSite” 属性に “Lax” または “Strict” が設定されているため拒否されています。 iframe_api
+[dAnimeCfRanking:CardDetector] Cards detected 
+Object { count: 111 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] waitForCards: found 111 cards on attempt 3 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 7. cards detected 
+Object { count: 111 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 8. inserting badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] insertLoadingBadges: 111 cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] insertLoadingBadges: 111 unprocessed <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] insertLoadingBadges: done <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 9. badges inserted <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 10. initializing IntersectionObserver... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] initViewportObserver: creating observer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] initViewportObserver: observer created <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 11. IntersectionObserver created <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 12. observing all cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 13. all cards observed <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 14. starting MutationObserver... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CardDetector] Card observer started d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] 15. MutationObserver started <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 16. initialization complete, scheduling initial fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 18. main() finished <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #1 
+Object { entriesCount: 111, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=4, removed=0, totalVisible=4 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 4 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 4 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "闇芝居 十六期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "チャギントン（シーズン4）" <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:TitleNormalizer] Title normalized 
+Object { original: "チャギントン（シーズン4）", normalized: "チャギントン（） 第4期", seasonNumber: 4 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetching "Animatica「北斗の拳 拳王軍ザコたちの挽歌」" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "ヴィジランテ -僕のヒーローアカデミア ILLEGALS-" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "闇芝居 十六期" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "闇芝居 十六期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "闇芝居 十六期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=1 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "チャギントン（シーズン4）" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "チャギントン（シーズン4）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "チャギントン（シーズン4）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=2 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "Animatica「北斗の拳 拳王軍ザコたちの挽歌」" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "Animatica「北斗の拳 拳王軍ザコたちの挽歌」" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "Animatica「北斗の拳 拳王軍ザコたちの挽歌」" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=3 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "ヴィジランテ -僕のヒーローアカデミア ILLEGALS-" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "ヴィジランテ -僕のヒーローアカデミア ILLEGALS-" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "ヴィジランテ -僕のヒーローアカデミア ILLEGALS-" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=4 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] 17. initial fetch triggered <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 4 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 4 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 0 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: nothing to fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 3 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 4 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #2 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=6 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 6 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 6 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 6 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "綺麗にしてもらえますか。" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TVアニメ『ゴールデンカムイ』最終章" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "綺麗にしてもらえますか。" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "綺麗にしてもらえますか。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "綺麗にしてもらえますか。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=5 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "TVアニメ『ゴールデンカムイ』最終章" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "TVアニメ『ゴールデンカムイ』最終章" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "TVアニメ『ゴールデンカムイ』最終章" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=6 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #3 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TVアニメ『MFゴースト 3rd Season』" <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:TitleNormalizer] Title normalized 
+Object { original: "TVアニメ『MFゴースト 3rd Season』", normalized: "TVアニメ『MFゴースト 』 第3期", seasonNumber: 3 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetching "幼馴染とはラブコメにならない プチドキver." <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "TVアニメ『MFゴースト 3rd Season』" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "TVアニメ『MFゴースト 3rd Season』" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "TVアニメ『MFゴースト 3rd Season』" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "幼馴染とはラブコメにならない プチドキver." }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "幼馴染とはラブコメにならない プチドキver." 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "幼馴染とはラブコメにならない プチドキver." 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 4 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 8 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #4 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=1, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #5 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 1 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "幼馴染とはラブコメにならない オンエアver." <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "幼馴染とはラブコメにならない オンエアver." }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "幼馴染とはラブコメにならない オンエアver." 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "幼馴染とはラブコメにならない オンエアver." 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #6 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #7 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "名探偵プリキュア！" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "Duel Masters LOST ～忘却の太陽～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "名探偵プリキュア！" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "名探偵プリキュア！" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "名探偵プリキュア！" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "Duel Masters LOST ～忘却の太陽～" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "Duel Masters LOST ～忘却の太陽～" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "Duel Masters LOST ～忘却の太陽～" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=11 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 5 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 11 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #8 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #9 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "DARK MOON　-黒の月: 月の祭壇- Original By DARK MOON : THE BLOOD ALTAR WITH ENHYPEN" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "最推しの義兄を愛でるため、長生きします！" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "DARK MOON　-黒の月: 月の祭壇- Original By DARK MOON : THE BLOOD ALTAR WITH ENHYPEN" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "DARK MOON　-黒の月: 月の祭壇- Original By DARK MOON : THE BLOOD ALTAR WITH ENHYPEN" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "DARK MOON　-黒の月: 月の祭壇- Original By DARK MOON : THE BLOOD ALTAR WITH ENHYPEN" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=12 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "最推しの義兄を愛でるため、長生きします！" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "最推しの義兄を愛でるため、長生きします！" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "最推しの義兄を愛でるため、長生きします！" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=13 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #10 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #11 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 6 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 13 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "勇者パーティーにかわいい子がいたので、告白してみた。" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TVアニメ『真夜中ハートチューン』" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "勇者パーティーにかわいい子がいたので、告白してみた。" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "勇者パーティーにかわいい子がいたので、告白してみた。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "勇者パーティーにかわいい子がいたので、告白してみた。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=14 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "TVアニメ『真夜中ハートチューン』" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "TVアニメ『真夜中ハートチューン』" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "TVアニメ『真夜中ハートチューン』" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=15 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #12 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 8 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 15 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 9 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 9 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 9 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "デッドアカウント" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "鎧真伝サムライトルーパー" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "デッドアカウント" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "デッドアカウント" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "デッドアカウント" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=16 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "鎧真伝サムライトルーパー" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "鎧真伝サムライトルーパー" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "鎧真伝サムライトルーパー" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=17 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #13 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=1, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #14 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 10 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 17 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 10 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 10 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 10 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "魔都精兵のスレイブ2 《ご褒美Ver.》" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "アルネの事件簿" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "魔都精兵のスレイブ2 《ご褒美Ver.》" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "魔都精兵のスレイブ2 《ご褒美Ver.》" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "魔都精兵のスレイブ2 《ご褒美Ver.》" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=18 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "アルネの事件簿" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "アルネの事件簿" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "アルネの事件簿" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=19 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #15 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 0 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: nothing to fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 11 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 19 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #16 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #17 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "時光代理人 -LINK CLICK- 英都篇" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "mofusand animation" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "時光代理人 -LINK CLICK- 英都篇" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "時光代理人 -LINK CLICK- 英都篇" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "時光代理人 -LINK CLICK- 英都篇" 
+Object { status: "failed" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=20 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "mofusand animation" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "mofusand animation" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "mofusand animation" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=21 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 12 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 21 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #18 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #19 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "正反対な君と僕" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "不死身な僕の日常　シーズン2" <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:TitleNormalizer] Title normalized 
+Object { original: "不死身な僕の日常　シーズン2", normalized: "不死身な僕の日常 第2期", seasonNumber: 2 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "正反対な君と僕" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "正反対な君と僕" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "正反対な君と僕" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=22 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "不死身な僕の日常　シーズン2" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "不死身な僕の日常　シーズン2" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "不死身な僕の日常　シーズン2" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=23 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #20 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #21 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 14 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 23 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "シンデレラ・シェフ ～萌妻食神～ シーズン2" <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:TitleNormalizer] Title normalized 
+Object { original: "シンデレラ・シェフ ～萌妻食神～ シーズン2", normalized: "シンデレラ・シェフ ～萌妻食神～ 第2期", seasonNumber: 2 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetching "死亡遊戯で飯を食う。" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "シンデレラ・シェフ ～萌妻食神～ シーズン2" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "シンデレラ・シェフ ～萌妻食神～ シーズン2" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "シンデレラ・シェフ ～萌妻食神～ シーズン2" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=24 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "死亡遊戯で飯を食う。" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "死亡遊戯で飯を食う。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "死亡遊戯で飯を食う。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=25 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #22 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #23 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 16 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 25 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "勇者パーティを追い出された器用貧乏" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "29歳独身中堅冒険者の日常" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "勇者パーティを追い出された器用貧乏" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "勇者パーティを追い出された器用貧乏" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "勇者パーティを追い出された器用貧乏" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=26 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "29歳独身中堅冒険者の日常" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "29歳独身中堅冒険者の日常" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "29歳独身中堅冒険者の日常" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=27 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #24 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 18 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 27 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 10 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 10 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 10 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "火喰鳥 羽州ぼろ鳶組" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "有栖川煉ってホントは女なんだよね。【オンエア版】" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "火喰鳥 羽州ぼろ鳶組" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "火喰鳥 羽州ぼろ鳶組" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "火喰鳥 羽州ぼろ鳶組" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=28 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "有栖川煉ってホントは女なんだよね。【オンエア版】" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "有栖川煉ってホントは女なんだよね。【オンエア版】" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "有栖川煉ってホントは女なんだよね。【オンエア版】" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=29 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #25 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 20 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 29 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 0 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: nothing to fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #26 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 10 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 10 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 10 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "穏やか貴族の休暇のすすめ。" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "イチゴ哀歌～雑で生イキな妹と割り切れない兄～【オンエア版】" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "穏やか貴族の休暇のすすめ。" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "穏やか貴族の休暇のすすめ。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "穏やか貴族の休暇のすすめ。" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=30 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "イチゴ哀歌～雑で生イキな妹と割り切れない兄～【オンエア版】" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "イチゴ哀歌～雑で生イキな妹と割り切れない兄～【オンエア版】" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "イチゴ哀歌～雑で生イキな妹と割り切れない兄～【オンエア版】" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=31 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 22 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 31 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #27 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #28 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=1, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #29 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 1 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "わたしが恋人になれるわけないじゃん、ムリムリ!（※ムリじゃなかった!?）" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "わたしが恋人になれるわけないじゃん、ムリムリ!（※ムリじゃなかった!?）" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "わたしが恋人になれるわけないじゃん、ムリムリ!（※ムリじゃなかった!?）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "わたしが恋人になれるわけないじゃん、ムリムリ!（※ムリじゃなかった!?）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=32 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #30 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #31 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #32 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 23 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 32 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 9 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 9 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 9 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "#神奈川に住んでるエルフ" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "転生したらドラゴンの卵だった～最強以外目指さねぇ～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "【推しの子】第3期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "エリスの聖杯" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "#神奈川に住んでるエルフ" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "#神奈川に住んでるエルフ" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "#神奈川に住んでるエルフ" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=33 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "転生したらドラゴンの卵だった～最強以外目指さねぇ～" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "転生したらドラゴンの卵だった～最強以外目指さねぇ～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "転生したらドラゴンの卵だった～最強以外目指さねぇ～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=34 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "【推しの子】第3期" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "【推しの子】第3期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "【推しの子】第3期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=35 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "エリスの聖杯" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "エリスの聖杯" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "エリスの聖杯" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=36 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #33 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #34 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #35 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "姫様“拷問”の時間です 第2期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "透明男と人間女～そのうち夫婦になるふたり～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "姫様“拷問”の時間です 第2期" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "姫様“拷問”の時間です 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "姫様“拷問”の時間です 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=37 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "透明男と人間女～そのうち夫婦になるふたり～" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "透明男と人間女～そのうち夫婦になるふたり～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "透明男と人間女～そのうち夫婦になるふたり～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=38 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #36 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 29 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 38 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #37 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=1, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "学園アイドルマスター Story of Re;IRIS" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "呪術廻戦 死滅回游 前編（第3期）" <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:TitleNormalizer] Skipping normalization (special pattern) 
+Object { title: "呪術廻戦 死滅回游 前編（第3期）", pattern: "前編" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "学園アイドルマスター Story of Re;IRIS" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "学園アイドルマスター Story of Re;IRIS" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "学園アイドルマスター Story of Re;IRIS" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=39 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "呪術廻戦 死滅回游 前編（第3期）" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "呪術廻戦 死滅回游 前編（第3期）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "呪術廻戦 死滅回游 前編（第3期）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=40 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #38 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #39 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #40 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #41 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 31 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 40 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "「お前ごときが魔王に勝てると思うな」と勇者パーティを追放されたので、王都で気ままに暮らしたい" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "アンデッドアンラック Winter編" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "どうせ、恋してしまうんだ。第2期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "シャンピニオンの魔女" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "「お前ごときが魔王に勝てると思うな」と勇者パーティを追放されたので、王都で気ままに暮らしたい" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "「お前ごときが魔王に勝てると思うな」と勇者パーティを追放されたので、王都で気ままに暮らしたい" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "「お前ごときが魔王に勝てると思うな」と勇者パーティを追放されたので、王都で気ままに暮らしたい" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=41 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "アンデッドアンラック Winter編" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "アンデッドアンラック Winter編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "アンデッドアンラック Winter編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=42 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "どうせ、恋してしまうんだ。第2期" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "どうせ、恋してしまうんだ。第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "どうせ、恋してしまうんだ。第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=43 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "シャンピニオンの魔女" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "シャンピニオンの魔女" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "シャンピニオンの魔女" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=44 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #42 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #43 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 35 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 44 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "うるわしの宵の月" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "魔王の娘は優しすぎる!!" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "うるわしの宵の月" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "うるわしの宵の月" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "うるわしの宵の月" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=45 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "魔王の娘は優しすぎる!!" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "魔王の娘は優しすぎる!!" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "魔王の娘は優しすぎる!!" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=46 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #44 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #45 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #46 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 37 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 46 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #47 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #48 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=1, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 9 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 9 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 9 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 5 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "葬送のフリーレン 第2期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "拷問バイトくんの日常" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "違国日記" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "葬送のフリーレン 第2期" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "葬送のフリーレン 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "葬送のフリーレン 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=47 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "拷問バイトくんの日常" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "拷問バイトくんの日常" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "拷問バイトくんの日常" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=48 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:FetchController] Cache hit 
+Object { title: "違国日記" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] triggerViewportFetch: fetch complete "違国日記" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "違国日記" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=49 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] IntersectionObserver callback #49 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #50 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 40 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 49 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", resultCount: 16 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", videoId: "so44522496", postedAt: "2025-01-12T10:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", videoId: "so44522496", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=50 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "【アニコミ】聖女なのに国を追い出されたので、崩壊寸前の隣国へ来ました～力を解放したので国が平和になってきましたが元の国まで加護は届きませんよ～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", resultCount: 14 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", videoId: "so45817243", postedAt: "2026-01-10T01:35:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", videoId: "so45817243", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=51 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "ヘルモード ～やり込み好きのゲーマーは廃設定の異世界で無双する～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #51 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #52 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #53 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 42 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 51 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 2 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "カードファイト!! ヴァンガード Divinez 幻真星戦編" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] IntersectionObserver callback #54 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #55 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 7 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 7 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 7 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "カードファイト!! ヴァンガード Divinez 幻真星戦編" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "ハイスクール！奇面組（2026）" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "青のミブロ 第2期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ハイスクール！奇面組（2026）", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", resultCount: 6 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", videoId: "so45817238", postedAt: "2026-01-10T05:30:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", videoId: "so45817238", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=52 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", videoId: "so45817238", postedAt: "2026-01-10T05:30:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", videoId: "so45817238", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "ほっぺちゃん ～サン王国と黒ほっぺ団の秘密～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "青のミブロ 第2期", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "カードファイト!! ヴァンガード Divinez 幻真星戦編", resultCount: 10 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "カードファイト!! ヴァンガード Divinez 幻真星戦編", videoId: "so45755175", postedAt: "2025-12-26T18:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", videoId: "so45755175", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=53 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "カードファイト!! ヴァンガード Divinez 幻真星戦編", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "カードファイト!! ヴァンガード Divinez 幻真星戦編", videoId: "so45755175", postedAt: "2025-12-26T18:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "カードファイト!! ヴァンガード Divinez 幻真星戦編", videoId: "so45755175", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "カードファイト!! ヴァンガード Divinez 幻真星戦編", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "カードファイト!! ヴァンガード Divinez 幻真星戦編" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "カードファイト!! ヴァンガード Divinez 幻真星戦編", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "青のミブロ 第2期", resultCount: 16 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "青のミブロ 第2期", videoId: "so45741717", postedAt: "2025-12-20T18:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "青のミブロ 第2期", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "青のミブロ 第2期", videoId: "so45741717", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "青のミブロ 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=54 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "青のミブロ 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "青のミブロ 第2期" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "青のミブロ 第2期", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "ハイスクール！奇面組（2026）", resultCount: 15 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "ハイスクール！奇面組（2026）", videoId: "so45817250", postedAt: "2026-01-10T12:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "ハイスクール！奇面組（2026）", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "ハイスクール！奇面組（2026）", videoId: "so45817250", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "ハイスクール！奇面組（2026）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=55 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "ハイスクール！奇面組（2026）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "ハイスクール！奇面組（2026）" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "ハイスクール！奇面組（2026）", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: starting... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: 111 inputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: calculating... <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:ScoreCalculator] Ranks calculated 
+Object { inputCount: 111, validCount: 46 }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] recalculateRanks: 111 outputs <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updating badges... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] recalculateRanks: updated 55 badges <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #56 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #57 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=7 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #58 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=9 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #59 
+Object { entriesCount: 1, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=1, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 4 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "お前はまだグンマを知らない～令和版～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TVアニメ『Fate/strange Fake』" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TRIGUN STARGAZE" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "お前はまだグンマを知らない～令和版～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "TVアニメ『Fate/strange Fake』", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] IntersectionObserver callback #60 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #61 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #62 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=2, removed=0, totalVisible=10 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver callback #63 
+Object { entriesCount: 2, isInitialized: true }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: hasChange=true, added=0, removed=2, totalVisible=8 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] IntersectionObserver: scheduling viewport fetch <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: clearing existing timer <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: timer set (300ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "お前はまだグンマを知らない～令和版～", resultCount: 7 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "お前はまだグンマを知らない～令和版～", videoId: "so45817321", postedAt: "2026-01-10T22:00:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "お前はまだグンマを知らない～令和版～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "お前はまだグンマを知らない～令和版～", videoId: "so45817321", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "お前はまだグンマを知らない～令和版～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=56 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: timer set (500ms) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "お前はまだグンマを知らない～令和版～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "お前はまだグンマを知らない～令和版～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "お前はまだグンマを知らない～令和版～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "TRIGUN STARGAZE", status: "pending" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", resultCount: 9 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", videoId: "so45817236", postedAt: "2026-01-10T22:30:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:NicoApiClient] Search completed 
+Object { keyword: "TVアニメ『Fate/strange Fake』", resultCount: 13 }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:RepresentativeSelector] Representative video selected (official) 
+Object { animeTitle: "TVアニメ『Fate/strange Fake』", videoId: "so45767151", postedAt: "2026-01-04T00:30:00+09:00" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", videoId: "so45817236", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=57 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "お気楽領主の楽しい領地防衛～生産系魔術で名もなき村を最強の城塞都市に～", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[dAnimeCfRanking:CacheManager] Cache entry saved 
+Object { title: "TVアニメ『Fate/strange Fake』", status: "ok" }
+d-anime-cf-ranking.user.js:64:18986
+[dAnimeCfRanking:FetchController] Fetch completed 
+Object { title: "TVアニメ『Fate/strange Fake』", videoId: "so45767151", metrics: {…} }
+d-anime-cf-ranking.user.js:64:18986
+[CF-DEBUG] handleFetchComplete: "TVアニメ『Fate/strange Fake』" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: cached, total=58 <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks called <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleRecalculateRanks: already scheduled <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetch complete "TVアニメ『Fate/strange Fake』" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: "TVアニメ『Fate/strange Fake』" 
+Object { status: "ok" }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] handleFetchComplete: already processed "TVアニメ『Fate/strange Fake』", skipping <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] scheduleViewportFetch: debounce timer fired <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch called 
+Object { visibleCount: 8 }
+d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: filtering visible cards... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 8 visible cards <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: processing 8 cards (max 10) <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: 5 cards need fetching <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: starting fetch... <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "TRIGUN STARGAZE" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "地獄先生ぬ～べ～（2025）" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "多聞くん今どっち！？" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "勇者のクズ" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: fetching "メダリスト 第2期" <empty string> d-anime-cf-ranking.user.js:113:629
+[CF-DEBUG] triggerViewportFetch: all fetches queued <empty string> d-anime-cf-ranking.user.js:113:629
+Script terminated by timeout at:
+processQueue@moz-extension://17191312-4021-4bca-8b47-d0bcc2949223/userscripts/d-anime-cf-ranking.user.js?id=05d59bf0-6aae-48c4-9fbd-cc886523ca8a:64:31576
+window["__f__ml4cy6su.1n"]/</fetch/<@moz-extension://17191312-4021-4bca-8b47-d0bcc2949223/userscripts/d-anime-cf-ranking.user.js?id=05d59bf0-6aae-48c4-9fbd-cc886523ca8a:64:31452
+fetch@moz-extension://17191312-4021-4bca-8b47-d0bcc2949223/userscripts/d-anime-cf-ranking.user.js?id=05d59bf0-6aae-48c4-9fbd-cc886523ca8a:64:31364
+async*vn@moz-extension://17191312-4021-4bca-8b47-d0bcc2949223/userscripts/d-anime-cf-ranking.user.js?id=05d59bf0-6aae-48c4-9fbd-cc886523ca8a:113:3463
+window["__f__ml4cy6su.1n"]/</ia/pe<@moz-extension://17191312-4021-4bca-8b47-d0bcc2949223/userscripts/d-anime-cf-ranking.user.js?id=05d59bf0-6aae-48c4-9fbd-cc886523ca8a:113:2762
+At@https://animestore.docomo.ne.jp/animestore/CF/winter:10:91
+lr/a/t[n]@https://animestore.docomo.ne.jp/animestore/CF/winter:81:107
+At@https://animestore.docomo.ne.jp/animestore/CF/winter:10:91
+r@https://animestore.docomo.ne.jp/animestore/CF/winter:32:70
+Yo/<@https://animestore.docomo.ne.jp/animestore/CF/winter:32:194
+go/_/<@https://animestore.docomo.ne.jp/animestore/CF/winter:22:300
+_@https://animestore.docomo.ne.jp/animestore/CF/winter:22:319
+winter line 10 > injectedScript:64:31576

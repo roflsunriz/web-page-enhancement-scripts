@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         d-anime-cf-ranking
 // @namespace    dAnimeCfRanking
-// @version      0.0.1
+// @version      0.0.2
 // @author       roflsunriz
 // @description  dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示
 // @license      MIT

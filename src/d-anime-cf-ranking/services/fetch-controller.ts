@@ -110,14 +110,15 @@ export class FetchController {
   /**
    * キューを処理する
    */
-  private async processQueue(): Promise<void> {
+  private processQueue(): void {
+    // 処理可能な件数だけ取り出す
     while (this.queue.length > 0 && this.activeCount < this.maxConcurrent) {
       const request = this.queue.shift();
       if (!request) break;
 
-      // 既に処理中の場合はスキップ（後で再度キューに入る）
+      // 既に処理中の場合はスキップ（キューに戻さない）
       if (this.processing.has(request.title)) {
-        this.queue.push(request);
+        logger.debug("Skipping duplicate request", { title: request.title });
         continue;
       }
 
@@ -137,7 +138,8 @@ export class FetchController {
         .finally(() => {
           this.activeCount--;
           this.processing.delete(request.title);
-          this.processQueue();
+          // 次のキュー処理をスケジュール（同期的に呼ばない）
+          setTimeout(() => this.processQueue(), 0);
         });
     }
   }
