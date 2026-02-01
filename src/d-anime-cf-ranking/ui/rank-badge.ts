@@ -5,12 +5,13 @@
  * - ランク色分け（S/A/B/C/D）
  * - ローディング状態（…）
  * - 失敗状態（警告アイコン + リトライボタン）
- * - ホバーツールチップ
+ * - ホバーツールチップ（bodyに追加してオーバーフロー対策）
  *
  * Note: Reactを使わず、vanilla TSで軽量に実装
  */
 
 import { createLogger } from "@/shared/logger";
+import { svgAlertCircle, svgProcessing } from "@/shared/icons/mdi";
 import type {
   RankData,
   RankTier,
@@ -66,27 +67,79 @@ const ERROR_STYLE = `
   border: 1px solid #ef9a9a;
 `;
 
-/** ツールチップのスタイル */
-const TOOLTIP_STYLE = `
-  position: absolute;
-  bottom: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  background: rgba(0, 0, 0, 0.9);
-  color: #fff;
-  padding: 8px 12px;
-  border-radius: 6px;
-  font-size: 11px;
-  font-weight: normal;
-  white-space: pre-line;
-  z-index: 10000;
-  pointer-events: none;
-  max-width: 300px;
-  min-width: 200px;
-  line-height: 1.5;
-  margin-bottom: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+/** アイコンのスタイル */
+const ICON_STYLE = `
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
 `;
+
+// =============================================================================
+// グローバルツールチップ（bodyに1つだけ作成）
+// =============================================================================
+
+let globalTooltip: HTMLElement | null = null;
+
+function getGlobalTooltip(): HTMLElement {
+  if (!globalTooltip) {
+    globalTooltip = document.createElement("div");
+    globalTooltip.className = "cf-ranking-global-tooltip";
+    globalTooltip.style.cssText = `
+      position: fixed;
+      background: rgba(0, 0, 0, 0.95);
+      color: #fff;
+      padding: 10px 14px;
+      border-radius: 8px;
+      font-size: 12px;
+      font-weight: normal;
+      white-space: pre-line;
+      z-index: 2147483647;
+      pointer-events: none;
+      max-width: 320px;
+      min-width: 220px;
+      line-height: 1.6;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+      display: none;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    `;
+    document.body.appendChild(globalTooltip);
+  }
+  return globalTooltip;
+}
+
+function showTooltip(content: string, badge: HTMLElement): void {
+  const tooltip = getGlobalTooltip();
+  tooltip.textContent = content;
+  tooltip.style.display = "block";
+
+  // バッジの位置を取得
+  const rect = badge.getBoundingClientRect();
+
+  // ツールチップのサイズを取得
+  const tooltipRect = tooltip.getBoundingClientRect();
+
+  // バッジの上に表示（中央揃え）
+  let left = rect.left + rect.width / 2 - tooltipRect.width / 2;
+  let top = rect.top - tooltipRect.height - 8;
+
+  // 画面外にはみ出す場合の調整
+  if (left < 8) left = 8;
+  if (left + tooltipRect.width > window.innerWidth - 8) {
+    left = window.innerWidth - tooltipRect.width - 8;
+  }
+  if (top < 8) {
+    // 上に表示できない場合は下に表示
+    top = rect.bottom + 8;
+  }
+
+  tooltip.style.left = `${left}px`;
+  tooltip.style.top = `${top}px`;
+}
+
+function hideTooltip(): void {
+  const tooltip = getGlobalTooltip();
+  tooltip.style.display = "none";
+}
 
 // =============================================================================
 // バッジ作成
@@ -101,6 +154,7 @@ interface BadgeElement extends HTMLElement {
     title: string;
     retryCallback?: RetryCallback;
     lastRetryTime?: number;
+    tooltipContent?: string;
   };
 }
 
@@ -124,10 +178,17 @@ export function createLoadingBadge(title: string): HTMLElement {
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-loading";
   badge.setAttribute("style", LOADING_STYLE);
-  badge.textContent = "…";
+  badge.innerHTML = createIconHtml(svgProcessing);
   badge.__cfRanking = { title };
 
   return badge;
+}
+
+/**
+ * アイコンのHTMLを生成する
+ */
+function createIconHtml(svg: string): string {
+  return `<span style="${ICON_STYLE}">${svg}</span>`;
 }
 
 /**
@@ -141,15 +202,13 @@ export function createErrorBadge(
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-error";
   badge.setAttribute("style", ERROR_STYLE);
-  badge.innerHTML = "⚠️";
-  badge.__cfRanking = { title, retryCallback };
+  badge.innerHTML = createIconHtml(svgAlertCircle);
 
-  // ツールチップ
-  const tooltip = createTooltipElement(`取得失敗: ${errorMessage}\nクリックでリトライ`);
-  badge.appendChild(tooltip);
-  setupTooltipEvents(badge, tooltip);
+  const tooltipContent = `取得失敗: ${errorMessage}\nクリックでリトライ`;
+  badge.__cfRanking = { title, retryCallback, tooltipContent };
 
-  // リトライクリックイベント
+  setupTooltipEvents(badge);
+
   if (retryCallback) {
     badge.addEventListener("click", () => {
       handleRetryClick(badge, title, retryCallback);
@@ -172,7 +231,12 @@ export function createRankBadge(
   badge.className = "cf-ranking-badge cf-ranking-rank";
   badge.setAttribute("style", getTierStyle(rankData.tier));
   badge.textContent = `第${rankData.rank}位`;
-  badge.__cfRanking = { title };
+
+  const tooltipData = buildTooltipData(rankData, cacheEntry);
+  const tooltipContent = formatTooltipContent(tooltipData);
+  badge.__cfRanking = { title, tooltipContent };
+
+  setupTooltipEvents(badge);
 
   // ホバー時に少し大きく
   badge.addEventListener("mouseenter", () => {
@@ -181,12 +245,6 @@ export function createRankBadge(
   badge.addEventListener("mouseleave", () => {
     badge.style.transform = "scale(1)";
   });
-
-  // ツールチップ
-  const tooltipData = buildTooltipData(rankData, cacheEntry);
-  const tooltip = createTooltipElement(formatTooltipContent(tooltipData));
-  badge.appendChild(tooltip);
-  setupTooltipEvents(badge, tooltip);
 
   return badge;
 }
@@ -203,23 +261,23 @@ export function updateBadge(
   const badgeEl = badge as BadgeElement;
   const title = badgeEl.__cfRanking?.title ?? cacheEntry.title;
 
-  // 既存の子要素をクリア
-  badge.innerHTML = "";
+  // 既存のイベントリスナーをクリア
+  badge.onmouseenter = null;
+  badge.onmouseleave = null;
+  badge.onclick = null;
 
   if (cacheEntry.status === "failed" || !rankData) {
     // エラー状態
     badge.className = "cf-ranking-badge cf-ranking-error";
     badge.setAttribute("style", ERROR_STYLE);
-    badge.innerHTML = "⚠️";
+    badge.innerHTML = createIconHtml(svgAlertCircle);
 
-    const tooltip = createTooltipElement(
-      `取得失敗: ${cacheEntry.failureReason ?? "不明なエラー"}\nクリックでリトライ`
-    );
-    badge.appendChild(tooltip);
-    setupTooltipEvents(badge, tooltip);
+    const tooltipContent = `取得失敗: ${cacheEntry.failureReason ?? "不明なエラー"}\nクリックでリトライ`;
+    badgeEl.__cfRanking = { title, retryCallback, tooltipContent };
+
+    setupTooltipEvents(badge);
 
     if (retryCallback) {
-      badgeEl.__cfRanking = { title, retryCallback };
       badge.onclick = () => handleRetryClick(badgeEl, title, retryCallback);
       badge.style.cursor = "pointer";
     }
@@ -228,54 +286,47 @@ export function updateBadge(
     badge.className = "cf-ranking-badge cf-ranking-rank";
     badge.setAttribute("style", getTierStyle(rankData.tier));
     badge.textContent = `第${rankData.rank}位`;
-    badge.onclick = null;
-    badge.style.cursor = "pointer";
+    badge.style.cursor = "default";
 
     const tooltipData = buildTooltipData(rankData, cacheEntry);
-    const tooltip = createTooltipElement(formatTooltipContent(tooltipData));
-    badge.appendChild(tooltip);
-    setupTooltipEvents(badge, tooltip);
+    const tooltipContent = formatTooltipContent(tooltipData);
+    badgeEl.__cfRanking = { title, tooltipContent };
 
-    // ホバーエフェクト
-    badge.onmouseenter = () => {
-      badge.style.transform = "scale(1.1)";
-    };
-    badge.onmouseleave = () => {
-      badge.style.transform = "scale(1)";
-    };
+    setupTooltipEvents(badge);
+
+    // ホバーエフェクト（ツールチップイベントと一緒に設定）
   }
 }
 
 // =============================================================================
-// ツールチップ
+// ツールチップイベント
 // =============================================================================
 
-/**
- * ツールチップ要素を作成する
- */
-function createTooltipElement(content: string): HTMLElement {
-  const tooltip = document.createElement("div");
-  tooltip.className = "cf-ranking-tooltip";
-  tooltip.setAttribute("style", TOOLTIP_STYLE + " display: none;");
-  tooltip.textContent = content;
-  return tooltip;
+function setupTooltipEvents(badge: HTMLElement): void {
+  const badgeEl = badge as BadgeElement;
+
+  badge.onmouseenter = () => {
+    const content = badgeEl.__cfRanking?.tooltipContent;
+    if (content) {
+      showTooltip(content, badge);
+    }
+    // ホバーエフェクト
+    if (badge.classList.contains("cf-ranking-rank")) {
+      badge.style.transform = "scale(1.1)";
+    }
+  };
+
+  badge.onmouseleave = () => {
+    hideTooltip();
+    // ホバーエフェクト解除
+    badge.style.transform = "scale(1)";
+  };
 }
 
-/**
- * ツールチップの表示/非表示イベントを設定する
- */
-function setupTooltipEvents(badge: HTMLElement, tooltip: HTMLElement): void {
-  badge.addEventListener("mouseenter", () => {
-    tooltip.style.display = "block";
-  });
-  badge.addEventListener("mouseleave", () => {
-    tooltip.style.display = "none";
-  });
-}
+// =============================================================================
+// ツールチップデータ
+// =============================================================================
 
-/**
- * TooltipDataを構築する
- */
 function buildTooltipData(rankData: RankData, cacheEntry: CacheEntry): TooltipData {
   return {
     rank: rankData.rank,
@@ -294,9 +345,6 @@ function buildTooltipData(rankData: RankData, cacheEntry: CacheEntry): TooltipDa
   };
 }
 
-/**
- * ツールチップの内容をフォーマットする
- */
 function formatTooltipContent(data: TooltipData): string {
   const lines: string[] = [];
 
@@ -337,16 +385,10 @@ function formatTooltipContent(data: TooltipData): string {
   return lines.join("\n");
 }
 
-/**
- * 数値をフォーマットする（千単位でカンマ区切り）
- */
 function formatNumber(num: number): string {
   return num.toLocaleString("ja-JP");
 }
 
-/**
- * 日付をフォーマットする
- */
 function formatDate(isoString: string): string {
   try {
     const date = new Date(isoString);
@@ -362,9 +404,6 @@ function formatDate(isoString: string): string {
   }
 }
 
-/**
- * 投稿者種別のラベルを取得する
- */
 function getUploaderTypeLabel(type: string): string {
   switch (type) {
     case "danime":
@@ -380,9 +419,6 @@ function getUploaderTypeLabel(type: string): string {
 // リトライ処理
 // =============================================================================
 
-/**
- * リトライクリックを処理する（クールダウン付き）
- */
 function handleRetryClick(
   badge: BadgeElement,
   title: string,
@@ -403,7 +439,7 @@ function handleRetryClick(
   // ローディング状態に変更
   badge.className = "cf-ranking-badge cf-ranking-loading";
   badge.setAttribute("style", LOADING_STYLE);
-  badge.innerHTML = "…";
+  badge.innerHTML = createIconHtml(svgProcessing);
 
   callback(title);
 }
