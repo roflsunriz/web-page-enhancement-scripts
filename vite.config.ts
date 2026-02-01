@@ -349,6 +349,32 @@ const xAutoSpamReporterMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.user.js',
 };
 
+const danimeCfRankingMeta: MonkeyUserScript = {
+  name: 'd-anime-cf-ranking',
+  namespace: 'dAnimeCfRanking',
+  version: '1.0.0',
+  description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
+  author: 'roflsunriz',
+  match: ['https://animestore.docomo.ne.jp/animestore/CF/*'],
+  grant: [
+    'GM_xmlhttpRequest',
+    'GM_setValue',
+    'GM_getValue',
+    'GM_registerMenuCommand',
+    'GM_addStyle',
+  ],
+  connect: [
+    'nicovideo.jp',
+    '*.nicovideo.jp',
+  ],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=animestore.docomo.ne.jp',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/d-anime-cf-ranking.user.js',
+};
+
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
@@ -374,6 +400,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/chatgpt-notify/main.ts',
     fileName: 'chatgpt-notify.user.js',
     meta: chatgptNotifyMeta,
+  },
+  'd-anime-cf-ranking': {
+    entry: 'src/d-anime-cf-ranking/main.ts',
+    fileName: 'd-anime-cf-ranking.user.js',
+    meta: danimeCfRankingMeta,
   },
   'd-anime': {
     entry: 'src/d-anime/main.ts',
@@ -463,6 +494,7 @@ export default defineConfig((configEnv) => {
         '@': resolve(dir, 'src'),
         '@/chatgpt-notify': resolve(dir, 'src/chatgpt-notify'),
         '@/d-anime': resolve(dir, 'src/d-anime'),
+        '@/d-anime-cf-ranking': resolve(dir, 'src/d-anime-cf-ranking'),
         '@/fanbox-floating-menu': resolve(dir, 'src/fanbox-floating-menu'),
         '@/fanbox-pagination-helper': resolve(dir, 'src/fanbox-pagination-helper'),
         '@/image-collector': resolve(dir, 'src/image-collector'),

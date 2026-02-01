@@ -12,6 +12,7 @@ const configFile = resolve(projectRoot, 'vite.config.ts');
 const targets = [
   { mode: 'chatgpt-notify', clear: false },
   { mode: 'd-anime', clear: false },
+  { mode: 'd-anime-cf-ranking', clear: false },
   { mode: 'fanbox-floating-menu', clear: false },
   { mode: 'fanbox-pagination-helper', clear: false },
   { mode: 'image-collector', clear: false },
