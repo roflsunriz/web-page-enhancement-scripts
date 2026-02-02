@@ -80,17 +80,18 @@ cd web-page-enhancement-scripts
 2. 依存関係をインストールします。
 
 ```bash
-npm install
+powershell -c "irm bun.sh/install.ps1|iex"
+bun install
 ```
 
 3. 開発サーバを起動します（スクリプト毎にモードを指定）。例：
 
 ```bash
 # YouTube 情報コピー UI を開発する場合
-npm run dev:youtube-info-copier
+bun dev:youtube-info-copier
 
 # 画像収集機能を開発する場合
-npm run dev:image-collector
+bun dev:image-collector
 ```
 
 開発用のモードは `package.json` の `scripts` に多数定義されています（例: `dev:d-anime`, `dev:twitter-thread-copier` 等）。
@@ -101,7 +102,7 @@ npm run dev:image-collector
 すべての userscript をビルドして `dist/` に出力するには：
 
 ```bash
-npm run build
+bun build
 ```
 
 コード品質チェック
@@ -110,9 +111,9 @@ npm run build
 型チェック、リンティング、フォーマットは以下で実行できます:
 
 ```bash
-npm run type-check   # tsc --noEmit
-npm run lint         # eslint src/**/*.ts
-npm run format       # prettier --write src/**/*.ts
+bun type-check   # tsc --noEmit
+bun lint         # eslint src/**/*.ts
+bun format       # prettier --write src/**/*.ts
 ```
 
 
@@ -129,10 +130,10 @@ npm run format       # prettier --write src/**/*.ts
 PR 前に以下を実行してください：
 
 ```bash
-npm install
-npm run type-check
-npm run lint
-npm run build
+bun install
+bun type-check
+bun lint
+bun build
 ```
 
 ライセンス
