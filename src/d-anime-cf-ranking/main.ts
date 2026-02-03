@@ -8,7 +8,7 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import type { AnimeCard, CacheEntry } from "@/shared/types/d-anime-cf-ranking";
+import type { AnimeCard, CacheEntry, Settings } from "@/shared/types/d-anime-cf-ranking";
 import {
   RECALCULATE_THROTTLE_MS,
   VIEWPORT_DEBOUNCE_MS,
@@ -16,10 +16,27 @@ import {
 } from "@/shared/types/d-anime-cf-ranking";
 
 // 設定
-import { getSettings, registerMenuCommands } from "./config/settings";
+import {
+  getSettings,
+  saveSettings,
+  registerMenuCommands,
+  onSettingsChange,
+} from "./config/settings";
 
 // キャッシュ
-import { initDatabase, getAllCacheEntries, isCacheValid } from "./services/cache-manager";
+import {
+  initDatabase,
+  getAllCacheEntries,
+  isCacheValid,
+  clearCache,
+} from "./services/cache-manager";
+
+// コントロールパネル
+import {
+  createControlPanel,
+  insertControlPanel,
+  type ControlPanelHandle,
+} from "./ui/control-panel";
 
 // DOM操作
 import {
@@ -62,6 +79,12 @@ let viewportDebounceTimer: ReturnType<typeof setTimeout> | null = null;
 const visibleCardElements = new Set<HTMLElement>();
 let isInitialized = false;
 
+/** コントロールパネルハンドル */
+let controlPanelHandle: ControlPanelHandle | null = null;
+
+/** リフレッシュ中フラグ */
+let isRefreshing = false;
+
 /** 非表示カード要素のセット（ビジビリティ監視対象） */
 const hiddenCardElements = new Set<HTMLElement>();
 
@@ -83,13 +106,28 @@ async function main(): Promise<void> {
   console.log("[CF-RANKING DEBUG] === 初期化開始 ===");
 
   const settings = getSettings();
+
+  registerMenuCommands();
+  await initDatabase();
+
+  // コントロールパネルを作成・挿入（表示状態に関係なく常に表示）
+  controlPanelHandle = createControlPanel(settings, {
+    onSettingsChange: handleSettingsChange,
+    onRefreshTrigger: handleRefreshTrigger,
+  });
+  insertControlPanel(controlPanelHandle);
+
+  // 設定変更時のコールバックを登録
+  onSettingsChange((newSettings) => {
+    controlPanelHandle?.updateSettings(newSettings);
+    // 表示ON/OFFが変更された場合、バッジの表示を切り替える
+    updateBadgeVisibility(newSettings.enabled);
+  });
+
   if (!settings.enabled) {
     logger.info("Ranking display is disabled");
     return;
   }
-
-  registerMenuCommands();
-  await initDatabase();
 
   // 既存キャッシュを読み込む
   await loadCachedEntries();
@@ -534,6 +572,126 @@ function handleRetry(title: string): void {
   }).catch((error) => {
     logger.error("Retry failed", error as Error, { title });
   });
+}
+
+// =============================================================================
+// 設定変更・再調査ハンドラー
+// =============================================================================
+
+/**
+ * 設定変更時のハンドラー
+ */
+function handleSettingsChange(newSettings: Settings): void {
+  logger.info("Settings changed", { settings: newSettings });
+  saveSettings(newSettings);
+}
+
+/**
+ * 再調査トリガーのハンドラー
+ */
+async function handleRefreshTrigger(): Promise<void> {
+  if (isRefreshing || !fetchController) {
+    logger.warn("Refresh already in progress or fetch controller not ready");
+    return;
+  }
+
+  logger.info("Manual refresh triggered");
+  console.log("[CF-RANKING DEBUG] === マニュアル再調査開始 ===");
+
+  isRefreshing = true;
+  controlPanelHandle?.setRefreshing(true);
+
+  try {
+    // キャッシュをクリア
+    await clearCache();
+    cacheEntryMap.clear();
+
+    // バッジをローディング状態にリセット
+    resetBadgesToLoading();
+
+    // 順位確定状態をリセット
+    isRankingFinalized = false;
+
+    // 進捗表示用のカウンター
+    let fetchedCount = 0;
+    const totalCount = allCards.length;
+
+    controlPanelHandle?.updateProgress(fetchedCount, totalCount);
+
+    // 全カードを順次再フェッチ
+    for (const card of allCards) {
+      if (!isRefreshing) {
+        // キャンセルされた場合
+        break;
+      }
+
+      try {
+        const entry = await fetchController.fetch(card.title, true);
+        handleFetchComplete(card.title, entry);
+        fetchedCount++;
+        controlPanelHandle?.updateProgress(fetchedCount, totalCount);
+      } catch (error) {
+        logger.error("Refresh fetch failed", error as Error, { title: card.title });
+        fetchedCount++;
+        controlPanelHandle?.updateProgress(fetchedCount, totalCount);
+      }
+
+      // レート制限のため少し待機
+      await new Promise((resolve) => setTimeout(resolve, 300));
+    }
+
+    // 完了
+    isRankingFinalized = true;
+    recalculateRanks();
+
+    logger.info("Manual refresh completed", { total: fetchedCount });
+    console.log("[CF-RANKING DEBUG] === マニュアル再調査完了 ===");
+  } catch (error) {
+    logger.error("Manual refresh failed", error as Error);
+  } finally {
+    isRefreshing = false;
+    controlPanelHandle?.setRefreshing(false);
+    controlPanelHandle?.updateProgress(0, 0);
+  }
+}
+
+/**
+ * 全バッジをローディング状態にリセット
+ */
+function resetBadgesToLoading(): void {
+  for (const badge of badgeMap.values()) {
+    badge.className = "cf-ranking-badge cf-ranking-loading";
+    badge.setAttribute(
+      "style",
+      `
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2px 6px;
+      margin: 0 4px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
+      cursor: pointer;
+      position: relative;
+      white-space: nowrap;
+      transition: transform 0.1s ease;
+      background: #e0e0e0;
+      color: #666;
+      border: 1px solid #ccc;
+    `
+    );
+    badge.innerHTML = `<span style="display: inline-flex; vertical-align: middle;"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M6,2V8H6V8L10,12L6,16V16H6V22H18V16H18V16L14,12L18,8V8H18V2H6M16,16.5V20H8V16.5L12,12.5L16,16.5M12,11.5L8,7.5V4H16V7.5L12,11.5Z"/></svg></span>`;
+  }
+}
+
+/**
+ * バッジの表示/非表示を切り替える
+ */
+function updateBadgeVisibility(enabled: boolean): void {
+  for (const badge of badgeMap.values()) {
+    badge.style.display = enabled ? "inline-flex" : "none";
+  }
 }
 
 // =============================================================================

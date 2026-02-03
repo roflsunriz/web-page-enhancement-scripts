@@ -10,11 +10,11 @@
 import { createLogger } from "@/shared/logger";
 import type { CacheEntry, CacheStatus } from "@/shared/types/d-anime-cf-ranking";
 import {
-  CACHE_TTL_MS,
   IDB_DATABASE_NAME,
   IDB_STORE_NAME,
   IDB_VERSION,
 } from "@/shared/types/d-anime-cf-ranking";
+import { getCacheTtlMs } from "../config/settings";
 
 const logger = createLogger("dAnimeCfRanking:CacheManager");
 
@@ -250,8 +250,9 @@ export function isCacheValid(entry: CacheEntry | null): boolean {
 
   const now = Date.now();
   const age = now - fetchedAt;
+  const ttlMs = getCacheTtlMs();
 
-  return age < CACHE_TTL_MS;
+  return age < ttlMs;
 }
 
 /**
@@ -265,7 +266,8 @@ export function getCacheRemainingTime(entry: CacheEntry): number {
     return 0;
   }
 
-  const expiresAt = fetchedAt + CACHE_TTL_MS;
+  const ttlMs = getCacheTtlMs();
+  const expiresAt = fetchedAt + ttlMs;
   const remaining = expiresAt - Date.now();
 
   return Math.max(0, remaining);

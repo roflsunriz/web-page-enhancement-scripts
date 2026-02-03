@@ -8,7 +8,11 @@
 
 import { z } from "zod";
 import type { Settings } from "@/shared/types/d-anime-cf-ranking";
-import { DEFAULT_SETTINGS } from "@/shared/types/d-anime-cf-ranking";
+import {
+  DEFAULT_SETTINGS,
+  TTL_MIN_HOURS,
+  TTL_MAX_HOURS,
+} from "@/shared/types/d-anime-cf-ranking";
 import { createLogger } from "@/shared/logger";
 
 const logger = createLogger("dAnimeCfRanking:Settings");
@@ -20,6 +24,7 @@ const logger = createLogger("dAnimeCfRanking:Settings");
 /** 設定スキーマ */
 export const SettingsSchema = z.object({
   enabled: z.boolean(),
+  cacheTtlHours: z.number().min(TTL_MIN_HOURS).max(TTL_MAX_HOURS),
 });
 
 /** キャッシュエントリスキーマ */
@@ -149,6 +154,24 @@ export function onSettingsChange(callback: SettingsChangeCallback): void {
 export function toggleEnabled(): void {
   const settings = getSettings();
   saveSettings({ ...settings, enabled: !settings.enabled });
+}
+
+/**
+ * TTL設定を更新する
+ * @param hours TTL（時間単位）
+ */
+export function updateCacheTtl(hours: number): void {
+  const settings = getSettings();
+  const clampedHours = Math.max(TTL_MIN_HOURS, Math.min(TTL_MAX_HOURS, hours));
+  saveSettings({ ...settings, cacheTtlHours: clampedHours });
+}
+
+/**
+ * 現在のキャッシュTTLをミリ秒で取得する
+ */
+export function getCacheTtlMs(): number {
+  const settings = getSettings();
+  return settings.cacheTtlHours * 60 * 60 * 1000;
 }
 
 // =============================================================================

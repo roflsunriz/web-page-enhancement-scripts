@@ -134,11 +134,35 @@ export interface CacheStore {
 export interface Settings {
   /** 表示ON/OFF */
   enabled: boolean;
+  /** キャッシュTTL（時間単位） */
+  cacheTtlHours: number;
 }
+
+/** TTLプリセット選択肢 */
+export interface TtlPreset {
+  label: string;
+  hours: number;
+}
+
+/** TTLプリセット一覧 */
+export const TTL_PRESETS: readonly TtlPreset[] = [
+  { label: "6時間", hours: 6 },
+  { label: "12時間", hours: 12 },
+  { label: "24時間", hours: 24 },
+  { label: "48時間", hours: 48 },
+  { label: "1週間", hours: 168 },
+] as const;
+
+/** TTL最小値（時間） */
+export const TTL_MIN_HOURS = 1;
+
+/** TTL最大値（時間） */
+export const TTL_MAX_HOURS = 168;
 
 /** デフォルト設定 */
 export const DEFAULT_SETTINGS: Settings = {
   enabled: true,
+  cacheTtlHours: 24,
 };
 
 // =============================================================================
