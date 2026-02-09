@@ -9,6 +9,15 @@ import type { UIElementId, Settings } from './types';
 import { UI_ELEMENTS } from './constants';
 
 /**
+ * 設定ページかどうかを判定
+ * 「もっと見る」→「設定とプライバシー」で開かれるページは /settings/* パスを持つ
+ */
+function isSettingsPage(): boolean {
+  const path = window.location.pathname;
+  return path === '/settings' || path.startsWith('/settings/');
+}
+
+/**
  * CSS静的インジェクタークラス
  */
 export class CSSInjector {
@@ -91,11 +100,16 @@ export class CSSInjector {
 
   /**
    * レイアウト設定からCSSを生成
+   * 設定ページ（/settings/*）では primaryColumn の幅制御をスキップする
+   * （共通セレクタ使用によるレイアウト崩れ防止）
    */
   private generateLayoutCSS(settings: Settings): string {
     const { layout } = settings;
 
-    return `
+    // 設定ページではメインコンテンツ幅の制御を無効化
+    const primaryColumnCSS = isSettingsPage()
+      ? ''
+      : `
       /* メインコンテンツの幅 - data-testidセレクタ */
       [data-testid="primaryColumn"] {
         width: ${layout.mainContentWidth}px !important;
@@ -103,7 +117,10 @@ export class CSSInjector {
         min-width: ${layout.mainContentWidth}px !important;
         margin-right: ${layout.timelineRightPadding}px !important;
         padding-right: 0px !important;
-      }
+      }`;
+
+    return `
+      ${primaryColumnCSS}
 
       /* 右サイドバーのチラつき防止 */
       /* Twitter/X本体のopacityアニメーションを無効化 */

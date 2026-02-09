@@ -9,6 +9,15 @@ import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
 import { UI_ELEMENTS } from './constants';
 
 /**
+ * 設定ページかどうかを判定
+ * 「もっと見る」→「設定とプライバシー」で開かれるページは /settings/* パスを持つ
+ */
+function isSettingsPage(): boolean {
+  const path = window.location.pathname;
+  return path === '/settings' || path.startsWith('/settings/');
+}
+
+/**
  * UI要素制御クラス
  */
 export class ElementController {
@@ -90,8 +99,16 @@ export class ElementController {
 
   /**
    * レイアウトを適用（XPath要素用の動的CSS）
+   * 設定ページ（/settings/*）ではレイアウト変更をスキップする
+   * （共通セレクタ使用によるレイアウト崩れ防止）
    */
   public applyLayout(settings: Settings): void {
+    // 設定ページではレイアウト変更を適用しない
+    if (isSettingsPage()) {
+      this.styleElement.textContent = '';
+      return;
+    }
+
     const { layout } = settings;
 
     // XPathクラスセレクタ用の追加CSS（CSSInjectorではカバーできない部分）

@@ -47,7 +47,7 @@ export const DEFAULT_SETTINGS: Settings = {
   },
   layout: {
     mainContentWidth: 600, // 読みやすい幅
-    timelineRightPadding: 0,
+    timelineRightPadding: 16,
   },
   enableRealTimePreview: true,
   language: 'ja',
