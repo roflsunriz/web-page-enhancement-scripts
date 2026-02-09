@@ -1,5 +1,9 @@
 /**
  * Twitter Clean UI - メインエントリーポイント
+ *
+ * FOUC（Flash of Unstyled Content）防止のため、2フェーズでCSSを注入する:
+ * Phase 1: スクリプト実行直後にキャッシュ済みCSSを同期的に注入（即時）
+ * Phase 2: 初期化完了後にCSSInjectorが同じ<style>要素を再利用して動的更新
  */
 
 import { ElementDetector } from './element-detector';
@@ -7,6 +11,8 @@ import { ElementController } from './element-controller';
 import { SettingsManager } from './settings-manager';
 import { SettingsUI } from './settings-ui';
 import { setLanguage, detectBrowserLanguage } from './i18n';
+import { CSS_CACHE_KEY } from './constants';
+import { CSSInjector } from './css-injector';
 
 /**
  * アプリケーションクラス
@@ -217,7 +223,46 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
 }
 
 /**
- * メイン処理
+ * Phase 1: 即時CSS注入（FOUC防止）
+ *
+ * @run-at document-start で実行されるため、DOM解析前にCSSを注入できる。
+ * 前回のセッションでキャッシュされたCSSテキストを同期的に読み出し、
+ * <style>要素を即座に挿入することで、隠すべき要素が一瞬も表示されない。
+ *
+ * 初回インストール時はキャッシュが存在しないため、従来通りの動作となる。
+ * Phase 2（初期化完了後）でCSSInjectorがこの<style>要素を再利用し、
+ * 最新の設定でCSSを更新する。
+ */
+function injectEarlyCSS(): void {
+  try {
+    let cachedCSS: string | null = null;
+
+    if (typeof GM_getValue !== 'undefined') {
+      cachedCSS = GM_getValue(CSS_CACHE_KEY, null) as string | null;
+    } else {
+      cachedCSS = localStorage.getItem(CSS_CACHE_KEY);
+    }
+
+    if (!cachedCSS) return;
+
+    const style = document.createElement('style');
+    style.id = CSSInjector.STYLE_ELEMENT_ID;
+    style.type = 'text/css';
+    style.textContent = cachedCSS;
+
+    // document-start時点では document.head が存在しない可能性がある
+    const target = document.head || document.documentElement;
+    target.appendChild(style);
+  } catch {
+    // 早期注入失敗は無視（Phase 2で通常通りCSSが適用される）
+  }
+}
+
+// Phase 1: 即座に実行（同期的・ブロッキング）
+injectEarlyCSS();
+
+/**
+ * Phase 2: 通常の非同期初期化
  */
 (async () => {
   try {

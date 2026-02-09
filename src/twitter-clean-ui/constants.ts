@@ -11,6 +11,12 @@ export const STORAGE_KEY = 'twitter_clean_ui_settings';
 export const STORAGE_VERSION = '1.0.0';
 
 /**
+ * CSSキャッシュ用ストレージキー
+ * FOUC防止のため、生成済みCSSテキストをキャッシュする
+ */
+export const CSS_CACHE_KEY = 'twitter_clean_ui_css_cache';
+
+/**
  * デフォルト設定
  */
 export const DEFAULT_SETTINGS: Settings = {

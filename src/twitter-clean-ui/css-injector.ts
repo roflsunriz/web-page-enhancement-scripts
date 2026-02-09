@@ -6,7 +6,7 @@
  */
 
 import type { UIElementId, Settings } from './types';
-import { UI_ELEMENTS } from './constants';
+import { UI_ELEMENTS, CSS_CACHE_KEY } from './constants';
 
 /**
  * 設定ページかどうかを判定
@@ -21,24 +21,42 @@ function isSettingsPage(): boolean {
  * CSS静的インジェクタークラス
  */
 export class CSSInjector {
+  /** 静的スタイル要素のID（早期注入と共有） */
+  public static readonly STYLE_ELEMENT_ID = 'twitter-clean-ui-static-styles';
+
   private styleElement: HTMLStyleElement;
   private currentCSS: string = '';
 
   /**
    * コンストラクタ
+   * 早期注入で作成済みの<style>要素があれば再利用する
    */
   constructor() {
-    this.styleElement = this.createStyleElement();
+    this.styleElement = this.findOrCreateStyleElement();
   }
 
   /**
-   * スタイル要素を作成
+   * 既存のスタイル要素を探すか、なければ新規作成
+   */
+  private findOrCreateStyleElement(): HTMLStyleElement {
+    const existing = document.getElementById(
+      CSSInjector.STYLE_ELEMENT_ID
+    ) as HTMLStyleElement | null;
+    if (existing) {
+      return existing;
+    }
+    return this.createStyleElement();
+  }
+
+  /**
+   * スタイル要素を新規作成
    */
   private createStyleElement(): HTMLStyleElement {
     const style = document.createElement('style');
-    style.id = 'twitter-clean-ui-static-styles';
+    style.id = CSSInjector.STYLE_ELEMENT_ID;
     style.type = 'text/css';
-    document.head.appendChild(style);
+    const target = document.head || document.documentElement;
+    target.appendChild(style);
     return style;
   }
 
@@ -132,7 +150,7 @@ export class CSSInjector {
   }
 
   /**
-   * 設定を適用してCSSを更新
+   * 設定を適用してCSSを更新し、キャッシュに保存
    */
   public applySettings(settings: Settings): void {
     const visibilityCSS = this.generateVisibilityCSS(settings);
@@ -149,6 +167,25 @@ export class CSSInjector {
     `.trim();
 
     this.styleElement.textContent = this.currentCSS;
+
+    // FOUC防止: 次回ロード用にCSSをキャッシュ
+    this.saveCSSToCache(this.currentCSS);
+  }
+
+  /**
+   * CSSテキストをストレージにキャッシュ保存
+   * 次回スクリプト実行時の即時注入に使用される
+   */
+  private saveCSSToCache(css: string): void {
+    try {
+      if (typeof GM_setValue !== 'undefined') {
+        GM_setValue(CSS_CACHE_KEY, css);
+      } else {
+        localStorage.setItem(CSS_CACHE_KEY, css);
+      }
+    } catch {
+      // キャッシュ保存失敗は無視（次回はフォールバック動作）
+    }
   }
 
   /**
