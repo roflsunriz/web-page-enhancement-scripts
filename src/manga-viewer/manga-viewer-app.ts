@@ -6,10 +6,18 @@ import { GlassControlPanel } from './ui/glass-control-panel';
 import { LoadingSpinner } from './ui/loading-spinner';
 import { UIBuilder } from './ui/ui-builder';
 import { SPAPageObserver } from './spa-page-observer';
+import { getLaunchStyle, registerLaunchStyleMenu } from '@/shared/launch-style';
+import { FabButton } from '@/shared/ui/fab';
+import { svgBookOpen } from '@/shared/icons/mdi';
+import type { LaunchStyle } from '@/shared/types/launch-style';
+
+const SCRIPT_ID = 'manga-viewer';
 
 export class MangaViewerApp {
   private controlPanel: GlassControlPanel | null = null;
+  private fab: FabButton | null = null;
   private spaObserver: SPAPageObserver;
+  private launchStyle: LaunchStyle = 'classic';
 
   constructor() {
     this.spaObserver = new SPAPageObserver();
@@ -17,24 +25,61 @@ export class MangaViewerApp {
   }
 
   public async initialize() {
-    this.controlPanel = new GlassControlPanel();
-    await this.controlPanel.init();
+    this.launchStyle = getLaunchStyle(SCRIPT_ID);
     globalState.app = this;
-    globalState.controlPanel = this.controlPanel;
+
+    // 起動スタイルに応じたUIを作成
+    switch (this.launchStyle) {
+      case 'classic': {
+        this.controlPanel = new GlassControlPanel();
+        await this.controlPanel.init();
+        globalState.controlPanel = this.controlPanel;
+        break;
+      }
+      case 'fab': {
+        this.fab = new FabButton({
+          icon: svgBookOpen,
+          color: 'rgba(74, 144, 226, 0.9)',
+          position: { top: '20px', right: '20px' },
+          label: 'マンガビューア起動',
+          onClick: () => {
+            void this.launch();
+          },
+        });
+        this.fab.init();
+        break;
+      }
+      case 'menu-only':
+        // UIなし: メニューコマンドのみ
+        break;
+      default: {
+        // exhaustive check
+        const _exhaustive: never = this.launchStyle;
+        void _exhaustive;
+      }
+    }
 
     this.spaObserver.startObserving();
 
-    // 使用する側は shared helper を経由して登録する
+    // メニューコマンド: メインアクション（全スタイル共通）
     void import('@/shared/userscript').then((m) => m.registerMenuCommand('ブック風マンガビューア起動', () => this.launch()));
+
+    // メニューコマンド: 起動スタイル切り替え
+    registerLaunchStyleMenu(SCRIPT_ID);
 
     addEventListenerSafely(document, 'keydown', (e: Event) => {
       const keyboardEvent = e as KeyboardEvent;
       if (keyboardEvent.ctrlKey && keyboardEvent.shiftKey && keyboardEvent.key === 'M') {
         keyboardEvent.preventDefault();
-        if (this.controlPanel?.isVisible) {
-          this.controlPanel?.hide();
+        if (this.launchStyle === 'classic') {
+          if (this.controlPanel?.isVisible) {
+            this.controlPanel?.hide();
+          } else {
+            this.controlPanel?.show();
+          }
         } else {
-          this.controlPanel?.show();
+          // FAB/メニューのみモードではショートカットで直接起動
+          void this.launch();
         }
       }
     });
@@ -61,6 +106,7 @@ export class MangaViewerApp {
       }
 
       this.controlPanel?.hide();
+      this.fab?.setVisible(false);
 
       if (isMobile()) {
         setViewport();
@@ -124,6 +170,7 @@ export class MangaViewerApp {
     globalState.observers = [];
 
     this.controlPanel?.show();
+    this.fab?.setVisible(true);
     globalState.isViewerActive = false;
   }
 
@@ -131,6 +178,8 @@ export class MangaViewerApp {
     this.controlPanel?.destroy();
     this.controlPanel = null;
     globalState.controlPanel = null;
+    this.fab?.destroy();
+    this.fab = null;
     this.cleanup();
   }
 

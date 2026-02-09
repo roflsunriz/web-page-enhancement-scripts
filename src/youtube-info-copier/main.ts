@@ -1,7 +1,23 @@
 import { YouTubeInfoCopier } from './youtube-info-copier';
+import { getLaunchStyle, registerLaunchStyleMenu } from '@/shared/launch-style';
+import { registerMenuCommand } from '@/shared/userscript';
+import type { LaunchStyle } from '@/shared/types/launch-style';
 
 let currentUrl = window.location.href;
 let copierInstance: YouTubeInfoCopier | null = null;
+
+const launchStyle: LaunchStyle = getLaunchStyle('youtube-info-copier');
+
+// 起動スタイル切り替えメニュー（常に登録）
+registerLaunchStyleMenu('youtube-info-copier');
+
+// メインアクション用メニューコマンド（常に登録）
+registerMenuCommand('動画情報をコピー', () => {
+  void copierInstance?.performCopy('copy');
+});
+registerMenuCommand('タイトル+URLのみ', () => {
+  void copierInstance?.performCopy('quick-copy');
+});
 
 /**
  * スクリプトを初期化または再初期化します。
@@ -16,7 +32,7 @@ function initializeScript(): void {
   // watchページでのみコントロールパネルを作成
   if (window.location.pathname === '/watch') {
     setTimeout(() => {
-      copierInstance = new YouTubeInfoCopier();
+      copierInstance = new YouTubeInfoCopier(launchStyle);
     }, 1000); // YouTubeの動的読み込みを待つ
   }
 }

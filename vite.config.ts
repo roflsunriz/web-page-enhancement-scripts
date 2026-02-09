@@ -208,7 +208,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.5.2',
+  version: '10.6.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -246,7 +246,7 @@ const mangaViewerMeta: MonkeyUserScript = {
     '*://www.mildom.com/*',
     '*://mildom.com/*',
   ],
-  grant: ['GM_registerMenuCommand'],
+  grant: ['GM_registerMenuCommand', 'GM_getValue', 'GM_setValue'],
   'run-at': 'document-start',
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.meta.js',
@@ -381,11 +381,11 @@ const xAutoSpamReporterMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.3.2',
-  description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（ハンドル式）',
+  version: '2.4.0',
+  description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（従来/FAB/メニュー切替対応）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
-  grant: ['GM_setClipboard'],
+  grant: ['GM_setClipboard', 'GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   'run-at': 'document-start',
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-info-copier.meta.js',

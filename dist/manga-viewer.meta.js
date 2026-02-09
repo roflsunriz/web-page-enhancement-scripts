@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         book-style-manga-viewer
 // @namespace    bookStyleMangaViewer
-// @version      10.5.2
+// @version      10.6.0
 // @author       roflsunriz
 // @description  Layout images in book style viewer with keyboard controls.
 // @license      MIT
@@ -40,9 +40,6 @@
 // @exclude      *://openrec.tv/*
 // @exclude      *://www.mildom.com/*
 // @exclude      *://mildom.com/*
-// @require      https://cdn.jsdelivr.net/npm/systemjs@6.15.1/dist/system.min.js
-// @require      https://cdn.jsdelivr.net/npm/systemjs@6.15.1/dist/extras/named-register.min.js
-// @require      data:application/javascript,%3B(typeof%20System!%3D'undefined')%26%26(System%3Dnew%20System.constructor())%3B
 // @grant        GM_addStyle
 // @grant        GM_deleteValue
 // @grant        GM_download

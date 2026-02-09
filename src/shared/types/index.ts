@@ -5,3 +5,4 @@ export * from "./chatgpt-notify";
 export * from "./twitter-clean-timeline";
 export * from "./youtube-info-copier";
 export * from "./x-auto-spam-reporter";
+export * from "./launch-style";

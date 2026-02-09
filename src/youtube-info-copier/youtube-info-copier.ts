@@ -1,10 +1,13 @@
 import { createLogger } from '@/shared/logger';
 import { setTrustedInnerHTML } from '@/shared/trusted-html';
-import { YouTubeVideoInfo } from '@/shared/types';
+import type { YouTubeVideoInfo } from '@/shared/types';
 import { expandDescriptionIfNeeded } from './dom-utils';
 import { TEMPLATE_POLICY_NAME, getTemplate } from './ui';
 import { YOUTUBE_SELECTORS } from '@/shared/constants/youtube';
 import { buildYoutubeShortUrl } from '@/shared/constants/urls';
+import { FabButton } from '@/shared/ui/fab';
+import { svgContentCopy, svgFlash } from '@/shared/icons/mdi';
+import type { LaunchStyle } from '@/shared/types/launch-style';
 
 export class YouTubeInfoCopier {
   private container: HTMLDivElement | null = null;
@@ -17,15 +20,101 @@ export class YouTubeInfoCopier {
   private logger = createLogger('youtube-info-copier');
   private descriptionExpanded = false;
   private preExpandPromise: Promise<void> | null = null;
+  private fab: FabButton | null = null;
+  private readonly launchStyle: LaunchStyle;
 
-  constructor() {
+  constructor(launchStyle: LaunchStyle = 'classic') {
+    this.launchStyle = launchStyle;
     this.init();
   }
 
   private init(): void {
-    this.createShadowDOM();
-    this.setupFullscreenListener();
-    this.logger.info('YouTubeInfoCopier initialized.');
+    switch (this.launchStyle) {
+      case 'classic':
+        this.createShadowDOM();
+        this.setupFullscreenListener();
+        break;
+      case 'fab':
+        this.createFab();
+        break;
+      case 'menu-only':
+        // UIなし: メニューコマンドから performCopy() を呼び出す
+        break;
+      default: {
+        const _exhaustive: never = this.launchStyle;
+        void _exhaustive;
+      }
+    }
+    this.logger.info(`YouTubeInfoCopier initialized (style: ${this.launchStyle})`);
+  }
+
+  private createFab(): void {
+    this.fab = new FabButton({
+      icon: svgContentCopy,
+      color: 'rgba(255, 0, 0, 0.9)',
+      position: { bottom: '20px', left: '20px' },
+      label: 'YouTube動画情報コピー',
+      onHover: () => this.preExpandDescription(),
+      actions: [
+        {
+          icon: svgContentCopy,
+          label: '動画情報をコピー',
+          onClick: () => {
+            void this.performCopy('copy');
+          },
+        },
+        {
+          icon: svgFlash,
+          label: 'タイトル+URLのみ',
+          onClick: () => {
+            void this.performCopy('quick-copy');
+          },
+        },
+      ],
+    });
+    this.fab.init();
+  }
+
+  /**
+   * 外部（メニューコマンド/FAB）から呼び出し可能なコピー実行メソッド
+   */
+  public async performCopy(action: 'copy' | 'quick-copy'): Promise<void> {
+    try {
+      if (action === 'copy') {
+        await this.ensureDescriptionExpanded();
+      }
+      switch (action) {
+        case 'copy':
+          await this.copyVideoInfo();
+          break;
+        case 'quick-copy':
+          await this.copyQuickInfo();
+          break;
+      }
+    } catch (error) {
+      this.logger.error('performCopy failed:', error);
+    }
+  }
+
+  /**
+   * 概要欄が展開済みでなければ展開を待つ
+   */
+  private async ensureDescriptionExpanded(): Promise<void> {
+    if (this.descriptionExpanded) return;
+
+    if (!this.preExpandPromise) {
+      this.setFabPreparingState();
+      this.preExpandPromise = expandDescriptionIfNeeded(5000)
+        .then(() => {
+          this.descriptionExpanded = true;
+          this.setFabReadyState();
+        })
+        .catch((err: unknown) => {
+          this.logger.warn('Description expansion failed:', err);
+          this.setFabErrorState();
+        });
+    }
+    await this.preExpandPromise;
   }
 
   private createShadowDOM(): void {
@@ -112,22 +201,15 @@ export class YouTubeInfoCopier {
 
   private async handleButtonClick(action: string): Promise<void> {
     try {
-      // 完全コピーの場合は準備完了を確認
-      if (action === 'copy') {
-        if (!this.descriptionExpanded) {
-          this.logger.info('Description not ready yet, please wait for animation...');
-          this.showNotReadyFeedback();
-          return;
-        }
+      // 完全コピーの場合は準備完了を確認（classicモード: ボタンクリック時のみ即時チェック）
+      if (action === 'copy' && !this.descriptionExpanded) {
+        this.logger.info('Description not ready yet, please wait for animation...');
+        this.showNotReadyFeedback();
+        return;
       }
       
-      switch (action) {
-        case 'copy':
-          await this.copyVideoInfo();
-          break;
-        case 'quick-copy':
-          await this.copyQuickInfo();
-          break;
+      if (action === 'copy' || action === 'quick-copy') {
+        await this.performCopy(action);
       }
     } catch (error) {
       this.logger.error('Error handling button click:', error);
@@ -141,18 +223,23 @@ export class YouTubeInfoCopier {
     
     this.logger.info('Pre-expanding description...');
     this.setPreparingState();
+    this.setFabPreparingState();
     
     this.preExpandPromise = expandDescriptionIfNeeded(5000)
       .then(() => {
         this.descriptionExpanded = true;
         this.setReadyState();
+        this.setFabReadyState();
         this.logger.info('Pre-expansion completed - ready to copy!');
       })
-      .catch((err) => {
+      .catch((err: unknown) => {
         this.logger.warn('Pre-expansion failed:', err);
         this.setErrorState();
+        this.setFabErrorState();
       });
   }
+
+  // --- Classic mode state management ---
 
   private setPreparingState(): void {
     if (this.handleElement) {
@@ -165,7 +252,6 @@ export class YouTubeInfoCopier {
     if (this.handleElement) {
       this.handleElement.classList.remove('preparing', 'error');
       this.handleElement.classList.add('ready');
-      // ハートバウンシングアニメーションを開始
       this.handleElement.setAttribute('data-status', 'ready');
     }
   }
@@ -182,6 +268,20 @@ export class YouTubeInfoCopier {
       this.handleElement.classList.remove('preparing', 'ready', 'error');
       this.handleElement.removeAttribute('data-status');
     }
+  }
+
+  // --- FAB mode state management ---
+
+  private setFabPreparingState(): void {
+    this.fab?.setColor('rgba(255, 152, 0, 0.9)');
+  }
+
+  private setFabReadyState(): void {
+    this.fab?.setColor('rgba(76, 175, 80, 0.9)');
+  }
+
+  private setFabErrorState(): void {
+    this.fab?.setColor('rgba(244, 67, 54, 0.9)');
   }
 
   private async copyQuickInfo(): Promise<void> {
@@ -281,41 +381,53 @@ export class YouTubeInfoCopier {
   }
 
   private showSuccessFeedback(): void {
-    if (!this.handleElement) return;
-    this.clearState();
-    this.handleElement.style.background = 'rgba(76, 175, 80, 0.8)';
-    this.handleElement.style.boxShadow = '2px 0 12px rgba(76, 175, 80, 0.4)';
-    setTimeout(() => {
-      if (this.handleElement) {
-        this.handleElement.style.background = '';
-        this.handleElement.style.boxShadow = '';
-      }
-    }, 1500);
+    if (this.handleElement) {
+      this.clearState();
+      this.handleElement.style.background = 'rgba(76, 175, 80, 0.8)';
+      this.handleElement.style.boxShadow = '2px 0 12px rgba(76, 175, 80, 0.4)';
+      setTimeout(() => {
+        if (this.handleElement) {
+          this.handleElement.style.background = '';
+          this.handleElement.style.boxShadow = '';
+        }
+      }, 1500);
+    } else if (this.fab) {
+      this.fab.setColor('rgba(76, 175, 80, 0.9)');
+      setTimeout(() => this.fab?.resetColor(), 1500);
+    }
   }
 
   private showErrorFeedback(): void {
-    if (!this.handleElement) return;
-    this.clearState();
-    this.handleElement.style.background = 'rgba(244, 67, 54, 0.8)';
-    this.handleElement.style.boxShadow = '2px 0 12px rgba(244, 67, 54, 0.4)';
-    setTimeout(() => {
-      if (this.handleElement) {
-        this.handleElement.style.background = '';
-        this.handleElement.style.boxShadow = '';
-      }
-    }, 1500);
+    if (this.handleElement) {
+      this.clearState();
+      this.handleElement.style.background = 'rgba(244, 67, 54, 0.8)';
+      this.handleElement.style.boxShadow = '2px 0 12px rgba(244, 67, 54, 0.4)';
+      setTimeout(() => {
+        if (this.handleElement) {
+          this.handleElement.style.background = '';
+          this.handleElement.style.boxShadow = '';
+        }
+      }, 1500);
+    } else if (this.fab) {
+      this.fab.setColor('rgba(244, 67, 54, 0.9)');
+      setTimeout(() => this.fab?.resetColor(), 1500);
+    }
   }
 
   private showNotReadyFeedback(): void {
-    if (!this.handleElement) return;
-    this.handleElement.style.background = 'rgba(255, 152, 0, 0.8)';
-    this.handleElement.style.boxShadow = '2px 0 12px rgba(255, 152, 0, 0.4)';
-    setTimeout(() => {
-      if (this.handleElement) {
-        this.handleElement.style.background = '';
-        this.handleElement.style.boxShadow = '';
-      }
-    }, 800);
+    if (this.handleElement) {
+      this.handleElement.style.background = 'rgba(255, 152, 0, 0.8)';
+      this.handleElement.style.boxShadow = '2px 0 12px rgba(255, 152, 0, 0.4)';
+      setTimeout(() => {
+        if (this.handleElement) {
+          this.handleElement.style.background = '';
+          this.handleElement.style.boxShadow = '';
+        }
+      }, 800);
+    } else if (this.fab) {
+      this.fab.setColor('rgba(255, 152, 0, 0.9)');
+      setTimeout(() => this.fab?.resetColor(), 800);
+    }
   }
 
   private showPopup(description: string): void {
@@ -358,6 +470,8 @@ export class YouTubeInfoCopier {
       const fullscreenEvents = ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'];
       fullscreenEvents.forEach((event) => document.removeEventListener(event, this.handleFullscreenChange, false));
       this.container?.remove();
+      this.fab?.destroy();
+      this.fab = null;
       
       // 状態をリセット
       this.descriptionExpanded = false;
