@@ -38,6 +38,7 @@ const ja: TranslationKeys = {
   leftSidebar_ProfileLink: 'プロフィール',
   leftSidebar_PremiumLink: 'Premium',
   leftSidebar_BusinessLink: 'ビジネス',
+  leftSidebar_CreatorStudioLink: 'クリエイタースタジオ',
   leftSidebar_MoreMenu: 'もっと見る',
   leftSidebar_TweetButton: 'ポストボタン',
   leftSidebar_ProfileMenu: 'プロフィールメニュー',
@@ -48,6 +49,7 @@ const ja: TranslationKeys = {
   rightSidebar_PremiumSubscribe: 'Premiumサブスクライブ',
   rightSidebar_TrendsList: 'トレンド',
   rightSidebar_WhoToFollow: 'おすすめユーザー',
+  rightSidebar_TodayNews: '本日のニュース',
   rightSidebar_RelatedAccounts: '関連性の高いアカウント',
   rightSidebar_Footer: 'フッター',
 
@@ -97,6 +99,7 @@ const en: TranslationKeys = {
   leftSidebar_ProfileLink: 'Profile',
   leftSidebar_PremiumLink: 'Premium',
   leftSidebar_BusinessLink: 'Business',
+  leftSidebar_CreatorStudioLink: 'Creator Studio',
   leftSidebar_MoreMenu: 'More',
   leftSidebar_TweetButton: 'Post Button',
   leftSidebar_ProfileMenu: 'Profile Menu',
@@ -107,6 +110,7 @@ const en: TranslationKeys = {
   rightSidebar_PremiumSubscribe: 'Premium Subscribe',
   rightSidebar_TrendsList: 'Trends',
   rightSidebar_WhoToFollow: 'Who to Follow',
+  rightSidebar_TodayNews: "Today's News",
   rightSidebar_RelatedAccounts: 'Relevant Accounts',
   rightSidebar_Footer: 'Footer',
 

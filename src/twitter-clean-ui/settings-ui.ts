@@ -212,6 +212,7 @@ export class SettingsUI {
       'leftSidebar_ProfileLink',
       'leftSidebar_PremiumLink',
       'leftSidebar_BusinessLink',
+      'leftSidebar_CreatorStudioLink',
       'leftSidebar_MoreMenu',
       'leftSidebar_TweetButton',
       'leftSidebar_ProfileMenu',
@@ -255,6 +256,7 @@ export class SettingsUI {
       'rightSidebar_PremiumSubscribe',
       'rightSidebar_TrendsList',
       'rightSidebar_WhoToFollow',
+      'rightSidebar_TodayNews',
       'rightSidebar_RelatedAccounts',
       'rightSidebar_Footer',
     ];

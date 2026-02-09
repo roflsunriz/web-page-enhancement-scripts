@@ -21,6 +21,7 @@ export type UIElementId =
   | 'leftSidebar_ProfileLink'
   | 'leftSidebar_PremiumLink'
   | 'leftSidebar_BusinessLink'
+  | 'leftSidebar_CreatorStudioLink'
   | 'leftSidebar_MoreMenu'
   | 'leftSidebar_TweetButton'
   | 'leftSidebar_ProfileMenu'
@@ -30,6 +31,7 @@ export type UIElementId =
   | 'rightSidebar_PremiumSubscribe'
   | 'rightSidebar_TrendsList'
   | 'rightSidebar_WhoToFollow'
+  | 'rightSidebar_TodayNews'
   | 'rightSidebar_RelatedAccounts'
   | 'rightSidebar_Footer';
 
@@ -92,6 +94,7 @@ export interface VisibilitySettings {
   leftSidebar_ProfileLink: boolean;
   leftSidebar_PremiumLink: boolean;
   leftSidebar_BusinessLink: boolean;
+  leftSidebar_CreatorStudioLink: boolean;
   leftSidebar_MoreMenu: boolean;
   leftSidebar_TweetButton: boolean;
   leftSidebar_ProfileMenu: boolean;
@@ -102,6 +105,7 @@ export interface VisibilitySettings {
   rightSidebar_PremiumSubscribe: boolean;
   rightSidebar_TrendsList: boolean;
   rightSidebar_WhoToFollow: boolean;
+  rightSidebar_TodayNews: boolean;
   rightSidebar_RelatedAccounts: boolean;
   rightSidebar_Footer: boolean;
 }
@@ -183,6 +187,7 @@ export interface TranslationKeys {
   leftSidebar_ProfileLink: string;
   leftSidebar_PremiumLink: string;
   leftSidebar_BusinessLink: string;
+  leftSidebar_CreatorStudioLink: string;
   leftSidebar_MoreMenu: string;
   leftSidebar_TweetButton: string;
   leftSidebar_ProfileMenu: string;
@@ -193,6 +198,7 @@ export interface TranslationKeys {
   rightSidebar_PremiumSubscribe: string;
   rightSidebar_TrendsList: string;
   rightSidebar_WhoToFollow: string;
+  rightSidebar_TodayNews: string;
   rightSidebar_RelatedAccounts: string;
   rightSidebar_Footer: string;
 

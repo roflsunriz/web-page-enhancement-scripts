@@ -30,6 +30,7 @@ export const DEFAULT_SETTINGS: Settings = {
     leftSidebar_ProfileLink: true,
     leftSidebar_PremiumLink: true,
     leftSidebar_BusinessLink: true,
+    leftSidebar_CreatorStudioLink: true,
     leftSidebar_MoreMenu: true,
     leftSidebar_TweetButton: true,
     leftSidebar_ProfileMenu: true,
@@ -40,6 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
     rightSidebar_PremiumSubscribe: false, // Premiumは非表示
     rightSidebar_TrendsList: true,
     rightSidebar_WhoToFollow: true,
+    rightSidebar_TodayNews: true,
     rightSidebar_RelatedAccounts: true,
     rightSidebar_Footer: true,
   },
@@ -277,6 +279,25 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     ],
   },
   {
+    id: 'leftSidebar_CreatorStudioLink',
+    category: 'leftSidebar',
+    description: 'クリエイタースタジオリンク',
+    strategies: [
+      {
+        type: 'querySelector',
+        selector: 'a[href="/i/jf/creators/studio"]',
+        method: 'href selector',
+        confidence: 0.95,
+      },
+      {
+        type: 'querySelector',
+        selector: 'a[aria-label="クリエイタースタジオ"], a[aria-label="Creator Studio"]',
+        method: 'aria-label',
+        confidence: 0.85,
+      },
+    ],
+  },
+  {
     id: 'leftSidebar_MoreMenu',
     category: 'leftSidebar',
     description: 'もっと見るメニュー',
@@ -504,6 +525,47 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
           }
           // ボーダー付きコンテナが見つからない場合は2階層上
           return aside.parentElement?.parentElement as HTMLElement;
+        },
+      },
+    ],
+  },
+  {
+    id: 'rightSidebar_TodayNews',
+    category: 'rightSidebar',
+    description: '本日のニュースセクション',
+    strategies: [
+      {
+        type: 'custom',
+        method: 'Today news section - find news_sidebar testid and bordered container',
+        confidence: 0.9,
+        finder: () => {
+          const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
+          if (!sidebar) return null;
+
+          const newsElement = sidebar.querySelector('[data-testid="news_sidebar"]');
+          if (!newsElement) return null;
+
+          // news_sidebarを含むボーダー付きコンテナを探す（最大5階層）
+          let current: HTMLElement | null = newsElement as HTMLElement;
+          for (let i = 0; i < 5; i++) {
+            if (!current.parentElement) break;
+            if (current.parentElement === sidebar || !sidebar.contains(current.parentElement)) {
+              break;
+            }
+
+            const style = window.getComputedStyle(current.parentElement);
+            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
+            const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
+            const hasRadius = style.borderRadius !== '0px';
+
+            if (hasBorder && hasRadius) {
+              return current.parentElement;
+            }
+            current = current.parentElement;
+          }
+
+          // ボーダー付きコンテナが見つからない場合は2階層上
+          return newsElement.parentElement?.parentElement as HTMLElement;
         },
       },
     ],
