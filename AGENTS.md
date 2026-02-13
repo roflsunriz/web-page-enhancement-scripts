@@ -9,6 +9,7 @@
 - ビルドが成功したことを確認してください。ビルドが成功しない場合は修正してください。
 - 型`any`を使用しないでください。`unknown`か、より具体的な型を使用してください。常に具体的な型を利用することを心がけてください。
 - src/d-animeはd-anime-nico-comment-renderer.user.jsを編集するためのプロジェクトです。
+- src/d-anime-cf-rankingはd-anime-cf-ranking.user.jsを編集するためのプロジェクトです。
 - src/chatgpt-notifyはchatgpt-notify.user.jsを編集するためのプロジェクトです。
 - src/fanbox-floating-menuはfanbox-floating-menu.user.jsを編集するためのプロジェクトです。
 - src/fanbox-pagination-helperはfanbox-pagination-helper.user.jsを編集するためのプロジェクトです。
@@ -20,7 +21,9 @@
 - src/twitter-full-size-imageはtwitter-full-size-image.user.jsを編集するためのプロジェクトです。
 - src/twitter-thread-copierはtwitter-thread-copier.user.jsを編集するためのプロジェクトです。
 - src/youtube-info-copierはyoutube-info-copier.user.jsを編集するためのプロジェクトです。
-- src/vite.config.tsは各プロジェクトのビルド設定を行っています。ここにバージョン情報もあります。
-- ビルドする前にsrc/vite.config.tsを編集しバージョンを上げてください。
-- src/d-anime/config/default-settings.tsにユーザースクリプトのバージョン情報(USERSCRIPT_VERSION_UI_DISPLAY)があります。ここもバージョンを上げて、ビルドする前に編集してください。必ずsrc/vite.config.tsで指定しているバージョン情報と一致させてください。USERSCRIPT_VERSION_UI_DISPLAYはd-anime-nico-comment-rendererユーザースクリプトのバージョンです。また、ユーザーが実際に目にするUIに表示されるバージョン情報です。
+- scripts/build-all.mjsはすべてのプロジェクトをビルドするためのスクリプトです。vite.config.tsのbuildコマンド `bun run build`はこのスクリプトを実行しています。
+- ルートディレクトリのvite.config.tsは各プロジェクトのビルド設定を行っています。ここにバージョン情報もあります。
+- ビルドする前にvite.config.tsを編集しバージョンを上げてください。
+- src/d-anime/config/default-settings.tsにユーザースクリプトのバージョン情報(USERSCRIPT_VERSION_UI_DISPLAY)があります。ここもバージョンを上げて、ビルドする前に編集してください。必ずルートディレクトリのvite.config.tsで指定しているバージョン情報と一致させてください。USERSCRIPT_VERSION_UI_DISPLAYはd-anime-nico-comment-rendererユーザースクリプトのバージョンです。また、ユーザーが実際に目にするUIに表示されるバージョン情報です。
 - バージョンアップの目安は、パッチ(v.x.y.zのz部分)が軽微なバグフィックス、マイナー(v.x.y.zのy部分)が機能追加、メジャー(v.x.y.zのx部分)が大幅な機能追加や破壊的変更です。
+- docsフォルダには開発チェックリストや実際のWebページのコードスニペット、ニコニコ動画のAPI仕様書などがあります。
