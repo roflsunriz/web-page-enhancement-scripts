@@ -236,9 +236,60 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   addAutoCommentButtons(): void {
-    // 視聴ページで自動的にコメントが設定されるようになったため、
-    // 視聴履歴ページでの手動設定ボタンは不要になりました。
-    // UI簡略化のため、このメソッドは何もしません。
+    // 視聴履歴の作品タイトルをクリックすると、検索フォームに自動入力する機能を追加
+    const items = document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem);
+    
+    items.forEach((item) => {
+      const titleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageItemTitle);
+      if (!titleElement) {
+        return;
+      }
+
+      // 既にイベントリスナーが追加されている場合はスキップ
+      if (titleElement.dataset.autoFillEnabled === "true") {
+        return;
+      }
+
+      // クリックでアニメタイトルを検索フォームに自動入力
+      titleElement.style.cursor = "pointer";
+      titleElement.style.userSelect = "none";
+      titleElement.title = "クリックでコメント検索フォームにタイトルを入力";
+      
+      titleElement.addEventListener("click", (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        
+        const animeTitle = titleElement.textContent?.trim() ?? "";
+        if (!animeTitle) {
+          return;
+        }
+
+        // モーダルを開く
+        this.openSettingsModal(false);
+
+        // 検索タブに切り替え
+        const searchTab = this.queryModalElement<HTMLButtonElement>(
+          `${SELECTORS.modalTabs}[data-tab="search"]`,
+        );
+        searchTab?.click();
+
+        // アニメタイトルフィールドに値を設定
+        const animeTitleInput = this.queryModalElement<HTMLInputElement>(
+          SELECTORS.searchAnimeTitle,
+        );
+        if (animeTitleInput) {
+          animeTitleInput.value = animeTitle;
+          animeTitleInput.focus({ preventScroll: true });
+          
+          NotificationManager.show(
+            `「${animeTitle}」を検索フォームに入力しました`,
+            "success",
+          );
+        }
+      });
+
+      titleElement.dataset.autoFillEnabled = "true";
+    });
   }
 
   // 以下のメソッドは視聴ページでの自動設定により不要になりました
@@ -311,9 +362,6 @@ export class SettingsUI extends ShadowDOMComponent {
             <!-- サムネイル -->
             <div class="video-card__thumbnail">
               <img id="currentThumbnail" src="${thumbnailUrl}" alt="サムネイル">
-              <div class="video-card__thumbnail-overlay">
-                ${svgPlay}
-              </div>
             </div>
 
             <!-- 情報セクション -->
