@@ -236,30 +236,37 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   addAutoCommentButtons(): void {
-    // 視聴履歴の作品タイトルの横にボタンを追加し、クリックで検索フォームに自動入力する機能を追加
+    // 視聴履歴の各アイテムにボタンを追加し、クリックでアニメタイトル、話数、エピソードタイトルを検索フォームに自動入力
     const items = document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem);
     
     items.forEach((item) => {
-      const titleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageItemTitle);
-      if (!titleElement) {
-        return;
-      }
-
       // 既にボタンが追加されている場合はスキップ
-      if (titleElement.dataset.autoFillEnabled === "true") {
+      if (item.dataset.autoFillEnabled === "true") {
         return;
       }
 
+      // 各要素を取得
+      const titleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageItemTitle);
+      const episodeNumberElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageEpisodeNumber);
+      const episodeTitleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageEpisodeTitle);
+      
+      if (!titleElement || !episodeTitleElement) {
+        return;
+      }
+
+      // 各テキストを取得
       const animeTitle = titleElement.textContent?.trim() ?? "";
+      const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
+      const episodeTitle = episodeTitleElement.textContent?.trim() ?? "";
+      
       if (!animeTitle) {
         return;
       }
 
       // Shadow DOMでボタンを作成
-      const buttonHost = document.createElement("span");
-      buttonHost.style.marginLeft = "8px";
-      buttonHost.style.display = "inline-block";
-      buttonHost.style.verticalAlign = "middle";
+      const buttonHost = document.createElement("div");
+      buttonHost.style.marginTop = "8px";
+      buttonHost.style.display = "block";
       
       const shadowRoot = buttonHost.attachShadow({ mode: "open" });
       
@@ -271,14 +278,15 @@ export class SettingsUI extends ShadowDOMComponent {
       // ボタンを作成
       const button = document.createElement("button");
       button.className = "auto-comment-button";
-      button.title = "検索フォームにタイトルを入力";
-      button.setAttribute("aria-label", "検索フォームにタイトルを入力");
+      button.title = "検索フォームにタイトル・話数・エピソードタイトルを入力";
+      button.setAttribute("aria-label", "検索フォームにタイトル・話数・エピソードタイトルを入力");
       
       // アイコンを追加（入力/フォームアイコン）
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path d="M14,14H16L18,16V18H20V16L18,14V12H14M10,10H4V12H10M20,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H11.35C11.14,19.37 11,18.7 11,18A7,7 0 0,1 18,11C19.1,11 20.12,11.29 21,11.78V6M4,6H9.17L11.17,8H20V10H18V10.5C16.55,10.16 15,10.64 14,11.5V10H4M12,14H4V16H11.35C11.63,15.28 12.08,14.63 12.64,14.08L12,14Z" />
         </svg>
+        <span style="margin-left: 6px; font-size: 12px; font-weight: 500;">検索フォームに入力</span>
       `;
       
       button.addEventListener("click", (event) => {
@@ -294,28 +302,58 @@ export class SettingsUI extends ShadowDOMComponent {
         );
         searchTab?.click();
 
-        // アニメタイトルフィールドに値を設定
+        // 各フィールドに値を設定
         const animeTitleInput = this.queryModalElement<HTMLInputElement>(
           SELECTORS.searchAnimeTitle,
         );
+        const episodeNumberInput = this.queryModalElement<HTMLInputElement>(
+          SELECTORS.searchEpisodeNumber,
+        );
+        const episodeTitleInput = this.queryModalElement<HTMLInputElement>(
+          SELECTORS.searchEpisodeTitle,
+        );
+        
         if (animeTitleInput) {
           animeTitleInput.value = animeTitle;
-          animeTitleInput.focus({ preventScroll: true });
-          
-          NotificationManager.show(
-            `「${animeTitle}」を検索フォームに入力しました`,
-            "success",
-          );
         }
+        if (episodeNumberInput && episodeNumber) {
+          episodeNumberInput.value = episodeNumber;
+        }
+        if (episodeTitleInput && episodeTitle) {
+          episodeTitleInput.value = episodeTitle;
+        }
+        
+        // フォーカスを設定
+        animeTitleInput?.focus({ preventScroll: true });
+        
+        // 通知を表示
+        const parts = [animeTitle];
+        if (episodeNumber) parts.push(episodeNumber);
+        if (episodeTitle) parts.push(episodeTitle);
+        
+        NotificationManager.show(
+          `「${parts.join(" ")}」を検索フォームに入力しました`,
+          "success",
+        );
       });
       
       shadowRoot.appendChild(button);
       
-      // タイトル要素（h2.line1）の中にボタンを挿入
-      // h2の中のspanの後ろに配置することで、タイトルと同じ行に表示
-      titleElement.appendChild(buttonHost);
+      // エピソードタイトル要素の後ろにボタンを挿入
+      // episodeTitleElementの親要素（.textContainerIn）を取得
+      const textContainer = episodeTitleElement.parentElement;
+      if (textContainer) {
+        // iconContainerの前に挿入
+        const iconContainer = textContainer.querySelector(".iconContainer");
+        if (iconContainer) {
+          textContainer.insertBefore(buttonHost, iconContainer);
+        } else {
+          // iconContainerがない場合は最後に追加
+          textContainer.appendChild(buttonHost);
+        }
+      }
       
-      titleElement.dataset.autoFillEnabled = "true";
+      item.dataset.autoFillEnabled = "true";
     });
   }
 
