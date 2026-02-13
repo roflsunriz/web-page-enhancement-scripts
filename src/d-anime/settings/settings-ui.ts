@@ -236,7 +236,7 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   addAutoCommentButtons(): void {
-    // 視聴履歴の作品タイトルをクリックすると、検索フォームに自動入力する機能を追加
+    // 視聴履歴の作品タイトルの横にボタンを追加し、クリックで検索フォームに自動入力する機能を追加
     const items = document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem);
     
     items.forEach((item) => {
@@ -245,25 +245,46 @@ export class SettingsUI extends ShadowDOMComponent {
         return;
       }
 
-      // 既にイベントリスナーが追加されている場合はスキップ
+      // 既にボタンが追加されている場合はスキップ
       if (titleElement.dataset.autoFillEnabled === "true") {
         return;
       }
 
-      // クリックでアニメタイトルを検索フォームに自動入力
-      titleElement.style.cursor = "pointer";
-      titleElement.style.userSelect = "none";
-      titleElement.title = "クリックでコメント検索フォームにタイトルを入力";
+      const animeTitle = titleElement.textContent?.trim() ?? "";
+      if (!animeTitle) {
+        return;
+      }
+
+      // Shadow DOMでボタンを作成
+      const buttonHost = document.createElement("span");
+      buttonHost.style.marginLeft = "8px";
+      buttonHost.style.display = "inline-block";
+      buttonHost.style.verticalAlign = "middle";
       
-      titleElement.addEventListener("click", (event) => {
+      const shadowRoot = buttonHost.attachShadow({ mode: "open" });
+      
+      // スタイルを追加
+      const style = document.createElement("style");
+      style.textContent = ShadowStyleManager.getAutoButtonStyles();
+      shadowRoot.appendChild(style);
+      
+      // ボタンを作成
+      const button = document.createElement("button");
+      button.className = "auto-comment-button";
+      button.title = "検索フォームにタイトルを入力";
+      button.setAttribute("aria-label", "検索フォームにタイトルを入力");
+      
+      // アイコンを追加（入力/フォームアイコン）
+      button.innerHTML = `
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M14,14H16L18,16V18H20V16L18,14V12H14M10,10H4V12H10M20,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H11.35C11.14,19.37 11,18.7 11,18A7,7 0 0,1 18,11C19.1,11 20.12,11.29 21,11.78V6M4,6H9.17L11.17,8H20V10H18V10.5C16.55,10.16 15,10.64 14,11.5V10H4M12,14H4V16H11.35C11.63,15.28 12.08,14.63 12.64,14.08L12,14Z" />
+        </svg>
+      `;
+      
+      button.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
         
-        const animeTitle = titleElement.textContent?.trim() ?? "";
-        if (!animeTitle) {
-          return;
-        }
-
         // モーダルを開く
         this.openSettingsModal(false);
 
@@ -287,7 +308,13 @@ export class SettingsUI extends ShadowDOMComponent {
           );
         }
       });
-
+      
+      shadowRoot.appendChild(button);
+      
+      // タイトル要素（h2.line1）の中にボタンを挿入
+      // h2の中のspanの後ろに配置することで、タイトルと同じ行に表示
+      titleElement.appendChild(buttonHost);
+      
       titleElement.dataset.autoFillEnabled = "true";
     });
   }
