@@ -26,4 +26,5 @@
 - ビルドする前にvite.config.tsを編集しバージョンを上げてください。
 - src/d-anime/config/default-settings.tsにユーザースクリプトのバージョン情報(USERSCRIPT_VERSION_UI_DISPLAY)があります。ここもバージョンを上げて、ビルドする前に編集してください。必ずルートディレクトリのvite.config.tsで指定しているバージョン情報と一致させてください。USERSCRIPT_VERSION_UI_DISPLAYはd-anime-nico-comment-rendererユーザースクリプトのバージョンです。また、ユーザーが実際に目にするUIに表示されるバージョン情報です。
 - バージョンアップの目安は、パッチ(v.x.y.zのz部分)が軽微なバグフィックス、マイナー(v.x.y.zのy部分)が機能追加、メジャー(v.x.y.zのx部分)が大幅な機能追加や破壊的変更です。
+- 単に「アップデート」や"/update"と指示したときは、このAGENTS.mdの指示に従い作業してください。
 - docsフォルダには開発チェックリストや実際のWebページのコードスニペット、ニコニコ動画のAPI仕様書などがあります。
