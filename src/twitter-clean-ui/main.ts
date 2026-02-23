@@ -2,12 +2,19 @@
  * Twitter Clean UI - メインエントリーポイント
  *
  * FOUC（Flash of Unstyled Content）防止のため、3フェーズでCSSを注入する:
- * Phase 0: サイドバークローク（visibility: hidden）を即座に注入
+ * Phase 0: サイドバークローク（visibility: hidden）を即座に注入（sidebar-cloak.ts）
  * Phase 1: キャッシュ済みCSSを同期的に注入（即時）
  * Phase 2: 初期化完了後にCSSInjectorが同じ<style>要素を再利用して動的更新 → クローク解除
  *
+ * Phase 0 は sidebar-cloak.ts に分離されており、他のモジュールに一切依存しない。
+ * main.ts の最初の import として読み込むことで、バンドル内の最初のコードとして
+ * 評価され、全モジュールの中で最速でクロークが挿入される。
+ *
  * SPA遷移時は history API をインターセプトし、遷移ごとにクローク→再適用→リビールのサイクルを実行
  */
+
+// Phase 0: 最初に import — バンドル内で最初に評価されるモジュール
+import { SIDEBAR_CLOAK_ID, SIDEBAR_CLOAK_CSS } from './sidebar-cloak';
 
 import { ElementDetector } from './element-detector';
 import { ElementController } from './element-controller';
@@ -17,8 +24,36 @@ import { setLanguage, detectBrowserLanguage } from './i18n';
 import { CSS_CACHE_KEY } from './constants';
 import { CSSInjector } from './css-injector';
 
-const SIDEBAR_CLOAK_ID = 'twitter-clean-ui-sidebar-cloak';
-const SIDEBAR_CLOAK_CSS = '[data-testid="sidebarColumn"] { visibility: hidden !important; }';
+// ─────────────────────────────────────────────────
+// Phase 1: キャッシュ済みCSS即時注入
+//
+// Phase 0（sidebar-cloak.ts import の副作用）でクロークは既に挿入済み。
+// ここではキャッシュ済みの表示/非表示CSSを注入する。
+// ─────────────────────────────────────────────────
+try {
+  let cachedCSS: string | null = null;
+
+  if (typeof GM_getValue !== 'undefined') {
+    cachedCSS = GM_getValue(CSS_CACHE_KEY, null) as string | null;
+  } else {
+    cachedCSS = localStorage.getItem(CSS_CACHE_KEY);
+  }
+
+  if (cachedCSS) {
+    const style = document.createElement('style');
+    style.id = CSSInjector.STYLE_ELEMENT_ID;
+    style.type = 'text/css';
+    style.textContent = cachedCSS;
+    (document.head || document.documentElement).appendChild(style);
+  }
+} catch {
+  // 早期注入失敗は無視（Phase 2で通常通りCSSが適用される）
+}
+
+// ─────────────────────────────────────────────────
+// 以下、クラス定義・ヘルパー関数・Phase 2 初期化
+// ─────────────────────────────────────────────────
+
 const SIDEBAR_REVEAL_FAILSAFE_MS = 2000;
 const SIDEBAR_NAV_SETTLE_INTERVAL_MS = 100;
 const SIDEBAR_NAV_SETTLE_MAX_RETRIES = 20;
@@ -349,57 +384,6 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
     check();
   });
 }
-
-/**
- * Phase 0 + Phase 1: サイドバークローク + 即時CSS注入（FOUC防止）
- *
- * @run-at document-start で実行されるため、DOM解析前にCSSを注入できる。
- *
- * Phase 0: サイドバークロークCSS（visibility: hidden）を無条件で挿入し、
- *          サイドバーが一瞬もスタイル未適用状態で表示されないようにする。
- *
- * Phase 1: 前回セッションでキャッシュされたCSSテキストを同期的に読み出し、
- *          <style>要素を即座に挿入する。
- *
- * Phase 2（初期化完了後）でCSSInjectorがPhase 1の<style>要素を再利用し、
- * 最新の設定でCSSを更新した後、クロークを解除してサイドバーを表示する。
- */
-function injectEarlyCSS(): void {
-  try {
-    const cloakStyle = document.createElement('style');
-    cloakStyle.id = SIDEBAR_CLOAK_ID;
-    cloakStyle.textContent = SIDEBAR_CLOAK_CSS;
-    const cloakTarget = document.head || document.documentElement;
-    cloakTarget.appendChild(cloakStyle);
-  } catch {
-    // クローク注入失敗は無視
-  }
-
-  try {
-    let cachedCSS: string | null = null;
-
-    if (typeof GM_getValue !== 'undefined') {
-      cachedCSS = GM_getValue(CSS_CACHE_KEY, null) as string | null;
-    } else {
-      cachedCSS = localStorage.getItem(CSS_CACHE_KEY);
-    }
-
-    if (!cachedCSS) return;
-
-    const style = document.createElement('style');
-    style.id = CSSInjector.STYLE_ELEMENT_ID;
-    style.type = 'text/css';
-    style.textContent = cachedCSS;
-
-    const target = document.head || document.documentElement;
-    target.appendChild(style);
-  } catch {
-    // 早期注入失敗は無視（Phase 2で通常通りCSSが適用される）
-  }
-}
-
-// Phase 0 + Phase 1: 即座に実行（同期的・ブロッキング）
-injectEarlyCSS();
 
 /**
  * Phase 2: 通常の非同期初期化
