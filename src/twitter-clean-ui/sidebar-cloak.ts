@@ -19,6 +19,7 @@ try {
   style.id = SIDEBAR_CLOAK_ID;
   style.textContent = SIDEBAR_CLOAK_CSS;
   (document.head || document.documentElement).appendChild(style);
+  console.log('[CLOAK-DBG] Phase0: cloak injected at document-start');
 } catch {
-  // document-start 時点でDOM操作不可の場合は無視（Phase 2でフォールバック）
+  console.warn('[CLOAK-DBG] Phase0: cloak injection FAILED');
 }

@@ -159,29 +159,30 @@ export class ElementController {
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
-    // CSS静的インジェクションで静的要素を処理（最速）
     this.cssInjector.applySettings(settings);
-
-    // レイアウト設定を適用（XPath要素用の動的CSS）
     this.applyLayout(settings);
 
-    // 動的要素を処理（カスタムファインダーで検出される要素のみ）
     const { visibility } = settings;
     
-    // すべての要素に対して表示/非表示を適用
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
       
-      // CSSで処理できる要素はスキップ（CSSInjectorに任せる）
       if (this.canBeHandledByCSS(elementId)) {
         return;
       }
       
-      // 検出された要素に対してのみ適用（カスタムファインダー要素）
       if (this.detector.isDetected(elementId)) {
+        console.log('[CLOAK-DBG] EC.applySettings: toggle', elementId, 'visible=', visible);
         this.toggleElement(elementId, visible);
       }
     });
+
+    const sidebar = document.querySelector('[data-testid="sidebarColumn"]') as HTMLElement | null;
+    if (sidebar) {
+      console.log('[CLOAK-DBG] EC.applySettings: sidebar inline style.display=', JSON.stringify(sidebar.style.display),
+        'computed visibility=', getComputedStyle(sidebar).visibility,
+        'computed display=', getComputedStyle(sidebar).display);
+    }
   }
 
   /**
