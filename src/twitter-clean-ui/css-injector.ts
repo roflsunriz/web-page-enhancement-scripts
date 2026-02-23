@@ -168,14 +168,6 @@ export class CSSInjector {
 
     this.styleElement.textContent = this.currentCSS;
 
-    const sidebarRules = this.currentCSS.split('\n')
-      .filter((line: string) => line.includes('sidebarColumn') || line.includes('sidebar'))
-      .map((line: string) => line.trim())
-      .filter(Boolean);
-    if (sidebarRules.length > 0) {
-      console.log('[CLOAK-DBG] CSSInjector: sidebar-related rules:', sidebarRules);
-    }
-
     // FOUC防止: 次回ロード用にCSSをキャッシュ
     this.saveCSSToCache(this.currentCSS);
   }

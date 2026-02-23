@@ -76,6 +76,7 @@ class TwitterCleanUI {
   private revealFailsafeTimer: ReturnType<typeof setTimeout> | null = null;
   private lastUrl: string = '';
   private isApplyingSettings: boolean = false;
+  private primaryObservingBody: boolean = false;
 
   constructor() {
     this.detector = new ElementDetector();
@@ -96,11 +97,6 @@ class TwitterCleanUI {
       const settings = this.settingsManager.getSettings();
       setLanguage(settings.language || detectBrowserLanguage());
 
-      console.log('[CLOAK-DBG] initialize: settings.visibility.rightSidebar =', settings.visibility.rightSidebar);
-      console.log('[CLOAK-DBG] initialize: rightSidebar sub-settings =', JSON.stringify(
-        Object.fromEntries(Object.entries(settings.visibility).filter(([k]) => k.startsWith('rightSidebar')))
-      ));
-
       this.guardedApplySettings();
 
       this.startPrimaryMutationObserver();
@@ -109,8 +105,6 @@ class TwitterCleanUI {
       this.startSettingsWatcher();
       this.setupNavigationInterception();
 
-      console.log('[CLOAK-DBG] initialize: about to revealSidebar');
-      this.logCloakState('initialize:beforeReveal');
       this.revealSidebar();
 
       this.isInitialized = true;
@@ -133,7 +127,6 @@ class TwitterCleanUI {
       this.detector.detectAll();
       const settings = this.settingsManager.getSettings();
       this.controller.applySettings(settings);
-      console.log('[CLOAK-DBG] guardedApplySettings: done, detected rightSidebar =', this.detector.isDetected('rightSidebar'));
     } finally {
       this.isApplyingSettings = false;
     }
@@ -142,37 +135,29 @@ class TwitterCleanUI {
   // ─── サイドバークローク制御 ───
 
   private cloakSidebar(): void {
-    console.log('[CLOAK-DBG] cloakSidebar called', new Error().stack?.split('\n').slice(1, 3).join(' <- '));
     let cloakEl = document.getElementById(SIDEBAR_CLOAK_ID) as HTMLStyleElement | null;
     if (!cloakEl) {
       cloakEl = document.createElement('style');
       cloakEl.id = SIDEBAR_CLOAK_ID;
       const target = document.head || document.documentElement;
       target.appendChild(cloakEl);
-      console.log('[CLOAK-DBG] cloakSidebar: created new cloak element');
     }
     cloakEl.textContent = SIDEBAR_CLOAK_CSS;
 
     this.clearRevealFailsafe();
     this.revealFailsafeTimer = setTimeout(() => {
-      console.log('[CLOAK-DBG] revealSidebar via FAILSAFE (2000ms timeout)');
       this.revealSidebar();
     }, SIDEBAR_REVEAL_FAILSAFE_MS);
   }
 
   private revealSidebar(): void {
-    console.log('[CLOAK-DBG] revealSidebar called', new Error().stack?.split('\n').slice(1, 3).join(' <- '));
     this.clearRevealFailsafe();
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
         if (cloakEl) {
-          console.log('[CLOAK-DBG] revealSidebar rAF: clearing cloak textContent (was:', cloakEl.textContent ? 'ACTIVE' : 'EMPTY', ')');
           cloakEl.textContent = '';
-        } else {
-          console.log('[CLOAK-DBG] revealSidebar rAF: cloak element NOT FOUND');
         }
-        this.logCloakState('revealSidebar:afterClear');
       });
     });
   }
@@ -184,30 +169,12 @@ class TwitterCleanUI {
     }
   }
 
-  private logCloakState(label: string): void {
-    const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
-    const sidebar = document.querySelector('[data-testid="sidebarColumn"]') as HTMLElement | null;
-    console.log(`[CLOAK-DBG] STATE@${label}:`,
-      'cloakExists=', !!cloakEl,
-      'cloakContent=', cloakEl?.textContent ? 'ACTIVE' : 'EMPTY',
-      'sidebarExists=', !!sidebar,
-      'sidebarChildren=', sidebar?.children.length ?? 0,
-      'sidebarVisibility=', sidebar ? getComputedStyle(sidebar).visibility : 'N/A',
-      'sidebarDisplay=', sidebar ? getComputedStyle(sidebar).display : 'N/A',
-      'url=', location.pathname,
-    );
-  }
-
   // ─── SPA遷移検知 ───
 
   private setupNavigationInterception(): void {
-    const onNavigate = (source: string): void => {
+    const onNavigate = (): void => {
       const newUrl = location.href;
-      if (newUrl === this.lastUrl) {
-        console.log('[CLOAK-DBG] onNavigate: SKIPPED (same URL)', source, newUrl);
-        return;
-      }
-      console.log('[CLOAK-DBG] onNavigate: TRIGGERED', source, this.lastUrl, '->', newUrl);
+      if (newUrl === this.lastUrl) return;
       this.lastUrl = newUrl;
       this.handleNavigation();
     };
@@ -215,17 +182,17 @@ class TwitterCleanUI {
     const origPushState = history.pushState.bind(history) as typeof history.pushState;
     history.pushState = (...args: Parameters<typeof history.pushState>) => {
       origPushState(...args);
-      onNavigate('pushState');
+      onNavigate();
     };
 
     const origReplaceState = history.replaceState.bind(history) as typeof history.replaceState;
     history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
       origReplaceState(...args);
-      onNavigate('replaceState');
+      onNavigate();
     };
 
     window.addEventListener('popstate', () => {
-      onNavigate('popstate');
+      onNavigate();
     });
   }
 
@@ -233,7 +200,6 @@ class TwitterCleanUI {
    * SPA遷移発生時: クローク → サイドバーDOM安定待ち → 検出+適用 → リビール
    */
   private handleNavigation(): void {
-    console.log('[CLOAK-DBG] handleNavigation: START', location.pathname);
     this.cloakSidebar();
 
     let retryCount = 0;
@@ -243,13 +209,7 @@ class TwitterCleanUI {
       const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
       const hasSidebarContent = sidebar !== null && sidebar.children.length > 0;
 
-      console.log('[CLOAK-DBG] handleNavigation:settle retry=', retryCount,
-        'hasSidebarContent=', hasSidebarContent,
-        'sidebarChildCount=', sidebar?.children.length ?? 0);
-
       if (hasSidebarContent || retryCount >= SIDEBAR_NAV_SETTLE_MAX_RETRIES) {
-        console.log('[CLOAK-DBG] handleNavigation: SETTLED, about to reveal');
-        this.logCloakState('handleNavigation:beforeReveal');
         this.revealSidebar();
         this.reattachSidebarObserver();
         return;
@@ -266,6 +226,8 @@ class TwitterCleanUI {
 
   private startPrimaryMutationObserver(): void {
     this.primaryMutationObserver = new MutationObserver(() => {
+      if (this.isApplyingSettings) return;
+
       if (this.rafId !== null) {
         cancelAnimationFrame(this.rafId);
       }
@@ -277,23 +239,38 @@ class TwitterCleanUI {
 
         this.applySettingsDebounceTimer = setTimeout(() => {
           this.guardedApplySettings();
+          this.reattachPrimaryObserverIfNeeded();
           this.rafId = null;
         }, 500);
       });
     });
 
-    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
+    this.attachPrimaryObserver();
+  }
 
+  private attachPrimaryObserver(): void {
+    if (!this.primaryMutationObserver) return;
+
+    this.primaryMutationObserver.disconnect();
+
+    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
+    const target = primaryColumn ?? document.body;
+    this.primaryObservingBody = !primaryColumn;
+
+    this.primaryMutationObserver.observe(target, {
+      childList: true,
+      subtree: true,
+    });
+  }
+
+  /**
+   * body を監視中なら primaryColumn が出現したかチェックし、あれば切り替える
+   */
+  private reattachPrimaryObserverIfNeeded(): void {
+    if (!this.primaryObservingBody) return;
+    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
     if (primaryColumn) {
-      this.primaryMutationObserver.observe(primaryColumn, {
-        childList: true,
-        subtree: true,
-      });
-    } else {
-      this.primaryMutationObserver.observe(document.body, {
-        childList: true,
-        subtree: true,
-      });
+      this.attachPrimaryObserver();
     }
   }
 
@@ -301,11 +278,7 @@ class TwitterCleanUI {
 
   private startSidebarMutationObserver(): void {
     const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
-    if (!sidebar) {
-      console.log('[CLOAK-DBG] startSidebarMO: sidebar NOT FOUND, skipping');
-      return;
-    }
-    console.log('[CLOAK-DBG] startSidebarMO: attaching observer');
+    if (!sidebar) return;
 
     this.sidebarMutationObserver = new MutationObserver((mutations) => {
       if (this.isApplyingSettings) {
@@ -317,17 +290,12 @@ class TwitterCleanUI {
       );
       if (!hasSignificantChange) return;
 
-      console.log('[CLOAK-DBG] sidebarMO: significant change detected, mutations=', mutations.length);
-
       if (this.sidebarDebounceTimer) {
         clearTimeout(this.sidebarDebounceTimer);
       }
 
       this.sidebarDebounceTimer = setTimeout(() => {
-        console.log('[CLOAK-DBG] sidebarMO debounce: running guardedApplySettings');
-        this.logCloakState('sidebarMO:beforeApply');
         this.guardedApplySettings();
-        this.logCloakState('sidebarMO:afterApply');
       }, 200);
     });
 
@@ -341,7 +309,6 @@ class TwitterCleanUI {
    * SPA遷移後にサイドバーのDOMが置き換わるため、Observerを再接続する
    */
   private reattachSidebarObserver(): void {
-    console.log('[CLOAK-DBG] reattachSidebarObserver called');
     if (this.sidebarMutationObserver) {
       this.sidebarMutationObserver.disconnect();
       this.sidebarMutationObserver = null;
@@ -456,28 +423,13 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
  */
 (async () => {
   try {
-    console.log('[CLOAK-DBG] Phase2: waiting for page load...');
     await waitForPageLoad();
-    console.log('[CLOAK-DBG] Phase2: page loaded, waiting for react-root...');
     await waitForReactRoot();
-    console.log('[CLOAK-DBG] Phase2: react-root found, initializing app...');
 
     const app = new TwitterCleanUI();
     await app.initialize();
-    console.log('[CLOAK-DBG] Phase2: app initialized');
 
     (window as unknown as { twitterCleanUI: TwitterCleanUI }).twitterCleanUI = app;
-
-    setTimeout(() => {
-      const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
-      const sidebar = document.querySelector('[data-testid="sidebarColumn"]') as HTMLElement | null;
-      console.log('[CLOAK-DBG] Phase2 +3s check:',
-        'cloakContent=', cloakEl?.textContent ? 'ACTIVE' : 'EMPTY',
-        'sidebarVisibility=', sidebar ? getComputedStyle(sidebar).visibility : 'N/A',
-        'sidebarDisplay=', sidebar ? getComputedStyle(sidebar).display : 'N/A',
-        'sidebarInlineDisplay=', sidebar ? JSON.stringify(sidebar.style.display) : 'N/A',
-        'url=', location.pathname);
-    }, 3000);
   } catch (error) {
     console.error('[TwitterCleanUI] Fatal error:', error);
     const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);

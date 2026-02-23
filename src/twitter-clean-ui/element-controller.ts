@@ -168,21 +168,19 @@ export class ElementController {
       const elementId = key as UIElementId;
       
       if (this.canBeHandledByCSS(elementId)) {
+        if (visible && this.detector.isDetected(elementId)) {
+          const detected = this.detector.getDetectedElement(elementId);
+          if (detected?.element.style.display) {
+            detected.element.style.removeProperty('display');
+          }
+        }
         return;
       }
       
       if (this.detector.isDetected(elementId)) {
-        console.log('[CLOAK-DBG] EC.applySettings: toggle', elementId, 'visible=', visible);
         this.toggleElement(elementId, visible);
       }
     });
-
-    const sidebar = document.querySelector('[data-testid="sidebarColumn"]') as HTMLElement | null;
-    if (sidebar) {
-      console.log('[CLOAK-DBG] EC.applySettings: sidebar inline style.display=', JSON.stringify(sidebar.style.display),
-        'computed visibility=', getComputedStyle(sidebar).visibility,
-        'computed display=', getComputedStyle(sidebar).display);
-    }
   }
 
   /**
