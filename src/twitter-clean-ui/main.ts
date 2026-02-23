@@ -75,6 +75,7 @@ class TwitterCleanUI {
   private sidebarDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   private revealFailsafeTimer: ReturnType<typeof setTimeout> | null = null;
   private lastUrl: string = '';
+  private isApplyingSettings: boolean = false;
 
   constructor() {
     this.detector = new ElementDetector();
@@ -95,8 +96,7 @@ class TwitterCleanUI {
       const settings = this.settingsManager.getSettings();
       setLanguage(settings.language || detectBrowserLanguage());
 
-      this.detector.detectAll();
-      this.controller.applySettings(settings);
+      this.guardedApplySettings();
 
       this.startPrimaryMutationObserver();
       this.startSidebarMutationObserver();
@@ -110,6 +110,23 @@ class TwitterCleanUI {
     } catch (error) {
       console.error('[TwitterCleanUI] Initialization failed:', error);
       this.revealSidebar();
+    }
+  }
+
+  // ─── 設定適用（ガード付き） ───
+
+  /**
+   * applySettings のガード付きラッパー。
+   * 実行中フラグを立てることで、applySettings が引き起こす DOM 変更を
+   * サイドバー MutationObserver が拾って無限ループに陥るのを防ぐ。
+   */
+  private guardedApplySettings(): void {
+    this.isApplyingSettings = true;
+    try {
+      this.detector.detectAll();
+      this.controller.applySettings(this.settingsManager.getSettings());
+    } finally {
+      this.isApplyingSettings = false;
     }
   }
 
@@ -185,8 +202,7 @@ class TwitterCleanUI {
 
     let retryCount = 0;
     const settle = (): void => {
-      this.detector.detectAll();
-      this.controller.applySettings(this.settingsManager.getSettings());
+      this.guardedApplySettings();
 
       const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
       const hasSidebarContent = sidebar !== null && sidebar.children.length > 0;
@@ -218,8 +234,7 @@ class TwitterCleanUI {
         }
 
         this.applySettingsDebounceTimer = setTimeout(() => {
-          this.detector.detectAll();
-          this.controller.applySettings(this.settingsManager.getSettings());
+          this.guardedApplySettings();
           this.rafId = null;
         }, 500);
       });
@@ -247,6 +262,8 @@ class TwitterCleanUI {
     if (!sidebar) return;
 
     this.sidebarMutationObserver = new MutationObserver((mutations) => {
+      if (this.isApplyingSettings) return;
+
       const hasSignificantChange = mutations.some(
         (m) => m.type === 'childList' && (m.addedNodes.length > 0 || m.removedNodes.length > 0)
       );
@@ -257,10 +274,7 @@ class TwitterCleanUI {
       }
 
       this.sidebarDebounceTimer = setTimeout(() => {
-        this.cloakSidebar();
-        this.detector.detectAll();
-        this.controller.applySettings(this.settingsManager.getSettings());
-        this.revealSidebar();
+        this.guardedApplySettings();
       }, 200);
     });
 
@@ -286,8 +300,7 @@ class TwitterCleanUI {
   private startSettingsWatcher(): void {
     let checkCount = 0;
     const initialInterval = setInterval(() => {
-      this.detector.detectAll();
-      this.controller.applySettings(this.settingsManager.getSettings());
+      this.guardedApplySettings();
       checkCount++;
       if (checkCount >= 10) {
         clearInterval(initialInterval);
@@ -295,8 +308,7 @@ class TwitterCleanUI {
     }, 500);
 
     this.settingsWatcherInterval = setInterval(() => {
-      this.detector.detectAll();
-      this.controller.applySettings(this.settingsManager.getSettings());
+      this.guardedApplySettings();
     }, 5000);
   }
 
