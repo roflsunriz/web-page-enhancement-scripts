@@ -174,16 +174,11 @@ export class SettingsManager {
   }
 
   saveSettings(): boolean {
-    try {
-      GM_setValue(SETTINGS_STORAGE_KEY, JSON.stringify(this.settings));
-      this.notifyObservers();
+    const result = this.persistSettings();
+    if (result) {
       this.notify("設定を保存しました", "success");
-      return true;
-    } catch (error) {
-      console.error("[SettingsManager] 設定の保存に失敗しました", error);
-      this.notify("設定の保存に失敗しました", "error");
-      return false;
     }
+    return result;
   }
 
   updateSettings(newSettings: Partial<RendererSettings>): boolean {
@@ -197,7 +192,19 @@ export class SettingsManager {
         ? [...newSettings.ngRegexps]
         : [...(this.settings.ngRegexps ?? [])],
     };
-    return this.saveSettings();
+    return this.persistSettings();
+  }
+
+  private persistSettings(): boolean {
+    try {
+      GM_setValue(SETTINGS_STORAGE_KEY, JSON.stringify(this.settings));
+      this.notifyObservers();
+      return true;
+    } catch (error) {
+      console.error("[SettingsManager] 設定の保存に失敗しました", error);
+      this.notify("設定の保存に失敗しました", "error");
+      return false;
+    }
   }
 
   addObserver(observer: SettingsObserver): void {

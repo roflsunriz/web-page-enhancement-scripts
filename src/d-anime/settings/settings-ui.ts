@@ -1409,8 +1409,8 @@ export class SettingsUI extends ShadowDOMComponent {
         .filter(Boolean);
     }
 
-    // SettingsManagerが内部で通知を出すため、ここでは通知しない
     this.settingsManager.updateSettings(this.settings);
+    NotificationManager.show("設定を保存しました", "success");
   }
 
   private updateCurrentVideoInfo(videoInfo: VideoMetadata): void {
