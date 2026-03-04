@@ -166,7 +166,6 @@ export class PlayerControlButton {
         align-items: center;
         justify-content: space-between;
         padding: 5px 0;
-        gap: 8px;
       }
       .row + .row { border-top: 1px solid rgba(255, 255, 255, 0.06); }
       .row__label {
@@ -179,6 +178,14 @@ export class PlayerControlButton {
         flex-shrink: 0;
       }
       .row__label svg { opacity: 0.7; flex-shrink: 0; }
+      .row--stacked {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 3px;
+      }
+      .row--stacked .slider-wrap {
+        margin-left: 0;
+      }
       .toggle {
         position: relative;
         width: 36px;
@@ -311,7 +318,7 @@ export class PlayerControlButton {
                value="${settings.commentColor}" title="コメントカラー">
       </div>
 
-      <div class="row">
+      <div class="row row--stacked">
         <span class="row__label">不透明度</span>
         <div class="slider-wrap">
           <input type="range" id="pcb-opacity" class="slider"

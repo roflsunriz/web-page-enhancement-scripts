@@ -70,7 +70,6 @@ const SELECTORS = {
   modalOverlay: ".settings-modal__overlay",
   modalTabs: ".settings-modal__tab",
   modalPane: ".settings-modal__pane",
-  autoSearchTooltip: "#autoSearchTooltip",
   searchModeToggle: "#searchModeToggle",
   searchStructuredFields: "#searchStructuredFields",
   searchFreeInputArea: "#searchFreeInputArea",
@@ -224,7 +223,6 @@ const SEARCH_FIELDS_STYLES = `
 
   /* info バッジ（自動検索トグル横） */
   .info-badge {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -237,40 +235,16 @@ const SEARCH_FIELDS_STYLES = `
     transition: color 0.2s;
   }
   .info-badge:hover,
-  .info-badge:focus-within {
+  .info-badge:focus-visible {
     color: var(--primary);
   }
   .info-badge svg {
     width: 16px;
     height: 16px;
   }
-  .info-tooltip {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    right: -4px;
-    width: 280px;
-    background: rgba(14, 14, 28, 0.98);
-    border: 1px solid rgba(127, 90, 240, 0.4);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    z-index: 200;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-    white-space: normal;
-    text-align: left;
-  }
-  .info-badge:hover .info-tooltip,
-  .info-badge:focus-within .info-tooltip {
-    display: block;
-  }
 
   /* 盾バッジ（検索ページボタン横） */
   .shield-badge {
-    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -283,39 +257,13 @@ const SEARCH_FIELDS_STYLES = `
     transition: color 0.2s, background 0.2s;
   }
   .shield-badge:hover,
-  .shield-badge:focus-within {
+  .shield-badge:focus-visible {
     color: #2CB67D;
     background: rgba(44, 182, 125, 0.1);
   }
   .shield-badge svg {
     width: 18px;
     height: 18px;
-  }
-  .shield-tooltip {
-    display: none;
-    position: absolute;
-    bottom: calc(100% + 8px);
-    right: 0;
-    width: 300px;
-    background: rgba(14, 14, 28, 0.98);
-    border: 1px solid rgba(44, 182, 125, 0.4);
-    border-radius: 8px;
-    padding: 10px 12px;
-    font-size: 12px;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    z-index: 200;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
-    pointer-events: none;
-    white-space: normal;
-    text-align: left;
-  }
-  .shield-tooltip strong {
-    color: #2CB67D;
-  }
-  .shield-badge:hover .shield-tooltip,
-  .shield-badge:focus-within .shield-tooltip {
-    display: block;
   }
 `;
 
@@ -335,6 +283,8 @@ export class SettingsUI extends ShadowDOMComponent {
   private fabElement: HTMLButtonElement | null = null;
   private fabHostElement: HTMLDivElement | null = null;
   private fabShadowRoot: ShadowRoot | null = null;
+  private fabTooltipEl: HTMLDivElement | null = null;
+  private autoSearchTooltipHtml = "";
   private readonly handleFabClick = (event: MouseEvent): void => {
     event.preventDefault();
     this.openSettingsModal();
@@ -663,15 +613,6 @@ export class SettingsUI extends ShadowDOMComponent {
                   </div>
                   <div class="info-badge" id="autoSearchInfoBadge" tabindex="0" aria-label="自動検索についての説明">
                     ${svgInformation}
-                    <div class="info-tooltip" id="autoSearchTooltip" role="tooltip">
-                      ${this.settings.autoSearchEnabled
-                        ? `<strong style="color: #7F5AF0;">自動設定機能が有効です</strong><br>
-                        視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-                        手動で検索したい場合は、自動検索スイッチを無効にしてください。`
-                        : `<strong style="color: #2CB67D;">手動設定モードです</strong><br>
-                        自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-                        自動検索を有効にするには自動検索スイッチを有効にしてください。`}
-                    </div>
                   </div>
                 </div>
 
@@ -714,10 +655,6 @@ export class SettingsUI extends ShadowDOMComponent {
                   <button id="openSearchPageDirect" class="open-search-page-direct-btn">検索ページ</button>
                   <div class="shield-badge" tabindex="0" aria-label="公式動画セーフガードについて">
                     ${svgShieldCheck}
-                    <div class="shield-tooltip" role="tooltip">
-                      <strong>公式動画セーフガード有効</strong><br>
-                      アニメタイトルを入力すると、投稿者名が「アニメタイトル」「アニメタイトル 第Nクール」「dアニメストア ニコニコ支店」の公式動画のみが優先表示されます。エピソード切替時も公式動画のみが自動選択されます。
-                    </div>
                   </div>
                 </div>
                 <div id="searchResults" class="search-results"></div>
@@ -751,6 +688,7 @@ export class SettingsUI extends ShadowDOMComponent {
     this.setupNgControls();
     this.setupSaveButton();
     this.setupSearch();
+    this.setupTooltipBadges();
   }
 
   private setupModalControls(): void {
@@ -969,28 +907,162 @@ export class SettingsUI extends ShadowDOMComponent {
     }
   }
 
+  private buildAutoSearchTooltipHtml(): string {
+    const isEnabled = this.settings.autoSearchEnabled;
+    return isEnabled
+      ? `<strong style="color:#7F5AF0;">自動設定機能が有効です</strong><br>
+        視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
+        手動で検索したい場合は、自動検索スイッチを無効にしてください。`
+      : `<strong style="color:#2CB67D;">手動設定モードです</strong><br>
+        自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
+        自動検索を有効にするには自動検索スイッチを有効にしてください。`;
+  }
+
   private updateSearchSectionNote(): void {
-    const tooltip = this.queryModalElement<HTMLDivElement>(
-      SELECTORS.autoSearchTooltip,
-    );
+    this.autoSearchTooltipHtml = this.buildAutoSearchTooltipHtml();
+
+    const badge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
+    if (badge) {
+      badge.style.color = this.settings.autoSearchEnabled
+        ? "rgba(127, 90, 240, 0.7)"
+        : "rgba(44, 182, 125, 0.7)";
+    }
+  }
+
+  private ensureFabTooltip(): void {
+    if (this.fabTooltipEl?.isConnected) {
+      return;
+    }
+    const shadow = this.fabShadowRoot;
+    if (!shadow) {
+      return;
+    }
+
+    if (!shadow.querySelector("style[data-role='fab-tooltip-style']")) {
+      const style = document.createElement("style");
+      style.dataset.role = "fab-tooltip-style";
+      style.textContent = `
+        .fab-floating-tooltip {
+          position: fixed;
+          z-index: 2147483647;
+          width: 300px;
+          background: rgba(14, 14, 28, 0.98);
+          border-radius: 8px;
+          padding: 10px 12px;
+          font-size: 12px;
+          font-family: sans-serif;
+          color: rgba(200, 210, 255, 0.85);
+          line-height: 1.6;
+          box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+          pointer-events: none;
+          white-space: normal;
+          text-align: left;
+          display: none;
+          writing-mode: horizontal-tb;
+          direction: ltr;
+        }
+        .fab-floating-tooltip--info {
+          border: 1px solid rgba(127, 90, 240, 0.5);
+        }
+        .fab-floating-tooltip--shield {
+          border: 1px solid rgba(44, 182, 125, 0.5);
+        }
+        .fab-floating-tooltip strong {
+          display: inline;
+        }
+      `;
+      shadow.appendChild(style);
+    }
+
+    const tooltip = document.createElement("div");
+    tooltip.className = "fab-floating-tooltip";
+    shadow.appendChild(tooltip);
+    this.fabTooltipEl = tooltip;
+  }
+
+  private showFabTooltip(
+    anchor: Element,
+    html: string,
+    type: "info" | "shield",
+  ): void {
+    this.ensureFabTooltip();
+    const tooltip = this.fabTooltipEl;
     if (!tooltip) {
       return;
     }
 
-    const isEnabled = this.settings.autoSearchEnabled;
-    tooltip.innerHTML = isEnabled
-      ? `<strong style="color: #7F5AF0;">自動設定機能が有効です</strong><br>
-        視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-        手動で検索したい場合は、自動検索スイッチを無効にしてください。`
-      : `<strong style="color: #2CB67D;">手動設定モードです</strong><br>
-        自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-        自動検索を有効にするには自動検索スイッチを有効にしてください。`;
+    const TOOLTIP_W = 300;
+    const OFFSET = 8;
+    const rect = anchor.getBoundingClientRect();
 
-    const badge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
-    if (badge) {
-      (badge as HTMLElement).style.color = isEnabled
-        ? "rgba(127, 90, 240, 0.7)"
-        : "rgba(44, 182, 125, 0.7)";
+    tooltip.innerHTML = html;
+    tooltip.className = `fab-floating-tooltip fab-floating-tooltip--${type}`;
+    tooltip.style.display = "block";
+    tooltip.style.width = `${TOOLTIP_W}px`;
+
+    let left = rect.right - TOOLTIP_W;
+    if (left < OFFSET) left = OFFSET;
+    if (left + TOOLTIP_W > window.innerWidth - OFFSET) {
+      left = window.innerWidth - TOOLTIP_W - OFFSET;
+    }
+    tooltip.style.left = `${left}px`;
+    tooltip.style.top = "0px";
+
+    requestAnimationFrame(() => {
+      if (tooltip.style.display === "none") {
+        return;
+      }
+      const h = tooltip.offsetHeight;
+      const spaceAbove = rect.top - OFFSET;
+      const spaceBelow = window.innerHeight - rect.bottom - OFFSET;
+      let top: number;
+      if (spaceAbove >= h) {
+        top = rect.top - h - OFFSET;
+      } else if (spaceBelow >= h) {
+        top = rect.bottom + OFFSET;
+      } else {
+        top = Math.max(OFFSET, rect.top - h - OFFSET);
+      }
+      tooltip.style.top = `${top}px`;
+    });
+  }
+
+  private hideFabTooltip(): void {
+    if (this.fabTooltipEl) {
+      this.fabTooltipEl.style.display = "none";
+    }
+  }
+
+  private readonly shieldTooltipHtml =
+    `<strong>公式動画セーフガード有効</strong><br>` +
+    `アニメタイトルを入力すると、投稿者名が「アニメタイトル」「アニメタイトル 第Nクール」` +
+    `「dアニメストア ニコニコ支店」の公式動画のみが優先表示されます。` +
+    `エピソード切替時も公式動画のみが自動選択されます。`;
+
+  private setupTooltipBadges(): void {
+    const infoBadge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
+    const shieldBadge = this.queryModalElement<HTMLDivElement>(".shield-badge");
+
+    if (infoBadge) {
+      infoBadge.addEventListener("mouseenter", () => {
+        this.showFabTooltip(infoBadge, this.autoSearchTooltipHtml, "info");
+      });
+      infoBadge.addEventListener("mouseleave", () => this.hideFabTooltip());
+      infoBadge.addEventListener("focusin", () => {
+        this.showFabTooltip(infoBadge, this.autoSearchTooltipHtml, "info");
+      });
+      infoBadge.addEventListener("focusout", () => this.hideFabTooltip());
+    }
+
+    if (shieldBadge) {
+      shieldBadge.addEventListener("mouseenter", () => {
+        this.showFabTooltip(shieldBadge, this.shieldTooltipHtml, "shield");
+      });
+      shieldBadge.addEventListener("mouseleave", () => this.hideFabTooltip());
+      shieldBadge.addEventListener("focusin", () => {
+        this.showFabTooltip(shieldBadge, this.shieldTooltipHtml, "shield");
+      });
+      shieldBadge.addEventListener("focusout", () => this.hideFabTooltip());
     }
   }
 
@@ -1414,6 +1486,8 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   public override destroy(): void {
+    this.hideFabTooltip();
+    this.fabTooltipEl = null;
     this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
     this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
     this.closeButtonElement = null;
@@ -1588,6 +1662,7 @@ export class SettingsUI extends ShadowDOMComponent {
     this.fabElement = null;
     this.fabHostElement = null;
     this.fabShadowRoot = null;
+    this.fabTooltipEl = null;
   }
 
   private queryModalElement<T extends Element>(selector: string): T | null {
