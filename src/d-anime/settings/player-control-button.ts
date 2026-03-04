@@ -8,15 +8,16 @@ const logger = createLogger("dAnime:PlayerControlButton");
 
 const BTN_HOST_ID = "danime-pcb-host";
 const MOUNT_RETRY_MS = 100;
+const PANEL_HIDE_DELAY_MS = 150;
 
 export class PlayerControlButton {
   private btnWrapper: HTMLDivElement | null = null;
   private panelShadowRoot: ShadowRoot | null = null;
   private isOpen = false;
   private mountRetryTimer: number | null = null;
+  private mouseHideTimer: number | null = null;
   private settingsObserver: ((s: RendererSettings) => void) | null = null;
   private playbackObserver: ((s: PlaybackSettings) => void) | null = null;
-  private outsideClickHandler: ((e: PointerEvent) => void) | null = null;
 
   constructor(private readonly settingsManager: SettingsManager) {}
 
@@ -38,6 +39,7 @@ export class PlayerControlButton {
       window.clearTimeout(this.mountRetryTimer);
       this.mountRetryTimer = null;
     }
+    this.cancelHideTimer();
     if (this.settingsObserver) {
       this.settingsManager.removeObserver(this.settingsObserver);
       this.settingsObserver = null;
@@ -62,7 +64,7 @@ export class PlayerControlButton {
     const btn = document.createElement("button");
     btn.type = "button";
     btn.title = "コメント設定";
-    btn.setAttribute("aria-label", "コメント設定パネルを開く");
+    btn.setAttribute("aria-label", "コメント設定パネル");
     btn.setAttribute("aria-expanded", "false");
     btn.style.cssText = [
       "width:100%", "height:100%", "background:transparent", "border:none",
@@ -81,10 +83,15 @@ export class PlayerControlButton {
     this.btnWrapper = wrapper;
 
     this.buildPanel(shadow);
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      this.togglePanel();
+
+    wrapper.addEventListener("mouseenter", () => {
+      this.cancelHideTimer();
+      this.openPanel();
     });
+    wrapper.addEventListener("mouseleave", () => {
+      this.scheduleHide();
+    });
+
     this.registerObservers();
   }
 
@@ -103,6 +110,13 @@ export class PlayerControlButton {
     panel.setAttribute("aria-label", "コメント設定");
     panel.innerHTML = this.buildPanelHTML(settings, playback);
     shadow.appendChild(panel);
+
+    panel.addEventListener("mouseenter", () => {
+      this.cancelHideTimer();
+    });
+    panel.addEventListener("mouseleave", () => {
+      this.scheduleHide();
+    });
 
     this.bindPanelEvents(shadow);
   }
@@ -357,32 +371,14 @@ export class PlayerControlButton {
     });
   }
 
-  private togglePanel(): void {
-    if (this.isOpen) {
-      this.closePanel();
-    } else {
-      this.openPanel();
-    }
-  }
-
   private openPanel(): void {
+    if (this.isOpen) return;
     const panel = this.panelShadowRoot?.querySelector(".panel");
     const btn = this.btnWrapper?.querySelector("button");
     if (!panel) return;
     panel.removeAttribute("hidden");
     btn?.setAttribute("aria-expanded", "true");
     this.isOpen = true;
-
-    this.outsideClickHandler = (e: PointerEvent) => {
-      if (!this.btnWrapper?.contains(e.target as Node)) {
-        this.closePanel();
-      }
-    };
-    window.setTimeout(() => {
-      if (this.outsideClickHandler) {
-        document.addEventListener("pointerdown", this.outsideClickHandler);
-      }
-    }, 0);
   }
 
   private closePanel(): void {
@@ -391,10 +387,19 @@ export class PlayerControlButton {
     panel?.setAttribute("hidden", "");
     btn?.setAttribute("aria-expanded", "false");
     this.isOpen = false;
+  }
 
-    if (this.outsideClickHandler) {
-      document.removeEventListener("pointerdown", this.outsideClickHandler);
-      this.outsideClickHandler = null;
+  private scheduleHide(): void {
+    this.cancelHideTimer();
+    this.mouseHideTimer = window.setTimeout(() => {
+      this.closePanel();
+    }, PANEL_HIDE_DELAY_MS);
+  }
+
+  private cancelHideTimer(): void {
+    if (this.mouseHideTimer !== null) {
+      window.clearTimeout(this.mouseHideTimer);
+      this.mouseHideTimer = null;
     }
   }
 
