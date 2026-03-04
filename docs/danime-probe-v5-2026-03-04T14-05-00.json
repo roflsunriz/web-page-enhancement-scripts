@@ -1,0 +1,147 @@
+{
+  "meta": {
+    "probeVersion": "5.2.0",
+    "timestamp": "2026-03-04T14:04:49.167Z",
+    "url": "https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=11317013",
+    "viewport": {
+      "width": 1269,
+      "height": 718
+    }
+  },
+  "controller": {
+    "found": true,
+    "id": null,
+    "classList": [
+      "controller",
+      "show"
+    ],
+    "rect": {
+      "top": 0,
+      "left": 0,
+      "w": 1269,
+      "h": 718
+    },
+    "style": {
+      "display": "block",
+      "opacity": "1",
+      "position": "absolute",
+      "zIndex": "160",
+      "pointerEvents": "auto",
+      "overflow": "hidden",
+      "width": "1269px",
+      "height": "718px"
+    }
+  },
+  "injectedButton": {
+    "found": true,
+    "id": "__danime-probe-btn__",
+    "classList": [
+      "mainButton"
+    ],
+    "rect": {
+      "top": 668,
+      "left": 1127,
+      "w": 44,
+      "h": 50
+    },
+    "style": {
+      "display": "block",
+      "opacity": "1",
+      "position": "relative",
+      "zIndex": "500",
+      "pointerEvents": "auto",
+      "overflow": "visible",
+      "width": "44px",
+      "height": "50px"
+    }
+  },
+  "injectedPanel": {
+    "found": true,
+    "id": "__danime-probe-panel__",
+    "classList": [],
+    "rect": {
+      "top": 0,
+      "left": 0,
+      "w": 0,
+      "h": 0
+    },
+    "style": {
+      "display": "none",
+      "opacity": "1",
+      "position": "absolute",
+      "zIndex": "300",
+      "pointerEvents": "auto",
+      "overflow": "visible",
+      "width": "260px",
+      "height": "auto"
+    }
+  },
+  "panelOpened": {
+    "openedAt": "2026-03-04T14:04:49.169Z",
+    "auto": true
+  },
+  "controllerClipCheck": {
+    "controllerBounds": {
+      "top": 0,
+      "bottom": 718,
+      "left": 0,
+      "right": 1269
+    },
+    "panelBounds": {
+      "top": 409,
+      "bottom": 648,
+      "left": 911,
+      "right": 1171
+    },
+    "panelTopClipped": false,
+    "panelBottomClipped": false,
+    "panelLeftClipped": false,
+    "panelRightClipped": false
+  },
+  "summary": "btn: left=1127 (setting直前) | btn size: 44×50 | btn effectivelyVisible: true | panel clip: なし",
+  "dialog": {
+    "found": true,
+    "id": "dialog",
+    "classList": [],
+    "rect": {
+      "top": 0,
+      "left": 0,
+      "w": 1269,
+      "h": 0
+    },
+    "style": {
+      "display": "block",
+      "opacity": "1",
+      "position": "static",
+      "zIndex": "auto",
+      "pointerEvents": "auto",
+      "overflow": "visible",
+      "width": "1269px",
+      "height": "0px"
+    },
+    "uiDialogZIndex": "auto"
+  },
+  "seekArea": {
+    "found": true,
+    "id": null,
+    "classList": [
+      "seekArea"
+    ],
+    "rect": {
+      "top": 653,
+      "left": 0,
+      "w": 1269,
+      "h": 15
+    },
+    "style": {
+      "display": "block",
+      "opacity": "1",
+      "position": "absolute",
+      "zIndex": "2",
+      "pointerEvents": "auto",
+      "overflow": "visible",
+      "width": "1269px",
+      "height": "15px"
+    }
+  }
+}
