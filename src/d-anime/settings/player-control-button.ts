@@ -67,7 +67,7 @@ export class PlayerControlButton {
     btn.style.cssText = [
       "width:100%", "height:100%", "background:transparent", "border:none",
       "cursor:pointer", "padding:0", "display:flex", "align-items:center",
-      "justify-content:center", "color:inherit",
+      "justify-content:center", "color:#ffffff",
     ].join(";");
     btn.innerHTML = svgPalette;
 
