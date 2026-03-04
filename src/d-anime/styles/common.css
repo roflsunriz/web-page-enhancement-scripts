@@ -123,6 +123,8 @@ background: linear-gradient(90deg, var(--primary), transparent);
 /* 検索関連のスタイル */
 .search-container {
 display: flex;
+justify-content: flex-end;
+align-items: center;
 gap: 12px;
 margin-bottom: 16px;
 }
