@@ -18,6 +18,7 @@ import {
   svgViewCount,
   svgCommentCount,
 } from "@/shared/icons/mdi";
+import { PlayerControlButton } from "@/d-anime/settings/player-control-button";
 import { GM_getValue, GM_setValue } from "$";
 
 const INITIALIZATION_RETRY_MS = 100;
@@ -38,6 +39,7 @@ export class WatchPageController {
   private domMutationObserver: MutationObserver | null = null;
   private videoEndedListener: (() => void) | null = null;
   private playbackRateController: PlaybackRateController | null = null;
+  private playerControlButton: PlayerControlButton | null = null;
   private lastPartId: string | null = null;
   private partIdMonitorIntervalId: number | null = null;
   private isPartIdChanging = false; // エピソード切り替え中フラグ
@@ -120,6 +122,12 @@ export class WatchPageController {
         this.global.settingsManager ?? new SettingsManager(notifier);
       this.global.settingsManager = settingsManager;
       this.global.instances.settingsManager = settingsManager;
+
+      // コントロールバー設定ボタンを注入（コメント表示設定に関わらず常に表示）
+      if (!this.playerControlButton) {
+        this.playerControlButton = new PlayerControlButton(settingsManager);
+        this.playerControlButton.mount();
+      }
 
       // 設定UIでコメント非表示の場合はAPI呼び出し前に早期リターン
       const currentSettings = settingsManager.loadSettings();

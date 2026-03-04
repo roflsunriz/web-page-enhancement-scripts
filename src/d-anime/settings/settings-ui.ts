@@ -4,7 +4,6 @@ import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
 import { NotificationManager } from "@/d-anime/services/notification-manager";
 import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type {
-  PlaybackSettings,
   RendererSettings,
   VideoMetadata,
 } from "@/shared/types";
@@ -23,7 +22,6 @@ import {
   svgCommentCount,
   svgLock,
   svgMylistCount,
-  svgPalette,
   svgPostedAt,
   svgVideoId,
   svgVideoOwner,
@@ -51,13 +49,8 @@ const SELECTORS = {
   openSearchPage: "#openSearchPageDirect",
   searchResults: "#searchResults",
   saveButton: "#saveSettings",
-  opacitySlider: "#commentOpacity",
-  opacityValue: "#opacityValue",
-  visibilityToggle: "#commentVisibilityToggle",
   autoSearchToggle: "#autoSearchToggle",
   autoSearchOptionRow: "#autoSearchOptionRow",
-  fixedPlaybackToggle: "#fixedPlaybackToggle",
-  playbackOptionRow: "#playbackOptionRow",
   currentTitle: "#currentTitle",
   currentVideoId: "#currentVideoId",
   currentOwner: "#currentOwner",
@@ -66,10 +59,6 @@ const SELECTORS = {
   currentMylistCount: "#currentMylistCount",
   currentPostedAt: "#currentPostedAt",
   currentThumbnail: "#currentThumbnail",
-  colorHexInput: "#colorHexInput",
-  colorPickerInput: "#colorPickerInput",
-  previewComment: "#previewComment",
-  previewHiddenMsg: "#previewHiddenMsg",
   ngWords: "#ngWords",
   ngRegexps: "#ngRegexps",
   showNgWords: "#showNgWords",
@@ -86,7 +75,7 @@ type SelectorKey = keyof typeof SELECTORS;
 
 type SearchResultRenderer = (item: NicoSearchResultItem) => string;
 
-const MODAL_TAB_KEYS = ["search", "display", "ng"] as const;
+const MODAL_TAB_KEYS = ["search", "ng"] as const;
 type ModalTabKey = (typeof MODAL_TAB_KEYS)[number];
 
 const SIMILARITY_STYLES = `
@@ -183,7 +172,6 @@ export class SettingsUI extends ShadowDOMComponent {
   private readonly fetcher: NicoApiFetcher;
   private readonly searcher: NicoVideoSearcher;
   private settings: RendererSettings;
-  private playbackSettings: PlaybackSettings;
   private currentVideoInfo: VideoMetadata | null;
   private hostElement: HTMLDivElement | null = null;
   private activeTab: ModalTabKey = "search";
@@ -203,10 +191,6 @@ export class SettingsUI extends ShadowDOMComponent {
   private readonly handleCloseClick = (): void => {
     this.closeSettingsModal();
   };
-  private readonly handlePlaybackSettingsChanged: (
-    settings: PlaybackSettings,
-  ) => void;
-
   constructor(
     settingsManager: SettingsManager,
     fetcher = new NicoApiFetcher(),
@@ -217,13 +201,7 @@ export class SettingsUI extends ShadowDOMComponent {
     this.fetcher = fetcher;
     this.searcher = searcher;
     this.settings = this.settingsManager.getSettings();
-    this.playbackSettings = this.settingsManager.getPlaybackSettings();
     this.currentVideoInfo = this.settingsManager.loadVideoData();
-    this.handlePlaybackSettingsChanged = (settings) => {
-      this.playbackSettings = settings;
-      this.applyPlaybackSettingsToUI();
-    };
-    this.settingsManager.addPlaybackObserver(this.handlePlaybackSettingsChanged);
   }
 
   insertIntoMypage(): void {
@@ -481,13 +459,6 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private buildModalHtml(): string {
-    const colorOptions = ["#FFFFFF", "#FF0000", "#00FF00", "#0000FF", "#FFFF00", "#FF00FF", "#00FFFF"]
-      .map(
-        (color) =>
-          `<button class="color-preset-btn" data-color="${color}" style="background-color: ${color}"></button>`,
-      )
-      .join("");
-
     return `
       <div id="settingsModal" class="settings-modal hidden" role="dialog" aria-modal="true" aria-labelledby="settingsModalTitle" aria-hidden="true">
         <div class="settings-modal__overlay"></div>
@@ -503,10 +474,6 @@ export class SettingsUI extends ShadowDOMComponent {
               <span class="settings-modal__tab-icon" aria-hidden="true">${svgComment}</span>
               <span class="settings-modal__tab-label">検索</span>
             </button>
-            <button class="settings-modal__tab" type="button" data-tab="display" role="tab" aria-selected="false" aria-controls="settingsPaneDisplay" id="settingsTabDisplay" tabindex="-1">
-              <span class="settings-modal__tab-icon" aria-hidden="true">${svgPalette}</span>
-              <span class="settings-modal__tab-label">表示</span>
-            </button>
             <button class="settings-modal__tab" type="button" data-tab="ng" role="tab" aria-selected="false" aria-controls="settingsPaneNg" id="settingsTabNg" tabindex="-1">
               <span class="settings-modal__tab-icon" aria-hidden="true">${svgLock}</span>
               <span class="settings-modal__tab-label">NG</span>
@@ -520,11 +487,36 @@ export class SettingsUI extends ShadowDOMComponent {
                   ${this.settings.autoSearchEnabled
                     ? `ℹ️ <strong>自動設定機能が有効です</strong><br>
                   視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-                  手動で検索したい場合は、「表示」タブの自動検索を無効にしてから以下のフォームをご利用ください。`
+                  手動で検索したい場合は、下の自動検索スイッチを無効にしてから以下のフォームをご利用ください。`
                     : `🔧 <strong>手動設定モード</strong><br>
                   自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-                  自動検索を有効にするには「表示」タブの自動検索を有効にしてください。`}
+                  自動検索を有効にするには下の自動検索スイッチを有効にしてください。`}
                 </p>
+                <div
+                  class="playback-option${this.settings.autoSearchEnabled ? " playback-option--active" : ""}"
+                  id="autoSearchOptionRow"
+                  role="button"
+                  tabindex="0"
+                  aria-pressed="${this.settings.autoSearchEnabled ? "true" : "false"}"
+                  style="margin-bottom: 16px;"
+                >
+                  <div class="playback-option__icon-wrapper${this.settings.autoSearchEnabled ? " playback-option__icon-wrapper--active" : ""}">
+                    ${svgSync}
+                  </div>
+                  <div class="playback-option__text">
+                    <span class="playback-option__title">自動検索</span>
+                    <span class="playback-option__desc">視聴ページ表示時に自動でコメントを設定</span>
+                  </div>
+                  <div class="playback-option__toggle">
+                    <input
+                      type="checkbox"
+                      id="autoSearchToggle"
+                      class="playback-option__checkbox"
+                      ${this.settings.autoSearchEnabled ? "checked" : ""}
+                    >
+                    <span class="playback-option__switch"></span>
+                  </div>
+                </div>
                 <div class="search-fields">
                   <div class="search-field">
                     <label for="searchAnimeTitle" class="search-field__label">アニメタイトル</label>
@@ -552,149 +544,6 @@ export class SettingsUI extends ShadowDOMComponent {
                 <div id="searchResults" class="search-results"></div>
               </div>
             </section>
-            <section class="settings-modal__pane" data-pane="display" role="tabpanel" id="settingsPaneDisplay" aria-labelledby="settingsTabDisplay" aria-hidden="true">
-              <div class="display-panel">
-                <!-- 左カラム: コントロール -->
-                <div class="display-panel__controls">
-                  <!-- 外観セクション -->
-                  <section class="display-section" aria-labelledby="displayAppearanceTitle">
-                    <div class="display-section__header">
-                      <h4 id="displayAppearanceTitle" class="display-section__title">外観</h4>
-                      <button
-                        id="commentVisibilityToggle"
-                        type="button"
-                        class="visibility-badge${this.settings.isCommentVisible ? "" : " visibility-badge--off"}"
-                        aria-pressed="${this.settings.isCommentVisible ? "true" : "false"}"
-                      >
-                        <span class="visibility-badge__icon" aria-hidden="true">${this.settings.isCommentVisible ? svgComment : svgLock}</span>
-                        <span class="visibility-badge__label">${this.settings.isCommentVisible ? "表示中" : "非表示"}</span>
-                      </button>
-                    </div>
-                    <div class="display-section__body">
-                      <!-- カラープリセット -->
-                      <div class="color-row">
-                        <div class="color-presets">
-                          ${colorOptions}
-                        </div>
-                        <div class="color-divider"></div>
-                        <div class="color-custom">
-                          <span class="color-custom__hex-label">HEX</span>
-                          <input
-                            type="text"
-                            id="colorHexInput"
-                            class="color-custom__hex-input"
-                            value="${this.settings.commentColor}"
-                            maxlength="7"
-                            spellcheck="false"
-                          >
-                          <input
-                            type="color"
-                            id="colorPickerInput"
-                            class="color-custom__picker"
-                            value="${this.settings.commentColor}"
-                          >
-                        </div>
-                      </div>
-                      <!-- 透明度スライダー -->
-                      <div class="opacity-row">
-                        <div class="opacity-row__labels">
-                          <span class="opacity-row__label">不透明度</span>
-                          <span class="opacity-row__value" id="opacityValue">${Math.round((this.settings.commentOpacity ?? 1) * 100)}%</span>
-                        </div>
-                        <input
-                          type="range"
-                          id="commentOpacity"
-                          class="opacity-slider"
-                          min="0.1"
-                          max="1"
-                          step="0.05"
-                          value="${this.settings.commentOpacity ?? 1}"
-                        >
-                      </div>
-                    </div>
-                  </section>
-
-                  <!-- 自動検索セクション -->
-                  <section class="display-section" aria-labelledby="displayAutoSearchTitle">
-                    <h4 id="displayAutoSearchTitle" class="display-section__title">検索</h4>
-                    <div
-                      class="playback-option${this.settings.autoSearchEnabled ? " playback-option--active" : ""}"
-                      id="autoSearchOptionRow"
-                      role="button"
-                      tabindex="0"
-                      aria-pressed="${this.settings.autoSearchEnabled ? "true" : "false"}"
-                    >
-                      <div class="playback-option__icon-wrapper${this.settings.autoSearchEnabled ? " playback-option__icon-wrapper--active" : ""}">
-                        ${svgSync}
-                      </div>
-                      <div class="playback-option__text">
-                        <span class="playback-option__title">自動検索</span>
-                        <span class="playback-option__desc">視聴ページ表示時に自動でコメントを設定</span>
-                      </div>
-                      <div class="playback-option__toggle">
-                        <input
-                          type="checkbox"
-                          id="autoSearchToggle"
-                          class="playback-option__checkbox"
-                          ${this.settings.autoSearchEnabled ? "checked" : ""}
-                        >
-                        <span class="playback-option__switch"></span>
-                      </div>
-                    </div>
-                  </section>
-
-                  <!-- 再生速度セクション -->
-                  <section class="display-section" aria-labelledby="displayPlaybackTitle">
-                    <h4 id="displayPlaybackTitle" class="display-section__title">再生</h4>
-                    <div
-                      class="playback-option${this.playbackSettings.fixedModeEnabled ? " playback-option--active" : ""}"
-                      id="playbackOptionRow"
-                      role="button"
-                      tabindex="0"
-                      aria-pressed="${this.playbackSettings.fixedModeEnabled ? "true" : "false"}"
-                    >
-                      <div class="playback-option__icon-wrapper${this.playbackSettings.fixedModeEnabled ? " playback-option__icon-wrapper--active" : ""}">
-                        ${svgPlay}
-                      </div>
-                      <div class="playback-option__text">
-                        <span class="playback-option__title">1.11倍速モード</span>
-                        <span class="playback-option__desc">24分アニメを約21分36秒で視聴</span>
-                      </div>
-                      <div class="playback-option__toggle">
-                        <input
-                          type="checkbox"
-                          id="fixedPlaybackToggle"
-                          class="playback-option__checkbox"
-                          ${this.playbackSettings.fixedModeEnabled ? "checked" : ""}
-                        >
-                        <span class="playback-option__switch"></span>
-                      </div>
-                    </div>
-                  </section>
-                </div>
-
-                <!-- 右カラム: ライブプレビュー -->
-                <div class="display-panel__preview">
-                  <h4 class="display-section__title">プレビュー</h4>
-                  <div class="preview-area" id="previewArea">
-                    <div class="preview-area__background"></div>
-                    <div
-                      class="preview-comment"
-                      id="previewComment"
-                      style="color: ${this.settings.commentColor}; opacity: ${this.settings.commentOpacity ?? 1}; display: ${this.settings.isCommentVisible ? "block" : "none"};"
-                    >
-                      設定変更がすぐ反映されますwww
-                    </div>
-                    <div class="preview-hidden-msg" id="previewHiddenMsg" style="display: ${this.settings.isCommentVisible ? "none" : "flex"};">
-                      ${svgLock}
-                      <span>コメント非表示中</span>
-                    </div>
-                    <span class="preview-area__label">Simulation Mode</span>
-                  </div>
-                  <p class="preview-note">実際の動画上の見え方をシミュレーションしています</p>
-                </div>
-              </div>
-            </section>
             <section class="settings-modal__pane" data-pane="ng" role="tabpanel" id="settingsPaneNg" aria-labelledby="settingsTabNg" aria-hidden="true">
               <div class="setting-group ng-settings">
                 <div class="ng-settings__column" aria-labelledby="ngWordsTitle">
@@ -719,13 +568,7 @@ export class SettingsUI extends ShadowDOMComponent {
   private setupEventListeners(): void {
     this.setupModalControls();
     this.setupModalTabs();
-    this.setupColorPresets();
-    this.setupColorPicker();
-    this.setupColorHexInput();
-    this.setupOpacitySlider();
-    this.setupVisibilityToggle();
     this.setupAutoSearchToggle();
-    this.setupPlaybackToggle();
     this.setupNgControls();
     this.setupSaveButton();
     this.setupSearch();
@@ -875,116 +718,6 @@ export class SettingsUI extends ShadowDOMComponent {
       : null;
   }
 
-  private setupColorPresets(): void {
-    const buttons =
-      this.queryModalSelectorAll<HTMLButtonElement>(".color-preset-btn");
-    buttons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const color = button.dataset.color;
-        if (!color) {
-          return;
-        }
-        this.settings.commentColor = color;
-        this.updateColorUI(color);
-        this.updatePreview();
-      });
-    });
-  }
-
-  private setupColorPicker(): void {
-    const input = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorPickerInput,
-    );
-    if (!input) {
-      return;
-    }
-
-    input.addEventListener("input", () => {
-      this.settings.commentColor = input.value;
-      this.updateColorUI(input.value);
-      this.updatePreview();
-    });
-  }
-
-  private setupColorHexInput(): void {
-    const hexInput = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorHexInput,
-    );
-    if (!hexInput) {
-      return;
-    }
-
-    hexInput.addEventListener("input", () => {
-      const value = hexInput.value.trim();
-      // 有効なHEXカラーかチェック
-      if (/^#[0-9A-Fa-f]{6}$/.test(value)) {
-        this.settings.commentColor = value;
-        this.updateColorUI(value, false); // HEX入力自体は更新しない
-        this.updatePreview();
-      }
-    });
-
-    hexInput.addEventListener("blur", () => {
-      // フォーカスが外れたら現在の設定値で上書き
-      hexInput.value = this.settings.commentColor;
-    });
-  }
-
-  private updateColorUI(color: string, updateHexInput: boolean = true): void {
-    const pickerInput = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorPickerInput,
-    );
-    const hexInput = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorHexInput,
-    );
-
-    if (pickerInput) {
-      pickerInput.value = color;
-    }
-    if (hexInput && updateHexInput) {
-      hexInput.value = color;
-    }
-  }
-
-  private setupOpacitySlider(): void {
-    const slider = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.opacitySlider,
-    );
-    const valueDisplay = this.queryModalElement<HTMLSpanElement>(
-      SELECTORS.opacityValue,
-    );
-    if (!slider) {
-      return;
-    }
-    slider.value = (this.settings.commentOpacity ?? 1).toString();
-
-    slider.addEventListener("input", () => {
-      const value = Number(slider.value);
-      if (!Number.isNaN(value)) {
-        this.settings.commentOpacity = value;
-        if (valueDisplay) {
-          valueDisplay.textContent = `${Math.round(value * 100)}%`;
-        }
-        this.updatePreview();
-      }
-    });
-  }
-
-  private setupVisibilityToggle(): void {
-    const button = this.queryModalElement<HTMLButtonElement>(
-      SELECTORS.visibilityToggle,
-    );
-    if (!button) {
-      return;
-    }
-    button.addEventListener("click", () => {
-      this.settings.isCommentVisible = !this.settings.isCommentVisible;
-      this.updateVisibilityToggleState(button);
-      this.updatePreview();
-    });
-    this.updateVisibilityToggleState(button);
-  }
-
   private setupAutoSearchToggle(): void {
     const checkbox = this.queryModalElement<HTMLInputElement>(
       SELECTORS.autoSearchToggle,
@@ -1070,72 +803,10 @@ export class SettingsUI extends ShadowDOMComponent {
     note.innerHTML = isEnabled
       ? `ℹ️ <strong>自動設定機能が有効です</strong><br>
         視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-        手動で検索したい場合は、「表示」タブの自動検索を無効にしてから以下のフォームをご利用ください。`
+        手動で検索したい場合は、下の自動検索スイッチを無効にしてから以下のフォームをご利用ください。`
       : `🔧 <strong>手動設定モード</strong><br>
         自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-        自動検索を有効にするには「表示」タブの自動検索を有効にしてください。`;
-  }
-
-  private setupPlaybackToggle(): void {
-    const checkbox = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.fixedPlaybackToggle,
-    );
-    const row = this.queryModalElement<HTMLDivElement>(
-      SELECTORS.playbackOptionRow,
-    );
-    if (!checkbox || !row) {
-      return;
-    }
-
-    const togglePlayback = (): void => {
-      const nextEnabled = !this.playbackSettings.fixedModeEnabled;
-      const nextSettings: PlaybackSettings = {
-        ...this.playbackSettings,
-        fixedModeEnabled: nextEnabled,
-      };
-      const success =
-        this.settingsManager.updatePlaybackSettings(nextSettings);
-      if (!success) {
-        NotificationManager.show(
-          "再生速度の設定変更に失敗しました",
-          "error",
-        );
-        this.applyPlaybackSettingsToUI();
-        return;
-      }
-      this.playbackSettings = nextSettings;
-      this.updatePlaybackToggleState();
-      NotificationManager.show(
-        nextEnabled
-          ? `${this.formatPlaybackRateLabel(this.playbackSettings.fixedRate)}固定モードを有効にしました`
-          : "固定再生モードを無効にしました",
-        "success",
-      );
-    };
-
-    // 行クリックでトグル
-    row.addEventListener("click", (event) => {
-      // チェックボックス自体のクリックは二重発火を防ぐためスキップ
-      if ((event.target as HTMLElement).closest(".playback-option__toggle")) {
-        return;
-      }
-      togglePlayback();
-    });
-
-    // Enterキーでもトグル可能に
-    row.addEventListener("keydown", (event) => {
-      if (event.key === "Enter" || event.key === " ") {
-        event.preventDefault();
-        togglePlayback();
-      }
-    });
-
-    // チェックボックス変更
-    checkbox.addEventListener("change", () => {
-      togglePlayback();
-    });
-
-    this.updatePlaybackToggleState();
+        自動検索を有効にするには下の自動検索スイッチを有効にしてください。`;
   }
 
   private setupNgControls(): void {
@@ -1420,68 +1091,23 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private applySettingsToUI(): void {
-    const opacitySlider = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.opacitySlider,
-    );
-    const opacityValueDisplay = this.queryModalElement<HTMLSpanElement>(
-      SELECTORS.opacityValue,
-    );
-    const visibilityButton = this.queryModalElement<HTMLButtonElement>(
-      SELECTORS.visibilityToggle,
-    );
-    const colorPickerInput = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorPickerInput,
-    );
-    const colorHexInput = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.colorHexInput,
-    );
     const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
-      SELECTORS.ngRegexps,
-    );
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngRegexps);
 
-    if (opacitySlider) {
-      opacitySlider.value = (this.settings.commentOpacity ?? 1).toString();
-    }
-    if (opacityValueDisplay) {
-      opacityValueDisplay.textContent = `${Math.round((this.settings.commentOpacity ?? 1) * 100)}%`;
-    }
-    if (visibilityButton) {
-      this.updateVisibilityToggleState(visibilityButton);
-    }
-    if (colorPickerInput && this.settings.commentColor) {
-      colorPickerInput.value = this.settings.commentColor;
-    }
-    if (colorHexInput && this.settings.commentColor) {
-      colorHexInput.value = this.settings.commentColor;
-    }
     if (ngWords) {
       ngWords.value = (this.settings.ngWords ?? []).join("\n");
     }
     if (ngRegex) {
       ngRegex.value = (this.settings.ngRegexps ?? []).join("\n");
     }
-    this.applyPlaybackSettingsToUI();
     this.updateAutoSearchToggleState();
     this.updateSearchSectionNote();
-    this.updatePreview();
   }
 
   private saveSettings(): void {
-    const opacitySlider = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.opacitySlider,
-    );
     const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
-      SELECTORS.ngRegexps,
-    );
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngRegexps);
 
-    if (opacitySlider) {
-      const value = Number(opacitySlider.value);
-      if (!Number.isNaN(value)) {
-        this.settings.commentOpacity = value;
-      }
-    }
     if (ngWords) {
       this.settings.ngWords = ngWords.value
         .split("\n")
@@ -1571,72 +1197,6 @@ export class SettingsUI extends ShadowDOMComponent {
     }).format(date);
   }
 
-  private formatPlaybackRateLabel(rate: number): string {
-    const safeRate = Number.isFinite(rate) ? rate : 1.11;
-    const formatted = safeRate.toFixed(2);
-    return `${formatted.replace(/\.?0+$/, "")}倍`;
-  }
-
-  private updateVisibilityToggleState(button: HTMLButtonElement): void {
-    const isVisible = this.settings.isCommentVisible;
-    button.classList.toggle("visibility-badge--off", !isVisible);
-    button.setAttribute("aria-pressed", isVisible ? "true" : "false");
-
-    // アイコンとラベルを更新
-    const iconSpan = button.querySelector(".visibility-badge__icon");
-    const labelSpan = button.querySelector(".visibility-badge__label");
-    if (iconSpan) {
-      iconSpan.innerHTML = isVisible ? svgComment : svgLock;
-    }
-    if (labelSpan) {
-      labelSpan.textContent = isVisible ? "表示中" : "非表示";
-    }
-  }
-
-  private applyPlaybackSettingsToUI(): void {
-    this.updatePlaybackToggleState();
-  }
-
-  private updatePlaybackToggleState(): void {
-    const isEnabled = this.playbackSettings.fixedModeEnabled;
-    const checkbox = this.queryModalElement<HTMLInputElement>(
-      SELECTORS.fixedPlaybackToggle,
-    );
-    const row = this.queryModalElement<HTMLDivElement>(
-      SELECTORS.playbackOptionRow,
-    );
-    const iconWrapper = row?.querySelector(".playback-option__icon-wrapper");
-
-    if (checkbox) {
-      checkbox.checked = isEnabled;
-    }
-    if (row) {
-      row.classList.toggle("playback-option--active", isEnabled);
-      row.setAttribute("aria-pressed", isEnabled ? "true" : "false");
-    }
-    if (iconWrapper) {
-      iconWrapper.classList.toggle("playback-option__icon-wrapper--active", isEnabled);
-    }
-  }
-
-  private updatePreview(): void {
-    const previewComment = this.queryModalElement<HTMLDivElement>(
-      SELECTORS.previewComment,
-    );
-    const previewHiddenMsg = this.queryModalElement<HTMLDivElement>(
-      SELECTORS.previewHiddenMsg,
-    );
-
-    if (previewComment) {
-      previewComment.style.color = this.settings.commentColor;
-      previewComment.style.opacity = String(this.settings.commentOpacity ?? 1);
-      previewComment.style.display = this.settings.isCommentVisible ? "block" : "none";
-    }
-    if (previewHiddenMsg) {
-      previewHiddenMsg.style.display = this.settings.isCommentVisible ? "none" : "flex";
-    }
-  }
-
   public override destroy(): void {
     this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
     this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
@@ -1644,9 +1204,6 @@ export class SettingsUI extends ShadowDOMComponent {
     this.overlayElement = null;
     this.modalElement = null;
     this.removeFabElement();
-    this.settingsManager.removePlaybackObserver(
-      this.handlePlaybackSettingsChanged,
-    );
     super.destroy();
   }
 

@@ -9,4 +9,6 @@ export const DANIME_SELECTORS = {
   watchPageAnimeTitle: '.backInfoTxt1',
   watchPageEpisodeNumber: '.backInfoTxt2',
   watchPageEpisodeTitle: '.backInfoTxt3',
+  watchSettingButton: '.setting.mainButton',
+  watchButtonArea: '.buttonArea',
 } as const;
