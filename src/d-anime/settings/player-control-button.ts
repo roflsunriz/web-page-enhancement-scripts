@@ -131,18 +131,23 @@ export class PlayerControlButton {
         width: 260px;
         z-index: 300;
         pointer-events: none;
+        writing-mode: horizontal-tb;
+        direction: ltr;
       }
       .panel {
         pointer-events: auto;
         background: rgba(18, 20, 46, 0.97);
         color: #e8eaff;
         font: 12px/1.6 sans-serif;
+        font-family: sans-serif;
         padding: 12px 14px;
         border-radius: 10px 10px 0 10px;
         border: 1px solid rgba(80, 110, 220, 0.7);
         box-shadow: 0 -4px 24px rgba(0, 0, 0, 0.8);
         box-sizing: border-box;
         width: 260px;
+        writing-mode: horizontal-tb;
+        direction: ltr;
       }
       .panel[hidden] { display: none; }
       .panel__title {
@@ -154,12 +159,14 @@ export class PlayerControlButton {
         margin: 0 0 10px;
         padding-bottom: 6px;
         border-bottom: 1px solid rgba(80, 110, 220, 0.3);
+        white-space: nowrap;
       }
       .row {
         display: flex;
         align-items: center;
         justify-content: space-between;
         padding: 5px 0;
+        gap: 8px;
       }
       .row + .row { border-top: 1px solid rgba(255, 255, 255, 0.06); }
       .row__label {
@@ -168,6 +175,8 @@ export class PlayerControlButton {
         display: flex;
         align-items: center;
         gap: 5px;
+        white-space: nowrap;
+        flex-shrink: 0;
       }
       .row__label svg { opacity: 0.7; flex-shrink: 0; }
       .toggle {

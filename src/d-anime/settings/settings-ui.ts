@@ -30,6 +30,8 @@ import {
   svgCommentText,
   svgStar,
   svgSync,
+  svgInformation,
+  svgShieldCheck,
 } from "@/shared/icons/mdi";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import {
@@ -68,7 +70,10 @@ const SELECTORS = {
   modalOverlay: ".settings-modal__overlay",
   modalTabs: ".settings-modal__tab",
   modalPane: ".settings-modal__pane",
-  searchSectionNote: "#searchSectionNote",
+  autoSearchTooltip: "#autoSearchTooltip",
+  searchModeToggle: "#searchModeToggle",
+  searchStructuredFields: "#searchStructuredFields",
+  searchFreeInputArea: "#searchFreeInputArea",
 } as const;
 
 type SelectorKey = keyof typeof SELECTORS;
@@ -141,6 +146,8 @@ const SEARCH_FIELDS_STYLES = `
     color: var(--text-primary);
     font-size: 14px;
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    width: 100%;
+    box-sizing: border-box;
   }
   .search-field__input:focus {
     outline: none;
@@ -150,18 +157,165 @@ const SEARCH_FIELDS_STYLES = `
   .search-field__input::placeholder {
     color: var(--text-muted);
   }
-  .search-safeguard-note {
-    margin: 12px 0;
-    padding: 10px 12px;
-    background: rgba(44, 182, 125, 0.15);
-    border: 1px solid rgba(44, 182, 125, 0.3);
-    border-radius: 8px;
+  .search-free-input {
+    margin-bottom: 16px;
+  }
+
+  /* 入力モード切り替えスイッチ */
+  .search-mode-switch {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+    padding: 6px 0;
+  }
+  .search-mode-switch__label {
     font-size: 12px;
     color: var(--text-secondary);
-    line-height: 1.5;
+    font-weight: 500;
+    user-select: none;
+    cursor: pointer;
   }
-  .search-safeguard-note strong {
+  .search-mode-switch__label--active {
+    color: var(--text-primary);
+  }
+  .search-mode-switch__toggle {
+    position: relative;
+    width: 40px;
+    height: 20px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .search-mode-switch__toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+    position: absolute;
+  }
+  .search-mode-switch__track {
+    position: absolute;
+    inset: 0;
+    background: rgba(127, 90, 240, 0.4);
+    border-radius: 10px;
+    transition: background 0.2s;
+    cursor: pointer;
+  }
+  .search-mode-switch__thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 14px;
+    height: 14px;
+    background: #fff;
+    border-radius: 50%;
+    transition: transform 0.2s;
+    pointer-events: none;
+  }
+  .search-mode-switch__toggle input:checked ~ .search-mode-switch__track {
+    background: rgba(127, 90, 240, 0.4);
+  }
+  .search-mode-switch__toggle input:checked ~ .search-mode-switch__thumb {
+    transform: translateX(20px);
+  }
+  .search-mode-switch__toggle input:focus-visible ~ .search-mode-switch__track {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+  }
+
+  /* info バッジ（自動検索トグル横） */
+  .info-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 20px;
+    height: 20px;
+    cursor: help;
+    flex-shrink: 0;
+    color: rgba(127, 90, 240, 0.7);
+    border-radius: 50%;
+    transition: color 0.2s;
+  }
+  .info-badge:hover,
+  .info-badge:focus-within {
+    color: var(--primary);
+  }
+  .info-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+  .info-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: -4px;
+    width: 280px;
+    background: rgba(14, 14, 28, 0.98);
+    border: 1px solid rgba(127, 90, 240, 0.4);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    white-space: normal;
+    text-align: left;
+  }
+  .info-badge:hover .info-tooltip,
+  .info-badge:focus-within .info-tooltip {
+    display: block;
+  }
+
+  /* 盾バッジ（検索ページボタン横） */
+  .shield-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    cursor: help;
+    flex-shrink: 0;
+    color: rgba(44, 182, 125, 0.7);
+    border-radius: 6px;
+    transition: color 0.2s, background 0.2s;
+  }
+  .shield-badge:hover,
+  .shield-badge:focus-within {
     color: #2CB67D;
+    background: rgba(44, 182, 125, 0.1);
+  }
+  .shield-badge svg {
+    width: 18px;
+    height: 18px;
+  }
+  .shield-tooltip {
+    display: none;
+    position: absolute;
+    bottom: calc(100% + 8px);
+    right: 0;
+    width: 300px;
+    background: rgba(14, 14, 28, 0.98);
+    border: 1px solid rgba(44, 182, 125, 0.4);
+    border-radius: 8px;
+    padding: 10px 12px;
+    font-size: 12px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    z-index: 200;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
+    pointer-events: none;
+    white-space: normal;
+    text-align: left;
+  }
+  .shield-tooltip strong {
+    color: #2CB67D;
+  }
+  .shield-badge:hover .shield-tooltip,
+  .shield-badge:focus-within .shield-tooltip {
+    display: block;
   }
 `;
 
@@ -483,15 +637,6 @@ export class SettingsUI extends ShadowDOMComponent {
             <section class="settings-modal__pane is-active" data-pane="search" role="tabpanel" id="settingsPaneSearch" aria-labelledby="settingsTabSearch">
               <div class="setting-group search-section">
                 <h3>コメントをオーバーレイする動画を検索</h3>
-                <p id="searchSectionNote" class="search-section__note" style="background: ${this.settings.autoSearchEnabled ? "#7F5AF0" : "#2CB67D"}; color: #FFFFFE; padding: 12px; border-radius: 8px; margin-bottom: 16px; font-size: 14px;">
-                  ${this.settings.autoSearchEnabled
-                    ? `ℹ️ <strong>自動設定機能が有効です</strong><br>
-                  視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-                  手動で検索したい場合は、下の自動検索スイッチを無効にしてから以下のフォームをご利用ください。`
-                    : `🔧 <strong>手動設定モード</strong><br>
-                  自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-                  自動検索を有効にするには下の自動検索スイッチを有効にしてください。`}
-                </p>
                 <div
                   class="playback-option${this.settings.autoSearchEnabled ? " playback-option--active" : ""}"
                   id="autoSearchOptionRow"
@@ -516,8 +661,31 @@ export class SettingsUI extends ShadowDOMComponent {
                     >
                     <span class="playback-option__switch"></span>
                   </div>
+                  <div class="info-badge" id="autoSearchInfoBadge" tabindex="0" aria-label="自動検索についての説明">
+                    ${svgInformation}
+                    <div class="info-tooltip" id="autoSearchTooltip" role="tooltip">
+                      ${this.settings.autoSearchEnabled
+                        ? `<strong style="color: #7F5AF0;">自動設定機能が有効です</strong><br>
+                        視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
+                        手動で検索したい場合は、自動検索スイッチを無効にしてください。`
+                        : `<strong style="color: #2CB67D;">手動設定モードです</strong><br>
+                        自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
+                        自動検索を有効にするには自動検索スイッチを有効にしてください。`}
+                    </div>
+                  </div>
                 </div>
-                <div class="search-fields">
+
+                <div class="search-mode-switch">
+                  <span class="search-mode-switch__label search-mode-switch__label--active" id="searchModeLabelStructured">詳細入力</span>
+                  <label class="search-mode-switch__toggle" aria-label="入力モードを切り替え（詳細入力 / 自由入力）">
+                    <input type="checkbox" id="searchModeToggle" class="search-mode-switch__checkbox">
+                    <span class="search-mode-switch__track"></span>
+                    <span class="search-mode-switch__thumb"></span>
+                  </label>
+                  <span class="search-mode-switch__label" id="searchModeLabelFree">自由入力</span>
+                </div>
+
+                <div class="search-fields" id="searchStructuredFields">
                   <div class="search-field">
                     <label for="searchAnimeTitle" class="search-field__label">アニメタイトル</label>
                     <input type="text" id="searchAnimeTitle" class="search-field__input" placeholder="例: 葬送のフリーレン">
@@ -533,14 +701,25 @@ export class SettingsUI extends ShadowDOMComponent {
                     </div>
                   </div>
                 </div>
+
+                <div class="search-free-input" id="searchFreeInputArea" style="display:none;">
+                  <div class="search-field">
+                    <label for="searchInput" class="search-field__label">フリーワード検索</label>
+                    <input type="text" id="searchInput" class="search-field__input" placeholder="検索キーワードを入力">
+                  </div>
+                </div>
+
                 <div class="search-container">
-                  <input type="text" id="searchInput" placeholder="または自由入力で検索" style="flex: 1;">
                   <button id="searchButton">検索</button>
                   <button id="openSearchPageDirect" class="open-search-page-direct-btn">検索ページ</button>
+                  <div class="shield-badge" tabindex="0" aria-label="公式動画セーフガードについて">
+                    ${svgShieldCheck}
+                    <div class="shield-tooltip" role="tooltip">
+                      <strong>公式動画セーフガード有効</strong><br>
+                      アニメタイトルを入力すると、投稿者名が「アニメタイトル」「アニメタイトル 第Nクール」「dアニメストア ニコニコ支店」の公式動画のみが優先表示されます。エピソード切替時も公式動画のみが自動選択されます。
+                    </div>
+                  </div>
                 </div>
-                <p class="search-safeguard-note">
-                  🛡️ <strong>公式動画セーフガード有効</strong>：アニメタイトルを入力すると、投稿者名が「アニメタイトル」「アニメタイトル 第Nクール」「dアニメストア ニコニコ支店」の公式動画のみが優先表示されます。エピソード切替時も公式動画のみが自動選択されます。
-                </p>
                 <div id="searchResults" class="search-results"></div>
               </div>
             </section>
@@ -791,22 +970,28 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private updateSearchSectionNote(): void {
-    const note = this.queryModalElement<HTMLParagraphElement>(
-      SELECTORS.searchSectionNote,
+    const tooltip = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.autoSearchTooltip,
     );
-    if (!note) {
+    if (!tooltip) {
       return;
     }
 
     const isEnabled = this.settings.autoSearchEnabled;
-    note.style.background = isEnabled ? "#7F5AF0" : "#2CB67D";
-    note.innerHTML = isEnabled
-      ? `ℹ️ <strong>自動設定機能が有効です</strong><br>
+    tooltip.innerHTML = isEnabled
+      ? `<strong style="color: #7F5AF0;">自動設定機能が有効です</strong><br>
         視聴ページを開くと、アニメタイトル・話数・エピソードタイトルから自動的にコメント数が最も多いニコニコ動画を検索して表示します。<br>
-        手動で検索したい場合は、下の自動検索スイッチを無効にしてから以下のフォームをご利用ください。`
-      : `🔧 <strong>手動設定モード</strong><br>
+        手動で検索したい場合は、自動検索スイッチを無効にしてください。`
+      : `<strong style="color: #2CB67D;">手動設定モードです</strong><br>
         自動検索が無効になっています。以下のフォームから動画を検索して選択してください。<br>
-        自動検索を有効にするには下の自動検索スイッチを有効にしてください。`;
+        自動検索を有効にするには自動検索スイッチを有効にしてください。`;
+
+    const badge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
+    if (badge) {
+      (badge as HTMLElement).style.color = isEnabled
+        ? "rgba(127, 90, 240, 0.7)"
+        : "rgba(44, 182, 125, 0.7)";
+    }
   }
 
   private setupNgControls(): void {
@@ -852,6 +1037,9 @@ export class SettingsUI extends ShadowDOMComponent {
     const openPage = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.openSearchPage,
     );
+    const searchModeToggle = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.searchModeToggle,
+    );
 
     // 保存されたマニュアル検索設定を読み込んで初期値を設定
     const savedSettings = this.settingsManager.loadManualSearchSettings();
@@ -861,28 +1049,59 @@ export class SettingsUI extends ShadowDOMComponent {
       if (episodeTitleInput) episodeTitleInput.value = savedSettings.episodeTitle;
     }
 
-    const buildSearchKeyword = (): string => {
-      // まず自由入力フィールドをチェック
-      const freeKeyword = freeInput?.value.trim() ?? "";
-      if (freeKeyword) {
-        return freeKeyword;
+    const updateSearchModeLabels = (): void => {
+      const isFreeMode = searchModeToggle?.checked ?? false;
+      const labelStructured = this.queryModalElement<HTMLSpanElement>("#searchModeLabelStructured");
+      const labelFree = this.queryModalElement<HTMLSpanElement>("#searchModeLabelFree");
+      if (labelStructured) {
+        labelStructured.classList.toggle("search-mode-switch__label--active", !isFreeMode);
       }
+      if (labelFree) {
+        labelFree.classList.toggle("search-mode-switch__label--active", isFreeMode);
+      }
+    };
 
-      // 構造化フィールドからキーワードを構築
+    const updateSearchMode = (): void => {
+      const isFreeMode = searchModeToggle?.checked ?? false;
+      const structuredFields = this.queryModalElement<HTMLDivElement>(
+        SELECTORS.searchStructuredFields,
+      );
+      const freeInputArea = this.queryModalElement<HTMLDivElement>(
+        SELECTORS.searchFreeInputArea,
+      );
+      if (structuredFields) {
+        structuredFields.style.display = isFreeMode ? "none" : "";
+      }
+      if (freeInputArea) {
+        freeInputArea.style.display = isFreeMode ? "" : "none";
+      }
+      updateSearchModeLabels();
+    };
+
+    searchModeToggle?.addEventListener("change", updateSearchMode);
+    updateSearchMode();
+
+    const isFreeInputMode = (): boolean => searchModeToggle?.checked ?? false;
+
+    const buildSearchKeyword = (): string => {
+      if (isFreeInputMode()) {
+        return freeInput?.value.trim() ?? "";
+      }
       const animeTitle = animeTitleInput?.value.trim() ?? "";
       const episodeNumber = episodeNumberInput?.value.trim() ?? "";
       const episodeTitle = episodeTitleInput?.value.trim() ?? "";
-
       return [animeTitle, episodeNumber, episodeTitle]
         .filter(Boolean)
         .join(" ");
     };
 
     const saveManualSearchSettings = (): void => {
+      if (isFreeInputMode()) {
+        return;
+      }
       const animeTitle = animeTitleInput?.value.trim() ?? "";
       const episodeNumber = episodeNumberInput?.value.trim() ?? "";
       const episodeTitle = episodeTitleInput?.value.trim() ?? "";
-
       if (animeTitle || episodeNumber) {
         this.settingsManager.saveManualSearchSettings({
           animeTitle,
@@ -899,17 +1118,14 @@ export class SettingsUI extends ShadowDOMComponent {
         return;
       }
 
-      // マニュアル検索設定を保存
       saveManualSearchSettings();
 
-      // 公式動画フィルタリング用のアニメタイトルを取得
-      const animeTitle = animeTitleInput?.value.trim() ?? "";
+      const animeTitle = isFreeInputMode() ? "" : (animeTitleInput?.value.trim() ?? "");
       await this.executeSearch(keyword, animeTitle);
     };
 
     button?.addEventListener("click", execute);
-    
-    // 各入力フィールドでEnterキーで検索実行
+
     const handleEnterKey = (event: KeyboardEvent) => {
       if (event.key === "Enter") {
         void execute();

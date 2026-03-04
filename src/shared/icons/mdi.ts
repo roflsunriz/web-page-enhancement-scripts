@@ -28,6 +28,7 @@ import {
 	mdiAlert,
 	mdiInformationOutline,
 	mdiSync,
+	mdiShieldCheckOutline,
 } from "@mdi/js";
 
 export function renderMdiSvg(pathD: string, size: number = 24): string {
@@ -67,3 +68,4 @@ export const svgAlertCircle: string = renderMdiSvg(mdiAlertCircle);
 export const svgAlert: string = renderMdiSvg(mdiAlert);
 export const svgInformation: string = renderMdiSvg(mdiInformationOutline);
 export const svgSync: string = renderMdiSvg(mdiSync);
+export const svgShieldCheck: string = renderMdiSvg(mdiShieldCheckOutline);
