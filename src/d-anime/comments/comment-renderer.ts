@@ -121,6 +121,10 @@ export class CommentRenderer {
     this.renderer.resize(width, height);
   }
 
+  setCommentVisibility(visible: boolean): void {
+    this.renderer.setCommentVisibility(visible);
+  }
+
   private setupKeyboardShortcuts(): void {
     this.teardownKeyboardShortcuts();
     const handler = new KeyboardShortcutHandler();

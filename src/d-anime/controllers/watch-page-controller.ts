@@ -214,7 +214,11 @@ export class WatchPageController {
       playbackRateController.bind(videoElement);
 
       settingsManager.addObserver((newSettings: RendererSettings) => {
-        renderer.settings = this.mergeSettings(newSettings);
+        const mergedSettings = this.mergeSettings(newSettings);
+        if (renderer.settings.isCommentVisible !== mergedSettings.isCommentVisible) {
+          renderer.setCommentVisibility(mergedSettings.isCommentVisible);
+        }
+        renderer.settings = mergedSettings;
       });
 
       comments.forEach((comment) => {
@@ -1020,7 +1024,11 @@ export class WatchPageController {
       playbackRateController.bind(videoElement);
 
       settingsManager.addObserver((newSettings: RendererSettings) => {
-        renderer.settings = this.mergeSettings(newSettings);
+        const mergedSettings = this.mergeSettings(newSettings);
+        if (renderer.settings.isCommentVisible !== mergedSettings.isCommentVisible) {
+          renderer.setCommentVisibility(mergedSettings.isCommentVisible);
+        }
+        renderer.settings = mergedSettings;
       });
 
       comments.forEach((comment) => {
