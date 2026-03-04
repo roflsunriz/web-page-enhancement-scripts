@@ -129,16 +129,18 @@ gap: 12px;
 margin-bottom: 16px;
 }
 
-.open-search-page-direct-btn {
-background: var(--bg-primary) !important;
-color: var(--text-secondary) !important;
-border: 1px solid rgba(255, 255, 255, 0.1) !important;
+a.open-search-page-direct-btn {
+background: var(--bg-primary);
+color: var(--text-secondary);
+border: 1px solid rgba(255, 255, 255, 0.1);
 border-radius: 8px;
+padding: 4px 10px;
+font-size: 12px;
 }
 
-.open-search-page-direct-btn:hover {
-background: rgba(127, 90, 240, 0.1) !important;
-color: var(--primary) !important;
+a.open-search-page-direct-btn:hover {
+background: rgba(127, 90, 240, 0.1);
+color: var(--primary);
 }
 
 .search-container input[type="text"] {
@@ -889,7 +891,7 @@ transform: translateY(1px);
 box-shadow: 0 2px 8px rgba(127, 90, 240, 0.2);
 }
 
-#searchButton, #saveSettings {
+#searchButton, #saveSettings, #openSearchPageDirect {
 background: linear-gradient(135deg, var(--primary) 0%, #6E44FF 100%);
 border: 1px solid transparent;
 border-radius: 999px;
@@ -900,7 +902,7 @@ box-shadow: 0 10px 24px rgba(127, 90, 240, 0.35);
 transition: all 0.25s ease;
 }
 
-#searchButton:hover, #saveSettings:hover {
+#searchButton:hover, #saveSettings:hover, #openSearchPageDirect:hover {
 background: linear-gradient(135deg, #8B6AF5 0%, #7B54FF 100%);
 box-shadow: 0 12px 28px rgba(127, 90, 240, 0.45);
 transform: translateY(-2px);
