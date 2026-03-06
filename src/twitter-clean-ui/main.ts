@@ -43,7 +43,20 @@ try {
     const style = document.createElement('style');
     style.id = CSSInjector.STYLE_ELEMENT_ID;
     style.type = 'text/css';
-    style.textContent = cachedCSS;
+
+    // explore ページへの直接アクセス時、キャッシュ CSS に含まれる
+    // sidebarColumn の display:none ルールを除去する。
+    // sidebarColumn 内にメイン検索バーが含まれるため、そのまま適用すると
+    // 検索バーが一時的に消えてしまう（Phase 2 で正しい CSS が再生成される）。
+    const path = window.location.pathname;
+    const onExplorePage = path === '/explore' || path.startsWith('/explore/');
+    style.textContent = onExplorePage
+      ? cachedCSS.replace(
+          /\[data-testid="sidebarColumn"\]\s*\{[^}]*display\s*:\s*none[^}]*\}/g,
+          ''
+        )
+      : cachedCSS;
+
     (document.head || document.documentElement).appendChild(style);
   }
 } catch {

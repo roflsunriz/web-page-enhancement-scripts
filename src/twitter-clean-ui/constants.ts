@@ -369,13 +369,15 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
         method: 'Search box container',
         confidence: 0.85,
         finder: () => {
-          const searchInput = document.querySelector(
+          const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
+          if (!sidebar) return null;
+
+          // sidebarColumn 内のみを対象とすることで、explore ページの
+          // primaryColumn にある検索バーを誤取得しない
+          const searchInput = sidebar.querySelector(
             '[data-testid="SearchBox_Search_Input"]'
           );
           if (!searchInput) return null;
-
-          const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
-          if (!sidebar) return null;
 
           // 検索ボックス全体のコンテナを取得（より柔軟な探索）
           let container: HTMLElement | null = searchInput as HTMLElement;
@@ -406,11 +408,13 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
             }
           }
           
-          // 見つからない場合は5階層上を返す（フォールバック）
+          // フォールバック: sidebarColumn 内で5階層上を返す
           let fallback: HTMLElement | null = searchInput as HTMLElement;
           for (let i = 0; i < 5; i++) {
             if (!fallback.parentElement) break;
+            // sidebarColumn を超えないよう制約
             if (fallback.parentElement === sidebar) break;
+            if (!sidebar.contains(fallback.parentElement)) break;
             fallback = fallback.parentElement;
           }
           return fallback;
