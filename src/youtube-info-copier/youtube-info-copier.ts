@@ -1,5 +1,6 @@
 import { createLogger } from '@/shared/logger';
 import { setTrustedInnerHTML } from '@/shared/trusted-html';
+import { setClipboard } from '@/shared/userscript';
 import type { YouTubeVideoInfo } from '@/shared/types';
 import { expandDescriptionIfNeeded } from './dom-utils';
 import { TEMPLATE_POLICY_NAME, getTemplate } from './ui';
@@ -284,11 +285,15 @@ export class YouTubeInfoCopier {
     this.fab?.setColor('rgba(244, 67, 54, 0.9)');
   }
 
+  private async writeToClipboard(text: string): Promise<void> {
+    setClipboard(text, 'text');
+  }
+
   private async copyQuickInfo(): Promise<void> {
     try {
       const info = await this.getVideoInfo();
       const text = `${info.title}\n${info.url}`;
-      await navigator.clipboard.writeText(text);
+      await this.writeToClipboard(text);
       this.showSuccessFeedback();
     } catch (error) {
       this.logger.error('クイックコピーエラー:', error);
@@ -370,7 +375,7 @@ export class YouTubeInfoCopier {
     try {
       const info = await this.getVideoInfo();
       const text = `タイトル：${info.title}\n投稿者名：${info.author}\nURL：${info.url}\n概要：${info.description}`;
-      await navigator.clipboard.writeText(text);
+      await this.writeToClipboard(text);
       this.showPopup(info.description);
       this.showSuccessFeedback();
       this.logger.info('Video info copied successfully');
