@@ -1,8 +1,12 @@
+import { setTrustedInnerHTML } from '@/shared/trusted-html';
+
 /**
  * 共有FAB（Floating Action Button）コンポーネント
  *
  * Shadow DOMで隔離され、フルスクリーン対応・speed dial対応のFABを提供する。
  */
+
+const FAB_TEMPLATE_POLICY_NAME = 'shared-fab-template';
 
 /** FABのアクション定義 */
 export interface FabAction {
@@ -69,7 +73,7 @@ export class FabButton {
 
     const wrapper = document.createElement('div');
     wrapper.className = 'fab-wrapper';
-    wrapper.innerHTML = this.buildHTML();
+    setTrustedInnerHTML(wrapper, this.buildHTML(), FAB_TEMPLATE_POLICY_NAME);
     this.shadowRoot.appendChild(wrapper);
 
     this.setupEventListeners(wrapper);

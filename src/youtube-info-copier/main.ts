@@ -6,17 +6,40 @@ import type { LaunchStyle } from '@/shared/types/launch-style';
 let currentUrl = window.location.href;
 let copierInstance: YouTubeInfoCopier | null = null;
 
-const launchStyle: LaunchStyle = getLaunchStyle('youtube-info-copier');
-
 // 起動スタイル切り替えメニュー（常に登録）
 registerLaunchStyleMenu('youtube-info-copier');
 
+function getCurrentLaunchStyle(): LaunchStyle {
+  return getLaunchStyle('youtube-info-copier');
+}
+
+function createCopierInstance(): void {
+  if (window.location.pathname !== '/watch') {
+    copierInstance = null;
+    return;
+  }
+
+  copierInstance = new YouTubeInfoCopier(getCurrentLaunchStyle());
+}
+
+function ensureCopierInstance(): YouTubeInfoCopier | null {
+  if (window.location.pathname !== '/watch') {
+    return null;
+  }
+
+  if (!copierInstance) {
+    createCopierInstance();
+  }
+
+  return copierInstance;
+}
+
 // メインアクション用メニューコマンド（常に登録）
 registerMenuCommand('動画情報をコピー', () => {
-  void copierInstance?.performCopy('copy');
+  void ensureCopierInstance()?.performCopy('copy');
 });
 registerMenuCommand('タイトル+URLのみ', () => {
-  void copierInstance?.performCopy('quick-copy');
+  void ensureCopierInstance()?.performCopy('quick-copy');
 });
 
 /**
@@ -32,7 +55,7 @@ function initializeScript(): void {
   // watchページでのみコントロールパネルを作成
   if (window.location.pathname === '/watch') {
     setTimeout(() => {
-      copierInstance = new YouTubeInfoCopier(launchStyle);
+      createCopierInstance();
     }, 1000); // YouTubeの動的読み込みを待つ
   }
 }

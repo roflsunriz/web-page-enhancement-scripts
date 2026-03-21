@@ -381,7 +381,7 @@ const xAutoSpamReporterMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.4.0',
+  version: '2.4.1',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（従来/FAB/メニュー切替対応）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
