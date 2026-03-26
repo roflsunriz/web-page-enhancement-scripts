@@ -23,6 +23,7 @@ web-page-enhancement-scripts
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
   - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
+  - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
 - `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
 - `dist/` — ビルド済みの userscript（配布用）
@@ -47,6 +48,7 @@ web-page-enhancement-scripts
 - [twitter-clean-timeline](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-timeline.user.js)
 - [twitter-thread-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-thread-copier.user.js)
 - [x-auto-spam-reporter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-auto-spam-reporter.user.js)
+- [x-community-note-close](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-community-note-close.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 
 配布・導入
