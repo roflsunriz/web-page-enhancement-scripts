@@ -378,6 +378,21 @@ const xAutoSpamReporterMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-auto-spam-reporter.user.js',
 };
 
+const xCommunityNoteCloseMeta: MonkeyUserScript = {
+  name: 'x-community-note-close',
+  namespace: 'xCommunityNoteClose',
+  version: '1.0.0',
+  description: 'X/Twitterのコミュニティノート評価モーダルをバックドロップクリックで閉じる',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*', 'https://x.com/*'],
+  'run-at': 'document-end',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-community-note-close.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-community-note-close.user.js',
+};
+
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
@@ -469,6 +484,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'x-auto-spam-reporter.user.js',
     meta: xAutoSpamReporterMeta,
   },
+  'x-community-note-close': {
+    entry: 'src/x-community-note-close/main.ts',
+    fileName: 'x-community-note-close.user.js',
+    meta: xCommunityNoteCloseMeta,
+  },
   'youtube-info-copier': {
     entry: 'src/youtube-info-copier/main.ts',
     fileName: 'youtube-info-copier.user.js',
@@ -510,6 +530,7 @@ export default defineConfig((configEnv) => {
         '@/twitter-full-size-image': resolve(dir, 'src/twitter-full-size-image'),
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
         '@/x-auto-spam-reporter': resolve(dir, 'src/x-auto-spam-reporter'),
+        '@/x-community-note-close': resolve(dir, 'src/x-community-note-close'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
       },
     },

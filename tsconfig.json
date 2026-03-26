@@ -27,6 +27,7 @@
       "@/twitter-mute-retweets/*": ["src/twitter-mute-retweets/*"],
       "@/twitter-thread-copier/*": ["src/twitter-thread-copier/*"],
       "@/twitter-wide-layout-fix/*": ["src/twitter-wide-layout-fix/*"],
+      "@/x-community-note-close/*": ["src/x-community-note-close/*"],
       "@/shared/*": ["src/shared/*"]
     }
   },
