@@ -45,6 +45,8 @@ export class WatchPageController {
   private isPartIdChanging = false; // エピソード切り替え中フラグ
   private cachedAnimeTitle: string | null = null; // アニメタイトルのキャッシュ
   private lastEpisodeNumber: string | null = null; // 前回のエピソード番号
+  private rendererSettingsObserver:
+    ((settings: RendererSettings) => void) | null = null;
 
   constructor(private readonly global: DanimeGlobal) {
     // localStorageからアニメタイトルのキャッシュを読み込み
@@ -213,13 +215,8 @@ export class WatchPageController {
       this.global.instances.playbackRateController = playbackRateController;
       playbackRateController.bind(videoElement);
 
-      settingsManager.addObserver((newSettings: RendererSettings) => {
-        const mergedSettings = this.mergeSettings(newSettings);
-        if (renderer.settings.isCommentVisible !== mergedSettings.isCommentVisible) {
-          renderer.setCommentVisibility(mergedSettings.isCommentVisible);
-        }
-        renderer.settings = mergedSettings;
-      });
+      this.ensureRendererSettingsObserver(settingsManager);
+      this.applyRendererSettings(settingsManager.loadSettings());
 
       comments.forEach((comment) => {
         renderer.addComment(comment.text, comment.vposMs, comment.commands);
@@ -261,6 +258,32 @@ export class WatchPageController {
       ngWords: [...(settings.ngWords ?? defaults.ngWords)],
       ngRegexps: [...(settings.ngRegexps ?? defaults.ngRegexps)],
     };
+  }
+
+  private ensureRendererSettingsObserver(
+    settingsManager: SettingsManager,
+  ): void {
+    if (this.rendererSettingsObserver) {
+      return;
+    }
+
+    this.rendererSettingsObserver = (newSettings: RendererSettings) => {
+      this.applyRendererSettings(newSettings);
+    };
+    settingsManager.addObserver(this.rendererSettingsObserver);
+  }
+
+  private applyRendererSettings(newSettings: RendererSettings): void {
+    const renderer = this.global.instances.renderer;
+    if (!renderer) {
+      return;
+    }
+
+    const mergedSettings = this.mergeSettings(newSettings);
+    if (renderer.settings.isCommentVisible !== mergedSettings.isCommentVisible) {
+      renderer.setCommentVisibility(mergedSettings.isCommentVisible);
+    }
+    renderer.settings = mergedSettings;
   }
 
   private setupSwitchHandling(
@@ -1023,13 +1046,8 @@ export class WatchPageController {
       this.global.instances.playbackRateController = playbackRateController;
       playbackRateController.bind(videoElement);
 
-      settingsManager.addObserver((newSettings: RendererSettings) => {
-        const mergedSettings = this.mergeSettings(newSettings);
-        if (renderer.settings.isCommentVisible !== mergedSettings.isCommentVisible) {
-          renderer.setCommentVisibility(mergedSettings.isCommentVisible);
-        }
-        renderer.settings = mergedSettings;
-      });
+      this.ensureRendererSettingsObserver(settingsManager);
+      this.applyRendererSettings(settingsManager.loadSettings());
 
       comments.forEach((comment) => {
         renderer.addComment(comment.text, comment.vposMs, comment.commands);
