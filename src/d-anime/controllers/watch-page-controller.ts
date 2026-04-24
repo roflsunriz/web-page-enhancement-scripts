@@ -37,7 +37,7 @@ export class WatchPageController {
   private currentVideoElement: HTMLVideoElement | null = null;
   private videoMutationObserver: MutationObserver | null = null;
   private domMutationObserver: MutationObserver | null = null;
-  private videoEndedListener: (() => void) | null = null;
+  private videoEndedListener: ((event: Event) => void) | null = null;
   private playbackRateController: PlaybackRateController | null = null;
   private playerControlButton: PlayerControlButton | null = null;
   private lastPartId: string | null = null;
@@ -383,15 +383,32 @@ export class WatchPageController {
     const globalLogger = getGlobalVideoEventLogger();
     globalLogger.attach(video);
 
-    const listener = (): void => {
+    const listener = (event: Event): void => {
       if (!this.switchCallback) {
         return;
       }
+
+      const eventType = event.type;
+      const sourceChanged = this.hasVideoSourceChanged(video);
+      if (eventType === "ended" && !sourceChanged) {
+        logger.info("watchPageController:skipSwitchOnEnded", {
+          eventType,
+          currentTime: video.currentTime,
+          duration: video.duration,
+          ended: video.ended,
+          paused: video.paused,
+          currentSrc: video.currentSrc || video.getAttribute("src") || null,
+        });
+        return;
+      }
+
       logger.info("watchPageController:eventTriggered", {
+        eventType,
         currentTime: video.currentTime,
         duration: video.duration,
         ended: video.ended,
         paused: video.paused,
+        sourceChanged,
       });
       this.switchDebounce.resetExecution(this.switchCallback);
       this.switchDebounce.execOnce(this.switchCallback);
@@ -416,6 +433,22 @@ export class WatchPageController {
       video.removeEventListener("emptied", this.videoEndedListener);
     }
     this.videoEndedListener = null;
+  }
+
+  private hasVideoSourceChanged(video: HTMLVideoElement): boolean {
+    const currentSource =
+      video.currentSrc || video.getAttribute("src") || video.querySelector("source[src]")?.getAttribute("src") || null;
+    const rendererSource = this.global.instances.renderer?.getCurrentVideoSource() ?? null;
+
+    if (!currentSource) {
+      return false;
+    }
+
+    if (!rendererSource) {
+      return true;
+    }
+
+    return rendererSource !== currentSource;
   }
 
   private async waitForMetadataElements(expectedPartId?: string, previousEpisodeNumber?: string): Promise<void> {

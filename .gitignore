@@ -5,3 +5,7 @@
 node_modules
 
 /snippet
+
+# Claw-Code files
+.claw/
+.clawd-todos.json
