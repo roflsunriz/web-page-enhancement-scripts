@@ -11,7 +11,6 @@ export default defineConfig(
   [globalIgnores(["**/*.js", "**/*.mjs"])],
   {
     files: ["src/**/*.ts"],
-    ignores: ["dist/**"],
     languageOptions: {
       parserOptions: {
         ecmaVersion: "latest",
