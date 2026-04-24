@@ -9,3 +9,6 @@ node_modules
 # Claw-Code files
 .claw/
 .clawd-todos.json
+
+# Symbolic Link to AGENTS.md
+CLAUDE.md
