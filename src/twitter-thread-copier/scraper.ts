@@ -87,8 +87,10 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         // 日時
         const timeElement = tweetElement.querySelector("time");
         const timestamp = timeElement ? timeElement.getAttribute("datetime") : "";
-        const formattedTime = timestamp
-          ? formatDateTime(new Date(timestamp))
+        const tweetDate = timestamp ? new Date(timestamp) : null;
+        const timestampMs = tweetDate?.getTime() ?? 0;
+        const formattedTime = tweetDate && Number.isFinite(timestampMs)
+          ? formatDateTime(tweetDate)
           : "";
 
         // ツイート内のメディア（画像）を取得
@@ -109,6 +111,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
           handle,
           text: tweetText,
           time: formattedTime,
+          timestampMs,
           url: tweetUrl,
           mediaUrls,
           quotedTweet,
@@ -188,13 +191,7 @@ export async function scrapeTweets(): Promise<TweetData[]> {
 
     // 収集したツイートを時系列順に並べ替え (古い順)
     tweets.sort((a, b) => {
-      const dateA = new Date(
-        a.time.replace(/年|月|日/g, "-").replace(/:/g, "-").split(" ")[0],
-      );
-      const dateB = new Date(
-        b.time.replace(/年|月|日/g, "-").replace(/:/g, "-").split(" ")[0],
-      );
-      return dateA.getTime() - dateB.getTime();
+      return a.timestampMs - b.timestampMs;
     });
 
     return tweets;
@@ -785,11 +782,58 @@ async function expandTruncatedTweets(): Promise<number> {
   }
 }
 
-function formatDateTime(date: Date): string {
+function formatDateTime(date: Date, now = new Date()): string {
   const year = date.getFullYear();
   const month = String(date.getMonth() + 1).padStart(2, "0");
   const day = String(date.getDate()).padStart(2, "0");
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${year}年${month}月${day}日 ${hours}:${minutes}`;
+  return `${year}年${month}月${day}日 ${hours}:${minutes} (${
+    formatRelativeTime(date, now)
+  })`;
+}
+
+function formatRelativeTime(date: Date, now: Date): string {
+  const diffMs = now.getTime() - date.getTime();
+  const suffix = diffMs >= 0 ? "前" : "後";
+  const diffMinutes = Math.floor(Math.abs(diffMs) / 60000);
+
+  if (diffMinutes < 1) {
+    return diffMs >= 0 ? "たった今" : "1分未満後";
+  }
+
+  const minutes = diffMinutes % 60;
+  const totalHours = Math.floor(diffMinutes / 60);
+  const hours = totalHours % 24;
+  const totalDays = Math.floor(totalHours / 24);
+  const days = totalDays % 30;
+  const totalMonths = Math.floor(totalDays / 30);
+  const months = totalMonths % 12;
+  const years = Math.floor(totalMonths / 12);
+
+  if (years > 0) {
+    return months > 0
+      ? `${years}年${months}か月${suffix}`
+      : `${years}年${suffix}`;
+  }
+
+  if (totalMonths > 0) {
+    return days > 0
+      ? `${totalMonths}か月${days}日${suffix}`
+      : `${totalMonths}か月${suffix}`;
+  }
+
+  if (totalDays > 0) {
+    return hours > 0
+      ? `${totalDays}日${hours}時間${suffix}`
+      : `${totalDays}日${suffix}`;
+  }
+
+  if (totalHours > 0) {
+    return minutes > 0
+      ? `${totalHours}時間${minutes}分${suffix}`
+      : `${totalHours}時間${suffix}`;
+  }
+
+  return `${diffMinutes}分${suffix}`;
 }

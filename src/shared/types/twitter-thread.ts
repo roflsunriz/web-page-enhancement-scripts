@@ -13,6 +13,7 @@ export interface TweetData {
   handle: string;
   text: string;
   time: string;
+  timestampMs: number;
   url?: string;
   mediaUrls: string[];
   quotedTweet: QuotedTweet | null;
