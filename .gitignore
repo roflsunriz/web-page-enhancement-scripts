@@ -1,5 +1,6 @@
 # Cursor folder
 .cursor
+.vscode
 
 # Node Modules
 node_modules
@@ -9,6 +10,8 @@ node_modules
 # Claw-Code files
 .claw/
 .clawd-todos.json
+.sandbox-home/
+.sandbox-tmp/
 
 # Symbolic Link to AGENTS.md
 CLAUDE.md
