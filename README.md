@@ -17,6 +17,7 @@ web-page-enhancement-scripts
   - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
   - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
   - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
+  - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
@@ -39,6 +40,7 @@ web-page-enhancement-scripts
 - [d-anime-nico-comment-renderer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js)
 - [fanbox-floating-menu](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-floating-menu.user.js)
 - [fanbox-pagination-helper](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-pagination-helper.user.js)
+- [hf-download-command-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/hf-download-command-copier.user.js)
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)

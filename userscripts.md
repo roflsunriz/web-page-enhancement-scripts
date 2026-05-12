@@ -15,6 +15,9 @@
 - `fanbox-pagination-helper.user.js`
   - Pixiv Fanbox のページネーション UI をページ上部に追加し、長い一覧でも上部から簡単にページ移動できるようにします。
 
+- `hf-download-command-copier.user.js`
+  - Hugging Face のモデル・データセット・Space のリポジトリページに、`hf download` コマンドをコピーするボタンを追加します。ヘッダーではリポジトリ全体、Files一覧では各ファイルを即ダウンロードできる CLI コマンドをコピーできます。
+
 - `image-collector.user.js`
   - あらゆるページから画像を収集し、サムネイル一覧表示や ZIP ダウンロード機能を提供します。外部ホスト対応、サイズ/信頼度判定、バッチ処理、進捗表示、エラーハンドリングを備えます。
 

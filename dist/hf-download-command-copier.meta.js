@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         hf-download-command-copier
 // @namespace    hfDownloadCommandCopier
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  Hugging Faceのリポジトリページにhf downloadコマンドのコピーボタンを追加
 // @license      MIT
