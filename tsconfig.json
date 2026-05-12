@@ -17,6 +17,7 @@
       "@/d-anime/*": ["./src/d-anime/*"],
       "@/fanbox-floating-menu/*": ["./src/fanbox-floating-menu/*"],
       "@/fanbox-pagination-helper/*": ["./src/fanbox-pagination-helper/*"],
+      "@/hf-download-command-copier/*": ["./src/hf-download-command-copier/*"],
       "@/image-collector/*": ["./src/image-collector/*"],
       "@/imgur-direct-link/*": ["./src/imgur-direct-link/*"],
       "@/manga-viewer/*": ["./src/manga-viewer/*"],

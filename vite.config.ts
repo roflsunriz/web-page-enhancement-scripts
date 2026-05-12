@@ -139,6 +139,31 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
   'run-at': 'document-idle',
 };
 
+const hfDownloadCommandCopierMeta: MonkeyUserScript = {
+  name: 'hf-download-command-copier',
+  namespace: 'hfDownloadCommandCopier',
+  version: '1.0.0',
+  description: 'Hugging Faceのリポジトリページにhf downloadコマンドのコピーボタンを追加',
+  author: 'roflsunriz',
+  match: [
+    'https://huggingface.co/*/*',
+    'https://huggingface.co/datasets/*/*',
+    'https://huggingface.co/spaces/*/*',
+  ],
+  exclude: [
+    'https://huggingface.co/login*',
+    'https://huggingface.co/join*',
+    'https://huggingface.co/settings*',
+  ],
+  grant: ['GM_setClipboard'],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=huggingface.co',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/hf-download-command-copier.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/hf-download-command-copier.user.js',
+};
+
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
@@ -439,6 +464,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'fanbox-pagination-helper.user.js',
     meta: fanboxPaginationHelperMeta,
   },
+  'hf-download-command-copier': {
+    entry: 'src/hf-download-command-copier/main.ts',
+    fileName: 'hf-download-command-copier.user.js',
+    meta: hfDownloadCommandCopierMeta,
+  },
   'image-collector': {
     entry: 'src/image-collector/main.ts',
     fileName: 'image-collector.user.js',
@@ -520,6 +550,7 @@ export default defineConfig((configEnv) => {
         '@/d-anime-cf-ranking': resolve(dir, 'src/d-anime-cf-ranking'),
         '@/fanbox-floating-menu': resolve(dir, 'src/fanbox-floating-menu'),
         '@/fanbox-pagination-helper': resolve(dir, 'src/fanbox-pagination-helper'),
+        '@/hf-download-command-copier': resolve(dir, 'src/hf-download-command-copier'),
         '@/image-collector': resolve(dir, 'src/image-collector'),
         '@/imgur-direct-link': resolve(dir, 'src/imgur-direct-link'),
         '@/manga-viewer': resolve(dir, 'src/manga-viewer'),

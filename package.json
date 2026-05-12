@@ -10,6 +10,7 @@
     "dev:d-anime": "vite --mode d-anime",
     "dev:fanbox-floating-menu": "vite --mode fanbox-floating-menu",
     "dev:fanbox-pagination-helper": "vite --mode fanbox-pagination-helper",
+    "dev:hf-download-command-copier": "vite --mode hf-download-command-copier",
     "dev:image-collector": "vite --mode image-collector",
     "dev:imgur-direct-link-copier": "vite --mode imgur-direct-link-copier",
     "dev:mangaviewer": "vite --mode mangaviewer",
