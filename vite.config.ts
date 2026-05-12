@@ -142,7 +142,7 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
 const hfDownloadCommandCopierMeta: MonkeyUserScript = {
   name: 'hf-download-command-copier',
   namespace: 'hfDownloadCommandCopier',
-  version: '1.0.1',
+  version: '1.1.0',
   description: 'Hugging Faceのリポジトリページにhf downloadコマンドのコピーボタンを追加',
   author: 'roflsunriz',
   match: [

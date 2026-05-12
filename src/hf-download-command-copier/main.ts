@@ -14,6 +14,7 @@ const BUTTON_CLASS = 'hf-download-command-copier-button';
 const HEADER_BUTTON_ID = `${SCRIPT_ID}-header-button`;
 const TOAST_ID = `${SCRIPT_ID}-toast`;
 const DEFAULT_REVISION = 'main';
+const DEFAULT_QUANTIZATION = 'Q4_K_S';
 const RESERVED_ROOT_SEGMENTS = new Set([
   'blog',
   'chat',
@@ -89,14 +90,25 @@ function getRepoTypeOption(repoType: RepoType): string {
   return repoType === 'model' ? '' : ` --repo-type ${repoType}`;
 }
 
+function getDefaultQuantizationIncludeOption(context: RepoContext): string {
+  if (context.repoType !== 'model') {
+    return '';
+  }
+
+  const hasDefaultQuantization = getQuantizedFilePaths(context).some((filePath) =>
+    filePath.includes(DEFAULT_QUANTIZATION),
+  );
+  return hasDefaultQuantization ? ` --include ${shellQuote(`*${DEFAULT_QUANTIZATION}*`)}` : '';
+}
+
 function createRepoDownloadCommand(context: RepoContext): string {
   const revisionOption = context.revision === DEFAULT_REVISION ? '' : ` --revision ${shellQuote(context.revision)}`;
-  return `hf download ${shellQuote(context.repoId)}${getRepoTypeOption(context.repoType)}${revisionOption} --local-dir ${shellQuote(context.repoName)}`;
+  return `hf download ${shellQuote(context.repoId)}${getRepoTypeOption(context.repoType)}${getDefaultQuantizationIncludeOption(context)}${revisionOption} --local-dir .`;
 }
 
 function createFileDownloadCommand(context: RepoContext, filePath: string): string {
   const revisionOption = context.revision === DEFAULT_REVISION ? '' : ` --revision ${shellQuote(context.revision)}`;
-  return `hf download ${shellQuote(context.repoId)} ${shellQuote(filePath)}${getRepoTypeOption(context.repoType)}${revisionOption} --local-dir ${shellQuote(context.repoName)}`;
+  return `hf download ${shellQuote(context.repoId)} ${shellQuote(filePath)}${getRepoTypeOption(context.repoType)}${revisionOption} --local-dir .`;
 }
 
 function parseBlobPath(href: string, context: RepoContext): string | null {
@@ -119,6 +131,45 @@ function parseBlobPath(href: string, context: RepoContext): string | null {
 
   const filePath = segments.slice(blobIndex + 2).join('/');
   return filePath.length > 0 ? filePath : null;
+}
+
+function getQuantizedFilePathsFromLinks(context: RepoContext): string[] {
+  return Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href*="/blob/"]'))
+    .map((link) => parseBlobPath(link.href, context))
+    .filter((filePath): filePath is string => filePath !== null && filePath.endsWith('.gguf'));
+}
+
+function getQuantizedFilePathsFromHydrationData(): string[] {
+  const hydrators = Array.from(document.querySelectorAll<HTMLElement>('[data-props*="ggufFilePaths"]'));
+  for (const hydrator of hydrators) {
+    const dataProps = hydrator.getAttribute('data-props');
+    if (!dataProps) {
+      continue;
+    }
+
+    const ggufFilePathsMatch = dataProps.match(/"ggufFilePaths":\[(.*?)\]/s);
+    if (!ggufFilePathsMatch) {
+      continue;
+    }
+
+    const filePaths = Array.from(ggufFilePathsMatch[1].matchAll(/"([^"]+\.gguf)"/g)).map(
+      (match) => match[1],
+    );
+    if (filePaths.length > 0) {
+      return filePaths;
+    }
+  }
+
+  return [];
+}
+
+function getQuantizedFilePaths(context: RepoContext): string[] {
+  const linkFilePaths = getQuantizedFilePathsFromLinks(context);
+  if (linkFilePaths.length > 0) {
+    return linkFilePaths;
+  }
+
+  return getQuantizedFilePathsFromHydrationData();
 }
 
 function showToast(message: string): void {
