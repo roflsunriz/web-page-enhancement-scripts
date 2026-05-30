@@ -2,7 +2,7 @@
  * 順位バッジUI
  *
  * - 「第{rank}位」表示
- * - ランク色分け（S/A/B/C/D）
+ * - ランク色分け（金属光沢グラデーション）
  * - ローディング状態（…）
  * - 失敗状態（警告アイコン + リトライボタン）
  * - ホバーツールチップ（bodyに追加してオーバーフロー対策）
@@ -31,19 +31,104 @@ const logger = createLogger("dAnimeCfRanking:RankBadge");
 // スタイル定義
 // =============================================================================
 
-/** ランク帯別の色定義 */
-const TIER_COLORS: Record<RankTier, { bg: string; text: string; border: string }> = {
-  "S+++": { bg: "#ff1493", text: "#fff", border: "#c71585" }, // DeepPink (レジェンド)
-  "S++": { bg: "#ff4500", text: "#fff", border: "#cc3700" },  // OrangeRed
-  "S+": { bg: "#ffd700", text: "#000", border: "#b8860b" },   // Gold
-  "S": { bg: "#ffc107", text: "#000", border: "#c79100" },    // Amber
-  "A": { bg: "#c0c0c0", text: "#000", border: "#808080" },    // Silver
-  "B": { bg: "#cd7f32", text: "#fff", border: "#8b4513" },    // Bronze
-  "C": { bg: "#4a90d9", text: "#fff", border: "#2e5a88" },    // Blue
-  "D": { bg: "#5cb85c", text: "#fff", border: "#449d44" },    // Green
-  "E": { bg: "#808080", text: "#fff", border: "#505050" },    // Gray
-  "F": { bg: "#6c757d", text: "#fff", border: "#495057" },    // Dark Gray
-  "G": { bg: "#4a4a4a", text: "#fff", border: "#333333" },    // Charcoal
+interface TierColor {
+  background: string;
+  text: string;
+  border: string;
+  shadow: string;
+  textShadow: string;
+}
+
+/** ランク帯別の金属光沢色定義 */
+const TIER_COLORS: Record<RankTier, TierColor> = {
+  "S+++": {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 52%), linear-gradient(135deg, #6f4300 0%, #c98900 16%, #fff3a6 34%, #d99a00 50%, #fff8cf 64%, #b47500 78%, #f7c94a 100%)",
+    text: "#241700",
+    border: "#9f6a00",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(84,51,0,0.42), 0 1px 4px rgba(160,105,0,0.34)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.45)",
+  },
+  "S++": {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.3) 13%, rgba(255,255,255,0) 25%, rgba(255,255,255,0.48) 39%, rgba(255,255,255,0) 53%), linear-gradient(135deg, #7c5200 0%, #d39a10 18%, #ffe887 34%, #c88700 50%, #fff4b8 65%, #a96b00 80%, #eeb735 100%)",
+    text: "#241700",
+    border: "#a16f08",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.68), inset 0 -1px 0 rgba(86,56,0,0.4), 0 1px 4px rgba(150,100,0,0.3)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.42)",
+  },
+  "S+": {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.28) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.44) 40%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #8a6500 0%, #d6a619 18%, #ffe27a 34%, #be8500 50%, #fff1a8 66%, #9f7000 80%, #e4ad26 100%)",
+    text: "#241700",
+    border: "#a5790a",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.64), inset 0 -1px 0 rgba(88,63,0,0.38), 0 1px 4px rgba(135,96,0,0.26)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.4)",
+  },
+  "S": {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.26) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #957100 0%, #d1a124 18%, #ffdc6b 34%, #b98300 50%, #f7e49a 66%, #946800 80%, #d9a42a 100%)",
+    text: "#261a00",
+    border: "#9d750c",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(84,62,0,0.36), 0 1px 4px rgba(120,90,0,0.24)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.38)",
+  },
+  A: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.34) 13%, rgba(255,255,255,0) 25%, rgba(255,255,255,0.58) 39%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #777b80 0%, #c8ccd0 18%, #f7f8f8 34%, #a4a9ad 50%, #ffffff 64%, #8c9196 78%, #d8dbde 100%)",
+    text: "#1e2328",
+    border: "#8d9398",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.78), inset 0 -1px 0 rgba(66,72,78,0.36), 0 1px 4px rgba(90,96,102,0.26)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.55)",
+  },
+  B: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.22) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.36) 41%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #5b2e10 0%, #a85d25 18%, #e0a05b 34%, #8a4519 50%, #f0be7b 66%, #6d3512 82%, #bd7430 100%)",
+    text: "#fffaf3",
+    border: "#7a3c15",
+    shadow: "inset 0 1px 0 rgba(255,235,202,0.52), inset 0 -1px 0 rgba(45,22,7,0.52), 0 1px 4px rgba(95,48,17,0.32)",
+    textShadow: "0 1px 1px rgba(45,22,7,0.72)",
+  },
+  C: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.18) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.3) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #70411f 0%, #b06f3e 20%, #dda06b 36%, #97582e 52%, #e5b88a 68%, #7e4926 84%, #c78b57 100%)",
+    text: "#fff8ef",
+    border: "#8a4f29",
+    shadow: "inset 0 1px 0 rgba(255,231,206,0.48), inset 0 -1px 0 rgba(62,35,18,0.42), 0 1px 4px rgba(105,60,32,0.24)",
+    textShadow: "0 1px 1px rgba(62,35,18,0.62)",
+  },
+  D: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.76) 0%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.34) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #90603c 0%, #c18b60 20%, #e5b58a 36%, #ad744a 52%, #efd0ae 68%, #9c6944 84%, #d3a070 100%)",
+    text: "#2c1708",
+    border: "#a56e45",
+    shadow: "inset 0 1px 0 rgba(255,238,221,0.56), inset 0 -1px 0 rgba(92,57,33,0.34), 0 1px 4px rgba(125,82,52,0.2)",
+    textShadow: "0 1px 0 rgba(255,242,226,0.48)",
+  },
+  E: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.24) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.38) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #b18a6a 0%, #d1ad8c 20%, #ecd2b7 36%, #c09978 52%, #f4e1cf 68%, #b99172 84%, #dfbea0 100%)",
+    text: "#332014",
+    border: "#bc9677",
+    shadow: "inset 0 1px 0 rgba(255,246,238,0.62), inset 0 -1px 0 rgba(116,84,61,0.28), 0 1px 4px rgba(140,104,78,0.16)",
+    textShadow: "0 1px 0 rgba(255,247,240,0.55)",
+  },
+  F: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.3) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.44) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #d0b9a5 0%, #e1cbb7 20%, #f4e5d7 36%, #d4bba6 52%, #fbefe6 68%, #cbb29e 84%, #ead7c5 100%)",
+    text: "#3a2a20",
+    border: "#cdb5a1",
+    shadow: "inset 0 1px 0 rgba(255,250,246,0.7), inset 0 -1px 0 rgba(140,115,96,0.22), 0 1px 4px rgba(150,126,108,0.12)",
+    textShadow: "0 1px 0 rgba(255,250,247,0.68)",
+  },
+  G: {
+    background:
+      "linear-gradient(115deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.38) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.5) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #eadfd5 0%, #f3e8df 20%, #fffaf6 36%, #e7d9ce 52%, #ffffff 68%, #e2d5cb 84%, #f8efe7 100%)",
+    text: "#463b34",
+    border: "#ddd0c7",
+    shadow: "inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(160,145,134,0.18), 0 1px 3px rgba(150,136,126,0.1)",
+    textShadow: "0 1px 0 rgba(255,255,255,0.78)",
+  },
 };
 
 /** バッジの基本スタイル */
@@ -183,9 +268,11 @@ function getTierStyle(tier: RankTier): string {
   const colors = TIER_COLORS[tier];
   return `
     ${BADGE_BASE_STYLE}
-    background: ${colors.bg};
+    background: ${colors.background};
     color: ${colors.text};
     border: 2px solid ${colors.border};
+    box-shadow: ${colors.shadow};
+    text-shadow: ${colors.textShadow};
   `;
 }
 
