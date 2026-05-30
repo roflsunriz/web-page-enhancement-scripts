@@ -20,6 +20,7 @@ const targets = [
   { mode: 'imgur-direct-link-copier', clear: false },
   { mode: 'manga-viewer', clear: false },
   { mode: 'native-video-volume-setter', clear: false },
+  { mode: 'trickcal-tool-sweep', clear: false },
   { mode: 'twitter-clean-timeline', clear: false },
   { mode: 'twitter-clean-ui', clear: false },
   { mode: 'twitter-full-size-image', clear: false },

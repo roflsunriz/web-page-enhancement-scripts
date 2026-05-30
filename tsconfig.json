@@ -21,6 +21,7 @@
       "@/image-collector/*": ["./src/image-collector/*"],
       "@/imgur-direct-link/*": ["./src/imgur-direct-link/*"],
       "@/manga-viewer/*": ["./src/manga-viewer/*"],
+      "@/trickcal-tool-sweep/*": ["./src/trickcal-tool-sweep/*"],
       "@/twitter-full-size-image/*": ["./src/twitter-full-size-image/*"],
       "@/twitter-media-filter/*": ["./src/twitter-media-filter/*"],
       "@/twitter-mute-filter/*": ["./src/twitter-mute-filter/*"],

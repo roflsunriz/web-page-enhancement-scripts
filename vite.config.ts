@@ -310,6 +310,26 @@ const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/native-video-volume-setter.user.js',
 };
 
+const trickcalToolSweepMeta: MonkeyUserScript = {
+  name: 'trickcal-tool-sweep',
+  namespace: 'trickcalToolSweep',
+  version: '1.0.0',
+  description: 'Trickcal sweep tool Rank 8 material image and Japanese tooltip patch.',
+  author: 'roflsunriz',
+  match: ['https://trickcal.nossite.com/*'],
+  grant: [
+    'GM_getValue',
+    'GM_setValue',
+    'GM_registerMenuCommand',
+  ],
+  icon: 'https://trickcal.nossite.com/assets/favicons/favicon.png',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/trickcal-tool-sweep.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/trickcal-tool-sweep.user.js',
+};
+
 const twitterCleanTimelineMeta: MonkeyUserScript = {
   name: 'twitter-clean-timeline',
   namespace: 'twitterCleanTimeline',
@@ -489,6 +509,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'native-video-volume-setter.user.js',
     meta: nativeVideoVolumeSetterMeta,
   },
+  'trickcal-tool-sweep': {
+    entry: 'src/trickcal-tool-sweep/main.ts',
+    fileName: 'trickcal-tool-sweep.user.js',
+    meta: trickcalToolSweepMeta,
+  },
   'twitter-clean-timeline': {
     entry: 'src/twitter-clean-timeline/main.ts',
     fileName: 'twitter-clean-timeline.user.js',
@@ -555,7 +580,7 @@ export default defineConfig((configEnv) => {
         '@/imgur-direct-link': resolve(dir, 'src/imgur-direct-link'),
         '@/manga-viewer': resolve(dir, 'src/manga-viewer'),
         '@/native-video-volume-setter': resolve(dir, 'src/native-video-volume-setter'),
-        '@/shared': resolve(dir, 'src/shared'),
+        '@/trickcal-tool-sweep': resolve(dir, 'src/trickcal-tool-sweep'),
         '@/twitter-clean-timeline': resolve(dir, 'src/twitter-clean-timeline'),
         '@/twitter-clean-ui': resolve(dir, 'src/twitter-clean-ui'),
         '@/twitter-full-size-image': resolve(dir, 'src/twitter-full-size-image'),
@@ -563,6 +588,7 @@ export default defineConfig((configEnv) => {
         '@/x-auto-spam-reporter': resolve(dir, 'src/x-auto-spam-reporter'),
         '@/x-community-note-close': resolve(dir, 'src/x-community-note-close'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
+        '@/shared': resolve(dir, 'src/shared'),
       },
     },
     build: {

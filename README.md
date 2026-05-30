@@ -22,6 +22,7 @@ web-page-enhancement-scripts
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
+  - `trickcal-tool-sweep/` — Trickcal 掃蕩工具のRank 8素材画像と日本語ツールチップ補助
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
   - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
   - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
@@ -45,6 +46,7 @@ web-page-enhancement-scripts
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
+- [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
 - [twitter-clean-ui](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-ui.user.js)
 - [twitter-full-size-image](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-full-size-image.user.js)
 - [twitter-clean-timeline](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-timeline.user.js)
