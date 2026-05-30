@@ -39,7 +39,7 @@ interface TierColor {
   textShadow: string;
 }
 
-/** ランク帯別の金属光沢色定義 */
+/** ランク帯別の色定義 */
 const TIER_COLORS: Record<RankTier, TierColor> = {
   "S+++": {
     background:
@@ -90,44 +90,39 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
     textShadow: "0 1px 1px rgba(45,22,7,0.72)",
   },
   C: {
-    background:
-      "linear-gradient(115deg, rgba(255,255,255,0.72) 0%, rgba(255,255,255,0.18) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.3) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #70411f 0%, #b06f3e 20%, #dda06b 36%, #97582e 52%, #e5b88a 68%, #7e4926 84%, #c78b57 100%)",
-    text: "#fff8ef",
-    border: "#8a4f29",
-    shadow: "inset 0 1px 0 rgba(255,231,206,0.48), inset 0 -1px 0 rgba(62,35,18,0.42), 0 1px 4px rgba(105,60,32,0.24)",
-    textShadow: "0 1px 1px rgba(62,35,18,0.62)",
+    background: "#ffffff",
+    text: "#333333",
+    border: "#d7d7d7",
+    shadow: "none",
+    textShadow: "none",
   },
   D: {
-    background:
-      "linear-gradient(115deg, rgba(255,255,255,0.76) 0%, rgba(255,255,255,0.2) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.34) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #90603c 0%, #c18b60 20%, #e5b58a 36%, #ad744a 52%, #efd0ae 68%, #9c6944 84%, #d3a070 100%)",
-    text: "#2c1708",
-    border: "#a56e45",
-    shadow: "inset 0 1px 0 rgba(255,238,221,0.56), inset 0 -1px 0 rgba(92,57,33,0.34), 0 1px 4px rgba(125,82,52,0.2)",
-    textShadow: "0 1px 0 rgba(255,242,226,0.48)",
+    background: "#ffffff",
+    text: "#333333",
+    border: "#d7d7d7",
+    shadow: "none",
+    textShadow: "none",
   },
   E: {
-    background:
-      "linear-gradient(115deg, rgba(255,255,255,0.82) 0%, rgba(255,255,255,0.24) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.38) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #b18a6a 0%, #d1ad8c 20%, #ecd2b7 36%, #c09978 52%, #f4e1cf 68%, #b99172 84%, #dfbea0 100%)",
-    text: "#332014",
-    border: "#bc9677",
-    shadow: "inset 0 1px 0 rgba(255,246,238,0.62), inset 0 -1px 0 rgba(116,84,61,0.28), 0 1px 4px rgba(140,104,78,0.16)",
-    textShadow: "0 1px 0 rgba(255,247,240,0.55)",
+    background: "#ffffff",
+    text: "#333333",
+    border: "#d7d7d7",
+    shadow: "none",
+    textShadow: "none",
   },
   F: {
-    background:
-      "linear-gradient(115deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.3) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.44) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #d0b9a5 0%, #e1cbb7 20%, #f4e5d7 36%, #d4bba6 52%, #fbefe6 68%, #cbb29e 84%, #ead7c5 100%)",
-    text: "#3a2a20",
-    border: "#cdb5a1",
-    shadow: "inset 0 1px 0 rgba(255,250,246,0.7), inset 0 -1px 0 rgba(140,115,96,0.22), 0 1px 4px rgba(150,126,108,0.12)",
-    textShadow: "0 1px 0 rgba(255,250,247,0.68)",
+    background: "#ffffff",
+    text: "#333333",
+    border: "#d7d7d7",
+    shadow: "none",
+    textShadow: "none",
   },
   G: {
-    background:
-      "linear-gradient(115deg, rgba(255,255,255,0.94) 0%, rgba(255,255,255,0.38) 14%, rgba(255,255,255,0) 27%, rgba(255,255,255,0.5) 42%, rgba(255,255,255,0) 56%), linear-gradient(135deg, #eadfd5 0%, #f3e8df 20%, #fffaf6 36%, #e7d9ce 52%, #ffffff 68%, #e2d5cb 84%, #f8efe7 100%)",
-    text: "#463b34",
-    border: "#ddd0c7",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.82), inset 0 -1px 0 rgba(160,145,134,0.18), 0 1px 3px rgba(150,136,126,0.1)",
-    textShadow: "0 1px 0 rgba(255,255,255,0.78)",
+    background: "#ffffff",
+    text: "#333333",
+    border: "#d7d7d7",
+    shadow: "none",
+    textShadow: "none",
   },
 };
 
