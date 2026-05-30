@@ -313,8 +313,8 @@ const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
 const trickcalToolSweepMeta: MonkeyUserScript = {
   name: 'trickcal-tool-sweep',
   namespace: 'trickcalToolSweep',
-  version: '1.0.0',
-  description: 'Trickcal sweep tool Rank 8 material image and Japanese tooltip patch.',
+  version: '1.1.0',
+  description: 'Trickcal sweep tool material image and Japanese tooltip patch.',
   author: 'roflsunriz',
   match: ['https://trickcal.nossite.com/*'],
   grant: [

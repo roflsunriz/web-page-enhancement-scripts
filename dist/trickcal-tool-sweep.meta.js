@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         trickcal-tool-sweep
 // @namespace    trickcalToolSweep
-// @version      1.0.0
+// @version      1.1.0
 // @author       roflsunriz
-// @description  Trickcal sweep tool Rank 8 material image and Japanese tooltip patch.
+// @description  Trickcal sweep tool material image and Japanese tooltip patch.
 // @license      MIT
 // @icon         https://trickcal.nossite.com/assets/favicons/favicon.png
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/trickcal-tool-sweep.user.js
