@@ -181,7 +181,7 @@ export class GenericCollector implements ICollector {
       if (item.needsValidation) {
         return true;
       }
-      return !isInvalidImage(item.url);
+      return !isInvalidImage(item.url, undefined, undefined, { pageHost: window.location.hostname });
     });
 
     // 検証不要なURLを先に抽出
@@ -248,7 +248,7 @@ export class GenericCollector implements ICollector {
     return new Promise((resolve) => {
       const img = new Image();
       img.onload = () => {
-        if (isInvalidImage(url, img.naturalWidth, img.naturalHeight)) {
+        if (isInvalidImage(url, img.naturalWidth, img.naturalHeight, { pageHost: window.location.hostname })) {
           resolve(false);
           return;
         }
