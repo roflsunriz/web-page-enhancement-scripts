@@ -49,6 +49,11 @@ export class GenericCollector implements ICollector {
     const urlSet = new Set<string>();
     this.collectVisibleImages(urlSet);
 
+    if (this.canUseFastLoadedImages(urlSet)) {
+      this.spinner?.updateMessage(`${urlSet.size}枚の読み込み済み画像を検出しました。高速起動します...`);
+      return this.validateUrlsWithMetadata(this.toUrlsWithMetadata(urlSet));
+    }
+
     // 2. 動的に読み込まれる画像を待機・収集
     this.spinner?.updateMessage('動的に読み込まれる画像を待機中...');
     await this.waitForDynamicImages(urlSet, 3000); // 3秒間監視
@@ -56,8 +61,7 @@ export class GenericCollector implements ICollector {
     // 3. ページをスクロールしてさらに画像を収集
     await this.scrollPageToCollectImages(urlSet);
 
-    const collectedUrls = Array.from(urlSet).map(url => ({ url, needsValidation: !this.isSameOrigin(url) }));
-    return this.validateUrlsWithMetadata(collectedUrls);
+    return this.validateUrlsWithMetadata(this.toUrlsWithMetadata(urlSet));
   }
 
   private async collectStaticImages(): Promise<{ url: string; needsValidation: boolean }[]> {
@@ -121,6 +125,53 @@ export class GenericCollector implements ICollector {
       }
     });
     return urlSet.size - initialSize;
+  }
+
+  private toUrlsWithMetadata(urlSet: Set<string>): { url: string; needsValidation: boolean }[] {
+    return Array.from(urlSet).map((url) => ({ url, needsValidation: !this.isSameOrigin(url) }));
+  }
+
+  private canUseFastLoadedImages(urlSet: Set<string>): boolean {
+    if (!this.isNicoMangaPage() || urlSet.size < 2) {
+      return false;
+    }
+
+    let loadedImageCount = 0;
+    document.querySelectorAll('img').forEach((element) => {
+      const imageUrl = this.getImageUrl(element);
+      if (
+        imageUrl &&
+        urlSet.has(imageUrl) &&
+        element.complete &&
+        element.naturalWidth > 100 &&
+        element.naturalHeight > 100 &&
+        !isInvalidImage(imageUrl, element.naturalWidth, element.naturalHeight, { pageHost: window.location.hostname })
+      ) {
+        loadedImageCount++;
+      }
+    });
+
+    return loadedImageCount >= 2;
+  }
+
+  private getImageUrl(imgElement: HTMLImageElement): string | null {
+    if (imgElement.currentSrc && imgElement.currentSrc.startsWith('http')) {
+      return imgElement.currentSrc;
+    }
+    if (imgElement.src && !imgElement.src.startsWith('data:')) {
+      return imgElement.src;
+    }
+    if (imgElement.dataset.src) {
+      return imgElement.dataset.src;
+    }
+    if (imgElement.srcset) {
+      return imgElement.srcset.split(',')[0]?.trim().split(' ')[0] ?? null;
+    }
+    return null;
+  }
+
+  private isNicoMangaPage(): boolean {
+    return /nicomanga\.com$/.test(window.location.hostname);
   }
 
   private waitForDynamicImages(urlSet: Set<string>, timeout: number): Promise<void> {

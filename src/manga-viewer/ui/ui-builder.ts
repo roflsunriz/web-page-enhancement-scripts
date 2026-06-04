@@ -35,12 +35,22 @@ export class UIBuilder {
     const total = imageUrls.length;
     let loaded = 0;
     let errors = 0;
+    const alreadyLoadedUrls = this.collectAlreadyLoadedImageUrls();
+    const urlsToPreload = imageUrls.filter((url) => !alreadyLoadedUrls.has(url));
+    loaded = total - urlsToPreload.length;
 
-    this.spinner?.updateMessage(`画像をプリロード中... 0/${total} (0%)`, 0);
+    if (urlsToPreload.length === 0) {
+      this.spinner?.updateMessage(`${total}枚の読み込み済み画像を確認しました。ビューアを起動中...`, 100);
+      this.spinner?.setComplete();
+      return;
+    }
+
+    const initialPercent = Math.round((loaded / total) * 100);
+    this.spinner?.updateMessage(`画像をプリロード中... ${loaded}/${total} (${initialPercent}%)`, initialPercent);
 
     const batchSize = 5;
-    for (let i = 0; i < total; i += batchSize) {
-      const batch = imageUrls.slice(i, i + batchSize);
+    for (let i = 0; i < urlsToPreload.length; i += batchSize) {
+      const batch = urlsToPreload.slice(i, i + batchSize);
       await Promise.all(
         batch.map(
           (url) =>
@@ -74,6 +84,23 @@ export class UIBuilder {
         : `${total}枚の画像をプリロード完了。ビューアを起動中...`;
     this.spinner?.updateMessage(finalMessage, 100);
     this.spinner?.setComplete();
+  }
+
+  private collectAlreadyLoadedImageUrls(): Set<string> {
+    const urls = new Set<string>();
+    document.querySelectorAll('img').forEach((imgElement) => {
+      if (!imgElement.complete || imgElement.naturalWidth <= 0 || imgElement.naturalHeight <= 0) {
+        return;
+      }
+
+      if (imgElement.currentSrc && imgElement.currentSrc.startsWith('http')) {
+        urls.add(imgElement.currentSrc);
+      }
+      if (imgElement.src && imgElement.src.startsWith('http')) {
+        urls.add(imgElement.src);
+      }
+    });
+    return urls;
   }
 
   public async buildAndRenderViewer(
