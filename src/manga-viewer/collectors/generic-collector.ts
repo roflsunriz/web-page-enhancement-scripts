@@ -226,7 +226,6 @@ export class GenericCollector implements ICollector {
     urlsWithMetadata: { url: string; needsValidation: boolean }[],
   ): Promise<CollectionResult> {
     const validUrls: string[] = [];
-    const minInitialUrls = 2;
 
     const filteredUrlsWithMetadata = urlsWithMetadata.filter((item) => {
       if (item.needsValidation) {
@@ -241,7 +240,7 @@ export class GenericCollector implements ICollector {
       .map((item) => item.url);
     validUrls.push(...preValidatedUrls);
 
-    const initialUrls = validUrls.slice(0, minInitialUrls);
+    const initialUrls = [...validUrls];
 
     this.spinner?.updateMessage(
       `${preValidatedUrls.length}枚を即時追加。残り${
@@ -258,27 +257,38 @@ export class GenericCollector implements ICollector {
             const validationNeeded = filteredUrlsWithMetadata.filter((item) => item.needsValidation);
             let validatedCount = 0;
 
+            if (validationNeeded.length === 0) {
+              this.safeUpdateProgress(100, `準備完了: ${validUrls.length}枚の画像`, 'complete');
+              callback([...validUrls]);
+              return;
+            }
+
             for (const item of validationNeeded) {
               const isValid = await this.isImageAccessible(item.url);
               if (isValid) {
                 validUrls.push(item.url);
+                callback([...validUrls]);
               }
               validatedCount++;
               if (typeof win.MangaViewer?.updateProgress === 'function') {
                 const percent = Math.round((validatedCount / validationNeeded.length) * 100);
-                this.safeUpdateProgress(percent, `画像検証中... /${validationNeeded.length}`, 'loading');
+                this.safeUpdateProgress(
+                  percent,
+                  `画像検証中... ${validatedCount}/${validationNeeded.length}`,
+                  'loading',
+                );
               }
             }
 
             this.safeUpdateProgress(100, `検証完了: ${validUrls.length}枚の有効な画像`, 'complete');
-            callback(validUrls);
+            callback([...validUrls]);
           } catch (err) {
             console.error('[GenericCollector] validation error', err);
             // エラー時は完了を通知してコールバックする
             if (typeof win.MangaViewer?.updateProgress === 'function') {
               win.MangaViewer.updateProgress(100, '検証中にエラーが発生しました', 'complete');
             }
-            callback(validUrls);
+            callback([...validUrls]);
           }
         })();
       },

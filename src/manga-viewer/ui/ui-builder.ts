@@ -111,7 +111,7 @@ export class UIBuilder {
     globalState.isViewerActive = true;
 
     if (initialImageUrls.length > 0) {
-      await this.preloadImages(initialImageUrls);
+      void this.preloadImages(initialImageUrls);
     } else {
       this.spinner?.updateMessage('有効な画像を検索中です...');
     }

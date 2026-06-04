@@ -3,7 +3,7 @@ import type { LoadingSpinner } from '../ui/loading-spinner';
 /**
  * 画像収集の結果を表すインターフェース。
  * initialUrls: すぐに表示できる画像のURL配列。
- * onValidated: バックグラウンドでの検証完了後に全URLを返すコールバックを受け取る関数。
+ * onValidated: バックグラウンド検証中に、その時点で表示できるURL配列を返すコールバックを受け取る関数。
  */
 export interface CollectionResult {
   initialUrls: string[];
