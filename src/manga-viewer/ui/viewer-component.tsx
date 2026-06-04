@@ -595,16 +595,16 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
             <button
               type="button"
               className="mv-chapter-navigation-button"
-              onClick={() => handleChapterNavigation('prev')}
+              onClick={() => handleChapterNavigation('next')}
             >
-              前のチャプター
+              次のチャプター
             </button>
             <button
               type="button"
               className="mv-chapter-navigation-button"
-              onClick={() => handleChapterNavigation('next')}
+              onClick={() => handleChapterNavigation('prev')}
             >
-              次のチャプター
+              前のチャプター
             </button>
           </div>
           <div
