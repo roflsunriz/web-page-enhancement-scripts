@@ -43,6 +43,9 @@ const invalidImageRules: InvalidImageRule[] = [
     pageHost: /nicomanga\.com$/,
     host: /^i\.imgur\.com$/,
   },
+  {
+    host: /^4\.bp\.blogspot\.com$/,
+  },
 ];
 
 export function isInvalidImage(
