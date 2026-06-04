@@ -173,6 +173,17 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     [animatePageTurn],
   );
 
+  const handleChapterNavigation = useCallback(
+    (direction: 'prev' | 'next') => {
+      const didNavigate = direction === 'prev'
+        ? chapterNavigator.current.navigatePrevChapter()
+        : chapterNavigator.current.navigateNextChapter();
+
+      if (didNavigate) onClose();
+    },
+    [onClose],
+  );
+
   useEffect(() => {
     // グローバルプログレス更新
     if (typeof win !== 'undefined') {
@@ -579,6 +590,22 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
               : `${currentSpreadIndex + 1} / ${Math.ceil(images.length / 2)} ${
                   chapterTitle ? `- ${chapterTitle}` : ''
                 }`}
+          </div>
+          <div className="mv-chapter-navigation">
+            <button
+              type="button"
+              className="mv-chapter-navigation-button"
+              onClick={() => handleChapterNavigation('prev')}
+            >
+              前のチャプター
+            </button>
+            <button
+              type="button"
+              className="mv-chapter-navigation-button"
+              onClick={() => handleChapterNavigation('next')}
+            >
+              次のチャプター
+            </button>
           </div>
           <div
             className={`mv-auto-nav-toggle ${autoChapterNavigation ? '' : 'off'}`}

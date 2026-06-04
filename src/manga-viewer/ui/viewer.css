@@ -44,6 +44,16 @@
         font-size: 12px;
     }
 
+    .mv-chapter-navigation {
+        gap: 0.4rem;
+        margin: 0 0.5rem;
+    }
+
+    .mv-chapter-navigation-button {
+        padding: 6px 9px;
+        font-size: 12px;
+    }
+
     .mv-close-button {
         padding: 6px 12px;
         font-size: 12px;
@@ -199,6 +209,35 @@
 .mv-auto-nav-toggle:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.mv-chapter-navigation {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 0 1rem;
+}
+
+.mv-chapter-navigation-button {
+    color: white;
+    background: rgba(78, 205, 196, 0.18);
+    border: 1px solid rgba(78, 205, 196, 0.4);
+    border-radius: 50px;
+    padding: 8px 14px;
+    font-weight: 500;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+}
+
+.mv-chapter-navigation-button:hover {
+    background-color: var(--mv-secondary);
+    color: var(--mv-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(78, 205, 196, 0.25);
 }
 
 .mv-close-button {
