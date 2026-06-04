@@ -70,26 +70,9 @@ export class GenericCollector implements ICollector {
     const urlSet = new Set<string>();
 
     images.forEach((element) => {
-      let imageUrl: string | null = null;
-      if (element.tagName === 'IMG') {
-        const imgElement = element as HTMLImageElement;
-        imageUrl = imgElement.src;
-        if (!imageUrl) imageUrl = imgElement.dataset.src ?? null;
-        // srcsetもチェックする
-        if (!imageUrl && imgElement.srcset) {
-          imageUrl = imgElement.srcset.split(',')[0].trim().split(' ')[0];
-        }
-      } else if (element.tagName === 'SOURCE') {
-        const srcset = (element as HTMLSourceElement).srcset;
-        if (srcset) {
-          // srcsetから最初のURLを抽出する（例: "image.jpg 1x, image-2x.jpg 2x" -> "image.jpg"）
-          imageUrl = srcset.split(',')[0].trim().split(' ')[0];
-        } else {
-          imageUrl = null;
-        }
-      }
+      const imageUrl = this.getImageUrlFromElement(element);
 
-      if (imageUrl && imageUrl.startsWith('http') && !urlSet.has(imageUrl)) {
+      if (imageUrl && !urlSet.has(imageUrl)) {
         urlSet.add(imageUrl);
         urlsWithMetadata.push({
           url: imageUrl,
@@ -105,22 +88,9 @@ export class GenericCollector implements ICollector {
     const images = document.querySelectorAll('img, picture source');
 
     images.forEach((element) => {
-      let imageUrl: string | null = null;
-      if (element.tagName === 'IMG') {
-        const imgElement = element as HTMLImageElement;
-        imageUrl = imgElement.src;
-        if (!imageUrl || imageUrl.startsWith('data:')) imageUrl = imgElement.dataset.src ?? null;
-        if (!imageUrl && imgElement.srcset) {
-          imageUrl = imgElement.srcset.split(',')[0].trim().split(' ')[0];
-        }
-      } else if (element.tagName === 'SOURCE') {
-        const srcset = (element as HTMLSourceElement).srcset;
-        if (srcset) {
-          imageUrl = srcset.split(',')[0].trim().split(' ')[0];
-        }
-      }
+      const imageUrl = this.getImageUrlFromElement(element);
 
-      if (imageUrl && imageUrl.startsWith('http') && !urlSet.has(imageUrl)) {
+      if (imageUrl && !urlSet.has(imageUrl)) {
         urlSet.add(imageUrl);
       }
     });
@@ -154,20 +124,76 @@ export class GenericCollector implements ICollector {
     return loadedImageCount >= 2;
   }
 
-  private getImageUrl(imgElement: HTMLImageElement): string | null {
-    if (imgElement.currentSrc && imgElement.currentSrc.startsWith('http')) {
-      return imgElement.currentSrc;
+  private getImageUrlFromElement(element: Element): string | null {
+    if (element.tagName === 'SOURCE') {
+      return this.normalizeImageUrl(this.getFirstSrcsetUrl((element as HTMLSourceElement).srcset));
     }
-    if (imgElement.src && !imgElement.src.startsWith('data:')) {
-      return imgElement.src;
+
+    if (element.tagName !== 'IMG') {
+      return null;
     }
-    if (imgElement.dataset.src) {
-      return imgElement.dataset.src;
+
+    const imgElement = element as HTMLImageElement;
+    const candidates = [
+      imgElement.currentSrc,
+      imgElement.getAttribute('src'),
+      imgElement.dataset.src,
+      this.getFirstSrcsetUrl(imgElement.srcset),
+    ];
+
+    for (const candidate of candidates) {
+      const normalizedUrl = this.normalizeImageUrl(candidate);
+      if (normalizedUrl) {
+        return normalizedUrl;
+      }
     }
-    if (imgElement.srcset) {
-      return imgElement.srcset.split(',')[0]?.trim().split(' ')[0] ?? null;
-    }
+
     return null;
+  }
+
+  private getImageUrl(imgElement: HTMLImageElement): string | null {
+    return this.getImageUrlFromElement(imgElement);
+  }
+
+  private getFirstSrcsetUrl(srcset: string): string | null {
+    return srcset.split(',')[0]?.trim().split(' ')[0] ?? null;
+  }
+
+  private normalizeImageUrl(rawUrl: string | null | undefined): string | null {
+    if (!rawUrl) {
+      return null;
+    }
+
+    const trimmedUrl = rawUrl.trim();
+    if (!trimmedUrl || trimmedUrl.startsWith('data:') || trimmedUrl.startsWith('blob:')) {
+      return null;
+    }
+
+    try {
+      const url = new URL(trimmedUrl, window.location.href);
+      if (url.protocol !== 'http:' && url.protocol !== 'https:') {
+        return null;
+      }
+      if (this.isLikelyDocumentUrl(url)) {
+        return null;
+      }
+      return url.href;
+    } catch {
+      return null;
+    }
+  }
+
+  private isLikelyDocumentUrl(url: URL): boolean {
+    const currentUrl = new URL(window.location.href);
+    currentUrl.hash = '';
+
+    const candidateUrl = new URL(url.href);
+    candidateUrl.hash = '';
+    if (candidateUrl.href === currentUrl.href) {
+      return true;
+    }
+
+    return /\.(?:html?|php|aspx?|jsp)$/i.test(candidateUrl.pathname);
   }
 
   private isNicoMangaPage(): boolean {
