@@ -25,6 +25,16 @@ type ProgressState = {
   phase: 'init' | 'loading' | 'complete' | string;
 };
 
+const INTERACTIVE_VIEWER_UI_SELECTOR = [
+  '.mv-top-container',
+  '.mv-mobile-close-button',
+  '.mv-zoom-indicator',
+  '.mv-shortcuts-hint',
+].join(', ');
+
+const isInteractiveViewerUiTarget = (target: EventTarget | null): target is HTMLElement =>
+  target instanceof HTMLElement && target.closest(INTERACTIVE_VIEWER_UI_SELECTOR) !== null;
+
 export const ViewerComponent: React.FC<ViewerProps> = ({
   images,
   onClose,
@@ -427,6 +437,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   }, []);
 
   const handleClick = (e: React.MouseEvent) => {
+    if (isInteractiveViewerUiTarget(e.target)) return;
+
     const target = e.target as HTMLElement;
     if (target.closest('.mv-end-page')) {
       if (autoChapterNavigation) {
@@ -450,6 +462,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
+    if (isInteractiveViewerUiTarget(e.target)) return;
+
     if (e.touches.length === 1) {
       setTouchStartX(e.touches[0].clientX);
       setTouchStartY(e.touches[0].clientY);
@@ -465,6 +479,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   };
 
   const handleTouchMove = (e: React.TouchEvent) => {
+    if (isInteractiveViewerUiTarget(e.target)) return;
+
     if (e.touches.length === 1) {
       const deltaX = e.touches[0].clientX - touchStartX;
       const deltaY = e.touches[0].clientY - touchStartY;
@@ -491,6 +507,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   };
 
   const handleTouchEnd = (e: React.TouchEvent) => {
+    if (isInteractiveViewerUiTarget(e.target)) return;
+
     const deltaX = e.changedTouches[0].clientX - touchStartX;
     const deltaTime = Date.now() - touchStartTime;
     const swipeVelocity = Math.abs(deltaX) / deltaTime;
@@ -546,6 +564,12 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
           width: '100%',
           zIndex: 100,
         }}
+        onClick={(e) => e.stopPropagation()}
+        onMouseDown={(e) => e.stopPropagation()}
+        onMouseUp={(e) => e.stopPropagation()}
+        onTouchStart={(e) => e.stopPropagation()}
+        onTouchMove={(e) => e.stopPropagation()}
+        onTouchEnd={(e) => e.stopPropagation()}
       >
         {/* Header */}
         <div className="mv-header">
