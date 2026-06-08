@@ -2,7 +2,6 @@ import {
   addStyle,
   getValue,
   registerMenuCommand,
-  setClipboard,
   setValue,
   xmlHttpRequest,
 } from '@/shared/userscript';
@@ -11,6 +10,7 @@ import { GM_download, type GmDownloadErrorEvent } from 'vite-plugin-monkey/dist/
 type AudioExtension = 'flac' | 'm4a' | 'aac' | 'mp3';
 
 type FetchState = 'pending' | 'running' | 'done' | 'failed' | 'skipped';
+type LaneState = 'idle' | 'active' | 'done' | 'failed';
 
 type TrackPage = {
   index: number;
@@ -25,7 +25,7 @@ type DirectLinkResult = TrackPage & {
   error: string | null;
 };
 
-type StoredDirectLink = {
+type DownloadTarget = {
   title: string;
   trackPageUrl: string;
   directUrl: string;
@@ -50,7 +50,6 @@ type GmHeadResponse = {
 const SCRIPT_ID = 'khinsider-direct-link-saver';
 const PANEL_ID = `${SCRIPT_ID}-panel`;
 const STYLE_ID = `${SCRIPT_ID}-styles`;
-const STORAGE_LINKS_KEY = `${SCRIPT_ID}:links`;
 const STORAGE_CONCURRENCY_KEY = `${SCRIPT_ID}:concurrency`;
 const DEFAULT_CONCURRENCY = 4;
 const MIN_CONCURRENCY = 1;
@@ -83,14 +82,6 @@ function getSavedConcurrency(): number {
 
 function saveConcurrency(value: number): void {
   setValue(STORAGE_CONCURRENCY_KEY, clampConcurrency(value));
-}
-
-function getStoredLinks(): StoredDirectLink[] {
-  return getValue<StoredDirectLink[]>(STORAGE_LINKS_KEY, []) ?? [];
-}
-
-function saveStoredLinks(links: StoredDirectLink[]): void {
-  setValue(STORAGE_LINKS_KEY, links);
 }
 
 function getUrlExtension(urlText: string): AudioExtension | null {
@@ -298,23 +289,23 @@ function createInitialResults(tracks: TrackPage[]): DirectLinkResult[] {
 async function runConcurrent<T>(
   items: T[],
   concurrency: number,
-  worker: (item: T, index: number) => Promise<void>,
+  worker: (item: T, index: number, workerIndex: number) => Promise<void>,
 ): Promise<void> {
   let nextIndex = 0;
 
-  async function runWorker(): Promise<void> {
+  async function runWorker(workerIndex: number): Promise<void> {
     while (nextIndex < items.length) {
       const index = nextIndex;
       nextIndex += 1;
-      await worker(items[index], index);
+      await worker(items[index], index, workerIndex);
     }
   }
 
   const workerCount = Math.min(concurrency, items.length);
-  await Promise.all(Array.from({ length: workerCount }, () => runWorker()));
+  await Promise.all(Array.from({ length: workerCount }, (_, workerIndex) => runWorker(workerIndex)));
 }
 
-function toStoredLinks(results: DirectLinkResult[]): StoredDirectLink[] {
+function toDownloadTargets(results: DirectLinkResult[]): DownloadTarget[] {
   return results
     .filter((result): result is DirectLinkResult & { directUrl: string; extension: AudioExtension } =>
       result.state === 'done' && result.directUrl !== null && result.extension !== null,
@@ -325,10 +316,6 @@ function toStoredLinks(results: DirectLinkResult[]): StoredDirectLink[] {
       directUrl: result.directUrl,
       extension: result.extension,
     }));
-}
-
-function formatStoredLinks(links: StoredDirectLink[]): string {
-  return links.map((link) => link.directUrl).join('\n');
 }
 
 function sanitizeFileName(value: string): string {
@@ -349,7 +336,7 @@ function sanitizeFileName(value: string): string {
   return sanitized.length > 0 ? sanitized : 'track';
 }
 
-function createDownloadFileName(link: StoredDirectLink, index: number): string {
+function createDownloadFileName(link: DownloadTarget, index: number): string {
   const prefix = String(index + 1).padStart(2, '0');
   return `${prefix} ${sanitizeFileName(link.title)}.${link.extension}`;
 }
@@ -363,7 +350,7 @@ function parseHeaderValue(headers: string, name: string): string | null {
   return line ? line.slice(line.indexOf(':') + 1).trim() : null;
 }
 
-function assertAudioResponse(response: GmHeadResponse, link: StoredDirectLink): void {
+function assertAudioResponse(response: GmHeadResponse, link: DownloadTarget): void {
   if (response.status < 200 || response.status >= 300) {
     throw new Error(`HTTP ${response.status} ${response.statusText}`);
   }
@@ -389,29 +376,52 @@ function setStatus(message: string): void {
   }
 }
 
-function updateOutput(): void {
+function configureProgress(stage: string, totalCount: number, concurrency: number): void {
   const panel = getPanel();
   if (!panel) {
     return;
   }
 
-  const links = currentResults.length > 0 ? toStoredLinks(currentResults) : getStoredLinks();
-  const output = panel.querySelector<HTMLTextAreaElement>('[data-role="output"]');
-  const copyButton = panel.querySelector<HTMLButtonElement>('[data-action="copy"]');
-  const clearButton = panel.querySelector<HTMLButtonElement>('[data-action="clear"]');
-  const downloadButton = panel.querySelector<HTMLButtonElement>('[data-action="download"]');
+  const progress = panel.querySelector<HTMLElement>('[data-role="progress"]');
+  const overallBar = panel.querySelector<HTMLElement>('[data-role="overall-bar"]');
+  const laneContainer = panel.querySelector<HTMLElement>('[data-role="lanes"]');
+  const laneCount = Math.min(concurrency, totalCount);
 
-  if (output) {
-    output.value = formatStoredLinks(links);
+  if (progress) {
+    progress.hidden = totalCount === 0;
+    progress.setAttribute('data-stage', stage);
   }
-  if (copyButton) {
-    copyButton.disabled = links.length === 0;
+  if (overallBar) {
+    overallBar.style.width = '0%';
   }
-  if (clearButton) {
-    clearButton.disabled = links.length === 0;
+  if (laneContainer) {
+    laneContainer.replaceChildren(
+      ...Array.from({ length: laneCount }, (_, index) => {
+        const lane = document.createElement('div');
+        lane.className = `${SCRIPT_ID}__lane`;
+        lane.dataset.lane = String(index);
+        lane.dataset.state = 'idle';
+        lane.title = `${stage} worker ${index + 1}`;
+        return lane;
+      }),
+    );
   }
-  if (downloadButton) {
-    downloadButton.disabled = links.length === 0;
+}
+
+function updateOverallProgress(completedCount: number, totalCount: number): void {
+  const overallBar = getPanel()?.querySelector<HTMLElement>('[data-role="overall-bar"]');
+  if (!overallBar) {
+    return;
+  }
+
+  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  overallBar.style.width = `${Math.min(100, Math.max(0, progressPercent))}%`;
+}
+
+function setLaneState(workerIndex: number, state: LaneState): void {
+  const lane = getPanel()?.querySelector<HTMLElement>(`[data-lane="${workerIndex}"]`);
+  if (lane) {
+    lane.dataset.state = state;
   }
 }
 
@@ -422,8 +432,8 @@ function updateProgress(results: DirectLinkResult[]): void {
   const completedCount = doneCount + failedCount + skippedCount;
   const totalCount = results.length;
 
-  setStatus(`取得中: ${completedCount}/${totalCount} 保存 ${doneCount} 失敗 ${failedCount} スキップ ${skippedCount}`);
-  updateOutput();
+  updateOverallProgress(completedCount, totalCount);
+  setStatus(`解析中: ${completedCount}/${totalCount} 保存対象 ${doneCount} 失敗 ${failedCount} スキップ ${skippedCount}`);
 }
 
 function setRunning(running: boolean): void {
@@ -432,28 +442,21 @@ function setRunning(running: boolean): void {
     return;
   }
 
-  panel.querySelector<HTMLButtonElement>('[data-action="start"]')?.toggleAttribute('disabled', running);
   panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.toggleAttribute('disabled', running);
   panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.toggleAttribute('disabled', !running);
-  panel.querySelector<HTMLButtonElement>('[data-action="download"]')?.toggleAttribute('disabled', running);
   const concurrencyInput = panel.querySelector<HTMLInputElement>('[data-role="concurrency"]');
   if (concurrencyInput) {
     concurrencyInput.disabled = running;
   }
-  if (!running) {
-    updateOutput();
-  }
 }
 
-async function startExtraction(): Promise<StoredDirectLink[]> {
+async function startExtraction(): Promise<DownloadTarget[]> {
   const runId = activeRunId + 1;
   activeRunId = runId;
 
   const tracks = collectTrackPages();
   if (tracks.length === 0) {
     currentResults = [];
-    saveStoredLinks([]);
-    updateOutput();
     setStatus('末尾が.mp3の曲ページリンクが見つかりません');
     return [];
   }
@@ -461,13 +464,15 @@ async function startExtraction(): Promise<StoredDirectLink[]> {
   const concurrency = getSavedConcurrency();
   currentResults = createInitialResults(tracks);
   setRunning(true);
+  configureProgress('解析', tracks.length, concurrency);
   updateProgress(currentResults);
 
-  await runConcurrent(tracks, concurrency, async (track, index) => {
+  await runConcurrent(tracks, concurrency, async (track, index, workerIndex) => {
     if (activeRunId !== runId) {
       return;
     }
 
+    setLaneState(workerIndex, 'active');
     currentResults[index] = { ...currentResults[index], state: 'running' };
     updateProgress(currentResults);
 
@@ -484,6 +489,7 @@ async function startExtraction(): Promise<StoredDirectLink[]> {
       };
     }
 
+    setLaneState(workerIndex, currentResults[index].state === 'done' ? 'done' : 'failed');
     updateProgress(currentResults);
   });
 
@@ -493,12 +499,11 @@ async function startExtraction(): Promise<StoredDirectLink[]> {
     return [];
   }
 
-  const storedLinks = toStoredLinks(currentResults);
-  saveStoredLinks(storedLinks);
-  updateOutput();
-  setStatus(`完了: ${storedLinks.length}/${tracks.length}件の直リンクを保存しました`);
+  const downloadTargets = toDownloadTargets(currentResults);
+  updateOverallProgress(tracks.length, tracks.length);
+  setStatus(`解析完了: ${downloadTargets.length}/${tracks.length}件の音声ファイルを見つけました`);
   setRunning(false);
-  return storedLinks;
+  return downloadTargets;
 }
 
 function stopExtraction(): void {
@@ -507,20 +512,7 @@ function stopExtraction(): void {
   setStatus('停止しました。進行中のリクエストは完了後に破棄されます');
 }
 
-function copySavedLinks(): void {
-  const links = currentResults.length > 0 ? toStoredLinks(currentResults) : getStoredLinks();
-  setClipboard(formatStoredLinks(links));
-  setStatus(`${links.length}件の直リンクをコピーしました`);
-}
-
-function clearSavedLinks(): void {
-  currentResults = [];
-  saveStoredLinks([]);
-  updateOutput();
-  setStatus('保存済みリンクを削除しました');
-}
-
-function downloadStoredLink(link: StoredDirectLink, fileName: string): Promise<void> {
+function downloadStoredLink(link: DownloadTarget, fileName: string): Promise<void> {
   return new Promise((resolve, reject) => {
     void (async () => {
       const response = await requestHead(link.directUrl, link.trackPageUrl);
@@ -546,7 +538,7 @@ function downloadStoredLink(link: StoredDirectLink, fileName: string): Promise<v
   });
 }
 
-async function downloadSavedFiles(links: StoredDirectLink[] = getStoredLinks()): Promise<void> {
+async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
   const runId = activeDownloadRunId + 1;
   activeDownloadRunId = runId;
 
@@ -560,20 +552,25 @@ async function downloadSavedFiles(links: StoredDirectLink[] = getStoredLinks()):
   let failedCount = 0;
 
   setRunning(true);
+  configureProgress('ダウンロード', links.length, concurrency);
   setStatus(`ダウンロード中: 0/${links.length}`);
 
-  await runConcurrent(links, concurrency, async (link, index) => {
+  await runConcurrent(links, concurrency, async (link, index, workerIndex) => {
     if (activeDownloadRunId !== runId) {
       return;
     }
 
+    setLaneState(workerIndex, 'active');
     try {
       await downloadStoredLink(link, createDownloadFileName(link, index));
       completedCount += 1;
+      setLaneState(workerIndex, 'done');
     } catch {
       failedCount += 1;
+      setLaneState(workerIndex, 'failed');
     }
 
+    updateOverallProgress(completedCount + failedCount, links.length);
     setStatus(`ダウンロード中: ${completedCount + failedCount}/${links.length} 完了 ${completedCount} 失敗 ${failedCount}`);
   });
 
@@ -583,6 +580,7 @@ async function downloadSavedFiles(links: StoredDirectLink[] = getStoredLinks()):
     return;
   }
 
+  updateOverallProgress(links.length, links.length);
   setStatus(`ダウンロード完了: 完了 ${completedCount} 失敗 ${failedCount}`);
   setRunning(false);
 }
@@ -599,7 +597,7 @@ function createPanel(): HTMLElement {
   panel.id = PANEL_ID;
   panel.innerHTML = `
     <div class="${SCRIPT_ID}__header">
-      <strong>KHInsider Direct Links</strong>
+      <strong>KHInsider Audio Saver</strong>
       <button type="button" data-action="hide" title="閉じる">×</button>
     </div>
     <div class="${SCRIPT_ID}__controls">
@@ -607,32 +605,25 @@ function createPanel(): HTMLElement {
         並列
         <input type="number" min="${MIN_CONCURRENCY}" max="${MAX_CONCURRENCY}" step="1" value="${getSavedConcurrency()}" data-role="concurrency">
       </label>
-      <button type="button" data-action="start">取得</button>
-      <button type="button" data-action="start-download">取得して保存</button>
-      <button type="button" data-action="download">保存</button>
+      <button type="button" data-action="start-download">保存開始</button>
       <button type="button" data-action="stop" disabled>停止</button>
-      <button type="button" data-action="copy">コピー</button>
-      <button type="button" data-action="clear">削除</button>
     </div>
     <div class="${SCRIPT_ID}__status" data-role="status">待機中</div>
-    <textarea class="${SCRIPT_ID}__output" data-role="output" spellcheck="false"></textarea>
+    <div class="${SCRIPT_ID}__progress" data-role="progress" hidden>
+      <div class="${SCRIPT_ID}__overall">
+        <div class="${SCRIPT_ID}__overall-bar" data-role="overall-bar"></div>
+      </div>
+      <div class="${SCRIPT_ID}__lanes" data-role="lanes"></div>
+    </div>
   `;
 
-  panel.querySelector<HTMLButtonElement>('[data-action="start"]')?.addEventListener('click', () => {
-    void startExtraction();
-  });
   panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.addEventListener('click', () => {
     void extractAndDownload();
-  });
-  panel.querySelector<HTMLButtonElement>('[data-action="download"]')?.addEventListener('click', () => {
-    void downloadSavedFiles();
   });
   panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.addEventListener('click', () => {
     stopExtraction();
     activeDownloadRunId += 1;
   });
-  panel.querySelector<HTMLButtonElement>('[data-action="copy"]')?.addEventListener('click', copySavedLinks);
-  panel.querySelector<HTMLButtonElement>('[data-action="clear"]')?.addEventListener('click', clearSavedLinks);
   panel.querySelector<HTMLButtonElement>('[data-action="hide"]')?.addEventListener('click', () => {
     panel.hidden = true;
   });
@@ -644,14 +635,12 @@ function createPanel(): HTMLElement {
   });
 
   document.body.append(panel);
-  updateOutput();
   return panel;
 }
 
 function showPanel(): void {
   const panel = getPanel() ?? createPanel();
   panel.hidden = false;
-  updateOutput();
 }
 
 function injectStyles(): void {
@@ -737,17 +726,79 @@ function injectStyles(): void {
 
     .${SCRIPT_ID}__status {
       color: #374151;
-      margin: 10px 0 8px;
+      margin-top: 10px;
     }
 
-    .${SCRIPT_ID}__output {
-      border: 1px solid #d1d5db;
-      border-radius: 6px;
-      box-sizing: border-box;
-      font: 12px/1.45 ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
-      height: 180px;
-      resize: vertical;
+    .${SCRIPT_ID}__progress {
+      margin-top: 10px;
+    }
+
+    .${SCRIPT_ID}__progress[hidden] {
+      display: none;
+    }
+
+    .${SCRIPT_ID}__overall {
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 8px;
+      overflow: hidden;
       width: 100%;
+    }
+
+    .${SCRIPT_ID}__overall-bar {
+      background: #2563eb;
+      height: 100%;
+      transition: width 180ms ease;
+      width: 0%;
+    }
+
+    .${SCRIPT_ID}__lanes {
+      display: grid;
+      gap: 4px;
+      grid-template-columns: repeat(auto-fit, minmax(28px, 1fr));
+      margin-top: 8px;
+    }
+
+    .${SCRIPT_ID}__lane {
+      background: #e5e7eb;
+      border-radius: 999px;
+      height: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .${SCRIPT_ID}__lane::before {
+      background: #9ca3af;
+      content: "";
+      inset: 0;
+      position: absolute;
+      transform: translateX(-100%);
+    }
+
+    .${SCRIPT_ID}__lane[data-state="active"]::before {
+      animation: ${SCRIPT_ID}-lane 850ms linear infinite;
+      background: linear-gradient(90deg, transparent, #2563eb, transparent);
+      width: 80%;
+    }
+
+    .${SCRIPT_ID}__lane[data-state="done"]::before {
+      background: #16a34a;
+      transform: translateX(0);
+    }
+
+    .${SCRIPT_ID}__lane[data-state="failed"]::before {
+      background: #dc2626;
+      transform: translateX(0);
+    }
+
+    @keyframes ${SCRIPT_ID}-lane {
+      from {
+        transform: translateX(-100%);
+      }
+
+      to {
+        transform: translateX(140%);
+      }
     }
   `);
 
@@ -758,11 +809,7 @@ function injectStyles(): void {
 
 function initialize(): void {
   injectStyles();
-  registerMenuCommand('KHInsider直リンク抽出パネルを開く', showPanel);
-  registerMenuCommand('KHInsider直リンク抽出を開始', () => {
-    showPanel();
-    void startExtraction();
-  });
+  registerMenuCommand('KHInsider音声保存パネルを開く', showPanel);
   registerMenuCommand('KHInsider音声ファイルを取得して保存', () => {
     showPanel();
     void extractAndDownload();

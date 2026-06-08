@@ -20,7 +20,7 @@ web-page-enhancement-scripts
   - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
-  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列抽出・ダウンロード
+  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
   - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助

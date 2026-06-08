@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         khinsider-direct-link-saver
 // @namespace    khinsiderDirectLinkSaver
-// @version      1.1.2
+// @version      1.3.0
 // @author       roflsunriz
-// @description  KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出してダウンロード
+// @description  KHInsiderのアルバムページから音声ファイルを並列ダウンロード
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=downloads.khinsider.com
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/khinsider-direct-link-saver.user.js
@@ -16,7 +16,6 @@
 // @grant        GM_download
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
-// @grant        GM_setClipboard
 // @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @run-at       document-end
