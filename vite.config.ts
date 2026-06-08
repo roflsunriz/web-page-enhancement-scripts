@@ -230,6 +230,32 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=imgur.com',
 };
 
+const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
+  name: 'khinsider-direct-link-saver',
+  namespace: 'khinsiderDirectLinkSaver',
+  version: '1.0.0',
+  description: 'KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出して保存',
+  author: 'roflsunriz',
+  match: ['https://downloads.khinsider.com/game-soundtracks/album/*'],
+  grant: [
+    'GM_xmlhttpRequest',
+    'GM_setValue',
+    'GM_getValue',
+    'GM_registerMenuCommand',
+    'GM_setClipboard',
+    'GM_addStyle',
+  ],
+  connect: [
+    'downloads.khinsider.com',
+  ],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=downloads.khinsider.com',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/khinsider-direct-link-saver.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/khinsider-direct-link-saver.user.js',
+};
+
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
@@ -499,6 +525,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'imgur-direct-link.user.js',
     meta: imgurDirectLinkCopierMeta,
   },
+  'khinsider-direct-link-saver': {
+    entry: 'src/khinsider-direct-link-saver/main.ts',
+    fileName: 'khinsider-direct-link-saver.user.js',
+    meta: khinsiderDirectLinkSaverMeta,
+  },
   'manga-viewer': {
     entry: 'src/manga-viewer/main.ts',
     fileName: 'manga-viewer.user.js',
@@ -578,6 +609,7 @@ export default defineConfig((configEnv) => {
         '@/hf-download-command-copier': resolve(dir, 'src/hf-download-command-copier'),
         '@/image-collector': resolve(dir, 'src/image-collector'),
         '@/imgur-direct-link': resolve(dir, 'src/imgur-direct-link'),
+        '@/khinsider-direct-link-saver': resolve(dir, 'src/khinsider-direct-link-saver'),
         '@/manga-viewer': resolve(dir, 'src/manga-viewer'),
         '@/native-video-volume-setter': resolve(dir, 'src/native-video-volume-setter'),
         '@/trickcal-tool-sweep': resolve(dir, 'src/trickcal-tool-sweep'),

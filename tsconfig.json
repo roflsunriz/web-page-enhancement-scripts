@@ -20,6 +20,7 @@
       "@/hf-download-command-copier/*": ["./src/hf-download-command-copier/*"],
       "@/image-collector/*": ["./src/image-collector/*"],
       "@/imgur-direct-link/*": ["./src/imgur-direct-link/*"],
+      "@/khinsider-direct-link-saver/*": ["./src/khinsider-direct-link-saver/*"],
       "@/manga-viewer/*": ["./src/manga-viewer/*"],
       "@/trickcal-tool-sweep/*": ["./src/trickcal-tool-sweep/*"],
       "@/twitter-full-size-image/*": ["./src/twitter-full-size-image/*"],

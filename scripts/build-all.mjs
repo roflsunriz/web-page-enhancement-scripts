@@ -18,6 +18,7 @@ const targets = [
   { mode: 'hf-download-command-copier', clear: false },
   { mode: 'image-collector', clear: false },
   { mode: 'imgur-direct-link-copier', clear: false },
+  { mode: 'khinsider-direct-link-saver', clear: false },
   { mode: 'manga-viewer', clear: false },
   { mode: 'native-video-volume-setter', clear: false },
   { mode: 'trickcal-tool-sweep', clear: false },

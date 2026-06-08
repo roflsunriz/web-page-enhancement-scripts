@@ -20,6 +20,7 @@ web-page-enhancement-scripts
   - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
+  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイル直リンクを並列抽出
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
   - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助
@@ -44,6 +45,7 @@ web-page-enhancement-scripts
 - [hf-download-command-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/hf-download-command-copier.user.js)
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
+- [khinsider-direct-link-saver](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/khinsider-direct-link-saver.user.js)
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
 - [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
