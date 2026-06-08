@@ -233,7 +233,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
   name: 'khinsider-direct-link-saver',
   namespace: 'khinsiderDirectLinkSaver',
-  version: '1.1.1',
+  version: '1.1.2',
   description: 'KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出してダウンロード',
   author: 'roflsunriz',
   match: ['https://downloads.khinsider.com/game-soundtracks/album/*'],

@@ -37,12 +37,12 @@ type GmTextResponse = {
   statusText: string;
   responseText: string;
   finalUrl: string;
+  headers: string;
 };
 
-type GmBlobResponse = {
+type GmHeadResponse = {
   status: number;
   statusText: string;
-  response: Blob;
   finalUrl: string;
   headers: string;
 };
@@ -56,7 +56,6 @@ const DEFAULT_CONCURRENCY = 4;
 const MIN_CONCURRENCY = 1;
 const MAX_CONCURRENCY = 12;
 const REQUEST_TIMEOUT_MS = 30_000;
-const DOWNLOAD_TIMEOUT_MS = 120_000;
 const TRACK_PAGE_EXTENSION = 'mp3';
 const AUDIO_EXTENSIONS = ['flac', 'm4a', 'aac', 'mp3'] as const;
 const AUDIO_EXTENSION_PRIORITIES: Record<AudioExtension, number> = {
@@ -169,6 +168,7 @@ function requestText(url: string): Promise<GmTextResponse> {
           statusText: response.statusText,
           responseText: response.responseText,
           finalUrl: response.finalUrl,
+          headers: response.responseHeaders,
         });
       },
       onerror: (error) => {
@@ -182,21 +182,19 @@ function requestText(url: string): Promise<GmTextResponse> {
   });
 }
 
-function requestBlob(url: string, refererUrl: string): Promise<GmBlobResponse> {
+function requestHead(url: string, refererUrl: string): Promise<GmHeadResponse> {
   return new Promise((resolve, reject) => {
     xmlHttpRequest({
-      method: 'GET',
+      method: 'HEAD',
       url,
       headers: {
         Referer: refererUrl,
       },
-      timeout: DOWNLOAD_TIMEOUT_MS,
-      responseType: 'blob',
+      timeout: REQUEST_TIMEOUT_MS,
       onload: (response) => {
         resolve({
           status: response.status,
           statusText: response.statusText,
-          response: response.response as Blob,
           finalUrl: response.finalUrl,
           headers: response.responseHeaders,
         });
@@ -206,7 +204,7 @@ function requestBlob(url: string, refererUrl: string): Promise<GmBlobResponse> {
         reject(new Error(reason));
       },
       ontimeout: () => {
-        reject(new Error('download request timeout'));
+        reject(new Error('HEAD request timeout'));
       },
     });
   });
@@ -220,15 +218,27 @@ function getDirectAudioCandidates(document: Document, baseUrl: string): Array<{ 
   const candidates: Array<{ url: string; extension: AudioExtension }> = [];
   const seenUrls = new Set<string>();
 
-  for (const link of Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href]'))) {
-    const url = new URL(link.getAttribute('href') ?? '', baseUrl);
+  function addCandidate(urlText: string | null): void {
+    if (!urlText) {
+      return;
+    }
+
+    const url = new URL(urlText, baseUrl);
     const extension = getUrlExtension(url.href);
     if (!extension || seenUrls.has(url.href)) {
-      continue;
+      return;
     }
 
     seenUrls.add(url.href);
     candidates.push({ url: url.href, extension });
+  }
+
+  for (const downloadLabel of Array.from(document.querySelectorAll<HTMLElement>('.songDownloadLink'))) {
+    addCandidate(downloadLabel.closest<HTMLAnchorElement>('a[href]')?.getAttribute('href') ?? null);
+  }
+
+  for (const audio of Array.from(document.querySelectorAll<HTMLAudioElement>('audio[src]'))) {
+    addCandidate(audio.getAttribute('src'));
   }
 
   return candidates;
@@ -353,23 +363,14 @@ function parseHeaderValue(headers: string, name: string): string | null {
   return line ? line.slice(line.indexOf(':') + 1).trim() : null;
 }
 
-async function isLikelyHtml(blob: Blob): Promise<boolean> {
-  const prefix = await blob.slice(0, 512).text();
-  return /^\s*(?:<!doctype\s+html|<html|<head|<body)/i.test(prefix);
-}
-
-async function assertAudioBlob(response: GmBlobResponse, link: StoredDirectLink): Promise<void> {
+function assertAudioResponse(response: GmHeadResponse, link: StoredDirectLink): void {
   if (response.status < 200 || response.status >= 300) {
     throw new Error(`HTTP ${response.status} ${response.statusText}`);
   }
 
-  const contentType = parseHeaderValue(response.headers, 'content-type') ?? response.response.type;
-  if (/text\/html/i.test(contentType) || await isLikelyHtml(response.response)) {
+  const contentType = parseHeaderValue(response.headers, 'content-type') ?? '';
+  if (/text\/html/i.test(contentType)) {
     throw new Error('HTMLが返されたため音声ファイルとして保存できません');
-  }
-
-  if (response.response.size === 0) {
-    throw new Error('空のファイルが返されました');
   }
 
   if (!getUrlExtension(response.finalUrl || link.directUrl)) {
@@ -522,24 +523,20 @@ function clearSavedLinks(): void {
 function downloadStoredLink(link: StoredDirectLink, fileName: string): Promise<void> {
   return new Promise((resolve, reject) => {
     void (async () => {
-      const response = await requestBlob(link.directUrl, link.trackPageUrl);
-      await assertAudioBlob(response, link);
-      const objectUrl = URL.createObjectURL(response.response);
+      const response = await requestHead(link.directUrl, link.trackPageUrl);
+      assertAudioResponse(response, link);
 
       GM_download({
-        url: objectUrl,
+        url: response.finalUrl || link.directUrl,
         name: fileName,
         saveAs: false,
         onload: () => {
-          URL.revokeObjectURL(objectUrl);
           resolve();
         },
         onerror: (error: GmDownloadErrorEvent) => {
-          URL.revokeObjectURL(objectUrl);
           reject(new Error(`download failed: ${error.error}`));
         },
         ontimeout: () => {
-          URL.revokeObjectURL(objectUrl);
           reject(new Error('download timeout'));
         },
       });
