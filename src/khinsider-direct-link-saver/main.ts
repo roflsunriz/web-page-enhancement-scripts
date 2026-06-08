@@ -39,6 +39,14 @@ type GmTextResponse = {
   finalUrl: string;
 };
 
+type GmBlobResponse = {
+  status: number;
+  statusText: string;
+  response: Blob;
+  finalUrl: string;
+  headers: string;
+};
+
 const SCRIPT_ID = 'khinsider-direct-link-saver';
 const PANEL_ID = `${SCRIPT_ID}-panel`;
 const STYLE_ID = `${SCRIPT_ID}-styles`;
@@ -48,6 +56,7 @@ const DEFAULT_CONCURRENCY = 4;
 const MIN_CONCURRENCY = 1;
 const MAX_CONCURRENCY = 12;
 const REQUEST_TIMEOUT_MS = 30_000;
+const DOWNLOAD_TIMEOUT_MS = 120_000;
 const TRACK_PAGE_EXTENSION = 'mp3';
 const AUDIO_EXTENSIONS = ['flac', 'm4a', 'aac', 'mp3'] as const;
 const AUDIO_EXTENSION_PRIORITIES: Record<AudioExtension, number> = {
@@ -168,6 +177,36 @@ function requestText(url: string): Promise<GmTextResponse> {
       },
       ontimeout: () => {
         reject(new Error('request timeout'));
+      },
+    });
+  });
+}
+
+function requestBlob(url: string, refererUrl: string): Promise<GmBlobResponse> {
+  return new Promise((resolve, reject) => {
+    xmlHttpRequest({
+      method: 'GET',
+      url,
+      headers: {
+        Referer: refererUrl,
+      },
+      timeout: DOWNLOAD_TIMEOUT_MS,
+      responseType: 'blob',
+      onload: (response) => {
+        resolve({
+          status: response.status,
+          statusText: response.statusText,
+          response: response.response as Blob,
+          finalUrl: response.finalUrl,
+          headers: response.responseHeaders,
+        });
+      },
+      onerror: (error) => {
+        const reason = typeof error.error === 'string' ? error.error : 'request failed';
+        reject(new Error(reason));
+      },
+      ontimeout: () => {
+        reject(new Error('download request timeout'));
       },
     });
   });
@@ -303,6 +342,39 @@ function sanitizeFileName(value: string): string {
 function createDownloadFileName(link: StoredDirectLink, index: number): string {
   const prefix = String(index + 1).padStart(2, '0');
   return `${prefix} ${sanitizeFileName(link.title)}.${link.extension}`;
+}
+
+function parseHeaderValue(headers: string, name: string): string | null {
+  const lowerName = name.toLowerCase();
+  const line = headers
+    .split(/\r?\n/)
+    .find((headerLine) => headerLine.toLowerCase().startsWith(`${lowerName}:`));
+
+  return line ? line.slice(line.indexOf(':') + 1).trim() : null;
+}
+
+async function isLikelyHtml(blob: Blob): Promise<boolean> {
+  const prefix = await blob.slice(0, 512).text();
+  return /^\s*(?:<!doctype\s+html|<html|<head|<body)/i.test(prefix);
+}
+
+async function assertAudioBlob(response: GmBlobResponse, link: StoredDirectLink): Promise<void> {
+  if (response.status < 200 || response.status >= 300) {
+    throw new Error(`HTTP ${response.status} ${response.statusText}`);
+  }
+
+  const contentType = parseHeaderValue(response.headers, 'content-type') ?? response.response.type;
+  if (/text\/html/i.test(contentType) || await isLikelyHtml(response.response)) {
+    throw new Error('HTMLが返されたため音声ファイルとして保存できません');
+  }
+
+  if (response.response.size === 0) {
+    throw new Error('空のファイルが返されました');
+  }
+
+  if (!getUrlExtension(response.finalUrl || link.directUrl)) {
+    throw new Error('音声ファイルURLではないレスポンスにリダイレクトされました');
+  }
 }
 
 function getPanel(): HTMLElement | null {
@@ -449,19 +521,30 @@ function clearSavedLinks(): void {
 
 function downloadStoredLink(link: StoredDirectLink, fileName: string): Promise<void> {
   return new Promise((resolve, reject) => {
-    GM_download({
-      url: link.directUrl,
-      name: fileName,
-      saveAs: false,
-      onload: () => {
-        resolve();
-      },
-      onerror: (error: GmDownloadErrorEvent) => {
-        reject(new Error(`download failed: ${error.error}`));
-      },
-      ontimeout: () => {
-        reject(new Error('download timeout'));
-      },
+    void (async () => {
+      const response = await requestBlob(link.directUrl, link.trackPageUrl);
+      await assertAudioBlob(response, link);
+      const objectUrl = URL.createObjectURL(response.response);
+
+      GM_download({
+        url: objectUrl,
+        name: fileName,
+        saveAs: false,
+        onload: () => {
+          URL.revokeObjectURL(objectUrl);
+          resolve();
+        },
+        onerror: (error: GmDownloadErrorEvent) => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error(`download failed: ${error.error}`));
+        },
+        ontimeout: () => {
+          URL.revokeObjectURL(objectUrl);
+          reject(new Error('download timeout'));
+        },
+      });
+    })().catch((error: unknown) => {
+      reject(error instanceof Error ? error : new Error('download failed'));
     });
   });
 }
