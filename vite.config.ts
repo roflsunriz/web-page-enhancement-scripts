@@ -233,8 +233,8 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
   name: 'khinsider-direct-link-saver',
   namespace: 'khinsiderDirectLinkSaver',
-  version: '1.0.0',
-  description: 'KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出して保存',
+  version: '1.1.0',
+  description: 'KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出してダウンロード',
   author: 'roflsunriz',
   match: ['https://downloads.khinsider.com/game-soundtracks/album/*'],
   grant: [
@@ -244,9 +244,12 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
     'GM_registerMenuCommand',
     'GM_setClipboard',
     'GM_addStyle',
+    'GM_download',
   ],
   connect: [
     'downloads.khinsider.com',
+    'vgmtreasurechest.com',
+    '*.vgmtreasurechest.com',
   ],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=downloads.khinsider.com',
   'run-at': 'document-end',

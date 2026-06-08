@@ -1,16 +1,19 @@
 // ==UserScript==
 // @name         khinsider-direct-link-saver
 // @namespace    khinsiderDirectLinkSaver
-// @version      1.0.0
+// @version      1.1.0
 // @author       roflsunriz
-// @description  KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出して保存
+// @description  KHInsiderのアルバムページから音声ファイルの直リンクを並列抽出してダウンロード
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=downloads.khinsider.com
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/khinsider-direct-link-saver.user.js
 // @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/khinsider-direct-link-saver.meta.js
 // @match        https://downloads.khinsider.com/game-soundtracks/album/*
 // @connect      downloads.khinsider.com
+// @connect      vgmtreasurechest.com
+// @connect      *.vgmtreasurechest.com
 // @grant        GM_addStyle
+// @grant        GM_download
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
 // @grant        GM_setClipboard
@@ -22,26 +25,28 @@
 (function () {
   'use strict';
 
-  var P=typeof GM_addStyle<"u"?GM_addStyle:void 0,O=typeof GM_getValue<"u"?GM_getValue:void 0,D=typeof GM_registerMenuCommand<"u"?GM_registerMenuCommand:void 0,K=typeof GM_setClipboard<"u"?GM_setClipboard:void 0,V=typeof GM_setValue<"u"?GM_setValue:void 0,Y=typeof GM_xmlhttpRequest<"u"?GM_xmlhttpRequest:void 0;function S(t,e){D(t,e);}function z(t){P(t);}const B=Y;function k(t,e){V(t,e);}function M(t,e){return O(t,e)}function H(t,e){K(t,"text");}const c="khinsider-direct-link-saver",u=`${c}-panel`,w=`${c}-styles`,v=`${c}:links`,T=`${c}:concurrency`,y=4,U=1,L=12,F=3e4,X="mp3",j=["flac","m4a","aac","mp3"],C={flac:3,m4a:2,aac:2,mp3:1};let f=0,a=[];function b(t){return Number.isFinite(t)?Math.min(L,Math.max(U,Math.floor(t))):y}function R(){return b(M(T,y)??y)}function W(t){k(T,b(t));}function I(){return M(v,[])??[]}function g(t){k(v,t);}function q(t){try{const e=new URL(t,window.location.href),n=decodeURIComponent(e.pathname).toLowerCase();return j.find(r=>n.endsWith(`.${r}`))??null}catch{return null}}function Q(t){try{const e=new URL(t.href,window.location.href);return e.hostname===window.location.hostname&&q(e.href)===X}catch{return  false}}function E(t){return t.replace(/\s+/g," ").trim()}function J(t,e){const n=E(t.textContent??"");if(n.length>0&&!/^\d+:\d+$/.test(n)&&!/^\d+(?:\.\d+)?\s*(?:kb|mb|gb)$/i.test(n))return n;const o=t.closest("tr"),r=o?E(o.textContent??""):"";return r.length>0?r:`track-${String(e+1).padStart(2,"0")}`}function Z(){const t=new Set,e=[];for(const n of Array.from(document.querySelectorAll("a[href]"))){if(!Q(n))continue;const o=new URL(n.href,window.location.href);o.hash="";const r=o.href;t.has(r)||(t.add(r),e.push({index:e.length,title:J(n,e.length),url:r}));}return e}function tt(t){return new Promise((e,n)=>{B({method:"GET",url:t,timeout:F,responseType:"text",onload:o=>{e({status:o.status,statusText:o.statusText,responseText:o.responseText,finalUrl:o.finalUrl});},onerror:o=>{const r=typeof o.error=="string"?o.error:"request failed";n(new Error(r));},ontimeout:()=>{n(new Error("request timeout"));}});})}function et(t){return new DOMParser().parseFromString(t,"text/html")}function nt(t,e){const n=[],o=new Set;for(const r of Array.from(t.querySelectorAll("a[href]"))){const s=new URL(r.getAttribute("href")??"",e),i=q(s.href);!i||o.has(s.href)||(o.add(s.href),n.push({url:s.href,extension:i}));}return n}function ot(t){return t.reduce((e,n)=>{if(!e)return n;const o=C[e.extension];return C[n.extension]>o?n:e},null)}async function rt(t){const e=await tt(t.url);if(e.status<200||e.status>=300)throw new Error(`HTTP ${e.status} ${e.statusText}`);const n=et(e.responseText),o=ot(nt(n,e.finalUrl||t.url));return o?{...t,state:"done",directUrl:o.url,extension:o.extension,error:null}:{...t,state:"skipped",directUrl:null,extension:null,error:"音声ファイルの直リンクが見つかりません"}}function at(t){return t.map(e=>({...e,state:"pending",directUrl:null,extension:null,error:null}))}async function it(t,e,n){let o=0;async function r(){for(;o<t.length;){const i=o;o+=1,await n(t[i],i);}}const s=Math.min(e,t.length);await Promise.all(Array.from({length:s},()=>r()));}function _(t){return t.filter(e=>e.state==="done"&&e.directUrl!==null&&e.extension!==null).map(e=>({title:e.title,trackPageUrl:e.url,directUrl:e.directUrl,extension:e.extension}))}function G(t){return t.map(e=>e.directUrl).join(`
-`)}function h(){return document.getElementById(u)}function d(t){const e=h()?.querySelector('[data-role="status"]');e&&(e.textContent=t);}function l(){const t=h();if(!t)return;const e=a.length>0?_(a):I(),n=t.querySelector('[data-role="output"]'),o=t.querySelector('[data-action="copy"]'),r=t.querySelector('[data-action="clear"]');n&&(n.value=G(e)),o&&(o.disabled=e.length===0),r&&(r.disabled=e.length===0);}function m(t){const e=t.filter(i=>i.state==="done").length,n=t.filter(i=>i.state==="failed").length,o=t.filter(i=>i.state==="skipped").length,r=e+n+o,s=t.length;d(`取得中: ${r}/${s} 保存 ${e} 失敗 ${n} スキップ ${o}`),l();}function p(t){const e=h();if(!e)return;e.querySelector('[data-action="start"]')?.toggleAttribute("disabled",t),e.querySelector('[data-action="stop"]')?.toggleAttribute("disabled",!t);const n=e.querySelector('[data-role="concurrency"]');n&&(n.disabled=t);}async function A(){const t=f+1;f=t;const e=Z();if(e.length===0){a=[],g([]),l(),d("末尾が.mp3の曲ページリンクが見つかりません");return}const n=R();if(a=at(e),p(true),m(a),await it(e,n,async(r,s)=>{if(f===t){a[s]={...a[s],state:"running"},m(a);try{a[s]=await rt(r);}catch(i){const N=i instanceof Error?i.message:"unknown error";a[s]={...r,state:"failed",directUrl:null,extension:null,error:N};}m(a);}}),f!==t){d("停止しました"),p(false);return}const o=_(a);g(o),l(),d(`完了: ${o.length}/${e.length}件の直リンクを保存しました`),p(false);}function ct(){f+=1,p(false),d("停止しました。進行中のリクエストは完了後に破棄されます");}function st(){const t=a.length>0?_(a):I();H(G(t)),d(`${t.length}件の直リンクをコピーしました`);}function ut(){a=[],g([]),l(),d("保存済みリンクを削除しました");}function dt(){const t=document.createElement("section");t.id=u,t.innerHTML=`
-    <div class="${c}__header">
+  var K=typeof GM_addStyle<"u"?GM_addStyle:void 0,z=typeof GM_download<"u"?GM_download:void 0,V=typeof GM_getValue<"u"?GM_getValue:void 0,B=typeof GM_registerMenuCommand<"u"?GM_registerMenuCommand:void 0,H=typeof GM_setClipboard<"u"?GM_setClipboard:void 0,Y=typeof GM_setValue<"u"?GM_setValue:void 0,X=typeof GM_xmlhttpRequest<"u"?GM_xmlhttpRequest:void 0;function g(t,e){B(t,e);}function j(t){K(t);}const W=X;function T(t,e){Y(t,e);}function U(t,e){return V(t,e)}function Q(t,e){H(t,"text");}const d="khinsider-direct-link-saver",l=`${d}-panel`,v=`${d}-styles`,I=`${d}:links`,R=`${d}:concurrency`,b=4,q=1,A=12,J=3e4,Z="mp3",tt=["flac","m4a","aac","mp3"],M={flac:3,m4a:2,aac:2,mp3:1};let p=0,h=0,c=[];function _(t){return Number.isFinite(t)?Math.min(A,Math.max(q,Math.floor(t))):b}function S(){return _(U(R,b)??b)}function et(t){T(R,_(t));}function $(){return U(I,[])??[]}function w(t){T(I,t);}function G(t){try{const e=new URL(t,window.location.href),o=decodeURIComponent(e.pathname).toLowerCase();return tt.find(r=>o.endsWith(`.${r}`))??null}catch{return null}}function nt(t){try{const e=new URL(t.href,window.location.href);return e.hostname===window.location.hostname&&G(e.href)===Z}catch{return  false}}function k(t){return t.replace(/\s+/g," ").trim()}function ot(t,e){const o=k(t.textContent??"");if(o.length>0&&!/^\d+:\d+$/.test(o)&&!/^\d+(?:\.\d+)?\s*(?:kb|mb|gb)$/i.test(o))return o;const n=t.closest("tr"),r=n?k(n.textContent??""):"";return r.length>0?r:`track-${String(e+1).padStart(2,"0")}`}function rt(){const t=new Set,e=[];for(const o of Array.from(document.querySelectorAll("a[href]"))){if(!nt(o))continue;const n=new URL(o.href,window.location.href);n.hash="";const r=n.href;t.has(r)||(t.add(r),e.push({index:e.length,title:ot(o,e.length),url:r}));}return e}function at(t){return new Promise((e,o)=>{W({method:"GET",url:t,timeout:J,responseType:"text",onload:n=>{e({status:n.status,statusText:n.statusText,responseText:n.responseText,finalUrl:n.finalUrl});},onerror:n=>{const r=typeof n.error=="string"?n.error:"request failed";o(new Error(r));},ontimeout:()=>{o(new Error("request timeout"));}});})}function it(t){return new DOMParser().parseFromString(t,"text/html")}function ct(t,e){const o=[],n=new Set;for(const r of Array.from(t.querySelectorAll("a[href]"))){const a=new URL(r.getAttribute("href")??"",e),i=G(a.href);!i||n.has(a.href)||(n.add(a.href),o.push({url:a.href,extension:i}));}return o}function dt(t){return t.reduce((e,o)=>{if(!e)return o;const n=M[e.extension];return M[o.extension]>n?o:e},null)}async function st(t){const e=await at(t.url);if(e.status<200||e.status>=300)throw new Error(`HTTP ${e.status} ${e.statusText}`);const o=it(e.responseText),n=dt(ct(o,e.finalUrl||t.url));return n?{...t,state:"done",directUrl:n.url,extension:n.extension,error:null}:{...t,state:"skipped",directUrl:null,extension:null,error:"音声ファイルの直リンクが見つかりません"}}function lt(t){return t.map(e=>({...e,state:"pending",directUrl:null,extension:null,error:null}))}async function N(t,e,o){let n=0;async function r(){for(;n<t.length;){const i=n;n+=1,await o(t[i],i);}}const a=Math.min(e,t.length);await Promise.all(Array.from({length:a},()=>r()));}function C(t){return t.filter(e=>e.state==="done"&&e.directUrl!==null&&e.extension!==null).map(e=>({title:e.title,trackPageUrl:e.url,directUrl:e.directUrl,extension:e.extension}))}function P(t){return t.map(e=>e.directUrl).join(`
+`)}function ut(t){const e=new Set(["<",">",":",'"',"/","\\","|","?","*"]),o=t.split("").map(n=>e.has(n)||n.charCodeAt(0)<32?"_":n).join("").replace(/\s+/g," ").trim();return o.length>0?o:"track"}function ft(t,e){return `${String(e+1).padStart(2,"0")} ${ut(t.title)}.${t.extension}`}function y(){return document.getElementById(l)}function s(t){const e=y()?.querySelector('[data-role="status"]');e&&(e.textContent=t);}function f(){const t=y();if(!t)return;const e=c.length>0?C(c):$(),o=t.querySelector('[data-role="output"]'),n=t.querySelector('[data-action="copy"]'),r=t.querySelector('[data-action="clear"]'),a=t.querySelector('[data-action="download"]');o&&(o.value=P(e)),n&&(n.disabled=e.length===0),r&&(r.disabled=e.length===0),a&&(a.disabled=e.length===0);}function x(t){const e=t.filter(i=>i.state==="done").length,o=t.filter(i=>i.state==="failed").length,n=t.filter(i=>i.state==="skipped").length,r=e+o+n,a=t.length;s(`取得中: ${r}/${a} 保存 ${e} 失敗 ${o} スキップ ${n}`),f();}function u(t){const e=y();if(!e)return;e.querySelector('[data-action="start"]')?.toggleAttribute("disabled",t),e.querySelector('[data-action="start-download"]')?.toggleAttribute("disabled",t),e.querySelector('[data-action="stop"]')?.toggleAttribute("disabled",!t),e.querySelector('[data-action="download"]')?.toggleAttribute("disabled",t);const o=e.querySelector('[data-role="concurrency"]');o&&(o.disabled=t),t||f();}async function E(){const t=p+1;p=t;const e=rt();if(e.length===0)return c=[],w([]),f(),s("末尾が.mp3の曲ページリンクが見つかりません"),[];const o=S();if(c=lt(e),u(true),x(c),await N(e,o,async(r,a)=>{if(p===t){c[a]={...c[a],state:"running"},x(c);try{c[a]=await st(r);}catch(i){const F=i instanceof Error?i.message:"unknown error";c[a]={...r,state:"failed",directUrl:null,extension:null,error:F};}x(c);}}),p!==t)return s("停止しました"),u(false),[];const n=C(c);return w(n),f(),s(`完了: ${n.length}/${e.length}件の直リンクを保存しました`),u(false),n}function pt(){p+=1,u(false),s("停止しました。進行中のリクエストは完了後に破棄されます");}function ht(){const t=c.length>0?C(c):$();Q(P(t)),s(`${t.length}件の直リンクをコピーしました`);}function mt(){c=[],w([]),f(),s("保存済みリンクを削除しました");}function yt(t,e){return new Promise((o,n)=>{z({url:t.directUrl,name:e,saveAs:false,onload:()=>{o();},onerror:r=>{n(new Error(`download failed: ${r.error}`));},ontimeout:()=>{n(new Error("download timeout"));}});})}async function O(t=$()){const e=h+1;if(h=e,t.length===0){s("保存対象の音声リンクがありません");return}const o=S();let n=0,r=0;if(u(true),s(`ダウンロード中: 0/${t.length}`),await N(t,o,async(a,i)=>{if(h===e){try{await yt(a,ft(a,i)),n+=1;}catch{r+=1;}s(`ダウンロード中: ${n+r}/${t.length} 完了 ${n} 失敗 ${r}`);}}),h!==e){s("ダウンロードを停止しました"),u(false);return}s(`ダウンロード完了: 完了 ${n} 失敗 ${r}`),u(false);}async function D(){const t=await E();t.length>0&&await O(t);}function gt(){const t=document.createElement("section");t.id=l,t.innerHTML=`
+    <div class="${d}__header">
       <strong>KHInsider Direct Links</strong>
       <button type="button" data-action="hide" title="閉じる">×</button>
     </div>
-    <div class="${c}__controls">
+    <div class="${d}__controls">
       <label>
         並列
-        <input type="number" min="${U}" max="${L}" step="1" value="${R()}" data-role="concurrency">
+        <input type="number" min="${q}" max="${A}" step="1" value="${S()}" data-role="concurrency">
       </label>
       <button type="button" data-action="start">取得</button>
+      <button type="button" data-action="start-download">取得して保存</button>
+      <button type="button" data-action="download">保存</button>
       <button type="button" data-action="stop" disabled>停止</button>
       <button type="button" data-action="copy">コピー</button>
       <button type="button" data-action="clear">削除</button>
     </div>
-    <div class="${c}__status" data-role="status">待機中</div>
-    <textarea class="${c}__output" data-role="output" spellcheck="false"></textarea>
-  `,t.querySelector('[data-action="start"]')?.addEventListener("click",()=>{A();}),t.querySelector('[data-action="stop"]')?.addEventListener("click",ct),t.querySelector('[data-action="copy"]')?.addEventListener("click",st),t.querySelector('[data-action="clear"]')?.addEventListener("click",ut),t.querySelector('[data-action="hide"]')?.addEventListener("click",()=>{t.hidden=true;});const e=t.querySelector('[data-role="concurrency"]');return e?.addEventListener("change",()=>{const n=b(Number(e.value));e.value=String(n),W(n);}),document.body.append(t),l(),t}function x(){const t=h()??dt();t.hidden=false,l();}function lt(){if(document.getElementById(w))return;z(`
-    #${u} {
+    <div class="${d}__status" data-role="status">待機中</div>
+    <textarea class="${d}__output" data-role="output" spellcheck="false"></textarea>
+  `,t.querySelector('[data-action="start"]')?.addEventListener("click",()=>{E();}),t.querySelector('[data-action="start-download"]')?.addEventListener("click",()=>{D();}),t.querySelector('[data-action="download"]')?.addEventListener("click",()=>{O();}),t.querySelector('[data-action="stop"]')?.addEventListener("click",()=>{pt(),h+=1;}),t.querySelector('[data-action="copy"]')?.addEventListener("click",ht),t.querySelector('[data-action="clear"]')?.addEventListener("click",mt),t.querySelector('[data-action="hide"]')?.addEventListener("click",()=>{t.hidden=true;});const e=t.querySelector('[data-role="concurrency"]');return e?.addEventListener("change",()=>{const o=_(Number(e.value));e.value=String(o),et(o);}),document.body.append(t),f(),t}function m(){const t=y()??gt();t.hidden=false,f();}function xt(){if(document.getElementById(v))return;j(`
+    #${l} {
       background: #fff;
       border: 1px solid #9ca3af;
       border-radius: 8px;
@@ -57,32 +62,32 @@
       z-index: 999999;
     }
 
-    #${u}[hidden] {
+    #${l}[hidden] {
       display: none;
     }
 
-    .${c}__header,
-    .${c}__controls {
+    .${d}__header,
+    .${d}__controls {
       align-items: center;
       display: flex;
       gap: 8px;
     }
 
-    .${c}__header {
+    .${d}__header {
       justify-content: space-between;
       margin-bottom: 10px;
     }
 
-    .${c}__controls {
+    .${d}__controls {
       flex-wrap: wrap;
     }
 
-    #${u} button,
-    #${u} input {
+    #${l} button,
+    #${l} input {
       font: inherit;
     }
 
-    #${u} button {
+    #${l} button {
       background: #f3f4f6;
       border: 1px solid #d1d5db;
       border-radius: 6px;
@@ -92,23 +97,23 @@
       padding: 4px 9px;
     }
 
-    #${u} button:hover:not(:disabled) {
+    #${l} button:hover:not(:disabled) {
       background: #e5e7eb;
       border-color: #9ca3af;
     }
 
-    #${u} button:disabled {
+    #${l} button:disabled {
       cursor: not-allowed;
       opacity: 0.55;
     }
 
-    #${u} label {
+    #${l} label {
       align-items: center;
       display: inline-flex;
       gap: 5px;
     }
 
-    #${u} input[type="number"] {
+    #${l} input[type="number"] {
       border: 1px solid #d1d5db;
       border-radius: 6px;
       min-height: 28px;
@@ -116,12 +121,12 @@
       width: 56px;
     }
 
-    .${c}__status {
+    .${d}__status {
       color: #374151;
       margin: 10px 0 8px;
     }
 
-    .${c}__output {
+    .${d}__output {
       border: 1px solid #d1d5db;
       border-radius: 6px;
       box-sizing: border-box;
@@ -130,6 +135,6 @@
       resize: vertical;
       width: 100%;
     }
-  `);const t=document.createElement("meta");t.id=w,document.head.append(t);}function $(){lt(),S("KHInsider直リンク抽出パネルを開く",x),S("KHInsider直リンク抽出を開始",()=>{x(),A();}),x();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",$,{once:true}):$();
+  `);const t=document.createElement("meta");t.id=v,document.head.append(t);}function L(){xt(),g("KHInsider直リンク抽出パネルを開く",m),g("KHInsider直リンク抽出を開始",()=>{m(),E();}),g("KHInsider音声ファイルを取得して保存",()=>{m(),D();}),m();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",L,{once:true}):L();
 
 })();

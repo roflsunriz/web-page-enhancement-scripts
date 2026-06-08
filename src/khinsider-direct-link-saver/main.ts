@@ -6,6 +6,7 @@ import {
   setValue,
   xmlHttpRequest,
 } from '@/shared/userscript';
+import { GM_download, type GmDownloadErrorEvent } from 'vite-plugin-monkey/dist/client';
 
 type AudioExtension = 'flac' | 'm4a' | 'aac' | 'mp3';
 
@@ -57,6 +58,7 @@ const AUDIO_EXTENSION_PRIORITIES: Record<AudioExtension, number> = {
 };
 
 let activeRunId = 0;
+let activeDownloadRunId = 0;
 let currentResults: DirectLinkResult[] = [];
 
 function clampConcurrency(value: number): number {
@@ -280,6 +282,29 @@ function formatStoredLinks(links: StoredDirectLink[]): string {
   return links.map((link) => link.directUrl).join('\n');
 }
 
+function sanitizeFileName(value: string): string {
+  const invalidFileNameCharacters = new Set(['<', '>', ':', '"', '/', '\\', '|', '?', '*']);
+  const sanitized = value
+    .split('')
+    .map((character) => {
+      if (invalidFileNameCharacters.has(character) || character.charCodeAt(0) < 32) {
+        return '_';
+      }
+
+      return character;
+    })
+    .join('')
+    .replace(/\s+/g, ' ')
+    .trim();
+
+  return sanitized.length > 0 ? sanitized : 'track';
+}
+
+function createDownloadFileName(link: StoredDirectLink, index: number): string {
+  const prefix = String(index + 1).padStart(2, '0');
+  return `${prefix} ${sanitizeFileName(link.title)}.${link.extension}`;
+}
+
 function getPanel(): HTMLElement | null {
   return document.getElementById(PANEL_ID);
 }
@@ -301,6 +326,7 @@ function updateOutput(): void {
   const output = panel.querySelector<HTMLTextAreaElement>('[data-role="output"]');
   const copyButton = panel.querySelector<HTMLButtonElement>('[data-action="copy"]');
   const clearButton = panel.querySelector<HTMLButtonElement>('[data-action="clear"]');
+  const downloadButton = panel.querySelector<HTMLButtonElement>('[data-action="download"]');
 
   if (output) {
     output.value = formatStoredLinks(links);
@@ -310,6 +336,9 @@ function updateOutput(): void {
   }
   if (clearButton) {
     clearButton.disabled = links.length === 0;
+  }
+  if (downloadButton) {
+    downloadButton.disabled = links.length === 0;
   }
 }
 
@@ -331,14 +360,19 @@ function setRunning(running: boolean): void {
   }
 
   panel.querySelector<HTMLButtonElement>('[data-action="start"]')?.toggleAttribute('disabled', running);
+  panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.toggleAttribute('disabled', running);
   panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.toggleAttribute('disabled', !running);
+  panel.querySelector<HTMLButtonElement>('[data-action="download"]')?.toggleAttribute('disabled', running);
   const concurrencyInput = panel.querySelector<HTMLInputElement>('[data-role="concurrency"]');
   if (concurrencyInput) {
     concurrencyInput.disabled = running;
   }
+  if (!running) {
+    updateOutput();
+  }
 }
 
-async function startExtraction(): Promise<void> {
+async function startExtraction(): Promise<StoredDirectLink[]> {
   const runId = activeRunId + 1;
   activeRunId = runId;
 
@@ -348,7 +382,7 @@ async function startExtraction(): Promise<void> {
     saveStoredLinks([]);
     updateOutput();
     setStatus('末尾が.mp3の曲ページリンクが見つかりません');
-    return;
+    return [];
   }
 
   const concurrency = getSavedConcurrency();
@@ -383,7 +417,7 @@ async function startExtraction(): Promise<void> {
   if (activeRunId !== runId) {
     setStatus('停止しました');
     setRunning(false);
-    return;
+    return [];
   }
 
   const storedLinks = toStoredLinks(currentResults);
@@ -391,6 +425,7 @@ async function startExtraction(): Promise<void> {
   updateOutput();
   setStatus(`完了: ${storedLinks.length}/${tracks.length}件の直リンクを保存しました`);
   setRunning(false);
+  return storedLinks;
 }
 
 function stopExtraction(): void {
@@ -412,6 +447,73 @@ function clearSavedLinks(): void {
   setStatus('保存済みリンクを削除しました');
 }
 
+function downloadStoredLink(link: StoredDirectLink, fileName: string): Promise<void> {
+  return new Promise((resolve, reject) => {
+    GM_download({
+      url: link.directUrl,
+      name: fileName,
+      saveAs: false,
+      onload: () => {
+        resolve();
+      },
+      onerror: (error: GmDownloadErrorEvent) => {
+        reject(new Error(`download failed: ${error.error}`));
+      },
+      ontimeout: () => {
+        reject(new Error('download timeout'));
+      },
+    });
+  });
+}
+
+async function downloadSavedFiles(links: StoredDirectLink[] = getStoredLinks()): Promise<void> {
+  const runId = activeDownloadRunId + 1;
+  activeDownloadRunId = runId;
+
+  if (links.length === 0) {
+    setStatus('保存対象の音声リンクがありません');
+    return;
+  }
+
+  const concurrency = getSavedConcurrency();
+  let completedCount = 0;
+  let failedCount = 0;
+
+  setRunning(true);
+  setStatus(`ダウンロード中: 0/${links.length}`);
+
+  await runConcurrent(links, concurrency, async (link, index) => {
+    if (activeDownloadRunId !== runId) {
+      return;
+    }
+
+    try {
+      await downloadStoredLink(link, createDownloadFileName(link, index));
+      completedCount += 1;
+    } catch {
+      failedCount += 1;
+    }
+
+    setStatus(`ダウンロード中: ${completedCount + failedCount}/${links.length} 完了 ${completedCount} 失敗 ${failedCount}`);
+  });
+
+  if (activeDownloadRunId !== runId) {
+    setStatus('ダウンロードを停止しました');
+    setRunning(false);
+    return;
+  }
+
+  setStatus(`ダウンロード完了: 完了 ${completedCount} 失敗 ${failedCount}`);
+  setRunning(false);
+}
+
+async function extractAndDownload(): Promise<void> {
+  const links = await startExtraction();
+  if (links.length > 0) {
+    await downloadSavedFiles(links);
+  }
+}
+
 function createPanel(): HTMLElement {
   const panel = document.createElement('section');
   panel.id = PANEL_ID;
@@ -426,6 +528,8 @@ function createPanel(): HTMLElement {
         <input type="number" min="${MIN_CONCURRENCY}" max="${MAX_CONCURRENCY}" step="1" value="${getSavedConcurrency()}" data-role="concurrency">
       </label>
       <button type="button" data-action="start">取得</button>
+      <button type="button" data-action="start-download">取得して保存</button>
+      <button type="button" data-action="download">保存</button>
       <button type="button" data-action="stop" disabled>停止</button>
       <button type="button" data-action="copy">コピー</button>
       <button type="button" data-action="clear">削除</button>
@@ -437,7 +541,16 @@ function createPanel(): HTMLElement {
   panel.querySelector<HTMLButtonElement>('[data-action="start"]')?.addEventListener('click', () => {
     void startExtraction();
   });
-  panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.addEventListener('click', stopExtraction);
+  panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.addEventListener('click', () => {
+    void extractAndDownload();
+  });
+  panel.querySelector<HTMLButtonElement>('[data-action="download"]')?.addEventListener('click', () => {
+    void downloadSavedFiles();
+  });
+  panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.addEventListener('click', () => {
+    stopExtraction();
+    activeDownloadRunId += 1;
+  });
   panel.querySelector<HTMLButtonElement>('[data-action="copy"]')?.addEventListener('click', copySavedLinks);
   panel.querySelector<HTMLButtonElement>('[data-action="clear"]')?.addEventListener('click', clearSavedLinks);
   panel.querySelector<HTMLButtonElement>('[data-action="hide"]')?.addEventListener('click', () => {
@@ -569,6 +682,10 @@ function initialize(): void {
   registerMenuCommand('KHInsider直リンク抽出を開始', () => {
     showPanel();
     void startExtraction();
+  });
+  registerMenuCommand('KHInsider音声ファイルを取得して保存', () => {
+    showPanel();
+    void extractAndDownload();
   });
   showPanel();
 }
