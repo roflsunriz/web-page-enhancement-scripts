@@ -6,6 +6,7 @@ const SCRIPT_ID = 'yahoo-mail-mark-read';
 const BUTTON_CLASS = `${SCRIPT_ID}-button`;
 const TOAST_ID = `${SCRIPT_ID}-toast`;
 const FOLDER_LABEL_SELECTOR = '[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]';
+const FOLDER_UNREAD_BADGE_SELECTOR = '[title^="未読メール："]';
 const CHECKBOX_ALL_SELECTOR = '[data-cy="mailListCheckBoxAll"]';
 const CHECKBOX_ALL_INPUT_SELECTOR = '[data-cy="mailListCheckBoxAllInput"]';
 const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
@@ -49,6 +50,10 @@ function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
 
 function getFolderName(label: Element): string {
   return getElementText(label) || 'このフォルダー';
+}
+
+function hasUnreadMail(row: Element): boolean {
+  return row.querySelector(FOLDER_UNREAD_BADGE_SELECTOR) !== null;
 }
 
 function getFolderId(label: Element): string | null {
@@ -178,10 +183,19 @@ function ensureFolderButtons(): void {
 
   for (const label of labels) {
     const row = label.closest('li');
-    if (!row || row.querySelector(`.${BUTTON_CLASS}`)) {
+    if (!row) {
       continue;
     }
 
+    const existingButton = row.querySelector(`.${BUTTON_CLASS}`);
+    if (!hasUnreadMail(row)) {
+      existingButton?.remove();
+      continue;
+    }
+
+    if (existingButton) {
+      continue;
+    }
     row.append(createMarkReadButton(label));
   }
 }

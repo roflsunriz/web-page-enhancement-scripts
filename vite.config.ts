@@ -469,7 +469,7 @@ const xCommunityNoteCloseMeta: MonkeyUserScript = {
 const yahooMailMarkReadMeta: MonkeyUserScript = {
   name: 'yahoo-mail-mark-read',
   namespace: 'yahooMailMarkRead',
-  version: '1.0.2',
+  version: '1.0.3',
   description: 'Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加',
   author: 'roflsunriz',
   match: ['https://mail.yahoo.co.jp/*'],
