@@ -12,6 +12,7 @@ const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
 const POPUP_MENU_READ_SELECTOR = '[data-cy="popupMenuRead"]';
 const MARK_READ_TEXT = '既読にする';
 const OPERATION_DELAY_MS = 180;
+const FOLDER_SELECTION_DELAY_MS = 450;
 const MENU_WAIT_TIMEOUT_MS = 3000;
 
 function sleep(milliseconds: number): Promise<void> {
@@ -48,6 +49,26 @@ function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
 
 function getFolderName(label: Element): string {
   return getElementText(label) || 'このフォルダー';
+}
+
+function getFolderId(label: Element): string | null {
+  return label.getAttribute('data-cy-identifier');
+}
+
+function isCurrentFolder(label: Element): boolean {
+  const folderId = getFolderId(label);
+  return folderId !== null && window.location.pathname.endsWith(`/list/${folderId}`);
+}
+
+async function selectFolder(label: Element): Promise<void> {
+  if (!isClickableElement(label)) {
+    throw new Error('フォルダーを選択できません。');
+  }
+
+  if (!isCurrentFolder(label)) {
+    label.click();
+    await sleep(FOLDER_SELECTION_DELAY_MS);
+  }
 }
 
 function isAllSelected(): boolean {
@@ -106,12 +127,15 @@ async function waitForMarkReadMenuItem(): Promise<ClickableElement> {
   throw new Error('「既読にする」メニューが見つかりません。');
 }
 
-async function markCurrentFolderRead(folderName: string, button: HTMLButtonElement): Promise<void> {
+async function markCurrentFolderRead(label: Element, button: HTMLButtonElement): Promise<void> {
+  const folderName = getFolderName(label);
   button.disabled = true;
   button.dataset.running = 'true';
-  showToast(`${folderName} のメールを選択しています`);
+  showToast(`${folderName} を開いています`);
 
   try {
+    await selectFolder(label);
+    showToast(`${folderName} のメールを選択しています`);
     clickAllCheckbox();
     await sleep(OPERATION_DELAY_MS);
 
@@ -144,7 +168,7 @@ function createMarkReadButton(label: Element): HTMLButtonElement {
   button.addEventListener('click', (event) => {
     event.preventDefault();
     event.stopPropagation();
-    void markCurrentFolderRead(getFolderName(label), button);
+    void markCurrentFolderRead(label, button);
   });
   return button;
 }
