@@ -8,7 +8,8 @@ const TOAST_ID = `${SCRIPT_ID}-toast`;
 const FOLDER_LABEL_SELECTOR = '[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]';
 const CHECKBOX_ALL_SELECTOR = '[data-cy="mailListCheckBoxAll"]';
 const CHECKBOX_ALL_INPUT_SELECTOR = '[data-cy="mailListCheckBoxAllInput"]';
-const MENU_BUTTON_TITLE = 'メニューを開く';
+const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
+const POPUP_MENU_READ_SELECTOR = '[data-cy="popupMenuRead"]';
 const MARK_READ_TEXT = '既読にする';
 const OPERATION_DELAY_MS = 180;
 const MENU_WAIT_TIMEOUT_MS = 3000;
@@ -68,11 +69,16 @@ function clickAllCheckbox(): void {
 }
 
 function findMenuButton(): HTMLButtonElement | null {
-  const buttons = Array.from(document.querySelectorAll<HTMLButtonElement>('button'));
-  return buttons.find((button) => button.title === MENU_BUTTON_TITLE && !button.disabled) ?? null;
+  const button = document.querySelector<HTMLButtonElement>(TOOLBAR_OTHERS_SELECTOR);
+  return button && !button.disabled ? button : null;
 }
 
 function findMarkReadMenuItem(): ClickableElement | null {
+  const stableMenuItem = document.querySelector(POPUP_MENU_READ_SELECTOR);
+  if (isClickableElement(stableMenuItem)) {
+    return stableMenuItem;
+  }
+
   const candidates = Array.from(
     document.querySelectorAll<HTMLElement>('button, [role="menuitem"], [role="option"], li, div'),
   ).filter((candidate) => getElementText(candidate).includes(MARK_READ_TEXT));

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         yahoo-mail-mark-read
 // @namespace    yahooMailMarkRead
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加
 // @license      MIT
@@ -15,8 +15,8 @@
 (function () {
   'use strict';
 
-  const c="yahoo-mail-mark-read",o=`${c}-button`,a=`${c}-toast`,b='[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]',y='[data-cy="mailListCheckBoxAll"]',E='[data-cy="mailListCheckBoxAllInput"]',x="メニューを開く",d="既読にする",u=180,w=3e3;function l(e){return new Promise(t=>{window.setTimeout(t,e);})}function i(e){return e.textContent?.replace(/\s+/g," ").trim()??""}function T(e){return e instanceof HTMLElement}function g(e){return T(e)&&typeof e.click=="function"}function s(e,t="info"){document.getElementById(a)?.remove();const n=document.createElement("div");n.id=a,n.dataset.variant=t,n.textContent=e,document.body.append(n),window.setTimeout(()=>{n.remove();},2200);}function f(e){return i(e)||"このフォルダー"}function A(){return document.querySelector(E)?.checked??false}function h(){if(A())return;const e=document.querySelector(y);if(!g(e))throw new Error("メール一覧の全選択チェックボックスが見つかりません。");e.click();}function k(){return Array.from(document.querySelectorAll("button")).find(t=>t.title===x&&!t.disabled)??null}function L(){const e=Array.from(document.querySelectorAll('button, [role="menuitem"], [role="option"], li, div')).filter(n=>i(n).includes(d)),t=e.find(n=>i(n)===d);return t||(e.find(n=>!Array.from(n.children).some(r=>i(r).includes(d)))??null)}async function C(){const e=Date.now();for(;Date.now()-e<w;){const t=L();if(t)return t;await l(80);}throw new Error("「既読にする」メニューが見つかりません。")}async function _(e,t){t.disabled=true,t.dataset.running="true",s(`${e} のメールを選択しています`);try{h(),await l(u);const n=k();if(!n)throw new Error("メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。");n.click();const r=await C();await l(u),r.click(),s(`${e} を既読にしました`);}catch(n){const r=n instanceof Error?n.message:"既読化に失敗しました。";s(r,"error");}finally{t.disabled=false,delete t.dataset.running;}}function S(e){const t=document.createElement("button");return t.type="button",t.className=o,t.textContent="既読",t.title=`${f(e)} の表示中メールをすべて既読にする`,t.addEventListener("click",n=>{n.preventDefault(),n.stopPropagation(),_(f(e),t);}),t}function p(){const e=Array.from(document.querySelectorAll(b));for(const t of e){const n=t.closest("li");!n||n.querySelector(`.${o}`)||n.append(S(t));}}function v(){if(document.getElementById(`${c}-styles`))return;const e=document.createElement("style");e.id=`${c}-styles`,e.textContent=`
-    .${o} {
+  const a="yahoo-mail-mark-read",r=`${a}-button`,i=`${a}-toast`,E='[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]',x='[data-cy="mailListCheckBoxAll"]',w='[data-cy="mailListCheckBoxAllInput"]',L='[data-cy="toolBarOthers"]',T='[data-cy="popupMenuRead"]',d="既読にする",l=180,g=3e3;function u(e){return new Promise(t=>{window.setTimeout(t,e);})}function c(e){return e.textContent?.replace(/\s+/g," ").trim()??""}function h(e){return e instanceof HTMLElement}function p(e){return h(e)&&typeof e.click=="function"}function s(e,t="info"){document.getElementById(i)?.remove();const n=document.createElement("div");n.id=i,n.dataset.variant=t,n.textContent=e,document.body.append(n),window.setTimeout(()=>{n.remove();},2200);}function f(e){return c(e)||"このフォルダー"}function A(){return document.querySelector(w)?.checked??false}function k(){if(A())return;const e=document.querySelector(x);if(!p(e))throw new Error("メール一覧の全選択チェックボックスが見つかりません。");e.click();}function C(){const e=document.querySelector(L);return e&&!e.disabled?e:null}function S(){const e=document.querySelector(T);if(p(e))return e;const t=Array.from(document.querySelectorAll('button, [role="menuitem"], [role="option"], li, div')).filter(o=>c(o).includes(d)),n=t.find(o=>c(o)===d);return n||(t.find(o=>!Array.from(o.children).some(y=>c(y).includes(d)))??null)}async function _(){const e=Date.now();for(;Date.now()-e<g;){const t=S();if(t)return t;await u(80);}throw new Error("「既読にする」メニューが見つかりません。")}async function O(e,t){t.disabled=true,t.dataset.running="true",s(`${e} のメールを選択しています`);try{k(),await u(l);const n=C();if(!n)throw new Error("メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。");n.click();const o=await _();await u(l),o.click(),s(`${e} を既読にしました`);}catch(n){const o=n instanceof Error?n.message:"既読化に失敗しました。";s(o,"error");}finally{t.disabled=false,delete t.dataset.running;}}function M(e){const t=document.createElement("button");return t.type="button",t.className=r,t.textContent="既読",t.title=`${f(e)} の表示中メールをすべて既読にする`,t.addEventListener("click",n=>{n.preventDefault(),n.stopPropagation(),O(f(e),t);}),t}function b(){const e=Array.from(document.querySelectorAll(E));for(const t of e){const n=t.closest("li");!n||n.querySelector(`.${r}`)||n.append(M(t));}}function R(){if(document.getElementById(`${a}-styles`))return;const e=document.createElement("style");e.id=`${a}-styles`,e.textContent=`
+    .${r} {
       align-items: center;
       background: #ffffff;
       border: 1px solid #c9d3df;
@@ -34,24 +34,24 @@
       white-space: nowrap;
     }
 
-    .${o}:hover {
+    .${r}:hover {
       background: #f2f6fb;
       border-color: #8da4bd;
       color: #0057af;
     }
 
-    .${o}:disabled {
+    .${r}:disabled {
       cursor: wait;
       opacity: 0.7;
     }
 
-    .${o}[data-running="true"] {
+    .${r}[data-running="true"] {
       background: #eaf4ff;
       border-color: #66a6e8;
       color: #0057af;
     }
 
-    #${a} {
+    #${i} {
       background: #263442;
       border-radius: 6px;
       bottom: 24px;
@@ -65,9 +65,9 @@
       z-index: 2147483647;
     }
 
-    #${a}[data-variant="error"] {
+    #${i}[data-variant="error"] {
       background: #b3261e;
     }
-  `,document.head.append(e);}function M(){if(!document.body)return;new MutationObserver(()=>{p();}).observe(document.body,{childList:true,subtree:true});}function m(){v(),p(),M();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",m,{once:true}):m();
+  `,document.head.append(e);}function v(){if(!document.body)return;new MutationObserver(()=>{b();}).observe(document.body,{childList:true,subtree:true});}function m(){R(),b(),v();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",m,{once:true}):m();
 
 })();

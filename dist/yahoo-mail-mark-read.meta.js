@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         yahoo-mail-mark-read
 // @namespace    yahooMailMarkRead
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加
 // @license      MIT
