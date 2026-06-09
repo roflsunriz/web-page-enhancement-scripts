@@ -28,6 +28,7 @@ const targets = [
   { mode: 'twitter-thread-copier', clear: false },
   { mode: 'x-auto-spam-reporter', clear: false },
   { mode: 'x-community-note-close', clear: false },
+  { mode: 'yahoo-mail-mark-read', clear: false },
   { mode: 'youtube-info-copier', clear: false },
 ];
 

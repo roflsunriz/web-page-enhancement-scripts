@@ -466,6 +466,22 @@ const xCommunityNoteCloseMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-community-note-close.user.js',
 };
 
+const yahooMailMarkReadMeta: MonkeyUserScript = {
+  name: 'yahoo-mail-mark-read',
+  namespace: 'yahooMailMarkRead',
+  version: '1.0.0',
+  description: 'Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加',
+  author: 'roflsunriz',
+  match: ['https://mail.yahoo.co.jp/*'],
+  grant: [],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=mail.yahoo.co.jp',
+  'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/yahoo-mail-mark-read.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/yahoo-mail-mark-read.user.js',
+};
+
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
@@ -577,6 +593,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'x-community-note-close.user.js',
     meta: xCommunityNoteCloseMeta,
   },
+  'yahoo-mail-mark-read': {
+    entry: 'src/yahoo-mail-mark-read/main.ts',
+    fileName: 'yahoo-mail-mark-read.user.js',
+    meta: yahooMailMarkReadMeta,
+  },
   'youtube-info-copier': {
     entry: 'src/youtube-info-copier/main.ts',
     fileName: 'youtube-info-copier.user.js',
@@ -621,6 +642,7 @@ export default defineConfig((configEnv) => {
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
         '@/x-auto-spam-reporter': resolve(dir, 'src/x-auto-spam-reporter'),
         '@/x-community-note-close': resolve(dir, 'src/x-community-note-close'),
+        '@/yahoo-mail-mark-read': resolve(dir, 'src/yahoo-mail-mark-read'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
         '@/shared': resolve(dir, 'src/shared'),
       },
