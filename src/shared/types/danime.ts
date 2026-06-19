@@ -22,7 +22,12 @@ export interface NicoComment {
  */
 export interface RendererSettings {
   // comment-overlayから継承するプロパティ
+  commentColor: string;
+  commentOpacity: number;
+  isCommentVisible: boolean;
   useContainerResizeObserver: boolean;
+  ngWords: string[];
+  ngRegexps: string[];
   scrollDirection: "rtl" | "ltr";
   renderStyle: "classic" | "outline-only";
   syncMode: "raf" | "video-frame";
@@ -30,15 +35,11 @@ export interface RendererSettings {
   useFixedLaneCount: boolean;
   fixedLaneCount: number;
   useDprScaling: boolean;
-  enableAutoHardReset: boolean;
+  shadowIntensity: "none" | "light" | "medium" | "strong";
 
-  // d-anime固有のプロパティ（オーバーライド・追加）
-  commentColor: string;
-  commentOpacity: number;
-  isCommentVisible: boolean;
+  // d-anime固有のプロパティ
   autoSearchEnabled: boolean;
-  ngWords: string[];
-  ngRegexps: string[];
+  enableAutoHardReset?: boolean;
 }
 
 export interface VideoOwnerInfo {

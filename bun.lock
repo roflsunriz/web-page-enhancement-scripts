@@ -6,7 +6,7 @@
       "name": "web-page-enhancement-scripts",
       "dependencies": {
         "@mdi/js": "7.4.47",
-        "comment-overlay": "^3.0.0",
+        "comment-overlay": "^4.0.0",
         "fflate": "^0.8.2",
         "react": "^19.2.0",
         "react-dom": "^19.2.0",
@@ -222,7 +222,7 @@
 
     "color-name": ["color-name@1.1.4", "", {}, "sha512-dOy+3AuW3a2wNbZHIuMZpTcgjGuLU/uBL/ubcZF9OXbDo8ff4O8yVp5Bf0efS8uEoYo5q4Fx7dY9OgQGXgAsQA=="],
 
-    "comment-overlay": ["comment-overlay@3.0.0", "", {}, "sha512-D6kfCBCO1jmrhx/Ol3cXnLwmITsqt3rIUTEb0Wy8eqcXmPZ7cK9R50g6CGZ9V5Uz83K8h7nBDDdGGMKhlqFWjA=="],
+    "comment-overlay": ["comment-overlay@4.0.0", "", {}, "sha512-X2e46se/8JN4lTJQLifLt9rNemH4QIGoKHvUX1GjiwFy6D+Ffd0/FtbqNQjBwDO3C+ZBU1zUJgVpDCkyLFgAUg=="],
 
     "concat-map": ["concat-map@0.0.1", "", {}, "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="],
 
