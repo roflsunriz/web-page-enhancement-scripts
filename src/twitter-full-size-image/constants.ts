@@ -3,7 +3,7 @@ export const TWITTER_IMAGE_PATTERN =
   /^https:\/\/(pbs|ton)\.twimg\.com\/media\/([^?&]+)/;
 
 /** フルサイズを示すパラメータ名 */
-export const FULL_SIZE_NAMES = ["orig", "4096x4096", "large"];
+export const FULL_SIZE_NAMES = ["orig"];
 
 /** リダイレクトループ防止用のセッションストレージキー */
 export const REDIRECT_SESSION_KEY = "twitter_image_redirect_count";

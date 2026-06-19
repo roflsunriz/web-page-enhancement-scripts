@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-image-fullsize-redirect
 // @namespace    twitterImageFullsizeRedirect
-// @version      2.1.2
+// @version      2.1.3
 // @author       roflsunriz
 // @description  Twitterの画像リンクを自動的にフルサイズ画像にリダイレクト
 // @license      MIT
