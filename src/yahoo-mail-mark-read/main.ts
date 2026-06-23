@@ -13,8 +13,10 @@ const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
 const POPUP_MENU_READ_SELECTOR = '[data-cy="popupMenuRead"]';
 const MARK_READ_TEXT = '既読にする';
 const OPERATION_DELAY_MS = 180;
-const FOLDER_SELECTION_DELAY_MS = 450;
+const FOLDER_SELECTION_TIMEOUT_MS = 8000;
+const MAIL_SELECTION_TIMEOUT_MS = 5000;
 const MENU_WAIT_TIMEOUT_MS = 3000;
+const POLLING_INTERVAL_MS = 80;
 
 function sleep(milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
@@ -32,6 +34,35 @@ function isHTMLElement(element: Element | null): element is HTMLElement {
 
 function isClickableElement(element: Element | null): element is ClickableElement {
   return isHTMLElement(element) && typeof element.click === 'function';
+}
+
+function isElementVisible(element: HTMLElement): boolean {
+  return element.getClientRects().length > 0;
+}
+
+function isElementDisabled(element: HTMLElement): boolean {
+  if ('disabled' in element && typeof element.disabled === 'boolean') {
+    return element.disabled;
+  }
+
+  return element.getAttribute('aria-disabled') === 'true';
+}
+
+async function waitFor<T>(
+  getValue: () => T | null,
+  timeoutMs: number,
+  errorMessage: string,
+): Promise<T> {
+  const startedAt = Date.now();
+  while (Date.now() - startedAt < timeoutMs) {
+    const value = getValue();
+    if (value !== null) {
+      return value;
+    }
+    await sleep(POLLING_INTERVAL_MS);
+  }
+
+  throw new Error(errorMessage);
 }
 
 function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
@@ -72,8 +103,13 @@ async function selectFolder(label: Element): Promise<void> {
 
   if (!isCurrentFolder(label)) {
     label.click();
-    await sleep(FOLDER_SELECTION_DELAY_MS);
   }
+
+  await waitFor(
+    () => (isCurrentFolder(label) && findAllCheckbox() ? true : null),
+    FOLDER_SELECTION_TIMEOUT_MS,
+    'フォルダーの読み込みが完了しませんでした。',
+  );
 }
 
 function isAllSelected(): boolean {
@@ -81,33 +117,49 @@ function isAllSelected(): boolean {
   return input?.checked ?? false;
 }
 
-function clickAllCheckbox(): void {
+function findAllCheckbox(): ClickableElement | null {
+  const checkbox = document.querySelector(CHECKBOX_ALL_SELECTOR);
+  return isClickableElement(checkbox) && isElementVisible(checkbox) ? checkbox : null;
+}
+
+async function clickAllCheckbox(): Promise<void> {
   if (isAllSelected()) {
     return;
   }
 
-  const checkbox = document.querySelector(CHECKBOX_ALL_SELECTOR);
-  if (!isClickableElement(checkbox)) {
-    throw new Error('メール一覧の全選択チェックボックスが見つかりません。');
-  }
+  const checkbox = await waitFor(
+    findAllCheckbox,
+    MAIL_SELECTION_TIMEOUT_MS,
+    'メール一覧の全選択チェックボックスが見つかりません。',
+  );
 
   checkbox.click();
+
+  await waitFor(
+    () => (isAllSelected() ? true : null),
+    MAIL_SELECTION_TIMEOUT_MS,
+    'メールの選択が完了しませんでした。',
+  );
 }
 
 function findMenuButton(): HTMLButtonElement | null {
   const button = document.querySelector<HTMLButtonElement>(TOOLBAR_OTHERS_SELECTOR);
-  return button && !button.disabled ? button : null;
+  return button && isElementVisible(button) && !isElementDisabled(button) ? button : null;
 }
 
 function findMarkReadMenuItem(): ClickableElement | null {
   const stableMenuItem = document.querySelector(POPUP_MENU_READ_SELECTOR);
-  if (isClickableElement(stableMenuItem)) {
+  if (isClickableElement(stableMenuItem) && isElementVisible(stableMenuItem) && !isElementDisabled(stableMenuItem)) {
     return stableMenuItem;
   }
 
   const candidates = Array.from(
     document.querySelectorAll<HTMLElement>('button, [role="menuitem"], [role="option"], li, div'),
-  ).filter((candidate) => getElementText(candidate).includes(MARK_READ_TEXT));
+  ).filter((candidate) =>
+    isElementVisible(candidate)
+    && !isElementDisabled(candidate)
+    && getElementText(candidate).includes(MARK_READ_TEXT),
+  );
 
   const exactCandidate = candidates.find((candidate) => getElementText(candidate) === MARK_READ_TEXT);
   if (exactCandidate) {
@@ -120,16 +172,22 @@ function findMarkReadMenuItem(): ClickableElement | null {
 }
 
 async function waitForMarkReadMenuItem(): Promise<ClickableElement> {
-  const startedAt = Date.now();
-  while (Date.now() - startedAt < MENU_WAIT_TIMEOUT_MS) {
-    const menuItem = findMarkReadMenuItem();
-    if (menuItem) {
-      return menuItem;
-    }
-    await sleep(80);
-  }
+  return waitFor(
+    findMarkReadMenuItem,
+    MENU_WAIT_TIMEOUT_MS,
+    '「既読にする」メニューが見つかりません。',
+  );
+}
 
-  throw new Error('「既読にする」メニューが見つかりません。');
+async function openMarkReadMenu(): Promise<ClickableElement> {
+  const menuButton = await waitFor(
+    findMenuButton,
+    MAIL_SELECTION_TIMEOUT_MS,
+    'メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。',
+  );
+
+  menuButton.click();
+  return waitForMarkReadMenuItem();
 }
 
 async function markCurrentFolderRead(label: Element, button: HTMLButtonElement): Promise<void> {
@@ -141,16 +199,10 @@ async function markCurrentFolderRead(label: Element, button: HTMLButtonElement):
   try {
     await selectFolder(label);
     showToast(`${folderName} のメールを選択しています`);
-    clickAllCheckbox();
+    await clickAllCheckbox();
     await sleep(OPERATION_DELAY_MS);
 
-    const menuButton = findMenuButton();
-    if (!menuButton) {
-      throw new Error('メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。');
-    }
-
-    menuButton.click();
-    const markReadMenuItem = await waitForMarkReadMenuItem();
+    const markReadMenuItem = await openMarkReadMenu();
     await sleep(OPERATION_DELAY_MS);
     markReadMenuItem.click();
 
