@@ -1,6 +1,10 @@
 import { LegacyConfiguration, defaultLegacyCollectorConfig } from "./config";
 import { getUnsafeWindow } from "@/shared/userscript";
-import { createLogger, type Logger } from "@/shared/logger";
+import {
+  configureLoggerFilter,
+  createLogger,
+  type Logger,
+} from "@/shared/logger";
 import { registerConfigCommands } from "./register-config-commands";
 import { BadImageHandler } from "./core/bad-image-handler";
 import { ImageCollectorMain } from "./core/image-collector";
@@ -17,19 +21,23 @@ import { UIEventHandler } from "./ui/ui-event-handler";
 
 export async function runLegacyImageCollector(): Promise<void> {
   const config = new LegacyConfiguration(defaultLegacyCollectorConfig);
-  const logger = createLogger("ImageCollector2");
+  configureLoggerFilter((level) => {
+    if (level === "warn" || level === "error") {
+      return true;
+    }
+    return config.isDebugEnabled();
+  });
   const bootstrapLogger = createLogger("ImageCollector2:Bootstrap");
 
   bootstrapLogger.info("legacy collector bootstrap start");
 
   // Material Iconsフォント注入は廃止（@mdi/jsのSVGを使用）
 
-  initializeComponents(config, logger, bootstrapLogger);
+  initializeComponents(config, bootstrapLogger);
 }
 
 function initializeComponents(
   config: LegacyConfiguration,
-  logger: Logger,
   bootstrapLogger: Logger,
 ): void {
   try {
@@ -46,7 +54,9 @@ function initializeComponents(
 
     requestAnimationFrame(() => {
       try {
-        const progressBar = new ProgressBar(createLogger("ImageCollector2:ProgressBar"));
+        const progressBar = new ProgressBar(
+          createLogger("ImageCollector2:ProgressBar"),
+        );
         const toast = new Toast(createLogger("ImageCollector2:Toast"));
         const uiBatchUpdater = new UIBatchUpdater(
           uiBuilder,
@@ -103,17 +113,11 @@ function initializeComponents(
 
         bootstrapLogger.info("legacy collector components initialized");
       } catch (error) {
-        bootstrapLogger.error(
-          "遅延初期化中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
-        );
+        bootstrapLogger.error("遅延初期化中にエラーが発生しました", error);
       }
     });
   } catch (error) {
-    bootstrapLogger.error(
-      "コンポーネント初期化中にエラーが発生しました",
-      error instanceof Error ? error : undefined,
-    );
+    bootstrapLogger.error("コンポーネント初期化中にエラーが発生しました", error);
   }
 }
 

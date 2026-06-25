@@ -18,7 +18,7 @@ export class MenuRegister {
       } catch (error) {
         this.logger.error(
           "メニューコマンド実行中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });

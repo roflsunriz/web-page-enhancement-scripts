@@ -74,7 +74,7 @@ export class ImageSourceClassifier {
     } catch (error) {
       this.logger.error(
         "画像ソース分類中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         { url },
       );
       return {

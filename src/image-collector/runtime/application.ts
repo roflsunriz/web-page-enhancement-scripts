@@ -1,4 +1,4 @@
-import { createLogger, Logger } from "@/shared/logger";
+import { createLogger, type Logger } from "@/shared/logger";
 import type { CollectionOptions } from "@/shared/types";
 import { runLegacyImageCollector } from "..";
 

@@ -63,7 +63,7 @@ export class RequestBatchLimiter {
         } catch (error) {
           this.logger.error(
             "バッチ処理中に予期しないエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
             {
               batchNumber: processedBatches,
             },
@@ -84,7 +84,7 @@ export class RequestBatchLimiter {
     } catch (error) {
       this.logger.error(
         "バッチ処理中に致命的なエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
       );
       throw error;
     } finally {

@@ -53,7 +53,7 @@ export class BadImageHandler {
     } catch (error) {
       this.logger.error(
         "画像のメタデータ取得中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         { url },
       );
       return false;
@@ -85,7 +85,7 @@ export class BadImageHandler {
         } catch (error) {
           this.logger.error(
             "画像の読み込み中にエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
             { url },
           );
         }
@@ -96,7 +96,7 @@ export class BadImageHandler {
     } catch (error) {
       this.logger.error(
         "プレースホルダーの作成中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         { url },
       );
       const fallback = document.createElement("div");
@@ -125,7 +125,7 @@ export class BadImageHandler {
         } catch (error) {
           this.logger.error(
             "画像の再読み込み中にエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
             { url },
           );
         }
@@ -136,7 +136,7 @@ export class BadImageHandler {
     } catch (error) {
       this.logger.error(
         "エラープレースホルダーの作成中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         { url },
       );
       const fallback = document.createElement("div");
@@ -205,7 +205,7 @@ export class BadImageHandler {
                 } catch (error) {
                   this.logger.error(
                     "ヘッダー解析中にエラーが発生しました",
-                    error instanceof Error ? error : undefined,
+                    error,
                     { url },
                   );
                   reject(error);
@@ -214,7 +214,7 @@ export class BadImageHandler {
               .catch((err) => {
                 this.logger.error(
                   "画像メタデータ取得中にエラーが発生しました",
-                  err instanceof Error ? err : undefined,
+                  err,
                   { url },
                 );
                 reject(new Error("HEAD request failed"));
@@ -222,7 +222,7 @@ export class BadImageHandler {
           } catch (error) {
             this.logger.error(
               "メタデータ取得処理でエラーが発生しました",
-              error instanceof Error ? error : undefined,
+              error,
               { url },
             );
             reject(error);
@@ -239,7 +239,7 @@ export class BadImageHandler {
       } catch (error) {
         this.logger.error(
           "メタデータ取得処理の開始中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
           { url },
         );
         reject(error);

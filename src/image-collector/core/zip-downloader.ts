@@ -112,7 +112,7 @@ export class ZipDownloader {
             } catch (error) {
               this.logger.error(
                 "画像のダウンロードに失敗しました",
-                error instanceof Error ? error : undefined,
+                error,
                 { url },
               );
               failed += 1;
@@ -130,7 +130,7 @@ export class ZipDownloader {
         } catch (error) {
           this.logger.error(
             "画像メタデータ処理中にエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
             {
               url,
               index,
@@ -172,7 +172,7 @@ export class ZipDownloader {
           } catch (error) {
             this.logger.error(
               "画像処理中にエラーが発生しました",
-              error instanceof Error ? error : undefined,
+              error,
               {
                 url,
                 fileName,
@@ -234,7 +234,7 @@ export class ZipDownloader {
     } catch (error) {
       this.logger.error(
         "ZIP準備中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         {
           filesDataSize: this.filesData.size,
         },
@@ -297,7 +297,7 @@ export class ZipDownloader {
     } catch (error) {
       this.logger.error(
         "ZIPダウンロード中に詳細エラー情報",
-        error instanceof Error ? error : undefined,
+        error,
         {
           filesDataSize: this.filesData.size,
         },
@@ -317,7 +317,7 @@ export class ZipDownloader {
     entries: Array<[string, Uint8Array]>,
   ): Promise<void> {
     this.logger.debug("単一ZIPファイル生成開始");
-    console.time("[ZipDownloader] ZIP生成時間");
+    const startedAt = performance.now();
 
     const files: Record<string, Uint8Array> = {};
     for (const [filename, bytes] of entries) {
@@ -327,7 +327,9 @@ export class ZipDownloader {
     const zipOptions = this.createZipOptions();
 
     const zipData = zipSync(files, zipOptions);
-    console.timeEnd("[ZipDownloader] ZIP生成時間");
+    this.logger.debug("ZIP生成時間", {
+      milliseconds: Math.round(performance.now() - startedAt),
+    });
 
     if (!zipData) {
       throw new Error("ZIP生成結果がnullです");
@@ -408,7 +410,7 @@ export class ZipDownloader {
       } catch (error) {
         this.logger.error(
           "ダウンロードリンク作成エラー",
-          error instanceof Error ? error : undefined,
+          error,
           { filename },
         );
         reject(error);

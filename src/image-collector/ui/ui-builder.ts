@@ -55,7 +55,7 @@ export class UIBuilder {
     } catch (error) {
       this.logger.error(
         "モーダルの構築中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
       );
       throw error;
     }

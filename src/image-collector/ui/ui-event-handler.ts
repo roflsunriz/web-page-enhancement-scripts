@@ -27,7 +27,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "モーダルクリックイベント処理中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });
@@ -38,7 +38,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "閉じるボタンクリック処理中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });
@@ -56,7 +56,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "ZIPボタンクリック処理中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });
@@ -82,7 +82,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "画像クリック処理中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });
@@ -198,7 +198,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "フルスクリーンダウンロード中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
           {
             imageUrl,
           },
@@ -229,7 +229,7 @@ export class UIEventHandler {
       } catch (error) {
         this.logger.error(
           "フルスクリーンモーダルの閉じる処理でエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
         );
       }
     });
@@ -242,7 +242,7 @@ export class UIEventHandler {
         } catch (error) {
           this.logger.error(
             "フルスクリーンモーダルの削除中にエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
           );
         }
       }
@@ -270,7 +270,7 @@ export class UIEventHandler {
     } catch (error) {
       this.logger.error(
         "ダウンロード要求の作成中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
         { imageUrl },
       );
     }

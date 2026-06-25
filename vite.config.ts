@@ -52,7 +52,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeCfRankingMeta: MonkeyUserScript = {
   name: 'd-anime-cf-ranking',
   namespace: 'dAnimeCfRanking',
-  version: '1.2.1',
+  version: '1.2.2',
   description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
   author: 'roflsunriz',
   match: [
@@ -81,7 +81,7 @@ const danimeCfRankingMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '7.3.12',
+  version: '7.3.13',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -167,7 +167,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.2.0',
+  version: '5.2.2',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -218,7 +218,7 @@ const imageCollectorMeta: MonkeyUserScript = {
 const imgurDirectLinkCopierMeta: MonkeyUserScript = {
   name: 'imgur-image-link-copier',
   namespace: 'imgurImageLinkCopier',
-  version: '3.2.0',
+  version: '3.2.1',
   description: 'Copy image link from Imgur with TypeScript.',
   author: 'roflsunriz',
   match: ['https://imgur.com/*'],
@@ -361,7 +361,7 @@ const trickcalToolSweepMeta: MonkeyUserScript = {
 const twitterCleanTimelineMeta: MonkeyUserScript = {
   name: 'twitter-clean-timeline',
   namespace: 'twitterCleanTimeline',
-  version: '1.5.0',
+  version: '1.5.1',
   description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート・置き換え）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -437,7 +437,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const xAutoSpamReporterMeta: MonkeyUserScript = {
   name: 'x-auto-spam-reporter',
   namespace: 'xAutoSpamReporter',
-  version: '1.1.1',
+  version: '1.1.2',
   description:
     'X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック',
   author: 'roflsunriz',
@@ -485,7 +485,7 @@ const yahooMailMarkReadMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.4.2',
+  version: '2.4.3',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（従来/FAB/メニュー切替対応）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],

@@ -1,5 +1,4 @@
-import type { Logger } from "@/shared/logger";
-import { createLogger } from "@/shared/logger";
+import { createLogger, type Logger } from "@/shared/logger";
 import type { ClassifiedImage, ImageClassification } from "@/shared/types";
 import { UIBatchUpdater } from "../ui/ui-batch-updater";
 import { ProgressBar } from "../ui/progress-bar";
@@ -94,7 +93,7 @@ export class ImageCollectorMain {
     } catch (error) {
       this.logger.error(
         "画像収集処理中に予期しないエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
       );
       this.toast.show("画像収集中に予期しないエラーが発生しました", "error");
       this.progressBar.hide();
@@ -343,7 +342,13 @@ export class ImageCollectorMain {
             resolve(url);
           }
         })
-        .catch(() => resolve(url));
+        .catch((error: unknown) => {
+          this.logger.warn("SNS画像URL取得中にエラーが発生しました", {
+            error,
+            url,
+          });
+          resolve(url);
+        });
     });
   }
 }

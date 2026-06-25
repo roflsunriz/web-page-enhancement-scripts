@@ -66,7 +66,7 @@ export class UIBatchUpdater {
       } catch (error) {
         this.logger.error(
           "高速パス画像処理中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
           {
             url: item.url,
           },
@@ -106,7 +106,7 @@ export class UIBatchUpdater {
       } catch (error) {
         this.logger.error(
           "画像メタデータの取得中にエラーが発生しました",
-          error instanceof Error ? error : undefined,
+          error,
           {
             url,
           },
@@ -136,7 +136,7 @@ export class UIBatchUpdater {
             } catch (error) {
               this.logger.error(
                 "グリッドへの画像追加中にエラーが発生しました",
-                error instanceof Error ? error : undefined,
+                error,
                 {
                   url,
                 },
@@ -153,7 +153,7 @@ export class UIBatchUpdater {
         } catch (error) {
           this.logger.error(
             "バッチ処理中にエラーが発生しました",
-            error instanceof Error ? error : undefined,
+            error,
           );
           this.isProcessing = false;
         }
@@ -163,7 +163,7 @@ export class UIBatchUpdater {
     } catch (error) {
       this.logger.error(
         "バッチ処理の開始中にエラーが発生しました",
-        error instanceof Error ? error : undefined,
+        error,
       );
       this.isProcessing = false;
     }
