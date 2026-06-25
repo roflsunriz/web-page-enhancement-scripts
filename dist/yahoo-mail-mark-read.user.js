@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         yahoo-mail-mark-read
 // @namespace    yahooMailMarkRead
-// @version      1.0.4
+// @version      1.1.0
 // @author       roflsunriz
 // @description  Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加
 // @license      MIT
@@ -15,8 +15,8 @@
 (function () {
   'use strict';
 
-  const s="yahoo-mail-mark-read",i=`${s}-button`,d=`${s}-toast`,g='[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]',h='[title^="未読メール："]',O='[data-cy="mailListCheckBoxAll"]',S='[data-cy="mailListCheckBoxAllInput"]',k='[data-cy="toolBarOthers"]',C='[data-cy="popupMenuRead"]',f="既読にする",y=180,M=8e3,m=5e3,R=3e3,I=80;function E(t){return new Promise(e=>{window.setTimeout(e,t);})}function u(t){return t.textContent?.replace(/\s+/g," ").trim()??""}function v(t){return t instanceof HTMLElement}function b(t){return v(t)&&typeof t.click=="function"}function l(t){return t.getClientRects().length>0}function p(t){return "disabled"in t&&typeof t.disabled=="boolean"?t.disabled:t.getAttribute("aria-disabled")==="true"}async function c(t,e,n){const o=Date.now();for(;Date.now()-o<e;){const r=t();if(r!==null)return r;await E(I);}throw new Error(n)}function a(t,e="info"){document.getElementById(d)?.remove();const n=document.createElement("div");n.id=d,n.dataset.variant=e,n.textContent=t,document.body.append(n),window.setTimeout(()=>{n.remove();},2200);}function T(t){return u(t)||"このフォルダー"}function B(t){return t.querySelector(h)!==null}function $(t){return t.getAttribute("data-cy-identifier")}function x(t){const e=$(t);return e!==null&&window.location.pathname.endsWith(`/list/${e}`)}async function D(t){if(!b(t))throw new Error("フォルダーを選択できません。");x(t)||t.click(),await c(()=>x(t)&&_()?true:null,M,"フォルダーの読み込みが完了しませんでした。");}function w(){return document.querySelector(S)?.checked??false}function _(){const t=document.querySelector(O);return b(t)&&l(t)?t:null}async function F(){if(w())return;(await c(_,m,"メール一覧の全選択チェックボックスが見つかりません。")).click(),await c(()=>w()?true:null,m,"メールの選択が完了しませんでした。");}function N(){const t=document.querySelector(k);return t&&l(t)&&!p(t)?t:null}function U(){const t=document.querySelector(C);if(b(t)&&l(t)&&!p(t))return t;const e=Array.from(document.querySelectorAll('button, [role="menuitem"], [role="option"], li, div')).filter(o=>l(o)&&!p(o)&&u(o).includes(f)),n=e.find(o=>u(o)===f);return n||(e.find(o=>!Array.from(o.children).some(r=>u(r).includes(f)))??null)}async function P(){return c(U,R,"「既読にする」メニューが見つかりません。")}async function q(){return (await c(N,m,"メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。")).click(),P()}async function H(t,e){const n=T(t);e.disabled=true,e.dataset.running="true",a(`${n} を開いています`);try{await D(t),a(`${n} のメールを選択しています`),await F(),await E(y);const o=await q();await E(y),o.click(),a(`${n} を既読にしました`);}catch(o){const r=o instanceof Error?o.message:"既読化に失敗しました。";a(r,"error");}finally{e.disabled=false,delete e.dataset.running;}}function K(t){const e=document.createElement("button");return e.type="button",e.className=i,e.textContent="既読",e.title=`${T(t)} の表示中メールをすべて既読にする`,e.addEventListener("click",n=>{n.preventDefault(),n.stopPropagation(),H(t,e);}),e}function A(){const t=Array.from(document.querySelectorAll(g));for(const e of t){const n=e.closest("li");if(!n)continue;const o=n.querySelector(`.${i}`);if(!B(n)){o?.remove();continue}o||n.append(K(e));}}function X(){if(document.getElementById(`${s}-styles`))return;const t=document.createElement("style");t.id=`${s}-styles`,t.textContent=`
-    .${i} {
+  const i="yahoo-mail-mark-read",a=`${i}-button`,m=`${i}-bulk-button`,l=`${i}-toast`,L='[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]',B='[title^="未読メール："]',w="1",M='[data-cy="mailListCheckBoxAll"]',I='[data-cy="mailListCheckBoxAllInput"]',v='[data-cy="toolBarOthers"]',D='[data-cy="popupMenuRead"]',y="既読にする",p=180,F=8e3,E=5e3,N=3e3,q=80;function d(t){return new Promise(e=>{window.setTimeout(e,t);})}function s(t){return t.textContent?.replace(/\s+/g," ").trim()??""}function U(t){return t instanceof HTMLElement}function x(t){return U(t)&&typeof t.click=="function"}function f(t){return t.getClientRects().length>0}function g(t){return "disabled"in t&&typeof t.disabled=="boolean"?t.disabled:t.getAttribute("aria-disabled")==="true"}async function u(t,e,n){const o=Date.now();for(;Date.now()-o<e;){const r=t();if(r!==null)return r;await d(q);}throw new Error(n)}function c(t,e="info"){document.getElementById(l)?.remove();const n=document.createElement("div");n.id=l,n.dataset.variant=e,n.textContent=t,document.body.append(n),window.setTimeout(()=>{n.remove();},2200);}function A(t){return b(t)===w?"受信箱":s(t)||"このフォルダー"}function S(t){return t.querySelector(B)!==null}function b(t){return t.getAttribute("data-cy-identifier")}function k(t){const e=b(t);return e!==null&&window.location.pathname.endsWith(`/list/${e}`)}async function P(t){if(!x(t))throw new Error("フォルダーを選択できません。");k(t)||t.click(),await u(()=>k(t)&&O()?true:null,F,"フォルダーの読み込みが完了しませんでした。");}function T(){return document.querySelector(I)?.checked??false}function O(){const t=document.querySelector(M);return x(t)&&f(t)?t:null}async function H(){if(T())return;(await u(O,E,"メール一覧の全選択チェックボックスが見つかりません。")).click(),await u(()=>T()?true:null,E,"メールの選択が完了しませんでした。");}function K(){const t=document.querySelector(v);return t&&f(t)&&!g(t)?t:null}function X(){const t=document.querySelector(D);if(x(t)&&f(t)&&!g(t))return t;const e=Array.from(document.querySelectorAll('button, [role="menuitem"], [role="option"], li, div')).filter(o=>f(o)&&!g(o)&&s(o).includes(y)),n=e.find(o=>s(o)===y);return n||(e.find(o=>!Array.from(o.children).some(r=>s(r).includes(y)))??null)}async function j(){return u(X,N,"「既読にする」メニューが見つかりません。")}async function z(){return (await u(K,E,"メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。")).click(),j()}async function C(t){await P(t),await H(),await d(p);const e=await z();await d(p),e.click();}async function G(t,e){const n=A(t);e.disabled=true,e.dataset.running="true",c(`${n} を開いています`);try{c(`${n} を既読にしています`),await C(t),c(`${n} を既読にしました`);}catch(o){const r=o instanceof Error?o.message:"既読化に失敗しました。";c(r,"error");}finally{e.disabled=false,delete e.dataset.running;}}function R(){return Array.from(document.querySelectorAll(L)).filter(t=>{const e=t.closest("li");return !e||!S(e)?false:b(t)===w||t.getAttribute("data-cy")==="personalFolderLabel"})}function _(t){const e=document.querySelectorAll(`.${a}, .${m}`);for(const n of Array.from(e))n.disabled=t,t?n.dataset.running="true":delete n.dataset.running;}async function V(t){const e=R();if(e.length===0){c("受信箱と個人フォルダに未読メールはありません");return}_(true),t.dataset.running="true";let n=0;try{for(const o of e){const r=A(o);c(`${r} を既読にしています (${n+1}/${e.length})`),await C(o),n+=1,await d(p);}c(`受信箱と個人フォルダ ${n} 件を既読にしました`);}catch(o){const r=o instanceof Error?o.message:"一括既読化に失敗しました。";c(`${n}/${e.length} 件完了: ${r}`,"error");}finally{_(false);}}function W(t){const e=document.createElement("button");return e.type="button",e.className=a,e.textContent="既読",e.title=`${A(t)} の表示中メールをすべて既読にする`,e.addEventListener("click",n=>{n.preventDefault(),n.stopPropagation(),G(t,e);}),e}function Y(){const t=document.createElement("button");return t.type="button",t.className=`${a} ${m}`,t.textContent="一括既読",t.title="受信箱と未読がある個人フォルダを順番に開いて既読にする",t.addEventListener("click",e=>{e.preventDefault(),e.stopPropagation(),V(t);}),t}function J(){const t=Array.from(document.querySelectorAll(L)).find(r=>b(r)===w),e=document.querySelector(`.${m}`),n=R().length>0;if(!t||!n){e?.remove();return}const o=t.closest("li");!o||e||o.append(Y());}function $(){const t=Array.from(document.querySelectorAll(L));for(const e of t){const n=e.closest("li");if(!n)continue;const o=n.querySelector(`.${a}:not(.${m})`);if(!S(n)){o?.remove();continue}o||n.append(W(e));}J();}function Q(){if(document.getElementById(`${i}-styles`))return;const t=document.createElement("style");t.id=`${i}-styles`,t.textContent=`
+    .${a} {
       align-items: center;
       background: #ffffff;
       border: 1px solid #c9d3df;
@@ -34,24 +34,24 @@
       white-space: nowrap;
     }
 
-    .${i}:hover {
+    .${a}:hover {
       background: #f2f6fb;
       border-color: #8da4bd;
       color: #0057af;
     }
 
-    .${i}:disabled {
+    .${a}:disabled {
       cursor: wait;
       opacity: 0.7;
     }
 
-    .${i}[data-running="true"] {
+    .${a}[data-running="true"] {
       background: #eaf4ff;
       border-color: #66a6e8;
       color: #0057af;
     }
 
-    #${d} {
+    #${l} {
       background: #263442;
       border-radius: 6px;
       bottom: 24px;
@@ -65,9 +65,9 @@
       z-index: 2147483647;
     }
 
-    #${d}[data-variant="error"] {
+    #${l}[data-variant="error"] {
       background: #b3261e;
     }
-  `,document.head.append(t);}function j(){if(!document.body)return;new MutationObserver(()=>{A();}).observe(document.body,{childList:true,subtree:true});}function L(){X(),A(),j();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",L,{once:true}):L();
+  `,document.head.append(t);}function Z(){if(!document.body)return;new MutationObserver(()=>{$();}).observe(document.body,{childList:true,subtree:true});}function h(){Q(),$(),Z();}document.readyState==="loading"?document.addEventListener("DOMContentLoaded",h,{once:true}):h();
 
 })();

@@ -4,9 +4,11 @@ type ClickableElement = HTMLElement & {
 
 const SCRIPT_ID = 'yahoo-mail-mark-read';
 const BUTTON_CLASS = `${SCRIPT_ID}-button`;
+const BULK_BUTTON_CLASS = `${SCRIPT_ID}-bulk-button`;
 const TOAST_ID = `${SCRIPT_ID}-toast`;
 const FOLDER_LABEL_SELECTOR = '[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]';
 const FOLDER_UNREAD_BADGE_SELECTOR = '[title^="未読メール："]';
+const INBOX_FOLDER_ID = '1';
 const CHECKBOX_ALL_SELECTOR = '[data-cy="mailListCheckBoxAll"]';
 const CHECKBOX_ALL_INPUT_SELECTOR = '[data-cy="mailListCheckBoxAllInput"]';
 const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
@@ -80,6 +82,10 @@ function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
 }
 
 function getFolderName(label: Element): string {
+  if (getFolderId(label) === INBOX_FOLDER_ID) {
+    return '受信箱';
+  }
+
   return getElementText(label) || 'このフォルダー';
 }
 
@@ -190,6 +196,16 @@ async function openMarkReadMenu(): Promise<ClickableElement> {
   return waitForMarkReadMenuItem();
 }
 
+async function markFolderRead(label: Element): Promise<void> {
+  await selectFolder(label);
+  await clickAllCheckbox();
+  await sleep(OPERATION_DELAY_MS);
+
+  const markReadMenuItem = await openMarkReadMenu();
+  await sleep(OPERATION_DELAY_MS);
+  markReadMenuItem.click();
+}
+
 async function markCurrentFolderRead(label: Element, button: HTMLButtonElement): Promise<void> {
   const folderName = getFolderName(label);
   button.disabled = true;
@@ -197,14 +213,8 @@ async function markCurrentFolderRead(label: Element, button: HTMLButtonElement):
   showToast(`${folderName} を開いています`);
 
   try {
-    await selectFolder(label);
-    showToast(`${folderName} のメールを選択しています`);
-    await clickAllCheckbox();
-    await sleep(OPERATION_DELAY_MS);
-
-    const markReadMenuItem = await openMarkReadMenu();
-    await sleep(OPERATION_DELAY_MS);
-    markReadMenuItem.click();
+    showToast(`${folderName} を既読にしています`);
+    await markFolderRead(label);
 
     showToast(`${folderName} を既読にしました`);
   } catch (error: unknown) {
@@ -213,6 +223,59 @@ async function markCurrentFolderRead(label: Element, button: HTMLButtonElement):
   } finally {
     button.disabled = false;
     delete button.dataset.running;
+  }
+}
+
+function getBulkTargetLabels(): Element[] {
+  return Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR)).filter((label) => {
+    const row = label.closest('li');
+    if (!row || !hasUnreadMail(row)) {
+      return false;
+    }
+
+    const folderId = getFolderId(label);
+    return folderId === INBOX_FOLDER_ID || label.getAttribute('data-cy') === 'personalFolderLabel';
+  });
+}
+
+function setButtonsDisabled(disabled: boolean): void {
+  const buttons = document.querySelectorAll<HTMLButtonElement>(`.${BUTTON_CLASS}, .${BULK_BUTTON_CLASS}`);
+  for (const button of Array.from(buttons)) {
+    button.disabled = disabled;
+    if (disabled) {
+      button.dataset.running = 'true';
+    } else {
+      delete button.dataset.running;
+    }
+  }
+}
+
+async function markBulkTargetFoldersRead(button: HTMLButtonElement): Promise<void> {
+  const labels = getBulkTargetLabels();
+  if (labels.length === 0) {
+    showToast('受信箱と個人フォルダに未読メールはありません');
+    return;
+  }
+
+  setButtonsDisabled(true);
+  button.dataset.running = 'true';
+
+  let completedCount = 0;
+  try {
+    for (const label of labels) {
+      const folderName = getFolderName(label);
+      showToast(`${folderName} を既読にしています (${completedCount + 1}/${labels.length})`);
+      await markFolderRead(label);
+      completedCount += 1;
+      await sleep(OPERATION_DELAY_MS);
+    }
+
+    showToast(`受信箱と個人フォルダ ${completedCount} 件を既読にしました`);
+  } catch (error: unknown) {
+    const message = error instanceof Error ? error.message : '一括既読化に失敗しました。';
+    showToast(`${completedCount}/${labels.length} 件完了: ${message}`, 'error');
+  } finally {
+    setButtonsDisabled(false);
   }
 }
 
@@ -230,6 +293,39 @@ function createMarkReadButton(label: Element): HTMLButtonElement {
   return button;
 }
 
+function createBulkMarkReadButton(): HTMLButtonElement {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = `${BUTTON_CLASS} ${BULK_BUTTON_CLASS}`;
+  button.textContent = '一括既読';
+  button.title = '受信箱と未読がある個人フォルダを順番に開いて既読にする';
+  button.addEventListener('click', (event) => {
+    event.preventDefault();
+    event.stopPropagation();
+    void markBulkTargetFoldersRead(button);
+  });
+  return button;
+}
+
+function ensureBulkButton(): void {
+  const inboxLabel = Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR)).find((label) =>
+    getFolderId(label) === INBOX_FOLDER_ID,
+  );
+  const existingButton = document.querySelector(`.${BULK_BUTTON_CLASS}`);
+  const hasBulkTargets = getBulkTargetLabels().length > 0;
+  if (!inboxLabel || !hasBulkTargets) {
+    existingButton?.remove();
+    return;
+  }
+
+  const inboxRow = inboxLabel.closest('li');
+  if (!inboxRow || existingButton) {
+    return;
+  }
+
+  inboxRow.append(createBulkMarkReadButton());
+}
+
 function ensureFolderButtons(): void {
   const labels = Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR));
 
@@ -239,7 +335,7 @@ function ensureFolderButtons(): void {
       continue;
     }
 
-    const existingButton = row.querySelector(`.${BUTTON_CLASS}`);
+    const existingButton = row.querySelector(`.${BUTTON_CLASS}:not(.${BULK_BUTTON_CLASS})`);
     if (!hasUnreadMail(row)) {
       existingButton?.remove();
       continue;
@@ -250,6 +346,8 @@ function ensureFolderButtons(): void {
     }
     row.append(createMarkReadButton(label));
   }
+
+  ensureBulkButton();
 }
 
 function injectStyles(): void {
