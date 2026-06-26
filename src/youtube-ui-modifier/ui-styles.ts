@@ -93,6 +93,16 @@ export const UI_STYLES = `
   background: #fee2e2;
 }
 
+.youtube-ui-modifier-category-filter {
+  font-weight: 700;
+}
+
+.youtube-ui-modifier-sidebar-divider {
+  height: 1px;
+  margin: 6px 0;
+  background: #e5e7eb;
+}
+
 .youtube-ui-modifier-panel {
   min-height: 0;
   padding: 20px;
@@ -195,6 +205,13 @@ export const UI_STYLES = `
 .youtube-ui-modifier-status {
   color: #4b5563;
   font-size: 13px;
+}
+
+.youtube-ui-modifier-empty {
+  margin: 16px 0 0;
+  color: #6b7280;
+  font-size: 13px;
+  line-height: 1.5;
 }
 
 .youtube-ui-modifier-reveal-box {

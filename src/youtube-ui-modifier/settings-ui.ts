@@ -9,6 +9,8 @@ import { MODAL_ID, PANEL_ID, STATUS_ID, UI_STYLE_ID } from './constants';
 import { DEFAULT_SETTINGS } from './settings-definitions';
 import { UI_STYLES } from './ui-styles';
 
+const ENABLED_FILTER_CATEGORY_ID = '__enabled__';
+
 type SettingsUiOptions = {
   categories: ReadonlyArray<YoutubeUiModifierCategoryDefinition>;
   getSettings: () => YoutubeUiModifierSettings;
@@ -85,11 +87,20 @@ export class SettingsUi {
     });
 
     this.updateStatus();
+
+    if (this.activeCategoryId === ENABLED_FILTER_CATEGORY_ID) {
+      this.renderActiveCategory();
+    }
   }
 
   public renderActiveCategory(): void {
     const panel = document.getElementById(PANEL_ID);
     if (!panel) {
+      return;
+    }
+
+    if (this.activeCategoryId === ENABLED_FILTER_CATEGORY_ID) {
+      this.renderEnabledFilter(panel);
       return;
     }
 
@@ -169,6 +180,21 @@ export class SettingsUi {
     const nav = document.createElement('nav');
     nav.className = 'youtube-ui-modifier-sidebar';
 
+    const enabledButton = document.createElement('button');
+    enabledButton.type = 'button';
+    enabledButton.className = 'youtube-ui-modifier-category youtube-ui-modifier-category-filter';
+    enabledButton.dataset.categoryId = ENABLED_FILTER_CATEGORY_ID;
+    enabledButton.textContent = '有効中';
+    enabledButton.addEventListener('click', () => {
+      this.activeCategoryId = ENABLED_FILTER_CATEGORY_ID;
+      this.renderActiveCategory();
+    });
+    nav.appendChild(enabledButton);
+
+    const divider = document.createElement('div');
+    divider.className = 'youtube-ui-modifier-sidebar-divider';
+    nav.appendChild(divider);
+
     this.categories.forEach((category) => {
       const button = document.createElement('button');
       button.type = 'button';
@@ -183,6 +209,53 @@ export class SettingsUi {
     });
 
     return nav;
+  }
+
+  private renderEnabledFilter(panel: HTMLElement): void {
+    panel.replaceChildren();
+
+    const heading = document.createElement('h3');
+    heading.textContent = '有効中';
+    panel.appendChild(heading);
+
+    const enabledOptions = this.getEnabledOptions();
+    if (enabledOptions.length === 0) {
+      const empty = document.createElement('p');
+      empty.className = 'youtube-ui-modifier-empty';
+      empty.textContent = '現在オンになっている設定はありません。';
+      panel.appendChild(empty);
+      this.refreshCategoryButtons();
+      this.updateStatus();
+      return;
+    }
+
+    const list = document.createElement('div');
+    list.className = 'youtube-ui-modifier-option-list';
+    enabledOptions.forEach((option) => {
+      list.appendChild(this.createOption(option));
+    });
+
+    panel.appendChild(list);
+    this.refreshCategoryButtons();
+    this.updateStatus();
+  }
+
+  private getEnabledOptions(): YoutubeUiModifierOptionDefinition[] {
+    const settings = this.getSettings();
+    return this.categories
+      .flatMap((category) => category.options)
+      .filter((option) => option.id !== 'globalEnabled' && settings[option.id]);
+  }
+
+  private refreshCategoryButtons(): void {
+    const modal = document.getElementById(MODAL_ID);
+    if (!modal) {
+      return;
+    }
+
+    modal.querySelectorAll<HTMLButtonElement>('.youtube-ui-modifier-category').forEach((button) => {
+      button.classList.toggle('active', button.dataset.categoryId === this.activeCategoryId);
+    });
   }
 
   private createFooter(): HTMLElement {
