@@ -501,7 +501,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.4.0',
+  version: '1.4.1',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [
@@ -511,6 +511,7 @@ const youtubeUiModifierMeta: MonkeyUserScript = {
   ],
   grant: ['GM_getValue', 'GM_registerMenuCommand'],
   'run-at': 'document-start',
+  noframes: true,
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-ui-modifier.meta.js',
   downloadURL:
