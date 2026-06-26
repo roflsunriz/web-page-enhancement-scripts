@@ -1,34 +1,38 @@
-# AGENTS.md is a file that contains the rules for the agents.
+# AGENTS.md
+
+共通ルールは `COMMON-AGENTS.md` を必ず確認し、上位方針として扱う。
+このファイルでは `web-page-enhancement-scripts` 固有の補足だけを記載する。
 
 ## ルール
-- 常に日本語で応答してください。
-- powershellでファイルの読み書きをする代わりにネイティブツールを使用するようにしてください。
-- 変更（コミット）ごとにバージョンを上げてください。
-- ファイル名の命名規則はケバブケースです。
-- 編集完了後に品質確認を行ってください。具体的には、bun lint, bun type-check, bun run buildをこの順番で実行してください。
-- エラーがないことを確認してください。エラーがある場合は修正してください。
-- ビルドが成功したことを確認してください。ビルドが成功しない場合は修正してください。
-- 型`any`を使用しないでください。`unknown`か、より具体的な型を使用してください。常に具体的な型を利用することを心がけてください。
-- src/d-animeはd-anime-nico-comment-renderer.user.jsを編集するためのプロジェクトです。
-- src/d-anime-cf-rankingはd-anime-cf-ranking.user.jsを編集するためのプロジェクトです。
-- src/chatgpt-notifyはchatgpt-notify.user.jsを編集するためのプロジェクトです。
-- src/fanbox-floating-menuはfanbox-floating-menu.user.jsを編集するためのプロジェクトです。
-- src/fanbox-pagination-helperはfanbox-pagination-helper.user.jsを編集するためのプロジェクトです。
-- src/image-collectorはimage-collector.user.jsを編集するためのプロジェクトです。
-- src/imgur-direct-linkはimgur-direct-link.user.jsを編集するためのプロジェクトです。
-- src/manga-viewerはbook-style-manga-viewer.user.jsを編集するためのプロジェクトです。
-- src/twitter-clean-timelineはtwitter-clean-timeline.user.jsを編集するためのプロジェクトです。
-- src/twitter-clean-uiはtwitter-clean-ui.user.jsを編集するためのプロジェクトです。
-- src/twitter-full-size-imageはtwitter-full-size-image.user.jsを編集するためのプロジェクトです。
-- src/twitter-thread-copierはtwitter-thread-copier.user.jsを編集するためのプロジェクトです。
-- src/youtube-info-copierはyoutube-info-copier.user.jsを編集するためのプロジェクトです。
-- scripts/build-all.mjsはすべてのプロジェクトをビルドするためのスクリプトです。vite.config.tsのbuildコマンド `bun run build`はこのスクリプトを実行しています。
-- ルートディレクトリのvite.config.tsは各プロジェクトのビルド設定を行っています。ここにバージョン情報もあります。
-- ビルドする前にvite.config.tsを編集しバージョンを上げてください。
-- src/d-anime/config/default-settings.tsにユーザースクリプトのバージョン情報(USERSCRIPT_VERSION_UI_DISPLAY)があります。ここもバージョンを上げて、ビルドする前に編集してください。必ずルートディレクトリのvite.config.tsで指定しているバージョン情報と一致させてください。USERSCRIPT_VERSION_UI_DISPLAYはd-anime-nico-comment-rendererユーザースクリプトのバージョンです。また、ユーザーが実際に目にするUIに表示されるバージョン情報です。
-- バージョンアップの目安は、パッチ(v.x.y.zのz部分)が軽微なバグフィックス、マイナー(v.x.y.zのy部分)が機能追加、メジャー(v.x.y.zのx部分)が大幅な機能追加や破壊的変更です。
-- 単に「アップデート」や"/update"と指示したときは、このAGENTS.mdの指示に従い作業してください。
-- docsフォルダには開発チェックリストや実際のWebページのコードスニペット、ニコニコ動画のAPI仕様書などがあります。
-- コミットメッセージは日本語コンベンショナルコミッツメッセージルールに従います。
-- 新規スクリプト追加時はscripts/build-all.mjsとvite.config.tsとREADME.mdとuserscripts.mdも更新します。
-- モノリシックにせず、ファイルごに責務分離して作成・メンテナンスすること。
+
+- PowerShellでファイルの読み書きをする代わりに、可能な限り編集用のネイティブツールを使用する。
+- 変更（コミット）ごとにバージョンを上げる。
+- ファイル名の命名規則はケバブケース。
+- 型 `any` を使用しない。`unknown` か、より具体的な型を使用し、常に具体的な型を利用する。
+- 新規スクリプト追加時は `scripts/build-all.mjs`、`vite.config.ts`、`README.md`、`userscripts.md` も更新する。
+
+## プロジェクト構成
+
+- `src/d-anime` は `d-anime-nico-comment-renderer.user.js` を編集するためのプロジェクト。
+- `src/d-anime-cf-ranking` は `d-anime-cf-ranking.user.js` を編集するためのプロジェクト。
+- `src/chatgpt-notify` は `chatgpt-notify.user.js` を編集するためのプロジェクト。
+- `src/fanbox-floating-menu` は `fanbox-floating-menu.user.js` を編集するためのプロジェクト。
+- `src/fanbox-pagination-helper` は `fanbox-pagination-helper.user.js` を編集するためのプロジェクト。
+- `src/image-collector` は `image-collector.user.js` を編集するためのプロジェクト。
+- `src/imgur-direct-link` は `imgur-direct-link.user.js` を編集するためのプロジェクト。
+- `src/manga-viewer` は `book-style-manga-viewer.user.js` を編集するためのプロジェクト。
+- `src/twitter-clean-timeline` は `twitter-clean-timeline.user.js` を編集するためのプロジェクト。
+- `src/twitter-clean-ui` は `twitter-clean-ui.user.js` を編集するためのプロジェクト。
+- `src/twitter-full-size-image` は `twitter-full-size-image.user.js` を編集するためのプロジェクト。
+- `src/twitter-thread-copier` は `twitter-thread-copier.user.js` を編集するためのプロジェクト。
+- `src/youtube-info-copier` は `youtube-info-copier.user.js` を編集するためのプロジェクト。
+- `scripts/build-all.mjs` はすべてのプロジェクトをビルドするためのスクリプト。`vite.config.ts` の build コマンド `bun run build` はこのスクリプトを実行している。
+- ルートディレクトリの `vite.config.ts` は各プロジェクトのビルド設定を行っている。ここにバージョン情報もある。
+- `docs` フォルダには開発チェックリストや実際のWebページのコードスニペット、ニコニコ動画のAPI仕様書などがある。
+
+## バージョン管理
+
+- ビルドする前に `vite.config.ts` を編集しバージョンを上げる。
+- `src/d-anime/config/default-settings.ts` にユーザースクリプトのバージョン情報 `USERSCRIPT_VERSION_UI_DISPLAY` がある。ここもバージョンを上げて、ビルドする前に編集する。
+- `USERSCRIPT_VERSION_UI_DISPLAY` はルートディレクトリの `vite.config.ts` で指定しているバージョン情報と必ず一致させる。
+- バージョンアップの目安は、パッチ（v.x.y.z の z 部分）が軽微なバグフィックス、マイナー（v.x.y.z の y 部分）が機能追加、メジャー（v.x.y.z の x 部分）が大幅な機能追加や破壊的変更。
