@@ -29,6 +29,7 @@ web-page-enhancement-scripts
   - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
   - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
+  - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
 - `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
 - `dist/` — ビルド済みの userscript（配布用）
 
@@ -58,6 +59,7 @@ web-page-enhancement-scripts
 - [x-community-note-close](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-community-note-close.user.js)
 - [yahoo-mail-mark-read](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-mark-read.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
+- [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
 
 配布・導入
 ---------

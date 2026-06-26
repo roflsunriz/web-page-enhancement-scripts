@@ -27,6 +27,7 @@
     "dev:x-community-note-close": "vite --mode x-community-note-close",
     "dev:yahoo-mail-mark-read": "vite --mode yahoo-mail-mark-read",
     "dev:youtube-info-copier": "vite --mode youtube-info-copier",
+    "dev:youtube-ui-modifier": "vite --mode youtube-ui-modifier",
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",

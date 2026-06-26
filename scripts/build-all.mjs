@@ -30,6 +30,7 @@ const targets = [
   { mode: 'x-community-note-close', clear: false },
   { mode: 'yahoo-mail-mark-read', clear: false },
   { mode: 'youtube-info-copier', clear: false },
+  { mode: 'youtube-ui-modifier', clear: false },
 ];
 
 async function run() {

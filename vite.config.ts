@@ -498,6 +498,26 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
 };
 
+const youtubeUiModifierMeta: MonkeyUserScript = {
+  name: 'youtube-ui-modifier',
+  namespace: 'youtubeUiModifier',
+  version: '1.2.0',
+  description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
+  author: 'roflsunriz',
+  match: [
+    'https://www.youtube.com/*',
+    'https://youtube.com/*',
+    'https://m.youtube.com/*',
+  ],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  'run-at': 'document-start',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-ui-modifier.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-ui-modifier.user.js',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=youtube.com',
+};
+
 // ============================================================================
 // スクリプト設定（アルファベット順）
 // ============================================================================
@@ -603,6 +623,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'youtube-info-copier.user.js',
     meta: youtubeInfoCopierMeta,
   },
+  'youtube-ui-modifier': {
+    entry: 'src/youtube-ui-modifier/main.ts',
+    fileName: 'youtube-ui-modifier.user.js',
+    meta: youtubeUiModifierMeta,
+  },
 } as const;
 
 type ScriptKey = keyof typeof SCRIPT_CONFIGS;
@@ -644,6 +669,7 @@ export default defineConfig((configEnv) => {
         '@/x-community-note-close': resolve(dir, 'src/x-community-note-close'),
         '@/yahoo-mail-mark-read': resolve(dir, 'src/yahoo-mail-mark-read'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
+        '@/youtube-ui-modifier': resolve(dir, 'src/youtube-ui-modifier'),
         '@/shared': resolve(dir, 'src/shared'),
       },
     },
