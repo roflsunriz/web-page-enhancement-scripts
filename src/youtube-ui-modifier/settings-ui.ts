@@ -137,7 +137,7 @@ export class SettingsUi {
     titleWrap.appendChild(title);
 
     const subtitle = document.createElement('p');
-    subtitle.textContent = 'Tampermonkeyから開けるYouTube表示調整パネル';
+    subtitle.textContent = 'YouTube UI 表示調整パネル - リアルタイムで設定反映・自動設定保存';
     titleWrap.appendChild(subtitle);
     header.appendChild(titleWrap);
 
