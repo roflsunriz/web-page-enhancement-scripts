@@ -31,8 +31,8 @@ export class YoutubeUiModifierApp {
     });
   }
 
-  public initialize(): void {
-    this.settings = this.storage.load();
+  public async initialize(): Promise<void> {
+    this.settings = await this.storage.load();
     this.applySettings();
     this.registerMenuCommands();
     this.startObserver();
@@ -54,7 +54,7 @@ export class YoutubeUiModifierApp {
       [id]: value,
     };
     this.applySettingEffects(id, value);
-    this.storage.save(this.settings);
+    void this.storage.save(this.settings);
     this.applySettings();
   }
 
@@ -96,7 +96,7 @@ export class YoutubeUiModifierApp {
 
   private resetSettings(): void {
     this.settings = { ...DEFAULT_SETTINGS };
-    this.storage.save(this.settings);
+    void this.storage.save(this.settings);
     this.applySettings();
   }
 
@@ -128,7 +128,7 @@ export class YoutubeUiModifierApp {
 
     this.applyTimer = setTimeout(() => {
       this.applyTimer = null;
-      this.domMarker.apply(this.settings);
+      this.domMarker.apply(this.getEffectiveSettings());
     }, OBSERVER_DEBOUNCE_MS);
   }
 

@@ -82,6 +82,7 @@ export type YoutubeUiModifierSettingId =
   | 'hidePlaylistSuggestions'
   | 'autofocusSearch'
   | 'hideContextBoxes'
+  | 'hideCreateButton'
   | 'lockSettingsWithTimer'
   | 'lockSettingsWithCode'
   | 'grayscaleMode';

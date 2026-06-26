@@ -1,4 +1,9 @@
 export const STORAGE_KEY = 'youtube-ui-modifier-settings';
+export const INDEXED_DB_NAME = 'youtube-ui-modifier';
+export const INDEXED_DB_VERSION = 2;
+export const INDEXED_DB_STORE_NAME = 'settings-store';
+export const INDEXED_DB_SETTINGS_KEY = 'settings';
+export const INDEXED_DB_CORRUPT_BACKUP_KEY = 'corrupt-settings-backup';
 export const STYLE_ID = 'youtube-ui-modifier-styles';
 export const UI_STYLE_ID = 'youtube-ui-modifier-ui-styles';
 export const MODAL_ID = 'youtube-ui-modifier-modal';

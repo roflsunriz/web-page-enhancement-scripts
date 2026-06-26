@@ -501,7 +501,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.2.1',
+  version: '1.3.0',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [
@@ -509,7 +509,7 @@ const youtubeUiModifierMeta: MonkeyUserScript = {
     'https://youtube.com/*',
     'https://m.youtube.com/*',
   ],
-  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  grant: ['GM_getValue', 'GM_registerMenuCommand'],
   'run-at': 'document-start',
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-ui-modifier.meta.js',

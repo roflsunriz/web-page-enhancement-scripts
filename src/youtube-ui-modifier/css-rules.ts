@@ -145,6 +145,11 @@ export const CSS_RULES: Partial<Record<YoutubeUiModifierSettingId, ReadonlyArray
   hideNotificationBell: ['ytd-notification-topbar-button-renderer'],
   hidePlaylistSuggestions: ['ytd-item-section-renderer[data-youtube-ui-modifier-playlist-suggestions="true"]'],
   hideContextBoxes: ['ytd-info-panel-container-renderer'],
+  hideCreateButton: [
+    'ytd-masthead ytd-button-renderer:has(button[aria-label="作成"])',
+    'ytd-masthead ytd-button-renderer:has(button[aria-label="Create"])',
+    'ytd-masthead ytd-button-renderer:has(button[aria-label="만들기"])',
+  ],
 };
 
 export const BLUR_THUMBNAIL_SELECTORS = [

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         youtube-ui-modifier
 // @namespace    youtubeUiModifier
-// @version      1.2.1
+// @version      1.3.0
 // @author       roflsunriz
 // @description  YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整
 // @license      MIT
@@ -13,6 +13,5 @@
 // @match        https://m.youtube.com/*
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
-// @grant        GM_setValue
 // @run-at       document-start
 // ==/UserScript==
