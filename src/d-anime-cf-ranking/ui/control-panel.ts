@@ -9,7 +9,7 @@
 
 import { createLogger } from "@/shared/logger";
 import { renderMdiSvg } from "@/shared/icons/mdi";
-import { mdiRefresh, mdiCog } from "@mdi/js";
+import { mdiRefresh, mdiCog, mdiFormatListBulleted } from "@mdi/js";
 import type { Settings } from "@/shared/types/d-anime-cf-ranking";
 import {
   TTL_PRESETS,
@@ -29,6 +29,8 @@ export interface ControlPanelCallbacks {
   onSettingsChange: (settings: Settings) => void;
   /** 再調査トリガー */
   onRefreshTrigger: () => void;
+  /** 詳細ランキング一覧を開く */
+  onOpenRankingList: () => void;
 }
 
 /** コントロールパネルのハンドル */
@@ -238,19 +240,18 @@ const PANEL_STYLES = `
   }
 
   /* リフレッシュボタン */
-  .refresh-container {
+  .action-container {
     display: flex;
     flex-direction: column;
     gap: 8px;
   }
 
-  .refresh-btn {
+  .action-btn {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
     padding: 10px 20px;
-    background: linear-gradient(135deg, #e94560 0%, #c73659 100%);
     border: none;
     border-radius: 8px;
     color: #fff;
@@ -260,17 +261,29 @@ const PANEL_STYLES = `
     transition: all 0.2s ease;
   }
 
-  .refresh-btn:hover:not(:disabled) {
+  .refresh-btn {
+    background: linear-gradient(135deg, #e94560 0%, #c73659 100%);
+  }
+
+  .ranking-list-btn {
+    background: linear-gradient(135deg, #2f7dd3 0%, #235fa6 100%);
+  }
+
+  .action-btn:hover:not(:disabled) {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(233, 69, 96, 0.4);
   }
 
-  .refresh-btn:disabled {
+  .ranking-list-btn:hover:not(:disabled) {
+    box-shadow: 0 4px 12px rgba(47, 125, 211, 0.4);
+  }
+
+  .action-btn:disabled {
     background: #444;
     cursor: not-allowed;
   }
 
-  .refresh-btn svg {
+  .action-btn svg {
     fill: currentColor;
   }
 
@@ -342,6 +355,7 @@ export function createControlPanel(
   const ttlValue = panel.querySelector<HTMLElement>(".ttl-value");
   const presetBtns = panel.querySelectorAll<HTMLButtonElement>(".ttl-preset-btn");
   const refreshBtn = panel.querySelector<HTMLButtonElement>(".refresh-btn");
+  const rankingListBtn = panel.querySelector<HTMLButtonElement>(".ranking-list-btn");
   const progressText = panel.querySelector<HTMLElement>(".progress-text");
 
   // 現在の設定を保持
@@ -388,6 +402,10 @@ export function createControlPanel(
   // リフレッシュボタン
   refreshBtn?.addEventListener("click", () => {
     callbacks.onRefreshTrigger();
+  });
+
+  rankingListBtn?.addEventListener("click", () => {
+    callbacks.onOpenRankingList();
   });
 
   // ==========================================================================
@@ -521,10 +539,14 @@ function buildPanelHTML(settings: Settings): string {
       </div>
       <div class="control-section">
         <div class="section-title">データ更新</div>
-        <div class="refresh-container">
-          <button class="refresh-btn">
+        <div class="action-container">
+          <button class="action-btn refresh-btn">
             ${renderMdiSvg(mdiRefresh, 16)}
             全作品を再取得
+          </button>
+          <button class="action-btn ranking-list-btn">
+            ${renderMdiSvg(mdiFormatListBulleted, 16)}
+            詳細ランキング
           </button>
           <div class="progress-text"></div>
         </div>

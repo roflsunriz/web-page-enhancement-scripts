@@ -59,6 +59,10 @@ import { calculateRanks, type ScoreInput } from "./services/score-calculator";
 
 // UI
 import { createLoadingBadge, updateBadge } from "./ui/rank-badge";
+import {
+  openRankingListModal,
+  type RankingListItem,
+} from "./ui/ranking-list-modal";
 
 const logger = createLogger("dAnimeCfRanking");
 
@@ -114,6 +118,7 @@ async function main(): Promise<void> {
   controlPanelHandle = createControlPanel(settings, {
     onSettingsChange: handleSettingsChange,
     onRefreshTrigger: handleRefreshTrigger,
+    onOpenRankingList: handleOpenRankingList,
   });
   insertControlPanel(controlPanelHandle);
 
@@ -692,6 +697,32 @@ function updateBadgeVisibility(enabled: boolean): void {
   for (const badge of badgeMap.values()) {
     badge.style.display = enabled ? "inline-flex" : "none";
   }
+}
+
+/**
+ * 詳細ランキング一覧を開く
+ */
+function handleOpenRankingList(): void {
+  const scoreInputs: ScoreInput[] = allCards.map((card) => {
+    const entry = cacheEntryMap.get(card.title);
+    return {
+      title: card.title,
+      metrics: entry?.status === "ok" ? entry.metrics : null,
+    };
+  });
+
+  const rankOutputs = calculateRanks(scoreInputs);
+  const rankDataMap = new Map(
+    rankOutputs.map((output) => [output.title, output.rankData])
+  );
+
+  const items: RankingListItem[] = allCards.map((card) => ({
+    title: card.title,
+    rankData: rankDataMap.get(card.title) ?? null,
+    cacheEntry: cacheEntryMap.get(card.title) ?? null,
+  }));
+
+  openRankingListModal(items, isRankingFinalized);
 }
 
 // =============================================================================
