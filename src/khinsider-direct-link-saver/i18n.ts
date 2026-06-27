@@ -38,14 +38,14 @@ const translations = {
     noTrackLinks: "末尾が.mp3の曲ページリンクが見つかりません",
     noDirectAudio: "音声ファイルの直リンクが見つかりません",
     htmlResponse: "HTMLが返されたため音声ファイルとして保存できません",
-    nonAudioRedirect: "音声ファイルURLではないレスポンスにリダイレクトされました",
+    nonAudioRedirect:
+      "音声ファイルURLではないレスポンスにリダイレクトされました",
     parsingStage: "解析",
     downloadStage: "ダウンロード",
     parsingProgress:
       "解析中: {completed}/{total} 保存対象 {done} 失敗 {failed} スキップ {skipped}",
     stopped: "停止しました",
-    parsingComplete:
-      "解析完了: {found}/{total}件の音声ファイルを見つけました",
+    parsingComplete: "解析完了: {found}/{total}件の音声ファイルを見つけました",
     stopPending: "停止しました。進行中のリクエストは完了後に破棄されます",
     noAudioLinks: "保存対象の音声リンクがありません",
     downloading: "ダウンロード中: {completed}/{total}",

@@ -157,10 +157,7 @@ class TwitterThreadCopierApp {
       }
     } catch (error) {
       logger.error(`Button click handler error: ${error}`);
-      uiManager.showToast(
-        t("internalErrorTitle"),
-        t("internalErrorContent"),
-      );
+      uiManager.showToast(t("internalErrorTitle"), t("internalErrorContent"));
     }
   }
 

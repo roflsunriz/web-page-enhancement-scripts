@@ -1288,10 +1288,7 @@ export class SettingsUI extends ShadowDOMComponent {
             totalResults: allResults.length,
             animeTitle,
           });
-          NotificationManager.show(
-            t("officialVideoMissing"),
-            "warning",
-          );
+          NotificationManager.show(t("officialVideoMissing"), "warning");
         }
       }
 

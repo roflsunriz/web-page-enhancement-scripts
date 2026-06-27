@@ -499,7 +499,13 @@ function formatTooltipContent(data: TooltipData): string {
   // 順位（確定状態を表示）
   const status = data.isRankingFinalized ? t("confirmed") : t("temporary");
   lines.push(
-    `${format("rankBadge", { rank: String(data.rank), score: "", tier: data.tier }).replace("()", "").replace("( pts)", "")} / ${data.totalCount} ${t("title")} ${status}`,
+    `${format("rankBadge", {
+      rank: String(data.rank),
+      score: "",
+      tier: data.tier,
+    })
+      .replace("()", "")
+      .replace("( pts)", "")} / ${data.totalCount} ${t("title")} ${status}`,
   );
   lines.push(
     format("totalScore", { score: (data.totalScore * 100).toFixed(1) }),

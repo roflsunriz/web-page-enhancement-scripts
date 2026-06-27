@@ -426,8 +426,12 @@ function startObserver(): void {
 }
 
 function registerSettingsMenu(): void {
-  const replaceImagesState = settings.replaceImages ? t("stateOn") : t("stateOff");
-  const replaceTooltipsState = settings.replaceTooltips ? t("stateOn") : t("stateOff");
+  const replaceImagesState = settings.replaceImages
+    ? t("stateOn")
+    : t("stateOff");
+  const replaceTooltipsState = settings.replaceTooltips
+    ? t("stateOn")
+    : t("stateOff");
 
   registerMenuCommand(
     format("replaceImagesMenu", {

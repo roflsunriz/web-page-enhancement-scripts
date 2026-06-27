@@ -307,11 +307,13 @@ async function markBulkTargetFoldersRead(
   try {
     for (const label of labels) {
       const folderName = getFolderName(label);
-      showToast(format("bulkProgress", {
-        folderName,
-        current: completedCount + 1,
-        total: labels.length,
-      }));
+      showToast(
+        format("bulkProgress", {
+          folderName,
+          current: completedCount + 1,
+          total: labels.length,
+        }),
+      );
       await markFolderRead(label);
       completedCount += 1;
       await sleep(OPERATION_DELAY_MS);
@@ -319,8 +321,7 @@ async function markBulkTargetFoldersRead(
 
     showToast(format("bulkComplete", { count: completedCount }));
   } catch (error: unknown) {
-    const message =
-      error instanceof Error ? error.message : t("bulkFailed");
+    const message = error instanceof Error ? error.message : t("bulkFailed");
     showToast(
       format("bulkErrorProgress", {
         completed: completedCount,

@@ -249,20 +249,14 @@ export class ZipDownloader {
   async downloadZip(): Promise<void> {
     this.logger.debug("downloadZip開始");
     if (!this.fflateAvailable()) {
-      this.toast.show(
-        t("zipLibraryUnavailable"),
-        "error",
-      );
+      this.toast.show(t("zipLibraryUnavailable"), "error");
       this.logger.error("fflate利用不可のためダウンロード中止");
       return;
     }
 
     if (this.filesData.size === 0) {
       this.logger.warn("ファイルデータが空のため準備からやり直し");
-      this.toast.show(
-        t("zipNoPrepared"),
-        "warning",
-      );
+      this.toast.show(t("zipNoPrepared"), "warning");
       await this.prepareZip();
       return;
     }

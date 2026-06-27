@@ -98,8 +98,7 @@ const translations = {
     localAiEmptyResult: "ローカルAIからの翻訳結果が空です。",
     localAiTranslationComplete: "ローカルAIでの翻訳が完了しました。",
     openAiCompatible: "OpenAI互換",
-    openAiEndpointMissing:
-      "OpenAI互換 APIエンドポイントが設定されていません。",
+    openAiEndpointMissing: "OpenAI互換 APIエンドポイントが設定されていません。",
     openAiKeyMissing:
       "OpenAI互換 APIキーが設定されていません。設定画面から設定してください。",
     readyContent: "{summary} クリックしてコピーしてください",
@@ -176,8 +175,7 @@ const translations = {
     localAiEmptyResult: "Local AI returned an empty translation result.",
     localAiTranslationComplete: "Local AI translation is complete.",
     openAiCompatible: "OpenAI-compatible",
-    openAiEndpointMissing:
-      "OpenAI-compatible API endpoint is not configured.",
+    openAiEndpointMissing: "OpenAI-compatible API endpoint is not configured.",
     openAiKeyMissing:
       "OpenAI-compatible API key is not configured. Set it from the settings screen.",
     readyContent: "{summary} Click to copy.",
@@ -198,7 +196,8 @@ const translations = {
     settings: "Settings",
     settingsApiEndpoint: "API endpoint",
     settingsApiKey: "API key",
-    settingsApiKeyPlaceholder: "Required. Enter a key before using this provider.",
+    settingsApiKeyPlaceholder:
+      "Required. Enter a key before using this provider.",
     settingsCancel: "Cancel",
     settingsLocalAi: "Local AI settings",
     settingsModel: "Model name",

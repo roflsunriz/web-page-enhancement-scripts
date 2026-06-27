@@ -24,7 +24,8 @@ type TranslationKey =
 
 const translations = {
   ja: {
-    activeModeToast: "🚨 スパム自動報告モード\nリプライの「🚨」ボタンをクリック",
+    activeModeToast:
+      "🚨 スパム自動報告モード\nリプライの「🚨」ボタンをクリック",
     autoBlockOffMenu: "自動ブロックをOFF",
     autoBlockOnMenu: "自動ブロックをON",
     autoBlockState: "自動ブロック: {state}",
@@ -40,14 +41,16 @@ const translations = {
     showStatsMenu: "統計を表示",
     stateOff: "OFF",
     stateOn: "ON",
-    statsToast: "📊 統計\n報告: {reported}\nブロック: {blocked}\nエラー: {errors}",
+    statsToast:
+      "📊 統計\n報告: {reported}\nブロック: {blocked}\nエラー: {errors}",
     successMessage:
       "✅ {userName} をスパム報告＆ブロックしました\n(報告: {reported}, ブロック: {blocked})",
     unknownError: "不明なエラー",
     unknownUser: "不明",
   },
   en: {
-    activeModeToast: '🚨 Auto spam report mode\nClick the "🚨" button on a reply',
+    activeModeToast:
+      '🚨 Auto spam report mode\nClick the "🚨" button on a reply',
     autoBlockOffMenu: "Turn auto block off",
     autoBlockOnMenu: "Turn auto block on",
     autoBlockState: "Auto block: {state}",
@@ -87,7 +90,8 @@ const translations = {
     showStatsMenu: "显示统计",
     stateOff: "关",
     stateOn: "开",
-    statsToast: "📊 统计\n已举报: {reported}\n已屏蔽: {blocked}\n错误: {errors}",
+    statsToast:
+      "📊 统计\n已举报: {reported}\n已屏蔽: {blocked}\n错误: {errors}",
     successMessage:
       "✅ 已将 {userName} 举报为垃圾信息并屏蔽\n(举报: {reported}, 屏蔽: {blocked})",
     unknownError: "未知错误",
@@ -126,7 +130,8 @@ const translations = {
     errorAlreadyProcessing: "Ya hay un reporte en curso",
     errorDialogNotFound: "No se encontró el diálogo de reporte",
     errorMoreMenuNotFound: "No se encontró el botón de más opciones",
-    errorReportMenuItemNotFound: "No se encontró la opción para reportar el post",
+    errorReportMenuItemNotFound:
+      "No se encontró la opción para reportar el post",
     errorSpamOptionNotFound: "No se encontró la opción de spam",
     errorToast: "❌ Error: {message}",
     processingToast: "⏳ Procesando...",
@@ -151,7 +156,8 @@ const translations = {
     errorAlreadyProcessing: "Un signalement est déjà en cours",
     errorDialogNotFound: "La boîte de dialogue de signalement est introuvable",
     errorMoreMenuNotFound: "Le bouton de menu est introuvable",
-    errorReportMenuItemNotFound: "L'option de signalement du post est introuvable",
+    errorReportMenuItemNotFound:
+      "L'option de signalement du post est introuvable",
     errorSpamOptionNotFound: "L'option spam est introuvable",
     errorToast: "❌ Erreur: {message}",
     processingToast: "⏳ Traitement...",
@@ -200,7 +206,8 @@ const translations = {
     errorAlreadyProcessing: "Já existe uma denúncia em andamento",
     errorDialogNotFound: "A janela de denúncia não foi encontrada",
     errorMoreMenuNotFound: "O botão de mais opções não foi encontrado",
-    errorReportMenuItemNotFound: "O item para denunciar o post não foi encontrado",
+    errorReportMenuItemNotFound:
+      "O item para denunciar o post não foi encontrado",
     errorSpamOptionNotFound: "A opção de spam não foi encontrada",
     errorToast: "❌ Erro: {message}",
     processingToast: "⏳ Processando...",
@@ -217,7 +224,8 @@ const translations = {
     unknownUser: "Desconhecido",
   },
   bn: {
-    activeModeToast: '🚨 অটো স্প্যাম রিপোর্ট মোড\nরিপ্লাইয়ের "🚨" বোতামে ক্লিক করুন',
+    activeModeToast:
+      '🚨 অটো স্প্যাম রিপোর্ট মোড\nরিপ্লাইয়ের "🚨" বোতামে ক্লিক করুন',
     autoBlockOffMenu: "অটো ব্লক বন্ধ করুন",
     autoBlockOnMenu: "অটো ব্লক চালু করুন",
     autoBlockState: "অটো ব্লক: {state}",
@@ -233,7 +241,8 @@ const translations = {
     showStatsMenu: "পরিসংখ্যান দেখান",
     stateOff: "বন্ধ",
     stateOn: "চালু",
-    statsToast: "📊 পরিসংখ্যান\nরিপোর্ট: {reported}\nব্লক: {blocked}\nত্রুটি: {errors}",
+    statsToast:
+      "📊 পরিসংখ্যান\nরিপোর্ট: {reported}\nব্লক: {blocked}\nত্রুটি: {errors}",
     successMessage:
       "✅ {userName} কে স্প্যাম হিসেবে রিপোর্ট ও ব্লক করা হয়েছে\n(রিপোর্ট: {reported}, ব্লক: {blocked})",
     unknownError: "অজানা ত্রুটি",

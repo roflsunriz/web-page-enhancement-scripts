@@ -46,7 +46,8 @@ const translations = {
   fr: {
     copy: "Copier",
     copyDirectLink: "Copier le lien direct",
-    notDirectLink: "Ce n'est pas un lien direct. Seul i.imgur.com est autorise.",
+    notDirectLink:
+      "Ce n'est pas un lien direct. Seul i.imgur.com est autorise.",
     copySuccess: "Lien du media {index} copie:\n{url}",
     copyFailed: "Echec de la copie dans le presse-papiers.",
   },

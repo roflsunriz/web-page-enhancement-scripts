@@ -64,7 +64,8 @@ const translations = {
     defaultLoadingImages: "画像を読み込み中...",
     endOfContents: "End of Contents",
     errorOccurred: "エラーが発生しました。",
-    fastLoadedImages: "{count}枚の読み込み済み画像を検出しました。高速起動します...",
+    fastLoadedImages:
+      "{count}枚の読み込み済み画像を検出しました。高速起動します...",
     foundTweetImages: "{count}枚のツイート画像を見つけました。検証中...",
     imageCollecting: "ページ上の画像を収集しています...",
     imageCollected: "{count}枚の画像を収集しました...",
@@ -75,7 +76,8 @@ const translations = {
     launchMenu: "ブック風マンガビューア起動",
     lastPage: "最後のページです",
     loadedImages: "{count}枚の画像を読み込みました。ビューアを準備中...",
-    loadedImagesReady: "{count}枚の読み込み済み画像を確認しました。ビューアを起動中...",
+    loadedImagesReady:
+      "{count}枚の読み込み済み画像を確認しました。ビューアを起動中...",
     loadingImages: "画像をプリロード中... {loaded}/{total} ({percent}%)",
     loadingImagesWithErrors:
       "画像をプリロード中... {loaded}/{total} ({percent}%) - {errors}枚エラー",
@@ -117,7 +119,8 @@ const translations = {
     defaultLoadingImages: "Loading images...",
     endOfContents: "End of Contents",
     errorOccurred: "An error occurred.",
-    fastLoadedImages: "Detected {count} already-loaded images. Starting quickly...",
+    fastLoadedImages:
+      "Detected {count} already-loaded images. Starting quickly...",
     foundTweetImages: "Found {count} tweet images. Validating...",
     imageCollecting: "Collecting images on the page...",
     imageCollected: "Collected {count} images...",

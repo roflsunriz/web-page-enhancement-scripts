@@ -293,7 +293,9 @@ function buildModalHtml(
     (item) => item.cacheEntry?.status === "failed",
   ).length;
   const pendingCount = sortedItems.length - rankedCount - failedCount;
-  const statusText = isRankingFinalized ? t("statusFinal") : t("statusTemporary");
+  const statusText = isRankingFinalized
+    ? t("statusFinal")
+    : t("statusTemporary");
 
   return `
     <section class="dialog" role="dialog" aria-modal="true" aria-label="${t("detailRanking")}">
@@ -369,7 +371,13 @@ function renderRank(
     return `
       <span class="rank">
         <span class="tier">${escapeHtml(rankData.tier)}</span>
-        ${format("rankBadge", { rank: String(rankData.rank), score: "", tier: escapeHtml(rankData.tier) }).replace("()", "").replace("( pts)", "")}
+        ${format("rankBadge", {
+          rank: String(rankData.rank),
+          score: "",
+          tier: escapeHtml(rankData.tier),
+        })
+          .replace("()", "")
+          .replace("( pts)", "")}
       </span>
     `;
   }

@@ -85,7 +85,8 @@ const translations = {
     collectComplete:
       "Collected {total} image(s)! (fast: {fast}, normal: {normal})",
     collectStart: "Starting image collection...",
-    collectUnexpectedError: "An unexpected error occurred while collecting images",
+    collectUnexpectedError:
+      "An unexpected error occurred while collecting images",
     classifiedImages: "Classified images: fast={fast}, normal={normal}",
     download: "Download",
     externalImagesValidating: "Validating external images...",

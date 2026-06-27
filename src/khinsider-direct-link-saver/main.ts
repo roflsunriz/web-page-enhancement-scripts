@@ -430,9 +430,7 @@ function assertAudioResponse(
   }
 
   if (!getUrlExtension(response.finalUrl || link.directUrl)) {
-    throw new Error(
-      t("nonAudioRedirect"),
-    );
+    throw new Error(t("nonAudioRedirect"));
   }
 }
 

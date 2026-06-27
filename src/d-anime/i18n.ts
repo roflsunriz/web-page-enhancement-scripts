@@ -122,11 +122,11 @@ const translations = {
     currentVideoUnset: "オーバーレイする動画が未設定です",
     error: "エラー",
     animeTitle: "アニメタイトル",
-    autoFillSearchForm: "検索フォームにタイトル・話数・エピソードタイトルを入力",
+    autoFillSearchForm:
+      "検索フォームにタイトル・話数・エピソードタイトルを入力",
     autoSearch: "自動検索",
     autoSearchDescription: "視聴ページ表示時に自動でコメントを設定",
-    autoSearchDisabledManual:
-      "自動検索を無効にしました（手動設定モード）",
+    autoSearchDisabledManual: "自動検索を無効にしました（手動設定モード）",
     autoSearchEnabled: "自動検索を有効にしました",
     autoSearchInfo: "自動検索についての説明",
     fixedPlaybackRate: "速度固定",
@@ -292,8 +292,7 @@ const translations = {
     metadataAutoFetchFailed:
       "Automatic fetch from the watch page failed. Metadata could not be acquired.",
     niconicoNotFound: "No Niconico video was found",
-    niconicoNotFoundManual:
-      "No Niconico video was found. Search manually.",
+    niconicoNotFoundManual: "No Niconico video was found. Search manually.",
     nextEpisodeAutoSetupComplete: "Set up the next episode automatically",
     nextVideoCommentsUnavailableClear:
       "Could not fetch comments for the next video. Clearing comment display.",
@@ -301,8 +300,7 @@ const translations = {
       "Could not get the anime title. Search accuracy may be reduced.",
     officialVideoMissingUseFirst:
       "No official video was found. Using the first search result.",
-    officialVideoMissingManual:
-      "No official video was found. Search manually.",
+    officialVideoMissingManual: "No official video was found. Search manually.",
     officialVideoSafeguardInfo: "About the official video safeguard",
     unknownTitle: "Unknown title",
     structuredInput: "Detailed input",

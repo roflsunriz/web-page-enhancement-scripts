@@ -242,7 +242,11 @@ class XAutoSpamReporter {
         const userNameEl = tweet.querySelector(SELECTORS.userName);
         const userName =
           userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? t("unknownUser");
-        this.ui.showToast(format("reportingUser", { userName }), 0, "processing");
+        this.ui.showToast(
+          format("reportingUser", { userName }),
+          0,
+          "processing",
+        );
 
         const result = await this.reporter.report(tweet);
 

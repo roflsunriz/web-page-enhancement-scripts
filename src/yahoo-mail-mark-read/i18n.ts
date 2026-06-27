@@ -70,7 +70,8 @@ const translations = {
     singleButton: "Read",
     singleTitle: "Mark all visible mail in {folderName} as read",
     bulkButton: "Bulk read",
-    bulkTitle: "Open Inbox and unread personal folders in order and mark as read",
+    bulkTitle:
+      "Open Inbox and unread personal folders in order and mark as read",
   },
   "zh-Hans": {
     inbox: "收件箱",
@@ -80,7 +81,8 @@ const translations = {
     checkboxNotFound: "找不到邮件列表的全选复选框。",
     mailSelectionTimeout: "邮件选择未完成。",
     markReadMenuNotFound: "找不到标记为已读菜单。",
-    mailOperationMenuNotFound: "找不到邮件操作菜单。可能没有邮件，或尚未选择邮件。",
+    mailOperationMenuNotFound:
+      "找不到邮件操作菜单。可能没有邮件，或尚未选择邮件。",
     openingFolder: "正在打开 {folderName}",
     markingFolder: "正在将 {folderName} 标记为已读",
     markedFolder: "已将 {folderName} 标记为已读",
@@ -139,7 +141,8 @@ const translations = {
     bulkFailed: "Fallo el marcado masivo como leido.",
     bulkErrorProgress: "{completed}/{total} completado: {message}",
     singleButton: "Leido",
-    singleTitle: "Marcar como leidos todos los correos visibles en {folderName}",
+    singleTitle:
+      "Marcar como leidos todos los correos visibles en {folderName}",
     bulkButton: "Leido masivo",
     bulkTitle:
       "Abrir Bandeja y carpetas personales con no leidos en orden y marcarlas como leidas",
@@ -191,14 +194,16 @@ const translations = {
     singleButton: "مقروء",
     singleTitle: "وضع كل الرسائل الظاهرة في {folderName} كمقروءة",
     bulkButton: "مقروء دفعة",
-    bulkTitle: "فتح الوارد والمجلدات الشخصية غير المقروءة بالترتيب ووضعها كمقروءة",
+    bulkTitle:
+      "فتح الوارد والمجلدات الشخصية غير المقروءة بالترتيب ووضعها كمقروءة",
   },
   pt: {
     inbox: "Caixa de entrada",
     thisFolder: "esta pasta",
     selectFolderError: "Nao foi possivel selecionar a pasta.",
     folderLoadTimeout: "A pasta nao terminou de carregar.",
-    checkboxNotFound: "Nao foi encontrada a caixa de selecao de todos os emails.",
+    checkboxNotFound:
+      "Nao foi encontrada a caixa de selecao de todos os emails.",
     mailSelectionTimeout: "A selecao de emails nao foi concluida.",
     markReadMenuNotFound: "Nao foi encontrado o menu marcar como lido.",
     mailOperationMenuNotFound:
@@ -207,7 +212,8 @@ const translations = {
     markingFolder: "Marcando {folderName} como lido",
     markedFolder: "{folderName} marcado como lido",
     markReadFailed: "Falha ao marcar como lido.",
-    noUnreadBulk: "Nao ha emails nao lidos na Caixa de entrada ou pastas pessoais.",
+    noUnreadBulk:
+      "Nao ha emails nao lidos na Caixa de entrada ou pastas pessoais.",
     bulkProgress: "Marcando {folderName} como lido ({current}/{total})",
     bulkComplete: "{count} pasta(s) marcadas como lidas",
     bulkFailed: "Falha ao marcar em lote como lido.",
@@ -289,7 +295,8 @@ const translations = {
     singleButton: "پڑھا",
     singleTitle: "{folderName} میں نظر آنے والی سب میل پڑھا ہوا کریں",
     bulkButton: "سب پڑھا",
-    bulkTitle: "ان باکس اور غیر پڑھے ذاتی فولڈرز ترتیب سے کھول کر پڑھا ہوا کریں",
+    bulkTitle:
+      "ان باکس اور غیر پڑھے ذاتی فولڈرز ترتیب سے کھول کر پڑھا ہوا کریں",
   },
 } satisfies Record<LocaleCode, Record<TranslationKey, string>>;
 

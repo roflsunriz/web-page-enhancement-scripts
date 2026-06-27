@@ -148,10 +148,7 @@ export class WatchPageController {
             isCommentVisible: currentSettings.isCommentVisible,
           },
         );
-        NotificationManager.show(
-          t("commentsHiddenSkip"),
-          "info",
-        );
+        NotificationManager.show(t("commentsHiddenSkip"), "info");
         return;
       }
 
@@ -165,10 +162,7 @@ export class WatchPageController {
         const savedVideoData = settingsManager.loadVideoData();
         if (!savedVideoData?.videoId) {
           // VideoMetadataがない場合は手動設定を促す
-          NotificationManager.show(
-            t("manualModeSelectVideo"),
-            "info",
-          );
+          NotificationManager.show(t("manualModeSelectVideo"), "info");
           return;
         }
 
@@ -197,9 +191,7 @@ export class WatchPageController {
       const autoSetupSuccess = await this.autoSetupComments(settingsManager);
 
       if (!autoSetupSuccess) {
-        throw new Error(
-          t("metadataAutoFetchFailed"),
-        );
+        throw new Error(t("metadataAutoFetchFailed"));
       }
 
       const videoData = settingsManager.loadVideoData();
@@ -672,10 +664,7 @@ export class WatchPageController {
           episodeTitle: metadata.episodeTitle,
           cachedAnimeTitle: this.cachedAnimeTitle,
         });
-        NotificationManager.show(
-          t("noAnimeTitle"),
-          "warning",
-        );
+        NotificationManager.show(t("noAnimeTitle"), "warning");
         return false;
       }
 
@@ -702,10 +691,7 @@ export class WatchPageController {
       const allResults = await searcher.search(keyword);
 
       if (allResults.length === 0) {
-        NotificationManager.show(
-          t("niconicoNotFound"),
-          "warning",
-        );
+        NotificationManager.show(t("niconicoNotFound"), "warning");
         return false;
       }
 
@@ -730,10 +716,7 @@ export class WatchPageController {
             allResults[0]?.channel?.name ??
             "不明",
         });
-        NotificationManager.show(
-          t("officialVideoMissingUseFirst"),
-          "warning",
-        );
+        NotificationManager.show(t("officialVideoMissingUseFirst"), "warning");
       }
 
       // 公式動画があればそこから、なければ全結果から最初の動画を選択
@@ -904,10 +887,7 @@ export class WatchPageController {
         logger.info("watchPageController:onPartIdChanged:skipDueToVisibility", {
           isCommentVisible: currentSettings.isCommentVisible,
         });
-        NotificationManager.show(
-          t("commentsHiddenSkip"),
-          "info",
-        );
+        NotificationManager.show(t("commentsHiddenSkip"), "info");
         return;
       }
 
@@ -929,10 +909,7 @@ export class WatchPageController {
         const manualSettings = settingsManager.loadManualSearchSettings();
         if (!manualSettings?.animeTitle) {
           // アニメタイトルが保存されていない場合は通知のみ
-          NotificationManager.show(
-            t("manualModeSelectAnimeTitle"),
-            "info",
-          );
+          NotificationManager.show(t("manualModeSelectAnimeTitle"), "info");
           // コメントをクリア
           const renderer = this.global.instances.renderer;
           if (renderer) {

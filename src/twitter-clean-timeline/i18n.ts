@@ -69,7 +69,8 @@ const translations = {
     searchHeader: "検索",
     settingsMenu: "タイムラインフィルタ設定",
     settingsTitle: "Twitter Clean Timeline 設定",
-    showPlaceholder: "プレースホルダー表示（フィルタされたツイートを小さく表示）",
+    showPlaceholder:
+      "プレースホルダー表示（フィルタされたツイートを小さく表示）",
     stringKeywords: "文字列キーワード（1行1個）",
     tweetDetail: "ツイート詳細",
   },

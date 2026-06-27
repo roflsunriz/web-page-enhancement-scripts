@@ -67,7 +67,9 @@ i18n.setLocale(i18n.detectBrowserLocale());
 export const format = i18n.format;
 export const t = i18n.t;
 
-const categoryLabels: Partial<Record<YoutubeUiModifierLocale, Record<string, string>>> = {
+const categoryLabels: Partial<
+  Record<YoutubeUiModifierLocale, Record<string, string>>
+> = {
   en: {
     channel: "Channel",
     comments: "Comments",
@@ -189,16 +191,20 @@ const optionDescriptions: Partial<
     disableAnnotations:
       "Turn off annotations in the player settings menu where possible.",
     disableAutoplay: "Turn the player autoplay toggle off when it is on.",
-    disableFullscreenScroll: "Hide scrollable page areas while the player is fullscreen.",
+    disableFullscreenScroll:
+      "Hide scrollable page areas while the player is fullscreen.",
     disableLogoLink: "Disable clicks from the YouTube logo back to Home.",
     disablePlayOnHover: "Hide video preview elements shown on mouse hover.",
-    enableTheaterMode: "Switch watch pages to theater mode when using normal mode.",
+    enableTheaterMode:
+      "Switch watch pages to theater mode when using normal mode.",
     expandDescription: "Expand the watch page description where possible.",
     globalEnabled: "Turn all display adjustments on or off at once.",
     grayscaleMode: "Display all of YouTube in grayscale.",
     hideAds: "Hide ad containers and promotion slots on the page.",
-    hideAllShorts: "Hide Shorts in navigation, shelves, search results, and video cards.",
-    hideChannelAutoplay: "Pause the intro video at the top of channel pages when present.",
+    hideAllShorts:
+      "Hide Shorts in navigation, shelves, search results, and video cards.",
+    hideChannelAutoplay:
+      "Pause the intro video at the top of channel pages when present.",
     hideChannelForYou: "Hide the For You section on channel pages.",
     hideChannelSubscribers: "Hide subscriber counts in the channel owner row.",
     hideClipButton: "Detect and hide the Clip button below videos.",
@@ -207,68 +213,102 @@ const optionDescriptions: Partial<
     hideCommentUpvotes: "Hide like counts inside comment actions.",
     hideCommentUsernames: "Hide author names in the comments area.",
     hideComments: "Hide the comments area and comment prompt panels.",
-    hideContextBoxes: "Hide contextual boxes such as info panels and supplemental cards.",
-    hideCreateButton: "Hide the top bar Create button identified by CDP inspection.",
-    hideEmbeddedMoreVideos: "Hide extra video panels shown on pause in embedded players.",
+    hideContextBoxes:
+      "Hide contextual boxes such as info panels and supplemental cards.",
+    hideCreateButton:
+      "Hide the top bar Create button identified by CDP inspection.",
+    hideEmbeddedMoreVideos:
+      "Hide extra video panels shown on pause in embedded players.",
     hideEndScreen: "Hide the recommendation grid shown when a video ends.",
-    hideEntireWatchSidebar: "Hide the whole right column and center the video column.",
+    hideEntireWatchSidebar:
+      "Hide the whole right column and center the video column.",
     hideExploreLink: "Hide Explore and Trending links.",
     hideExploreSection: "Hide the Explore section in the left drawer.",
-    hideExtraSidebarTags: 'Limit related-video tags to items equivalent to "All" and "Related".',
+    hideExtraSidebarTags:
+      'Limit related-video tags to items equivalent to "All" and "Related".',
     hideFooterSection: "Hide footer links at the bottom of the left drawer.",
     hideHomeLink: "Hide the Home link in left navigation.",
-    hideHomepageExtraRows: "Hide additional sections such as Shorts and Trending.",
+    hideHomepageExtraRows:
+      "Hide additional sections such as Shorts and Trending.",
     hideHomepageHeader: "Hide category chips and headers at the top of Home.",
-    hideHomepageInfiniteScroll: "Hide continuation loaders at the end of Home lists.",
+    hideHomepageInfiniteScroll:
+      "Hide continuation loaders at the end of Home lists.",
     hideHomepageSuggestions: "Hide recommendation lists on YouTube Home.",
     hideInfoCards: "Hide card elements shown over videos.",
     hideLeftNavigation: "Hide the left drawer and mini guide.",
     hideLiveChat: "Hide the live chat area on watch pages.",
-    hideMoreFromYoutubeSection: "Hide sections equivalent to More from YouTube in the left drawer.",
+    hideMoreFromYoutubeSection:
+      "Hide sections equivalent to More from YouTube in the left drawer.",
     hideNextButton: "Hide the Next button inside the player.",
-    hideNonTimestampComments: "Keep only comments that include video timestamp links.",
-    hideNotificationBell: "Hide the notification bell on the right side of the header.",
-    hideOverlaySuggestions: "Hide card teasers and candidate overlays shown while paused.",
+    hideNonTimestampComments:
+      "Keep only comments that include video timestamp links.",
+    hideNotificationBell:
+      "Hide the notification bell on the right side of the header.",
+    hideOverlaySuggestions:
+      "Hide card teasers and candidate overlays shown while paused.",
     hidePlayables: "Hide YouTube Playables shelves on Home and similar pages.",
-    hidePlaylistSuggestions: "Hide recommendation sections on playlist pages and similar pages.",
-    hideQuickLinksSection: "Hide You, History, and similar sections in the left drawer.",
-    hideSearchDescriptions: "Hide descriptions and supplemental metadata in search result cards.",
-    hideSearchExtraResults: "Hide related shelves and extra sections in search results.",
-    hideSearchInfiniteScroll: "Hide continuation loaders at the end of search results.",
+    hidePlaylistSuggestions:
+      "Hide recommendation sections on playlist pages and similar pages.",
+    hideQuickLinksSection:
+      "Hide You, History, and similar sections in the left drawer.",
+    hideSearchDescriptions:
+      "Hide descriptions and supplemental metadata in search result cards.",
+    hideSearchExtraResults:
+      "Hide related shelves and extra sections in search results.",
+    hideSearchInfiniteScroll:
+      "Hide continuation loaders at the end of search results.",
     hideSearchPromoted: "Hide promoted videos mixed into search results.",
     hideSearchShorts: "Hide Shorts cards and Shorts shelves in search results.",
     hideSearchSuggestions: "Hide the search box suggestion dropdown.",
-    hideSettingsSection: "Hide settings-related sections at the bottom of the left drawer.",
-    hideShortsLink: "Hide Shorts links in left navigation and mobile bottom navigation.",
-    hideSidebarInfiniteScroll: "Hide continuation loading at the end of the related-video sidebar.",
+    hideSettingsSection:
+      "Hide settings-related sections at the bottom of the left drawer.",
+    hideShortsLink:
+      "Hide Shorts links in left navigation and mobile bottom navigation.",
+    hideSidebarInfiniteScroll:
+      "Hide continuation loading at the end of the related-video sidebar.",
     hideSubscriptionLive: "Hide live videos on the Subscriptions page.",
-    hideSubscriptionMostRelevant: "Hide the Most relevant section on the Subscriptions page.",
+    hideSubscriptionMostRelevant:
+      "Hide the Most relevant section on the Subscriptions page.",
     hideSubscriptionPremiere: "Hide Premiere videos on the Subscriptions page.",
     hideSubscriptionShorts: "Hide Shorts videos on the Subscriptions page.",
     hideSubscriptionUpcoming: "Hide Upcoming videos on the Subscriptions page.",
-    hideSubscriptionVods: "Hide videos marked as Streamed on the Subscriptions page.",
+    hideSubscriptionVods:
+      "Hide videos marked as Streamed on the Subscriptions page.",
     hideSubscriptionsLink: "Hide navigation paths to subscriptions.",
-    hideSubscriptionsSection: "Hide the subscriptions section in the left drawer.",
-    hideThumbnailHoverOverlay: "Hide thumbnail slideshow effects in search results and similar pages.",
+    hideSubscriptionsSection:
+      "Hide the subscriptions section in the left drawer.",
+    hideThumbnailHoverOverlay:
+      "Hide thumbnail slideshow effects in search results and similar pages.",
     hideVideoActions: "Hide the action button group below videos.",
     hideVideoDescription: "Hide the video description area.",
     hideVideoLikes: "Hide like-count text below videos.",
     hideVideoThumbnails: "Hide video thumbnails to emphasize text information.",
-    hideWatchSidebar: "Hide the related-video list on the right side of videos.",
-    lockSettingsWithCode: "Ask for a confirmation code before opening settings.",
-    lockSettingsWithTimer: "Wait 10 seconds before opening settings from the Tampermonkey menu.",
+    hideWatchSidebar:
+      "Hide the related-video list on the right side of videos.",
+    lockSettingsWithCode:
+      "Ask for a confirmation code before opening settings.",
+    lockSettingsWithTimer:
+      "Wait 10 seconds before opening settings from the Tampermonkey menu.",
     normalizeShorts: "Redirect Shorts URLs to normal watch URLs.",
-    onlyShowPlaylists: "Suppress major links and sections other than playlists in the left navigation.",
-    redirectHomeToLibrary: "Move to the You/Library-equivalent page when opening Home.",
+    onlyShowPlaylists:
+      "Suppress major links and sections other than playlists in the left navigation.",
+    redirectHomeToLibrary:
+      "Move to the You/Library-equivalent page when opening Home.",
     redirectHomeToSubscriptions: "Move to Subscriptions when opening Home.",
     redirectHomeToWatchLater: "Move to Watch Later when opening Home.",
     reverseChannelVideos: "Display channel page video grids in reverse order.",
-    scheduleEnabled: "Enable display adjustments only Monday through Friday from 9:00 to 17:00.",
-    searchEngineMode: "Keep the search bar and search results central while suppressing other YouTube areas.",
-    showEndScreenRevealBox: "Show a temporary reveal box when end screen recommendations are hidden.",
-    showHomepageRevealBox: "Show a temporary reveal box when Home recommendations are hidden.",
-    showOnlyFirstHomepageRow: "Hide rows after the first row in the Home video grid.",
-    showSidebarRevealBox: "Show a temporary reveal box when related videos are hidden.",
+    scheduleEnabled:
+      "Enable display adjustments only Monday through Friday from 9:00 to 17:00.",
+    searchEngineMode:
+      "Keep the search bar and search results central while suppressing other YouTube areas.",
+    showEndScreenRevealBox:
+      "Show a temporary reveal box when end screen recommendations are hidden.",
+    showHomepageRevealBox:
+      "Show a temporary reveal box when Home recommendations are hidden.",
+    showOnlyFirstHomepageRow:
+      "Hide rows after the first row in the Home video grid.",
+    showSidebarRevealBox:
+      "Show a temporary reveal box when related videos are hidden.",
     shrinkVideoThumbnails: "Keep video thumbnails to a smaller fixed width.",
   },
 };
