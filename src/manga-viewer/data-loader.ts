@@ -3,6 +3,7 @@ import { ICollector, CollectionResult } from "./collectors/i-collector";
 import { TwitterCollector } from "./collectors/twitter-collector";
 import { GenericCollector } from "./collectors/generic-collector";
 import { win } from "./util";
+import { t } from "./i18n";
 
 /**
  * 画像収集のメインクラス。
@@ -36,7 +37,7 @@ export class DataLoader {
    * 画像収集処理を開始します。
    */
   public async collectImageUrls(): Promise<CollectionResult> {
-    this.spinner?.updateMessage("画像収集システムを開始中...");
+    this.spinner?.updateMessage(t("collectionSystemStart"));
     return this.collector.collect();
   }
 }

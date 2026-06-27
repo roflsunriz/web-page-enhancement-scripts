@@ -2,6 +2,7 @@ import type { LoadingSpinner } from "../ui/loading-spinner";
 import { ICollector, CollectionResult } from "./i-collector";
 import { win } from "../util";
 import { isInvalidImage } from "../invalid-image-database";
+import { format, t } from "../i18n";
 
 // unsafeWindowの型定義を拡張
 declare global {
@@ -53,7 +54,7 @@ export class GenericCollector implements ICollector {
   }
 
   public async collect(): Promise<CollectionResult> {
-    this.spinner?.updateMessage("ページ上の画像を収集しています...");
+    this.spinner?.updateMessage(t("imageCollecting"));
 
     // 1. 初期表示されている画像を収集
     const urlSet = new Set<string>();
@@ -61,13 +62,13 @@ export class GenericCollector implements ICollector {
 
     if (this.canUseFastLoadedImages(urlSet)) {
       this.spinner?.updateMessage(
-        `${urlSet.size}枚の読み込み済み画像を検出しました。高速起動します...`,
+        format("fastLoadedImages", { count: String(urlSet.size) }),
       );
       return this.validateUrlsWithMetadata(this.toUrlsWithMetadata(urlSet));
     }
 
     // 2. 動的に読み込まれる画像を待機・収集
-    this.spinner?.updateMessage("動的に読み込まれる画像を待機中...");
+    this.spinner?.updateMessage(t("nextDynamicImages"));
     await this.waitForDynamicImages(urlSet, 3000); // 3秒間監視
 
     // 3. ページをスクロールしてさらに画像を収集
@@ -237,7 +238,9 @@ export class GenericCollector implements ICollector {
         const newImages = this.collectVisibleImages(urlSet);
         if (newImages > 0) {
           imageCount = urlSet.size;
-          this.spinner?.updateMessage(`${imageCount}枚の画像を収集しました...`);
+          this.spinner?.updateMessage(
+            format("imageCollected", { count: String(imageCount) }),
+          );
         }
       });
 
@@ -265,7 +268,10 @@ export class GenericCollector implements ICollector {
       const lastSize = urlSet.size;
       window.scrollBy(0, scrollStep);
       this.spinner?.updateMessage(
-        `ページをスキャン中... (${i + 1}/${maxScrolls})`,
+        format("pageScan", {
+          current: String(i + 1),
+          total: String(maxScrolls),
+        }),
       );
       await new Promise((resolve) => setTimeout(resolve, 400));
       this.collectVisibleImages(urlSet);
@@ -311,9 +317,12 @@ export class GenericCollector implements ICollector {
     const initialUrls = [...validUrls];
 
     this.spinner?.updateMessage(
-      `${preValidatedUrls.length}枚を即時追加。残り${
-        filteredUrlsWithMetadata.length - preValidatedUrls.length
-      }枚を検証中...`,
+      format("initialImagesReady", {
+        count: String(preValidatedUrls.length),
+        remaining: String(
+          filteredUrlsWithMetadata.length - preValidatedUrls.length,
+        ),
+      }),
     );
 
     const result: CollectionResult = {
@@ -330,7 +339,7 @@ export class GenericCollector implements ICollector {
             if (validationNeeded.length === 0) {
               this.safeUpdateProgress(
                 100,
-                `準備完了: ${validUrls.length}枚の画像`,
+                format("readyImages", { count: String(validUrls.length) }),
                 "complete",
               );
               callback([...validUrls]);
@@ -350,7 +359,10 @@ export class GenericCollector implements ICollector {
                 );
                 this.safeUpdateProgress(
                   percent,
-                  `画像検証中... ${validatedCount}/${validationNeeded.length}`,
+                  format("validatingImages", {
+                    current: String(validatedCount),
+                    total: String(validationNeeded.length),
+                  }),
                   "loading",
                 );
               }
@@ -358,7 +370,9 @@ export class GenericCollector implements ICollector {
 
             this.safeUpdateProgress(
               100,
-              `検証完了: ${validUrls.length}枚の有効な画像`,
+              format("validationComplete", {
+                count: String(validUrls.length),
+              }),
               "complete",
             );
             callback([...validUrls]);
@@ -368,7 +382,7 @@ export class GenericCollector implements ICollector {
             if (typeof win.MangaViewer?.updateProgress === "function") {
               win.MangaViewer.updateProgress(
                 100,
-                "検証中にエラーが発生しました",
+                t("validationError"),
                 "complete",
               );
             }

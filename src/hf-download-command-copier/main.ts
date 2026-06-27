@@ -1,4 +1,5 @@
 import { setClipboard } from "@/shared/userscript";
+import { format, getTextDirection, t } from "./i18n";
 
 type RepoType = "model" | "dataset" | "space";
 
@@ -199,6 +200,7 @@ function showToast(message: string): void {
   const toast = document.createElement("div");
   toast.id = TOAST_ID;
   toast.textContent = message;
+  toast.dir = getTextDirection();
   document.body.append(toast);
 
   window.setTimeout(() => {
@@ -210,12 +212,12 @@ function copyCommand(command: string, button: HTMLButtonElement): void {
   setClipboard(command);
 
   const previousText = button.textContent;
-  button.textContent = "Copied";
+  button.textContent = t("copied");
   button.setAttribute("data-copied", "true");
-  showToast("hf download command copied");
+  showToast(t("toastCopied"));
 
   window.setTimeout(() => {
-    button.textContent = previousText ?? "Copy hf";
+    button.textContent = previousText ?? t("headerButton");
     button.removeAttribute("data-copied");
   }, 1400);
 }
@@ -258,8 +260,8 @@ function ensureHeaderButton(context: RepoContext): void {
   }
 
   const button = createButton(
-    "Copy hf download",
-    "Copy hf CLI command to download this repository",
+    t("headerButton"),
+    t("headerTitle"),
     createRepoDownloadCommand(context),
   );
   button.id = HEADER_BUTTON_ID;
@@ -294,8 +296,8 @@ function ensureFileButtons(context: RepoContext): void {
     }
 
     const button = createButton(
-      "hf",
-      `Copy hf CLI command to download ${filePath}`,
+      t("fileButton"),
+      format("fileTitle", { filePath }),
       createFileDownloadCommand(context, filePath),
     );
     button.setAttribute("data-file-path", filePath);

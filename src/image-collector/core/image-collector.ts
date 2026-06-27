@@ -8,6 +8,7 @@ import { ImageHostManager } from "./image-host-manager";
 import { ImageSourceClassifier } from "./image-source-classifier";
 import { RequestBatchLimiter } from "./request-batch-limiter";
 import { gmRequest } from "@/shared/network";
+import { format, t } from "../i18n";
 
 interface CollectedImageData {
   element: Element | null;
@@ -39,7 +40,7 @@ export class ImageCollectorMain {
 
   async collectImages(): Promise<void> {
     this.logger.debug("画像収集開始");
-    this.toast.show("画像収集を開始します...", "info");
+    this.toast.show(t("collectStart"), "info");
     this.progressBar.show();
     this.progressBar.update(0);
 
@@ -58,25 +59,28 @@ export class ImageCollectorMain {
         slowPath: slowPathImages.length,
       });
       this.toast.show(
-        `画像を分類しました: 高速=${fastPathImages.length}, 通常=${slowPathImages.length}`,
+        format("classifiedImages", {
+          fast: String(fastPathImages.length),
+          normal: String(slowPathImages.length),
+        }),
         "info",
       );
 
       if (fastPathImages.length > 0) {
-        this.toast.show("信頼できる画像を高速処理中...", "info");
+        this.toast.show(t("reliableImagesProcessing"), "info");
         await this.uiBatchUpdater.addImagesFastPath(fastPathImages);
         this.progressBar.update(30);
       }
 
       if (slowPathImages.length > 0) {
-        this.toast.show("外部画像を検証中...", "info");
+        this.toast.show(t("externalImagesValidating"), "info");
         await this.processSlowPathImages(slowPathImages);
       }
 
       const totalImages = fastPathImages.length + slowPathImages.length;
       if (totalImages === 0) {
         this.logger.warn("処理対象の画像が0件です");
-        this.toast.show("処理対象の画像が見つかりませんでした", "warning");
+        this.toast.show(t("noImagesFound"), "warning");
         this.progressBar.hide();
         return;
       }
@@ -85,7 +89,11 @@ export class ImageCollectorMain {
       setTimeout(() => {
         this.progressBar.hide();
         this.toast.show(
-          `${totalImages}枚の画像を収集しました！(高速:${fastPathImages.length}, 通常:${slowPathImages.length})`,
+          format("collectComplete", {
+            fast: String(fastPathImages.length),
+            normal: String(slowPathImages.length),
+            total: String(totalImages),
+          }),
           "success",
         );
         this.logger.debug("画像収集完了", { totalImages });
@@ -95,7 +103,7 @@ export class ImageCollectorMain {
         "画像収集処理中に予期しないエラーが発生しました",
         error,
       );
-      this.toast.show("画像収集中に予期しないエラーが発生しました", "error");
+      this.toast.show(t("collectUnexpectedError"), "error");
       this.progressBar.hide();
     }
   }

@@ -12,6 +12,7 @@ import {
 } from "./formatter.js";
 import { executeClipboardCopy } from "./clipboard.js";
 import { TWITTER_THREAD_URL_PATTERN } from "@/shared/constants/urls";
+import { format, t } from "./i18n.js";
 
 class TwitterThreadCopierApp {
   constructor() {
@@ -66,8 +67,8 @@ class TwitterThreadCopierApp {
             state.collectedThreadData = null;
             state.isSecondStage = false;
             uiManager.showToast(
-              "選択エラー",
-              "選択したツイートが見つかりませんでした。再度読み込みしてください。",
+              t("selectionErrorTitle"),
+              t("selectionErrorContent"),
             );
             return;
           }
@@ -86,15 +87,18 @@ class TwitterThreadCopierApp {
             try {
               state.translationInProgress = true;
               uiManager.updateMainButtonText();
-              uiManager.showToast("翻訳中", "翻訳処理を実行しています...");
+              uiManager.showToast(
+                t("translationToastTitle"),
+                t("translationToastContent"),
+              );
               const translationResult = await translateTweets(tweetsToProcess);
               tweetsForFormatting = translationResult.tweets;
               hasTranslation = translationResult.hasTranslation;
             } catch (translationError) {
               logger.error(`Translation error: ${translationError}`);
               uiManager.showToast(
-                "翻訳エラー",
-                "翻訳中にエラーが発生しましたが、原文をコピーできます",
+                t("translationErrorTitle"),
+                t("translationErrorContent"),
               );
               tweetsForFormatting = tweetsToProcess;
               hasTranslation = false;
@@ -134,18 +138,18 @@ class TwitterThreadCopierApp {
           hasTranslation &&
           formattedText.trim().length > 0
         ) {
-          summary += " (翻訳済み)";
+          summary += t("translatedSuffix");
         }
 
         state.collectedThreadData = { formattedText, summary };
         state.isSecondStage = true;
         uiManager.showToast(
-          "準備完了",
-          `${summary} クリックしてコピーしてください`,
+          t("readyTitle"),
+          format("readyContent", { summary }),
         );
       } catch (error) {
         logger.error(`Error in copy process: ${error}`);
-        uiManager.showToast("エラー", "スレッドのコピーに失敗しました");
+        uiManager.showToast(t("unknownError"), t("threadCopyFailed"));
       } finally {
         state.isCollecting = false;
         state.translationInProgress = false;
@@ -154,8 +158,8 @@ class TwitterThreadCopierApp {
     } catch (error) {
       logger.error(`Button click handler error: ${error}`);
       uiManager.showToast(
-        "内部エラー",
-        "処理中に予期せぬエラーが発生しました。",
+        t("internalErrorTitle"),
+        t("internalErrorContent"),
       );
     }
   }

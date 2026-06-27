@@ -3,6 +3,7 @@ import type { Logger } from "@/shared/logger";
 import { UIBuilder } from "./ui-builder";
 import { gmRequest } from "@/shared/network";
 import { createShadowHost } from "@/shared/dom";
+import { t } from "../i18n";
 export class UIEventHandler {
   constructor(
     private readonly uiBuilder: UIBuilder,
@@ -188,7 +189,7 @@ export class UIEventHandler {
 
     const downloadButton = document.createElement("button");
     downloadButton.classList.add("ic", "download-button");
-    downloadButton.textContent = "ダウンロード";
+    downloadButton.textContent = t("download");
     downloadButton.addEventListener("click", () => {
       try {
         this.downloadImage(imageUrl);
@@ -206,7 +207,7 @@ export class UIEventHandler {
 
     const originalLinkButton = document.createElement("button");
     originalLinkButton.classList.add("ic", "original-link-button");
-    originalLinkButton.textContent = "元ページを開く";
+    originalLinkButton.textContent = t("fullscreenOriginal");
     originalLinkButton.addEventListener("click", () => {
       window.open(originalUrl, "_blank");
     });

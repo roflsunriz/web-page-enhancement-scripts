@@ -6,6 +6,7 @@ import { BaseFilter } from "./base-filter";
 import type { FilterResult } from "@/shared/types";
 import { settings } from "../settings";
 import { createLogger } from "@/shared/logger";
+import { format } from "../i18n";
 
 const logger = createLogger("twitter-clean-timeline:mute-filter");
 
@@ -74,7 +75,7 @@ export class MuteFilter extends BaseFilter {
     if (result.muted) {
       return {
         shouldHide: true,
-        reason: `ミュート: ${result.keyword}`,
+        reason: format("muteReason", { keyword: result.keyword ?? "" }),
         filterName: this.name,
       };
     }

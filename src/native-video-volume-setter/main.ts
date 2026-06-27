@@ -6,6 +6,7 @@ import {
 } from "./video-controller";
 import { loadVolume, saveVolume } from "./volume-settings";
 import { showVolumeSettingsPanel } from "./settings-panel";
+import { t } from "./i18n";
 
 type VolumeState = {
   value: number;
@@ -21,7 +22,7 @@ const persistVolume = (nextVolume: number): void => {
 };
 
 const registerMenu = (): void => {
-  GM_registerMenuCommand("既定音量の調整ウィンドウを開く", () => {
+  GM_registerMenuCommand(t("openSettings"), () => {
     showVolumeSettingsPanel({
       initialVolume: volumeState.value,
       applyVolume: persistVolume,

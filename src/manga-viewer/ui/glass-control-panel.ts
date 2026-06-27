@@ -2,6 +2,7 @@ import { setTimeoutSafely } from "@/manga-viewer/util";
 import { svgBookOpen, svgPlay, svgRefresh } from "@/shared/icons/mdi";
 import { createShadowHost } from "@/shared/dom";
 import { globalState } from "../state";
+import { t } from "../i18n";
 
 export class GlassControlPanel {
   private shadowHost: HTMLDivElement | null = null;
@@ -45,20 +46,20 @@ export class GlassControlPanel {
       this.containerElement = document.createElement("div");
       this.containerElement.className = "glass-control-container hidden";
       this.containerElement.innerHTML = `
-        <div class="control-handle" aria-label="マンガビューアコントロール" title="マンガビューア"></div>
+        <div class="control-handle" aria-label="${t("controlPanelTitle")}" title="${t("controlPanelTitle")}"></div>
         <div class="control-panel">
             <div class="panel-header">
                 <span class="panel-icon">${svgBookOpen}</span>
-                <span class="panel-title">マンガビューア</span>
+                <span class="panel-title">${t("controlPanelTitle")}</span>
             </div>
             <div class="panel-content">
                 <button class="panel-button primary" data-action="launch">
                     <span class="panel-icon">${svgPlay}</span>
-                    ビューア起動
+                    ${t("launch")}
                 </button>
                 <button class="panel-button" data-action="reanalyze">
                     <span class="panel-icon">${svgRefresh}</span>
-                    再分析
+                    ${t("reanalyze")}
                 </button>
             </div>
         </div>

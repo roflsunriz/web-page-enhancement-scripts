@@ -2,6 +2,7 @@ import type { LoadingSpinner } from "../ui/loading-spinner";
 import { ICollector, CollectionResult } from "./i-collector";
 import { win } from "../util";
 import { TWITTER_IMAGE_SOURCE_SELECTOR } from "@/shared/constants/twitter";
+import { format, t } from "../i18n";
 
 /**
  * Twitter/Xから画像を収集するためのコレクター。
@@ -16,7 +17,7 @@ export class TwitterCollector implements ICollector {
   public async collect(): Promise<CollectionResult> {
     const orderedUrls = await this.scrollPageToCollectImages();
     this.spinner?.updateMessage(
-      `${orderedUrls.length}枚のツイート画像を見つけました。検証中...`,
+      format("foundTweetImages", { count: String(orderedUrls.length) }),
     );
     return this.validateTwitterUrls(orderedUrls);
   }
@@ -50,7 +51,7 @@ export class TwitterCollector implements ICollector {
     const scrollStepSize = 800;
     let lastImageCount = 0;
 
-    this.spinner?.updateMessage("画像を探すためにページをスクロール中...");
+    this.spinner?.updateMessage(t("scrollSearchImages"));
 
     for (let i = 0; i < maxScrollAttempts; i++) {
       this.collectVisibleImages(collectedUrls);
@@ -64,7 +65,10 @@ export class TwitterCollector implements ICollector {
 
       window.scrollBy(0, scrollStepSize);
       this.spinner?.updateMessage(
-        `スクロール中... (${i + 1}/) - ${collectedUrls.size}枚発見`,
+        format("scrollFound", {
+          count: String(collectedUrls.size),
+          current: String(i + 1),
+        }),
       );
       await new Promise((resolve) => setTimeout(resolve, scrollPauseTime));
 
@@ -89,10 +93,10 @@ export class TwitterCollector implements ICollector {
     const initialUrls = validUrls.slice(0, minInitialUrls);
 
     this.spinner?.updateMessage(
-      `${initialUrls.length}枚の画像を即時表示します。残り${Math.max(
-        0,
-        validUrls.length - initialUrls.length,
-      )}枚も準備完了。`,
+      format("initialImagesReady", {
+        count: String(initialUrls.length),
+        remaining: String(Math.max(0, validUrls.length - initialUrls.length)),
+      }),
     );
 
     return {
@@ -104,7 +108,9 @@ export class TwitterCollector implements ICollector {
           if (typeof win.MangaViewer?.updateProgress === "function") {
             win.MangaViewer.updateProgress(
               100,
-              `処理完了: ${validUrls.length}枚の画像を処理しました`,
+              format("processingComplete", {
+                count: String(validUrls.length),
+              }),
               "complete",
             );
           }

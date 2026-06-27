@@ -2,6 +2,7 @@ import { YouTubeInfoCopier } from "./youtube-info-copier";
 import { getLaunchStyle, registerLaunchStyleMenu } from "@/shared/launch-style";
 import { registerMenuCommand } from "@/shared/userscript";
 import type { LaunchStyle } from "@/shared/types/launch-style";
+import { t } from "./i18n";
 
 let currentUrl = window.location.href;
 let copierInstance: YouTubeInfoCopier | null = null;
@@ -35,10 +36,10 @@ function ensureCopierInstance(): YouTubeInfoCopier | null {
 }
 
 // メインアクション用メニューコマンド（常に登録）
-registerMenuCommand("動画情報をコピー", () => {
+registerMenuCommand(t("copyVideoInfo"), () => {
   void ensureCopierInstance()?.performCopy("copy");
 });
-registerMenuCommand("タイトル+URLのみ", () => {
+registerMenuCommand(t("copyTitleAndUrl"), () => {
   void ensureCopierInstance()?.performCopy("quick-copy");
 });
 

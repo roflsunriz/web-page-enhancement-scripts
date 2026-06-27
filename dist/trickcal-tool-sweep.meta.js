@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         trickcal-tool-sweep
 // @namespace    trickcalToolSweep
-// @version      1.1.0
+// @version      1.2.0
 // @author       roflsunriz
 // @description  Trickcal sweep tool material image and Japanese tooltip patch.
 // @license      MIT

@@ -10,6 +10,7 @@ import type {
   Notifier,
   NotificationType,
 } from "@/d-anime/services/notification";
+import { t } from "@/d-anime/i18n";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
@@ -94,7 +95,7 @@ export class SettingsManager {
       return this.settings;
     } catch (error) {
       console.error("[SettingsManager] 設定の読み込みに失敗しました", error);
-      this.notify("設定の読み込みに失敗しました", "error");
+      this.notify(t("settingsLoadFailed"), "error");
       this.settings = cloneDefaultSettings();
       return this.settings;
     }
@@ -143,7 +144,7 @@ export class SettingsManager {
         "[SettingsManager] 再生設定の読み込みに失敗しました",
         error,
       );
-      this.notify("再生設定の読み込みに失敗しました", "error");
+      this.notify(t("playbackLoadFailed"), "error");
       this.playbackSettings = clonePlaybackSettings(DEFAULT_PLAYBACK_SETTINGS);
       this.notifyPlaybackObservers();
       return this.playbackSettings;
@@ -165,7 +166,7 @@ export class SettingsManager {
       return true;
     } catch (error) {
       console.error("[SettingsManager] 再生設定の保存に失敗しました", error);
-      this.notify("再生設定の保存に失敗しました", "error");
+      this.notify(t("playbackSaveFailed"), "error");
       return false;
     }
   }
@@ -173,7 +174,7 @@ export class SettingsManager {
   saveSettings(): boolean {
     const result = this.persistSettings();
     if (result) {
-      this.notify("設定を保存しました", "success");
+      this.notify(t("settingsSaved"), "success");
     }
     return result;
   }
@@ -199,7 +200,7 @@ export class SettingsManager {
       return true;
     } catch (error) {
       console.error("[SettingsManager] 設定の保存に失敗しました", error);
-      this.notify("設定の保存に失敗しました", "error");
+      this.notify(t("settingsSaveFailed"), "error");
       return false;
     }
   }
@@ -259,7 +260,7 @@ export class SettingsManager {
         "[SettingsManager] 動画データの読み込みに失敗しました",
         error,
       );
-      this.notify("動画データの読み込みに失敗しました", "error");
+      this.notify(t("videoDataLoadFailed"), "error");
       return null;
     }
   }
@@ -282,7 +283,7 @@ export class SettingsManager {
       return true;
     } catch (error) {
       console.error("[SettingsManager] 動画データの保存に失敗しました", error);
-      this.notify("動画データの保存に失敗しました", "error");
+      this.notify(t("videoDataSaveFailed"), "error");
       return false;
     }
   }
@@ -298,7 +299,7 @@ export class SettingsManager {
       return true;
     } catch (e) {
       console.error("[SettingsManager] saveLastDanimeIds failed", e);
-      this.notify("ID情報の保存に失敗しました", "error");
+      this.notify(t("idSaveFailed"), "error");
       return false;
     }
   }
@@ -312,7 +313,7 @@ export class SettingsManager {
       return ids ?? null;
     } catch (e) {
       console.error("[SettingsManager] loadLastDanimeIds failed", e);
-      this.notify("ID情報の読込に失敗しました", "error");
+      this.notify(t("idLoadFailed"), "error");
       return null;
     }
   }
@@ -324,7 +325,7 @@ export class SettingsManager {
       return true;
     } catch (e) {
       console.error("[SettingsManager] saveManualSearchSettings failed", e);
-      this.notify("検索設定の保存に失敗しました", "error");
+      this.notify(t("manualSearchSaveFailed"), "error");
       return false;
     }
   }
@@ -338,7 +339,7 @@ export class SettingsManager {
       return settings ?? null;
     } catch (e) {
       console.error("[SettingsManager] loadManualSearchSettings failed", e);
-      this.notify("検索設定の読込に失敗しました", "error");
+      this.notify(t("manualSearchLoadFailed"), "error");
       return null;
     }
   }

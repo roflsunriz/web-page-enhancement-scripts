@@ -1,4 +1,5 @@
 import { getValue, registerMenuCommand, setValue } from "@/shared/userscript";
+import { format, t } from "./i18n";
 
 type FeatureSettings = {
   replaceImages: boolean;
@@ -425,24 +426,35 @@ function startObserver(): void {
 }
 
 function registerSettingsMenu(): void {
+  const replaceImagesState = settings.replaceImages ? t("stateOn") : t("stateOff");
+  const replaceTooltipsState = settings.replaceTooltips ? t("stateOn") : t("stateOff");
+
   registerMenuCommand(
-    `画像差し替え: ${settings.replaceImages ? "ON" : "OFF"}`,
+    format("replaceImagesMenu", {
+      state: replaceImagesState,
+    }),
     () => {
       saveSetting("replaceImages", !settings.replaceImages);
       enhanceVisibleMaterials();
       window.alert(
-        `画像差し替えを${settings.replaceImages ? "ON" : "OFF"}にしました。メニュー表示はページ再読み込み後に更新されます。`,
+        format("replaceImagesChanged", {
+          state: settings.replaceImages ? t("stateOn") : t("stateOff"),
+        }),
       );
     },
   );
 
   registerMenuCommand(
-    `ツールチップ置き換え: ${settings.replaceTooltips ? "ON" : "OFF"}`,
+    format("replaceTooltipsMenu", {
+      state: replaceTooltipsState,
+    }),
     () => {
       saveSetting("replaceTooltips", !settings.replaceTooltips);
       enhanceVisibleMaterials();
       window.alert(
-        `ツールチップ置き換えを${settings.replaceTooltips ? "ON" : "OFF"}にしました。メニュー表示はページ再読み込み後に更新されます。`,
+        format("replaceTooltipsChanged", {
+          state: settings.replaceTooltips ? t("stateOn") : t("stateOff"),
+        }),
       );
     },
   );

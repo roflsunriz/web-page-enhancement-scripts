@@ -8,6 +8,7 @@ import type {
 import { MODAL_ID, PANEL_ID, STATUS_ID, UI_STYLE_ID } from "./constants";
 import { DEFAULT_SETTINGS } from "./settings-definitions";
 import { UI_STYLES } from "./ui-styles";
+import { format, t } from "./i18n";
 
 const ENABLED_FILTER_CATEGORY_ID = "__enabled__";
 
@@ -50,7 +51,7 @@ export class SettingsUi {
 
     const modal = document.createElement("section");
     modal.className = "youtube-ui-modifier-dialog";
-    modal.setAttribute("aria-label", "YouTube UI Modifier 設定");
+    modal.setAttribute("aria-label", t("settingsTitle"));
     modal.appendChild(this.createHeader());
     modal.appendChild(this.createContent());
     modal.appendChild(this.createFooter());
@@ -155,19 +156,18 @@ export class SettingsUi {
 
     const titleWrap = document.createElement("div");
     const title = document.createElement("h2");
-    title.textContent = "YouTube UI Modifier";
+    title.textContent = t("settingsTitle");
     titleWrap.appendChild(title);
 
     const subtitle = document.createElement("p");
-    subtitle.textContent =
-      "YouTube UI 表示調整パネル - リアルタイムで設定反映・自動設定保存";
+    subtitle.textContent = t("settingsSubtitle");
     titleWrap.appendChild(subtitle);
     header.appendChild(titleWrap);
 
     const closeButton = document.createElement("button");
     closeButton.className = "youtube-ui-modifier-icon-button";
     closeButton.type = "button";
-    closeButton.title = "閉じる";
+    closeButton.title = t("close");
     closeButton.textContent = "x";
     closeButton.addEventListener("click", () => this.hide());
     header.appendChild(closeButton);
@@ -197,7 +197,7 @@ export class SettingsUi {
     enabledButton.className =
       "youtube-ui-modifier-category youtube-ui-modifier-category-filter";
     enabledButton.dataset.categoryId = ENABLED_FILTER_CATEGORY_ID;
-    enabledButton.textContent = "有効中";
+    enabledButton.textContent = t("activeSettings");
     enabledButton.addEventListener("click", () => {
       this.activeCategoryId = ENABLED_FILTER_CATEGORY_ID;
       this.renderActiveCategory();
@@ -228,14 +228,14 @@ export class SettingsUi {
     panel.replaceChildren();
 
     const heading = document.createElement("h3");
-    heading.textContent = "有効中";
+    heading.textContent = t("activeSettings");
     panel.appendChild(heading);
 
     const enabledOptions = this.getEnabledOptions();
     if (enabledOptions.length === 0) {
       const empty = document.createElement("p");
       empty.className = "youtube-ui-modifier-empty";
-      empty.textContent = "現在オンになっている設定はありません。";
+      empty.textContent = t("noActiveSettings");
       panel.appendChild(empty);
       this.refreshCategoryButtons();
       this.updateStatus();
@@ -289,9 +289,9 @@ export class SettingsUi {
     resetButton.type = "button";
     resetButton.className =
       "youtube-ui-modifier-button youtube-ui-modifier-button-danger";
-    resetButton.textContent = "初期設定に戻す";
+    resetButton.textContent = t("resetSettings");
     resetButton.addEventListener("click", () => {
-      if (window.confirm("YouTube UI Modifierの設定を初期化しますか？")) {
+      if (window.confirm(t("resetConfirm"))) {
         this.onReset();
         this.renderActiveCategory();
       }
@@ -347,8 +347,8 @@ export class SettingsUi {
       ([key, value]) => key !== "globalEnabled" && value,
     ).length;
     status.textContent = settings.globalEnabled
-      ? `有効な項目: ${enabledCount}`
-      : "全体設定: 無効";
+      ? format("enabledCount", { count: String(enabledCount) })
+      : t("globalDisabled");
   }
 
   private isSettingId(

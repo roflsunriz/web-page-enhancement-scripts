@@ -15,6 +15,7 @@ import { getLaunchStyle, registerLaunchStyleMenu } from "@/shared/launch-style";
 import { FabButton } from "@/shared/ui/fab";
 import { svgBookOpen } from "@/shared/icons/mdi";
 import type { LaunchStyle } from "@/shared/types/launch-style";
+import { format, t } from "./i18n";
 
 const SCRIPT_ID = "manga-viewer";
 
@@ -46,7 +47,7 @@ export class MangaViewerApp {
           icon: svgBookOpen,
           color: "rgba(74, 144, 226, 0.9)",
           position: { top: "20px", right: "20px" },
-          label: "マンガビューア起動",
+          label: t("viewerLaunch"),
           onClick: () => {
             void this.launch();
           },
@@ -68,7 +69,7 @@ export class MangaViewerApp {
 
     // メニューコマンド: メインアクション（全スタイル共通）
     void import("@/shared/userscript").then((m) =>
-      m.registerMenuCommand("ブック風マンガビューア起動", () => this.launch()),
+      m.registerMenuCommand(t("launchMenu"), () => this.launch()),
     );
 
     // メニューコマンド: 起動スタイル切り替え
@@ -124,7 +125,7 @@ export class MangaViewerApp {
       }
 
       spinner = new LoadingSpinner();
-      spinner.show("画像を検索中...");
+      spinner.show(t("imageSearch"));
 
       const loader = new DataLoader();
       loader.setSpinner(spinner);
@@ -135,7 +136,7 @@ export class MangaViewerApp {
       }
 
       spinner.updateMessage(
-        `${result.initialUrls.length}枚の画像を読み込みました。ビューアを準備中...`,
+        format("loadedImages", { count: String(result.initialUrls.length) }),
       );
 
       const builder = new UIBuilder();
@@ -166,7 +167,9 @@ export class MangaViewerApp {
       this.cleanup();
       spinner?.hide();
       alert(
-        `ビューア起動中にエラーが発生しました: ${(error as Error).message || error}`,
+        format("launchError", {
+          message: (error as Error).message || String(error),
+        }),
       );
     }
   }

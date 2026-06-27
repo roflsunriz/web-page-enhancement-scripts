@@ -1,5 +1,6 @@
 import type { Logger } from "@/shared/logger";
 import { createShadowHost } from "@/shared/dom";
+import { format } from "../i18n";
 
 export class ProgressBar {
   private progressContainer: HTMLDivElement | null = null;
@@ -23,7 +24,9 @@ export class ProgressBar {
   update(progress: number): void {
     const clamped = Math.max(0, Math.min(100, progress));
     this.getProgressBar().style.width = `${clamped}%`;
-    this.getProgressText().textContent = `進捗: ${clamped.toFixed(0)}%`;
+    this.getProgressText().textContent = format("progress", {
+      percent: clamped.toFixed(0),
+    });
   }
 
   private init(): void {
@@ -75,7 +78,7 @@ export class ProgressBar {
 
     this.progressText = document.createElement("div");
     this.progressText.classList.add("ic", "progress-text");
-    this.progressText.textContent = "進捗: 0%";
+    this.progressText.textContent = format("progress", { percent: "0" });
     this.progressContainer.appendChild(this.progressText);
 
     this.shadowRoot.appendChild(this.progressContainer);

@@ -10,6 +10,7 @@ import { SettingsStorage } from "./settings-storage";
 import { SettingsUi } from "./settings-ui";
 import { StyleManager } from "./style-manager";
 import { RevealBoxManager } from "./reveal-box-manager";
+import { t } from "./i18n";
 
 export class YoutubeUiModifierApp {
   private readonly storage = new SettingsStorage();
@@ -42,10 +43,8 @@ export class YoutubeUiModifierApp {
   }
 
   private registerMenuCommands(): void {
-    registerMenuCommand("YouTube UI Modifier 設定を開く", () =>
-      this.openSettingsUi(),
-    );
-    registerMenuCommand("YouTube UI Modifier 有効/無効", () => {
+    registerMenuCommand(t("menuOpenSettings"), () => this.openSettingsUi());
+    registerMenuCommand(t("menuToggleEnabled"), () => {
       this.updateSetting("globalEnabled", !this.settings.globalEnabled);
     });
   }
@@ -151,9 +150,7 @@ export class YoutubeUiModifierApp {
 
   private openSettingsUi(): void {
     if (this.settings.lockSettingsWithCode) {
-      const code = window.prompt(
-        "YouTube UI Modifierの設定コードを入力してください",
-      );
+      const code = window.prompt(t("settingsCodePrompt"));
       if (code !== "youtube-ui-modifier") {
         return;
       }

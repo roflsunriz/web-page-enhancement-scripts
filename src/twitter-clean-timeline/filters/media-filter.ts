@@ -7,6 +7,7 @@ import type { FilterResult, PageType } from "@/shared/types";
 import { settings } from "../settings";
 import { TWITTER_MEDIA_CARD_SELECTORS } from "@/shared/constants/twitter";
 import { createLogger } from "@/shared/logger";
+import { t } from "../i18n";
 
 const logger = createLogger("twitter-clean-timeline:media-filter");
 
@@ -80,7 +81,7 @@ export class MediaFilter extends BaseFilter {
     if (!hasMedia) {
       return {
         shouldHide: true,
-        reason: "メディアなし",
+        reason: t("noMediaReason"),
         filterName: this.name,
       };
     }

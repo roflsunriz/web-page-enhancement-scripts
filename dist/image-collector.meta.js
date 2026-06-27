@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         image-collector
 // @namespace    imageCollector
-// @version      5.2.2
+// @version      5.3.0
 // @author       roflsunriz
 // @description  Collect images from various hosts and export as archive.
 // @license      MIT

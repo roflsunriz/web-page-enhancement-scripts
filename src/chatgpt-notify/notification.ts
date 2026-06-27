@@ -1,5 +1,6 @@
 import { CHATGPT_URLS } from "@/shared/constants/urls";
 import { Settings } from "@/shared/types";
+import { t } from "./i18n";
 
 /**
  * 生成完了を通知します。
@@ -10,8 +11,8 @@ export function sendNotification(settings: Settings): void {
   if (!settings.showNotification) return;
 
   GM_notification({
-    text: "生成が完了しました！",
-    title: "ChatGPT 完了通知",
+    text: t("notificationText"),
+    title: t("notificationTitle"),
     image: CHATGPT_URLS.favicon,
   });
 

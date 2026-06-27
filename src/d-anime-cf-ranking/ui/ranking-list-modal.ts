@@ -9,6 +9,7 @@ import type {
   NicoMetrics,
   RankData,
 } from "@/shared/types/d-anime-cf-ranking";
+import { format, t } from "../i18n";
 
 export interface RankingListItem {
   title: string;
@@ -292,18 +293,24 @@ function buildModalHtml(
     (item) => item.cacheEntry?.status === "failed",
   ).length;
   const pendingCount = sortedItems.length - rankedCount - failedCount;
-  const statusText = isRankingFinalized ? "確定" : "暫定";
+  const statusText = isRankingFinalized ? t("statusFinal") : t("statusTemporary");
 
   return `
-    <section class="dialog" role="dialog" aria-modal="true" aria-label="作品詳細ランキング">
+    <section class="dialog" role="dialog" aria-modal="true" aria-label="${t("detailRanking")}">
       <header class="header">
         <div>
-          <h2 class="title">作品詳細ランキング</h2>
+          <h2 class="title">${t("detailRanking")}</h2>
           <div class="summary">
-            ${statusText} / 対象 ${sortedItems.length}件 / ランク表示 ${rankedCount}件 / 取得失敗 ${failedCount}件 / 未取得 ${pendingCount}件
+            ${format("summary", {
+              failed: String(failedCount),
+              pending: String(pendingCount),
+              ranked: String(rankedCount),
+              status: statusText,
+              target: String(sortedItems.length),
+            })}
           </div>
         </div>
-        <button class="close-btn" type="button" aria-label="閉じる">
+        <button class="close-btn" type="button" aria-label="${t("close")}">
           ${renderMdiSvg(mdiClose, 20)}
         </button>
       </header>
@@ -311,12 +318,12 @@ function buildModalHtml(
         <table>
           <thead>
             <tr>
-              <th class="rank-cell">順位</th>
-              <th class="title-cell">作品</th>
-              <th class="score-cell">スコア</th>
-              <th class="metrics-cell">指標</th>
-              <th class="video-cell">代表動画</th>
-              <th class="fetched-cell">取得日時</th>
+              <th class="rank-cell">${t("rank")}</th>
+              <th class="title-cell">${t("title")}</th>
+              <th class="score-cell">${t("score")}</th>
+              <th class="metrics-cell">${t("metrics")}</th>
+              <th class="video-cell">${t("video")}</th>
+              <th class="fetched-cell">${t("fetchedAt")}</th>
             </tr>
           </thead>
           <tbody>
@@ -346,10 +353,10 @@ function renderRow(item: RankingListItem): string {
     <tr>
       <td class="rank-cell">${renderRank(rankData, cacheEntry)}</td>
       <td class="title-cell"><div class="title-text">${escapeHtml(item.title)}</div></td>
-      <td class="score-cell">${rankData ? `${(rankData.score.totalScore * 100).toFixed(1)}点` : '<span class="muted">-</span>'}</td>
+      <td class="score-cell">${rankData ? format("points", { score: (rankData.score.totalScore * 100).toFixed(1) }) : '<span class="muted">-</span>'}</td>
       <td class="metrics-cell">${metrics ? renderMetrics(metrics) : '<span class="muted">-</span>'}</td>
       <td class="video-cell">${renderRepresentativeVideo(cacheEntry)}</td>
-      <td class="fetched-cell">${cacheEntry ? formatDate(cacheEntry.fetchedAt) : '<span class="muted">未取得</span>'}</td>
+      <td class="fetched-cell">${cacheEntry ? formatDate(cacheEntry.fetchedAt) : `<span class="muted">${t("pending")}</span>`}</td>
     </tr>
   `;
 }
@@ -362,25 +369,25 @@ function renderRank(
     return `
       <span class="rank">
         <span class="tier">${escapeHtml(rankData.tier)}</span>
-        第${rankData.rank}位
+        ${format("rankBadge", { rank: String(rankData.rank), score: "", tier: escapeHtml(rankData.tier) }).replace("()", "").replace("( pts)", "")}
       </span>
     `;
   }
 
   if (cacheEntry?.status === "failed") {
-    return '<span class="muted">取得失敗</span>';
+    return `<span class="muted">${t("failed")}</span>`;
   }
 
-  return '<span class="muted">未取得</span>';
+  return `<span class="muted">${t("pending")}</span>`;
 }
 
 function renderMetrics(metrics: NicoMetrics): string {
   return `
     <div class="metrics-grid">
-      <span><span class="metric-label">再生</span> ${formatNumber(metrics.viewCount)}</span>
-      <span><span class="metric-label">コメ</span> ${formatNumber(metrics.commentCount)}</span>
-      <span><span class="metric-label">マイリス</span> ${formatNumber(metrics.mylistCount)}</span>
-      <span><span class="metric-label">いいね</span> ${formatNumber(metrics.likeCount)}</span>
+      <span><span class="metric-label">${t("view")}</span> ${formatNumber(metrics.viewCount)}</span>
+      <span><span class="metric-label">${t("comment")}</span> ${formatNumber(metrics.commentCount)}</span>
+      <span><span class="metric-label">${t("mylist")}</span> ${formatNumber(metrics.mylistCount)}</span>
+      <span><span class="metric-label">${t("like")}</span> ${formatNumber(metrics.likeCount)}</span>
     </div>
   `;
 }

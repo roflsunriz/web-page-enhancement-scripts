@@ -3,6 +3,7 @@ import type {
   YoutubeUiModifierSettings,
   YoutubeUiModifierSettingsChangeHandler,
 } from "@/shared/types";
+import { t } from "./i18n";
 
 type RevealBoxConfig = {
   boxId: string;
@@ -90,7 +91,7 @@ export class RevealBoxManager {
 
     const dismiss = document.createElement("button");
     dismiss.type = "button";
-    dismiss.textContent = "今後表示しない";
+    dismiss.textContent = t("dismissReveal");
     dismiss.addEventListener("click", () => {
       onSettingChange(config.revealSetting, false);
       box.remove();
@@ -109,7 +110,7 @@ export class RevealBoxManager {
     const reveal = document.createElement("button");
     reveal.type = "button";
     reveal.className = "youtube-ui-modifier-reveal-primary";
-    reveal.textContent = "おすすめを表示する";
+    reveal.textContent = t("revealRecommendations");
     reveal.addEventListener("click", () => {
       onSettingChange(config.targetSetting, false);
       box.remove();

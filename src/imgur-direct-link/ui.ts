@@ -1,4 +1,5 @@
 import { createLogger } from "@/shared/logger";
+import { format, getTextDirection, t } from "./i18n";
 
 // 再確認用のガード（多重防御）
 const DIRECT_IMGUR_RE =
@@ -12,6 +13,7 @@ const DIRECT_IMGUR_RE =
 export function showToast(message: string, isSuccess = true): void {
   const toast = document.createElement("div");
   toast.textContent = message;
+  toast.dir = getTextDirection();
   toast.style.cssText = `
     position: fixed;
     bottom: 20px;
@@ -129,8 +131,9 @@ export function createShadowButton(
 
   const copyButton = document.createElement("button");
   copyButton.className = "btn";
-  copyButton.textContent = "コピー";
-  copyButton.title = "ダイレクトリンクをコピー";
+  copyButton.dir = getTextDirection();
+  copyButton.textContent = t("copy");
+  copyButton.title = t("copyDirectLink");
 
   // パーティクル用のspanを追加
   for (let i = 0; i < 10; i++) {
@@ -143,7 +146,7 @@ export function createShadowButton(
     e.preventDefault();
     e.stopPropagation();
     if (!DIRECT_IMGUR_RE.test(mediaUrl)) {
-      showToast("直接リンクではありません（i.imgur.comのみ許可）", false);
+      showToast(t("notDirectLink"), false);
       copyButton.setAttribute("disabled", "true");
       return;
     }
@@ -161,14 +164,14 @@ export function createShadowButton(
     navigator.clipboard
       .writeText(mediaUrl)
       .then(() =>
-        showToast(`メディア${index + 1}のリンクをコピー:\n${mediaUrl}`),
+        showToast(format("copySuccess", { index: index + 1, url: mediaUrl })),
       )
       .catch((err) => {
         createLogger("ImgurDirectLinkCopier").error(
           "クリップボードへのコピーに失敗: ",
           err,
         );
-        showToast("クリップボードへのコピーに失敗しました", false);
+        showToast(t("copyFailed"), false);
       });
   };
   copyButton.addEventListener("pointerdown", doCopy, { passive: false });

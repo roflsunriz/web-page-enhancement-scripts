@@ -9,6 +9,7 @@ import {
   GM_download,
   type GmDownloadErrorEvent,
 } from "vite-plugin-monkey/dist/client";
+import { format, getTextDirection, t } from "./i18n";
 
 type AudioExtension = "flac" | "m4a" | "aac" | "mp3";
 
@@ -303,7 +304,7 @@ async function fetchDirectLink(track: TrackPage): Promise<DirectLinkResult> {
       state: "skipped",
       directUrl: null,
       extension: null,
-      error: "音声ファイルの直リンクが見つかりません",
+      error: t("noDirectAudio"),
     };
   }
 
@@ -425,12 +426,12 @@ function assertAudioResponse(
 
   const contentType = parseHeaderValue(response.headers, "content-type") ?? "";
   if (/text\/html/i.test(contentType)) {
-    throw new Error("HTMLが返されたため音声ファイルとして保存できません");
+    throw new Error(t("htmlResponse"));
   }
 
   if (!getUrlExtension(response.finalUrl || link.directUrl)) {
     throw new Error(
-      "音声ファイルURLではないレスポンスにリダイレクトされました",
+      t("nonAudioRedirect"),
     );
   }
 }
@@ -522,7 +523,13 @@ function updateProgress(results: DirectLinkResult[]): void {
 
   updateOverallProgress(completedCount, totalCount);
   setStatus(
-    `解析中: ${completedCount}/${totalCount} 保存対象 ${doneCount} 失敗 ${failedCount} スキップ ${skippedCount}`,
+    format("parsingProgress", {
+      completed: completedCount,
+      total: totalCount,
+      done: doneCount,
+      failed: failedCount,
+      skipped: skippedCount,
+    }),
   );
 }
 
@@ -553,14 +560,14 @@ async function startExtraction(): Promise<DownloadTarget[]> {
   const tracks = collectTrackPages();
   if (tracks.length === 0) {
     currentResults = [];
-    setStatus("末尾が.mp3の曲ページリンクが見つかりません");
+    setStatus(t("noTrackLinks"));
     return [];
   }
 
   const concurrency = getSavedConcurrency();
   currentResults = createInitialResults(tracks);
   setRunning(true);
-  configureProgress("解析", tracks.length, concurrency);
+  configureProgress(t("parsingStage"), tracks.length, concurrency);
   updateProgress(currentResults);
 
   await runConcurrent(
@@ -598,7 +605,7 @@ async function startExtraction(): Promise<DownloadTarget[]> {
   );
 
   if (activeRunId !== runId) {
-    setStatus("停止しました");
+    setStatus(t("stopped"));
     setRunning(false);
     return [];
   }
@@ -606,7 +613,10 @@ async function startExtraction(): Promise<DownloadTarget[]> {
   const downloadTargets = toDownloadTargets(currentResults);
   updateOverallProgress(tracks.length, tracks.length);
   setStatus(
-    `解析完了: ${downloadTargets.length}/${tracks.length}件の音声ファイルを見つけました`,
+    format("parsingComplete", {
+      found: downloadTargets.length,
+      total: tracks.length,
+    }),
   );
   setRunning(false);
   return downloadTargets;
@@ -615,7 +625,7 @@ async function startExtraction(): Promise<DownloadTarget[]> {
 function stopExtraction(): void {
   activeRunId += 1;
   setRunning(false);
-  setStatus("停止しました。進行中のリクエストは完了後に破棄されます");
+  setStatus(t("stopPending"));
 }
 
 function downloadStoredLink(
@@ -652,7 +662,7 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
   activeDownloadRunId = runId;
 
   if (links.length === 0) {
-    setStatus("保存対象の音声リンクがありません");
+    setStatus(t("noAudioLinks"));
     return;
   }
 
@@ -661,8 +671,8 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
   let failedCount = 0;
 
   setRunning(true);
-  configureProgress("ダウンロード", links.length, concurrency);
-  setStatus(`ダウンロード中: 0/${links.length}`);
+  configureProgress(t("downloadStage"), links.length, concurrency);
+  setStatus(format("downloading", { completed: 0, total: links.length }));
 
   await runConcurrent(links, concurrency, async (link, index, workerIndex) => {
     if (activeDownloadRunId !== runId) {
@@ -681,18 +691,28 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
 
     updateOverallProgress(completedCount + failedCount, links.length);
     setStatus(
-      `ダウンロード中: ${completedCount + failedCount}/${links.length} 完了 ${completedCount} 失敗 ${failedCount}`,
+      format("downloadProgress", {
+        processed: completedCount + failedCount,
+        total: links.length,
+        completed: completedCount,
+        failed: failedCount,
+      }),
     );
   });
 
   if (activeDownloadRunId !== runId) {
-    setStatus("ダウンロードを停止しました");
+    setStatus(t("downloadStopped"));
     setRunning(false);
     return;
   }
 
   updateOverallProgress(links.length, links.length);
-  setStatus(`ダウンロード完了: 完了 ${completedCount} 失敗 ${failedCount}`);
+  setStatus(
+    format("downloadComplete", {
+      completed: completedCount,
+      failed: failedCount,
+    }),
+  );
   setRunning(false);
 }
 
@@ -706,20 +726,21 @@ async function extractAndDownload(): Promise<void> {
 function createPanel(): HTMLElement {
   const panel = document.createElement("section");
   panel.id = PANEL_ID;
+  panel.dir = getTextDirection();
   panel.innerHTML = `
     <div class="${SCRIPT_ID}__header">
       <strong>KHInsider Audio Saver</strong>
-      <button type="button" data-action="hide" title="閉じる">×</button>
+      <button type="button" data-action="hide" title="${t("close")}">×</button>
     </div>
     <div class="${SCRIPT_ID}__controls">
       <label>
-        並列
+        ${t("concurrency")}
         <input type="number" min="${MIN_CONCURRENCY}" max="${MAX_CONCURRENCY}" step="1" value="${getSavedConcurrency()}" data-role="concurrency">
       </label>
-      <button type="button" data-action="start-download">保存開始</button>
-      <button type="button" data-action="stop" disabled>停止</button>
+      <button type="button" data-action="start-download">${t("startSave")}</button>
+      <button type="button" data-action="stop" disabled>${t("stop")}</button>
     </div>
-    <div class="${SCRIPT_ID}__status" data-role="status">待機中</div>
+    <div class="${SCRIPT_ID}__status" data-role="status">${t("idle")}</div>
     <div class="${SCRIPT_ID}__progress" data-role="progress" hidden>
       <div class="${SCRIPT_ID}__overall">
         <div class="${SCRIPT_ID}__overall-bar" data-role="overall-bar"></div>
@@ -928,8 +949,8 @@ function injectStyles(): void {
 
 function initialize(): void {
   injectStyles();
-  registerMenuCommand("KHInsider音声保存パネルを開く", showPanel);
-  registerMenuCommand("KHInsider音声ファイルを取得して保存", () => {
+  registerMenuCommand(t("openPanel"), showPanel);
+  registerMenuCommand(t("fetchAndSave"), () => {
     showPanel();
     void extractAndDownload();
   });

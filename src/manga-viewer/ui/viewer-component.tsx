@@ -4,6 +4,7 @@ import { globalState } from '../state';
 import { MOUSE_INACTIVITY_DELAY } from '../constants';
 import { DataLoader } from '../data-loader';
 import { LoadingSpinner } from './loading-spinner';
+import { format, t } from '../i18n';
 import { win } from '../util';
 
 type ViewerProps = {
@@ -389,7 +390,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   const handleRetryCollection = useCallback(async () => {
     setIsRetrying(true);
     const spinner = new LoadingSpinner();
-    spinner.show('画像を再収集中...');
+    spinner.show(t('retryingImages'));
     try {
       const loader = new DataLoader();
       loader.setSpinner(spinner);
@@ -399,7 +400,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         onClose();
         globalState.app?.launch();
       } else {
-        spinner.updateMessage('画像が見つかりませんでした。');
+        spinner.updateMessage(t('noImagesFound'));
         setTimeout(() => {
           spinner.hide();
           setIsRetrying(false);
@@ -407,7 +408,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         }, 2000);
       }
     } catch {
-      spinner.updateMessage('エラーが発生しました。');
+      spinner.updateMessage(t('errorOccurred'));
       setTimeout(() => {
         spinner.hide();
         setIsRetrying(false);
@@ -586,7 +587,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         <div className="mv-header">
           <div className="mv-header-text">
             {images.length === 0
-              ? '画像が見つかりません'
+              ? t('noImages')
               : `${currentSpreadIndex + 1} / ${Math.ceil(images.length / 2)} ${
                   chapterTitle ? `- ${chapterTitle}` : ''
                 }`}
@@ -597,24 +598,26 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
               className="mv-chapter-navigation-button"
               onClick={() => handleChapterNavigation('next')}
             >
-              次のチャプター
+              {t('chapterNext')}
             </button>
             <button
               type="button"
               className="mv-chapter-navigation-button"
               onClick={() => handleChapterNavigation('prev')}
             >
-              前のチャプター
+              {t('chapterPrevious')}
             </button>
           </div>
           <div
             className={`mv-auto-nav-toggle ${autoChapterNavigation ? '' : 'off'}`}
             onClick={() => setAutoChapterNavigation((prev) => !prev)}
           >
-            チャプター自動移動: {autoChapterNavigation ? 'ON' : 'OFF'}
+            {format('autoChapterNavigation', {
+              state: autoChapterNavigation ? t('stateOn') : t('stateOff'),
+            })}
           </div>
           <button onClick={onClose} className="mv-close-button">
-            閉じる
+            {t('close')}
           </button>
         </div>
         {/* Progress Bar */}
@@ -644,17 +647,17 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
             }}
           >
             <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>
-              画像が見つかりませんでした
+              {t('noImagesFound')}
             </div>
             <div style={{ fontSize: '16px', marginBottom: '30px' }}>
-              ページの読み込みが完了する前に画像収集が行われた可能性があります。
+              {t('noImagesDescription')}
             </div>
             {showRetryButton && !isRetrying && (
               <button onClick={handleRetryCollection} className="mv-close-button">
-                画像を再収集する
+                {t('retryCollection')}
               </button>
             )}
-            {isRetrying && <div style={{ fontSize: '16px' }}>再収集中...</div>}
+            {isRetrying && <div style={{ fontSize: '16px' }}>{t('retrying')}</div>}
           </div>
         ) : (
           <div
@@ -720,8 +723,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                         width: rightImageWidth ? `${rightImageWidth}px` : '700px',
                       }}
                     >
-                      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>End of Contents</div>
-                      <div style={{ fontSize: '14px' }}>{autoChapterNavigation ? 'クリックして次のチャプターへ' : '最後のページです'}</div>
+                      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>{t('endOfContents')}</div>
+                      <div style={{ fontSize: '14px' }}>{autoChapterNavigation ? t('clickNextChapter') : t('lastPage')}</div>
                     </div>
                   )}
                 </div>
@@ -734,12 +737,12 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       {/* UI Overlays */}
       <div
         className={`mv-zoom-indicator ${showZoomIndicator ? 'visible' : ''}`}
-      >{`ズーム: ${Math.round(transformState.scale * 100)}%`}</div>
+      >{format('zoom', { percent: String(Math.round(transformState.scale * 100)) })}</div>
 
       <div ref={hintsRef} className={`mv-shortcuts-hint ${hintsVisible ? 'visible' : 'hidden'}`}>
         <span>移動: <span className="mv-key">←</span><span className="mv-key">→</span></span> |
-        <span>ズーム: <span className="mv-key">↑</span><span className="mv-key">↓</span></span> |
-        <span>リセット: <span className="mv-key">Q</span></span>
+        <span>{t('zoom').replace(': {percent}%', '')}: <span className="mv-key">↑</span><span className="mv-key">↓</span></span> |
+        <span>{t('reset')}: <span className="mv-key">Q</span></span>
       </div>
 
       {showTurnIndicator && (

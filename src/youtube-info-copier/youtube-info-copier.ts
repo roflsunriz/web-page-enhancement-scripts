@@ -9,6 +9,7 @@ import { buildYoutubeShortUrl } from "@/shared/constants/urls";
 import { FabButton } from "@/shared/ui/fab";
 import { svgContentCopy, svgFlash } from "@/shared/icons/mdi";
 import type { LaunchStyle } from "@/shared/types/launch-style";
+import { format, t } from "./i18n";
 
 export class YouTubeInfoCopier {
   private container: HTMLDivElement | null = null;
@@ -56,19 +57,19 @@ export class YouTubeInfoCopier {
       icon: svgContentCopy,
       color: "rgba(255, 0, 0, 0.9)",
       position: { bottom: "20px", left: "20px" },
-      label: "YouTube動画情報コピー",
+      label: t("controlLabel"),
       onHover: () => this.preExpandDescription(),
       actions: [
         {
           icon: svgContentCopy,
-          label: "動画情報をコピー",
+          label: t("copyVideoInfo"),
           onClick: () => {
             void this.performCopy("copy");
           },
         },
         {
           icon: svgFlash,
-          label: "タイトル+URLのみ",
+          label: t("copyTitleAndUrl"),
           onClick: () => {
             void this.performCopy("quick-copy");
           },
@@ -322,12 +323,12 @@ export class YouTubeInfoCopier {
         .find((element): element is HTMLElement => element !== null) ?? null;
 
     const titleElement = pickFirstElement(YOUTUBE_SELECTORS.titleCandidates);
-    const title = titleElement?.textContent?.trim() || "タイトル不明";
+    const title = titleElement?.textContent?.trim() || t("unknownTitle");
 
     const channelElement = pickFirstElement(
       YOUTUBE_SELECTORS.channelCandidates,
     );
-    const author = channelElement?.textContent?.trim() || "投稿者不明";
+    const author = channelElement?.textContent?.trim() || t("unknownAuthor");
 
     const videoId =
       new URLSearchParams(window.location.search).get("v") ||
@@ -341,7 +342,7 @@ export class YouTubeInfoCopier {
       this.logger.debug("Description already expanded, fetching immediately");
     }
 
-    let description = "概要取得に失敗しました";
+    let description = t("descriptionFailed");
 
     // 展開後のコンテンツを優先的に取得
     for (const selector of YOUTUBE_SELECTORS.descriptionExpandedContent) {
@@ -361,7 +362,7 @@ export class YouTubeInfoCopier {
     }
 
     // フォールバック: 古い方法で取得
-    if (description === "概要取得に失敗しました") {
+    if (description === t("descriptionFailed")) {
       const descriptionElement = document.querySelector<HTMLElement>(
         YOUTUBE_SELECTORS.descriptionRoot,
       );
@@ -382,7 +383,7 @@ export class YouTubeInfoCopier {
         }
 
         // まだ見つからない場合は innerText を使用
-        if (description === "概要取得に失敗しました") {
+        if (description === t("descriptionFailed")) {
           const fullText = (descriptionElement.innerText || "").trim();
           // "...もっと見る" などのボタンテキストを除去
           const cleanText = fullText
@@ -403,7 +404,12 @@ export class YouTubeInfoCopier {
   private async copyVideoInfo(): Promise<void> {
     try {
       const info = await this.getVideoInfo();
-      const text = `タイトル：${info.title}\n投稿者名：${info.author}\nURL：${info.url}\n概要：${info.description}`;
+      const text = format("fullCopyText", {
+        title: info.title,
+        author: info.author,
+        url: info.url,
+        description: info.description,
+      });
       await this.writeToClipboard(text);
       this.showPopup(info.description);
       this.showSuccessFeedback();

@@ -27,7 +27,7 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
-  version: '2.1.1',
+  version: '2.2.0',
   description: 'Notify when ChatGPT generation is complete.',
   author: 'roflsunriz',
   match: [
@@ -52,7 +52,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeCfRankingMeta: MonkeyUserScript = {
   name: 'd-anime-cf-ranking',
   namespace: 'dAnimeCfRanking',
-  version: '1.3.0',
+  version: '1.4.0',
   description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
   author: 'roflsunriz',
   match: [
@@ -81,7 +81,7 @@ const danimeCfRankingMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '7.3.13',
+  version: '7.4.0',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -142,7 +142,7 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
 const hfDownloadCommandCopierMeta: MonkeyUserScript = {
   name: 'hf-download-command-copier',
   namespace: 'hfDownloadCommandCopier',
-  version: '1.1.0',
+  version: '1.2.0',
   description: 'Hugging Faceのリポジトリページにhf downloadコマンドのコピーボタンを追加',
   author: 'roflsunriz',
   match: [
@@ -167,7 +167,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.2.2',
+  version: '5.3.0',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -218,7 +218,7 @@ const imageCollectorMeta: MonkeyUserScript = {
 const imgurDirectLinkCopierMeta: MonkeyUserScript = {
   name: 'imgur-image-link-copier',
   namespace: 'imgurImageLinkCopier',
-  version: '3.2.1',
+  version: '3.3.0',
   description: 'Copy image link from Imgur with TypeScript.',
   author: 'roflsunriz',
   match: ['https://imgur.com/*'],
@@ -233,7 +233,7 @@ const imgurDirectLinkCopierMeta: MonkeyUserScript = {
 const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
   name: 'khinsider-direct-link-saver',
   namespace: 'khinsiderDirectLinkSaver',
-  version: '1.3.0',
+  version: '1.4.0',
   description: 'KHInsiderのアルバムページから音声ファイルを並列ダウンロード',
   author: 'roflsunriz',
   match: ['https://downloads.khinsider.com/game-soundtracks/album/*'],
@@ -261,7 +261,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.7.1',
+  version: '10.8.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -310,7 +310,7 @@ const mangaViewerMeta: MonkeyUserScript = {
 const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
   name: 'native-video-volume-setter',
   namespace: 'nativeVideoVolumeSetter',
-  version: '1.1.2',
+  version: '1.2.0',
   description:
     '新規タブで開かれたブラウザ標準のビデオプレーヤーの音量を好みの既定値に揃えるシンプルな補助スクリプト',
   author: 'roflsunriz',
@@ -341,7 +341,7 @@ const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
 const trickcalToolSweepMeta: MonkeyUserScript = {
   name: 'trickcal-tool-sweep',
   namespace: 'trickcalToolSweep',
-  version: '1.1.0',
+  version: '1.2.0',
   description: 'Trickcal sweep tool material image and Japanese tooltip patch.',
   author: 'roflsunriz',
   match: ['https://trickcal.nossite.com/*'],
@@ -361,7 +361,7 @@ const trickcalToolSweepMeta: MonkeyUserScript = {
 const twitterCleanTimelineMeta: MonkeyUserScript = {
   name: 'twitter-clean-timeline',
   namespace: 'twitterCleanTimeline',
-  version: '1.5.1',
+  version: '1.6.0',
   description: 'X/Twitterタイムラインの統合フィルタ（メディア・ミュート・リツイート・置き換え）。JSON事前フィルタリングとDOM削除でクリーンな体験を提供。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -377,7 +377,7 @@ const twitterCleanTimelineMeta: MonkeyUserScript = {
 const twitterCleanUIMeta: MonkeyUserScript = {
   name: 'twitter-clean-ui',
   namespace: 'twitterCleanUI',
-  version: '1.12.6',
+  version: '1.13.0',
   description: 'X/Twitterのメニューとサイドバーをカスタマイズ。UI要素の表示/非表示、幅調整、広告非表示などをリアルタイムプレビューで設定可能。Grok、コミュニティ、フォローのON/OFF対応。ツイート詳細ページの関連性の高いアカウント表示切替対応。クリエイタースタジオ、本日のニュース表示切替対応。設定ページでのレイアウト崩れ防止。サイドバークロークによるFOUC完全防止。',
   author: 'roflsunriz',
   match: ['https://twitter.com/*', 'https://x.com/*'],
@@ -411,7 +411,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '6.8.0',
+  version: '6.9.0',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
@@ -437,7 +437,7 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
 const xAutoSpamReporterMeta: MonkeyUserScript = {
   name: 'x-auto-spam-reporter',
   namespace: 'xAutoSpamReporter',
-  version: '1.1.2',
+  version: '1.2.0',
   description:
     'X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック',
   author: 'roflsunriz',
@@ -469,7 +469,7 @@ const xCommunityNoteCloseMeta: MonkeyUserScript = {
 const yahooMailMarkReadMeta: MonkeyUserScript = {
   name: 'yahoo-mail-mark-read',
   namespace: 'yahooMailMarkRead',
-  version: '1.1.0',
+  version: '1.2.0',
   description: 'Yahoo!メール PC版のフォルダー一覧に、表示中メールをまとめて既読にするボタンを追加',
   author: 'roflsunriz',
   match: ['https://mail.yahoo.co.jp/*'],
@@ -485,7 +485,7 @@ const yahooMailMarkReadMeta: MonkeyUserScript = {
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
-  version: '2.4.3',
+  version: '2.5.0',
   description: 'YouTube動画の情報をワンクリックでクリップボードにコピー（従来/FAB/メニュー切替対応）',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*', 'https://youtu.be/*'],
@@ -501,7 +501,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.4.1',
+  version: '1.5.0',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [

@@ -8,6 +8,7 @@ import { ProgressBar } from "../ui/progress-bar";
 import { Toast } from "../ui/toast";
 import type { BadImageHandler } from "./bad-image-handler";
 import { gmRequest } from "@/shared/network";
+import { format, t } from "../i18n";
 
 interface ProcessableImage {
   url: string;
@@ -48,7 +49,7 @@ export class ZipDownloader {
     this.logger.debug("prepareZip開始");
     if (this.isProcessing) {
       this.logger.debug("既に処理中のため、prepareZipをスキップ");
-      this.toast.show("現在処理中です。しばらくお待ちください...", "info");
+      this.toast.show(t("zipProcessing"), "info");
       return;
     }
 
@@ -57,7 +58,7 @@ export class ZipDownloader {
     try {
       this.filesData.clear();
       this.uiBuilder.setZipButtonState("processing", svgProcessing);
-      this.toast.show("ZIPファイルの準備を開始します...", "info");
+      this.toast.show(t("zipPrepareStart"), "info");
       this.progressBar.show();
       this.progressBar.update(0);
 
@@ -65,14 +66,14 @@ export class ZipDownloader {
       if (this.config.singleImageTest && imageUrls.length > 0) {
         this.logger.debug("単一画像テストモード: 最初の1枚だけ処理します");
         imageUrls = [imageUrls[0]];
-        this.toast.show("テストモード: 1枚だけZIPに追加します", "warning");
+        this.toast.show(t("testModeOneImage"), "warning");
       }
 
       const total = imageUrls.length;
       this.logger.debug(`画像URL ${total}件を収集`);
 
       if (total === 0) {
-        this.toast.show("ダウンロードできる画像がありません", "error");
+        this.toast.show(t("noDownloadableImages"), "error");
         this.uiBuilder.setZipButtonState("initial", svgDownload);
         return;
       }
@@ -144,7 +145,7 @@ export class ZipDownloader {
 
       this.logger.debug("並列処理開始", { count: imagesToProcess.length });
       if (imagesToProcess.length === 0) {
-        this.toast.show("ZIPに追加できる画像がありませんでした", "warning");
+        this.toast.show(t("noImagesForZip"), "warning");
       }
 
       const processedEntries = await Promise.all(
@@ -199,25 +200,28 @@ export class ZipDownloader {
         skipped,
         filesCount: this.filesData.size,
       });
-      this.toast.show(`${processed}/${total} 画像が準備されました`, "info");
+      this.toast.show(
+        format("zipReadyCount", {
+          processed: String(processed),
+          total: String(total),
+        }),
+        "info",
+      );
 
       if (this.config.singleImageTest) {
         this.logger.debug("単一画像テストモードで実行されました");
-        this.toast.show("テストモード: 単一画像のみでZIPを生成します", "info");
+        this.toast.show(t("zipTestMode"), "info");
       }
 
       if (failed > 0) {
         this.toast.show(
-          `${failed}枚の画像をZIPに含められませんでした`,
+          format("failedImagesInZip", { count: String(failed) }),
           "warning",
         );
       }
 
       if (processed > 0) {
-        this.toast.show(
-          "ZIPファイルの準備が完了しました！ボタンをクリックしてダウンロードしてください",
-          "success",
-        );
+        this.toast.show(t("zipPrepareComplete"), "success");
         this.uiBuilder.setZipButtonState("ready", svgSave);
       } else {
         this.logger.error("処理された画像が0件です", undefined, {
@@ -225,7 +229,7 @@ export class ZipDownloader {
           processed,
           failed,
         });
-        this.toast.show("ZIPファイルの作成に失敗しました", "error");
+        this.toast.show(t("zipGenerateFailed"), "error");
         this.uiBuilder.setZipButtonState("initial", svgDownload);
         this.filesData.clear();
       }
@@ -233,7 +237,7 @@ export class ZipDownloader {
       this.logger.error("ZIP準備中にエラーが発生しました", error, {
         filesDataSize: this.filesData.size,
       });
-      this.toast.show("ZIPファイルの準備に失敗しました", "error");
+      this.toast.show(t("zipPrepareFailed"), "error");
       this.uiBuilder.setZipButtonState("initial", svgDownload);
       this.filesData.clear();
     } finally {
@@ -246,7 +250,7 @@ export class ZipDownloader {
     this.logger.debug("downloadZip開始");
     if (!this.fflateAvailable()) {
       this.toast.show(
-        "ZIPライブラリが読み込まれていないため、ダウンロードできません",
+        t("zipLibraryUnavailable"),
         "error",
       );
       this.logger.error("fflate利用不可のためダウンロード中止");
@@ -256,7 +260,7 @@ export class ZipDownloader {
     if (this.filesData.size === 0) {
       this.logger.warn("ファイルデータが空のため準備からやり直し");
       this.toast.show(
-        "ZIPファイルが準備されていません。再度準備します...",
+        t("zipNoPrepared"),
         "warning",
       );
       await this.prepareZip();
@@ -266,7 +270,7 @@ export class ZipDownloader {
     const fileEntries = Array.from(this.filesData.entries());
     if (fileEntries.length === 0) {
       this.logger.error("ZIPファイルが空です");
-      this.toast.show("ZIPファイルに画像が含まれていません", "error");
+      this.toast.show(t("zipEmpty"), "error");
       this.uiBuilder.setZipButtonState("initial", svgDownload);
       return;
     }
@@ -275,7 +279,7 @@ export class ZipDownloader {
 
     try {
       this.isProcessing = true;
-      this.toast.show("ZIPファイルを生成しています...", "info");
+      this.toast.show(t("zipGenerating"), "info");
       this.progressBar.show();
 
       const totalEntries = fileEntries.length;
@@ -292,7 +296,7 @@ export class ZipDownloader {
       this.logger.error("ZIPダウンロード中に詳細エラー情報", error, {
         filesDataSize: this.filesData.size,
       });
-      this.toast.show("ZIPファイルの生成に失敗しました", "error");
+      this.toast.show(t("zipGenerateFailed"), "error");
     } finally {
       this.progressBar.hide();
       this.uiBuilder.setZipButtonState(
@@ -328,7 +332,7 @@ export class ZipDownloader {
     const blob = this.createZipBlob(zipData);
     const filename = `images_${this.getFormattedDate()}.zip`;
     await this.triggerDownload(blob, filename);
-    this.toast.show("ZIPファイルのダウンロードが開始されました", "success");
+    this.toast.show(t("zipDownloadStarted"), "success");
   }
 
   private async generateSplitZips(
@@ -338,7 +342,7 @@ export class ZipDownloader {
     this.logger.debug("分割ZIPファイル生成開始", { totalEntries });
     const totalParts = Math.ceil(totalEntries / this.options.maxImagesPerZip);
     this.toast.show(
-      `画像が多いため、${totalParts}個のZIPファイルに分割します`,
+      format("zipManyImagesSplit", { count: String(totalParts) }),
       "info",
     );
 
@@ -369,7 +373,10 @@ export class ZipDownloader {
 
       if (part < totalParts - 1) {
         this.toast.show(
-          `パート${part + 1}/${totalParts}のダウンロードが開始されました。次のパートを準備中...`,
+          format("zipPartStarted", {
+            part: String(part + 1),
+            total: String(totalParts),
+          }),
           "success",
         );
         await new Promise((resolve) => setTimeout(resolve, 1500));
@@ -377,7 +384,7 @@ export class ZipDownloader {
     }
 
     this.toast.show(
-      `全${totalParts}個のZIPファイルのダウンロードを開始しました`,
+      format("zipSplitStarted", { count: String(totalParts) }),
       "success",
     );
   }

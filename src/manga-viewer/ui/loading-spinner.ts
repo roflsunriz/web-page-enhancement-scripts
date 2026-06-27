@@ -1,13 +1,14 @@
 import { setIntervalSafely, setTimeoutSafely } from "../util";
 import viewerStyles from "./viewer.css?inline";
 import { createShadowHost } from "@/shared/dom";
+import { t } from "../i18n";
 
 export class LoadingSpinner {
   private shadowHost: HTMLDivElement | null = null;
   private shadowRoot: ShadowRoot | null = null;
   private progressInterval: number | null = null;
 
-  show(message = "画像を読み込み中..."): HTMLDivElement | null {
+  show(message = t("defaultLoadingImages")): HTMLDivElement | null {
     try {
       this.hide();
 

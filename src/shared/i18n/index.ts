@@ -16,6 +16,7 @@ export type TextDirection = "ltr" | "rtl";
 export type TranslationTable<TKey extends string> = Readonly<
   Record<TKey, string>
 >;
+export type TranslationParams = Readonly<Record<string, string | number>>;
 
 export type TranslationMap<
   TKey extends string,
@@ -35,6 +36,7 @@ export interface I18n<TKey extends string, TLocale extends LocaleCode> {
   setLocale: (locale: TLocale) => void;
   detectBrowserLocale: () => TLocale;
   t: (key: TKey) => string;
+  format: (key: TKey, params: TranslationParams) => string;
   getTranslations: (locale?: TLocale) => TranslationTable<TKey>;
   getDirection: (locale?: TLocale) => TextDirection;
   getMissingTranslationKeys: (locale: TLocale) => TKey[];
@@ -44,6 +46,16 @@ const RTL_LOCALES = new Set<LocaleCode>(["ar", "ur"]);
 
 export function getTextDirection(locale: LocaleCode): TextDirection {
   return RTL_LOCALES.has(locale) ? "rtl" : "ltr";
+}
+
+export function interpolateTranslation(
+  template: string,
+  params: TranslationParams,
+): string {
+  return template.replace(/\{([a-zA-Z0-9_]+)\}/g, (match, key: string) => {
+    const value = params[key];
+    return value === undefined ? match : String(value);
+  });
 }
 
 export function createI18n<TKey extends string, TLocale extends LocaleCode>(
@@ -102,6 +114,9 @@ export function createI18n<TKey extends string, TLocale extends LocaleCode>(
     return options.translations[options.defaultLocale]?.[key] ?? key;
   };
 
+  const format = (key: TKey, params: TranslationParams): string =>
+    interpolateTranslation(t(key), params);
+
   const getTranslations = (
     locale: TLocale = currentLocale,
   ): TranslationTable<TKey> =>
@@ -124,6 +139,7 @@ export function createI18n<TKey extends string, TLocale extends LocaleCode>(
     },
     detectBrowserLocale,
     t,
+    format,
     getTranslations,
     getDirection: (locale: TLocale = currentLocale) => getTextDirection(locale),
     getMissingTranslationKeys,

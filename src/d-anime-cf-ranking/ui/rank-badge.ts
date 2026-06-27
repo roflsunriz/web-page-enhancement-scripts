@@ -20,6 +20,7 @@ import type {
   TooltipData,
 } from "@/shared/types/d-anime-cf-ranking";
 import { RETRY_COOLDOWN_MS } from "@/shared/types/d-anime-cf-ranking";
+import { format, t } from "../i18n";
 
 const logger = createLogger("dAnimeCfRanking:RankBadge");
 
@@ -313,7 +314,7 @@ export function createErrorBadge(
   badge.setAttribute("style", ERROR_STYLE);
   badge.innerHTML = createIconHtml(mdiAlertCircle);
 
-  const tooltipContent = `取得失敗: ${errorMessage}\nクリックでリトライ`;
+  const tooltipContent = format("fetchFailed", { message: errorMessage });
   badge.__cfRanking = { title, retryCallback, tooltipContent };
 
   setupTooltipEvents(badge);
@@ -340,7 +341,11 @@ function formatBadgeText(
   const checkMark = isRankingFinalized
     ? createCheckIconHtml(mdiCheckCircle)
     : "";
-  return `${rankData.tier} - 第${rankData.rank}位(${scorePoints}点)${checkMark}`;
+  return `${format("rankBadge", {
+    rank: String(rankData.rank),
+    score: scorePoints,
+    tier: rankData.tier,
+  })}${checkMark}`;
 }
 
 /**
@@ -404,7 +409,9 @@ export function updateBadge(
     badge.setAttribute("style", ERROR_STYLE);
     badge.innerHTML = createIconHtml(mdiAlertCircle);
 
-    const tooltipContent = `取得失敗: ${cacheEntry.failureReason ?? "不明なエラー"}\nクリックでリトライ`;
+    const tooltipContent = format("fetchFailed", {
+      message: cacheEntry.failureReason ?? t("unknownError"),
+    });
     badgeEl.__cfRanking = { title, retryCallback, tooltipContent };
 
     setupTooltipEvents(badge);
@@ -490,41 +497,43 @@ function formatTooltipContent(data: TooltipData): string {
   const lines: string[] = [];
 
   // 順位（確定状態を表示）
-  const status = data.isRankingFinalized ? "✓確定" : "⏳暫定";
+  const status = data.isRankingFinalized ? t("confirmed") : t("temporary");
   lines.push(
-    `【${data.tier}ランク】第${data.rank}位 / ${data.totalCount}作品中 ${status}`,
+    `${format("rankBadge", { rank: String(data.rank), score: "", tier: data.tier }).replace("()", "").replace("( pts)", "")} / ${data.totalCount} ${t("title")} ${status}`,
   );
-  lines.push(`総合スコア: ${(data.totalScore * 100).toFixed(1)}点`);
+  lines.push(
+    format("totalScore", { score: (data.totalScore * 100).toFixed(1) }),
+  );
   lines.push("");
 
   // 指標
-  lines.push("▼ 指標 (生値 / 正規化)");
+  lines.push(t("metricsHeader"));
   lines.push(
-    `再生: ${formatNumber(data.rawMetrics.viewCount)} / ${(data.normalizedMetrics.viewCount * 100).toFixed(0)}%`,
+    `${t("view")}: ${formatNumber(data.rawMetrics.viewCount)} / ${(data.normalizedMetrics.viewCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `マイリスト: ${formatNumber(data.rawMetrics.mylistCount)} / ${(data.normalizedMetrics.mylistCount * 100).toFixed(0)}%`,
+    `${t("mylist")}: ${formatNumber(data.rawMetrics.mylistCount)} / ${(data.normalizedMetrics.mylistCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `コメント: ${formatNumber(data.rawMetrics.commentCount)} / ${(data.normalizedMetrics.commentCount * 100).toFixed(0)}%`,
+    `${t("comment")}: ${formatNumber(data.rawMetrics.commentCount)} / ${(data.normalizedMetrics.commentCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `いいね: ${formatNumber(data.rawMetrics.likeCount)} / ${(data.normalizedMetrics.likeCount * 100).toFixed(0)}%`,
+    `${t("like")}: ${formatNumber(data.rawMetrics.likeCount)} / ${(data.normalizedMetrics.likeCount * 100).toFixed(0)}%`,
   );
   lines.push("");
 
   // 代表動画
   if (data.representativeVideo) {
-    lines.push("▼ 代表動画");
+    lines.push(`▼ ${t("video")}`);
     lines.push(`${data.representativeVideo.title}`);
     lines.push(
-      `投稿: ${formatDate(data.representativeVideo.postedAt)} (${getUploaderTypeLabel(data.representativeVideo.uploaderType)})`,
+      `${formatDate(data.representativeVideo.postedAt)} (${getUploaderTypeLabel(data.representativeVideo.uploaderType)})`,
     );
   }
 
   // 取得日時
   lines.push("");
-  lines.push(`取得: ${formatDate(data.fetchedAt)}`);
+  lines.push(`${t("fetched")}: ${formatDate(data.fetchedAt)}`);
 
   return lines.join("\n");
 }

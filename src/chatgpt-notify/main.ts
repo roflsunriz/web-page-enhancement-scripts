@@ -2,6 +2,7 @@ import { loadSettings } from "./settings";
 import { sendNotification } from "./notification";
 import { startObserver } from "./dom-observer";
 import { createSettingsUI } from "./ui";
+import { t } from "./i18n";
 
 /**
  * スクリプトのメインエントリーポイント
@@ -16,7 +17,7 @@ function main() {
   };
 
   startObserver(onGenerationComplete);
-  GM_registerMenuCommand("設定", createSettingsUI);
+  GM_registerMenuCommand(t("settings"), createSettingsUI);
 }
 
 main();

@@ -4,6 +4,7 @@ import type {
   NotificationType,
   Notifier,
 } from "@/d-anime/services/notification";
+import { getNotificationTypeLabel, t } from "@/d-anime/i18n";
 
 type NotificationHandle = {
   element: HTMLDivElement;
@@ -133,7 +134,7 @@ export class NotificationManager
 
       const typeTitle = document.createElement("div");
       typeTitle.className = "notification-type";
-      typeTitle.textContent = type.charAt(0).toUpperCase() + type.slice(1);
+      typeTitle.textContent = getNotificationTypeLabel(type);
       content.appendChild(typeTitle);
 
       const messageElement = document.createElement("div");
@@ -141,10 +142,10 @@ export class NotificationManager
       // HTMLメッセージまたは改行を含むテキストメッセージを表示
       if (message.includes("<")) {
         // HTMLメッセージの場合はそのまま挿入
-        messageElement.innerHTML = message || "No message";
+        messageElement.innerHTML = message || t("noMessage");
       } else {
         // プレーンテキストの場合は改行を<br>タグに変換
-        const formattedMessage = (message || "No message")
+        const formattedMessage = (message || t("noMessage"))
           .split("\n")
           .map((line) => line.trim())
           .filter((line) => line.length > 0)

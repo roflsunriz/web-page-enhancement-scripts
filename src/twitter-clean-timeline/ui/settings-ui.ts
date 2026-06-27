@@ -10,6 +10,7 @@ import {
 } from "../dom/tweet-processor";
 import { createLogger } from "@/shared/logger";
 import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
+import { getTextDirection, t } from "../i18n";
 
 const logger = createLogger("twitter-clean-timeline:ui");
 
@@ -32,17 +33,17 @@ export function showSettingsModal(): void {
  */
 function createReplacementTableHTML(): string {
   if (settings.replaceFilter.replacements.length === 0) {
-    return '<div style="color: #8b98a5; text-align: center; padding: 16px;">ルールがありません</div>';
+    return `<div style="color: #8b98a5; text-align: center; padding: 16px;">${t("noRules")}</div>`;
   }
 
   return `
     <table style="width: 100%; border-collapse: collapse;">
       <thead>
         <tr style="border-bottom: 1px solid #38444d;">
-          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">検索</th>
-          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">置き換え</th>
-          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">正規表現</th>
-          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">削除</th>
+          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">${t("searchHeader")}</th>
+          <th style="padding: 8px; text-align: left; color: #e7e9ea; font-weight: bold; width: 35%;">${t("replaceHeader")}</th>
+          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">${t("regexHeader")}</th>
+          <th style="padding: 8px; text-align: center; color: #e7e9ea; font-weight: bold; width: 15%;">${t("delete")}</th>
         </tr>
       </thead>
       <tbody>
@@ -63,7 +64,7 @@ function createReplacementTableHTML(): string {
             </td>
             <td style="padding: 8px; text-align: center;">
               <button data-replace-delete="${index}" style="padding: 4px 8px; background-color: #ef4444; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 11px;">
-                削除
+                ${t("delete")}
               </button>
             </td>
           </tr>
@@ -90,6 +91,7 @@ function escapeHtml(text: string): string {
 function createModal(): HTMLElement {
   const overlay = document.createElement("div");
   overlay.id = "ctl-settings-modal";
+  overlay.dir = getTextDirection();
   Object.assign(overlay.style, {
     position: "fixed",
     top: "0",
@@ -104,6 +106,7 @@ function createModal(): HTMLElement {
   });
 
   const modalContent = document.createElement("div");
+  modalContent.dir = getTextDirection();
   Object.assign(modalContent.style, {
     backgroundColor: "#15202b",
     color: "#ffffff",
@@ -117,17 +120,17 @@ function createModal(): HTMLElement {
   });
 
   modalContent.innerHTML = `
-    <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold; color: #ffffff;">Twitter Clean Timeline 設定</h2>
+    <h2 style="margin: 0 0 20px 0; font-size: 20px; font-weight: bold; color: #ffffff;">${t("settingsTitle")}</h2>
     
     <div style="margin-bottom: 20px;">
-      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">グローバル設定</h3>
+      <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">${t("globalSettings")}</h3>
       <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
         <input type="checkbox" id="ctl-show-placeholder" ${settings.showPlaceholder ? "checked" : ""}>
-        プレースホルダー表示（フィルタされたツイートを小さく表示）
+        ${t("showPlaceholder")}
       </label>
       <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
         <input type="checkbox" id="ctl-debug-mode" ${settings.debugMode ? "checked" : ""}>
-        デバッグモード（コンソールに詳細ログを出力）
+        ${t("debugMode")}
       </label>
     </div>
 
@@ -135,29 +138,29 @@ function createModal(): HTMLElement {
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-media-enabled" ${settings.mediaFilter.enabled ? "checked" : ""}>
-          メディアフィルタ
+          ${t("mediaFilter")}
         </label>
       </h3>
       <div style="margin-left: 24px;">
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-timeline" ${settings.mediaFilter.enableOnTimeline ? "checked" : ""}>
-          ホームタイムライン
+          ${t("homeTimeline")}
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-lists" ${settings.mediaFilter.enableOnLists ? "checked" : ""}>
-          リスト
+          ${t("lists")}
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-profile" ${settings.mediaFilter.enableOnProfile ? "checked" : ""}>
-          プロフィール
+          ${t("profile")}
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-search" ${settings.mediaFilter.enableOnSearch ? "checked" : ""}>
-          検索
+          ${t("search")}
         </label>
         <label style="display: block; margin-bottom: 8px; color: #e7e9ea; cursor: pointer;">
           <input type="checkbox" id="ctl-media-detail" ${settings.mediaFilter.enableOnTweetDetail ? "checked" : ""}>
-          ツイート詳細
+          ${t("tweetDetail")}
         </label>
       </div>
     </div>
@@ -166,14 +169,14 @@ function createModal(): HTMLElement {
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-mute-enabled" ${settings.muteFilter.enabled ? "checked" : ""}>
-          ミュートフィルタ
+          ${t("muteFilter")}
         </label>
       </h3>
       <div style="margin-left: 24px; margin-right: 8px;">
-        <label style="display: block; margin-bottom: 4px; font-weight: bold; color: #e7e9ea;">文字列キーワード（1行1個）</label>
+        <label style="display: block; margin-bottom: 4px; font-weight: bold; color: #e7e9ea;">${t("stringKeywords")}</label>
         <textarea id="ctl-mute-strings" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${settings.muteFilter.stringKeywords.join("\n")}</textarea>
         
-        <label style="display: block; margin: 12px 0 4px 0; font-weight: bold; color: #e7e9ea;">正規表現パターン（1行1個）</label>
+        <label style="display: block; margin: 12px 0 4px 0; font-weight: bold; color: #e7e9ea;">${t("regexPatterns")}</label>
         <textarea id="ctl-mute-regexes" style="width: 100%; height: 80px; padding: 8px; border: 1px solid #38444d; border-radius: 4px; font-family: monospace; background-color: #192734; color: #ffffff; box-sizing: border-box; resize: vertical;">${settings.muteFilter.regexKeywords.join("\n")}</textarea>
       </div>
     </div>
@@ -182,7 +185,7 @@ function createModal(): HTMLElement {
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-retweet-enabled" ${settings.retweetFilter.enabled ? "checked" : ""}>
-          リツイートフィルタ（プロフィールページで動作）
+          ${t("retweetFilter")}
         </label>
       </h3>
     </div>
@@ -191,14 +194,14 @@ function createModal(): HTMLElement {
       <h3 style="font-size: 16px; font-weight: bold; margin-bottom: 10px; color: #ffffff;">
         <label style="cursor: pointer;">
           <input type="checkbox" id="ctl-replace-enabled" ${settings.replaceFilter.enabled ? "checked" : ""}>
-          置き換えフィルタ
+          ${t("replaceFilter")}
         </label>
       </h3>
       <div style="margin-left: 24px; margin-right: 8px;">
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-          <label style="display: block; font-weight: bold; color: #e7e9ea;">置き換えルール</label>
+          <label style="display: block; font-weight: bold; color: #e7e9ea;">${t("replacementRules")}</label>
           <button id="ctl-replace-add-btn" style="padding: 4px 12px; background-color: #1d9bf0; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 12px;">
-            ルール追加
+            ${t("addRule")}
           </button>
         </div>
         <div id="ctl-replace-table-container" style="max-height: 200px; overflow-y: auto; border: 1px solid #38444d; border-radius: 4px; background-color: #192734; padding: 8px;">
@@ -209,13 +212,13 @@ function createModal(): HTMLElement {
 
     <div style="display: flex; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid #38444d;">
       <button id="ctl-save-btn" style="padding: 10px 24px; background-color: #1d9bf0; color: white; border: none; border-radius: 9999px; cursor: pointer; font-weight: bold;">
-        保存
+        ${t("save")}
       </button>
       <button id="ctl-reset-btn" style="padding: 10px 20px; background-color: #ef4444; color: white; border: none; border-radius: 9999px; cursor: pointer;">
-        リセット
+        ${t("reset")}
       </button>
       <button id="ctl-cancel-btn" style="padding: 10px 20px; background-color: #6b7280; color: white; border: none; border-radius: 9999px; cursor: pointer;">
-        キャンセル
+        ${t("cancel")}
       </button>
     </div>
   `;
@@ -232,7 +235,7 @@ function createModal(): HTMLElement {
   });
 
   resetBtn?.addEventListener("click", () => {
-    if (confirm("すべての設定をリセットしますか？")) {
+    if (confirm(t("resetConfirm"))) {
       resetSettings();
 
       // ミュートフィルタと置き換えフィルタを更新
@@ -244,7 +247,7 @@ function createModal(): HTMLElement {
 
       overlay.remove();
       logger.info("設定をリセットしました");
-      alert("設定をリセットして適用しました。");
+      alert(t("resetApplied"));
     }
   });
 
@@ -383,5 +386,5 @@ function saveSettingsFromModal(modal: HTMLElement): void {
   reprocessAllTweets();
 
   logger.info("設定を保存しました");
-  alert("設定を保存して適用しました。");
+  alert(t("saveApplied"));
 }

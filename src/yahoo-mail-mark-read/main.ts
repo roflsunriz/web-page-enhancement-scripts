@@ -1,3 +1,5 @@
+import { format, getTextDirection, t } from "./i18n";
+
 type ClickableElement = HTMLElement & {
   click: () => void;
 };
@@ -76,6 +78,7 @@ function showToast(message: string, variant: "info" | "error" = "info"): void {
   const toast = document.createElement("div");
   toast.id = TOAST_ID;
   toast.dataset.variant = variant;
+  toast.dir = getTextDirection();
   toast.textContent = message;
   document.body.append(toast);
 
@@ -86,10 +89,10 @@ function showToast(message: string, variant: "info" | "error" = "info"): void {
 
 function getFolderName(label: Element): string {
   if (getFolderId(label) === INBOX_FOLDER_ID) {
-    return "受信箱";
+    return t("inbox");
   }
 
-  return getElementText(label) || "このフォルダー";
+  return getElementText(label) || t("thisFolder");
 }
 
 function hasUnreadMail(row: Element): boolean {
@@ -109,7 +112,7 @@ function isCurrentFolder(label: Element): boolean {
 
 async function selectFolder(label: Element): Promise<void> {
   if (!isClickableElement(label)) {
-    throw new Error("フォルダーを選択できません。");
+    throw new Error(t("selectFolderError"));
   }
 
   if (!isCurrentFolder(label)) {
@@ -119,7 +122,7 @@ async function selectFolder(label: Element): Promise<void> {
   await waitFor(
     () => (isCurrentFolder(label) && findAllCheckbox() ? true : null),
     FOLDER_SELECTION_TIMEOUT_MS,
-    "フォルダーの読み込みが完了しませんでした。",
+    t("folderLoadTimeout"),
   );
 }
 
@@ -145,7 +148,7 @@ async function clickAllCheckbox(): Promise<void> {
   const checkbox = await waitFor(
     findAllCheckbox,
     MAIL_SELECTION_TIMEOUT_MS,
-    "メール一覧の全選択チェックボックスが見つかりません。",
+    t("checkboxNotFound"),
   );
 
   checkbox.click();
@@ -153,7 +156,7 @@ async function clickAllCheckbox(): Promise<void> {
   await waitFor(
     () => (isAllSelected() ? true : null),
     MAIL_SELECTION_TIMEOUT_MS,
-    "メールの選択が完了しませんでした。",
+    t("mailSelectionTimeout"),
   );
 }
 
@@ -208,7 +211,7 @@ async function waitForMarkReadMenuItem(): Promise<ClickableElement> {
   return waitFor(
     findMarkReadMenuItem,
     MENU_WAIT_TIMEOUT_MS,
-    "「既読にする」メニューが見つかりません。",
+    t("markReadMenuNotFound"),
   );
 }
 
@@ -216,7 +219,7 @@ async function openMarkReadMenu(): Promise<ClickableElement> {
   const menuButton = await waitFor(
     findMenuButton,
     MAIL_SELECTION_TIMEOUT_MS,
-    "メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。",
+    t("mailOperationMenuNotFound"),
   );
 
   menuButton.click();
@@ -240,16 +243,16 @@ async function markCurrentFolderRead(
   const folderName = getFolderName(label);
   button.disabled = true;
   button.dataset.running = "true";
-  showToast(`${folderName} を開いています`);
+  showToast(format("openingFolder", { folderName }));
 
   try {
-    showToast(`${folderName} を既読にしています`);
+    showToast(format("markingFolder", { folderName }));
     await markFolderRead(label);
 
-    showToast(`${folderName} を既読にしました`);
+    showToast(format("markedFolder", { folderName }));
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "既読化に失敗しました。";
+      error instanceof Error ? error.message : t("markReadFailed");
     showToast(message, "error");
   } finally {
     button.disabled = false;
@@ -293,7 +296,7 @@ async function markBulkTargetFoldersRead(
 ): Promise<void> {
   const labels = getBulkTargetLabels();
   if (labels.length === 0) {
-    showToast("受信箱と個人フォルダに未読メールはありません");
+    showToast(t("noUnreadBulk"));
     return;
   }
 
@@ -304,19 +307,28 @@ async function markBulkTargetFoldersRead(
   try {
     for (const label of labels) {
       const folderName = getFolderName(label);
-      showToast(
-        `${folderName} を既読にしています (${completedCount + 1}/${labels.length})`,
-      );
+      showToast(format("bulkProgress", {
+        folderName,
+        current: completedCount + 1,
+        total: labels.length,
+      }));
       await markFolderRead(label);
       completedCount += 1;
       await sleep(OPERATION_DELAY_MS);
     }
 
-    showToast(`受信箱と個人フォルダ ${completedCount} 件を既読にしました`);
+    showToast(format("bulkComplete", { count: completedCount }));
   } catch (error: unknown) {
     const message =
-      error instanceof Error ? error.message : "一括既読化に失敗しました。";
-    showToast(`${completedCount}/${labels.length} 件完了: ${message}`, "error");
+      error instanceof Error ? error.message : t("bulkFailed");
+    showToast(
+      format("bulkErrorProgress", {
+        completed: completedCount,
+        total: labels.length,
+        message,
+      }),
+      "error",
+    );
   } finally {
     setButtonsDisabled(false);
   }
@@ -326,8 +338,8 @@ function createMarkReadButton(label: Element): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
   button.className = BUTTON_CLASS;
-  button.textContent = "既読";
-  button.title = `${getFolderName(label)} の表示中メールをすべて既読にする`;
+  button.textContent = t("singleButton");
+  button.title = format("singleTitle", { folderName: getFolderName(label) });
   button.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
@@ -340,8 +352,8 @@ function createBulkMarkReadButton(): HTMLButtonElement {
   const button = document.createElement("button");
   button.type = "button";
   button.className = `${BUTTON_CLASS} ${BULK_BUTTON_CLASS}`;
-  button.textContent = "一括既読";
-  button.title = "受信箱と未読がある個人フォルダを順番に開いて既読にする";
+  button.textContent = t("bulkButton");
+  button.title = t("bulkTitle");
   button.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();

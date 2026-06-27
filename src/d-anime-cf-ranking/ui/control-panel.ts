@@ -16,6 +16,7 @@ import {
   TTL_MIN_HOURS,
   TTL_MAX_HOURS,
 } from "@/shared/types/d-anime-cf-ranking";
+import { format, t } from "../i18n";
 
 const logger = createLogger("dAnimeCfRanking:ControlPanel");
 
@@ -477,7 +478,11 @@ export function createControlPanel(
       if (progressText) {
         if (total > 0) {
           const percent = Math.round((current / total) * 100);
-          progressText.textContent = `${current} / ${total} 作品取得済み (${percent}%)`;
+          progressText.textContent = format("progress", {
+            current: String(current),
+            percent: String(percent),
+            total: String(total),
+          });
         } else {
           progressText.textContent = "";
         }
@@ -489,10 +494,10 @@ export function createControlPanel(
         refreshBtn.disabled = isRefreshing;
         if (isRefreshing) {
           refreshBtn.classList.add("refreshing");
-          refreshBtn.innerHTML = `${renderMdiSvg(mdiRefresh, 16)} 取得中...`;
+          refreshBtn.innerHTML = `${renderMdiSvg(mdiRefresh, 16)} ${t("fetching")}`;
         } else {
           refreshBtn.classList.remove("refreshing");
-          refreshBtn.innerHTML = `${renderMdiSvg(mdiRefresh, 16)} 全作品を再取得`;
+          refreshBtn.innerHTML = `${renderMdiSvg(mdiRefresh, 16)} ${t("refreshAll")}`;
         }
       }
     },
@@ -516,17 +521,17 @@ function buildPanelHTML(settings: Settings): string {
     <div class="panel-header">
       <div class="panel-title">
         ${renderMdiSvg(mdiCog, 18)}
-        <span>ニコニコランキング設定</span>
+        <span>${t("rankingSettings")}</span>
       </div>
       <div class="toggle-container">
-        <span class="toggle-label">表示</span>
+        <span class="toggle-label">${t("rank")}</span>
         <div class="toggle-switch ${toggleActiveClass}" role="switch" aria-checked="${settings.enabled}">
         </div>
       </div>
     </div>
     <div class="panel-body ${bodyDisabledClass}">
       <div class="control-section">
-        <div class="section-title">キャッシュ有効期限 (TTL)</div>
+        <div class="section-title">${t("cacheTtl")}</div>
         <div class="ttl-container">
           <div class="ttl-slider-row">
             <input type="range" class="ttl-slider" 
@@ -540,15 +545,15 @@ function buildPanelHTML(settings: Settings): string {
         </div>
       </div>
       <div class="control-section">
-        <div class="section-title">データ更新</div>
+        <div class="section-title">${t("dataRefresh")}</div>
         <div class="action-container">
           <button class="action-btn refresh-btn">
             ${renderMdiSvg(mdiRefresh, 16)}
-            全作品を再取得
+            ${t("refreshAll")}
           </button>
           <button class="action-btn ranking-list-btn">
             ${renderMdiSvg(mdiFormatListBulleted, 16)}
-            詳細ランキング
+            ${t("detailRanking")}
           </button>
           <div class="progress-text"></div>
         </div>
@@ -559,17 +564,20 @@ function buildPanelHTML(settings: Settings): string {
 
 function formatTtlValue(hours: number): string {
   if (hours < 24) {
-    return `${hours}時間`;
+    return format("hours", { hours: String(hours) });
   } else if (hours < 168) {
     const days = Math.floor(hours / 24);
     const remainingHours = hours % 24;
     if (remainingHours === 0) {
-      return `${days}日`;
+      return format("days", { days: String(days) });
     }
-    return `${days}日${remainingHours}時間`;
+    return format("daysHours", {
+      days: String(days),
+      hours: String(remainingHours),
+    });
   } else {
     const weeks = Math.floor(hours / 168);
-    return `${weeks}週間`;
+    return format("weeks", { weeks: String(weeks) });
   }
 }
 

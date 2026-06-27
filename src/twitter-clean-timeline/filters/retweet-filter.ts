@@ -6,6 +6,7 @@ import { BaseFilter } from "./base-filter";
 import type { FilterResult } from "@/shared/types";
 import { settings } from "../settings";
 import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
+import { t } from "../i18n";
 
 export class RetweetFilter extends BaseFilter {
   get name(): string {
@@ -41,7 +42,7 @@ export class RetweetFilter extends BaseFilter {
     if (hasRetweetIndicator) {
       return {
         shouldHide: true,
-        reason: "リツイート",
+        reason: t("retweetReason"),
         filterName: this.name,
       };
     }

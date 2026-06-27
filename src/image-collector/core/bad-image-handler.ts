@@ -1,6 +1,7 @@
 import type { Logger } from "@/shared/logger";
 import type { ImageMetadata } from "@/shared/types";
 import { gmRequest } from "@/shared/network";
+import { format, t } from "../i18n";
 
 interface DeletedImageSize {
   width: number;
@@ -72,11 +73,15 @@ export class BadImageHandler {
 
       const sizeInfo = document.createElement("div");
       sizeInfo.classList.add("ic", "size-info");
-      sizeInfo.textContent = `サイズ: ${metadata.width}x${metadata.height} (${this.formatBytes(metadata.size)})`;
+      sizeInfo.textContent = format("size", {
+        height: String(metadata.height),
+        size: this.formatBytes(metadata.size),
+        width: String(metadata.width),
+      });
 
       const loadButton = document.createElement("button");
       loadButton.classList.add("ic", "load-button");
-      loadButton.textContent = "画像を読み込む";
+      loadButton.textContent = t("loadImage");
       loadButton.addEventListener("click", () => {
         try {
           placeholder.replaceWith(this.createImageElement(url));
@@ -97,7 +102,7 @@ export class BadImageHandler {
       );
       const fallback = document.createElement("div");
       fallback.classList.add("ic", "image-placeholder");
-      fallback.textContent = "画像の表示に失敗しました";
+      fallback.textContent = t("imageLoadFailed");
       return fallback;
     }
   }
@@ -109,12 +114,12 @@ export class BadImageHandler {
       placeholder.style.backgroundColor = "rgba(220, 53, 69, 0.2)";
 
       const errorText = document.createElement("div");
-      errorText.textContent = "画像の読み込みに失敗しました";
+      errorText.textContent = t("imageLoadFailed");
       errorText.style.color = "#dc3545";
 
       const retryButton = document.createElement("button");
       retryButton.classList.add("ic", "load-button");
-      retryButton.textContent = "再試行";
+      retryButton.textContent = t("retry");
       retryButton.addEventListener("click", () => {
         try {
           placeholder.replaceWith(this.createImageElement(url));
@@ -134,7 +139,7 @@ export class BadImageHandler {
         { url },
       );
       const fallback = document.createElement("div");
-      fallback.textContent = "エラー";
+      fallback.textContent = t("imageLoadFailed");
       return fallback as HTMLDivElement;
     }
   }

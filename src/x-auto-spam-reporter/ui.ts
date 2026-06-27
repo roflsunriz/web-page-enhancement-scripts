@@ -13,6 +13,7 @@ import {
   svgSync,
   svgProcessing,
 } from "@/shared/icons/mdi";
+import { getTextDirection, t } from "./i18n";
 
 const logger = createLogger("x-auto-spam-reporter:ui");
 
@@ -110,7 +111,7 @@ export class ReporterUI {
 
     const button = document.createElement("button");
     button.innerHTML = BUTTON_ICONS.default;
-    button.title = "スパムとして報告＆ブロック";
+    button.title = t("reportButtonTitle");
     button.className = "x-auto-spam-reporter-btn";
     Object.assign(button.style, BUTTON_STYLES.default);
 
@@ -187,6 +188,7 @@ export class ReporterUI {
 
     const toast = document.createElement("div");
     toast.className = "x-auto-spam-reporter-toast";
+    toast.dir = getTextDirection();
 
     const icon = TOAST_ICONS[type];
     toast.innerHTML = `

@@ -1,5 +1,6 @@
 import type { CopyMode } from "./state";
 import type { TweetData } from "@/shared/types";
+import { format } from "./i18n.js";
 
 /**
  * 単一ツイートをフォーマットする
@@ -236,16 +237,18 @@ export function generateSummary(
   let summary = "";
 
   if (startFromAuthor) {
-    summary += `${startFromAuthor}のツイートから`;
+    summary += format("summaryStartFrom", { author: startFromAuthor });
   }
 
   if (tweets.length > 0) {
     const author = tweets[0].author;
-    summary += `${author}のスレッド`;
+    summary += format("summaryThread", { author });
   }
 
-  summary += `(${tweets.length}件)をコピーしました。`;
-  summary += `文字数: ${formatByteSize(formattedText.length)}`;
+  summary += format("summaryCopied", { count: String(tweets.length) });
+  summary += format("summaryChars", {
+    count: formatByteSize(formattedText.length),
+  });
 
   if (mode === "shitaraba" || mode === "5ch") {
     const limit = mode === "shitaraba" ? 4096 : 2048;

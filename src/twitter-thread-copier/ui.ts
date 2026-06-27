@@ -14,6 +14,7 @@ import {
   resetSettings,
   type TranslatorSettings,
 } from "./settings.js";
+import { format, getTextDirection, t } from "./i18n.js";
 
 type ButtonAction = "copy" | "clipboard";
 
@@ -539,7 +540,7 @@ class UIManager {
           selectButton.type = "button";
           selectButton.className = "select-tweet-button";
           selectButton.textContent = "+";
-          selectButton.title = "このツイートを選択";
+          selectButton.title = t("selectTweet");
           selectButton.dataset.tweetId = tweetId;
           selectButton.addEventListener("click", (event) => {
             event.preventDefault();
@@ -580,12 +581,14 @@ class UIManager {
           tweetElement.classList.add("tweet-selected");
           selectButton.classList.add("active");
           selectButton.textContent = order > 0 ? order.toString() : "✓";
-          selectButton.title = `選択中 (${order})`;
+          selectButton.title = format("selectedTitle", {
+            order: String(order),
+          });
         } else {
           tweetElement.classList.remove("tweet-selected");
           selectButton.classList.remove("active");
           selectButton.textContent = "+";
-          selectButton.title = "このツイートを選択";
+          selectButton.title = t("selectTweet");
         }
       });
 
@@ -613,16 +616,16 @@ class UIManager {
     const selectedCount = state.selectedTweetIds.length;
     const toastMessage =
       selectedCount > 0
-        ? `${selectedCount}件選択中`
-        : "選択をすべて解除しました";
+        ? format("selectedCount", { count: String(selectedCount) })
+        : t("selectionCleared");
 
     this.refreshSelectionIndicators();
     this.updateMainButtonText();
 
     if (alreadySelected) {
-      this.showToast("選択解除", toastMessage);
+      this.showToast(t("selectionRemoved"), toastMessage);
     } else {
-      this.showToast("選択追加", toastMessage);
+      this.showToast(t("selectionAdded"), toastMessage);
     }
     logger.log(`Selected tweet ids: ${state.selectedTweetIds.join(",")}`);
   }
@@ -633,7 +636,7 @@ class UIManager {
       if (!resetButton) {
         resetButton = document.createElement("button");
         resetButton.className = "reset-selection";
-        resetButton.textContent = "選択をリセット";
+        resetButton.textContent = t("resetSelection");
         resetButton.addEventListener("click", () => this.resetSelection());
         this.appendChild(resetButton as HTMLElement);
       }
@@ -654,7 +657,7 @@ class UIManager {
     state.collectedThreadData = null;
     this.refreshSelectionIndicators();
     this.updateMainButtonText();
-    this.showToast("選択リセット", "選択したツイートをすべて解除しました");
+    this.showToast(t("selectionReset"), t("selectionClearedAll"));
     logger.log("Selections reset");
   }
 
@@ -669,8 +672,8 @@ class UIManager {
     const modeSelect = document.createElement("select");
     modeSelect.id = "copy-mode-select";
     modeSelect.innerHTML = `
-      <option value="all">全て</option>
-      <option value="first">最初のみ</option>
+      <option value="all">${t("allMode")}</option>
+      <option value="first">${t("firstMode")}</option>
       <option value="shitaraba">4K(shitaraba)</option>
       <option value="5ch">2K(5ch)</option>
     `;
@@ -694,18 +697,18 @@ class UIManager {
       );
     });
     translateLabel.appendChild(checkbox);
-    translateLabel.appendChild(document.createTextNode("翻訳"));
+    translateLabel.appendChild(document.createTextNode(t("translation")));
     container.appendChild(translateLabel);
 
     // Translation provider selector
     const providerLabel = document.createElement("label");
-    providerLabel.textContent = "翻訳プロバイダー:";
+    providerLabel.textContent = t("translationProvider");
     const providerSelect = document.createElement("select");
     providerSelect.id = "provider-select";
     providerSelect.innerHTML = `
-      <option value="local">ローカルAI</option>
-      <option value="google">Google翻訳</option>
-      <option value="openai">OpenAI互換</option>
+      <option value="local">${t("localAi")}</option>
+      <option value="google">${t("googleTranslate")}</option>
+      <option value="openai">${t("openAiCompatible")}</option>
     `;
     // Initialize from stored preference
     const storedProvider = localStorage.getItem("translationProvider");
@@ -735,7 +738,7 @@ class UIManager {
     const settingsButton = document.createElement("button");
     settingsButton.className = "settings-button";
     settingsButton.type = "button";
-    settingsButton.title = "設定";
+    settingsButton.title = t("settings");
     settingsButton.innerHTML = ICONS.SETTINGS;
     settingsButton.addEventListener("click", () => this.showSettingsModal());
     container.appendChild(settingsButton);
@@ -754,7 +757,7 @@ class UIManager {
     const button = document.createElement("button");
     button.className = "copy-thread-button";
     button.id = "twitter-thread-copier-button";
-    button.title = "スレッドをコピー";
+    button.title = t("copyThread");
 
     button.addEventListener("click", async () => {
       if (this.ignoreNextClick) {
@@ -783,14 +786,14 @@ class UIManager {
     if (state.isCollecting) {
       button.classList.add("loading");
       button.classList.remove("ready");
-      button.innerHTML = `<span class="text">収集中...</span>${ICONS.LOADING}`;
+      button.innerHTML = `<span class="text">${t("collecting")}</span>${ICONS.LOADING}`;
       return;
     }
 
     if (state.translationInProgress) {
       button.classList.add("loading");
       button.classList.remove("ready");
-      button.innerHTML = `<span class="text">翻訳中...</span>${ICONS.LOADING}`;
+      button.innerHTML = `<span class="text">${t("translating")}</span>${ICONS.LOADING}`;
       return;
     }
 
@@ -799,13 +802,13 @@ class UIManager {
 
     if (state.isSecondStage) {
       button.classList.add("ready");
-      button.innerHTML = `<span class="text">クリックしてコピー</span>${ICONS.CLIPBOARD}`;
+      button.innerHTML = `<span class="text">${t("clickToCopy")}</span>${ICONS.CLIPBOARD}`;
       return;
     }
 
     const selectedCount = state.selectedTweetIds.length;
     if (selectedCount > 0) {
-      button.innerHTML = `<span class="text">選択ツイート(${selectedCount})をコピー</span>${ICONS.COPY}`;
+      button.innerHTML = `<span class="text">${format("copySelectedTweets", { count: String(selectedCount) })}</span>${ICONS.COPY}`;
       return;
     }
 
@@ -814,11 +817,11 @@ class UIManager {
         state.startFromTweetText.length > 20
           ? state.startFromTweetText.substring(0, 20) + "..."
           : state.startFromTweetText;
-      button.innerHTML = `<span class="text">${startText}からコピー</span>${ICONS.COPY}`;
+      button.innerHTML = `<span class="text">${format("copyFromStart", { text: this.escapeHtml(startText) })}</span>${ICONS.COPY}`;
       return;
     }
 
-    button.innerHTML = `<span class="text">スレッドをコピー</span>${ICONS.COPY}`;
+    button.innerHTML = `<span class="text">${t("copyThread")}</span>${ICONS.COPY}`;
   }
 
   public showToast(title: string, content: string): void {
@@ -829,9 +832,10 @@ class UIManager {
       this.appendChild(toast as HTMLElement);
     }
     toast.innerHTML = `
-      <div class="toast-title">${title}</div>
-      <div class="toast-content">${content.substring(0, 100)}</div>
+      <div class="toast-title">${this.escapeHtml(title)}</div>
+      <div class="toast-content">${this.escapeHtml(content.substring(0, 100))}</div>
     `;
+    (toast as HTMLElement).dir = getTextDirection();
     toast.classList.remove("visible");
     setTimeout(() => {
       toast?.classList.add("visible");
@@ -869,7 +873,7 @@ class UIManager {
         const startButton = document.createElement("button");
         startButton.className = "start-point-button";
         startButton.textContent = "★";
-        startButton.title = "この位置からコピー開始";
+        startButton.title = t("startPointTitle");
         startButton.dataset.tweetId = tweetId;
 
         if (state.startFromTweetId === tweetId) {
@@ -919,7 +923,10 @@ class UIManager {
 
     this.updateResetButton();
     this.updateMainButtonText();
-    this.showToast("起点設定完了", `${author}のツイートを起点に設定しました`);
+    this.showToast(
+      t("startPointSetTitle"),
+      format("startPointSetContent", { author }),
+    );
     logger.log(`Start point set: ${tweetId} by ${author}`);
   }
 
@@ -930,7 +937,7 @@ class UIManager {
       if (!resetButton) {
         resetButton = document.createElement("button");
         resetButton.className = "reset-start-point";
-        resetButton.textContent = "起点をリセット";
+        resetButton.textContent = t("startPointReset");
         resetButton.addEventListener("click", () => this.resetStartPoint());
         this.appendChild(resetButton as HTMLElement);
       }
@@ -956,7 +963,7 @@ class UIManager {
 
     this.updateResetButton();
     this.updateMainButtonText();
-    this.showToast("起点リセット", "コピー起点をリセットしました");
+    this.showToast(t("startPointResetTitle"), t("startPointResetContent"));
     logger.log("Start point reset");
   }
 
@@ -1222,39 +1229,41 @@ class UIManager {
 
     const overlay = document.createElement("div");
     overlay.className = "settings-modal-overlay";
+    overlay.dir = getTextDirection();
 
     const modal = document.createElement("div");
     modal.className = "settings-modal";
+    modal.dir = getTextDirection();
 
     const settings = loadSettings();
 
     modal.innerHTML = `
-      <h2>翻訳設定</h2>
+      <h2>${t("settingsTitle")}</h2>
       
-      <h3>ローカルAI設定</h3>
-      <label>APIエンドポイント</label>
+      <h3>${t("settingsLocalAi")}</h3>
+      <label>${t("settingsApiEndpoint")}</label>
       <input type="text" id="local-ai-endpoint" value="${this.escapeHtml(settings.localAiEndpoint)}" />
       
-      <label>システムプロンプト</label>
+      <label>${t("settingsSystemPrompt")}</label>
       <textarea id="local-ai-system-prompt">${this.escapeHtml(settings.localAiSystemPrompt)}</textarea>
       
-      <h3>OpenAI互換設定</h3>
-      <label>APIエンドポイント</label>
+      <h3>${t("settingsOpenAi")}</h3>
+      <label>${t("settingsApiEndpoint")}</label>
       <input type="text" id="openai-endpoint" value="${this.escapeHtml(settings.openaiEndpoint)}" />
       
-      <label>モデル名</label>
+      <label>${t("settingsModel")}</label>
       <input type="text" id="openai-model" value="${this.escapeHtml(settings.openaiModel)}" />
       
-      <label>システムプロンプト</label>
+      <label>${t("settingsSystemPrompt")}</label>
       <textarea id="openai-system-prompt">${this.escapeHtml(settings.openaiSystemPrompt)}</textarea>
       
-      <label>APIキー</label>
-      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="常に必要なので必ず入力してください" />
+      <label>${t("settingsApiKey")}</label>
+      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" />
       
       <div class="settings-modal-buttons">
-        <button class="btn-reset" type="button">リセット</button>
-        <button class="btn-cancel" type="button">キャンセル</button>
-        <button class="btn-save" type="button">保存</button>
+        <button class="btn-reset" type="button">${t("settingsReset")}</button>
+        <button class="btn-cancel" type="button">${t("settingsCancel")}</button>
+        <button class="btn-save" type="button">${t("settingsSave")}</button>
       </div>
     `;
 
@@ -1310,7 +1319,7 @@ class UIManager {
         };
         saveSettings(newSettings);
         this.hideSettingsModal();
-        this.showToast("設定保存", "設定を保存しました");
+        this.showToast(t("settingsSavedTitle"), t("settingsSavedContent"));
       });
     }
 
@@ -1322,10 +1331,10 @@ class UIManager {
 
     if (resetButton) {
       resetButton.addEventListener("click", () => {
-        if (confirm("設定をデフォルトに戻しますか？")) {
+        if (confirm(t("resetConfirm"))) {
           resetSettings();
           this.hideSettingsModal();
-          this.showToast("設定リセット", "設定をデフォルトに戻しました");
+          this.showToast(t("settingsResetTitle"), t("settingsResetContent"));
         }
       });
     }

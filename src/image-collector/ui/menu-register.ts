@@ -2,6 +2,7 @@ import type { ImageCollectorMain } from "../core/image-collector";
 import type { Logger } from "@/shared/logger";
 import { UIBuilder } from "./ui-builder";
 import { registerMenuCommand } from "@/shared/userscript";
+import { t } from "../i18n";
 
 export class MenuRegister {
   constructor(
@@ -11,7 +12,7 @@ export class MenuRegister {
   ) {}
 
   register(): void {
-    registerMenuCommand("🚀起動", () => {
+    registerMenuCommand(t("menuLaunch"), () => {
       try {
         this.uiBuilder.showModal();
         void this.imageCollector.collectImages();

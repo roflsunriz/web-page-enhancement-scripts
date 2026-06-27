@@ -1,5 +1,6 @@
 import { CHATGPT_URLS } from "@/shared/constants/urls";
 import { Settings } from "@/shared/types";
+import { getTextDirection, t } from "./i18n";
 import { loadSettings, saveSettings } from "./settings";
 
 const CONTAINER_ID = "chatgpt-notification-settings-container";
@@ -38,35 +39,35 @@ export function createSettingsUI(): void {
       .close-button { position: absolute; top: 10px; right: 10px; background: none; border: none; font-size: 20px; cursor: pointer; color: #333; }
       .success-text { color: #10a37f; margin-right: auto; }
     </style>
-    <div class="modal">
+    <div class="modal" dir="${getTextDirection()}">
       <div class="modal-content">
         <button class="close-button">&times;</button>
-        <h2 class="title">ChatGPT 完了通知 - 設定</h2>
+        <h2 class="title">${t("settingsTitle")}</h2>
         
         <div class="setting-item">
           <input type="checkbox" id="notification-enabled">
-          <label for="notification-enabled" class="checkbox-label">通知を有効にする</label>
+          <label for="notification-enabled" class="checkbox-label">${t("enableNotification")}</label>
         </div>
         
         <div class="setting-item">
           <input type="checkbox" id="sound-enabled">
-          <label for="sound-enabled" class="checkbox-label">完了時に音を鳴らす</label>
+          <label for="sound-enabled" class="checkbox-label">${t("playSoundOnComplete")}</label>
         </div>
         
         <div class="setting-item">
-          <div class="setting-label" id="volume-label">音量: </div>
+          <div class="setting-label" id="volume-label">${t("volumeLabel")}: </div>
           <input type="range" class="slider" id="sound-volume" min="0" max="1" step="0.1">
         </div>
         
         <div class="setting-item">
-          <div class="setting-label">カスタム通知音URL（空白の場合はデフォルト）</div>
+          <div class="setting-label">${t("customSoundUrlLabel")}</div>
           <input type="text" class="text-input" id="custom-sound" placeholder="${CHATGPT_URLS.soundSample}">
         </div>
         
         <div class="button-container">
           <span class="success-text"></span>
-          <button class="button cancel-button">キャンセル</button>
-          <button class="button save-button">保存</button>
+          <button class="button cancel-button">${t("cancel")}</button>
+          <button class="button save-button">${t("save")}</button>
         </div>
       </div>
     </div>
@@ -102,7 +103,7 @@ export function createSettingsUI(): void {
   };
 
   const updateVolumeLabel = () => {
-    volumeLabel.textContent = `音量: ${volumeSlider.value}`;
+    volumeLabel.textContent = `${t("volumeLabel")}: ${volumeSlider.value}`;
   };
 
   const populateUI = (s: Settings) => {
@@ -122,7 +123,7 @@ export function createSettingsUI(): void {
     };
     saveSettings(newSettings);
 
-    successText.textContent = "保存しました！";
+    successText.textContent = t("saved");
     setTimeout(closeUI, 1000);
   };
 

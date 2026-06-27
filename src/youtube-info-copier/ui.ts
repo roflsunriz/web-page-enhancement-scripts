@@ -4,6 +4,7 @@ import {
   svgFlash,
   svgMonitor,
 } from "@/shared/icons/mdi";
+import { getTextDirection, t } from "./i18n";
 
 export const TEMPLATE_POLICY_NAME = "youtube-info-copier-template";
 
@@ -292,28 +293,28 @@ export function getTemplate(): string {
         }
     </style>
     
-    <div class="glass-control-container">
-        <div class="control-handle" aria-label="YouTube動画情報コピー" title="YouTube動画情報" tabindex="0"></div>
+    <div class="glass-control-container" dir="${getTextDirection()}">
+        <div class="control-handle" aria-label="${t("controlLabel")}" title="${t("controlTitle")}" tabindex="0"></div>
         <div class="control-panel">
             <div class="panel-header">
                 <span class="panel-icon">${svgMonitor}</span>
-                <span class="panel-title">YouTube Info</span>
+                <span class="panel-title">${t("controlTitle")}</span>
             </div>
             <div class="panel-content">
                 <button class="panel-button primary" data-action="copy">
                     <span class="panel-icon">${svgContentCopy}</span>
-                    動画情報をコピー
+                    ${t("copyVideoInfo")}
                 </button>
                 <button class="panel-button" data-action="quick-copy">
                     <span class="panel-icon">${svgFlash}</span>
-                    タイトル+URLのみ
+                    ${t("copyTitleAndUrl")}
                 </button>
             </div>
         </div>
         
         <div class="popup">
-            <button class="popup-close" aria-label="閉じる">${svgClose}</button>
-            <div class="popup-title">コピーした概要</div>
+            <button class="popup-close" aria-label="${t("close")}">${svgClose}</button>
+            <div class="popup-title">${t("copiedSummary")}</div>
             <div class="popup-content"></div>
         </div>
     </div>

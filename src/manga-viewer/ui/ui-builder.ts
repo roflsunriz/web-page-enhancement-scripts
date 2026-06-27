@@ -7,6 +7,7 @@ import { LoadingSpinner } from "./loading-spinner";
 import { ViewerComponent } from "./viewer-component";
 import viewerStyles from "./viewer.css?inline";
 import { createShadowHost } from "@/shared/dom";
+import { format } from "../i18n";
 
 // React.createElementのエイリアス（インポート後に定義）
 const e = React.createElement;
@@ -43,7 +44,7 @@ export class UIBuilder {
 
     if (urlsToPreload.length === 0) {
       this.spinner?.updateMessage(
-        `${total}枚の読み込み済み画像を確認しました。ビューアを起動中...`,
+        format("loadedImagesReady", { count: String(total) }),
         100,
       );
       this.spinner?.setComplete();
@@ -52,7 +53,11 @@ export class UIBuilder {
 
     const initialPercent = Math.round((loaded / total) * 100);
     this.spinner?.updateMessage(
-      `画像をプリロード中... ${loaded}/${total} (${initialPercent}%)`,
+      format("loadingImages", {
+        loaded: String(loaded),
+        percent: String(initialPercent),
+        total: String(total),
+      }),
       initialPercent,
     );
 
@@ -83,15 +88,28 @@ export class UIBuilder {
       const percent = Math.round((loaded / total) * 100);
       const message =
         errors > 0
-          ? `画像をプリロード中... ${loaded}/${total} (${percent}%) - ${errors}枚エラー`
-          : `画像をプリロード中... ${loaded}/${total} (${percent}%)`;
+          ? format("loadingImagesWithErrors", {
+              errors: String(errors),
+              loaded: String(loaded),
+              percent: String(percent),
+              total: String(total),
+            })
+          : format("loadingImages", {
+              loaded: String(loaded),
+              percent: String(percent),
+              total: String(total),
+            });
       this.spinner?.updateMessage(message, percent);
     }
 
     const finalMessage =
       errors > 0
-        ? `${total}枚中${loaded - errors}枚の画像をプリロード完了（${errors}枚エラー）。ビューアを起動中...`
-        : `${total}枚の画像をプリロード完了。ビューアを起動中...`;
+        ? format("preloadCompleteWithErrors", {
+            errors: String(errors),
+            loaded: String(loaded - errors),
+            total: String(total),
+          })
+        : format("preloadComplete", { total: String(total) });
     this.spinner?.updateMessage(finalMessage, 100);
     this.spinner?.setComplete();
   }
@@ -127,7 +145,7 @@ export class UIBuilder {
     if (initialImageUrls.length > 0) {
       void this.preloadImages(initialImageUrls);
     } else {
-      this.spinner?.updateMessage("有効な画像を検索中です...");
+      this.spinner?.updateMessage(format("validImageSearch", {}));
     }
 
     const { host, root } = createShadowHost({ mode: "closed" });

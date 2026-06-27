@@ -9,6 +9,7 @@ import { createLogger } from "@/shared/logger";
 import { startObserver } from "./dom/observer";
 import { showSettingsModal } from "./ui/settings-ui";
 import { settings } from "./settings";
+import { t } from "./i18n";
 
 const logger = createLogger("twitter-clean-timeline");
 
@@ -28,7 +29,7 @@ function init(): void {
   }
 
   // 設定メニューを登録
-  GM_registerMenuCommand("タイムラインフィルタ設定", showSettingsModal);
+  GM_registerMenuCommand(t("settingsMenu"), showSettingsModal);
 
   logger.info("初期化完了", {
     mediaFilter: settings.mediaFilter.enabled,

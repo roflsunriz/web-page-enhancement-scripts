@@ -11,6 +11,7 @@ import {
   DONE_KEYWORDS,
 } from "./selectors";
 import type { ReporterConfig, ReporterStats } from "@/shared/types";
+import { t } from "./i18n";
 
 const logger = createLogger("x-auto-spam-reporter:reporter");
 
@@ -192,7 +193,7 @@ export class SpamReporter {
   private async selectSpamOption(): Promise<void> {
     const dialog = await this.waitForElement(SELECTORS.dialog, 3000);
     if (!dialog) {
-      throw new Error("報告ダイアログが見つかりません");
+      throw new Error(t("errorDialogNotFound"));
     }
 
     await this.sleep(this.config.delays.dialogLoad);
@@ -205,7 +206,7 @@ export class SpamReporter {
     );
 
     if (!spamLabel) {
-      throw new Error("「スパム」オプションが見つかりません");
+      throw new Error(t("errorSpamOptionNotFound"));
     }
 
     logger.debug("スパムオプションをクリック");
@@ -318,14 +319,15 @@ export class SpamReporter {
     tweetElement: HTMLElement,
   ): Promise<{ success: boolean; userName: string }> {
     if (this.isProcessing) {
-      throw new Error("既に処理中です");
+      throw new Error(t("errorAlreadyProcessing"));
     }
 
     this.isProcessing = true;
 
     // ユーザー名を取得
     const userNameEl = tweetElement.querySelector(SELECTORS.userName);
-    const userName = userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? "不明";
+    const userName =
+      userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? t("unknownUser");
 
     try {
       logger.info(`報告開始: ${userName}`);
@@ -335,7 +337,7 @@ export class SpamReporter {
         SELECTORS.moreButton,
       );
       if (!moreButton) {
-        throw new Error("3点メニューボタンが見つかりません");
+        throw new Error(t("errorMoreMenuNotFound"));
       }
 
       moreButton.click();
@@ -347,7 +349,7 @@ export class SpamReporter {
         3000,
       );
       if (!reportItem) {
-        throw new Error("「ポストを報告」が見つかりません");
+        throw new Error(t("errorReportMenuItemNotFound"));
       }
 
       reportItem.click();

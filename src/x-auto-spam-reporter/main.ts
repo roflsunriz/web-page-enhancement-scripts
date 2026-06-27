@@ -9,6 +9,7 @@ import { createLogger } from "@/shared/logger";
 import { SELECTORS } from "./selectors";
 import { ReporterUI } from "./ui";
 import { SpamReporter } from "./reporter";
+import { format, t } from "./i18n";
 
 const logger = createLogger("x-auto-spam-reporter");
 
@@ -125,11 +126,7 @@ class XAutoSpamReporter {
     this.setupObserver();
     this.processExistingTweets();
     this.isActive = true;
-    this.ui.showToast(
-      "🚨 スパム自動報告モード\nリプライの「🚨」ボタンをクリック",
-      4000,
-      "info",
-    );
+    this.ui.showToast(t("activeModeToast"), 4000, "info");
   }
 
   /**
@@ -234,7 +231,7 @@ class XAutoSpamReporter {
 
     this.ui.addButtonToTweet(tweetElement, async (tweet, button) => {
       if (this.reporter.processing) {
-        this.ui.showToast("⏳ 処理中です...", 2000, "warning");
+        this.ui.showToast(t("processingToast"), 2000, "warning");
         return;
       }
 
@@ -244,22 +241,30 @@ class XAutoSpamReporter {
         // ユーザー名を取得（表示用）
         const userNameEl = tweet.querySelector(SELECTORS.userName);
         const userName =
-          userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? "不明";
-        this.ui.showToast(`🔄 ${userName} を報告中...`, 0, "processing");
+          userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? t("unknownUser");
+        this.ui.showToast(format("reportingUser", { userName }), 0, "processing");
 
         const result = await this.reporter.report(tweet);
 
         if (result.success) {
           this.ui.setButtonDone(button);
           const stats = this.reporter.getStats();
-          const message = `✅ ${result.userName} をスパム報告＆ブロックしました\n(報告: ${stats.reported}, ブロック: ${stats.blocked})`;
+          const message = format("successMessage", {
+            blocked: String(stats.blocked),
+            reported: String(stats.reported),
+            userName: result.userName,
+          });
           this.ui.showToast(message, 3000, "success");
         }
       } catch (error) {
         this.ui.resetButton(button);
         const errorMessage =
-          error instanceof Error ? error.message : "不明なエラー";
-        this.ui.showToast(`❌ エラー: ${errorMessage}`, 4000, "error");
+          error instanceof Error ? error.message : t("unknownError");
+        this.ui.showToast(
+          format("errorToast", { message: errorMessage }),
+          4000,
+          "error",
+        );
       }
     });
   }
@@ -269,23 +274,35 @@ class XAutoSpamReporter {
    */
   private registerMenuCommand(): void {
     if (typeof GM_registerMenuCommand !== "undefined") {
-      GM_registerMenuCommand("統計を表示", () => {
+      GM_registerMenuCommand(t("showStatsMenu"), () => {
         const stats = this.reporter.getStats();
         this.ui.showToast(
-          `📊 統計\n報告: ${stats.reported}\nブロック: ${stats.blocked}\nエラー: ${stats.errors}`,
+          format("statsToast", {
+            blocked: String(stats.blocked),
+            errors: String(stats.errors),
+            reported: String(stats.reported),
+          }),
           5000,
           "info",
         );
       });
 
-      GM_registerMenuCommand("自動ブロックをOFF", () => {
+      GM_registerMenuCommand(t("autoBlockOffMenu"), () => {
         this.reporter.setAutoBlock(false);
-        this.ui.showToast("自動ブロック: OFF", 2000, "info");
+        this.ui.showToast(
+          format("autoBlockState", { state: t("stateOff") }),
+          2000,
+          "info",
+        );
       });
 
-      GM_registerMenuCommand("自動ブロックをON", () => {
+      GM_registerMenuCommand(t("autoBlockOnMenu"), () => {
         this.reporter.setAutoBlock(true);
-        this.ui.showToast("自動ブロック: ON", 2000, "info");
+        this.ui.showToast(
+          format("autoBlockState", { state: t("stateOn") }),
+          2000,
+          "info",
+        );
       });
     }
   }
@@ -302,7 +319,13 @@ class XAutoSpamReporter {
    */
   public setAutoBlock(enabled: boolean): void {
     this.reporter.setAutoBlock(enabled);
-    this.ui.showToast(`自動ブロック: ${enabled ? "ON" : "OFF"}`, 2000, "info");
+    this.ui.showToast(
+      format("autoBlockState", {
+        state: enabled ? t("stateOn") : t("stateOff"),
+      }),
+      2000,
+      "info",
+    );
   }
 
   /**

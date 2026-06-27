@@ -14,6 +14,7 @@ import {
   TTL_MAX_HOURS,
 } from "@/shared/types/d-anime-cf-ranking";
 import { createLogger } from "@/shared/logger";
+import { t } from "../i18n";
 
 const logger = createLogger("dAnimeCfRanking:Settings");
 
@@ -185,7 +186,7 @@ export function registerMenuCommands(): void {
   const settings = getSettings();
 
   GM_registerMenuCommand(
-    settings.enabled ? "🔵 ランキング表示: ON" : "⚪ ランキング表示: OFF",
+    settings.enabled ? t("rankingDisplayOn") : t("rankingDisplayOff"),
     () => {
       toggleEnabled();
       // メニュー更新のためページをリロード

@@ -1,5 +1,10 @@
 import { logger } from "./logger";
 import { uiManager } from "./ui.js";
+import { t } from "./i18n.js";
+
+type ClipboardItemConstructor = new (
+  items: Record<string, Blob>,
+) => ClipboardItem;
 
 /**
  * テキストをクリップボードにコピーする。
@@ -14,17 +19,15 @@ export async function executeClipboardCopy(
   } | null,
 ): Promise<boolean> {
   if (!threadData || !threadData.formattedText) {
-    const errorMessage = !threadData
-      ? "コピーするデータがありません (threadData is null)"
-      : "コピーするテキストがありません (formattedText is null)";
+    const errorMessage = !threadData ? t("copyNoData") : t("copyNoText");
     logger.error(`クリップボードコピー失敗: ${errorMessage}`);
-    uiManager.showToast("エラー", errorMessage);
+    uiManager.showToast(t("unknownError"), errorMessage);
     return false;
   }
 
   if (threadData.formattedText.trim().length === 0) {
     logger.error("クリップボードコピー失敗: formattedTextが空です");
-    uiManager.showToast("エラー", "コピーするテキストが空です");
+    uiManager.showToast(t("unknownError"), t("copyEmptyText"));
     return false;
   }
 
@@ -35,10 +38,11 @@ export async function executeClipboardCopy(
   if (navigator.clipboard && window.ClipboardItem) {
     try {
       const blob = new Blob([threadData.formattedText], { type: "text/plain" });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const item = new (window as any).ClipboardItem({ "text/plain": blob });
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      await (navigator.clipboard as any).write([item]);
+      const clipboardWindow = window as Window & {
+        ClipboardItem: ClipboardItemConstructor;
+      };
+      const item = new clipboardWindow.ClipboardItem({ "text/plain": blob });
+      await navigator.clipboard.write([item]);
       copySuccess = true;
     } catch (clipboardError) {
       lastError = clipboardError as Error;
@@ -76,11 +80,11 @@ export async function executeClipboardCopy(
   }
 
   if (copySuccess) {
-    uiManager.showToast("コピーしました", threadData.summary);
+    uiManager.showToast(t("copied"), threadData.summary);
   } else {
-    const errorMsg = lastError ? lastError.message : "不明なエラー";
+    const errorMsg = lastError ? lastError.message : t("unknownError");
     logger.error(`クリップボードコピー失敗: ${errorMsg}`);
-    uiManager.showToast("エラー", "クリップボードへのコピーに失敗しました。");
+    uiManager.showToast(t("unknownError"), t("copyFailed"));
   }
 
   return copySuccess;

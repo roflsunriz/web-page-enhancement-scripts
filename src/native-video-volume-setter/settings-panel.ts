@@ -1,4 +1,5 @@
 import { createShadowHost } from "@/shared/dom";
+import { format, getTextDirection, t } from "./i18n";
 import { clampVolume, formatVolumeLabel } from "./volume-settings";
 
 type VolumeSettingsPanelOptions = {
@@ -172,19 +173,21 @@ export const showVolumeSettingsPanel = ({
 
   const panel = document.createElement("section");
   panel.className = "nvvs-panel";
+  panel.dir = getTextDirection();
 
   const title = document.createElement("h2");
   title.className = "nvvs-heading";
-  title.textContent = "既定音量の調整";
+  title.textContent = t("title");
 
   const description = document.createElement("p");
   description.className = "nvvs-description";
-  description.textContent =
-    "スライダーまたは数値入力で既定音量を微調整し、即時に反映できます。";
+  description.textContent = t("description");
 
   const currentValueLabel = document.createElement("p");
   currentValueLabel.className = "nvvs-current-value";
-  currentValueLabel.textContent = `現在の音量: ${formatVolumeLabel(initialVolume)}`;
+  currentValueLabel.textContent = format("currentVolume", {
+    volume: formatVolumeLabel(initialVolume),
+  });
 
   const slider = document.createElement("input");
   slider.className = "nvvs-range";
@@ -219,7 +222,7 @@ export const showVolumeSettingsPanel = ({
   const closeButton = document.createElement("button");
   closeButton.className = "nvvs-button";
   closeButton.type = "button";
-  closeButton.textContent = "閉じる";
+  closeButton.textContent = t("close");
 
   buttonRow.append(closeButton);
 
@@ -234,7 +237,9 @@ export const showVolumeSettingsPanel = ({
     setSliderPercent(percent);
     slider.value = percent.toString();
     numberInput.value = slider.value;
-    currentValueLabel.textContent = `現在の音量: ${formatVolumeLabel(volume)}`;
+    currentValueLabel.textContent = format("currentVolume", {
+      volume: formatVolumeLabel(volume),
+    });
   };
 
   const applyPercent = (percent: number): void => {

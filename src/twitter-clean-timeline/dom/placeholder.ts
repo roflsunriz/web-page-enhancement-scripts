@@ -3,6 +3,7 @@
  */
 
 import { createLogger } from "@/shared/logger";
+import { format, getTextDirection } from "../i18n";
 
 const logger = createLogger("twitter-clean-timeline:placeholder");
 
@@ -12,7 +13,8 @@ const logger = createLogger("twitter-clean-timeline:placeholder");
 export function createPlaceholder(reason: string): HTMLElement {
   const placeholder = document.createElement("div");
   placeholder.dataset.twitterCleanTimelinePlaceholder = "1";
-  placeholder.textContent = `フィルタ済み: ${reason}`;
+  placeholder.dir = getTextDirection();
+  placeholder.textContent = format("filteredPlaceholder", { reason });
 
   // スタイル適用
   Object.assign(placeholder.style, {
