@@ -58,16 +58,16 @@ export interface RankOutput {
  */
 export function determineRankTier(percentile: number): RankTier {
   if (percentile <= 3) return "S+++"; // 上位3%
-  if (percentile <= 6) return "S++";  // 3-6%
-  if (percentile <= 10) return "S+";  // 6-10%
-  if (percentile <= 15) return "S";   // 10-15%
-  if (percentile <= 25) return "A";   // 15-25%
-  if (percentile <= 40) return "B";   // 25-40%
-  if (percentile <= 55) return "C";   // 40-55%
-  if (percentile <= 70) return "D";   // 55-70%
-  if (percentile <= 85) return "E";   // 70-85%
-  if (percentile <= 95) return "F";   // 85-95%
-  return "G";                          // 95-100%
+  if (percentile <= 6) return "S++"; // 3-6%
+  if (percentile <= 10) return "S+"; // 6-10%
+  if (percentile <= 15) return "S"; // 10-15%
+  if (percentile <= 25) return "A"; // 15-25%
+  if (percentile <= 40) return "B"; // 25-40%
+  if (percentile <= 55) return "C"; // 40-55%
+  if (percentile <= 70) return "D"; // 55-70%
+  if (percentile <= 85) return "E"; // 70-85%
+  if (percentile <= 95) return "F"; // 85-95%
+  return "G"; // 95-100%
 }
 
 // =============================================================================
@@ -124,12 +124,12 @@ export function minMaxNormalize(values: number[]): number[] {
  * @returns 正規化された指標の配列（欠損はnull）
  */
 export function normalizeAllMetrics(
-  inputs: ScoreInput[]
+  inputs: ScoreInput[],
 ): Array<NormalizedMetrics | null> {
   // 欠損でない指標を抽出
   const validInputs = inputs.filter(
     (input): input is ScoreInput & { metrics: NicoMetrics } =>
-      input.metrics !== null
+      input.metrics !== null,
   );
 
   if (validInputs.length === 0) {
@@ -138,8 +138,12 @@ export function normalizeAllMetrics(
 
   // 各指標のlog変換値を収集
   const viewLogs = validInputs.map((i) => logTransform(i.metrics.viewCount));
-  const mylistLogs = validInputs.map((i) => logTransform(i.metrics.mylistCount));
-  const commentLogs = validInputs.map((i) => logTransform(i.metrics.commentCount));
+  const mylistLogs = validInputs.map((i) =>
+    logTransform(i.metrics.mylistCount),
+  );
+  const commentLogs = validInputs.map((i) =>
+    logTransform(i.metrics.commentCount),
+  );
   const likeLogs = validInputs.map((i) => logTransform(i.metrics.likeCount));
 
   // min-max正規化
@@ -277,7 +281,7 @@ export function calculateRanks(inputs: ScoreInput[]): RankOutput[] {
  */
 export function calculateSingleScore(
   metrics: NicoMetrics,
-  allInputs: ScoreInput[]
+  allInputs: ScoreInput[],
 ): ScoreData | null {
   // 対象作品を含めて正規化
   const targetInput: ScoreInput = { title: "__target__", metrics };

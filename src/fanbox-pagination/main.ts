@@ -1,6 +1,6 @@
-import { PaginationUI } from './pagination-ui';
-import { UrlChangeObserver } from './url-change-observer';
-import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
+import { PaginationUI } from "./pagination-ui";
+import { UrlChangeObserver } from "./url-change-observer";
+import { FANBOX_SELECTORS } from "@/shared/constants/fanbox";
 
 /**
  * メイン処理

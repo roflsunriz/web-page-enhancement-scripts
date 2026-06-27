@@ -2,8 +2,8 @@
  * Twitter Clean UI - 設定管理システム
  */
 
-import type { Settings, Profile, StorageData } from './types';
-import { DEFAULT_SETTINGS, STORAGE_KEY } from './constants';
+import type { Settings, Profile, StorageData } from "./types";
+import { DEFAULT_SETTINGS, STORAGE_KEY } from "./constants";
 
 /**
  * 設定管理クラス
@@ -11,7 +11,7 @@ import { DEFAULT_SETTINGS, STORAGE_KEY } from './constants';
 export class SettingsManager {
   private currentSettings: Settings;
   private profiles: Map<string, Profile> = new Map();
-  private currentProfileId: string = 'default';
+  private currentProfileId: string = "default";
   private initialized: boolean = false;
   private initPromise: Promise<void> | null = null;
 
@@ -67,7 +67,7 @@ export class SettingsManager {
         this.createDefaultProfile();
       }
     } catch (error) {
-      console.error('[SettingsManager] Failed to load settings:', error);
+      console.error("[SettingsManager] Failed to load settings:", error);
       this.createDefaultProfile();
     }
   }
@@ -95,7 +95,7 @@ export class SettingsManager {
    */
   private async loadFromStorage(): Promise<StorageData | null> {
     return new Promise((resolve) => {
-      if (typeof GM_getValue === 'undefined') {
+      if (typeof GM_getValue === "undefined") {
         // GM_getValueが使えない場合はlocalStorageを使用
         const data = localStorage.getItem(STORAGE_KEY);
         resolve(data ? JSON.parse(data) : null);
@@ -112,14 +112,14 @@ export class SettingsManager {
   private async saveToStorage(data: StorageData): Promise<void> {
     return new Promise((resolve) => {
       const jsonData = JSON.stringify(data);
-      
-      if (typeof GM_setValue === 'undefined') {
+
+      if (typeof GM_setValue === "undefined") {
         // GM_setValueが使えない場合はlocalStorageを使用
         localStorage.setItem(STORAGE_KEY, jsonData);
       } else {
         GM_setValue(STORAGE_KEY, jsonData);
       }
-      
+
       resolve();
     });
   }
@@ -130,15 +130,15 @@ export class SettingsManager {
   private createDefaultProfile(): void {
     const now = Date.now();
     const defaultProfile: Profile = {
-      id: 'default',
-      name: 'Default',
+      id: "default",
+      name: "Default",
       settings: { ...DEFAULT_SETTINGS },
       createdAt: now,
       updatedAt: now,
     };
 
-    this.profiles.set('default', defaultProfile);
-    this.currentProfileId = 'default';
+    this.profiles.set("default", defaultProfile);
+    this.currentProfileId = "default";
     this.currentSettings = { ...DEFAULT_SETTINGS };
     this.save();
   }
@@ -221,8 +221,8 @@ export class SettingsManager {
    * プロファイルを削除
    */
   public deleteProfile(profileId: string): boolean {
-    if (profileId === 'default') {
-      console.warn('[SettingsManager] Cannot delete default profile');
+    if (profileId === "default") {
+      console.warn("[SettingsManager] Cannot delete default profile");
       return false;
     }
 
@@ -230,7 +230,7 @@ export class SettingsManager {
     if (deleted) {
       // 削除したプロファイルが現在のプロファイルの場合
       if (this.currentProfileId === profileId) {
-        this.switchProfile('default');
+        this.switchProfile("default");
       }
       this.save();
     }
@@ -297,7 +297,7 @@ export class SettingsManager {
 
       // バリデーション
       if (!data.settings || !data.profiles || !data.currentProfileId) {
-        throw new Error('Invalid settings data');
+        throw new Error("Invalid settings data");
       }
 
       this.currentSettings = data.settings;
@@ -312,7 +312,7 @@ export class SettingsManager {
       this.save();
       return true;
     } catch (error) {
-      console.error('[SettingsManager] Failed to import settings:', error);
+      console.error("[SettingsManager] Failed to import settings:", error);
       return false;
     }
   }
@@ -332,4 +332,3 @@ export class SettingsManager {
     return true;
   }
 }
-

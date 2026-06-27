@@ -2,17 +2,17 @@
  * X/Twitter Auto Spam Reporter - 報告ロジック
  */
 
-import { createLogger } from '@/shared/logger';
+import { createLogger } from "@/shared/logger";
 import {
   SELECTORS,
   SPAM_KEYWORDS,
   BLOCK_KEYWORDS,
   NEXT_KEYWORDS,
   DONE_KEYWORDS,
-} from './selectors';
-import type { ReporterConfig, ReporterStats } from '@/shared/types';
+} from "./selectors";
+import type { ReporterConfig, ReporterStats } from "@/shared/types";
 
-const logger = createLogger('x-auto-spam-reporter:reporter');
+const logger = createLogger("x-auto-spam-reporter:reporter");
 
 const DEFAULT_CONFIG: ReporterConfig = {
   debug: true,
@@ -58,7 +58,7 @@ export class SpamReporter {
    */
   public setAutoBlock(enabled: boolean): void {
     this.config.autoBlock = enabled;
-    logger.info(`自動ブロック: ${enabled ? 'ON' : 'OFF'}`);
+    logger.info(`自動ブロック: ${enabled ? "ON" : "OFF"}`);
   }
 
   /**
@@ -73,7 +73,7 @@ export class SpamReporter {
    */
   private async waitForElement(
     selector: string,
-    timeout: number = 5000
+    timeout: number = 5000,
   ): Promise<HTMLElement | null> {
     const startTime = Date.now();
 
@@ -95,12 +95,12 @@ export class SpamReporter {
     const dialog = document.querySelector<HTMLElement>(SELECTORS.dialog);
     if (!dialog) return null;
 
-    const scrollables = Array.from(dialog.querySelectorAll<HTMLElement>('div'));
+    const scrollables = Array.from(dialog.querySelectorAll<HTMLElement>("div"));
     for (const el of scrollables) {
       const style = window.getComputedStyle(el);
       const overflowY = style.overflowY;
       if (
-        (overflowY === 'auto' || overflowY === 'scroll') &&
+        (overflowY === "auto" || overflowY === "scroll") &&
         el.scrollHeight > el.clientHeight
       ) {
         return el;
@@ -116,14 +116,15 @@ export class SpamReporter {
   private async findElementWithScroll(
     container: HTMLElement | null,
     finder: () => HTMLElement | null,
-    maxScrollAttempts: number = 10
+    maxScrollAttempts: number = 10,
   ): Promise<HTMLElement | null> {
-    const scrollContainer = container ?? this.getScrollableContainer() ?? document.body;
+    const scrollContainer =
+      container ?? this.getScrollableContainer() ?? document.body;
 
     // まず現在の位置で探す
     let element = finder();
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
       await this.sleep(200);
       return element;
     }
@@ -137,12 +138,15 @@ export class SpamReporter {
 
       element = finder();
       if (element) {
-        element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        element.scrollIntoView({ behavior: "smooth", block: "center" });
         await this.sleep(200);
         return element;
       }
 
-      if (scrollContainer.scrollTop + scrollContainer.clientHeight >= scrollContainer.scrollHeight) {
+      if (
+        scrollContainer.scrollTop + scrollContainer.clientHeight >=
+        scrollContainer.scrollHeight
+      ) {
         break;
       }
     }
@@ -153,7 +157,7 @@ export class SpamReporter {
 
     element = finder();
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      element.scrollIntoView({ behavior: "smooth", block: "center" });
       await this.sleep(200);
       return element;
     }
@@ -166,11 +170,13 @@ export class SpamReporter {
    */
   private findByText(
     keywords: readonly string[],
-    selectors: string = 'label, button, [role="button"], [role="option"], [role="radio"]'
+    selectors: string = 'label, button, [role="button"], [role="option"], [role="radio"]',
   ): HTMLElement | null {
-    const elements = Array.from(document.querySelectorAll<HTMLElement>(selectors));
+    const elements = Array.from(
+      document.querySelectorAll<HTMLElement>(selectors),
+    );
     for (const el of elements) {
-      const text = el.textContent ?? '';
+      const text = el.textContent ?? "";
       for (const keyword of keywords) {
         if (text.includes(keyword)) {
           return el;
@@ -186,7 +192,7 @@ export class SpamReporter {
   private async selectSpamOption(): Promise<void> {
     const dialog = await this.waitForElement(SELECTORS.dialog, 3000);
     if (!dialog) {
-      throw new Error('報告ダイアログが見つかりません');
+      throw new Error("報告ダイアログが見つかりません");
     }
 
     await this.sleep(this.config.delays.dialogLoad);
@@ -195,14 +201,14 @@ export class SpamReporter {
 
     const allKeywords = [...SPAM_KEYWORDS.ja, ...SPAM_KEYWORDS.en];
     const spamLabel = await this.findElementWithScroll(scrollContainer, () =>
-      this.findByText(allKeywords)
+      this.findByText(allKeywords),
     );
 
     if (!spamLabel) {
-      throw new Error('「スパム」オプションが見つかりません');
+      throw new Error("「スパム」オプションが見つかりません");
     }
 
-    logger.debug('スパムオプションをクリック');
+    logger.debug("スパムオプションをクリック");
     spamLabel.click();
     await this.sleep(this.config.delays.menuClick);
   }
@@ -218,7 +224,7 @@ export class SpamReporter {
       // data-testidで探す
       const btn = document.querySelector<HTMLElement>(SELECTORS.nextButton);
       if (btn) {
-        const text = btn.textContent?.trim() ?? '';
+        const text = btn.textContent?.trim() ?? "";
         const doneKeywords = [...DONE_KEYWORDS.ja, ...DONE_KEYWORDS.en];
         if (!doneKeywords.some((k) => text === k)) {
           return btn;
@@ -230,13 +236,13 @@ export class SpamReporter {
     });
 
     if (nextButton) {
-      logger.debug('「次へ」ボタンをクリック');
-      nextButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      logger.debug("「次へ」ボタンをクリック");
+      nextButton.scrollIntoView({ behavior: "smooth", block: "center" });
       await this.sleep(200);
       nextButton.click();
       await this.sleep(this.config.delays.animation);
     } else {
-      logger.debug('「次へ」ボタンが見つかりません（スキップ）');
+      logger.debug("「次へ」ボタンが見つかりません（スキップ）");
     }
   }
 
@@ -248,16 +254,16 @@ export class SpamReporter {
 
     const allKeywords = [...BLOCK_KEYWORDS.ja, ...BLOCK_KEYWORDS.en];
     const blockButton = await this.findElementWithScroll(scrollContainer, () =>
-      this.findByText(allKeywords, 'button, [role="button"]')
+      this.findByText(allKeywords, 'button, [role="button"]'),
     );
 
     if (!blockButton) {
-      logger.debug('ブロックボタンが見つかりません（スキップ）');
+      logger.debug("ブロックボタンが見つかりません（スキップ）");
       return;
     }
 
-    logger.debug('ブロックボタンをクリック');
-    blockButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    logger.debug("ブロックボタンをクリック");
+    blockButton.scrollIntoView({ behavior: "smooth", block: "center" });
     await this.sleep(200);
     blockButton.click();
     await this.sleep(this.config.delays.animation);
@@ -277,8 +283,8 @@ export class SpamReporter {
     });
 
     if (doneButton) {
-      logger.debug('完了ボタンをクリック');
-      doneButton.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      logger.debug("完了ボタンをクリック");
+      doneButton.scrollIntoView({ behavior: "smooth", block: "center" });
       await this.sleep(200);
       doneButton.click();
       await this.sleep(this.config.delays.animation);
@@ -289,11 +295,15 @@ export class SpamReporter {
    * ダイアログを閉じる試み
    */
   private async tryCloseDialog(): Promise<void> {
-    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
+    document.dispatchEvent(
+      new KeyboardEvent("keydown", { key: "Escape", bubbles: true }),
+    );
     await this.sleep(200);
 
     const closeButtons = Array.from(
-      document.querySelectorAll<HTMLElement>('[aria-label="閉じる"], [aria-label="Close"]')
+      document.querySelectorAll<HTMLElement>(
+        '[aria-label="閉じる"], [aria-label="Close"]',
+      ),
     );
     for (const btn of closeButtons) {
       btn.click();
@@ -304,33 +314,40 @@ export class SpamReporter {
   /**
    * 報告フローを実行
    */
-  public async report(tweetElement: HTMLElement): Promise<{ success: boolean; userName: string }> {
+  public async report(
+    tweetElement: HTMLElement,
+  ): Promise<{ success: boolean; userName: string }> {
     if (this.isProcessing) {
-      throw new Error('既に処理中です');
+      throw new Error("既に処理中です");
     }
 
     this.isProcessing = true;
 
     // ユーザー名を取得
     const userNameEl = tweetElement.querySelector(SELECTORS.userName);
-    const userName = userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? '不明';
+    const userName = userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? "不明";
 
     try {
       logger.info(`報告開始: ${userName}`);
 
       // Step 1: 3点メニューを開く
-      const moreButton = tweetElement.querySelector<HTMLElement>(SELECTORS.moreButton);
+      const moreButton = tweetElement.querySelector<HTMLElement>(
+        SELECTORS.moreButton,
+      );
       if (!moreButton) {
-        throw new Error('3点メニューボタンが見つかりません');
+        throw new Error("3点メニューボタンが見つかりません");
       }
 
       moreButton.click();
       await this.sleep(this.config.delays.menuOpen);
 
       // Step 2: "ポストを報告" をクリック
-      const reportItem = await this.waitForElement(SELECTORS.reportMenuItem, 3000);
+      const reportItem = await this.waitForElement(
+        SELECTORS.reportMenuItem,
+        3000,
+      );
       if (!reportItem) {
-        throw new Error('「ポストを報告」が見つかりません');
+        throw new Error("「ポストを報告」が見つかりません");
       }
 
       reportItem.click();
@@ -361,7 +378,7 @@ export class SpamReporter {
       return { success: true, userName };
     } catch (error) {
       this.stats.errors++;
-      logger.error('報告エラー:', error);
+      logger.error("報告エラー:", error);
 
       // ダイアログを閉じる試み
       await this.tryCloseDialog();
@@ -372,4 +389,3 @@ export class SpamReporter {
     }
   }
 }
-

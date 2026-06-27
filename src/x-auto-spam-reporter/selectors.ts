@@ -11,28 +11,27 @@ export const SELECTORS = {
   menuItem: '[role="menuitem"]',
   dialog: '[role="dialog"]',
   nextButton: '[data-testid="ocfSettingsListNextButton"]',
-  layersContainer: '#layers',
+  layersContainer: "#layers",
   primaryColumn: '[data-testid="primaryColumn"]',
   userName: '[data-testid="User-Name"]',
 } as const;
 
 export const SPAM_KEYWORDS = {
-  ja: ['スパム'],
-  en: ['spam', 'Spam'],
+  ja: ["スパム"],
+  en: ["spam", "Spam"],
 } as const;
 
 export const BLOCK_KEYWORDS = {
-  ja: ['さんをブロック'],
-  en: ['Block @'],
+  ja: ["さんをブロック"],
+  en: ["Block @"],
 } as const;
 
 export const NEXT_KEYWORDS = {
-  ja: ['次へ'],
-  en: ['Next'],
+  ja: ["次へ"],
+  en: ["Next"],
 } as const;
 
 export const DONE_KEYWORDS = {
-  ja: ['完了'],
-  en: ['Done'],
+  ja: ["完了"],
+  en: ["Done"],
 } as const;
-

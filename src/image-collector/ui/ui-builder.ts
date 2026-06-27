@@ -22,7 +22,10 @@ export class UIBuilder {
 
   buildModal(): void {
     try {
-      const { host, root } = createShadowHost({ id: "image-collector-shadow-host", mode: "closed" });
+      const { host, root } = createShadowHost({
+        id: "image-collector-shadow-host",
+        mode: "closed",
+      });
       this.shadowHost = host;
       this.shadowRoot = root;
       this.injectShadowStyles(this.shadowRoot);
@@ -53,10 +56,7 @@ export class UIBuilder {
 
       this.logger.debug("モーダルの構築が完了しました");
     } catch (error) {
-      this.logger.error(
-        "モーダルの構築中にエラーが発生しました",
-        error,
-      );
+      this.logger.error("モーダルの構築中にエラーが発生しました", error);
       throw error;
     }
   }

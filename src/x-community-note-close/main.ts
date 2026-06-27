@@ -1,3 +1,3 @@
-import { setupBackdropClose } from './backdrop-close';
+import { setupBackdropClose } from "./backdrop-close";
 
 setupBackdropClose();

@@ -48,7 +48,7 @@ export interface SelectionResult {
 export function selectRepresentativeVideo(
   searchResults: NicoSearchResultItem[],
   animeTitle: string,
-  apiClient: typeof NicoApiClient
+  apiClient: typeof NicoApiClient,
 ): SelectionResult {
   if (searchResults.length === 0) {
     return {
@@ -60,13 +60,19 @@ export function selectRepresentativeVideo(
 
   // Step 1: dアニメストア ニコニコ支店の動画を抽出
   const danimeVideos = searchResults.filter((item) => {
-    const uploaderType = apiClient.determineUploaderType(item.ownerName, animeTitle);
+    const uploaderType = apiClient.determineUploaderType(
+      item.ownerName,
+      animeTitle,
+    );
     return uploaderType === "danime";
   });
 
   // Step 2: 作品タイトル投稿者の動画を抽出（official = アニメタイトル投稿者）
   const titleUploaderVideos = searchResults.filter((item) => {
-    const uploaderType = apiClient.determineUploaderType(item.ownerName, animeTitle);
+    const uploaderType = apiClient.determineUploaderType(
+      item.ownerName,
+      animeTitle,
+    );
     return uploaderType === "official";
   });
 
@@ -78,8 +84,12 @@ export function selectRepresentativeVideo(
     animeTitle,
     danimeCount: danimeVideos.length,
     titleUploaderCount: titleUploaderVideos.length,
-    danimeVideo: oldestDanime ? { id: oldestDanime.videoId, views: oldestDanime.viewCount } : null,
-    titleVideo: oldestTitle ? { id: oldestTitle.videoId, views: oldestTitle.viewCount } : null,
+    danimeVideo: oldestDanime
+      ? { id: oldestDanime.videoId, views: oldestDanime.viewCount }
+      : null,
+    titleVideo: oldestTitle
+      ? { id: oldestTitle.videoId, views: oldestTitle.viewCount }
+      : null,
   });
 
   // Step 3: 両方存在する場合、再生数で比較
@@ -154,7 +164,7 @@ export function selectRepresentativeVideo(
  * @returns 最古の動画（空配列の場合はnull）
  */
 function findOldestVideo(
-  videos: NicoSearchResultItem[]
+  videos: NicoSearchResultItem[],
 ): NicoSearchResultItem | null {
   if (videos.length === 0) {
     return null;
@@ -191,7 +201,7 @@ function findOldestVideo(
  */
 export function isExactTitleMatch(
   searchTitle: string,
-  videoTitle: string
+  videoTitle: string,
 ): boolean {
   // 両方を正規化して比較
   const normalizedSearch = normalizeForComparison(searchTitle);
@@ -215,13 +225,15 @@ export function isExactTitleMatch(
  * 比較用に文字列を正規化する
  */
 function normalizeForComparison(str: string): string {
-  return str
-    .trim()
-    .toLowerCase()
-    // 全角→半角
-    .replace(/[\uff01-\uff5e]/g, (ch) =>
-      String.fromCharCode(ch.charCodeAt(0) - 0xfee0)
-    )
-    // 連続スペースを単一に
-    .replace(/\s+/g, " ");
+  return (
+    str
+      .trim()
+      .toLowerCase()
+      // 全角→半角
+      .replace(/[\uff01-\uff5e]/g, (ch) =>
+        String.fromCharCode(ch.charCodeAt(0) - 0xfee0),
+      )
+      // 連続スペースを単一に
+      .replace(/\s+/g, " ")
+  );
 }

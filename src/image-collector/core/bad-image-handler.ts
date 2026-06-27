@@ -51,11 +51,9 @@ export class BadImageHandler {
 
       return true;
     } catch (error) {
-      this.logger.error(
-        "画像のメタデータ取得中にエラーが発生しました",
-        error,
-        { url },
-      );
+      this.logger.error("画像のメタデータ取得中にエラーが発生しました", error, {
+        url,
+      });
       return false;
     }
   }
@@ -83,11 +81,9 @@ export class BadImageHandler {
         try {
           placeholder.replaceWith(this.createImageElement(url));
         } catch (error) {
-          this.logger.error(
-            "画像の読み込み中にエラーが発生しました",
-            error,
-            { url },
-          );
+          this.logger.error("画像の読み込み中にエラーが発生しました", error, {
+            url,
+          });
         }
       });
 
@@ -123,11 +119,9 @@ export class BadImageHandler {
         try {
           placeholder.replaceWith(this.createImageElement(url));
         } catch (error) {
-          this.logger.error(
-            "画像の再読み込み中にエラーが発生しました",
-            error,
-            { url },
-          );
+          this.logger.error("画像の再読み込み中にエラーが発生しました", error, {
+            url,
+          });
         }
       });
 
@@ -176,7 +170,11 @@ export class BadImageHandler {
               return;
             }
 
-            gmRequest<{ responseText?: string }>({ method: "HEAD", url, timeout: 5000 })
+            gmRequest<{ responseText?: string }>({
+              method: "HEAD",
+              url,
+              timeout: 5000,
+            })
               .then((response) => {
                 try {
                   const headers = response.headers ?? "";

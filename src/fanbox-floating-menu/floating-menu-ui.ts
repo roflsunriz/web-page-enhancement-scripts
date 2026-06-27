@@ -1,6 +1,6 @@
-import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
+import { FANBOX_SELECTORS } from "@/shared/constants/fanbox";
 
-const CONTAINER_ID = 'fanbox-floating-menu-container';
+const CONTAINER_ID = "fanbox-floating-menu-container";
 
 /**
  * フローティングメニューのUIを管理するクラス
@@ -24,18 +24,18 @@ export class FloatingMenuUI {
     // 既存のメニューがあれば削除
     this.remove();
 
-    const container = document.createElement('div');
+    const container = document.createElement("div");
     container.id = CONTAINER_ID;
     this.container = container;
 
     // Shadow DOMを作成し、外部のCSSの影響を受けないようにする
-    const shadowRoot = container.attachShadow({ mode: 'closed' });
+    const shadowRoot = container.attachShadow({ mode: "closed" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyle();
 
     const menuClone = originalMenu.cloneNode(true) as HTMLElement;
-    menuClone.classList.add('floating-menu');
+    menuClone.classList.add("floating-menu");
 
     shadowRoot.appendChild(style);
     shadowRoot.appendChild(menuClone);

@@ -1,6 +1,11 @@
-import { svgClose, svgContentCopy, svgFlash, svgMonitor } from '@/shared/icons/mdi';
+import {
+  svgClose,
+  svgContentCopy,
+  svgFlash,
+  svgMonitor,
+} from "@/shared/icons/mdi";
 
-export const TEMPLATE_POLICY_NAME = 'youtube-info-copier-template';
+export const TEMPLATE_POLICY_NAME = "youtube-info-copier-template";
 
 export function getTemplate(): string {
   return `

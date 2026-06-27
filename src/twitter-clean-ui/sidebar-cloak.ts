@@ -10,12 +10,12 @@
  * 右サイドバーに visibility: hidden が適用される。
  */
 
-export const SIDEBAR_CLOAK_ID = 'twitter-clean-ui-sidebar-cloak';
+export const SIDEBAR_CLOAK_ID = "twitter-clean-ui-sidebar-cloak";
 export const SIDEBAR_CLOAK_CSS =
   '[data-testid="sidebarColumn"] { visibility: hidden !important; }';
 
 try {
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.id = SIDEBAR_CLOAK_ID;
   style.textContent = SIDEBAR_CLOAK_CSS;
   (document.head || document.documentElement).appendChild(style);

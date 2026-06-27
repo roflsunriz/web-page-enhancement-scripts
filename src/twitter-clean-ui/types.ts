@@ -1,3 +1,5 @@
+import type { LocaleCode } from "@/shared/i18n";
+
 /**
  * Twitter Clean UI - 型定義
  */
@@ -7,47 +9,44 @@
  */
 export type UIElementId =
   // 左サイドバー
-  | 'leftSidebar'
-  | 'leftSidebar_Logo'
-  | 'leftSidebar_HomeLink'
-  | 'leftSidebar_ExploreLink'
-  | 'leftSidebar_NotificationsLink'
-  | 'leftSidebar_MessagesLink'
-  | 'leftSidebar_GrokLink'
-  | 'leftSidebar_ConnectLink'
-  | 'leftSidebar_BookmarksLink'
-  | 'leftSidebar_ListsLink'
-  | 'leftSidebar_CommunitiesLink'
-  | 'leftSidebar_ProfileLink'
-  | 'leftSidebar_PremiumLink'
-  | 'leftSidebar_BusinessLink'
-  | 'leftSidebar_CreatorStudioLink'
-  | 'leftSidebar_MoreMenu'
-  | 'leftSidebar_TweetButton'
-  | 'leftSidebar_ProfileMenu'
+  | "leftSidebar"
+  | "leftSidebar_Logo"
+  | "leftSidebar_HomeLink"
+  | "leftSidebar_ExploreLink"
+  | "leftSidebar_NotificationsLink"
+  | "leftSidebar_MessagesLink"
+  | "leftSidebar_GrokLink"
+  | "leftSidebar_ConnectLink"
+  | "leftSidebar_BookmarksLink"
+  | "leftSidebar_ListsLink"
+  | "leftSidebar_CommunitiesLink"
+  | "leftSidebar_ProfileLink"
+  | "leftSidebar_PremiumLink"
+  | "leftSidebar_BusinessLink"
+  | "leftSidebar_CreatorStudioLink"
+  | "leftSidebar_MoreMenu"
+  | "leftSidebar_TweetButton"
+  | "leftSidebar_ProfileMenu"
   // 右サイドバー
-  | 'rightSidebar'
-  | 'rightSidebar_SearchBox'
-  | 'rightSidebar_PremiumSubscribe'
-  | 'rightSidebar_TrendsList'
-  | 'rightSidebar_WhoToFollow'
-  | 'rightSidebar_TodayNews'
-  | 'rightSidebar_RelatedAccounts'
-  | 'rightSidebar_Footer';
+  | "rightSidebar"
+  | "rightSidebar_SearchBox"
+  | "rightSidebar_PremiumSubscribe"
+  | "rightSidebar_TrendsList"
+  | "rightSidebar_WhoToFollow"
+  | "rightSidebar_TodayNews"
+  | "rightSidebar_RelatedAccounts"
+  | "rightSidebar_Footer";
 
 /**
  * UI要素のカテゴリ
  */
-export type UIElementCategory =
-  | 'leftSidebar'
-  | 'rightSidebar'
-  | 'layout';
+export type UIElementCategory = "leftSidebar" | "rightSidebar" | "layout";
 
 /**
  * UI要素の検出方法
  */
 export interface DetectionStrategy {
-  type: 'querySelector' | 'querySelectorAll' | 'xpath' | 'custom';
+  type: "querySelector" | "querySelectorAll" | "xpath" | "custom";
   selector?: string;
   xpath?: string;
   finder?: () => HTMLElement | null;
@@ -125,7 +124,7 @@ export interface Settings {
   visibility: VisibilitySettings;
   layout: LayoutSettings;
   enableRealTimePreview: boolean;
-  language: 'ja' | 'en';
+  language: Language;
 }
 
 /**
@@ -151,7 +150,7 @@ export interface StorageData {
 /**
  * 言語
  */
-export type Language = 'ja' | 'en';
+export type Language = Extract<LocaleCode, "ja" | "en">;
 
 /**
  * 翻訳キー
@@ -212,5 +211,11 @@ export interface TranslationKeys {
   deleteProfile: string;
   exportSettings: string;
   importSettings: string;
+  openSettings: string;
+  switchProfile: string;
+  deleteProfileConfirm: string;
+  enterProfileName: string;
+  importSucceeded: string;
+  importFailed: string;
+  resetSettingsConfirm: string;
 }
-

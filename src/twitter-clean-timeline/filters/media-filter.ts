@@ -2,17 +2,17 @@
  * twitter-clean-timeline - メディアフィルタ
  */
 
-import { BaseFilter } from './base-filter';
-import type { FilterResult, PageType } from '@/shared/types';
-import { settings } from '../settings';
-import { TWITTER_MEDIA_CARD_SELECTORS } from '@/shared/constants/twitter';
-import { createLogger } from '@/shared/logger';
+import { BaseFilter } from "./base-filter";
+import type { FilterResult, PageType } from "@/shared/types";
+import { settings } from "../settings";
+import { TWITTER_MEDIA_CARD_SELECTORS } from "@/shared/constants/twitter";
+import { createLogger } from "@/shared/logger";
 
-const logger = createLogger('twitter-clean-timeline:media-filter');
+const logger = createLogger("twitter-clean-timeline:media-filter");
 
 export class MediaFilter extends BaseFilter {
   get name(): string {
-    return 'media';
+    return "media";
   }
 
   get enabled(): boolean {
@@ -25,13 +25,17 @@ export class MediaFilter extends BaseFilter {
   private getPageType(): PageType {
     const path = window.location.pathname;
 
-    if (path === '/home') return 'timeline';
-    if (path.includes('/lists/')) return 'list';
-    if (path.match(/^\/[^/]+$/) && !path.match(/^\/search$|^\/explore$|^\/home$/)) return 'profile';
-    if (path.match(/^\/search/)) return 'search';
-    if (path.match(/\/status\//)) return 'tweetDetail';
+    if (path === "/home") return "timeline";
+    if (path.includes("/lists/")) return "list";
+    if (
+      path.match(/^\/[^/]+$/) &&
+      !path.match(/^\/search$|^\/explore$|^\/home$/)
+    )
+      return "profile";
+    if (path.match(/^\/search/)) return "search";
+    if (path.match(/\/status\//)) return "tweetDetail";
 
-    return 'other';
+    return "other";
   }
 
   /**
@@ -41,15 +45,15 @@ export class MediaFilter extends BaseFilter {
     const pageType = this.getPageType();
 
     switch (pageType) {
-      case 'timeline':
+      case "timeline":
         return settings.mediaFilter.enableOnTimeline;
-      case 'list':
+      case "list":
         return settings.mediaFilter.enableOnLists;
-      case 'profile':
+      case "profile":
         return settings.mediaFilter.enableOnProfile;
-      case 'search':
+      case "search":
         return settings.mediaFilter.enableOnSearch;
-      case 'tweetDetail':
+      case "tweetDetail":
         return settings.mediaFilter.enableOnTweetDetail;
       default:
         return false;
@@ -62,11 +66,11 @@ export class MediaFilter extends BaseFilter {
     }
 
     const hasMedia = TWITTER_MEDIA_CARD_SELECTORS.some((selector) =>
-      element.querySelector(selector)
+      element.querySelector(selector),
     );
 
     if (settings.debugMode) {
-      logger.debug('DOMメディアチェック:', {
+      logger.debug("DOMメディアチェック:", {
         hasMedia,
         elementTagName: element.tagName,
         checkedSelectors: TWITTER_MEDIA_CARD_SELECTORS.length,
@@ -76,7 +80,7 @@ export class MediaFilter extends BaseFilter {
     if (!hasMedia) {
       return {
         shouldHide: true,
-        reason: 'メディアなし',
+        reason: "メディアなし",
         filterName: this.name,
       };
     }
@@ -84,4 +88,3 @@ export class MediaFilter extends BaseFilter {
     return { shouldHide: false };
   }
 }
-

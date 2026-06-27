@@ -31,5 +31,3 @@ export type TranslationRequest = {
 };
 
 export type CopyMode = "all" | "first" | "shitaraba" | "5ch";
-
-

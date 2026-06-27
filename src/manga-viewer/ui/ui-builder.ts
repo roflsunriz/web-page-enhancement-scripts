@@ -1,12 +1,12 @@
-import React from '@/shared/react';
-import { createRoot } from '@/shared/react';
-import type { Root as ReactRoot } from '@/shared/react';
-import { globalState } from '../state';
-import { setTimeoutSafely } from '../util';
-import { LoadingSpinner } from './loading-spinner';
-import { ViewerComponent } from './viewer-component';
-import viewerStyles from './viewer.css?inline';
-import { createShadowHost } from '@/shared/dom';
+import React from "@/shared/react";
+import { createRoot } from "@/shared/react";
+import type { Root as ReactRoot } from "@/shared/react";
+import { globalState } from "../state";
+import { setTimeoutSafely } from "../util";
+import { LoadingSpinner } from "./loading-spinner";
+import { ViewerComponent } from "./viewer-component";
+import viewerStyles from "./viewer.css?inline";
+import { createShadowHost } from "@/shared/dom";
 
 // React.createElementのエイリアス（インポート後に定義）
 const e = React.createElement;
@@ -28,7 +28,7 @@ export class UIBuilder {
 
   public async preloadImages(imageUrls: string[]) {
     if (!imageUrls || imageUrls.length === 0) {
-      console.error('[MangaViewer] preloadImages: no image URLs provided');
+      console.error("[MangaViewer] preloadImages: no image URLs provided");
       return;
     }
 
@@ -36,17 +36,25 @@ export class UIBuilder {
     let loaded = 0;
     let errors = 0;
     const alreadyLoadedUrls = this.collectAlreadyLoadedImageUrls();
-    const urlsToPreload = imageUrls.filter((url) => !alreadyLoadedUrls.has(url));
+    const urlsToPreload = imageUrls.filter(
+      (url) => !alreadyLoadedUrls.has(url),
+    );
     loaded = total - urlsToPreload.length;
 
     if (urlsToPreload.length === 0) {
-      this.spinner?.updateMessage(`${total}枚の読み込み済み画像を確認しました。ビューアを起動中...`, 100);
+      this.spinner?.updateMessage(
+        `${total}枚の読み込み済み画像を確認しました。ビューアを起動中...`,
+        100,
+      );
       this.spinner?.setComplete();
       return;
     }
 
     const initialPercent = Math.round((loaded / total) * 100);
-    this.spinner?.updateMessage(`画像をプリロード中... ${loaded}/${total} (${initialPercent}%)`, initialPercent);
+    this.spinner?.updateMessage(
+      `画像をプリロード中... ${loaded}/${total} (${initialPercent}%)`,
+      initialPercent,
+    );
 
     const batchSize = 5;
     for (let i = 0; i < urlsToPreload.length; i += batchSize) {
@@ -64,7 +72,9 @@ export class UIBuilder {
               img.onerror = () => {
                 errors++;
                 loaded++; // エラーでもロード済みとしてカウント
-                console.error(`[MangaViewer] preloadImages: failed to load image ${url}`);
+                console.error(
+                  `[MangaViewer] preloadImages: failed to load image ${url}`,
+                );
                 resolve();
               };
             }),
@@ -88,15 +98,19 @@ export class UIBuilder {
 
   private collectAlreadyLoadedImageUrls(): Set<string> {
     const urls = new Set<string>();
-    document.querySelectorAll('img').forEach((imgElement) => {
-      if (!imgElement.complete || imgElement.naturalWidth <= 0 || imgElement.naturalHeight <= 0) {
+    document.querySelectorAll("img").forEach((imgElement) => {
+      if (
+        !imgElement.complete ||
+        imgElement.naturalWidth <= 0 ||
+        imgElement.naturalHeight <= 0
+      ) {
         return;
       }
 
-      if (imgElement.currentSrc && imgElement.currentSrc.startsWith('http')) {
+      if (imgElement.currentSrc && imgElement.currentSrc.startsWith("http")) {
         urls.add(imgElement.currentSrc);
       }
-      if (imgElement.src && imgElement.src.startsWith('http')) {
+      if (imgElement.src && imgElement.src.startsWith("http")) {
         urls.add(imgElement.src);
       }
     });
@@ -113,10 +127,10 @@ export class UIBuilder {
     if (initialImageUrls.length > 0) {
       void this.preloadImages(initialImageUrls);
     } else {
-      this.spinner?.updateMessage('有効な画像を検索中です...');
+      this.spinner?.updateMessage("有効な画像を検索中です...");
     }
 
-    const { host, root } = createShadowHost({ mode: 'closed' });
+    const { host, root } = createShadowHost({ mode: "closed" });
     this.shadowHost = host;
     this.shadowHost.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -124,10 +138,10 @@ export class UIBuilder {
     `;
     this.shadowRoot = root;
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = viewerStyles;
     this.shadowRoot.appendChild(style);
-    const reactContainer = document.createElement('div');
+    const reactContainer = document.createElement("div");
     this.shadowRoot.appendChild(reactContainer);
 
     this.reactRoot = createRoot(reactContainer) as ReactRoot;
@@ -142,7 +156,9 @@ export class UIBuilder {
 
     // フォールバックでフォーカスを設定。安全なタイマーヘルパーを利用して例外を吸収する
     setTimeoutSafely(() => {
-      this.shadowRoot?.querySelector<HTMLElement>('.manga-viewer-container')?.focus();
+      this.shadowRoot
+        ?.querySelector<HTMLElement>(".manga-viewer-container")
+        ?.focus();
     }, 100);
 
     return this.shadowHost;
@@ -167,7 +183,7 @@ export class UIBuilder {
             this.reactRoot = null;
             onCloseCallback();
           } catch (closeError) {
-            console.error('[MangaViewer] Error closing viewer:', closeError);
+            console.error("[MangaViewer] Error closing viewer:", closeError);
           }
         },
         initialAutoNav: options.initialAutoNav,

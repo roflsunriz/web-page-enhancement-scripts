@@ -4,13 +4,16 @@ import {
   registerMenuCommand,
   setValue,
   xmlHttpRequest,
-} from '@/shared/userscript';
-import { GM_download, type GmDownloadErrorEvent } from 'vite-plugin-monkey/dist/client';
+} from "@/shared/userscript";
+import {
+  GM_download,
+  type GmDownloadErrorEvent,
+} from "vite-plugin-monkey/dist/client";
 
-type AudioExtension = 'flac' | 'm4a' | 'aac' | 'mp3';
+type AudioExtension = "flac" | "m4a" | "aac" | "mp3";
 
-type FetchState = 'pending' | 'running' | 'done' | 'failed' | 'skipped';
-type LaneState = 'idle' | 'active' | 'done' | 'failed';
+type FetchState = "pending" | "running" | "done" | "failed" | "skipped";
+type LaneState = "idle" | "active" | "done" | "failed";
 
 type TrackPage = {
   index: number;
@@ -47,7 +50,7 @@ type GmHeadResponse = {
   headers: string;
 };
 
-const SCRIPT_ID = 'khinsider-direct-link-saver';
+const SCRIPT_ID = "khinsider-direct-link-saver";
 const PANEL_ID = `${SCRIPT_ID}-panel`;
 const STYLE_ID = `${SCRIPT_ID}-styles`;
 const STORAGE_CONCURRENCY_KEY = `${SCRIPT_ID}:concurrency`;
@@ -55,8 +58,8 @@ const DEFAULT_CONCURRENCY = 4;
 const MIN_CONCURRENCY = 1;
 const MAX_CONCURRENCY = 12;
 const REQUEST_TIMEOUT_MS = 30_000;
-const TRACK_PAGE_EXTENSION = 'mp3';
-const AUDIO_EXTENSIONS = ['flac', 'm4a', 'aac', 'mp3'] as const;
+const TRACK_PAGE_EXTENSION = "mp3";
+const AUDIO_EXTENSIONS = ["flac", "m4a", "aac", "mp3"] as const;
 const AUDIO_EXTENSION_PRIORITIES: Record<AudioExtension, number> = {
   flac: 3,
   m4a: 2,
@@ -73,11 +76,17 @@ function clampConcurrency(value: number): number {
     return DEFAULT_CONCURRENCY;
   }
 
-  return Math.min(MAX_CONCURRENCY, Math.max(MIN_CONCURRENCY, Math.floor(value)));
+  return Math.min(
+    MAX_CONCURRENCY,
+    Math.max(MIN_CONCURRENCY, Math.floor(value)),
+  );
 }
 
 function getSavedConcurrency(): number {
-  return clampConcurrency(getValue<number>(STORAGE_CONCURRENCY_KEY, DEFAULT_CONCURRENCY) ?? DEFAULT_CONCURRENCY);
+  return clampConcurrency(
+    getValue<number>(STORAGE_CONCURRENCY_KEY, DEFAULT_CONCURRENCY) ??
+      DEFAULT_CONCURRENCY,
+  );
 }
 
 function saveConcurrency(value: number): void {
@@ -88,7 +97,9 @@ function getUrlExtension(urlText: string): AudioExtension | null {
   try {
     const url = new URL(urlText, window.location.href);
     const pathname = decodeURIComponent(url.pathname).toLowerCase();
-    const extension = AUDIO_EXTENSIONS.find((candidate) => pathname.endsWith(`.${candidate}`));
+    const extension = AUDIO_EXTENSIONS.find((candidate) =>
+      pathname.endsWith(`.${candidate}`),
+    );
     return extension ?? null;
   } catch {
     return null;
@@ -98,38 +109,49 @@ function getUrlExtension(urlText: string): AudioExtension | null {
 function isKhinsiderAlbumTrackLink(link: HTMLAnchorElement): boolean {
   try {
     const url = new URL(link.href, window.location.href);
-    return url.hostname === window.location.hostname && getUrlExtension(url.href) === TRACK_PAGE_EXTENSION;
+    return (
+      url.hostname === window.location.hostname &&
+      getUrlExtension(url.href) === TRACK_PAGE_EXTENSION
+    );
   } catch {
     return false;
   }
 }
 
 function normalizeText(value: string): string {
-  return value.replace(/\s+/g, ' ').trim();
+  return value.replace(/\s+/g, " ").trim();
 }
 
 function getTrackTitle(link: HTMLAnchorElement, index: number): string {
-  const linkText = normalizeText(link.textContent ?? '');
-  if (linkText.length > 0 && !/^\d+:\d+$/.test(linkText) && !/^\d+(?:\.\d+)?\s*(?:kb|mb|gb)$/i.test(linkText)) {
+  const linkText = normalizeText(link.textContent ?? "");
+  if (
+    linkText.length > 0 &&
+    !/^\d+:\d+$/.test(linkText) &&
+    !/^\d+(?:\.\d+)?\s*(?:kb|mb|gb)$/i.test(linkText)
+  ) {
     return linkText;
   }
 
-  const row = link.closest('tr');
-  const rowText = row ? normalizeText(row.textContent ?? '') : '';
-  return rowText.length > 0 ? rowText : `track-${String(index + 1).padStart(2, '0')}`;
+  const row = link.closest("tr");
+  const rowText = row ? normalizeText(row.textContent ?? "") : "";
+  return rowText.length > 0
+    ? rowText
+    : `track-${String(index + 1).padStart(2, "0")}`;
 }
 
 function collectTrackPages(): TrackPage[] {
   const seenUrls = new Set<string>();
   const tracks: TrackPage[] = [];
 
-  for (const link of Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href]'))) {
+  for (const link of Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("a[href]"),
+  )) {
     if (!isKhinsiderAlbumTrackLink(link)) {
       continue;
     }
 
     const url = new URL(link.href, window.location.href);
-    url.hash = '';
+    url.hash = "";
     const normalizedUrl = url.href;
     if (seenUrls.has(normalizedUrl)) {
       continue;
@@ -149,10 +171,10 @@ function collectTrackPages(): TrackPage[] {
 function requestText(url: string): Promise<GmTextResponse> {
   return new Promise((resolve, reject) => {
     xmlHttpRequest({
-      method: 'GET',
+      method: "GET",
       url,
       timeout: REQUEST_TIMEOUT_MS,
-      responseType: 'text',
+      responseType: "text",
       onload: (response) => {
         resolve({
           status: response.status,
@@ -163,11 +185,12 @@ function requestText(url: string): Promise<GmTextResponse> {
         });
       },
       onerror: (error) => {
-        const reason = typeof error.error === 'string' ? error.error : 'request failed';
+        const reason =
+          typeof error.error === "string" ? error.error : "request failed";
         reject(new Error(reason));
       },
       ontimeout: () => {
-        reject(new Error('request timeout'));
+        reject(new Error("request timeout"));
       },
     });
   });
@@ -176,7 +199,7 @@ function requestText(url: string): Promise<GmTextResponse> {
 function requestHead(url: string, refererUrl: string): Promise<GmHeadResponse> {
   return new Promise((resolve, reject) => {
     xmlHttpRequest({
-      method: 'HEAD',
+      method: "HEAD",
       url,
       headers: {
         Referer: refererUrl,
@@ -191,21 +214,25 @@ function requestHead(url: string, refererUrl: string): Promise<GmHeadResponse> {
         });
       },
       onerror: (error) => {
-        const reason = typeof error.error === 'string' ? error.error : 'request failed';
+        const reason =
+          typeof error.error === "string" ? error.error : "request failed";
         reject(new Error(reason));
       },
       ontimeout: () => {
-        reject(new Error('HEAD request timeout'));
+        reject(new Error("HEAD request timeout"));
       },
     });
   });
 }
 
 function parseDocument(html: string): Document {
-  return new DOMParser().parseFromString(html, 'text/html');
+  return new DOMParser().parseFromString(html, "text/html");
 }
 
-function getDirectAudioCandidates(document: Document, baseUrl: string): Array<{ url: string; extension: AudioExtension }> {
+function getDirectAudioCandidates(
+  document: Document,
+  baseUrl: string,
+): Array<{ url: string; extension: AudioExtension }> {
   const candidates: Array<{ url: string; extension: AudioExtension }> = [];
   const seenUrls = new Set<string>();
 
@@ -224,12 +251,20 @@ function getDirectAudioCandidates(document: Document, baseUrl: string): Array<{ 
     candidates.push({ url: url.href, extension });
   }
 
-  for (const downloadLabel of Array.from(document.querySelectorAll<HTMLElement>('.songDownloadLink'))) {
-    addCandidate(downloadLabel.closest<HTMLAnchorElement>('a[href]')?.getAttribute('href') ?? null);
+  for (const downloadLabel of Array.from(
+    document.querySelectorAll<HTMLElement>(".songDownloadLink"),
+  )) {
+    addCandidate(
+      downloadLabel
+        .closest<HTMLAnchorElement>("a[href]")
+        ?.getAttribute("href") ?? null,
+    );
   }
 
-  for (const audio of Array.from(document.querySelectorAll<HTMLAudioElement>('audio[src]'))) {
-    addCandidate(audio.getAttribute('src'));
+  for (const audio of Array.from(
+    document.querySelectorAll<HTMLAudioElement>("audio[src]"),
+  )) {
+    addCandidate(audio.getAttribute("src"));
   }
 
   return candidates;
@@ -238,15 +273,18 @@ function getDirectAudioCandidates(document: Document, baseUrl: string): Array<{ 
 function chooseBestAudioCandidate(
   candidates: Array<{ url: string; extension: AudioExtension }>,
 ): { url: string; extension: AudioExtension } | null {
-  return candidates.reduce<{ url: string; extension: AudioExtension } | null>((best, candidate) => {
-    if (!best) {
-      return candidate;
-    }
+  return candidates.reduce<{ url: string; extension: AudioExtension } | null>(
+    (best, candidate) => {
+      if (!best) {
+        return candidate;
+      }
 
-    const bestPriority = AUDIO_EXTENSION_PRIORITIES[best.extension];
-    const candidatePriority = AUDIO_EXTENSION_PRIORITIES[candidate.extension];
-    return candidatePriority > bestPriority ? candidate : best;
-  }, null);
+      const bestPriority = AUDIO_EXTENSION_PRIORITIES[best.extension];
+      const candidatePriority = AUDIO_EXTENSION_PRIORITIES[candidate.extension];
+      return candidatePriority > bestPriority ? candidate : best;
+    },
+    null,
+  );
 }
 
 async function fetchDirectLink(track: TrackPage): Promise<DirectLinkResult> {
@@ -256,20 +294,22 @@ async function fetchDirectLink(track: TrackPage): Promise<DirectLinkResult> {
   }
 
   const document = parseDocument(response.responseText);
-  const bestCandidate = chooseBestAudioCandidate(getDirectAudioCandidates(document, response.finalUrl || track.url));
+  const bestCandidate = chooseBestAudioCandidate(
+    getDirectAudioCandidates(document, response.finalUrl || track.url),
+  );
   if (!bestCandidate) {
     return {
       ...track,
-      state: 'skipped',
+      state: "skipped",
       directUrl: null,
       extension: null,
-      error: '音声ファイルの直リンクが見つかりません',
+      error: "音声ファイルの直リンクが見つかりません",
     };
   }
 
   return {
     ...track,
-    state: 'done',
+    state: "done",
     directUrl: bestCandidate.url,
     extension: bestCandidate.extension,
     error: null,
@@ -279,7 +319,7 @@ async function fetchDirectLink(track: TrackPage): Promise<DirectLinkResult> {
 function createInitialResults(tracks: TrackPage[]): DirectLinkResult[] {
   return tracks.map((track) => ({
     ...track,
-    state: 'pending',
+    state: "pending",
     directUrl: null,
     extension: null,
     error: null,
@@ -302,13 +342,25 @@ async function runConcurrent<T>(
   }
 
   const workerCount = Math.min(concurrency, items.length);
-  await Promise.all(Array.from({ length: workerCount }, (_, workerIndex) => runWorker(workerIndex)));
+  await Promise.all(
+    Array.from({ length: workerCount }, (_, workerIndex) =>
+      runWorker(workerIndex),
+    ),
+  );
 }
 
 function toDownloadTargets(results: DirectLinkResult[]): DownloadTarget[] {
   return results
-    .filter((result): result is DirectLinkResult & { directUrl: string; extension: AudioExtension } =>
-      result.state === 'done' && result.directUrl !== null && result.extension !== null,
+    .filter(
+      (
+        result,
+      ): result is DirectLinkResult & {
+        directUrl: string;
+        extension: AudioExtension;
+      } =>
+        result.state === "done" &&
+        result.directUrl !== null &&
+        result.extension !== null,
     )
     .map((result) => ({
       title: result.title,
@@ -319,25 +371,38 @@ function toDownloadTargets(results: DirectLinkResult[]): DownloadTarget[] {
 }
 
 function sanitizeFileName(value: string): string {
-  const invalidFileNameCharacters = new Set(['<', '>', ':', '"', '/', '\\', '|', '?', '*']);
+  const invalidFileNameCharacters = new Set([
+    "<",
+    ">",
+    ":",
+    '"',
+    "/",
+    "\\",
+    "|",
+    "?",
+    "*",
+  ]);
   const sanitized = value
-    .split('')
+    .split("")
     .map((character) => {
-      if (invalidFileNameCharacters.has(character) || character.charCodeAt(0) < 32) {
-        return '_';
+      if (
+        invalidFileNameCharacters.has(character) ||
+        character.charCodeAt(0) < 32
+      ) {
+        return "_";
       }
 
       return character;
     })
-    .join('')
-    .replace(/\s+/g, ' ')
+    .join("")
+    .replace(/\s+/g, " ")
     .trim();
 
-  return sanitized.length > 0 ? sanitized : 'track';
+  return sanitized.length > 0 ? sanitized : "track";
 }
 
 function createDownloadFileName(link: DownloadTarget, index: number): string {
-  const prefix = String(index + 1).padStart(2, '0');
+  const prefix = String(index + 1).padStart(2, "0");
   return `${prefix} ${sanitizeFileName(link.title)}.${link.extension}`;
 }
 
@@ -347,21 +412,26 @@ function parseHeaderValue(headers: string, name: string): string | null {
     .split(/\r?\n/)
     .find((headerLine) => headerLine.toLowerCase().startsWith(`${lowerName}:`));
 
-  return line ? line.slice(line.indexOf(':') + 1).trim() : null;
+  return line ? line.slice(line.indexOf(":") + 1).trim() : null;
 }
 
-function assertAudioResponse(response: GmHeadResponse, link: DownloadTarget): void {
+function assertAudioResponse(
+  response: GmHeadResponse,
+  link: DownloadTarget,
+): void {
   if (response.status < 200 || response.status >= 300) {
     throw new Error(`HTTP ${response.status} ${response.statusText}`);
   }
 
-  const contentType = parseHeaderValue(response.headers, 'content-type') ?? '';
+  const contentType = parseHeaderValue(response.headers, "content-type") ?? "";
   if (/text\/html/i.test(contentType)) {
-    throw new Error('HTMLが返されたため音声ファイルとして保存できません');
+    throw new Error("HTMLが返されたため音声ファイルとして保存できません");
   }
 
   if (!getUrlExtension(response.finalUrl || link.directUrl)) {
-    throw new Error('音声ファイルURLではないレスポンスにリダイレクトされました');
+    throw new Error(
+      "音声ファイルURLではないレスポンスにリダイレクトされました",
+    );
   }
 }
 
@@ -376,31 +446,37 @@ function setStatus(message: string): void {
   }
 }
 
-function configureProgress(stage: string, totalCount: number, concurrency: number): void {
+function configureProgress(
+  stage: string,
+  totalCount: number,
+  concurrency: number,
+): void {
   const panel = getPanel();
   if (!panel) {
     return;
   }
 
   const progress = panel.querySelector<HTMLElement>('[data-role="progress"]');
-  const overallBar = panel.querySelector<HTMLElement>('[data-role="overall-bar"]');
+  const overallBar = panel.querySelector<HTMLElement>(
+    '[data-role="overall-bar"]',
+  );
   const laneContainer = panel.querySelector<HTMLElement>('[data-role="lanes"]');
   const laneCount = Math.min(concurrency, totalCount);
 
   if (progress) {
     progress.hidden = totalCount === 0;
-    progress.setAttribute('data-stage', stage);
+    progress.setAttribute("data-stage", stage);
   }
   if (overallBar) {
-    overallBar.style.width = '0%';
+    overallBar.style.width = "0%";
   }
   if (laneContainer) {
     laneContainer.replaceChildren(
       ...Array.from({ length: laneCount }, (_, index) => {
-        const lane = document.createElement('div');
+        const lane = document.createElement("div");
         lane.className = `${SCRIPT_ID}__lane`;
         lane.dataset.lane = String(index);
-        lane.dataset.state = 'idle';
+        lane.dataset.state = "idle";
         lane.title = `${stage} worker ${index + 1}`;
         return lane;
       }),
@@ -408,32 +484,46 @@ function configureProgress(stage: string, totalCount: number, concurrency: numbe
   }
 }
 
-function updateOverallProgress(completedCount: number, totalCount: number): void {
-  const overallBar = getPanel()?.querySelector<HTMLElement>('[data-role="overall-bar"]');
+function updateOverallProgress(
+  completedCount: number,
+  totalCount: number,
+): void {
+  const overallBar = getPanel()?.querySelector<HTMLElement>(
+    '[data-role="overall-bar"]',
+  );
   if (!overallBar) {
     return;
   }
 
-  const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
+  const progressPercent =
+    totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
   overallBar.style.width = `${Math.min(100, Math.max(0, progressPercent))}%`;
 }
 
 function setLaneState(workerIndex: number, state: LaneState): void {
-  const lane = getPanel()?.querySelector<HTMLElement>(`[data-lane="${workerIndex}"]`);
+  const lane = getPanel()?.querySelector<HTMLElement>(
+    `[data-lane="${workerIndex}"]`,
+  );
   if (lane) {
     lane.dataset.state = state;
   }
 }
 
 function updateProgress(results: DirectLinkResult[]): void {
-  const doneCount = results.filter((result) => result.state === 'done').length;
-  const failedCount = results.filter((result) => result.state === 'failed').length;
-  const skippedCount = results.filter((result) => result.state === 'skipped').length;
+  const doneCount = results.filter((result) => result.state === "done").length;
+  const failedCount = results.filter(
+    (result) => result.state === "failed",
+  ).length;
+  const skippedCount = results.filter(
+    (result) => result.state === "skipped",
+  ).length;
   const completedCount = doneCount + failedCount + skippedCount;
   const totalCount = results.length;
 
   updateOverallProgress(completedCount, totalCount);
-  setStatus(`解析中: ${completedCount}/${totalCount} 保存対象 ${doneCount} 失敗 ${failedCount} スキップ ${skippedCount}`);
+  setStatus(
+    `解析中: ${completedCount}/${totalCount} 保存対象 ${doneCount} 失敗 ${failedCount} スキップ ${skippedCount}`,
+  );
 }
 
 function setRunning(running: boolean): void {
@@ -442,9 +532,15 @@ function setRunning(running: boolean): void {
     return;
   }
 
-  panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.toggleAttribute('disabled', running);
-  panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.toggleAttribute('disabled', !running);
-  const concurrencyInput = panel.querySelector<HTMLInputElement>('[data-role="concurrency"]');
+  panel
+    .querySelector<HTMLButtonElement>('[data-action="start-download"]')
+    ?.toggleAttribute("disabled", running);
+  panel
+    .querySelector<HTMLButtonElement>('[data-action="stop"]')
+    ?.toggleAttribute("disabled", !running);
+  const concurrencyInput = panel.querySelector<HTMLInputElement>(
+    '[data-role="concurrency"]',
+  );
   if (concurrencyInput) {
     concurrencyInput.disabled = running;
   }
@@ -457,51 +553,61 @@ async function startExtraction(): Promise<DownloadTarget[]> {
   const tracks = collectTrackPages();
   if (tracks.length === 0) {
     currentResults = [];
-    setStatus('末尾が.mp3の曲ページリンクが見つかりません');
+    setStatus("末尾が.mp3の曲ページリンクが見つかりません");
     return [];
   }
 
   const concurrency = getSavedConcurrency();
   currentResults = createInitialResults(tracks);
   setRunning(true);
-  configureProgress('解析', tracks.length, concurrency);
+  configureProgress("解析", tracks.length, concurrency);
   updateProgress(currentResults);
 
-  await runConcurrent(tracks, concurrency, async (track, index, workerIndex) => {
-    if (activeRunId !== runId) {
-      return;
-    }
+  await runConcurrent(
+    tracks,
+    concurrency,
+    async (track, index, workerIndex) => {
+      if (activeRunId !== runId) {
+        return;
+      }
 
-    setLaneState(workerIndex, 'active');
-    currentResults[index] = { ...currentResults[index], state: 'running' };
-    updateProgress(currentResults);
+      setLaneState(workerIndex, "active");
+      currentResults[index] = { ...currentResults[index], state: "running" };
+      updateProgress(currentResults);
 
-    try {
-      currentResults[index] = await fetchDirectLink(track);
-    } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : 'unknown error';
-      currentResults[index] = {
-        ...track,
-        state: 'failed',
-        directUrl: null,
-        extension: null,
-        error: message,
-      };
-    }
+      try {
+        currentResults[index] = await fetchDirectLink(track);
+      } catch (error: unknown) {
+        const message =
+          error instanceof Error ? error.message : "unknown error";
+        currentResults[index] = {
+          ...track,
+          state: "failed",
+          directUrl: null,
+          extension: null,
+          error: message,
+        };
+      }
 
-    setLaneState(workerIndex, currentResults[index].state === 'done' ? 'done' : 'failed');
-    updateProgress(currentResults);
-  });
+      setLaneState(
+        workerIndex,
+        currentResults[index].state === "done" ? "done" : "failed",
+      );
+      updateProgress(currentResults);
+    },
+  );
 
   if (activeRunId !== runId) {
-    setStatus('停止しました');
+    setStatus("停止しました");
     setRunning(false);
     return [];
   }
 
   const downloadTargets = toDownloadTargets(currentResults);
   updateOverallProgress(tracks.length, tracks.length);
-  setStatus(`解析完了: ${downloadTargets.length}/${tracks.length}件の音声ファイルを見つけました`);
+  setStatus(
+    `解析完了: ${downloadTargets.length}/${tracks.length}件の音声ファイルを見つけました`,
+  );
   setRunning(false);
   return downloadTargets;
 }
@@ -509,10 +615,13 @@ async function startExtraction(): Promise<DownloadTarget[]> {
 function stopExtraction(): void {
   activeRunId += 1;
   setRunning(false);
-  setStatus('停止しました。進行中のリクエストは完了後に破棄されます');
+  setStatus("停止しました。進行中のリクエストは完了後に破棄されます");
 }
 
-function downloadStoredLink(link: DownloadTarget, fileName: string): Promise<void> {
+function downloadStoredLink(
+  link: DownloadTarget,
+  fileName: string,
+): Promise<void> {
   return new Promise((resolve, reject) => {
     void (async () => {
       const response = await requestHead(link.directUrl, link.trackPageUrl);
@@ -529,11 +638,11 @@ function downloadStoredLink(link: DownloadTarget, fileName: string): Promise<voi
           reject(new Error(`download failed: ${error.error}`));
         },
         ontimeout: () => {
-          reject(new Error('download timeout'));
+          reject(new Error("download timeout"));
         },
       });
     })().catch((error: unknown) => {
-      reject(error instanceof Error ? error : new Error('download failed'));
+      reject(error instanceof Error ? error : new Error("download failed"));
     });
   });
 }
@@ -543,7 +652,7 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
   activeDownloadRunId = runId;
 
   if (links.length === 0) {
-    setStatus('保存対象の音声リンクがありません');
+    setStatus("保存対象の音声リンクがありません");
     return;
   }
 
@@ -552,7 +661,7 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
   let failedCount = 0;
 
   setRunning(true);
-  configureProgress('ダウンロード', links.length, concurrency);
+  configureProgress("ダウンロード", links.length, concurrency);
   setStatus(`ダウンロード中: 0/${links.length}`);
 
   await runConcurrent(links, concurrency, async (link, index, workerIndex) => {
@@ -560,22 +669,24 @@ async function downloadSavedFiles(links: DownloadTarget[]): Promise<void> {
       return;
     }
 
-    setLaneState(workerIndex, 'active');
+    setLaneState(workerIndex, "active");
     try {
       await downloadStoredLink(link, createDownloadFileName(link, index));
       completedCount += 1;
-      setLaneState(workerIndex, 'done');
+      setLaneState(workerIndex, "done");
     } catch {
       failedCount += 1;
-      setLaneState(workerIndex, 'failed');
+      setLaneState(workerIndex, "failed");
     }
 
     updateOverallProgress(completedCount + failedCount, links.length);
-    setStatus(`ダウンロード中: ${completedCount + failedCount}/${links.length} 完了 ${completedCount} 失敗 ${failedCount}`);
+    setStatus(
+      `ダウンロード中: ${completedCount + failedCount}/${links.length} 完了 ${completedCount} 失敗 ${failedCount}`,
+    );
   });
 
   if (activeDownloadRunId !== runId) {
-    setStatus('ダウンロードを停止しました');
+    setStatus("ダウンロードを停止しました");
     setRunning(false);
     return;
   }
@@ -593,7 +704,7 @@ async function extractAndDownload(): Promise<void> {
 }
 
 function createPanel(): HTMLElement {
-  const panel = document.createElement('section');
+  const panel = document.createElement("section");
   panel.id = PANEL_ID;
   panel.innerHTML = `
     <div class="${SCRIPT_ID}__header">
@@ -617,18 +728,26 @@ function createPanel(): HTMLElement {
     </div>
   `;
 
-  panel.querySelector<HTMLButtonElement>('[data-action="start-download"]')?.addEventListener('click', () => {
-    void extractAndDownload();
-  });
-  panel.querySelector<HTMLButtonElement>('[data-action="stop"]')?.addEventListener('click', () => {
-    stopExtraction();
-    activeDownloadRunId += 1;
-  });
-  panel.querySelector<HTMLButtonElement>('[data-action="hide"]')?.addEventListener('click', () => {
-    panel.hidden = true;
-  });
-  const concurrencyInput = panel.querySelector<HTMLInputElement>('[data-role="concurrency"]');
-  concurrencyInput?.addEventListener('change', () => {
+  panel
+    .querySelector<HTMLButtonElement>('[data-action="start-download"]')
+    ?.addEventListener("click", () => {
+      void extractAndDownload();
+    });
+  panel
+    .querySelector<HTMLButtonElement>('[data-action="stop"]')
+    ?.addEventListener("click", () => {
+      stopExtraction();
+      activeDownloadRunId += 1;
+    });
+  panel
+    .querySelector<HTMLButtonElement>('[data-action="hide"]')
+    ?.addEventListener("click", () => {
+      panel.hidden = true;
+    });
+  const concurrencyInput = panel.querySelector<HTMLInputElement>(
+    '[data-role="concurrency"]',
+  );
+  concurrencyInput?.addEventListener("change", () => {
     const concurrency = clampConcurrency(Number(concurrencyInput.value));
     concurrencyInput.value = String(concurrency);
     saveConcurrency(concurrency);
@@ -802,23 +921,23 @@ function injectStyles(): void {
     }
   `);
 
-  const marker = document.createElement('meta');
+  const marker = document.createElement("meta");
   marker.id = STYLE_ID;
   document.head.append(marker);
 }
 
 function initialize(): void {
   injectStyles();
-  registerMenuCommand('KHInsider音声保存パネルを開く', showPanel);
-  registerMenuCommand('KHInsider音声ファイルを取得して保存', () => {
+  registerMenuCommand("KHInsider音声保存パネルを開く", showPanel);
+  registerMenuCommand("KHInsider音声ファイルを取得して保存", () => {
     showPanel();
     void extractAndDownload();
   });
   showPanel();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize, { once: true });
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize, { once: true });
 } else {
   initialize();
 }

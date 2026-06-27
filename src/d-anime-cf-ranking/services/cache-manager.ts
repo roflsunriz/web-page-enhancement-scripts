@@ -8,7 +8,10 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import type { CacheEntry, CacheStatus } from "@/shared/types/d-anime-cf-ranking";
+import type {
+  CacheEntry,
+  CacheStatus,
+} from "@/shared/types/d-anime-cf-ranking";
 import {
   IDB_DATABASE_NAME,
   IDB_STORE_NAME,
@@ -131,7 +134,10 @@ export async function setCacheEntry(entry: CacheEntry): Promise<void> {
       };
 
       request.onsuccess = () => {
-        logger.debug("Cache entry saved", { title: entry.title, status: entry.status });
+        logger.debug("Cache entry saved", {
+          title: entry.title,
+          status: entry.status,
+        });
         resolve();
       };
     });
@@ -285,7 +291,7 @@ export function getCacheRemainingTime(entry: CacheEntry): number {
  */
 export function createPendingEntry(
   title: string,
-  canonicalQuery: string
+  canonicalQuery: string,
 ): CacheEntry {
   return {
     title,
@@ -307,7 +313,10 @@ export function createPendingEntry(
  */
 export function markEntrySuccess(
   entry: CacheEntry,
-  updates: Pick<CacheEntry, "representativeVideoId" | "representativeVideo" | "metrics">
+  updates: Pick<
+    CacheEntry,
+    "representativeVideoId" | "representativeVideo" | "metrics"
+  >,
 ): CacheEntry {
   return {
     ...entry,
@@ -324,10 +333,7 @@ export function markEntrySuccess(
  * @param reason 失敗理由
  * @returns 更新後のCacheEntry
  */
-export function markEntryFailed(
-  entry: CacheEntry,
-  reason: string
-): CacheEntry {
+export function markEntryFailed(entry: CacheEntry, reason: string): CacheEntry {
   return {
     ...entry,
     fetchedAt: new Date().toISOString(),

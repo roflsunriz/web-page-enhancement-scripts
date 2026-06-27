@@ -7,10 +7,12 @@ import { uiManager } from "./ui.js";
  * @param threadData - コピーするテキストとサマリーを含むオブジェクト
  * @returns コピーが成功したかどうか
  */
-export async function executeClipboardCopy(threadData: {
-  formattedText: string;
-  summary: string;
-} | null): Promise<boolean> {
+export async function executeClipboardCopy(
+  threadData: {
+    formattedText: string;
+    summary: string;
+  } | null,
+): Promise<boolean> {
   if (!threadData || !threadData.formattedText) {
     const errorMessage = !threadData
       ? "コピーするデータがありません (threadData is null)"

@@ -1,4 +1,3 @@
-
 import {
   GM_registerMenuCommand,
   GM_addStyle,
@@ -11,15 +10,18 @@ import {
   GM_notification,
   GM_setClipboard,
   GM_download,
-} from 'vite-plugin-monkey/dist/client';
-export * from './getUnsafeWindow';
+} from "vite-plugin-monkey/dist/client";
+export * from "./getUnsafeWindow";
 
 export type MenuCommandHandler = () => void;
 
 /**
  * メニューコマンドを登録する
  */
-export function registerMenuCommand(name: string, handler: MenuCommandHandler): void {
+export function registerMenuCommand(
+  name: string,
+  handler: MenuCommandHandler,
+): void {
   GM_registerMenuCommand(name, handler);
 }
 
@@ -67,14 +69,22 @@ export function listValues(): string[] {
 /**
  * 新しいタブでURLを開く
  */
-export function openInTab(url: string, options?: Parameters<typeof GM_openInTab>[1]): void {
+export function openInTab(
+  url: string,
+  options?: Parameters<typeof GM_openInTab>[1],
+): void {
   GM_openInTab(url, options);
 }
 
 /**
  * 通知を表示する
  */
-export function notify(text: string, title?: string, image?: string, onclick?: () => void): void {
+export function notify(
+  text: string,
+  title?: string,
+  image?: string,
+  onclick?: () => void,
+): void {
   GM_notification({ text, title, image, onclick });
 }
 
@@ -82,11 +92,11 @@ export function notify(text: string, title?: string, image?: string, onclick?: (
  * クリップボードにテキストをコピーする
  */
 export function setClipboard(data: string, type?: string): void {
-  if (typeof type === 'string') {
+  if (typeof type === "string") {
     GM_setClipboard(data, type);
   } else {
     // typeが未指定の場合はデフォルト値"text"を明示的に渡す
-    GM_setClipboard(data, 'text');
+    GM_setClipboard(data, "text");
   }
 }
 

@@ -328,7 +328,7 @@ const PANEL_STYLES = `
  */
 export function createControlPanel(
   initialSettings: Settings,
-  callbacks: ControlPanelCallbacks
+  callbacks: ControlPanelCallbacks,
 ): ControlPanelHandle {
   // ホスト要素作成
   const host = document.createElement("div");
@@ -353,9 +353,11 @@ export function createControlPanel(
   const panelBody = panel.querySelector<HTMLElement>(".panel-body");
   const ttlSlider = panel.querySelector<HTMLInputElement>(".ttl-slider");
   const ttlValue = panel.querySelector<HTMLElement>(".ttl-value");
-  const presetBtns = panel.querySelectorAll<HTMLButtonElement>(".ttl-preset-btn");
+  const presetBtns =
+    panel.querySelectorAll<HTMLButtonElement>(".ttl-preset-btn");
   const refreshBtn = panel.querySelector<HTMLButtonElement>(".refresh-btn");
-  const rankingListBtn = panel.querySelector<HTMLButtonElement>(".ranking-list-btn");
+  const rankingListBtn =
+    panel.querySelector<HTMLButtonElement>(".ranking-list-btn");
   const progressText = panel.querySelector<HTMLElement>(".progress-text");
 
   // 現在の設定を保持
@@ -580,13 +582,18 @@ function formatTtlValue(hours: number): string {
  * - 通常CFページ: #kokuchi_txt の後
  * - shinbanページ: バナー画像の後
  */
-export function findInsertionPoint(): { target: Element; position: InsertPosition } | null {
+export function findInsertionPoint(): {
+  target: Element;
+  position: InsertPosition;
+} | null {
   // shinbanページ（アンケート結果発表バナーの後）
   const isShinbanPage = window.location.pathname.includes("shinban-");
-  
+
   if (isShinbanPage) {
     // shinbanページ: 最初のバナー画像を探す
-    const bannerContainer = document.querySelector('.contentsWrapper > div[style*="max-width"]');
+    const bannerContainer = document.querySelector(
+      '.contentsWrapper > div[style*="max-width"]',
+    );
     if (bannerContainer) {
       logger.info("Found insertion point (shinban page): banner container");
       return { target: bannerContainer, position: "afterend" };
@@ -616,13 +623,16 @@ export function findInsertionPoint(): { target: Element; position: InsertPositio
  */
 export function insertControlPanel(handle: ControlPanelHandle): boolean {
   const insertionPoint = findInsertionPoint();
-  
+
   if (!insertionPoint) {
     logger.error("Failed to find insertion point for control panel");
     return false;
   }
 
-  insertionPoint.target.insertAdjacentElement(insertionPoint.position, handle.element);
+  insertionPoint.target.insertAdjacentElement(
+    insertionPoint.position,
+    handle.element,
+  );
   logger.info("Control panel inserted into page");
   return true;
 }

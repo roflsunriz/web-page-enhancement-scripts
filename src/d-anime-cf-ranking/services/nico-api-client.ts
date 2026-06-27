@@ -7,7 +7,10 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import { buildNicovideoSearchUrl, buildNicovideoWatchUrl } from "@/shared/constants/urls";
+import {
+  buildNicovideoSearchUrl,
+  buildNicovideoWatchUrl,
+} from "@/shared/constants/urls";
 import { gmRequest } from "@/shared/network/gmHttp";
 import type {
   NicoMetrics,
@@ -169,7 +172,7 @@ export class NicoApiClient {
    */
   static determineUploaderType(
     ownerName: string,
-    animeTitle: string
+    animeTitle: string,
   ): UploaderType {
     // 「dアニメストア ニコニコ支店」
     if (ownerName === DANIME_OFFICIAL_CHANNEL) {
@@ -197,12 +200,12 @@ export class NicoApiClient {
    */
   static filterOfficialVideos(
     results: NicoSearchResultItem[],
-    animeTitle: string
+    animeTitle: string,
   ): NicoSearchResultItem[] {
     return results.filter((item) => {
       const uploaderType = NicoApiClient.determineUploaderType(
         item.ownerName,
-        animeTitle
+        animeTitle,
       );
       return uploaderType === "danime" || uploaderType === "official";
     });
@@ -213,7 +216,7 @@ export class NicoApiClient {
    */
   static toRepresentativeVideo(
     item: NicoSearchResultItem,
-    animeTitle: string
+    animeTitle: string,
   ): RepresentativeVideo {
     return {
       videoId: item.videoId,
@@ -221,7 +224,7 @@ export class NicoApiClient {
       postedAt: item.postedAt,
       uploaderType: NicoApiClient.determineUploaderType(
         item.ownerName,
-        animeTitle
+        animeTitle,
       ),
       uploaderName: item.ownerName,
     };
@@ -323,7 +326,7 @@ export class NicoApiClient {
       .replace(/&gt;/g, ">");
     s = s.replace(/&#(\d+);/g, (_, n) => String.fromCharCode(parseInt(n, 10)));
     s = s.replace(/&#x([0-9a-fA-F]+);/g, (_, h) =>
-      String.fromCharCode(parseInt(h, 16))
+      String.fromCharCode(parseInt(h, 16)),
     );
     return s;
   }
@@ -356,7 +359,12 @@ export class NicoApiClient {
       ).toString();
 
       const postedAt =
-        (o?.registeredAt || o?.startTime || o?.postedDateTime || "")?.toString?.() ?? "";
+        (
+          o?.registeredAt ||
+          o?.startTime ||
+          o?.postedDateTime ||
+          ""
+        )?.toString?.() ?? "";
 
       // 投稿者名の取得
       let ownerName = "";
@@ -414,7 +422,15 @@ export class NicoApiClient {
       }
 
       // 必要なプロパティのみを探索（パフォーマンス最適化）
-      const priorityKeys = ["data", "items", "searchResult", "search", "result", "videos", "list"];
+      const priorityKeys = [
+        "data",
+        "items",
+        "searchResult",
+        "search",
+        "result",
+        "videos",
+        "list",
+      ];
       const objRecord = obj as Record<string, unknown>;
 
       // まず優先キーを探索
@@ -440,7 +456,9 @@ export class NicoApiClient {
     return results;
   }
 
-  private deduplicateItems(items: NicoSearchResultItem[]): NicoSearchResultItem[] {
+  private deduplicateItems(
+    items: NicoSearchResultItem[],
+  ): NicoSearchResultItem[] {
     const seen = new Set<string>();
     const unique: NicoSearchResultItem[] = [];
 

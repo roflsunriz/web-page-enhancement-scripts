@@ -2,12 +2,12 @@
  * twitter-clean-timeline - ミュートフィルタ
  */
 
-import { BaseFilter } from './base-filter';
-import type { FilterResult } from '@/shared/types';
-import { settings } from '../settings';
-import { createLogger } from '@/shared/logger';
+import { BaseFilter } from "./base-filter";
+import type { FilterResult } from "@/shared/types";
+import { settings } from "../settings";
+import { createLogger } from "@/shared/logger";
 
-const logger = createLogger('twitter-clean-timeline:mute-filter');
+const logger = createLogger("twitter-clean-timeline:mute-filter");
 
 export class MuteFilter extends BaseFilter {
   private muteRegexes: RegExp[] = [];
@@ -18,7 +18,7 @@ export class MuteFilter extends BaseFilter {
   }
 
   get name(): string {
-    return 'mute';
+    return "mute";
   }
 
   get enabled(): boolean {
@@ -30,7 +30,7 @@ export class MuteFilter extends BaseFilter {
    */
   updateMuteRegexes(): void {
     this.muteRegexes = settings.muteFilter.regexKeywords
-      .filter((pattern) => pattern.trim() !== '')
+      .filter((pattern) => pattern.trim() !== "")
       .map((pattern) => {
         try {
           return new RegExp(pattern);
@@ -82,4 +82,3 @@ export class MuteFilter extends BaseFilter {
     return { shouldHide: false };
   }
 }
-

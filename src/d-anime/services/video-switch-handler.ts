@@ -102,7 +102,7 @@ export class VideoSwitchHandler {
       previousPreloadedCount: this.preloadedComments?.length ?? 0,
       previousNextVideoId: this.nextVideoId,
     });
-    
+
     // エピソード切り替え時は古いコメントデータをすべてクリア
     this.lastVideoSource = null;
     this.lastPreloadedComments = null;
@@ -152,12 +152,17 @@ export class VideoSwitchHandler {
         lastVideoId: this.lastVideoId,
         nextVideoId: this.nextVideoId,
         lastVideoSource: this.lastVideoSource,
-        rendererVideoElement: this.renderer.getVideoElement() ? "attached" : "detached",
+        rendererVideoElement: this.renderer.getVideoElement()
+          ? "attached"
+          : "detached",
         rendererVideoSrc: this.renderer.getCurrentVideoSource(),
-        sampleCurrentComments: this.renderer.getCommentsSnapshot().slice(0, 3).map(c => ({
-          text: c.text?.substring(0, 30),
-          vposMs: c.vposMs,
-        })),
+        sampleCurrentComments: this.renderer
+          .getCommentsSnapshot()
+          .slice(0, 3)
+          .map((c) => ({
+            text: c.text?.substring(0, 30),
+            vposMs: c.vposMs,
+          })),
       });
 
       const resolvedVideoElement =
@@ -182,7 +187,9 @@ export class VideoSwitchHandler {
 
       if (!resolvedVideoElement || (!videoId && !backupPreloaded)) {
         logger.warn("videoSwitch:earlyReturn", {
-          reason: !resolvedVideoElement ? "no video element" : "no videoId and no backup",
+          reason: !resolvedVideoElement
+            ? "no video element"
+            : "no videoId and no backup",
           hasVideoElement: !!resolvedVideoElement,
           hasVideoId: !!videoId,
           hasBackupPreloaded: !!backupPreloaded,
@@ -214,10 +221,10 @@ export class VideoSwitchHandler {
         logger.debug("videoSwitch:rebind", {
           previousSrc: this.renderer.getCurrentVideoSource(),
           newSrc:
-            (typeof resolvedVideoElement.currentSrc === "string" &&
-              resolvedVideoElement.currentSrc.length > 0)
+            typeof resolvedVideoElement.currentSrc === "string" &&
+            resolvedVideoElement.currentSrc.length > 0
               ? resolvedVideoElement.currentSrc
-              : resolvedVideoElement.getAttribute("src") ?? null,
+              : (resolvedVideoElement.getAttribute("src") ?? null),
         });
         this.renderer.initialize(resolvedVideoElement);
       } else if (
@@ -275,7 +282,7 @@ export class VideoSwitchHandler {
         loadedCount,
         finalCommentsCount: finalComments.length,
         rendererVideoSrc: this.renderer.getCurrentVideoSource(),
-        sampleFinalComments: finalComments.slice(0, 5).map(c => ({
+        sampleFinalComments: finalComments.slice(0, 5).map((c) => ({
           text: c.text?.substring(0, 30),
           vposMs: c.vposMs,
           vposSec: (c.vposMs / 1000).toFixed(2),
@@ -383,12 +390,20 @@ export class VideoSwitchHandler {
     }
     // Firefox では src=null 期間や currentSrc 解決前があるため順にフォールバック
     const cur =
-      typeof videoElement.currentSrc === "string" ? videoElement.currentSrc : "";
+      typeof videoElement.currentSrc === "string"
+        ? videoElement.currentSrc
+        : "";
     if (cur.length > 0) return cur;
     const attr = videoElement.getAttribute("src") ?? "";
     if (attr.length > 0) return attr;
-    const sourceEl = videoElement.querySelector("source[src]") as HTMLSourceElement | null;
-    if (sourceEl && typeof sourceEl.src === "string" && sourceEl.src.length > 0) {
+    const sourceEl = videoElement.querySelector(
+      "source[src]",
+    ) as HTMLSourceElement | null;
+    if (
+      sourceEl &&
+      typeof sourceEl.src === "string" &&
+      sourceEl.src.length > 0
+    ) {
       return sourceEl.src;
     }
     return null;
@@ -442,9 +457,9 @@ export class VideoSwitchHandler {
       sourceChanged,
       currentVideoSrc: this.renderer.getCurrentVideoSource(),
     });
-    
+
     this.renderer.clearComments();
-    
+
     logger.warn("videoSwitch:resetRendererState:commentsCleared", {
       commentsAfterClear: this.renderer.getCommentsSnapshot().length,
       rendererVideoSrc: this.renderer.getCurrentVideoSource(),
@@ -577,19 +592,21 @@ export class VideoSwitchHandler {
     const filtered = comments.filter(
       (comment) => !this.renderer.isNGComment(comment.text),
     );
-    
+
     logger.warn("videoSwitch:populateComments:addingToRenderer", {
       filteredCount: filtered.length,
       totalCount: comments.length,
       rendererCommentsBeforeAdd: this.renderer.getCommentsSnapshot().length,
-      rendererVideoElement: this.renderer.getVideoElement() ? "attached" : "detached",
+      rendererVideoElement: this.renderer.getVideoElement()
+        ? "attached"
+        : "detached",
       rendererVideoSrc: this.renderer.getCurrentVideoSource(),
     });
-    
+
     // コメントを1つずつ追加（最初の数件をログ出力）
     filtered.forEach((comment, index) => {
       this.renderer.addComment(comment.text, comment.vposMs, comment.commands);
-      
+
       if (index < 3) {
         logger.warn(`videoSwitch:populateComments:addedComment[${index}]`, {
           text: comment.text.substring(0, 30),
@@ -604,10 +621,13 @@ export class VideoSwitchHandler {
       addedCount: filtered.length,
       rendererCommentsAfterAdd: this.renderer.getCommentsSnapshot().length,
       rendererVideoSrcAfterAdd: this.renderer.getCurrentVideoSource(),
-      sampleComments: this.renderer.getCommentsSnapshot().slice(0, 3).map(c => ({
-        text: c.text?.substring(0, 30),
-        vposMs: c.vposMs,
-      })),
+      sampleComments: this.renderer
+        .getCommentsSnapshot()
+        .slice(0, 3)
+        .map((c) => ({
+          text: c.text?.substring(0, 30),
+          vposMs: c.vposMs,
+        })),
     });
 
     this.lastPreloadedComments = [...filtered];

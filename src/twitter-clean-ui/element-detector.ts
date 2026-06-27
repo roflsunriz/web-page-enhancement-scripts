@@ -2,8 +2,8 @@
  * Twitter Clean UI - UI要素検出システム
  */
 
-import type { DetectedElement, UIElementId, DetectionStrategy } from './types';
-import { UI_ELEMENTS } from './constants';
+import type { DetectedElement, UIElementId, DetectionStrategy } from "./types";
+import { UI_ELEMENTS } from "./constants";
 
 /**
  * UI要素検出クラス
@@ -63,7 +63,9 @@ export class ElementDetector {
   /**
    * キャッシュから要素を取得
    */
-  private getFromCache(strategy: DetectionStrategy): HTMLElement | null | undefined {
+  private getFromCache(
+    strategy: DetectionStrategy,
+  ): HTMLElement | null | undefined {
     const key = this.getCacheKey(strategy);
     const timestamp = this.cacheTimestamps.get(key);
 
@@ -78,7 +80,10 @@ export class ElementDetector {
   /**
    * キャッシュに要素を保存
    */
-  private saveToCache(strategy: DetectionStrategy, element: HTMLElement | null): void {
+  private saveToCache(
+    strategy: DetectionStrategy,
+    element: HTMLElement | null,
+  ): void {
     const key = this.getCacheKey(strategy);
     this.detectionCache.set(key, element);
     this.cacheTimestamps.set(key, Date.now());
@@ -97,7 +102,7 @@ export class ElementDetector {
    */
   private executeStrategy(strategy: DetectionStrategy): HTMLElement | null {
     // カスタムファインダー以外はキャッシュを利用
-    if (strategy.type !== 'custom') {
+    if (strategy.type !== "custom") {
       const cached = this.getFromCache(strategy);
       if (cached !== undefined) {
         return cached;
@@ -108,33 +113,35 @@ export class ElementDetector {
       let element: HTMLElement | null = null;
 
       switch (strategy.type) {
-        case 'querySelector': {
+        case "querySelector": {
           if (!strategy.selector) return null;
-          element = document.querySelector(strategy.selector) as HTMLElement | null;
+          element = document.querySelector(
+            strategy.selector,
+          ) as HTMLElement | null;
           break;
         }
 
-        case 'querySelectorAll': {
+        case "querySelectorAll": {
           if (!strategy.selector) return null;
           const elements = document.querySelectorAll(strategy.selector);
           element = elements.length > 0 ? (elements[0] as HTMLElement) : null;
           break;
         }
 
-        case 'xpath': {
+        case "xpath": {
           if (!strategy.xpath) return null;
           const result = document.evaluate(
             strategy.xpath,
             document,
             null,
             XPathResult.FIRST_ORDERED_NODE_TYPE,
-            null
+            null,
           );
           element = result.singleNodeValue as HTMLElement | null;
           break;
         }
 
-        case 'custom': {
+        case "custom": {
           if (!strategy.finder) return null;
           element = strategy.finder();
           break;
@@ -145,13 +152,16 @@ export class ElementDetector {
       }
 
       // キャッシュに保存（customファインダー以外）
-      if (strategy.type !== 'custom') {
+      if (strategy.type !== "custom") {
         this.saveToCache(strategy, element);
       }
 
       return element;
     } catch (error) {
-      console.warn(`[ElementDetector] Strategy failed: ${strategy.method}`, error);
+      console.warn(
+        `[ElementDetector] Strategy failed: ${strategy.method}`,
+        error,
+      );
       return null;
     }
   }
@@ -260,4 +270,3 @@ export class ElementDetector {
     this.clearCache();
   }
 }
-

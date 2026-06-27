@@ -117,7 +117,10 @@ function initializeComponents(
       }
     });
   } catch (error) {
-    bootstrapLogger.error("コンポーネント初期化中にエラーが発生しました", error);
+    bootstrapLogger.error(
+      "コンポーネント初期化中にエラーが発生しました",
+      error,
+    );
   }
 }
 

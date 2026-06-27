@@ -1,7 +1,7 @@
-import { setTimeoutSafely } from '@/manga-viewer/util';
-import { svgBookOpen, svgPlay, svgRefresh } from '@/shared/icons/mdi';
-import { createShadowHost } from '@/shared/dom';
-import { globalState } from '../state';
+import { setTimeoutSafely } from "@/manga-viewer/util";
+import { svgBookOpen, svgPlay, svgRefresh } from "@/shared/icons/mdi";
+import { createShadowHost } from "@/shared/dom";
+import { globalState } from "../state";
 
 export class GlassControlPanel {
   private shadowHost: HTMLDivElement | null = null;
@@ -28,8 +28,8 @@ export class GlassControlPanel {
   async init(): Promise<boolean> {
     try {
       const { host, root } = createShadowHost({
-        id: 'manga-viewer-control-panel-host',
-        mode: 'closed',
+        id: "manga-viewer-control-panel-host",
+        mode: "closed",
       });
       this.shadowHost = host;
       this.shadowHost.style.cssText = `
@@ -38,12 +38,12 @@ export class GlassControlPanel {
       `;
       this.shadowRoot = root;
 
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = this.getGlassControlStyles();
       this.shadowRoot.appendChild(style);
 
-      this.containerElement = document.createElement('div');
-      this.containerElement.className = 'glass-control-container hidden';
+      this.containerElement = document.createElement("div");
+      this.containerElement.className = "glass-control-container hidden";
       this.containerElement.innerHTML = `
         <div class="control-handle" aria-label="マンガビューアコントロール" title="マンガビューア"></div>
         <div class="control-panel">
@@ -65,15 +65,18 @@ export class GlassControlPanel {
       `;
       this.shadowRoot.appendChild(this.containerElement);
 
-      this.handleElement = this.shadowRoot.querySelector('.control-handle');
-      this.panelElement = this.shadowRoot.querySelector('.control-panel');
+      this.handleElement = this.shadowRoot.querySelector(".control-handle");
+      this.panelElement = this.shadowRoot.querySelector(".control-panel");
 
       this.setupEventListeners();
       this.observeFullscreenChanges();
       this.show();
       return true;
     } catch (error) {
-      console.error('[MangaViewer] Error initializing Glass Control Panel:', error);
+      console.error(
+        "[MangaViewer] Error initializing Glass Control Panel:",
+        error,
+      );
       return false;
     }
   }
@@ -89,31 +92,44 @@ export class GlassControlPanel {
   }
 
   private setupEventListeners(): void {
-    if (!this.handleElement || !this.panelElement || !this.containerElement) return;
+    if (!this.handleElement || !this.panelElement || !this.containerElement)
+      return;
 
-    this.addLocalEventListener(this.handleElement, 'mouseenter', () => this.expandPanel());
-    this.addLocalEventListener(this.panelElement, 'mouseenter', () => this.expandPanel());
-    this.addLocalEventListener(this.containerElement, 'mouseleave', (e) => {
-      if (!this.containerElement?.contains((e as MouseEvent).relatedTarget as Node)) {
+    this.addLocalEventListener(this.handleElement, "mouseenter", () =>
+      this.expandPanel(),
+    );
+    this.addLocalEventListener(this.panelElement, "mouseenter", () =>
+      this.expandPanel(),
+    );
+    this.addLocalEventListener(this.containerElement, "mouseleave", (e) => {
+      if (
+        !this.containerElement?.contains(
+          (e as MouseEvent).relatedTarget as Node,
+        )
+      ) {
         this.collapsePanel();
       }
     });
 
-    this.shadowRoot?.querySelectorAll('.panel-button').forEach((button) => {
-      this.addLocalEventListener(button, 'click', (e) => {
+    this.shadowRoot?.querySelectorAll(".panel-button").forEach((button) => {
+      this.addLocalEventListener(button, "click", (e) => {
         e.preventDefault();
         e.stopPropagation();
-        this.handleButtonClick(button.getAttribute('data-action'));
+        this.handleButtonClick(button.getAttribute("data-action"));
       });
     });
   }
 
   private expandPanel(): void {
-    if (!this.isExpanded && this.containerElement && !this.containerElement.classList.contains('hidden')) {
+    if (
+      !this.isExpanded &&
+      this.containerElement &&
+      !this.containerElement.classList.contains("hidden")
+    ) {
       if (this.expandTimer) clearTimeout(this.expandTimer);
       this.isExpanded = true;
-      this.panelElement?.classList.add('expanded');
-      this.containerElement.style.pointerEvents = 'auto';
+      this.panelElement?.classList.add("expanded");
+      this.containerElement.style.pointerEvents = "auto";
     }
   }
 
@@ -121,17 +137,17 @@ export class GlassControlPanel {
     if (this.isExpanded) {
       this.expandTimer = setTimeoutSafely(() => {
         this.isExpanded = false;
-        this.panelElement?.classList.remove('expanded');
-        this.containerElement!.style.pointerEvents = 'none';
+        this.panelElement?.classList.remove("expanded");
+        this.containerElement!.style.pointerEvents = "none";
       }, 1000);
     }
   }
 
   private async handleButtonClick(action: string | null): Promise<void> {
-    if (action === 'launch') {
+    if (action === "launch") {
       await globalState.app?.launch();
       this.hide();
-    } else if (action === 'reanalyze') {
+    } else if (action === "reanalyze") {
       // 再分析の場合もlaunchViewerを呼び出す
       await globalState.app?.launch();
       this.hide();
@@ -154,21 +170,28 @@ export class GlassControlPanel {
         }
       }
     };
-    ['fullscreenchange', 'webkitfullscreenchange', 'mozfullscreenchange', 'MSFullscreenChange'].forEach(
-      (event) => this.addLocalEventListener(document, event, handler),
-    );
+    [
+      "fullscreenchange",
+      "webkitfullscreenchange",
+      "mozfullscreenchange",
+      "MSFullscreenChange",
+    ].forEach((event) => this.addLocalEventListener(document, event, handler));
   }
 
   show(): void {
-    if (this.containerElement && !this.isVisible && !this.isHiddenByFullscreen) {
-      this.containerElement.classList.remove('hidden');
+    if (
+      this.containerElement &&
+      !this.isVisible &&
+      !this.isHiddenByFullscreen
+    ) {
+      this.containerElement.classList.remove("hidden");
       this.isVisible = true;
     }
   }
 
   hide(): void {
     if (this.containerElement && this.isVisible) {
-      this.containerElement.classList.add('hidden');
+      this.containerElement.classList.add("hidden");
       this.isVisible = false;
     }
   }

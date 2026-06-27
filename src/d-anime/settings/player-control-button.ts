@@ -25,9 +25,13 @@ export class PlayerControlButton {
     if (document.getElementById(BTN_HOST_ID)) {
       return;
     }
-    const settingBtn = document.querySelector(DANIME_SELECTORS.watchSettingButton);
+    const settingBtn = document.querySelector(
+      DANIME_SELECTORS.watchSettingButton,
+    );
     if (!settingBtn) {
-      this.mountRetryTimer = window.setTimeout(() => { this.mount(); }, MOUNT_RETRY_MS);
+      this.mountRetryTimer = window.setTimeout(() => {
+        this.mount();
+      }, MOUNT_RETRY_MS);
       return;
     }
     this.injectButton(settingBtn);
@@ -67,9 +71,16 @@ export class PlayerControlButton {
     btn.setAttribute("aria-label", "コメント設定パネル");
     btn.setAttribute("aria-expanded", "false");
     btn.style.cssText = [
-      "width:100%", "height:100%", "background:transparent", "border:none",
-      "cursor:pointer", "padding:0", "display:flex", "align-items:center",
-      "justify-content:center", "color:#ffffff",
+      "width:100%",
+      "height:100%",
+      "background:transparent",
+      "border:none",
+      "cursor:pointer",
+      "padding:0",
+      "display:flex",
+      "align-items:center",
+      "justify-content:center",
+      "color:#ffffff",
     ].join(";");
     btn.innerHTML = svgPalette;
 
@@ -292,7 +303,10 @@ export class PlayerControlButton {
     `;
   }
 
-  private buildPanelHTML(settings: RendererSettings, playback: PlaybackSettings): string {
+  private buildPanelHTML(
+    settings: RendererSettings,
+    playback: PlaybackSettings,
+  ): string {
     const visIcon = settings.isCommentVisible ? svgComment : svgLock;
     const opacityPct = Math.round((settings.commentOpacity ?? 1) * 100);
     const speedVal = playback.fixedRate.toFixed(2);
@@ -349,35 +363,50 @@ export class PlayerControlButton {
   }
 
   private bindPanelEvents(shadow: ShadowRoot): void {
-    const visibilityInput = shadow.getElementById("pcb-visibility") as HTMLInputElement | null;
+    const visibilityInput = shadow.getElementById(
+      "pcb-visibility",
+    ) as HTMLInputElement | null;
     visibilityInput?.addEventListener("change", () => {
       const visIcon = shadow.getElementById("pcb-vis-icon");
       if (visIcon) {
         visIcon.innerHTML = visibilityInput.checked ? svgComment : svgLock;
       }
-      this.settingsManager.updateSettings({ isCommentVisible: visibilityInput.checked });
+      this.settingsManager.updateSettings({
+        isCommentVisible: visibilityInput.checked,
+      });
     });
 
-    const colorInput = shadow.getElementById("pcb-color") as HTMLInputElement | null;
+    const colorInput = shadow.getElementById(
+      "pcb-color",
+    ) as HTMLInputElement | null;
     colorInput?.addEventListener("input", () => {
       this.settingsManager.updateSettings({ commentColor: colorInput.value });
     });
 
-    const opacityInput = shadow.getElementById("pcb-opacity") as HTMLInputElement | null;
+    const opacityInput = shadow.getElementById(
+      "pcb-opacity",
+    ) as HTMLInputElement | null;
     const opacityValEl = shadow.getElementById("pcb-opacity-val");
     opacityInput?.addEventListener("input", () => {
       const value = parseFloat(opacityInput.value);
-      if (opacityValEl) opacityValEl.textContent = `${Math.round(value * 100)}%`;
+      if (opacityValEl)
+        opacityValEl.textContent = `${Math.round(value * 100)}%`;
       this.settingsManager.updateSettings({ commentOpacity: value });
     });
 
-    const speedModeInput = shadow.getElementById("pcb-speed-mode") as HTMLInputElement | null;
-    const speedRange = shadow.getElementById("pcb-speed-range") as HTMLInputElement | null;
+    const speedModeInput = shadow.getElementById(
+      "pcb-speed-mode",
+    ) as HTMLInputElement | null;
+    const speedRange = shadow.getElementById(
+      "pcb-speed-range",
+    ) as HTMLInputElement | null;
     const speedValEl = shadow.getElementById("pcb-speed-val");
 
     speedModeInput?.addEventListener("change", () => {
       if (speedRange) speedRange.disabled = !speedModeInput.checked;
-      this.settingsManager.updatePlaybackSettings({ fixedModeEnabled: speedModeInput.checked });
+      this.settingsManager.updatePlaybackSettings({
+        fixedModeEnabled: speedModeInput.checked,
+      });
     });
 
     speedRange?.addEventListener("input", () => {
@@ -435,16 +464,23 @@ export class PlayerControlButton {
     const shadow = this.panelShadowRoot;
     if (!shadow) return;
 
-    const visibilityInput = shadow.getElementById("pcb-visibility") as HTMLInputElement | null;
+    const visibilityInput = shadow.getElementById(
+      "pcb-visibility",
+    ) as HTMLInputElement | null;
     if (visibilityInput) visibilityInput.checked = settings.isCommentVisible;
 
     const visIcon = shadow.getElementById("pcb-vis-icon");
-    if (visIcon) visIcon.innerHTML = settings.isCommentVisible ? svgComment : svgLock;
+    if (visIcon)
+      visIcon.innerHTML = settings.isCommentVisible ? svgComment : svgLock;
 
-    const colorInput = shadow.getElementById("pcb-color") as HTMLInputElement | null;
+    const colorInput = shadow.getElementById(
+      "pcb-color",
+    ) as HTMLInputElement | null;
     if (colorInput) colorInput.value = settings.commentColor;
 
-    const opacityInput = shadow.getElementById("pcb-opacity") as HTMLInputElement | null;
+    const opacityInput = shadow.getElementById(
+      "pcb-opacity",
+    ) as HTMLInputElement | null;
     const opacityValEl = shadow.getElementById("pcb-opacity-val");
     if (opacityInput) opacityInput.value = String(settings.commentOpacity ?? 1);
     if (opacityValEl) {
@@ -456,16 +492,21 @@ export class PlayerControlButton {
     const shadow = this.panelShadowRoot;
     if (!shadow) return;
 
-    const speedModeInput = shadow.getElementById("pcb-speed-mode") as HTMLInputElement | null;
+    const speedModeInput = shadow.getElementById(
+      "pcb-speed-mode",
+    ) as HTMLInputElement | null;
     if (speedModeInput) speedModeInput.checked = playback.fixedModeEnabled;
 
-    const speedRange = shadow.getElementById("pcb-speed-range") as HTMLInputElement | null;
+    const speedRange = shadow.getElementById(
+      "pcb-speed-range",
+    ) as HTMLInputElement | null;
     if (speedRange) {
       speedRange.disabled = !playback.fixedModeEnabled;
       speedRange.value = playback.fixedRate.toFixed(2);
     }
 
     const speedValEl = shadow.getElementById("pcb-speed-val");
-    if (speedValEl) speedValEl.textContent = `${playback.fixedRate.toFixed(2)}×`;
+    if (speedValEl)
+      speedValEl.textContent = `${playback.fixedRate.toFixed(2)}×`;
   }
 }

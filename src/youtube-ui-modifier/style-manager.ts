@@ -1,8 +1,8 @@
 import type {
   YoutubeUiModifierSettingId,
   YoutubeUiModifierSettings,
-} from '@/shared/types';
-import { STYLE_ID } from './constants';
+} from "@/shared/types";
+import { STYLE_ID } from "./constants";
 import {
   BLUR_THUMBNAIL_SELECTORS,
   CENTER_WATCH_PAGE_CSS,
@@ -12,7 +12,7 @@ import {
   RESET_LEFT_NAV_MARGIN_CSS,
   SEARCH_ENGINE_MODE_CSS,
   SHRINK_THUMBNAIL_CSS,
-} from './css-rules';
+} from "./css-rules";
 
 export class StyleManager {
   private readonly styleElement: HTMLStyleElement;
@@ -31,7 +31,7 @@ export class StyleManager {
       return existing;
     }
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.id = id;
     (document.head || document.documentElement).appendChild(style);
     return style;
@@ -39,7 +39,7 @@ export class StyleManager {
 
   private createCss(settings: YoutubeUiModifierSettings): string {
     if (!settings.globalEnabled) {
-      return '';
+      return "";
     }
 
     const rules: string[] = [];
@@ -51,11 +51,13 @@ export class StyleManager {
         continue;
       }
 
-      rules.push(`${selectors.join(',\n')} {\n  display: none !important;\n}`);
+      rules.push(`${selectors.join(",\n")} {\n  display: none !important;\n}`);
     }
 
     if (settings.blurVideoThumbnails) {
-      rules.push(`${BLUR_THUMBNAIL_SELECTORS.join(',\n')} {\n  filter: blur(20px) !important;\n}`);
+      rules.push(
+        `${BLUR_THUMBNAIL_SELECTORS.join(",\n")} {\n  filter: blur(20px) !important;\n}`,
+      );
     }
 
     if (settings.shrinkVideoThumbnails) {
@@ -83,9 +85,11 @@ export class StyleManager {
     }
 
     if (settings.grayscaleMode) {
-      rules.push('ytd-app, ytm-app {\n  filter: grayscale(100%) !important;\n}');
+      rules.push(
+        "ytd-app, ytm-app {\n  filter: grayscale(100%) !important;\n}",
+      );
     }
 
-    return `/* YouTube UI Modifier */\n${rules.join('\n\n')}`;
+    return `/* YouTube UI Modifier */\n${rules.join("\n\n")}`;
   }
 }

@@ -1,6 +1,10 @@
 import type { BadImageHandler } from "../core/bad-image-handler";
 import type { Logger } from "@/shared/logger";
-import type { ClassifiedImage, ImageMetadata, ImageQueueItem } from "@/shared/types";
+import type {
+  ClassifiedImage,
+  ImageMetadata,
+  ImageQueueItem,
+} from "@/shared/types";
 import { UIBuilder } from "./ui-builder";
 
 export class UIBatchUpdater {
@@ -64,13 +68,9 @@ export class UIBatchUpdater {
         this.imageQueue.push({ url, metadata });
         successCount += 1;
       } catch (error) {
-        this.logger.error(
-          "高速パス画像処理中にエラーが発生しました",
-          error,
-          {
-            url: item.url,
-          },
-        );
+        this.logger.error("高速パス画像処理中にエラーが発生しました", error, {
+          url: item.url,
+        });
         failureCount += 1;
       }
     }
@@ -151,20 +151,14 @@ export class UIBatchUpdater {
             this.logger.debug("バッチ処理が完了しました");
           }
         } catch (error) {
-          this.logger.error(
-            "バッチ処理中にエラーが発生しました",
-            error,
-          );
+          this.logger.error("バッチ処理中にエラーが発生しました", error);
           this.isProcessing = false;
         }
       };
 
       requestAnimationFrame(processNext);
     } catch (error) {
-      this.logger.error(
-        "バッチ処理の開始中にエラーが発生しました",
-        error,
-      );
+      this.logger.error("バッチ処理の開始中にエラーが発生しました", error);
       this.isProcessing = false;
     }
   }

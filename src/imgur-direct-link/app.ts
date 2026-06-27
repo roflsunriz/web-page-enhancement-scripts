@@ -1,6 +1,6 @@
-import { createLogger, Logger } from '@/shared/logger';
-import { getMediaEntries, clearButtons } from './dom';
-import { createShadowButton } from './ui';
+import { createLogger, Logger } from "@/shared/logger";
+import { getMediaEntries, clearButtons } from "./dom";
+import { createShadowButton } from "./ui";
 
 export class ImgurCopierApp {
   private lastUrl: string = location.href;
@@ -9,20 +9,20 @@ export class ImgurCopierApp {
   private debounceTimer: number | null = null;
 
   constructor() {
-    this.logger = createLogger('ImgurDirectLinkCopier');
+    this.logger = createLogger("ImgurDirectLinkCopier");
   }
 
   public start(): void {
     this.observer = new MutationObserver(() => this.debouncedUpdate());
     this.observer.observe(document.body, { childList: true, subtree: true });
     this.update();
-    this.logger.info('Application started and observer is running.');
+    this.logger.info("Application started and observer is running.");
   }
 
   public stop(): void {
     this.observer?.disconnect();
     clearButtons();
-    this.logger.info('Application stopped and observer is disconnected.');
+    this.logger.info("Application stopped and observer is disconnected.");
   }
 
   private debouncedUpdate(): void {
@@ -41,12 +41,16 @@ export class ImgurCopierApp {
     }
 
     // 不要になったボタンをクリア
-    const existingButtons = new Set(mediaEntries.map((_, i) => `imgurCopyButton-container-${i}`));
-    document.querySelectorAll('[data-imgur-direct-link-button-container]').forEach((btn) => {
-      if (!existingButtons.has(btn.id)) {
-        btn.remove();
-      }
-    });
+    const existingButtons = new Set(
+      mediaEntries.map((_, i) => `imgurCopyButton-container-${i}`),
+    );
+    document
+      .querySelectorAll("[data-imgur-direct-link-button-container]")
+      .forEach((btn) => {
+        if (!existingButtons.has(btn.id)) {
+          btn.remove();
+        }
+      });
 
     mediaEntries.forEach((entry, index) => {
       if (!entry.wrapper.querySelector(`#imgurCopyButton-container-${index}`))

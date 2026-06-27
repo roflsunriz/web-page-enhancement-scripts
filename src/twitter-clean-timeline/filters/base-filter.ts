@@ -2,7 +2,7 @@
  * twitter-clean-timeline - フィルタ基底クラス
  */
 
-import type { FilterResult } from '@/shared/types';
+import type { FilterResult } from "@/shared/types";
 
 export abstract class BaseFilter {
   abstract get name(): string;
@@ -13,4 +13,3 @@ export abstract class BaseFilter {
    */
   abstract shouldHideFromDOM(element: HTMLElement): FilterResult;
 }
-

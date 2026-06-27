@@ -12,10 +12,11 @@ export const TWITTER_SELECTORS = {
   tweetButtonsWithinArticle: '[data-testid="tweet"] [role="button"]',
   tweetContainerCandidates:
     '[data-testid="cellInnerDiv"], [data-testid="tweet"], article',
-  tweetObserverTargets: '[data-testid="tweet"], [id^=id__], article[role="article"]',
+  tweetObserverTargets:
+    '[data-testid="tweet"], [id^=id__], article[role="article"]',
   tweetCandidates: '[data-testid="tweet"], [id^=id__]',
   tweetRoot: '[data-testid="tweet"]',
-  retweetIndicator: '.r-15zivkp',
+  retweetIndicator: ".r-15zivkp",
   timelineMain: 'main[role="main"]',
   muteKeywordSpan: "div[role='link'] > div > div[dir='ltr']:first-child > span",
   userLink: 'a[role="link"][href^="/"]',
@@ -37,10 +38,10 @@ export const TWITTER_MEDIA_CARD_SELECTORS = [
 export const TWITTER_IMAGE_SOURCE_SELECTOR = [
   TWITTER_SELECTORS.tweetMediaImage,
   TWITTER_SELECTORS.tweetMediaImageAlt,
-].join(', ');
+].join(", ");
 
 export const TWITTER_LAYOUT_DEFAULTS = {
-  wideLayoutClass: '.r-1ye8kvj',
+  wideLayoutClass: ".r-1ye8kvj",
   wideLayoutXPath:
-    '/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[5]',
+    "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[5]",
 } as const;

@@ -283,7 +283,12 @@ function inspectFollowingParentheses(
   }
 
   const closeChar = openChar === "(" ? ")" : "）";
-  const closingIndex = findClosingParenthesisIndex(text, pointer, openChar, closeChar);
+  const closingIndex = findClosingParenthesisIndex(
+    text,
+    pointer,
+    openChar,
+    closeChar,
+  );
   if (closingIndex === -1) {
     return null;
   }
@@ -404,7 +409,11 @@ function getJapaneseUnitMultiplier(unit: string): number {
 function formatJapaneseLargeNumber(amount: number, suffix = ""): string {
   const absAmount = Math.abs(amount);
   const units = [
-    { threshold: 1_000_000_000_000, divisor: 1_000_000_000_000, suffix: `兆${suffix}` },
+    {
+      threshold: 1_000_000_000_000,
+      divisor: 1_000_000_000_000,
+      suffix: `兆${suffix}`,
+    },
     { threshold: 100_000_000, divisor: 100_000_000, suffix: `億${suffix}` },
     { threshold: 10_000, divisor: 10_000, suffix: `万${suffix}` },
   ];
@@ -479,10 +488,7 @@ function getPowerUnitMultiplier(rawUnit: string): number | null {
   const uppercase = normalized.toUpperCase();
   const firstChar = normalized[0];
 
-  if (
-    uppercase === "KW" &&
-    (firstChar === "K" || firstChar === "k")
-  ) {
+  if (uppercase === "KW" && (firstChar === "K" || firstChar === "k")) {
     return 1_000;
   }
 

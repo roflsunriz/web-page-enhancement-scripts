@@ -26,14 +26,14 @@ const logger = createLogger("dAnimeCfRanking:CardDetector");
  * - shinban-* ページ: .itemModule.list（data-workidがカード要素にない）
  */
 const CARD_SELECTORS = [
-  ".itemModule.list[data-workid]",  // CF/* ページ
-  ".itemModule.list",               // CF/shinban-* ページ（汎用）
+  ".itemModule.list[data-workid]", // CF/* ページ
+  ".itemModule.list", // CF/shinban-* ページ（汎用）
 ];
 
 /** タイトルセレクタ（カード内）- 複数パターン対応 */
 const TITLE_SELECTORS = [
-  ".newTVtitle span",        // CF/* ページ
-  ".textContainer h2 span",  // CF/shinban-* ページ
+  ".newTVtitle span", // CF/* ページ
+  ".textContainer h2 span", // CF/shinban-* ページ
 ];
 
 /** workId取得用セレクタ（カード内）- shinban-* ページ用 */
@@ -118,10 +118,10 @@ export function detectAllCards(): AnimeCard[] {
     }
   });
 
-  logger.debug("Cards detected", { 
+  logger.debug("Cards detected", {
     total: cardElements.size,
-    visible: cards.length, 
-    hidden: hiddenCount 
+    visible: cards.length,
+    hidden: hiddenCount,
   });
   return cards;
 }
@@ -157,7 +157,9 @@ function extractWorkId(element: HTMLElement): string | null {
   }
 
   // パターン2: .check input[data-workid]から取得（shinban-* ページ）
-  const workIdInput = element.querySelector<HTMLInputElement>(WORKID_INPUT_SELECTOR);
+  const workIdInput = element.querySelector<HTMLInputElement>(
+    WORKID_INPUT_SELECTOR,
+  );
   if (workIdInput?.dataset["workid"]) {
     return workIdInput.dataset["workid"];
   }
@@ -202,8 +204,12 @@ export function parseCardElement(element: HTMLElement): AnimeCard | null {
  * @param cardElement カード要素
  * @returns 挿入位置の参照要素（check要素）、見つからない場合はnull
  */
-export function findInsertionPoint(cardElement: HTMLElement): HTMLElement | null {
-  const circleProgress = cardElement.querySelector<HTMLElement>(CIRCLE_PROGRESS_SELECTOR);
+export function findInsertionPoint(
+  cardElement: HTMLElement,
+): HTMLElement | null {
+  const circleProgress = cardElement.querySelector<HTMLElement>(
+    CIRCLE_PROGRESS_SELECTOR,
+  );
   const check = cardElement.querySelector<HTMLElement>(CHECK_SELECTOR);
 
   // circleProgressとcheckの両方が存在する場合、check要素を返す
@@ -310,7 +316,9 @@ function findCardElementsIn(element: HTMLElement): HTMLElement[] {
  * @param callback 新しいカードが検出されたときのコールバック
  * @returns MutationObserver
  */
-export function createCardObserver(callback: CardAddedCallback): MutationObserver {
+export function createCardObserver(
+  callback: CardAddedCallback,
+): MutationObserver {
   const observer = new MutationObserver((mutations) => {
     const newCards: AnimeCard[] = [];
     const seenWorkIds = new Set<string>();
@@ -349,7 +357,9 @@ export function createCardObserver(callback: CardAddedCallback): MutationObserve
     }
 
     if (newCards.length > 0) {
-      logger.debug("New cards detected by observer", { count: newCards.length });
+      logger.debug("New cards detected by observer", {
+        count: newCards.length,
+      });
       callback(newCards);
     }
   });
@@ -364,7 +374,7 @@ export function createCardObserver(callback: CardAddedCallback): MutationObserve
  */
 export function startCardObserver(
   observer: MutationObserver,
-  targetElement: Element = document.body
+  targetElement: Element = document.body,
 ): void {
   observer.observe(targetElement, {
     childList: true,
@@ -410,7 +420,7 @@ export function detectAllCardElements(): HTMLElement[] {
  */
 export function createVisibilityObserver(
   trackedCards: Set<HTMLElement>,
-  callback: VisibilityChangeCallback
+  callback: VisibilityChangeCallback,
 ): MutationObserver {
   let debounceTimer: ReturnType<typeof setTimeout> | null = null;
   const pendingCheck = new Set<HTMLElement>();
@@ -441,7 +451,11 @@ export function createVisibilityObserver(
   const scheduleCheck = (element: HTMLElement): void => {
     // 対象のカード要素またはその祖先・子孫をチェック対象に追加
     for (const tracked of trackedCards) {
-      if (element.contains(tracked) || tracked.contains(element) || element === tracked) {
+      if (
+        element.contains(tracked) ||
+        tracked.contains(element) ||
+        element === tracked
+      ) {
         pendingCheck.add(tracked);
       }
     }
@@ -477,7 +491,7 @@ export function createVisibilityObserver(
  */
 export function startVisibilityObserver(
   observer: MutationObserver,
-  targetElement: Element = document.body
+  targetElement: Element = document.body,
 ): void {
   observer.observe(targetElement, {
     attributes: true,

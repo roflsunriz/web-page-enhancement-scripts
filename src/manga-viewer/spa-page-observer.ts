@@ -1,4 +1,8 @@
-import { addEventListenerSafely, setIntervalSafely, setTimeoutSafely } from './util';
+import {
+  addEventListenerSafely,
+  setIntervalSafely,
+  setTimeoutSafely,
+} from "./util";
 
 export type PageChangeInfo = {
   previousUrl: string;
@@ -7,7 +11,7 @@ export type PageChangeInfo = {
   currentPageType: PageType;
 };
 
-export type PageType = 'twitter-status' | 'twitter-general' | 'generic';
+export type PageType = "twitter-status" | "twitter-general" | "generic";
 
 export type SPAObserverCallback = (changeInfo: PageChangeInfo) => void;
 
@@ -24,17 +28,14 @@ export class SPAPageObserver {
     const url = window.location.href;
 
     if (
-      (url.includes('twitter.com') || url.includes('x.com')) &&
-      url.includes('/status/')
+      (url.includes("twitter.com") || url.includes("x.com")) &&
+      url.includes("/status/")
     ) {
-      return 'twitter-status';
-    } else if (
-      url.includes('twitter.com') ||
-      url.includes('x.com')
-    ) {
-      return 'twitter-general';
+      return "twitter-status";
+    } else if (url.includes("twitter.com") || url.includes("x.com")) {
+      return "twitter-general";
     } else {
-      return 'generic';
+      return "generic";
     }
   }
 
@@ -46,7 +47,7 @@ export class SPAPageObserver {
     this.wrapHistoryAPI();
 
     // popstate イベントの監視
-    addEventListenerSafely(window, 'popstate', () => {
+    addEventListenerSafely(window, "popstate", () => {
       this.checkForUrlChange();
     });
 
@@ -63,14 +64,16 @@ export class SPAPageObserver {
     const originalPushState = history.pushState;
     const originalReplaceState = history.replaceState;
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    history.pushState = (...args: [data: any, unused: string, url?: string | URL | null]) => {
+    history.pushState = (
+      ...args: [data: unknown, unused: string, url?: string | URL | null]
+    ) => {
       originalPushState.call(history, ...args);
       setTimeoutSafely(() => this.checkForUrlChange(), 100);
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    history.replaceState = (...args: [data: any, unused: string, url?: string | URL | null]) => {
+    history.replaceState = (
+      ...args: [data: unknown, unused: string, url?: string | URL | null]
+    ) => {
       originalReplaceState.call(history, ...args);
       setTimeoutSafely(() => this.checkForUrlChange(), 100);
     };
@@ -99,7 +102,7 @@ export class SPAPageObserver {
 
   // オブザーバーの追加
   public addObserver(callback: SPAObserverCallback): void {
-    if (typeof callback === 'function') {
+    if (typeof callback === "function") {
       this.observers.push(callback);
     }
   }
@@ -115,7 +118,7 @@ export class SPAPageObserver {
       try {
         callback(changeInfo);
       } catch (error) {
-        console.error('[MangaViewer] Error in SPA observer callback:', error);
+        console.error("[MangaViewer] Error in SPA observer callback:", error);
       }
     });
   }
@@ -136,6 +139,6 @@ export class SPAPageObserver {
 
   // Twitter状態ページかどうか判定
   public isTwitterStatusPage(): boolean {
-    return this.currentPageType === 'twitter-status';
+    return this.currentPageType === "twitter-status";
   }
 }

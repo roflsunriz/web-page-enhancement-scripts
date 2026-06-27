@@ -56,5 +56,10 @@ export interface FilterResult {
   filterName?: string;
 }
 
-export type PageType = 'timeline' | 'list' | 'profile' | 'search' | 'tweetDetail' | 'other';
-
+export type PageType =
+  | "timeline"
+  | "list"
+  | "profile"
+  | "search"
+  | "tweetDetail"
+  | "other";

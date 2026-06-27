@@ -2,11 +2,11 @@
  * Twitter Clean UI - UI要素制御システム
  */
 
-import type { UIElementId, Settings } from './types';
-import type { ElementDetector } from './element-detector';
-import { CSSInjector } from './css-injector';
-import { TWITTER_LAYOUT_DEFAULTS } from '@/shared/constants/twitter';
-import { UI_ELEMENTS } from './constants';
+import type { UIElementId, Settings } from "./types";
+import type { ElementDetector } from "./element-detector";
+import { CSSInjector } from "./css-injector";
+import { TWITTER_LAYOUT_DEFAULTS } from "@/shared/constants/twitter";
+import { UI_ELEMENTS } from "./constants";
 
 /**
  * 設定ページかどうかを判定
@@ -14,7 +14,7 @@ import { UI_ELEMENTS } from './constants';
  */
 function isSettingsPage(): boolean {
   const path = window.location.pathname;
-  return path === '/settings' || path.startsWith('/settings/');
+  return path === "/settings" || path.startsWith("/settings/");
 }
 
 /**
@@ -40,8 +40,8 @@ export class ElementController {
    * スタイル要素を作成（動的要素用のフォールバック）
    */
   private createStyleElement(): HTMLStyleElement {
-    const style = document.createElement('style');
-    style.id = 'twitter-clean-ui-dynamic-styles';
+    const style = document.createElement("style");
+    style.id = "twitter-clean-ui-dynamic-styles";
     document.head.appendChild(style);
     return style;
   }
@@ -62,7 +62,7 @@ export class ElementController {
     }
 
     // 非表示
-    element.style.setProperty('display', 'none', 'important');
+    element.style.setProperty("display", "none", "important");
     this.hiddenElements.add(elementId);
   }
 
@@ -80,7 +80,7 @@ export class ElementController {
     if (originalDisplay) {
       element.style.display = originalDisplay;
     } else {
-      element.style.removeProperty('display');
+      element.style.removeProperty("display");
     }
 
     this.hiddenElements.delete(elementId);
@@ -105,7 +105,7 @@ export class ElementController {
   public applyLayout(settings: Settings): void {
     // 設定ページではレイアウト変更を適用しない
     if (isSettingsPage()) {
-      this.styleElement.textContent = '';
+      this.styleElement.textContent = "";
       return;
     }
 
@@ -134,10 +134,10 @@ export class ElementController {
       document,
       null,
       XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null
+      null,
     ).singleNodeValue as HTMLElement | null;
     if (target) {
-      target.style.setProperty('max-width', `${width}px`, 'important');
+      target.style.setProperty("max-width", `${width}px`, "important");
     }
   }
 
@@ -152,7 +152,10 @@ export class ElementController {
     if (!firstStrategy) return false;
 
     // querySelector/querySelectorAllの要素はCSSで処理可能
-    return firstStrategy.type === 'querySelector' || firstStrategy.type === 'querySelectorAll';
+    return (
+      firstStrategy.type === "querySelector" ||
+      firstStrategy.type === "querySelectorAll"
+    );
   }
 
   /**
@@ -163,20 +166,20 @@ export class ElementController {
     this.applyLayout(settings);
 
     const { visibility } = settings;
-    
+
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
-      
+
       if (this.canBeHandledByCSS(elementId)) {
         if (visible && this.detector.isDetected(elementId)) {
           const detected = this.detector.getDetectedElement(elementId);
           if (detected?.element.style.display) {
-            detected.element.style.removeProperty('display');
+            detected.element.style.removeProperty("display");
           }
         }
         return;
       }
-      
+
       if (this.detector.isDetected(elementId)) {
         this.toggleElement(elementId, visible);
       }
@@ -194,7 +197,7 @@ export class ElementController {
 
     // スタイルをクリア
     this.cssInjector.clear();
-    this.styleElement.textContent = '';
+    this.styleElement.textContent = "";
     this.appliedStyles.clear();
     this.hiddenElements.clear();
   }
@@ -206,8 +209,8 @@ export class ElementController {
     const detected = this.detector.getDetectedElement(elementId);
     if (!detected) return;
 
-    detected.element.style.setProperty('width', `${width}px`, 'important');
-    detected.element.style.setProperty('min-width', `${width}px`, 'important');
+    detected.element.style.setProperty("width", `${width}px`, "important");
+    detected.element.style.setProperty("min-width", `${width}px`, "important");
   }
 
   /**
@@ -217,7 +220,7 @@ export class ElementController {
     const detected = this.detector.getDetectedElement(elementId);
     if (!detected) return;
 
-    detected.element.style.setProperty('padding', `${padding}px`, 'important');
+    detected.element.style.setProperty("padding", `${padding}px`, "important");
   }
 
   /**
@@ -240,4 +243,3 @@ export class ElementController {
     this.hiddenElements.clear();
   }
 }
-

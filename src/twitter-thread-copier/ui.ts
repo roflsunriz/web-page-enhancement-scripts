@@ -34,17 +34,15 @@ class UIManager {
   private shadowRoot: ShadowRoot | null = null;
   private container: HTMLDivElement | null = null;
   private floatingContainer: HTMLDivElement | null = null;
-  private dragState:
-    | {
-        pointerId: number;
-        startX: number;
-        startY: number;
-        initialTop: number;
-        initialLeft: number;
-        moved: boolean;
-      }
-    | null = null;
-	private customPosition: { top: number; left: number } | null = null;
+  private dragState: {
+    pointerId: number;
+    startX: number;
+    startY: number;
+    initialTop: number;
+    initialLeft: number;
+    moved: boolean;
+  } | null = null;
+  private customPosition: { top: number; left: number } | null = null;
   private ignoreNextClick = false;
   private mainButton: HTMLButtonElement | null = null;
   private controlPanel: HTMLDivElement | null = null;
@@ -52,7 +50,7 @@ class UIManager {
   private hoverInteractionConfigured = false;
   private hoverPointerCount = 0;
   private hoverHideTimeout: number | null = null;
-	private readonly storageKey = "twitter-thread-copier-ui-position";
+  private readonly storageKey = "twitter-thread-copier-ui-position";
   private readonly handleResize = (): void => {
     if (!this.floatingContainer || !this.customPosition) {
       return;
@@ -481,7 +479,9 @@ class UIManager {
     this.shadowRoot.appendChild(styleElement);
   }
 
-  private querySelector<E extends Element = Element>(selector: string): E | null {
+  private querySelector<E extends Element = Element>(
+    selector: string,
+  ): E | null {
     return this.shadowRoot ? this.shadowRoot.querySelector<E>(selector) : null;
   }
 
@@ -568,8 +568,9 @@ class UIManager {
         if (!tweetId) {
           return;
         }
-        const selectButton =
-          tweetElement.querySelector<HTMLButtonElement>(".select-tweet-button");
+        const selectButton = tweetElement.querySelector<HTMLButtonElement>(
+          ".select-tweet-button",
+        );
         if (!selectButton) {
           return;
         }
@@ -591,10 +592,15 @@ class UIManager {
     this.updateSelectionResetButton();
   }
 
-  private toggleTweetSelection(tweetElement: HTMLElement, tweetId: string): void {
+  private toggleTweetSelection(
+    tweetElement: HTMLElement,
+    tweetId: string,
+  ): void {
     const alreadySelected = state.selectedTweetIds.includes(tweetId);
     if (alreadySelected) {
-      state.selectedTweetIds = state.selectedTweetIds.filter((id) => id !== tweetId);
+      state.selectedTweetIds = state.selectedTweetIds.filter(
+        (id) => id !== tweetId,
+      );
     } else {
       state.selectedTweetIds = [...state.selectedTweetIds, tweetId];
     }
@@ -606,7 +612,9 @@ class UIManager {
 
     const selectedCount = state.selectedTweetIds.length;
     const toastMessage =
-      selectedCount > 0 ? `${selectedCount}件選択中` : "選択をすべて解除しました";
+      selectedCount > 0
+        ? `${selectedCount}件選択中`
+        : "選択をすべて解除しました";
 
     this.refreshSelectionIndicators();
     this.updateMainButtonText();
@@ -701,13 +709,20 @@ class UIManager {
     `;
     // Initialize from stored preference
     const storedProvider = localStorage.getItem("translationProvider");
-    if (storedProvider === "local" || storedProvider === "google" || storedProvider === "openai") {
+    if (
+      storedProvider === "local" ||
+      storedProvider === "google" ||
+      storedProvider === "openai"
+    ) {
       providerSelect.value = storedProvider;
     } else {
       providerSelect.value = "local";
     }
     providerSelect.addEventListener("change", (e: Event) => {
-      const val = (e.target as HTMLSelectElement).value as "local" | "google" | "openai";
+      const val = (e.target as HTMLSelectElement).value as
+        | "local"
+        | "google"
+        | "openai";
       localStorage.setItem("translationProvider", val);
       logger.log(`Translation provider set to ${val}`);
     });
@@ -874,20 +889,22 @@ class UIManager {
 
   private setStartPoint(tweetElement: HTMLElement, tweetId: string): void {
     if (state.startFromTweetId) {
-      document
-        .querySelectorAll(".start-point-set")
-        .forEach((tweet) => {
-          tweet.classList.remove("start-point-set");
-          const prevButton = tweet.querySelector(".start-point-button");
-          if (prevButton) {
-            prevButton.classList.remove("active");
-            prevButton.textContent = "★";
-          }
-        });
+      document.querySelectorAll(".start-point-set").forEach((tweet) => {
+        tweet.classList.remove("start-point-set");
+        const prevButton = tweet.querySelector(".start-point-button");
+        if (prevButton) {
+          prevButton.classList.remove("active");
+          prevButton.textContent = "★";
+        }
+      });
     }
 
-    const author = tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.userName)?.innerText ?? "";
-    const tweetText = tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.tweetText)?.innerText ?? "";
+    const author =
+      tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.userName)
+        ?.innerText ?? "";
+    const tweetText =
+      tweetElement.querySelector<HTMLElement>(TWITTER_SELECTORS.tweetText)
+        ?.innerText ?? "";
 
     state.startFromTweetId = tweetId;
     state.startFromTweetAuthor = author;
@@ -907,7 +924,8 @@ class UIManager {
   }
 
   private updateResetButton(): void {
-    let resetButton = this.querySelector<HTMLButtonElement>(".reset-start-point");
+    let resetButton =
+      this.querySelector<HTMLButtonElement>(".reset-start-point");
     if (state.startFromTweetId) {
       if (!resetButton) {
         resetButton = document.createElement("button");
@@ -1031,11 +1049,11 @@ class UIManager {
       const floating = document.createElement("div");
       floating.className = "floating-ui-container";
       this.shadowRoot.appendChild(floating);
-			const stored = this.loadPosition();
-			if (stored) {
-				this.customPosition = stored;
-				this.applyPosition(stored.top, stored.left, floating);
-			}
+      const stored = this.loadPosition();
+      if (stored) {
+        this.customPosition = stored;
+        this.applyPosition(stored.top, stored.left, floating);
+      }
       this.floatingContainer = floating;
     }
     return this.floatingContainer;
@@ -1092,7 +1110,11 @@ class UIManager {
       }
       const proposedTop = this.dragState.initialTop + deltaY;
       const proposedLeft = this.dragState.initialLeft + deltaX;
-      const { top, left } = this.clampPosition(proposedTop, proposedLeft, floating);
+      const { top, left } = this.clampPosition(
+        proposedTop,
+        proposedLeft,
+        floating,
+      );
       this.applyPosition(top, left, floating);
     });
 
@@ -1108,7 +1130,7 @@ class UIManager {
       if (this.dragState.moved) {
         this.ignoreNextClick = true;
         this.handleResize();
-			this.savePosition();
+        this.savePosition();
       }
       this.dragState = null;
     };
@@ -1125,15 +1147,25 @@ class UIManager {
     const margin = 16;
     const containerHeight = container.offsetHeight || 0;
     const containerWidth = container.offsetWidth || 0;
-    const maxTop = Math.max(margin, window.innerHeight - containerHeight - margin);
-    const maxLeft = Math.max(margin, window.innerWidth - containerWidth - margin);
+    const maxTop = Math.max(
+      margin,
+      window.innerHeight - containerHeight - margin,
+    );
+    const maxLeft = Math.max(
+      margin,
+      window.innerWidth - containerWidth - margin,
+    );
     return {
       top: Math.min(Math.max(margin, top), maxTop),
       left: Math.min(Math.max(margin, left), maxLeft),
     };
   }
 
-  private applyPosition(top: number, left: number, container?: HTMLDivElement): void {
+  private applyPosition(
+    top: number,
+    left: number,
+    container?: HTMLDivElement,
+  ): void {
     const target = container ?? this.ensureFloatingContainer();
     target.style.top = `${top}px`;
     target.style.left = `${left}px`;
@@ -1141,45 +1173,45 @@ class UIManager {
     target.style.right = "auto";
     target.classList.add("has-custom-position");
     this.customPosition = { top, left };
-		this.savePosition();
-	}
+    this.savePosition();
+  }
 
-	private loadPosition(): { top: number; left: number } | null {
-		try {
-			const raw = window.localStorage.getItem(this.storageKey);
-			if (!raw) {
-				return null;
-			}
-			const parsed = JSON.parse(raw) as {
-				top: unknown;
-				left: unknown;
-			};
-			if (
-				typeof parsed.top === "number" &&
-				typeof parsed.left === "number" &&
-				Number.isFinite(parsed.top) &&
-				Number.isFinite(parsed.left)
-			) {
-				return { top: parsed.top, left: parsed.left };
-			}
-			logger.warn("stored position is invalid", parsed);
-			return null;
-		} catch (error) {
-			logger.warn("failed to load UI position", error);
-			return null;
-		}
-	}
+  private loadPosition(): { top: number; left: number } | null {
+    try {
+      const raw = window.localStorage.getItem(this.storageKey);
+      if (!raw) {
+        return null;
+      }
+      const parsed = JSON.parse(raw) as {
+        top: unknown;
+        left: unknown;
+      };
+      if (
+        typeof parsed.top === "number" &&
+        typeof parsed.left === "number" &&
+        Number.isFinite(parsed.top) &&
+        Number.isFinite(parsed.left)
+      ) {
+        return { top: parsed.top, left: parsed.left };
+      }
+      logger.warn("stored position is invalid", parsed);
+      return null;
+    } catch (error) {
+      logger.warn("failed to load UI position", error);
+      return null;
+    }
+  }
 
-	private savePosition(): void {
-		if (!this.customPosition) {
-			return;
-		}
-		try {
-			const payload = JSON.stringify(this.customPosition);
-			window.localStorage.setItem(this.storageKey, payload);
-		} catch (error) {
-			logger.warn("failed to save UI position", error);
-		}
+  private savePosition(): void {
+    if (!this.customPosition) {
+      return;
+    }
+    try {
+      const payload = JSON.stringify(this.customPosition);
+      window.localStorage.setItem(this.storageKey, payload);
+    } catch (error) {
+      logger.warn("failed to save UI position", error);
+    }
   }
 
   private showSettingsModal(): void {
@@ -1235,31 +1267,46 @@ class UIManager {
     this.settingsModal = overlay;
 
     // Event listeners
-    const saveButton = modal.querySelector(".btn-save") as HTMLButtonElement | null;
-    const cancelButton = modal.querySelector(".btn-cancel") as HTMLButtonElement | null;
-    const resetButton = modal.querySelector(".btn-reset") as HTMLButtonElement | null;
+    const saveButton = modal.querySelector(
+      ".btn-save",
+    ) as HTMLButtonElement | null;
+    const cancelButton = modal.querySelector(
+      ".btn-cancel",
+    ) as HTMLButtonElement | null;
+    const resetButton = modal.querySelector(
+      ".btn-reset",
+    ) as HTMLButtonElement | null;
 
     if (saveButton) {
       saveButton.addEventListener("click", () => {
         const newSettings: TranslatorSettings = {
           localAiEndpoint:
-            (modal.querySelector("#local-ai-endpoint") as HTMLInputElement | null)?.value ??
-            settings.localAiEndpoint,
+            (
+              modal.querySelector(
+                "#local-ai-endpoint",
+              ) as HTMLInputElement | null
+            )?.value ?? settings.localAiEndpoint,
           localAiSystemPrompt:
-            (modal.querySelector("#local-ai-system-prompt") as HTMLTextAreaElement | null)?.value ??
-            settings.localAiSystemPrompt,
+            (
+              modal.querySelector(
+                "#local-ai-system-prompt",
+              ) as HTMLTextAreaElement | null
+            )?.value ?? settings.localAiSystemPrompt,
           openaiEndpoint:
-            (modal.querySelector("#openai-endpoint") as HTMLInputElement | null)?.value ??
-            settings.openaiEndpoint,
+            (modal.querySelector("#openai-endpoint") as HTMLInputElement | null)
+              ?.value ?? settings.openaiEndpoint,
           openaiModel:
-            (modal.querySelector("#openai-model") as HTMLInputElement | null)?.value ??
-            settings.openaiModel,
+            (modal.querySelector("#openai-model") as HTMLInputElement | null)
+              ?.value ?? settings.openaiModel,
           openaiSystemPrompt:
-            (modal.querySelector("#openai-system-prompt") as HTMLTextAreaElement | null)?.value ??
-            settings.openaiSystemPrompt,
+            (
+              modal.querySelector(
+                "#openai-system-prompt",
+              ) as HTMLTextAreaElement | null
+            )?.value ?? settings.openaiSystemPrompt,
           openaiApiKey:
-            (modal.querySelector("#openai-api-key") as HTMLInputElement | null)?.value ??
-            settings.openaiApiKey,
+            (modal.querySelector("#openai-api-key") as HTMLInputElement | null)
+              ?.value ?? settings.openaiApiKey,
         };
         saveSettings(newSettings);
         this.hideSettingsModal();

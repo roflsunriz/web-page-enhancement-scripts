@@ -5,12 +5,12 @@
  * SPA対応: URL変更を監視して、statusページでのみ動作
  */
 
-import { createLogger } from '@/shared/logger';
-import { SELECTORS } from './selectors';
-import { ReporterUI } from './ui';
-import { SpamReporter } from './reporter';
+import { createLogger } from "@/shared/logger";
+import { SELECTORS } from "./selectors";
+import { ReporterUI } from "./ui";
+import { SpamReporter } from "./reporter";
 
-const logger = createLogger('x-auto-spam-reporter');
+const logger = createLogger("x-auto-spam-reporter");
 
 /**
  * 現在のURLがstatusページかどうかを判定
@@ -52,7 +52,7 @@ function waitForContent(timeout: number = 10000): Promise<boolean> {
       }
 
       if (Date.now() - startTime > timeout) {
-        logger.warn('コンテンツの読み込みがタイムアウトしました');
+        logger.warn("コンテンツの読み込みがタイムアウトしました");
         resolve(false);
         return;
       }
@@ -84,11 +84,11 @@ class XAutoSpamReporter {
    */
   public async initialize(): Promise<void> {
     if (this.isInitialized) {
-      logger.warn('既に初期化済みです');
+      logger.warn("既に初期化済みです");
       return;
     }
 
-    logger.info('初期化中...');
+    logger.info("初期化中...");
 
     // statusページでのみアクティブ化
     if (isStatusPage()) {
@@ -97,7 +97,7 @@ class XAutoSpamReporter {
 
     this.registerMenuCommand();
     this.isInitialized = true;
-    logger.info('初期化完了');
+    logger.info("初期化完了");
   }
 
   /**
@@ -107,25 +107,29 @@ class XAutoSpamReporter {
   public async activate(): Promise<void> {
     if (this.isActive) return;
 
-    logger.info('statusページを検出 - アクティブ化待機中...');
+    logger.info("statusページを検出 - アクティブ化待機中...");
 
     // コンテンツが読み込まれるまで待機
     const contentLoaded = await waitForContent();
     if (!contentLoaded) {
-      logger.warn('コンテンツの読み込みに失敗しましたが、Observerは設定します');
+      logger.warn("コンテンツの読み込みに失敗しましたが、Observerは設定します");
     }
 
     // URL遷移中に別ページに移動した場合はキャンセル
     if (!isStatusPage()) {
-      logger.info('アクティブ化中に別ページに遷移しました');
+      logger.info("アクティブ化中に別ページに遷移しました");
       return;
     }
 
-    logger.info('statusページを検出 - アクティブ化');
+    logger.info("statusページを検出 - アクティブ化");
     this.setupObserver();
     this.processExistingTweets();
     this.isActive = true;
-    this.ui.showToast('🚨 スパム自動報告モード\nリプライの「🚨」ボタンをクリック', 4000, 'info');
+    this.ui.showToast(
+      "🚨 スパム自動報告モード\nリプライの「🚨」ボタンをクリック",
+      4000,
+      "info",
+    );
   }
 
   /**
@@ -134,7 +138,7 @@ class XAutoSpamReporter {
   public deactivate(): void {
     if (!this.isActive) return;
 
-    logger.info('statusページ以外に遷移 - 非アクティブ化');
+    logger.info("statusページ以外に遷移 - 非アクティブ化");
     if (this.observer) {
       this.observer.disconnect();
       this.observer = null;
@@ -153,12 +157,12 @@ class XAutoSpamReporter {
         await this.activate();
       } else {
         // 別のstatusページに遷移した場合
-        logger.info('別のstatusページに遷移 - コンテンツ再読み込み待機');
+        logger.info("別のstatusページに遷移 - コンテンツ再読み込み待機");
 
         // コンテンツが読み込まれるまで待機
         const contentLoaded = await waitForContent();
         if (!contentLoaded) {
-          logger.warn('コンテンツの読み込みに失敗');
+          logger.warn("コンテンツの読み込みに失敗");
         }
 
         // Observerを再設定（新しいprimaryColumnを監視するため）
@@ -186,9 +190,11 @@ class XAutoSpamReporter {
             if (node.matches(SELECTORS.tweet)) {
               this.addButtonToTweet(node);
             }
-            node.querySelectorAll<HTMLElement>(SELECTORS.tweet).forEach((tweet) => {
-              this.addButtonToTweet(tweet);
-            });
+            node
+              .querySelectorAll<HTMLElement>(SELECTORS.tweet)
+              .forEach((tweet) => {
+                this.addButtonToTweet(tweet);
+              });
           }
         }
       }
@@ -228,7 +234,7 @@ class XAutoSpamReporter {
 
     this.ui.addButtonToTweet(tweetElement, async (tweet, button) => {
       if (this.reporter.processing) {
-        this.ui.showToast('⏳ 処理中です...', 2000, 'warning');
+        this.ui.showToast("⏳ 処理中です...", 2000, "warning");
         return;
       }
 
@@ -237,8 +243,9 @@ class XAutoSpamReporter {
       try {
         // ユーザー名を取得（表示用）
         const userNameEl = tweet.querySelector(SELECTORS.userName);
-        const userName = userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? '不明';
-        this.ui.showToast(`🔄 ${userName} を報告中...`, 0, 'processing');
+        const userName =
+          userNameEl?.textContent?.match(/@[\w]+/)?.[0] ?? "不明";
+        this.ui.showToast(`🔄 ${userName} を報告中...`, 0, "processing");
 
         const result = await this.reporter.report(tweet);
 
@@ -246,12 +253,13 @@ class XAutoSpamReporter {
           this.ui.setButtonDone(button);
           const stats = this.reporter.getStats();
           const message = `✅ ${result.userName} をスパム報告＆ブロックしました\n(報告: ${stats.reported}, ブロック: ${stats.blocked})`;
-          this.ui.showToast(message, 3000, 'success');
+          this.ui.showToast(message, 3000, "success");
         }
       } catch (error) {
         this.ui.resetButton(button);
-        const errorMessage = error instanceof Error ? error.message : '不明なエラー';
-        this.ui.showToast(`❌ エラー: ${errorMessage}`, 4000, 'error');
+        const errorMessage =
+          error instanceof Error ? error.message : "不明なエラー";
+        this.ui.showToast(`❌ エラー: ${errorMessage}`, 4000, "error");
       }
     });
   }
@@ -260,24 +268,24 @@ class XAutoSpamReporter {
    * メニューコマンドを登録
    */
   private registerMenuCommand(): void {
-    if (typeof GM_registerMenuCommand !== 'undefined') {
-      GM_registerMenuCommand('統計を表示', () => {
+    if (typeof GM_registerMenuCommand !== "undefined") {
+      GM_registerMenuCommand("統計を表示", () => {
         const stats = this.reporter.getStats();
         this.ui.showToast(
           `📊 統計\n報告: ${stats.reported}\nブロック: ${stats.blocked}\nエラー: ${stats.errors}`,
           5000,
-          'info'
+          "info",
         );
       });
 
-      GM_registerMenuCommand('自動ブロックをOFF', () => {
+      GM_registerMenuCommand("自動ブロックをOFF", () => {
         this.reporter.setAutoBlock(false);
-        this.ui.showToast('自動ブロック: OFF', 2000, 'info');
+        this.ui.showToast("自動ブロック: OFF", 2000, "info");
       });
 
-      GM_registerMenuCommand('自動ブロックをON', () => {
+      GM_registerMenuCommand("自動ブロックをON", () => {
         this.reporter.setAutoBlock(true);
-        this.ui.showToast('自動ブロック: ON', 2000, 'info');
+        this.ui.showToast("自動ブロック: ON", 2000, "info");
       });
     }
   }
@@ -294,7 +302,7 @@ class XAutoSpamReporter {
    */
   public setAutoBlock(enabled: boolean): void {
     this.reporter.setAutoBlock(enabled);
-    this.ui.showToast(`自動ブロック: ${enabled ? 'ON' : 'OFF'}`, 2000, 'info');
+    this.ui.showToast(`自動ブロック: ${enabled ? "ON" : "OFF"}`, 2000, "info");
   }
 
   /**
@@ -308,7 +316,7 @@ class XAutoSpamReporter {
     this.ui.destroy();
     this.isInitialized = false;
     this.isActive = false;
-    logger.info('クリーンアップ完了');
+    logger.info("クリーンアップ完了");
   }
 }
 
@@ -347,13 +355,13 @@ class UrlChangeObserver {
     };
 
     // ブラウザの「戻る」「進む」ボタンによるURL変更を検知
-    window.addEventListener('popstate', () => this.handleUrlChange());
+    window.addEventListener("popstate", () => this.handleUrlChange());
 
     // フォールバック: 定期的にURLをチェック
     // （一部のSPAフレームワークはhistory APIをラップしていて検知できない場合がある）
     this.pollingIntervalId = window.setInterval(() => {
       if (this.lastUrl !== location.href) {
-        logger.info('ポーリングでURL変更を検出');
+        logger.info("ポーリングでURL変更を検出");
         this.handleUrlChange();
       }
     }, 500);
@@ -385,13 +393,13 @@ class UrlChangeObserver {
       this.debounceTimer = null;
       // 前回のコールバックが処理中の場合はスキップ
       if (this.isProcessing) {
-        logger.info('前回の処理が実行中のためスキップ');
+        logger.info("前回の処理が実行中のためスキップ");
         return;
       }
       this.isProcessing = true;
       this.callback()
         .catch((error: unknown) => {
-          logger.error('URL変更コールバックでエラー:', error);
+          logger.error("URL変更コールバックでエラー:", error);
         })
         .finally(() => {
           this.isProcessing = false;
@@ -408,14 +416,14 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
     const startTime = Date.now();
 
     const check = (): void => {
-      const reactRoot = document.getElementById('react-root');
+      const reactRoot = document.getElementById("react-root");
       if (reactRoot) {
         resolve();
         return;
       }
 
       if (Date.now() - startTime > timeout) {
-        reject(new Error('Timeout waiting for react-root'));
+        reject(new Error("Timeout waiting for react-root"));
         return;
       }
 
@@ -431,11 +439,11 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
  */
 (async () => {
   try {
-    logger.info('起動中...');
+    logger.info("起動中...");
 
     // react-rootが読み込まれるまで待機
     await waitForReactRoot();
-    logger.info('React root found');
+    logger.info("React root found");
 
     // アプリケーションを初期化
     const app = new XAutoSpamReporter();
@@ -443,16 +451,18 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
 
     // URL変更を監視
     const urlObserver = new UrlChangeObserver(async () => {
-      logger.info('URL変更を検出');
+      logger.info("URL変更を検出");
       await app.handleUrlChange();
     });
     urlObserver.start();
 
     // グローバルに公開（デバッグ用）
-    (window as unknown as { xAutoSpamReporter: XAutoSpamReporter }).xAutoSpamReporter = app;
+    (
+      window as unknown as { xAutoSpamReporter: XAutoSpamReporter }
+    ).xAutoSpamReporter = app;
 
-    logger.info('起動完了');
+    logger.info("起動完了");
   } catch (error) {
-    logger.error('起動エラー:', error);
+    logger.error("起動エラー:", error);
   }
 })();

@@ -8,7 +8,10 @@
 
 import { createLogger } from "@/shared/logger";
 import type { AnimeCard } from "@/shared/types/d-anime-cf-ranking";
-import { MAX_VIEWPORT_ITEMS, VIEWPORT_DEBOUNCE_MS } from "@/shared/types/d-anime-cf-ranking";
+import {
+  MAX_VIEWPORT_ITEMS,
+  VIEWPORT_DEBOUNCE_MS,
+} from "@/shared/types/d-anime-cf-ranking";
 
 const logger = createLogger("dAnimeCfRanking:ViewportObserver");
 
@@ -51,7 +54,7 @@ export class ViewportObserver {
       maxItems?: number;
       rootMargin?: string;
       threshold?: number;
-    }
+    },
   ): void {
     this.callback = callback;
     this.maxItems = options?.maxItems ?? MAX_VIEWPORT_ITEMS;
@@ -62,7 +65,7 @@ export class ViewportObserver {
         root: null, // viewport
         rootMargin: options?.rootMargin ?? "100px", // 少し余裕を持たせる
         threshold: options?.threshold ?? 0,
-      }
+      },
     );
 
     logger.info("Viewport observer started", { maxItems: this.maxItems });

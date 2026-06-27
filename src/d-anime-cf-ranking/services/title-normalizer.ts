@@ -99,7 +99,8 @@ const SEASON_PATTERNS: Array<{
  * ローマ数字シーズンパターン
  * - "II", "III" など単独のローマ数字（期を示す文脈）
  */
-const ROMAN_SEASON_PATTERN = /(?:^|\s)(X{0,2}(?:IX|IV|V?I{0,3}))(?:\s|$|期|シーズン)/;
+const ROMAN_SEASON_PATTERN =
+  /(?:^|\s)(X{0,2}(?:IX|IV|V?I{0,3}))(?:\s|$|期|シーズン)/;
 
 /**
  * 正規化しない表記（続編/完結編/後編など）
@@ -262,7 +263,7 @@ function levenshteinDistance(a: string, b: string): number {
       matrix[i][j] = Math.min(
         matrix[i - 1][j] + 1,
         matrix[i][j - 1] + 1,
-        matrix[i - 1][j - 1] + cost
+        matrix[i - 1][j - 1] + cost,
       );
     }
   }

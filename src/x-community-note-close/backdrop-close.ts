@@ -5,7 +5,7 @@ const SELECTORS = {
 } as const;
 
 export function setupBackdropClose(): void {
-  document.addEventListener('click', (event: MouseEvent) => {
+  document.addEventListener("click", (event: MouseEvent) => {
     const target = event.target;
     if (!(target instanceof HTMLElement)) return;
     if (!target.matches(SELECTORS.mask)) return;
@@ -13,7 +13,9 @@ export function setupBackdropClose(): void {
     const dialog = target.closest(SELECTORS.dialog);
     if (!dialog) return;
 
-    const closeButton = dialog.querySelector<HTMLButtonElement>(SELECTORS.closeButton);
+    const closeButton = dialog.querySelector<HTMLButtonElement>(
+      SELECTORS.closeButton,
+    );
     if (!closeButton) return;
 
     closeButton.click();

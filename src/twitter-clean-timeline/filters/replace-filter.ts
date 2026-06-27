@@ -2,10 +2,10 @@
  * twitter-clean-timeline - 置き換えフィルタ
  */
 
-import { settings } from '../settings';
-import { createLogger } from '@/shared/logger';
+import { settings } from "../settings";
+import { createLogger } from "@/shared/logger";
 
-const logger = createLogger('twitter-clean-timeline:replace-filter');
+const logger = createLogger("twitter-clean-timeline:replace-filter");
 
 export class ReplaceFilter {
   private compiledReplacements: Array<{
@@ -19,7 +19,7 @@ export class ReplaceFilter {
   }
 
   get name(): string {
-    return 'replace';
+    return "replace";
   }
 
   get enabled(): boolean {
@@ -31,12 +31,12 @@ export class ReplaceFilter {
    */
   updateReplacements(): void {
     this.compiledReplacements = settings.replaceFilter.replacements
-      .filter((r) => r.from.trim() !== '')
+      .filter((r) => r.from.trim() !== "")
       .map((replacement) => {
         if (replacement.isRegex) {
           try {
             return {
-              pattern: new RegExp(replacement.from, 'g'),
+              pattern: new RegExp(replacement.from, "g"),
               to: replacement.to,
               isRegex: true,
             };
@@ -64,15 +64,15 @@ export class ReplaceFilter {
     }
 
     // すでに処理済みかチェック
-    if (element.dataset.ctlReplaced === 'true') {
+    if (element.dataset.ctlReplaced === "true") {
       return;
     }
 
     try {
       this.replaceTextNodes(element);
-      element.dataset.ctlReplaced = 'true';
+      element.dataset.ctlReplaced = "true";
     } catch (e) {
-      logger.error('テキスト置き換え中にエラーが発生しました', e);
+      logger.error("テキスト置き換え中にエラーが発生しました", e);
     }
   }
 
@@ -82,7 +82,7 @@ export class ReplaceFilter {
   private replaceTextNodes(node: Node): void {
     if (node.nodeType === Node.TEXT_NODE) {
       const textNode = node as Text;
-      let text = textNode.textContent ?? '';
+      let text = textNode.textContent ?? "";
       let modified = false;
 
       for (const replacement of this.compiledReplacements) {
@@ -106,13 +106,13 @@ export class ReplaceFilter {
       }
     } else if (node.nodeType === Node.ELEMENT_NODE) {
       const element = node as HTMLElement;
-      
+
       // スクリプト、スタイル、入力要素は除外
       if (
-        element.tagName === 'SCRIPT' ||
-        element.tagName === 'STYLE' ||
-        element.tagName === 'INPUT' ||
-        element.tagName === 'TEXTAREA'
+        element.tagName === "SCRIPT" ||
+        element.tagName === "STYLE" ||
+        element.tagName === "INPUT" ||
+        element.tagName === "TEXTAREA"
       ) {
         return;
       }
@@ -125,4 +125,3 @@ export class ReplaceFilter {
     }
   }
 }
-

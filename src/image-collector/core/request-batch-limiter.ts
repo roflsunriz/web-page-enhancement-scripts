@@ -82,10 +82,7 @@ export class RequestBatchLimiter {
         this.logger.debug("バッチ処理完了", { processedBatches, totalErrors });
       }
     } catch (error) {
-      this.logger.error(
-        "バッチ処理中に致命的なエラーが発生しました",
-        error,
-      );
+      this.logger.error("バッチ処理中に致命的なエラーが発生しました", error);
       throw error;
     } finally {
       this.isProcessing = false;

@@ -7,7 +7,10 @@ type TrustedTypePolicy = {
 };
 
 type TrustedTypePolicyFactory = {
-  createPolicy(name: string, policy: { createHTML: TrustedTypeCreateHTML }): TrustedTypePolicy | null;
+  createPolicy(
+    name: string,
+    policy: { createHTML: TrustedTypeCreateHTML },
+  ): TrustedTypePolicy | null;
 };
 
 type TrustedTypesHost = Window & {
@@ -16,17 +19,25 @@ type TrustedTypesHost = Window & {
 
 type HtmlSink = ShadowRoot | Element;
 
-const policyCache = new WeakMap<TrustedTypePolicyFactory, Map<string, TrustedTypePolicy>>();
+const policyCache = new WeakMap<
+  TrustedTypePolicyFactory,
+  Map<string, TrustedTypePolicy>
+>();
 
-function getTrustedTypesFactory(targetWindow: Window): TrustedTypePolicyFactory | null {
+function getTrustedTypesFactory(
+  targetWindow: Window,
+): TrustedTypePolicyFactory | null {
   const { trustedTypes } = targetWindow as TrustedTypesHost;
-  if (!trustedTypes || typeof trustedTypes.createPolicy !== 'function') {
+  if (!trustedTypes || typeof trustedTypes.createPolicy !== "function") {
     return null;
   }
   return trustedTypes;
 }
 
-function getPolicy(factory: TrustedTypePolicyFactory, policyName: string): TrustedTypePolicy | null {
+function getPolicy(
+  factory: TrustedTypePolicyFactory,
+  policyName: string,
+): TrustedTypePolicy | null {
   let policies = policyCache.get(factory);
   if (!policies) {
     policies = new Map();
@@ -48,7 +59,11 @@ function getPolicy(factory: TrustedTypePolicyFactory, policyName: string): Trust
   return null;
 }
 
-export function createTrustedHtml(html: string, policyName: string, targetWindow: Window = window): string | TrustedHTML {
+export function createTrustedHtml(
+  html: string,
+  policyName: string,
+  targetWindow: Window = window,
+): string | TrustedHTML {
   const factory = getTrustedTypesFactory(targetWindow);
   if (!factory) {
     return html;
@@ -61,16 +76,19 @@ export function createTrustedHtml(html: string, policyName: string, targetWindow
   return policy.createHTML(html);
 }
 
-export function setTrustedInnerHTML(target: HtmlSink, html: string, policyName: string): void {
+export function setTrustedInnerHTML(
+  target: HtmlSink,
+  html: string,
+  policyName: string,
+): void {
   const ownerDocument = target.ownerDocument ?? document;
   const view = ownerDocument.defaultView ?? window;
   const trusted = createTrustedHtml(html, policyName, view);
 
-  if (typeof trusted === 'string') {
+  if (typeof trusted === "string") {
     target.innerHTML = trusted;
     return;
   }
 
   (target as unknown as { innerHTML: TrustedHTML }).innerHTML = trusted;
 }
-

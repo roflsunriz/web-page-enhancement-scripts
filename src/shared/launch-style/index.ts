@@ -1,16 +1,25 @@
-import { getValue, setValue, registerMenuCommand } from '@/shared/userscript';
-import { LAUNCH_STYLES, LAUNCH_STYLE_LABELS } from '@/shared/types/launch-style';
-import type { LaunchStyle } from '@/shared/types/launch-style';
+import { getValue, setValue, registerMenuCommand } from "@/shared/userscript";
+import {
+  LAUNCH_STYLES,
+  LAUNCH_STYLE_LABELS,
+} from "@/shared/types/launch-style";
+import type { LaunchStyle } from "@/shared/types/launch-style";
 
-const STORAGE_KEY_PREFIX = 'launch-style-';
+const STORAGE_KEY_PREFIX = "launch-style-";
 
 /**
  * 保存された起動スタイルを取得する
  */
-export function getLaunchStyle(scriptId: string, defaultStyle: LaunchStyle = 'classic'): LaunchStyle {
+export function getLaunchStyle(
+  scriptId: string,
+  defaultStyle: LaunchStyle = "classic",
+): LaunchStyle {
   const key = `${STORAGE_KEY_PREFIX}${scriptId}`;
   const stored = getValue<string>(key);
-  if (typeof stored === 'string' && (LAUNCH_STYLES as readonly string[]).includes(stored)) {
+  if (
+    typeof stored === "string" &&
+    (LAUNCH_STYLES as readonly string[]).includes(stored)
+  ) {
     return stored as LaunchStyle;
   }
   return defaultStyle;
@@ -47,6 +56,8 @@ export function registerLaunchStyleMenu(
     const newStyle = cycleLaunchStyle(currentStyle);
     setLaunchStyle(scriptId, newStyle);
     onStyleChanged?.(newStyle);
-    alert(`起動スタイルを「${LAUNCH_STYLE_LABELS[newStyle]}」に変更しました。\nページを再読み込みすると反映されます。`);
+    alert(
+      `起動スタイルを「${LAUNCH_STYLE_LABELS[newStyle]}」に変更しました。\nページを再読み込みすると反映されます。`,
+    );
   });
 }

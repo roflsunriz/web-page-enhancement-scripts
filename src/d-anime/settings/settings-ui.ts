@@ -3,10 +3,7 @@ import { ShadowDOMComponent } from "@/d-anime/shadow/shadow-dom-component";
 import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
 import { NotificationManager } from "@/d-anime/services/notification-manager";
 import { SettingsManager } from "@/d-anime/services/settings-manager";
-import type {
-  RendererSettings,
-  VideoMetadata,
-} from "@/shared/types";
+import type { RendererSettings, VideoMetadata } from "@/shared/types";
 import {
   NicoApiFetcher,
   NicoApiResponseBody,
@@ -319,8 +316,10 @@ export class SettingsUI extends ShadowDOMComponent {
 
   addAutoCommentButtons(): void {
     // 視聴履歴の各アイテムにボタンを追加し、クリックでアニメタイトル、話数、エピソードタイトルを検索フォームに自動入力
-    const items = document.querySelectorAll<HTMLElement>(DANIME_SELECTORS.mypageItem);
-    
+    const items = document.querySelectorAll<HTMLElement>(
+      DANIME_SELECTORS.mypageItem,
+    );
+
     items.forEach((item) => {
       // 既にボタンが追加されている場合はスキップ
       if (item.dataset.autoFillEnabled === "true") {
@@ -328,10 +327,16 @@ export class SettingsUI extends ShadowDOMComponent {
       }
 
       // 各要素を取得
-      const titleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageItemTitle);
-      const episodeNumberElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageEpisodeNumber);
-      const episodeTitleElement = item.querySelector<HTMLElement>(DANIME_SELECTORS.mypageEpisodeTitle);
-      
+      const titleElement = item.querySelector<HTMLElement>(
+        DANIME_SELECTORS.mypageItemTitle,
+      );
+      const episodeNumberElement = item.querySelector<HTMLElement>(
+        DANIME_SELECTORS.mypageEpisodeNumber,
+      );
+      const episodeTitleElement = item.querySelector<HTMLElement>(
+        DANIME_SELECTORS.mypageEpisodeTitle,
+      );
+
       if (!titleElement || !episodeTitleElement) {
         return;
       }
@@ -340,7 +345,7 @@ export class SettingsUI extends ShadowDOMComponent {
       const animeTitle = titleElement.textContent?.trim() ?? "";
       const episodeNumber = episodeNumberElement?.textContent?.trim() ?? "";
       const episodeTitle = episodeTitleElement.textContent?.trim() ?? "";
-      
+
       if (!animeTitle) {
         return;
       }
@@ -349,20 +354,23 @@ export class SettingsUI extends ShadowDOMComponent {
       const buttonHost = document.createElement("div");
       buttonHost.style.marginTop = "8px";
       buttonHost.style.display = "block";
-      
+
       const shadowRoot = buttonHost.attachShadow({ mode: "open" });
-      
+
       // スタイルを追加
       const style = document.createElement("style");
       style.textContent = ShadowStyleManager.getAutoButtonStyles();
       shadowRoot.appendChild(style);
-      
+
       // ボタンを作成
       const button = document.createElement("button");
       button.className = "auto-comment-button";
       button.title = "検索フォームにタイトル・話数・エピソードタイトルを入力";
-      button.setAttribute("aria-label", "検索フォームにタイトル・話数・エピソードタイトルを入力");
-      
+      button.setAttribute(
+        "aria-label",
+        "検索フォームにタイトル・話数・エピソードタイトルを入力",
+      );
+
       // アイコンを追加（入力/フォームアイコン）
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
@@ -370,11 +378,11 @@ export class SettingsUI extends ShadowDOMComponent {
         </svg>
         <span style="margin-left: 6px; font-size: 12px; font-weight: 500;">フォーム入力</span>
       `;
-      
+
       button.addEventListener("click", (event) => {
         event.preventDefault();
         event.stopPropagation();
-        
+
         // モーダルを開く
         this.openSettingsModal(false);
 
@@ -394,7 +402,7 @@ export class SettingsUI extends ShadowDOMComponent {
         const episodeTitleInput = this.queryModalElement<HTMLInputElement>(
           SELECTORS.searchEpisodeTitle,
         );
-        
+
         if (animeTitleInput) {
           animeTitleInput.value = animeTitle;
         }
@@ -404,23 +412,23 @@ export class SettingsUI extends ShadowDOMComponent {
         if (episodeTitleInput && episodeTitle) {
           episodeTitleInput.value = episodeTitle;
         }
-        
+
         // フォーカスを設定
         animeTitleInput?.focus({ preventScroll: true });
-        
+
         // 通知を表示
         const parts = [animeTitle];
         if (episodeNumber) parts.push(episodeNumber);
         if (episodeTitle) parts.push(episodeTitle);
-        
+
         NotificationManager.show(
           `「${parts.join(" ")}」を検索フォームに入力しました`,
           "success",
         );
       });
-      
+
       shadowRoot.appendChild(button);
-      
+
       // エピソードタイトル要素の後ろにボタンを挿入
       // episodeTitleElementの親要素（.textContainerIn）を取得
       const textContainer = episodeTitleElement.parentElement;
@@ -434,7 +442,7 @@ export class SettingsUI extends ShadowDOMComponent {
           textContainer.appendChild(buttonHost);
         }
       }
-      
+
       item.dataset.autoFillEnabled = "true";
     });
   }
@@ -692,16 +700,23 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupModalControls(): void {
-    this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
+    this.closeButtonElement?.removeEventListener(
+      "click",
+      this.handleCloseClick,
+    );
     this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
 
     const fab = this.createOrUpdateFab();
 
-    const modal = this.queryModalElement<HTMLDivElement>(SELECTORS.settingsModal);
+    const modal = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.settingsModal,
+    );
     const closeButton = this.queryModalElement<HTMLButtonElement>(
       SELECTORS.closeSettingsModal,
     );
-    const overlay = this.queryModalElement<HTMLDivElement>(SELECTORS.modalOverlay);
+    const overlay = this.queryModalElement<HTMLDivElement>(
+      SELECTORS.modalOverlay,
+    );
 
     this.modalElement = modal ?? null;
     this.closeButtonElement = closeButton ?? null;
@@ -775,7 +790,10 @@ export class SettingsUI extends ShadowDOMComponent {
 
       button.addEventListener("keydown", (event) => {
         const keyboardEvent = event as KeyboardEvent;
-        if (keyboardEvent.key !== "ArrowRight" && keyboardEvent.key !== "ArrowLeft") {
+        if (
+          keyboardEvent.key !== "ArrowRight" &&
+          keyboardEvent.key !== "ArrowLeft"
+        ) {
           return;
         }
         keyboardEvent.preventDefault();
@@ -785,7 +803,9 @@ export class SettingsUI extends ShadowDOMComponent {
         }
         const direction = keyboardEvent.key === "ArrowRight" ? 1 : -1;
         const nextIndex =
-          (MODAL_TAB_KEYS.indexOf(currentKey) + direction + MODAL_TAB_KEYS.length) %
+          (MODAL_TAB_KEYS.indexOf(currentKey) +
+            direction +
+            MODAL_TAB_KEYS.length) %
           MODAL_TAB_KEYS.length;
         const nextKey = MODAL_TAB_KEYS[nextIndex];
         activateTab(nextKey);
@@ -903,7 +923,10 @@ export class SettingsUI extends ShadowDOMComponent {
       row.setAttribute("aria-pressed", isEnabled ? "true" : "false");
     }
     if (iconWrapper) {
-      iconWrapper.classList.toggle("playback-option__icon-wrapper--active", isEnabled);
+      iconWrapper.classList.toggle(
+        "playback-option__icon-wrapper--active",
+        isEnabled,
+      );
     }
   }
 
@@ -921,7 +944,9 @@ export class SettingsUI extends ShadowDOMComponent {
   private updateSearchSectionNote(): void {
     this.autoSearchTooltipHtml = this.buildAutoSearchTooltipHtml();
 
-    const badge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
+    const badge = this.queryModalElement<HTMLDivElement>(
+      "#autoSearchInfoBadge",
+    );
     if (badge) {
       badge.style.color = this.settings.autoSearchEnabled
         ? "rgba(127, 90, 240, 0.7)"
@@ -1040,7 +1065,9 @@ export class SettingsUI extends ShadowDOMComponent {
     `エピソード切替時も公式動画のみが自動選択されます。`;
 
   private setupTooltipBadges(): void {
-    const infoBadge = this.queryModalElement<HTMLDivElement>("#autoSearchInfoBadge");
+    const infoBadge = this.queryModalElement<HTMLDivElement>(
+      "#autoSearchInfoBadge",
+    );
     const shieldBadge = this.queryModalElement<HTMLDivElement>(".shield-badge");
 
     if (infoBadge) {
@@ -1083,7 +1110,9 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setupSaveButton(): void {
-    const button = this.queryModalElement<HTMLButtonElement>(SELECTORS.saveButton);
+    const button = this.queryModalElement<HTMLButtonElement>(
+      SELECTORS.saveButton,
+    );
     if (!button) {
       return;
     }
@@ -1117,19 +1146,31 @@ export class SettingsUI extends ShadowDOMComponent {
     const savedSettings = this.settingsManager.loadManualSearchSettings();
     if (savedSettings) {
       if (animeTitleInput) animeTitleInput.value = savedSettings.animeTitle;
-      if (episodeNumberInput) episodeNumberInput.value = savedSettings.episodeNumber;
-      if (episodeTitleInput) episodeTitleInput.value = savedSettings.episodeTitle;
+      if (episodeNumberInput)
+        episodeNumberInput.value = savedSettings.episodeNumber;
+      if (episodeTitleInput)
+        episodeTitleInput.value = savedSettings.episodeTitle;
     }
 
     const updateSearchModeLabels = (): void => {
       const isFreeMode = searchModeToggle?.checked ?? false;
-      const labelStructured = this.queryModalElement<HTMLSpanElement>("#searchModeLabelStructured");
-      const labelFree = this.queryModalElement<HTMLSpanElement>("#searchModeLabelFree");
+      const labelStructured = this.queryModalElement<HTMLSpanElement>(
+        "#searchModeLabelStructured",
+      );
+      const labelFree = this.queryModalElement<HTMLSpanElement>(
+        "#searchModeLabelFree",
+      );
       if (labelStructured) {
-        labelStructured.classList.toggle("search-mode-switch__label--active", !isFreeMode);
+        labelStructured.classList.toggle(
+          "search-mode-switch__label--active",
+          !isFreeMode,
+        );
       }
       if (labelFree) {
-        labelFree.classList.toggle("search-mode-switch__label--active", isFreeMode);
+        labelFree.classList.toggle(
+          "search-mode-switch__label--active",
+          isFreeMode,
+        );
       }
     };
 
@@ -1192,7 +1233,9 @@ export class SettingsUI extends ShadowDOMComponent {
 
       saveManualSearchSettings();
 
-      const animeTitle = isFreeInputMode() ? "" : (animeTitleInput?.value.trim() ?? "");
+      const animeTitle = isFreeInputMode()
+        ? ""
+        : (animeTitleInput?.value.trim() ?? "");
       await this.executeSearch(keyword, animeTitle);
     };
 
@@ -1226,11 +1269,14 @@ export class SettingsUI extends ShadowDOMComponent {
     try {
       NotificationManager.show(`「${keyword}」を検索中...`, "info");
       const allResults = await this.searcher.search(keyword);
-      
+
       // アニメタイトルが指定されている場合、公式動画のみをフィルタリング
       let results = allResults;
       if (animeTitle) {
-        const officialResults = NicoVideoSearcher.filterOfficialVideos(allResults, animeTitle);
+        const officialResults = NicoVideoSearcher.filterOfficialVideos(
+          allResults,
+          animeTitle,
+        );
         if (officialResults.length > 0) {
           results = officialResults;
           logger.info("SettingsUI.executeSearch:officialFiltered", {
@@ -1265,7 +1311,9 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private setSearchKeyword(keyword: string): void {
-    const input = this.queryModalElement<HTMLInputElement>(SELECTORS.searchInput);
+    const input = this.queryModalElement<HTMLInputElement>(
+      SELECTORS.searchInput,
+    );
     if (!input) {
       return;
     }
@@ -1294,7 +1342,9 @@ export class SettingsUI extends ShadowDOMComponent {
       });
 
       // Add event listener for the new "Open on Watch Page" link
-      const openWatchPageLink = element.querySelector<HTMLAnchorElement>(".open-search-page-direct-btn");
+      const openWatchPageLink = element.querySelector<HTMLAnchorElement>(
+        ".open-search-page-direct-btn",
+      );
       if (openWatchPageLink) {
         openWatchPageLink.addEventListener("click", (event) => {
           event.stopPropagation(); // Prevent the parent item's click listener from firing
@@ -1379,8 +1429,12 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private applySettingsToUI(): void {
-    const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngRegexps);
+    const ngWords = this.queryModalElement<HTMLTextAreaElement>(
+      SELECTORS.ngWords,
+    );
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
+      SELECTORS.ngRegexps,
+    );
 
     if (ngWords) {
       ngWords.value = (this.settings.ngWords ?? []).join("\n");
@@ -1393,8 +1447,12 @@ export class SettingsUI extends ShadowDOMComponent {
   }
 
   private saveSettings(): void {
-    const ngWords = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngWords);
-    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(SELECTORS.ngRegexps);
+    const ngWords = this.queryModalElement<HTMLTextAreaElement>(
+      SELECTORS.ngWords,
+    );
+    const ngRegex = this.queryModalElement<HTMLTextAreaElement>(
+      SELECTORS.ngRegexps,
+    );
 
     if (ngWords) {
       this.settings.ngWords = ngWords.value
@@ -1488,7 +1546,10 @@ export class SettingsUI extends ShadowDOMComponent {
   public override destroy(): void {
     this.hideFabTooltip();
     this.fabTooltipEl = null;
-    this.closeButtonElement?.removeEventListener("click", this.handleCloseClick);
+    this.closeButtonElement?.removeEventListener(
+      "click",
+      this.handleCloseClick,
+    );
     this.overlayElement?.removeEventListener("click", this.handleOverlayClick);
     this.closeButtonElement = null;
     this.overlayElement = null;
@@ -1515,7 +1576,8 @@ export class SettingsUI extends ShadowDOMComponent {
       document.body.appendChild(host);
       this.fabHostElement = host;
     } else if (!this.fabShadowRoot) {
-      this.fabShadowRoot = host.shadowRoot ?? host.attachShadow({ mode: "open" });
+      this.fabShadowRoot =
+        host.shadowRoot ?? host.attachShadow({ mode: "open" });
     }
 
     const shadow = this.fabShadowRoot;
@@ -1629,7 +1691,8 @@ export class SettingsUI extends ShadowDOMComponent {
       shadow.appendChild(container);
     }
 
-    let button = container.querySelector<HTMLButtonElement>("button.fab-button");
+    let button =
+      container.querySelector<HTMLButtonElement>("button.fab-button");
     if (!button) {
       button = document.createElement("button");
       button.type = "button";
@@ -1643,7 +1706,9 @@ export class SettingsUI extends ShadowDOMComponent {
     button.setAttribute("aria-label", "ニコニココメント設定を開く");
     button.setAttribute("aria-haspopup", "dialog");
 
-    let modal = container.querySelector<HTMLDivElement>(SELECTORS.settingsModal);
+    let modal = container.querySelector<HTMLDivElement>(
+      SELECTORS.settingsModal,
+    );
     if (!modal) {
       container.insertAdjacentHTML("beforeend", this.buildModalHtml());
       modal = container.querySelector<HTMLDivElement>(SELECTORS.settingsModal);

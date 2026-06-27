@@ -1,6 +1,6 @@
-import { setClipboard } from '@/shared/userscript';
+import { setClipboard } from "@/shared/userscript";
 
-type RepoType = 'model' | 'dataset' | 'space';
+type RepoType = "model" | "dataset" | "space";
 
 type RepoContext = {
   repoId: string;
@@ -9,31 +9,31 @@ type RepoContext = {
   revision: string;
 };
 
-const SCRIPT_ID = 'hf-download-command-copier';
-const BUTTON_CLASS = 'hf-download-command-copier-button';
+const SCRIPT_ID = "hf-download-command-copier";
+const BUTTON_CLASS = "hf-download-command-copier-button";
 const HEADER_BUTTON_ID = `${SCRIPT_ID}-header-button`;
 const TOAST_ID = `${SCRIPT_ID}-toast`;
-const DEFAULT_REVISION = 'main';
-const DEFAULT_QUANTIZATION = 'Q4_K_S';
+const DEFAULT_REVISION = "main";
+const DEFAULT_QUANTIZATION = "Q4_K_S";
 const RESERVED_ROOT_SEGMENTS = new Set([
-  'blog',
-  'chat',
-  'collections',
-  'docs',
-  'enterprise',
-  'join',
-  'leaderboards',
-  'login',
-  'models',
-  'new',
-  'notifications',
-  'organizations',
-  'posts',
-  'pricing',
-  'search',
-  'settings',
-  'spaces',
-  'tasks',
+  "blog",
+  "chat",
+  "collections",
+  "docs",
+  "enterprise",
+  "join",
+  "leaderboards",
+  "login",
+  "models",
+  "new",
+  "notifications",
+  "organizations",
+  "posts",
+  "pricing",
+  "search",
+  "settings",
+  "spaces",
+  "tasks",
 ]);
 
 function shellQuote(value: string): string {
@@ -41,26 +41,26 @@ function shellQuote(value: string): string {
     return value;
   }
 
-  return `"${value.replace(/(["\\$`])/g, '\\$1')}"`;
+  return `"${value.replace(/(["\\$`])/g, "\\$1")}"`;
 }
 
 function getPathSegments(): string[] {
   return window.location.pathname
-    .split('/')
+    .split("/")
     .map((segment) => decodeURIComponent(segment))
     .filter(Boolean);
 }
 
 function parseRepoContext(): RepoContext | null {
   const segments = getPathSegments();
-  let repoType: RepoType = 'model';
+  let repoType: RepoType = "model";
   let offset = 0;
 
-  if (segments[0] === 'datasets') {
-    repoType = 'dataset';
+  if (segments[0] === "datasets") {
+    repoType = "dataset";
     offset = 1;
-  } else if (segments[0] === 'spaces') {
-    repoType = 'space';
+  } else if (segments[0] === "spaces") {
+    repoType = "space";
     offset = 1;
   }
 
@@ -69,14 +69,15 @@ function parseRepoContext(): RepoContext | null {
   if (!owner || !repo) {
     return null;
   }
-  if (repoType === 'model' && RESERVED_ROOT_SEGMENTS.has(owner)) {
+  if (repoType === "model" && RESERVED_ROOT_SEGMENTS.has(owner)) {
     return null;
   }
 
   const marker = segments[offset + 2];
-  const revision = marker === 'tree' || marker === 'blob'
-    ? segments[offset + 3] ?? DEFAULT_REVISION
-    : DEFAULT_REVISION;
+  const revision =
+    marker === "tree" || marker === "blob"
+      ? (segments[offset + 3] ?? DEFAULT_REVISION)
+      : DEFAULT_REVISION;
 
   return {
     repoId: `${owner}/${repo}`,
@@ -87,62 +88,81 @@ function parseRepoContext(): RepoContext | null {
 }
 
 function getRepoTypeOption(repoType: RepoType): string {
-  return repoType === 'model' ? '' : ` --repo-type ${repoType}`;
+  return repoType === "model" ? "" : ` --repo-type ${repoType}`;
 }
 
 function getDefaultQuantizationIncludeOption(context: RepoContext): string {
-  if (context.repoType !== 'model') {
-    return '';
+  if (context.repoType !== "model") {
+    return "";
   }
 
-  const hasDefaultQuantization = getQuantizedFilePaths(context).some((filePath) =>
-    filePath.includes(DEFAULT_QUANTIZATION),
+  const hasDefaultQuantization = getQuantizedFilePaths(context).some(
+    (filePath) => filePath.includes(DEFAULT_QUANTIZATION),
   );
-  return hasDefaultQuantization ? ` --include ${shellQuote(`*${DEFAULT_QUANTIZATION}*`)}` : '';
+  return hasDefaultQuantization
+    ? ` --include ${shellQuote(`*${DEFAULT_QUANTIZATION}*`)}`
+    : "";
 }
 
 function createRepoDownloadCommand(context: RepoContext): string {
-  const revisionOption = context.revision === DEFAULT_REVISION ? '' : ` --revision ${shellQuote(context.revision)}`;
+  const revisionOption =
+    context.revision === DEFAULT_REVISION
+      ? ""
+      : ` --revision ${shellQuote(context.revision)}`;
   return `hf download ${shellQuote(context.repoId)}${getRepoTypeOption(context.repoType)}${getDefaultQuantizationIncludeOption(context)}${revisionOption} --local-dir .`;
 }
 
-function createFileDownloadCommand(context: RepoContext, filePath: string): string {
-  const revisionOption = context.revision === DEFAULT_REVISION ? '' : ` --revision ${shellQuote(context.revision)}`;
+function createFileDownloadCommand(
+  context: RepoContext,
+  filePath: string,
+): string {
+  const revisionOption =
+    context.revision === DEFAULT_REVISION
+      ? ""
+      : ` --revision ${shellQuote(context.revision)}`;
   return `hf download ${shellQuote(context.repoId)} ${shellQuote(filePath)}${getRepoTypeOption(context.repoType)}${revisionOption} --local-dir .`;
 }
 
 function parseBlobPath(href: string, context: RepoContext): string | null {
   const url = new URL(href, window.location.origin);
   const segments = url.pathname
-    .split('/')
+    .split("/")
     .map((segment) => decodeURIComponent(segment))
     .filter(Boolean);
-  const blobIndex = segments.indexOf('blob');
+  const blobIndex = segments.indexOf("blob");
   if (blobIndex < 0) {
     return null;
   }
 
-  const repoIdSegments = context.repoType === 'model'
-    ? segments.slice(0, blobIndex)
-    : segments.slice(1, blobIndex);
-  if (repoIdSegments.join('/') !== context.repoId) {
+  const repoIdSegments =
+    context.repoType === "model"
+      ? segments.slice(0, blobIndex)
+      : segments.slice(1, blobIndex);
+  if (repoIdSegments.join("/") !== context.repoId) {
     return null;
   }
 
-  const filePath = segments.slice(blobIndex + 2).join('/');
+  const filePath = segments.slice(blobIndex + 2).join("/");
   return filePath.length > 0 ? filePath : null;
 }
 
 function getQuantizedFilePathsFromLinks(context: RepoContext): string[] {
-  return Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href*="/blob/"]'))
+  return Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('a[href*="/blob/"]'),
+  )
     .map((link) => parseBlobPath(link.href, context))
-    .filter((filePath): filePath is string => filePath !== null && filePath.endsWith('.gguf'));
+    .filter(
+      (filePath): filePath is string =>
+        filePath !== null && filePath.endsWith(".gguf"),
+    );
 }
 
 function getQuantizedFilePathsFromHydrationData(): string[] {
-  const hydrators = Array.from(document.querySelectorAll<HTMLElement>('[data-props*="ggufFilePaths"]'));
+  const hydrators = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-props*="ggufFilePaths"]'),
+  );
   for (const hydrator of hydrators) {
-    const dataProps = hydrator.getAttribute('data-props');
+    const dataProps = hydrator.getAttribute("data-props");
     if (!dataProps) {
       continue;
     }
@@ -152,9 +172,9 @@ function getQuantizedFilePathsFromHydrationData(): string[] {
       continue;
     }
 
-    const filePaths = Array.from(ggufFilePathsMatch[1].matchAll(/"([^"]+\.gguf)"/g)).map(
-      (match) => match[1],
-    );
+    const filePaths = Array.from(
+      ggufFilePathsMatch[1].matchAll(/"([^"]+\.gguf)"/g),
+    ).map((match) => match[1]);
     if (filePaths.length > 0) {
       return filePaths;
     }
@@ -176,7 +196,7 @@ function showToast(message: string): void {
   const existing = document.getElementById(TOAST_ID);
   existing?.remove();
 
-  const toast = document.createElement('div');
+  const toast = document.createElement("div");
   toast.id = TOAST_ID;
   toast.textContent = message;
   document.body.append(toast);
@@ -190,23 +210,27 @@ function copyCommand(command: string, button: HTMLButtonElement): void {
   setClipboard(command);
 
   const previousText = button.textContent;
-  button.textContent = 'Copied';
-  button.setAttribute('data-copied', 'true');
-  showToast('hf download command copied');
+  button.textContent = "Copied";
+  button.setAttribute("data-copied", "true");
+  showToast("hf download command copied");
 
   window.setTimeout(() => {
-    button.textContent = previousText ?? 'Copy hf';
-    button.removeAttribute('data-copied');
+    button.textContent = previousText ?? "Copy hf";
+    button.removeAttribute("data-copied");
   }, 1400);
 }
 
-function createButton(label: string, title: string, command: string): HTMLButtonElement {
-  const button = document.createElement('button');
-  button.type = 'button';
+function createButton(
+  label: string,
+  title: string,
+  command: string,
+): HTMLButtonElement {
+  const button = document.createElement("button");
+  button.type = "button";
   button.className = BUTTON_CLASS;
   button.textContent = label;
   button.title = title;
-  button.addEventListener('click', (event) => {
+  button.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
     copyCommand(command, button);
@@ -215,7 +239,7 @@ function createButton(label: string, title: string, command: string): HTMLButton
 }
 
 function findHeaderInsertionTarget(): Element | null {
-  const heading = document.querySelector('main h1');
+  const heading = document.querySelector("main h1");
   if (!heading) {
     return null;
   }
@@ -234,17 +258,19 @@ function ensureHeaderButton(context: RepoContext): void {
   }
 
   const button = createButton(
-    'Copy hf download',
-    'Copy hf CLI command to download this repository',
+    "Copy hf download",
+    "Copy hf CLI command to download this repository",
     createRepoDownloadCommand(context),
   );
   button.id = HEADER_BUTTON_ID;
-  button.setAttribute('data-variant', 'header');
+  button.setAttribute("data-variant", "header");
   target.append(button);
 }
 
 function ensureFileButtons(context: RepoContext): void {
-  const fileLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href*="/blob/"]'));
+  const fileLinks = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>('a[href*="/blob/"]'),
+  );
 
   for (const fileLink of fileLinks) {
     const filePath = parseBlobPath(fileLink.href, context);
@@ -252,24 +278,28 @@ function ensureFileButtons(context: RepoContext): void {
       continue;
     }
 
-    const row = fileLink.closest('li');
+    const row = fileLink.closest("li");
     const existingButtons = row
-      ? Array.from(row.querySelectorAll<HTMLButtonElement>(`.${BUTTON_CLASS}[data-file-path]`))
+      ? Array.from(
+          row.querySelectorAll<HTMLButtonElement>(
+            `.${BUTTON_CLASS}[data-file-path]`,
+          ),
+        )
       : [];
     const hasExistingButton = existingButtons.some(
-      (button) => button.getAttribute('data-file-path') === filePath,
+      (button) => button.getAttribute("data-file-path") === filePath,
     );
     if (!row || hasExistingButton) {
       continue;
     }
 
     const button = createButton(
-      'hf',
+      "hf",
       `Copy hf CLI command to download ${filePath}`,
       createFileDownloadCommand(context, filePath),
     );
-    button.setAttribute('data-file-path', filePath);
-    button.setAttribute('data-variant', 'file');
+    button.setAttribute("data-file-path", filePath);
+    button.setAttribute("data-variant", "file");
 
     const fileNameContainer = fileLink.parentElement;
     if (fileNameContainer) {
@@ -284,7 +314,7 @@ function injectStyles(): void {
     return;
   }
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.id = styleId;
   style.textContent = `
     .${BUTTON_CLASS} {
@@ -395,8 +425,8 @@ function initialize(): void {
   startObserver();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize, { once: true });
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize, { once: true });
 } else {
   initialize();
 }

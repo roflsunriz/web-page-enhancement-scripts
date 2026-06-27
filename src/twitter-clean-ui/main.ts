@@ -14,15 +14,15 @@
  */
 
 // Phase 0: 最初に import — バンドル内で最初に評価されるモジュール
-import { SIDEBAR_CLOAK_ID, SIDEBAR_CLOAK_CSS } from './sidebar-cloak';
+import { SIDEBAR_CLOAK_ID, SIDEBAR_CLOAK_CSS } from "./sidebar-cloak";
 
-import { ElementDetector } from './element-detector';
-import { ElementController } from './element-controller';
-import { SettingsManager } from './settings-manager';
-import { SettingsUI } from './settings-ui';
-import { setLanguage, detectBrowserLanguage } from './i18n';
-import { CSS_CACHE_KEY } from './constants';
-import { CSSInjector } from './css-injector';
+import { ElementDetector } from "./element-detector";
+import { ElementController } from "./element-controller";
+import { SettingsManager } from "./settings-manager";
+import { SettingsUI } from "./settings-ui";
+import { setLanguage, detectBrowserLanguage, t } from "./i18n";
+import { CSS_CACHE_KEY } from "./constants";
+import { CSSInjector } from "./css-injector";
 
 // ─────────────────────────────────────────────────
 // Phase 1: キャッシュ済みCSS即時注入
@@ -33,27 +33,27 @@ import { CSSInjector } from './css-injector';
 try {
   let cachedCSS: string | null = null;
 
-  if (typeof GM_getValue !== 'undefined') {
+  if (typeof GM_getValue !== "undefined") {
     cachedCSS = GM_getValue(CSS_CACHE_KEY, null) as string | null;
   } else {
     cachedCSS = localStorage.getItem(CSS_CACHE_KEY);
   }
 
   if (cachedCSS) {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.id = CSSInjector.STYLE_ELEMENT_ID;
-    style.type = 'text/css';
+    style.type = "text/css";
 
     // explore ページへの直接アクセス時、キャッシュ CSS に含まれる
     // sidebarColumn の display:none ルールを除去する。
     // sidebarColumn 内にメイン検索バーが含まれるため、そのまま適用すると
     // 検索バーが一時的に消えてしまう（Phase 2 で正しい CSS が再生成される）。
     const path = window.location.pathname;
-    const onExplorePage = path === '/explore' || path.startsWith('/explore/');
+    const onExplorePage = path === "/explore" || path.startsWith("/explore/");
     style.textContent = onExplorePage
       ? cachedCSS.replace(
           /\[data-testid="sidebarColumn"\]\s*\{[^}]*display\s*:\s*none[^}]*\}/g,
-          ''
+          "",
         )
       : cachedCSS;
 
@@ -83,11 +83,12 @@ class TwitterCleanUI {
   private settingsWatcherInterval: ReturnType<typeof setInterval> | null = null;
   private primaryMutationObserver: MutationObserver | null = null;
   private sidebarMutationObserver: MutationObserver | null = null;
-  private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null = null;
+  private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null =
+    null;
   private rafId: number | null = null;
   private sidebarDebounceTimer: ReturnType<typeof setTimeout> | null = null;
   private revealFailsafeTimer: ReturnType<typeof setTimeout> | null = null;
-  private lastUrl: string = '';
+  private lastUrl: string = "";
   private isApplyingSettings: boolean = false;
   private primaryObservingBody: boolean = false;
 
@@ -122,7 +123,7 @@ class TwitterCleanUI {
 
       this.isInitialized = true;
     } catch (error) {
-      console.error('[TwitterCleanUI] Initialization failed:', error);
+      console.error("[TwitterCleanUI] Initialization failed:", error);
       this.revealSidebar();
     }
   }
@@ -148,9 +149,11 @@ class TwitterCleanUI {
   // ─── サイドバークローク制御 ───
 
   private cloakSidebar(): void {
-    let cloakEl = document.getElementById(SIDEBAR_CLOAK_ID) as HTMLStyleElement | null;
+    let cloakEl = document.getElementById(
+      SIDEBAR_CLOAK_ID,
+    ) as HTMLStyleElement | null;
     if (!cloakEl) {
-      cloakEl = document.createElement('style');
+      cloakEl = document.createElement("style");
       cloakEl.id = SIDEBAR_CLOAK_ID;
       const target = document.head || document.documentElement;
       target.appendChild(cloakEl);
@@ -169,7 +172,7 @@ class TwitterCleanUI {
       requestAnimationFrame(() => {
         const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
         if (cloakEl) {
-          cloakEl.textContent = '';
+          cloakEl.textContent = "";
         }
       });
     });
@@ -192,19 +195,25 @@ class TwitterCleanUI {
       this.handleNavigation();
     };
 
-    const origPushState = history.pushState.bind(history) as typeof history.pushState;
+    const origPushState = history.pushState.bind(
+      history,
+    ) as typeof history.pushState;
     history.pushState = (...args: Parameters<typeof history.pushState>) => {
       origPushState(...args);
       onNavigate();
     };
 
-    const origReplaceState = history.replaceState.bind(history) as typeof history.replaceState;
-    history.replaceState = (...args: Parameters<typeof history.replaceState>) => {
+    const origReplaceState = history.replaceState.bind(
+      history,
+    ) as typeof history.replaceState;
+    history.replaceState = (
+      ...args: Parameters<typeof history.replaceState>
+    ) => {
       origReplaceState(...args);
       onNavigate();
     };
 
-    window.addEventListener('popstate', () => {
+    window.addEventListener("popstate", () => {
       onNavigate();
     });
   }
@@ -266,7 +275,9 @@ class TwitterCleanUI {
 
     this.primaryMutationObserver.disconnect();
 
-    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
+    const primaryColumn = document.querySelector(
+      '[data-testid="primaryColumn"]',
+    );
     const target = primaryColumn ?? document.body;
     this.primaryObservingBody = !primaryColumn;
 
@@ -281,7 +292,9 @@ class TwitterCleanUI {
    */
   private reattachPrimaryObserverIfNeeded(): void {
     if (!this.primaryObservingBody) return;
-    const primaryColumn = document.querySelector('[data-testid="primaryColumn"]');
+    const primaryColumn = document.querySelector(
+      '[data-testid="primaryColumn"]',
+    );
     if (primaryColumn) {
       this.attachPrimaryObserver();
     }
@@ -299,7 +312,9 @@ class TwitterCleanUI {
       }
 
       const hasSignificantChange = mutations.some(
-        (m) => m.type === 'childList' && (m.addedNodes.length > 0 || m.removedNodes.length > 0)
+        (m) =>
+          m.type === "childList" &&
+          (m.addedNodes.length > 0 || m.removedNodes.length > 0),
       );
       if (!hasSignificantChange) return;
 
@@ -349,13 +364,13 @@ class TwitterCleanUI {
   // ─── メニューコマンド ───
 
   private registerMenuCommand(): void {
-    if (typeof GM_registerMenuCommand !== 'undefined') {
-      GM_registerMenuCommand('設定を開く', () => {
+    if (typeof GM_registerMenuCommand !== "undefined") {
+      GM_registerMenuCommand(t("openSettings"), () => {
         this.settingsUI.show();
       });
     } else {
-      document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.shiftKey && e.key === 'X') {
+      document.addEventListener("keydown", (e) => {
+        if (e.ctrlKey && e.shiftKey && e.key === "X") {
           e.preventDefault();
           this.settingsUI.show();
         }
@@ -397,8 +412,8 @@ class TwitterCleanUI {
  */
 function waitForPageLoad(): Promise<void> {
   return new Promise((resolve) => {
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => resolve());
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", () => resolve());
     } else {
       resolve();
     }
@@ -413,14 +428,14 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
     const startTime = Date.now();
 
     const check = (): void => {
-      const reactRoot = document.getElementById('react-root');
+      const reactRoot = document.getElementById("react-root");
       if (reactRoot) {
         resolve();
         return;
       }
 
       if (Date.now() - startTime > timeout) {
-        reject(new Error('Timeout waiting for react-root'));
+        reject(new Error("Timeout waiting for react-root"));
         return;
       }
 
@@ -442,13 +457,13 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
     const app = new TwitterCleanUI();
     await app.initialize();
 
-    (window as unknown as { twitterCleanUI: TwitterCleanUI }).twitterCleanUI = app;
+    (window as unknown as { twitterCleanUI: TwitterCleanUI }).twitterCleanUI =
+      app;
   } catch (error) {
-    console.error('[TwitterCleanUI] Fatal error:', error);
+    console.error("[TwitterCleanUI] Fatal error:", error);
     const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
     if (cloakEl) {
-      cloakEl.textContent = '';
+      cloakEl.textContent = "";
     }
   }
 })();
-

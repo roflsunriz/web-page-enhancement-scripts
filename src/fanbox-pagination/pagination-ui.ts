@@ -1,7 +1,7 @@
-import { styles } from './styles';
-import { addStyle } from '@/shared/userscript';
-import { FANBOX_SELECTORS } from '@/shared/constants/fanbox';
-const TOP_PAGINATION_ID = 'fanbox-pagination-helper-top-pagination';
+import { styles } from "./styles";
+import { addStyle } from "@/shared/userscript";
+import { FANBOX_SELECTORS } from "@/shared/constants/fanbox";
+const TOP_PAGINATION_ID = "fanbox-pagination-helper-top-pagination";
 
 /**
  * ページネーションのUIを管理するクラス
@@ -17,19 +17,23 @@ export class PaginationUI {
   create(): void {
     this.remove();
 
-    const originalPagination = document.querySelector<HTMLElement>(FANBOX_SELECTORS.paginationWrapper);
+    const originalPagination = document.querySelector<HTMLElement>(
+      FANBOX_SELECTORS.paginationWrapper,
+    );
     if (!originalPagination) {
       return;
     }
 
-    const container = document.querySelector<HTMLElement>(FANBOX_SELECTORS.creatorPostListWrapper);
+    const container = document.querySelector<HTMLElement>(
+      FANBOX_SELECTORS.creatorPostListWrapper,
+    );
     if (!container) {
       return;
     }
 
     const clone = originalPagination.cloneNode(true) as HTMLElement;
     clone.id = TOP_PAGINATION_ID;
-    clone.classList.add('custom-pagination');
+    clone.classList.add("custom-pagination");
 
     container.insertBefore(clone, container.firstChild);
   }

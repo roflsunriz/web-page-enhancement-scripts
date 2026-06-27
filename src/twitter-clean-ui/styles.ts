@@ -358,4 +358,3 @@ export const UI_STYLES = `
   }
 }
 `;
-

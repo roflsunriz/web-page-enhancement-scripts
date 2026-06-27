@@ -1,6 +1,9 @@
 import { ShadowDOMComponent } from "@/d-anime/shadow/shadow-dom-component";
 import { ShadowStyleManager } from "@/d-anime/styles/shadow-style-manager";
-import type { NotificationType, Notifier } from "@/d-anime/services/notification";
+import type {
+  NotificationType,
+  Notifier,
+} from "@/d-anime/services/notification";
 
 type NotificationHandle = {
   element: HTMLDivElement;
@@ -136,16 +139,16 @@ export class NotificationManager
       const messageElement = document.createElement("div");
       messageElement.className = "notification-message";
       // HTMLメッセージまたは改行を含むテキストメッセージを表示
-      if (message.includes('<')) {
+      if (message.includes("<")) {
         // HTMLメッセージの場合はそのまま挿入
         messageElement.innerHTML = message || "No message";
       } else {
         // プレーンテキストの場合は改行を<br>タグに変換
         const formattedMessage = (message || "No message")
-          .split('\n')
-          .map(line => line.trim())
-          .filter(line => line.length > 0)
-          .join('<br>');
+          .split("\n")
+          .map((line) => line.trim())
+          .filter((line) => line.length > 0)
+          .join("<br>");
         messageElement.innerHTML = formattedMessage;
       }
       content.appendChild(messageElement);

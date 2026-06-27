@@ -41,7 +41,10 @@ export class CommentRenderer {
   private readonly renderer: OverlayCommentRenderer;
   private keyboardHandler: KeyboardShortcutHandler | null = null;
 
-  constructor(settings: RendererSettings | null, config?: CommentRendererConfig);
+  constructor(
+    settings: RendererSettings | null,
+    config?: CommentRendererConfig,
+  );
   constructor(config?: CommentRendererConfig);
   constructor(
     settingsOrConfig?:
@@ -71,7 +74,9 @@ export class CommentRenderer {
     this.renderer.settings = value;
   }
 
-  initialize(options: HTMLVideoElement | CommentRendererInitializeOptions): void {
+  initialize(
+    options: HTMLVideoElement | CommentRendererInitializeOptions,
+  ): void {
     this.renderer.initialize(options);
     this.setupKeyboardShortcuts();
   }
@@ -149,8 +154,8 @@ export class CommentRenderer {
   }
 
   private syncGlobalSettings(settings: RendererSettings): void {
-    const globalSettingsManager =
-      (window as WindowWithSettingsManager).dAniRenderer?.settingsManager;
+    const globalSettingsManager = (window as WindowWithSettingsManager)
+      .dAniRenderer?.settingsManager;
     globalSettingsManager?.updateSettings(settings);
   }
 }

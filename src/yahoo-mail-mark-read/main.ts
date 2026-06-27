@@ -2,18 +2,19 @@ type ClickableElement = HTMLElement & {
   click: () => void;
 };
 
-const SCRIPT_ID = 'yahoo-mail-mark-read';
+const SCRIPT_ID = "yahoo-mail-mark-read";
 const BUTTON_CLASS = `${SCRIPT_ID}-button`;
 const BULK_BUTTON_CLASS = `${SCRIPT_ID}-bulk-button`;
 const TOAST_ID = `${SCRIPT_ID}-toast`;
-const FOLDER_LABEL_SELECTOR = '[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]';
+const FOLDER_LABEL_SELECTOR =
+  '[data-cy="systemFolderLabel"], [data-cy="personalFolderLabel"]';
 const FOLDER_UNREAD_BADGE_SELECTOR = '[title^="未読メール："]';
-const INBOX_FOLDER_ID = '1';
+const INBOX_FOLDER_ID = "1";
 const CHECKBOX_ALL_SELECTOR = '[data-cy="mailListCheckBoxAll"]';
 const CHECKBOX_ALL_INPUT_SELECTOR = '[data-cy="mailListCheckBoxAllInput"]';
 const TOOLBAR_OTHERS_SELECTOR = '[data-cy="toolBarOthers"]';
 const POPUP_MENU_READ_SELECTOR = '[data-cy="popupMenuRead"]';
-const MARK_READ_TEXT = '既読にする';
+const MARK_READ_TEXT = "既読にする";
 const OPERATION_DELAY_MS = 180;
 const FOLDER_SELECTION_TIMEOUT_MS = 8000;
 const MAIL_SELECTION_TIMEOUT_MS = 5000;
@@ -27,15 +28,17 @@ function sleep(milliseconds: number): Promise<void> {
 }
 
 function getElementText(element: Element): string {
-  return element.textContent?.replace(/\s+/g, ' ').trim() ?? '';
+  return element.textContent?.replace(/\s+/g, " ").trim() ?? "";
 }
 
 function isHTMLElement(element: Element | null): element is HTMLElement {
   return element instanceof HTMLElement;
 }
 
-function isClickableElement(element: Element | null): element is ClickableElement {
-  return isHTMLElement(element) && typeof element.click === 'function';
+function isClickableElement(
+  element: Element | null,
+): element is ClickableElement {
+  return isHTMLElement(element) && typeof element.click === "function";
 }
 
 function isElementVisible(element: HTMLElement): boolean {
@@ -43,11 +46,11 @@ function isElementVisible(element: HTMLElement): boolean {
 }
 
 function isElementDisabled(element: HTMLElement): boolean {
-  if ('disabled' in element && typeof element.disabled === 'boolean') {
+  if ("disabled" in element && typeof element.disabled === "boolean") {
     return element.disabled;
   }
 
-  return element.getAttribute('aria-disabled') === 'true';
+  return element.getAttribute("aria-disabled") === "true";
 }
 
 async function waitFor<T>(
@@ -67,10 +70,10 @@ async function waitFor<T>(
   throw new Error(errorMessage);
 }
 
-function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
+function showToast(message: string, variant: "info" | "error" = "info"): void {
   document.getElementById(TOAST_ID)?.remove();
 
-  const toast = document.createElement('div');
+  const toast = document.createElement("div");
   toast.id = TOAST_ID;
   toast.dataset.variant = variant;
   toast.textContent = message;
@@ -83,10 +86,10 @@ function showToast(message: string, variant: 'info' | 'error' = 'info'): void {
 
 function getFolderName(label: Element): string {
   if (getFolderId(label) === INBOX_FOLDER_ID) {
-    return '受信箱';
+    return "受信箱";
   }
 
-  return getElementText(label) || 'このフォルダー';
+  return getElementText(label) || "このフォルダー";
 }
 
 function hasUnreadMail(row: Element): boolean {
@@ -94,17 +97,19 @@ function hasUnreadMail(row: Element): boolean {
 }
 
 function getFolderId(label: Element): string | null {
-  return label.getAttribute('data-cy-identifier');
+  return label.getAttribute("data-cy-identifier");
 }
 
 function isCurrentFolder(label: Element): boolean {
   const folderId = getFolderId(label);
-  return folderId !== null && window.location.pathname.endsWith(`/list/${folderId}`);
+  return (
+    folderId !== null && window.location.pathname.endsWith(`/list/${folderId}`)
+  );
 }
 
 async function selectFolder(label: Element): Promise<void> {
   if (!isClickableElement(label)) {
-    throw new Error('フォルダーを選択できません。');
+    throw new Error("フォルダーを選択できません。");
   }
 
   if (!isCurrentFolder(label)) {
@@ -114,18 +119,22 @@ async function selectFolder(label: Element): Promise<void> {
   await waitFor(
     () => (isCurrentFolder(label) && findAllCheckbox() ? true : null),
     FOLDER_SELECTION_TIMEOUT_MS,
-    'フォルダーの読み込みが完了しませんでした。',
+    "フォルダーの読み込みが完了しませんでした。",
   );
 }
 
 function isAllSelected(): boolean {
-  const input = document.querySelector<HTMLInputElement>(CHECKBOX_ALL_INPUT_SELECTOR);
+  const input = document.querySelector<HTMLInputElement>(
+    CHECKBOX_ALL_INPUT_SELECTOR,
+  );
   return input?.checked ?? false;
 }
 
 function findAllCheckbox(): ClickableElement | null {
   const checkbox = document.querySelector(CHECKBOX_ALL_SELECTOR);
-  return isClickableElement(checkbox) && isElementVisible(checkbox) ? checkbox : null;
+  return isClickableElement(checkbox) && isElementVisible(checkbox)
+    ? checkbox
+    : null;
 }
 
 async function clickAllCheckbox(): Promise<void> {
@@ -136,7 +145,7 @@ async function clickAllCheckbox(): Promise<void> {
   const checkbox = await waitFor(
     findAllCheckbox,
     MAIL_SELECTION_TIMEOUT_MS,
-    'メール一覧の全選択チェックボックスが見つかりません。',
+    "メール一覧の全選択チェックボックスが見つかりません。",
   );
 
   checkbox.click();
@@ -144,44 +153,62 @@ async function clickAllCheckbox(): Promise<void> {
   await waitFor(
     () => (isAllSelected() ? true : null),
     MAIL_SELECTION_TIMEOUT_MS,
-    'メールの選択が完了しませんでした。',
+    "メールの選択が完了しませんでした。",
   );
 }
 
 function findMenuButton(): HTMLButtonElement | null {
-  const button = document.querySelector<HTMLButtonElement>(TOOLBAR_OTHERS_SELECTOR);
-  return button && isElementVisible(button) && !isElementDisabled(button) ? button : null;
+  const button = document.querySelector<HTMLButtonElement>(
+    TOOLBAR_OTHERS_SELECTOR,
+  );
+  return button && isElementVisible(button) && !isElementDisabled(button)
+    ? button
+    : null;
 }
 
 function findMarkReadMenuItem(): ClickableElement | null {
   const stableMenuItem = document.querySelector(POPUP_MENU_READ_SELECTOR);
-  if (isClickableElement(stableMenuItem) && isElementVisible(stableMenuItem) && !isElementDisabled(stableMenuItem)) {
+  if (
+    isClickableElement(stableMenuItem) &&
+    isElementVisible(stableMenuItem) &&
+    !isElementDisabled(stableMenuItem)
+  ) {
     return stableMenuItem;
   }
 
   const candidates = Array.from(
-    document.querySelectorAll<HTMLElement>('button, [role="menuitem"], [role="option"], li, div'),
-  ).filter((candidate) =>
-    isElementVisible(candidate)
-    && !isElementDisabled(candidate)
-    && getElementText(candidate).includes(MARK_READ_TEXT),
+    document.querySelectorAll<HTMLElement>(
+      'button, [role="menuitem"], [role="option"], li, div',
+    ),
+  ).filter(
+    (candidate) =>
+      isElementVisible(candidate) &&
+      !isElementDisabled(candidate) &&
+      getElementText(candidate).includes(MARK_READ_TEXT),
   );
 
-  const exactCandidate = candidates.find((candidate) => getElementText(candidate) === MARK_READ_TEXT);
+  const exactCandidate = candidates.find(
+    (candidate) => getElementText(candidate) === MARK_READ_TEXT,
+  );
   if (exactCandidate) {
     return exactCandidate;
   }
 
-  return candidates.find((candidate) => !Array.from(candidate.children).some((child) =>
-    getElementText(child).includes(MARK_READ_TEXT),
-  )) ?? null;
+  return (
+    candidates.find(
+      (candidate) =>
+        !Array.from(candidate.children).some((child) =>
+          getElementText(child).includes(MARK_READ_TEXT),
+        ),
+    ) ?? null
+  );
 }
 
 async function waitForMarkReadMenuItem(): Promise<ClickableElement> {
   return waitFor(
     findMarkReadMenuItem,
     MENU_WAIT_TIMEOUT_MS,
-    '「既読にする」メニューが見つかりません。',
+    "「既読にする」メニューが見つかりません。",
   );
 }
 
@@ -189,7 +216,7 @@ async function openMarkReadMenu(): Promise<ClickableElement> {
   const menuButton = await waitFor(
     findMenuButton,
     MAIL_SELECTION_TIMEOUT_MS,
-    'メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。',
+    "メール操作メニューが見つかりません。メールが存在しないか、選択できていない可能性があります。",
   );
 
   menuButton.click();
@@ -206,10 +233,13 @@ async function markFolderRead(label: Element): Promise<void> {
   markReadMenuItem.click();
 }
 
-async function markCurrentFolderRead(label: Element, button: HTMLButtonElement): Promise<void> {
+async function markCurrentFolderRead(
+  label: Element,
+  button: HTMLButtonElement,
+): Promise<void> {
   const folderName = getFolderName(label);
   button.disabled = true;
-  button.dataset.running = 'true';
+  button.dataset.running = "true";
   showToast(`${folderName} を開いています`);
 
   try {
@@ -218,8 +248,9 @@ async function markCurrentFolderRead(label: Element, button: HTMLButtonElement):
 
     showToast(`${folderName} を既読にしました`);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : '既読化に失敗しました。';
-    showToast(message, 'error');
+    const message =
+      error instanceof Error ? error.message : "既読化に失敗しました。";
+    showToast(message, "error");
   } finally {
     button.disabled = false;
     delete button.dataset.running;
@@ -227,44 +258,55 @@ async function markCurrentFolderRead(label: Element, button: HTMLButtonElement):
 }
 
 function getBulkTargetLabels(): Element[] {
-  return Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR)).filter((label) => {
-    const row = label.closest('li');
-    if (!row || !hasUnreadMail(row)) {
-      return false;
-    }
+  return Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR)).filter(
+    (label) => {
+      const row = label.closest("li");
+      if (!row || !hasUnreadMail(row)) {
+        return false;
+      }
 
-    const folderId = getFolderId(label);
-    return folderId === INBOX_FOLDER_ID || label.getAttribute('data-cy') === 'personalFolderLabel';
-  });
+      const folderId = getFolderId(label);
+      return (
+        folderId === INBOX_FOLDER_ID ||
+        label.getAttribute("data-cy") === "personalFolderLabel"
+      );
+    },
+  );
 }
 
 function setButtonsDisabled(disabled: boolean): void {
-  const buttons = document.querySelectorAll<HTMLButtonElement>(`.${BUTTON_CLASS}, .${BULK_BUTTON_CLASS}`);
+  const buttons = document.querySelectorAll<HTMLButtonElement>(
+    `.${BUTTON_CLASS}, .${BULK_BUTTON_CLASS}`,
+  );
   for (const button of Array.from(buttons)) {
     button.disabled = disabled;
     if (disabled) {
-      button.dataset.running = 'true';
+      button.dataset.running = "true";
     } else {
       delete button.dataset.running;
     }
   }
 }
 
-async function markBulkTargetFoldersRead(button: HTMLButtonElement): Promise<void> {
+async function markBulkTargetFoldersRead(
+  button: HTMLButtonElement,
+): Promise<void> {
   const labels = getBulkTargetLabels();
   if (labels.length === 0) {
-    showToast('受信箱と個人フォルダに未読メールはありません');
+    showToast("受信箱と個人フォルダに未読メールはありません");
     return;
   }
 
   setButtonsDisabled(true);
-  button.dataset.running = 'true';
+  button.dataset.running = "true";
 
   let completedCount = 0;
   try {
     for (const label of labels) {
       const folderName = getFolderName(label);
-      showToast(`${folderName} を既読にしています (${completedCount + 1}/${labels.length})`);
+      showToast(
+        `${folderName} を既読にしています (${completedCount + 1}/${labels.length})`,
+      );
       await markFolderRead(label);
       completedCount += 1;
       await sleep(OPERATION_DELAY_MS);
@@ -272,20 +314,21 @@ async function markBulkTargetFoldersRead(button: HTMLButtonElement): Promise<voi
 
     showToast(`受信箱と個人フォルダ ${completedCount} 件を既読にしました`);
   } catch (error: unknown) {
-    const message = error instanceof Error ? error.message : '一括既読化に失敗しました。';
-    showToast(`${completedCount}/${labels.length} 件完了: ${message}`, 'error');
+    const message =
+      error instanceof Error ? error.message : "一括既読化に失敗しました。";
+    showToast(`${completedCount}/${labels.length} 件完了: ${message}`, "error");
   } finally {
     setButtonsDisabled(false);
   }
 }
 
 function createMarkReadButton(label: Element): HTMLButtonElement {
-  const button = document.createElement('button');
-  button.type = 'button';
+  const button = document.createElement("button");
+  button.type = "button";
   button.className = BUTTON_CLASS;
-  button.textContent = '既読';
+  button.textContent = "既読";
   button.title = `${getFolderName(label)} の表示中メールをすべて既読にする`;
-  button.addEventListener('click', (event) => {
+  button.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
     void markCurrentFolderRead(label, button);
@@ -294,12 +337,12 @@ function createMarkReadButton(label: Element): HTMLButtonElement {
 }
 
 function createBulkMarkReadButton(): HTMLButtonElement {
-  const button = document.createElement('button');
-  button.type = 'button';
+  const button = document.createElement("button");
+  button.type = "button";
   button.className = `${BUTTON_CLASS} ${BULK_BUTTON_CLASS}`;
-  button.textContent = '一括既読';
-  button.title = '受信箱と未読がある個人フォルダを順番に開いて既読にする';
-  button.addEventListener('click', (event) => {
+  button.textContent = "一括既読";
+  button.title = "受信箱と未読がある個人フォルダを順番に開いて既読にする";
+  button.addEventListener("click", (event) => {
     event.preventDefault();
     event.stopPropagation();
     void markBulkTargetFoldersRead(button);
@@ -308,9 +351,9 @@ function createBulkMarkReadButton(): HTMLButtonElement {
 }
 
 function ensureBulkButton(): void {
-  const inboxLabel = Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR)).find((label) =>
-    getFolderId(label) === INBOX_FOLDER_ID,
-  );
+  const inboxLabel = Array.from(
+    document.querySelectorAll(FOLDER_LABEL_SELECTOR),
+  ).find((label) => getFolderId(label) === INBOX_FOLDER_ID);
   const existingButton = document.querySelector(`.${BULK_BUTTON_CLASS}`);
   const hasBulkTargets = getBulkTargetLabels().length > 0;
   if (!inboxLabel || !hasBulkTargets) {
@@ -318,7 +361,7 @@ function ensureBulkButton(): void {
     return;
   }
 
-  const inboxRow = inboxLabel.closest('li');
+  const inboxRow = inboxLabel.closest("li");
   if (!inboxRow || existingButton) {
     return;
   }
@@ -330,12 +373,14 @@ function ensureFolderButtons(): void {
   const labels = Array.from(document.querySelectorAll(FOLDER_LABEL_SELECTOR));
 
   for (const label of labels) {
-    const row = label.closest('li');
+    const row = label.closest("li");
     if (!row) {
       continue;
     }
 
-    const existingButton = row.querySelector(`.${BUTTON_CLASS}:not(.${BULK_BUTTON_CLASS})`);
+    const existingButton = row.querySelector(
+      `.${BUTTON_CLASS}:not(.${BULK_BUTTON_CLASS})`,
+    );
     if (!hasUnreadMail(row)) {
       existingButton?.remove();
       continue;
@@ -355,7 +400,7 @@ function injectStyles(): void {
     return;
   }
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.id = `${SCRIPT_ID}-styles`;
   style.textContent = `
     .${BUTTON_CLASS} {
@@ -435,8 +480,8 @@ function initialize(): void {
   startObserver();
 }
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initialize, { once: true });
+if (document.readyState === "loading") {
+  document.addEventListener("DOMContentLoaded", initialize, { once: true });
 } else {
   initialize();
 }

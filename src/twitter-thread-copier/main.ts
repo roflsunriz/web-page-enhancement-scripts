@@ -92,7 +92,10 @@ class TwitterThreadCopierApp {
               hasTranslation = translationResult.hasTranslation;
             } catch (translationError) {
               logger.error(`Translation error: ${translationError}`);
-              uiManager.showToast("翻訳エラー", "翻訳中にエラーが発生しましたが、原文をコピーできます");
+              uiManager.showToast(
+                "翻訳エラー",
+                "翻訳中にエラーが発生しましたが、原文をコピーできます",
+              );
               tweetsForFormatting = tweetsToProcess;
               hasTranslation = false;
             } finally {
@@ -126,13 +129,20 @@ class TwitterThreadCopierApp {
           selectedIds.length === 0 ? state.startFromTweetAuthor : null,
         );
 
-        if (state.translateEnabled && hasTranslation && formattedText.trim().length > 0) {
+        if (
+          state.translateEnabled &&
+          hasTranslation &&
+          formattedText.trim().length > 0
+        ) {
           summary += " (翻訳済み)";
         }
 
         state.collectedThreadData = { formattedText, summary };
         state.isSecondStage = true;
-        uiManager.showToast("準備完了", `${summary} クリックしてコピーしてください`);
+        uiManager.showToast(
+          "準備完了",
+          `${summary} クリックしてコピーしてください`,
+        );
       } catch (error) {
         logger.error(`Error in copy process: ${error}`);
         uiManager.showToast("エラー", "スレッドのコピーに失敗しました");
@@ -143,7 +153,10 @@ class TwitterThreadCopierApp {
       }
     } catch (error) {
       logger.error(`Button click handler error: ${error}`);
-      uiManager.showToast("内部エラー", "処理中に予期せぬエラーが発生しました。");
+      uiManager.showToast(
+        "内部エラー",
+        "処理中に予期せぬエラーが発生しました。",
+      );
     }
   }
 

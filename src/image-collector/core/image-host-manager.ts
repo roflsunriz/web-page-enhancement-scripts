@@ -32,7 +32,7 @@ export class ImageHostManager {
     /(?:https?:\/\/)?(?:www\.)?vk\.com\//i,
   ];
 
-constructor(private readonly logger: Logger) {}
+  constructor(private readonly logger: Logger) {}
 
   isSupportedHost(url: string): boolean {
     const supported = this.hostPatterns.some((pattern) => pattern.test(url));

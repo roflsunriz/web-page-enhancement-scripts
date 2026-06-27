@@ -2,14 +2,14 @@
  * twitter-clean-timeline - リツイートフィルタ
  */
 
-import { BaseFilter } from './base-filter';
-import type { FilterResult } from '@/shared/types';
-import { settings } from '../settings';
-import { TWITTER_SELECTORS } from '@/shared/constants/twitter';
+import { BaseFilter } from "./base-filter";
+import type { FilterResult } from "@/shared/types";
+import { settings } from "../settings";
+import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
 
 export class RetweetFilter extends BaseFilter {
   get name(): string {
-    return 'retweet';
+    return "retweet";
   }
 
   get enabled(): boolean {
@@ -34,12 +34,14 @@ export class RetweetFilter extends BaseFilter {
     }
 
     // リツイートインジケータの存在チェック
-    const hasRetweetIndicator = element.querySelector(TWITTER_SELECTORS.retweetIndicator);
+    const hasRetweetIndicator = element.querySelector(
+      TWITTER_SELECTORS.retweetIndicator,
+    );
 
     if (hasRetweetIndicator) {
       return {
         shouldHide: true,
-        reason: 'リツイート',
+        reason: "リツイート",
         filterName: this.name,
       };
     }
@@ -47,4 +49,3 @@ export class RetweetFilter extends BaseFilter {
     return { shouldHide: false };
   }
 }
-

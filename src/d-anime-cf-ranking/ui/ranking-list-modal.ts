@@ -237,7 +237,7 @@ const MODAL_STYLES = `
 
 export function openRankingListModal(
   items: RankingListItem[],
-  isRankingFinalized: boolean
+  isRankingFinalized: boolean,
 ): void {
   document.querySelector(`.${MODAL_HOST_CLASS}`)?.remove();
 
@@ -271,17 +271,26 @@ export function openRankingListModal(
     }
   });
 
-  shadow.querySelector<HTMLButtonElement>(".close-btn")?.addEventListener("click", close);
+  shadow
+    .querySelector<HTMLButtonElement>(".close-btn")
+    ?.addEventListener("click", close);
 
   document.addEventListener("keydown", handleKeydown);
 
   document.body.appendChild(host);
 }
 
-function buildModalHtml(items: RankingListItem[], isRankingFinalized: boolean): string {
+function buildModalHtml(
+  items: RankingListItem[],
+  isRankingFinalized: boolean,
+): string {
   const sortedItems = [...items].sort(compareRankingItems);
-  const rankedCount = sortedItems.filter((item) => item.rankData !== null).length;
-  const failedCount = sortedItems.filter((item) => item.cacheEntry?.status === "failed").length;
+  const rankedCount = sortedItems.filter(
+    (item) => item.rankData !== null,
+  ).length;
+  const failedCount = sortedItems.filter(
+    (item) => item.cacheEntry?.status === "failed",
+  ).length;
   const pendingCount = sortedItems.length - rankedCount - failedCount;
   const statusText = isRankingFinalized ? "確定" : "暫定";
 
@@ -345,7 +354,10 @@ function renderRow(item: RankingListItem): string {
   `;
 }
 
-function renderRank(rankData: RankData | null, cacheEntry: CacheEntry | null): string {
+function renderRank(
+  rankData: RankData | null,
+  cacheEntry: CacheEntry | null,
+): string {
   if (rankData) {
     return `
       <span class="rank">

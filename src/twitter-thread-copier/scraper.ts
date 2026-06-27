@@ -86,12 +86,15 @@ export async function scrapeTweets(): Promise<TweetData[]> {
 
         // 日時
         const timeElement = tweetElement.querySelector("time");
-        const timestamp = timeElement ? timeElement.getAttribute("datetime") : "";
+        const timestamp = timeElement
+          ? timeElement.getAttribute("datetime")
+          : "";
         const tweetDate = timestamp ? new Date(timestamp) : null;
         const timestampMs = tweetDate?.getTime() ?? 0;
-        const formattedTime = tweetDate && Number.isFinite(timestampMs)
-          ? formatDateTime(tweetDate)
-          : "";
+        const formattedTime =
+          tweetDate && Number.isFinite(timestampMs)
+            ? formatDateTime(tweetDate)
+            : "";
 
         // ツイート内のメディア（画像）を取得
         const mediaUrls = getMediaUrls(tweetElement);
@@ -100,11 +103,12 @@ export async function scrapeTweets(): Promise<TweetData[]> {
         const quotedTweet = await getQuotedTweet(tweetElement);
 
         // ツイート情報を保存
-        const tweetUrl = processedIds.size === 0
-          ? threadUrl
-          : tweetLink.href
-            ? tweetLink.href.split("?")[0]
-            : "";
+        const tweetUrl =
+          processedIds.size === 0
+            ? threadUrl
+            : tweetLink.href
+              ? tweetLink.href.split("?")[0]
+              : "";
         tweets.push({
           id: tweetId,
           author,
@@ -237,9 +241,7 @@ function getUsernameHandle(tweetElement: HTMLElement): string {
         continue;
       }
     }
-    const userNameArea = tweetElement.querySelector(
-      TWITTER_SELECTORS.userName,
-    );
+    const userNameArea = tweetElement.querySelector(TWITTER_SELECTORS.userName);
     if (userNameArea) {
       const allUserNameSpans = userNameArea.querySelectorAll("span");
       for (const span of Array.from(allUserNameSpans)) {
@@ -275,7 +277,9 @@ function getDisplayName(tweetElement: HTMLElement): string {
   }
 }
 
-async function getQuotedTweet(tweetElement: HTMLElement): Promise<QuotedTweet | null> {
+async function getQuotedTweet(
+  tweetElement: HTMLElement,
+): Promise<QuotedTweet | null> {
   // ... (Implementation from legacy.ts)
   const quotedTweetElement = tweetElement.querySelector(
     TWITTER_SELECTORS.quotedLink,
@@ -322,7 +326,9 @@ async function getQuotedTweet(tweetElement: HTMLElement): Promise<QuotedTweet | 
                 break;
               }
             } catch (error) {
-              logger.error(`代替引用ツイート抽出エラー: ${(error as Error).message}`);
+              logger.error(
+                `代替引用ツイート抽出エラー: ${(error as Error).message}`,
+              );
             }
           }
         }
@@ -376,9 +382,10 @@ async function extractQuotedTweetInfo(
     }
   }
   const quotedMediaUrls: string[] = [];
-  const quotedPhotoElements = quotedTweetContainer.querySelectorAll<HTMLElement>(
-    TWITTER_SELECTORS.tweetPhoto,
-  );
+  const quotedPhotoElements =
+    quotedTweetContainer.querySelectorAll<HTMLElement>(
+      TWITTER_SELECTORS.tweetPhoto,
+    );
   quotedPhotoElements.forEach((photoElement) => {
     const imgElement = photoElement.querySelector<HTMLImageElement>(
       TWITTER_SELECTORS.tweetMediaImage,
@@ -391,8 +398,9 @@ async function extractQuotedTweetInfo(
     }
   });
   if (quotedMediaUrls.length === 0) {
-    const groupElements =
-      quotedTweetContainer.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.roleGroup);
+    const groupElements = quotedTweetContainer.querySelectorAll<HTMLElement>(
+      TWITTER_SELECTORS.roleGroup,
+    );
     groupElements.forEach((groupElement) => {
       const imgElements = groupElement.querySelectorAll<HTMLImageElement>(
         TWITTER_SELECTORS.tweetMediaImage,
@@ -504,23 +512,16 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
           mediaUrls.push(mediaUrl);
         }
       }
-      if (
-        videoElement.src &&
-        videoElement.src.includes("video.twimg.com")
-      ) {
+      if (videoElement.src && videoElement.src.includes("video.twimg.com")) {
         if (!mediaUrls.includes(videoElement.src)) {
           mediaUrls.push(videoElement.src);
         }
       }
     }
-    const sourceElements = videoElement.querySelectorAll<HTMLSourceElement>(
-      "source",
-    );
+    const sourceElements =
+      videoElement.querySelectorAll<HTMLSourceElement>("source");
     sourceElements.forEach((sourceElement) => {
-      if (
-        sourceElement.src &&
-        sourceElement.src.includes("video.twimg.com")
-      ) {
+      if (sourceElement.src && sourceElement.src.includes("video.twimg.com")) {
         if (!mediaUrls.includes(sourceElement.src)) {
           mediaUrls.push(sourceElement.src);
         }
@@ -543,8 +544,9 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
     });
   });
   if (mediaUrls.length === 0) {
-    const groupElements =
-      tweetElement.querySelectorAll<HTMLElement>(TWITTER_SELECTORS.roleGroup);
+    const groupElements = tweetElement.querySelectorAll<HTMLElement>(
+      TWITTER_SELECTORS.roleGroup,
+    );
     groupElements.forEach((groupElement) => {
       const imgElements = groupElement.querySelectorAll<HTMLImageElement>(
         TWITTER_SELECTORS.tweetMediaImage,
@@ -573,11 +575,7 @@ function getMediaUrls(tweetElement: HTMLElement): string[] {
 
 function getHighQualityMediaUrl(url: string): string | null {
   // ... (Implementation from legacy.ts)
-  if (
-    !url ||
-    typeof url !== "string" ||
-    !url.includes("pbs.twimg.com/media")
-  )
+  if (!url || typeof url !== "string" || !url.includes("pbs.twimg.com/media"))
     return null;
   try {
     const formatMatch = url.match(/format=([^&]+)/);
@@ -592,7 +590,9 @@ function getHighQualityMediaUrl(url: string): string | null {
       new URL(cleanUrl);
       return cleanUrl;
     } catch (urlError) {
-      logger.error(`無効なURL形式: ${cleanUrl}, エラー内容: ${(urlError as Error).message}`);
+      logger.error(
+        `無効なURL形式: ${cleanUrl}, エラー内容: ${(urlError as Error).message}`,
+      );
       return null;
     }
   } catch (error) {
@@ -608,7 +608,7 @@ function getVideoUrl(posterUrl: string): string | null {
     const match = posterUrl.match(/tweet_video_thumb\/([^.]+)/);
     if (!match || !match[1]) return null;
     const videoId = match[1];
-  const videoUrl = buildTwitterVideoUrl(videoId);
+    const videoUrl = buildTwitterVideoUrl(videoId);
     return videoUrl;
   } catch (error) {
     logger.error(`動画URL生成エラー: ${(error as Error).message}`);
@@ -616,11 +616,13 @@ function getVideoUrl(posterUrl: string): string | null {
   }
 }
 
-
-async function getTweetFullText(tweetTextElement: HTMLElement): Promise<string> {
+async function getTweetFullText(
+  tweetTextElement: HTMLElement,
+): Promise<string> {
   try {
     const sanitizedElement = tweetTextElement.cloneNode(true) as HTMLElement;
-    const resolvedText = await replaceLinkTextWithResolvedUrls(sanitizedElement);
+    const resolvedText =
+      await replaceLinkTextWithResolvedUrls(sanitizedElement);
     /*
     replaceLinkTextWithResolvedUrls(sanitizedElement);
 
@@ -668,9 +670,16 @@ async function getTweetFullText(tweetTextElement: HTMLElement): Promise<string> 
   }
 }
 
-async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<string> {
-  const anchors = Array.from(container.querySelectorAll<HTMLAnchorElement>("a[href]"));
-  const urlPromises: Promise<{ anchor: HTMLAnchorElement; resolvedUrl: string | null }>[] = [];
+async function replaceLinkTextWithResolvedUrls(
+  container: HTMLElement,
+): Promise<string> {
+  const anchors = Array.from(
+    container.querySelectorAll<HTMLAnchorElement>("a[href]"),
+  );
+  const urlPromises: Promise<{
+    anchor: HTMLAnchorElement;
+    resolvedUrl: string | null;
+  }>[] = [];
 
   for (const anchor of anchors) {
     const textContent = anchor.textContent ?? "";
@@ -679,9 +688,7 @@ async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<
       // TwitterのUIでは展開されたURLがテキストコンテンツとして表示される
       const trimmedText = textContent.trim();
       if (/^https?:\/\//i.test(trimmedText)) {
-        urlPromises.push(
-          Promise.resolve({ anchor, resolvedUrl: trimmedText })
-        );
+        urlPromises.push(Promise.resolve({ anchor, resolvedUrl: trimmedText }));
         continue;
       }
 
@@ -689,7 +696,7 @@ async function replaceLinkTextWithResolvedUrls(container: HTMLElement): Promise<
       const href = anchor.href;
       if (href && href.startsWith(TWITTER_SHORT_URL_PREFIX)) {
         urlPromises.push(
-          followRedirect(href).then(resolvedUrl => ({ anchor, resolvedUrl }))
+          followRedirect(href).then((resolvedUrl) => ({ anchor, resolvedUrl })),
         );
       }
     }
@@ -743,7 +750,6 @@ function isLikelyUrlAnchor(anchor: HTMLAnchorElement, text: string): boolean {
   return false;
 }
 
-
 async function expandTruncatedTweets(): Promise<number> {
   // ... (Implementation from legacy.ts)
   try {
@@ -788,9 +794,10 @@ function formatDateTime(date: Date, now = new Date()): string {
   const day = String(date.getDate()).padStart(2, "0");
   const hours = String(date.getHours()).padStart(2, "0");
   const minutes = String(date.getMinutes()).padStart(2, "0");
-  return `${year}年${month}月${day}日 ${hours}:${minutes} (${
-    formatRelativeTime(date, now)
-  })`;
+  return `${year}年${month}月${day}日 ${hours}:${minutes} (${formatRelativeTime(
+    date,
+    now,
+  )})`;
 }
 
 function formatRelativeTime(date: Date, now: Date): string {

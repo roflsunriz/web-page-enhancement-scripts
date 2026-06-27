@@ -30,7 +30,7 @@ export class UrlChangeObserver {
     };
 
     // ブラウザの「戻る」「進む」ボタンによるURL変更を検知
-    window.addEventListener('popstate', () => this.handleUrlChange());
+    window.addEventListener("popstate", () => this.handleUrlChange());
   }
 
   private handleUrlChange(): void {

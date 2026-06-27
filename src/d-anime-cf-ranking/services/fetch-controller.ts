@@ -164,7 +164,7 @@ export class FetchController {
         if (originalResults.length === 0) {
           const failedEntry = markEntryFailed(
             pendingEntry,
-            "検索結果が0件です"
+            "検索結果が0件です",
           );
           await setCacheEntry(failedEntry);
           return failedEntry;
@@ -191,19 +191,19 @@ export class FetchController {
   private async processSearchResults(
     pendingEntry: CacheEntry,
     searchResults: import("./nico-api-client").NicoSearchResultItem[],
-    animeTitle: string
+    animeTitle: string,
   ): Promise<CacheEntry> {
     // 2. 代表動画を選択
     const selection = selectRepresentativeVideo(
       searchResults,
       animeTitle,
-      NicoApiClient
+      NicoApiClient,
     );
 
     if (!selection.success || !selection.video) {
       const failedEntry = markEntryFailed(
         pendingEntry,
-        selection.failureReason ?? "代表動画の選択に失敗しました"
+        selection.failureReason ?? "代表動画の選択に失敗しました",
       );
       await setCacheEntry(failedEntry);
       return failedEntry;
@@ -211,7 +211,7 @@ export class FetchController {
 
     const representativeVideo = NicoApiClient.toRepresentativeVideo(
       selection.video,
-      animeTitle
+      animeTitle,
     );
 
     // 3. 指標を取得（検索結果に含まれる場合はそれを使用）
@@ -225,7 +225,7 @@ export class FetchController {
     // いいね数が0の場合は視聴ページから取得を試みる
     if (metrics.likeCount === 0) {
       const fetchedMetrics = await this.apiClient.fetchMetrics(
-        selection.video.videoId
+        selection.video.videoId,
       );
       if (fetchedMetrics) {
         metrics = fetchedMetrics;

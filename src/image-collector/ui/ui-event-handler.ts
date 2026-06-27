@@ -80,10 +80,7 @@ export class UIEventHandler {
         const originalUrl = image.dataset.originalUrl ?? imageUrl;
         this.showFullScreenImage(imageUrl, originalUrl);
       } catch (error) {
-        this.logger.error(
-          "画像クリック処理中にエラーが発生しました",
-          error,
-        );
+        this.logger.error("画像クリック処理中にエラーが発生しました", error);
       }
     });
   }
@@ -253,10 +250,15 @@ export class UIEventHandler {
 
   private async downloadImage(imageUrl: string): Promise<void> {
     try {
-      const res = await gmRequest<Blob>({ url: imageUrl, responseType: "blob" });
+      const res = await gmRequest<Blob>({
+        url: imageUrl,
+        responseType: "blob",
+      });
       const blob = res.response as Blob | null;
       if (!blob) {
-        this.logger.error("ダウンロードしたBlobが空です", undefined, { imageUrl });
+        this.logger.error("ダウンロードしたBlobが空です", undefined, {
+          imageUrl,
+        });
         return;
       }
       const link = document.createElement("a");

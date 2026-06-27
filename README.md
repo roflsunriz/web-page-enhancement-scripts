@@ -132,6 +132,7 @@ bun format       # prettier --write src/**/*.ts
 -----------------
 
 - 型定義は `src/shared/types` に集約されています。
+- ユーザー向け UI 文言は、可能な限り `src/shared/i18n` の共通基盤と各スクリプトの辞書で管理します。
 - 各スクリプトは SPA 向けに `MutationObserver` を使った URL 監視やシャドウ DOM を使用することがあります。
 - 大量ダウンロード系（image-collector）はバッチ制御やリトライを実装しています。
 

@@ -72,11 +72,9 @@ export class ImageSourceClassifier {
         element: sourceElement,
       };
     } catch (error) {
-      this.logger.error(
-        "画像ソース分類中にエラーが発生しました",
-        error,
-        { url },
-      );
+      this.logger.error("画像ソース分類中にエラーが発生しました", error, {
+        url,
+      });
       return {
         trustLevel: "low",
         reason: "classification-error",

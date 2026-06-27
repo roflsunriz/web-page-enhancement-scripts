@@ -1,17 +1,17 @@
-import { setIntervalSafely, setTimeoutSafely } from '../util';
-import viewerStyles from './viewer.css?inline';
-import { createShadowHost } from '@/shared/dom';
+import { setIntervalSafely, setTimeoutSafely } from "../util";
+import viewerStyles from "./viewer.css?inline";
+import { createShadowHost } from "@/shared/dom";
 
 export class LoadingSpinner {
   private shadowHost: HTMLDivElement | null = null;
   private shadowRoot: ShadowRoot | null = null;
   private progressInterval: number | null = null;
 
-  show(message = '画像を読み込み中...'): HTMLDivElement | null {
+  show(message = "画像を読み込み中..."): HTMLDivElement | null {
     try {
       this.hide();
 
-      const { host, root } = createShadowHost({ mode: 'closed' });
+      const { host, root } = createShadowHost({ mode: "closed" });
       this.shadowHost = host;
       this.shadowHost.style.cssText = `
         position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -19,12 +19,12 @@ export class LoadingSpinner {
       `;
       this.shadowRoot = root;
 
-      const style = document.createElement('style');
+      const style = document.createElement("style");
       style.textContent = viewerStyles;
       this.shadowRoot.appendChild(style);
 
-      const spinnerElement = document.createElement('div');
-      spinnerElement.className = 'manga-viewer-loading';
+      const spinnerElement = document.createElement("div");
+      spinnerElement.className = "manga-viewer-loading";
       spinnerElement.innerHTML = `
         <div style="position: relative; width: 80px; height: 80px;">
           <div class="mv-spinner"></div>
@@ -40,13 +40,14 @@ export class LoadingSpinner {
       this.startProgressAnimation();
       return this.shadowHost;
     } catch (error) {
-      console.error('[MangaViewer] Error showing loading spinner:', error);
+      console.error("[MangaViewer] Error showing loading spinner:", error);
       return null;
     }
   }
 
   private startProgressAnimation(): void {
-    const progressBar = this.shadowRoot?.querySelector<HTMLDivElement>('.mv-progress-bar');
+    const progressBar =
+      this.shadowRoot?.querySelector<HTMLDivElement>(".mv-progress-bar");
     if (!progressBar) return;
 
     let width = 0;
@@ -65,7 +66,8 @@ export class LoadingSpinner {
   }
 
   setProgress(percent: number): void {
-    const progressBar = this.shadowRoot?.querySelector<HTMLDivElement>('.mv-progress-bar');
+    const progressBar =
+      this.shadowRoot?.querySelector<HTMLDivElement>(".mv-progress-bar");
     if (!progressBar) return;
 
     if (this.progressInterval) {
@@ -77,8 +79,12 @@ export class LoadingSpinner {
 
   setComplete(): void {
     this.setProgress(100);
-    this.shadowRoot?.querySelector('.manga-viewer-loading')?.classList.add('mv-loading-complete');
-    this.shadowRoot?.querySelector('.mv-spinner')?.classList.add('mv-spinner-complete');
+    this.shadowRoot
+      ?.querySelector(".manga-viewer-loading")
+      ?.classList.add("mv-loading-complete");
+    this.shadowRoot
+      ?.querySelector(".mv-spinner")
+      ?.classList.add("mv-spinner-complete");
   }
 
   hide(): void {
@@ -87,8 +93,8 @@ export class LoadingSpinner {
       this.progressInterval = null;
     }
     if (this.shadowHost) {
-      this.shadowHost.style.transition = 'opacity 0.3s ease';
-      this.shadowHost.style.opacity = '0';
+      this.shadowHost.style.transition = "opacity 0.3s ease";
+      this.shadowHost.style.opacity = "0";
       setTimeoutSafely(() => {
         this.shadowHost?.remove();
         this.shadowHost = null;
@@ -98,12 +104,13 @@ export class LoadingSpinner {
   }
 
   updateMessage(message: string, progressPercent: number | null = null): void {
-    const messageElement = this.shadowRoot?.querySelector<HTMLDivElement>('.mv-message');
+    const messageElement =
+      this.shadowRoot?.querySelector<HTMLDivElement>(".mv-message");
     if (messageElement) {
-      messageElement.style.opacity = '0';
+      messageElement.style.opacity = "0";
       setTimeout(() => {
         messageElement.textContent = message;
-        messageElement.style.opacity = '1';
+        messageElement.style.opacity = "1";
       }, 150);
     }
     if (progressPercent !== null) {

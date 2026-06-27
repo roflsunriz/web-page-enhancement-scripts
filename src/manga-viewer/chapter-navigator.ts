@@ -1,4 +1,4 @@
-import { MANGA_NAVIGATION_SELECTORS } from '@/shared/constants/manga';
+import { MANGA_NAVIGATION_SELECTORS } from "@/shared/constants/manga";
 
 export class ChapterNavigator {
   private prevChapterSelectors: string[];
@@ -6,12 +6,8 @@ export class ChapterNavigator {
   public isNavigating = false;
 
   constructor() {
-    this.prevChapterSelectors = [
-      ...MANGA_NAVIGATION_SELECTORS.defaultPrev,
-    ];
-    this.nextChapterSelectors = [
-      ...MANGA_NAVIGATION_SELECTORS.defaultNext,
-    ];
+    this.prevChapterSelectors = [...MANGA_NAVIGATION_SELECTORS.defaultPrev];
+    this.nextChapterSelectors = [...MANGA_NAVIGATION_SELECTORS.defaultNext];
 
     // nicomanga系ドメイン向けの優先セレクタを先頭に追加
     const h = location.hostname;
@@ -27,22 +23,26 @@ export class ChapterNavigator {
   }
 
   // 汎用フォールバック（最後に走る簡易ヒューリスティクス）
-  private _fallbackFind(dir: 'next' | 'prev'): string | null {
+  private _fallbackFind(dir: "next" | "prev"): string | null {
     try {
       // 1) <link rel="next|prev">
-      const link = document.querySelector<HTMLLinkElement>(`link[rel="${dir}"]`);
+      const link = document.querySelector<HTMLLinkElement>(
+        `link[rel="${dir}"]`,
+      );
       if (link && link.href) return link.href;
       // 2) rel付きの <a>
       const relA = document.querySelector<HTMLAnchorElement>(`a[rel="${dir}"]`);
       if (relA && relA.href) return relA.href;
       // 3) テキスト・矢印で推定
       const patterns =
-        dir === 'next'
+        dir === "next"
           ? [/^\s*(次|next|›|»)\s*$/i, /(次|next|›|»)/i]
           : [/^\s*(前|prev|‹|«)\s*$/i, /(前|prev|‹|«)/i];
-      const candidates = Array.from(document.querySelectorAll<HTMLAnchorElement>('a[href]'));
+      const candidates = Array.from(
+        document.querySelectorAll<HTMLAnchorElement>("a[href]"),
+      );
       for (const a of candidates) {
-        const t = (a.textContent || '').trim();
+        const t = (a.textContent || "").trim();
         if (patterns.some((re) => re.test(t))) return a.href;
       }
       return null;
@@ -51,14 +51,19 @@ export class ChapterNavigator {
     }
   }
 
-  private navigate(direction: 'prev' | 'next'): boolean {
-    const selectors = direction === 'prev' ? this.prevChapterSelectors : this.nextChapterSelectors;
+  private navigate(direction: "prev" | "next"): boolean {
+    const selectors =
+      direction === "prev"
+        ? this.prevChapterSelectors
+        : this.nextChapterSelectors;
     try {
       for (const selector of selectors) {
-        const button = document.querySelector<HTMLElement & { href?: string }>(selector);
+        const button = document.querySelector<HTMLElement & { href?: string }>(
+          selector,
+        );
         if (button) {
           try {
-            localStorage.setItem('mangaViewer_autoLaunch', 'true');
+            localStorage.setItem("mangaViewer_autoLaunch", "true");
           } catch {
             // Ignore potential security errors if localStorage is disabled.
           }
@@ -74,17 +79,22 @@ export class ChapterNavigator {
       const fallbackUrl = this._fallbackFind(direction);
       if (fallbackUrl) {
         try {
-          localStorage.setItem('mangaViewer_autoLaunch', 'true');
+          localStorage.setItem("mangaViewer_autoLaunch", "true");
         } catch {
           // Ignore potential security errors if localStorage is disabled.
         }
         window.location.assign(fallbackUrl);
         return true;
       }
-      console.warn(`[MangaViewer] navigate${direction === 'prev' ? 'Prev' : 'Next'}Chapter: no button found`);
+      console.warn(
+        `[MangaViewer] navigate${direction === "prev" ? "Prev" : "Next"}Chapter: no button found`,
+      );
       return false;
     } catch (e) {
-      console.warn(`[MangaViewer] navigate${direction === 'prev' ? 'Prev' : 'Next'}Chapter: error:`, e);
+      console.warn(
+        `[MangaViewer] navigate${direction === "prev" ? "Prev" : "Next"}Chapter: error:`,
+        e,
+      );
       return false;
     }
   }
@@ -94,7 +104,7 @@ export class ChapterNavigator {
    * @returns {boolean} 移動が成功したかどうか
    */
   public navigatePrevChapter(): boolean {
-    return this.navigate('prev');
+    return this.navigate("prev");
   }
 
   /**
@@ -102,7 +112,7 @@ export class ChapterNavigator {
    * @returns {boolean} 移動が成功したかどうか
    */
   public navigateNextChapter(): boolean {
-    return this.navigate('next');
+    return this.navigate("next");
   }
 
   /**
@@ -112,14 +122,14 @@ export class ChapterNavigator {
   public checkAutoLaunch(): boolean {
     try {
       const shouldAutoLaunch =
-        localStorage.getItem('mangaViewer_autoLaunch') === 'true';
+        localStorage.getItem("mangaViewer_autoLaunch") === "true";
       if (shouldAutoLaunch) {
         try {
           // フラグをリセット
-          localStorage.removeItem('mangaViewer_autoLaunch');
+          localStorage.removeItem("mangaViewer_autoLaunch");
         } catch (storageError) {
           console.error(
-            '[MangaViewer] checkAutoLaunch: failed to remove localStorage flag:',
+            "[MangaViewer] checkAutoLaunch: failed to remove localStorage flag:",
             storageError,
           );
           // localStorage操作が失敗してもtrueを返す（自動起動は実行）
@@ -128,10 +138,7 @@ export class ChapterNavigator {
       }
       return false;
     } catch (error) {
-      console.error(
-        '[MangaViewer] checkAutoLaunch: unexpected error:',
-        error,
-      );
+      console.error("[MangaViewer] checkAutoLaunch: unexpected error:", error);
       return false;
     }
   }

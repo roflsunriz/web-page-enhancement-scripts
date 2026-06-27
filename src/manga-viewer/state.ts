@@ -1,8 +1,10 @@
-import type { GlassControlPanel } from './ui/glass-control-panel';
-import type { MangaViewerApp } from './manga-viewer-app';
+import type { GlassControlPanel } from "./ui/glass-control-panel";
+import type { MangaViewerApp } from "./manga-viewer-app";
 
 // Keydownイベントディスパッチャの型定義
-export type KeyDownDispatcher = (e: KeyboardEvent & { __mvHandled?: boolean }) => void;
+export type KeyDownDispatcher = (
+  e: KeyboardEvent & { __mvHandled?: boolean },
+) => void;
 
 // グローバル状態の型定義
 export interface MangaViewerState {

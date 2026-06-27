@@ -22,7 +22,9 @@ export const isLikelyNativeVideoPage = (
     return false;
   }
 
-  return hasVideoContentType() || hasVideoFileExtension(window.location.pathname);
+  return (
+    hasVideoContentType() || hasVideoFileExtension(window.location.pathname)
+  );
 };
 
 export const applyVolumeToVideos = (

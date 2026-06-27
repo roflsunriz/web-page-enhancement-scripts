@@ -4,7 +4,10 @@
  * @param timeout - タイムアウト時間 (ミリ秒)
  * @returns 見つかった要素を解決するPromise
  */
-export function waitForElement(selector: string, timeout = 5000): Promise<Element> {
+export function waitForElement(
+  selector: string,
+  timeout = 5000,
+): Promise<Element> {
   return new Promise((resolve, reject) => {
     // 最初に要素が存在するか確認
     const el = document.querySelector(selector);

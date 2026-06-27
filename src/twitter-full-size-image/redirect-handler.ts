@@ -1,7 +1,4 @@
-import {
-  REDIRECT_SESSION_KEY,
-  MAX_REDIRECTS,
-} from "./constants";
+import { REDIRECT_SESSION_KEY, MAX_REDIRECTS } from "./constants";
 import {
   parseTwitterImageUrl,
   isAlreadyFullsize,

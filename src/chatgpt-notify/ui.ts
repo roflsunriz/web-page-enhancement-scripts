@@ -81,11 +81,19 @@ export function createSettingsUI(): void {
   const saveButton = shadowRoot.querySelector(".save-button")!;
   const successText = shadowRoot.querySelector(".success-text")!;
 
-  const notificationCheckbox = shadowRoot.getElementById("notification-enabled") as HTMLInputElement;
-  const soundCheckbox = shadowRoot.getElementById("sound-enabled") as HTMLInputElement;
-  const volumeSlider = shadowRoot.getElementById("sound-volume") as HTMLInputElement;
+  const notificationCheckbox = shadowRoot.getElementById(
+    "notification-enabled",
+  ) as HTMLInputElement;
+  const soundCheckbox = shadowRoot.getElementById(
+    "sound-enabled",
+  ) as HTMLInputElement;
+  const volumeSlider = shadowRoot.getElementById(
+    "sound-volume",
+  ) as HTMLInputElement;
   const volumeLabel = shadowRoot.getElementById("volume-label")!;
-  const customSoundInput = shadowRoot.getElementById("custom-sound") as HTMLInputElement;
+  const customSoundInput = shadowRoot.getElementById(
+    "custom-sound",
+  ) as HTMLInputElement;
 
   // --- Functions ---
   const closeUI = () => {

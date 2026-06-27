@@ -8,7 +8,11 @@
  */
 
 import { createLogger } from "@/shared/logger";
-import type { AnimeCard, CacheEntry, Settings } from "@/shared/types/d-anime-cf-ranking";
+import type {
+  AnimeCard,
+  CacheEntry,
+  Settings,
+} from "@/shared/types/d-anime-cf-ranking";
 import {
   RECALCULATE_THROTTLE_MS,
   VIEWPORT_DEBOUNCE_MS,
@@ -52,7 +56,10 @@ import {
 } from "./dom/card-detector";
 
 // フェッチ制御
-import { createFetchController, FetchController } from "./services/fetch-controller";
+import {
+  createFetchController,
+  FetchController,
+} from "./services/fetch-controller";
 
 // スコア計算
 import { calculateRanks, type ScoreInput } from "./services/score-calculator";
@@ -146,7 +153,7 @@ async function main(): Promise<void> {
 
   // DOM上の全カード要素を取得（表示/非表示問わず）
   const allCardElements = detectAllCardElements();
-  
+
   allCards = await waitForCards();
   logger.info("Cards detected", { count: allCards.length });
 
@@ -184,9 +191,14 @@ async function main(): Promise<void> {
 
   // ビジビリティ変更の監視を開始（非表示カードが表示されたら検知）
   if (hiddenCardElements.size > 0) {
-    visibilityObserver = createVisibilityObserver(hiddenCardElements, handleNewlyVisibleCards);
+    visibilityObserver = createVisibilityObserver(
+      hiddenCardElements,
+      handleNewlyVisibleCards,
+    );
     startVisibilityObserver(visibilityObserver);
-    logger.info("Visibility observer started for hidden cards", { count: hiddenCardElements.size });
+    logger.info("Visibility observer started for hidden cards", {
+      count: hiddenCardElements.size,
+    });
   }
 
   isInitialized = true;
@@ -238,7 +250,10 @@ async function loadCachedEntries(): Promise<void> {
       }
     }
 
-    logger.info("Loaded cached entries", { total: allEntries.length, valid: validCount });
+    logger.info("Loaded cached entries", {
+      total: allEntries.length,
+      valid: validCount,
+    });
     console.log("[CF-RANKING DEBUG] キャッシュ読み込み詳細:", {
       totalInIndexedDB: allEntries.length,
       validEntries: validCount,
@@ -263,7 +278,9 @@ function startBackgroundFetch(): void {
 
   // 全カードがキャッシュ済みかチェック
   const cachedTitles = allCards.filter((card) => cacheEntryMap.has(card.title));
-  const uncachedTitles = allCards.filter((card) => !cacheEntryMap.has(card.title));
+  const uncachedTitles = allCards.filter(
+    (card) => !cacheEntryMap.has(card.title),
+  );
   console.log("[CF-RANKING DEBUG] キャッシュ状況:", {
     cached: cachedTitles.length,
     uncached: uncachedTitles.length,
@@ -368,7 +385,7 @@ function initViewportObserver(): void {
       root: null,
       rootMargin: "50px",
       threshold: 0,
-    }
+    },
   );
 }
 
@@ -387,7 +404,7 @@ function triggerViewportFetch(): void {
   if (!fetchController) return;
 
   const visibleCards = allCards.filter((card) =>
-    visibleCardElements.has(card.element)
+    visibleCardElements.has(card.element),
   );
 
   const cardsToProcess = visibleCards.slice(0, MAX_VIEWPORT_ITEMS);
@@ -450,9 +467,9 @@ function handleNewCards(newCards: AnimeCard[]): void {
     duplicates: duplicateCards.length,
     duplicateTitles: duplicateCards.map((c) => c.title),
   });
-  
+
   if (uniqueNewCards.length === 0) return;
-  
+
   allCards = [...allCards, ...uniqueNewCards];
   console.log("[CF-RANKING DEBUG] allCards更新後:", allCards.length);
 
@@ -475,8 +492,14 @@ function handleNewCards(newCards: AnimeCard[]): void {
  */
 function handleNewlyVisibleCards(newlyVisibleCards: AnimeCard[]): void {
   console.log("[CF-RANKING DEBUG] === カードが表示状態に変更 ===");
-  console.log("[CF-RANKING DEBUG] 新しく表示されたカード:", newlyVisibleCards.length);
-  console.log("[CF-RANKING DEBUG] タイトル:", newlyVisibleCards.map((c) => c.title));
+  console.log(
+    "[CF-RANKING DEBUG] 新しく表示されたカード:",
+    newlyVisibleCards.length,
+  );
+  console.log(
+    "[CF-RANKING DEBUG] タイトル:",
+    newlyVisibleCards.map((c) => c.title),
+  );
 
   // handleNewCardsと同じ処理を行う
   handleNewCards(newlyVisibleCards);
@@ -572,11 +595,14 @@ function handleRetry(title: string): void {
 
   cacheEntryMap.delete(title);
 
-  fetchController.fetch(title, true).then((entry) => {
-    handleFetchComplete(title, entry);
-  }).catch((error) => {
-    logger.error("Retry failed", error as Error, { title });
-  });
+  fetchController
+    .fetch(title, true)
+    .then((entry) => {
+      handleFetchComplete(title, entry);
+    })
+    .catch((error) => {
+      logger.error("Retry failed", error as Error, { title });
+    });
 }
 
 // =============================================================================
@@ -636,7 +662,9 @@ async function handleRefreshTrigger(): Promise<void> {
         fetchedCount++;
         controlPanelHandle?.updateProgress(fetchedCount, totalCount);
       } catch (error) {
-        logger.error("Refresh fetch failed", error as Error, { title: card.title });
+        logger.error("Refresh fetch failed", error as Error, {
+          title: card.title,
+        });
         fetchedCount++;
         controlPanelHandle?.updateProgress(fetchedCount, totalCount);
       }
@@ -684,7 +712,7 @@ function resetBadgesToLoading(): void {
       background: #e0e0e0;
       color: #666;
       border: 1px solid #ccc;
-    `
+    `,
     );
     badge.innerHTML = `<span style="display: inline-flex; vertical-align: middle;"><svg viewBox="0 0 24 24" width="14" height="14"><path fill="currentColor" d="M6,2V8H6V8L10,12L6,16V16H6V22H18V16H18V16L14,12L18,8V8H18V2H6M16,16.5V20H8V16.5L12,12.5L16,16.5M12,11.5L8,7.5V4H16V7.5L12,11.5Z"/></svg></span>`;
   }
@@ -713,7 +741,7 @@ function handleOpenRankingList(): void {
 
   const rankOutputs = calculateRanks(scoreInputs);
   const rankDataMap = new Map(
-    rankOutputs.map((output) => [output.title, output.rankData])
+    rankOutputs.map((output) => [output.title, output.rankData]),
   );
 
   const items: RankingListItem[] = allCards.map((card) => ({

@@ -1,8 +1,8 @@
-import type { LoadingSpinner } from './ui/loading-spinner';
-import { ICollector, CollectionResult } from './collectors/i-collector';
-import { TwitterCollector } from './collectors/twitter-collector';
-import { GenericCollector } from './collectors/generic-collector';
-import { win } from './util';
+import type { LoadingSpinner } from "./ui/loading-spinner";
+import { ICollector, CollectionResult } from "./collectors/i-collector";
+import { TwitterCollector } from "./collectors/twitter-collector";
+import { GenericCollector } from "./collectors/generic-collector";
+import { win } from "./util";
 
 /**
  * 画像収集のメインクラス。
@@ -26,7 +26,7 @@ export class DataLoader {
    */
   private createCollector(): ICollector {
     const href = win.location.href;
-    if (href.includes('twitter.com') || href.includes('x.com')) {
+    if (href.includes("twitter.com") || href.includes("x.com")) {
       return new TwitterCollector();
     }
     return new GenericCollector();
@@ -36,7 +36,7 @@ export class DataLoader {
    * 画像収集処理を開始します。
    */
   public async collectImageUrls(): Promise<CollectionResult> {
-    this.spinner?.updateMessage('画像収集システムを開始中...');
+    this.spinner?.updateMessage("画像収集システムを開始中...");
     return this.collector.collect();
   }
 }

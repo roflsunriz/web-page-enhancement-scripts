@@ -70,4 +70,3 @@ export function resetSettings(): TranslatorSettings {
   saveSettings(defaults);
   return defaults;
 }
-

@@ -49,7 +49,9 @@ export async function translateTweets(
   const segmentedTweets = clonedTweets.map((tweet) => ({
     tweet,
     textSegments: segmentText(tweet.text),
-    quotedSegments: tweet.quotedTweet ? segmentText(tweet.quotedTweet.text) : null,
+    quotedSegments: tweet.quotedTweet
+      ? segmentText(tweet.quotedTweet.text)
+      : null,
   }));
 
   const translationQueue: TextSegment[] = [];
@@ -359,7 +361,9 @@ async function translateWithGoogle(text: string): Promise<string> {
 function ensureOpenAIConfig(): void {
   const settings = loadSettings();
   if (!settings.openaiApiKey) {
-    logger.warn("OpenAI互換 APIキーが設定されていません。設定画面から設定してください。");
+    logger.warn(
+      "OpenAI互換 APIキーが設定されていません。設定画面から設定してください。",
+    );
   }
 }
 

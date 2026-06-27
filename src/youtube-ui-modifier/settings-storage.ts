@@ -1,8 +1,8 @@
-import { getValue } from '@/shared/userscript';
+import { getValue } from "@/shared/userscript";
 import type {
   YoutubeUiModifierSettingId,
   YoutubeUiModifierSettings,
-} from '@/shared/types';
+} from "@/shared/types";
 import {
   INDEXED_DB_CORRUPT_BACKUP_KEY,
   INDEXED_DB_NAME,
@@ -10,8 +10,8 @@ import {
   INDEXED_DB_STORE_NAME,
   INDEXED_DB_VERSION,
   STORAGE_KEY,
-} from './constants';
-import { DEFAULT_SETTINGS } from './settings-definitions';
+} from "./constants";
+import { DEFAULT_SETTINGS } from "./settings-definitions";
 
 type SettingsRecord = {
   key: typeof INDEXED_DB_SETTINGS_KEY;
@@ -29,7 +29,9 @@ type CorruptBackupRecord = {
 
 type StoredRecord = SettingsRecord | CorruptBackupRecord;
 
-const SETTING_IDS = Object.keys(DEFAULT_SETTINGS) as YoutubeUiModifierSettingId[];
+const SETTING_IDS = Object.keys(
+  DEFAULT_SETTINGS,
+) as YoutubeUiModifierSettingId[];
 
 export class SettingsStorage {
   public async load(): Promise<YoutubeUiModifierSettings> {
@@ -41,7 +43,11 @@ export class SettingsStorage {
       await this.putSettingsRecord(database, migrated);
       return migrated;
     } catch (error) {
-      await this.backupCorruptValue(database, await this.safeGetRecord(database), this.getErrorMessage(error));
+      await this.backupCorruptValue(
+        database,
+        await this.safeGetRecord(database),
+        this.getErrorMessage(error),
+      );
       const legacy = this.loadLegacySettings();
       await this.putSettingsRecord(database, legacy);
       return legacy;
@@ -60,39 +66,52 @@ export class SettingsStorage {
       request.onupgradeneeded = () => {
         const database = request.result;
         if (!database.objectStoreNames.contains(INDEXED_DB_STORE_NAME)) {
-          database.createObjectStore(INDEXED_DB_STORE_NAME, { keyPath: 'key' });
+          database.createObjectStore(INDEXED_DB_STORE_NAME, { keyPath: "key" });
         }
       };
 
       request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error ?? new Error('IndexedDB open failed'));
-      request.onblocked = () => reject(new Error('IndexedDB migration blocked'));
+      request.onerror = () =>
+        reject(request.error ?? new Error("IndexedDB open failed"));
+      request.onblocked = () =>
+        reject(new Error("IndexedDB migration blocked"));
     });
   }
 
   private getRecord(database: IDBDatabase, key: string): Promise<unknown> {
     return new Promise((resolve, reject) => {
-      const transaction = database.transaction(INDEXED_DB_STORE_NAME, 'readonly');
+      const transaction = database.transaction(
+        INDEXED_DB_STORE_NAME,
+        "readonly",
+      );
       const store = transaction.objectStore(INDEXED_DB_STORE_NAME);
       const request = store.get(key);
 
       request.onsuccess = () => resolve(request.result);
-      request.onerror = () => reject(request.error ?? new Error('IndexedDB read failed'));
+      request.onerror = () =>
+        reject(request.error ?? new Error("IndexedDB read failed"));
     });
   }
 
   private putRecord(database: IDBDatabase, value: StoredRecord): Promise<void> {
     return new Promise((resolve, reject) => {
-      const transaction = database.transaction(INDEXED_DB_STORE_NAME, 'readwrite');
+      const transaction = database.transaction(
+        INDEXED_DB_STORE_NAME,
+        "readwrite",
+      );
       const store = transaction.objectStore(INDEXED_DB_STORE_NAME);
       const request = store.put(value);
 
       request.onsuccess = () => resolve();
-      request.onerror = () => reject(request.error ?? new Error('IndexedDB write failed'));
+      request.onerror = () =>
+        reject(request.error ?? new Error("IndexedDB write failed"));
     });
   }
 
-  private async putSettingsRecord(database: IDBDatabase, settings: YoutubeUiModifierSettings): Promise<void> {
+  private async putSettingsRecord(
+    database: IDBDatabase,
+    settings: YoutubeUiModifierSettings,
+  ): Promise<void> {
     await this.putRecord(database, {
       key: INDEXED_DB_SETTINGS_KEY,
       schemaVersion: INDEXED_DB_VERSION,
@@ -101,7 +120,11 @@ export class SettingsStorage {
     });
   }
 
-  private async backupCorruptValue(database: IDBDatabase, value: unknown, reason: string): Promise<void> {
+  private async backupCorruptValue(
+    database: IDBDatabase,
+    value: unknown,
+    reason: string,
+  ): Promise<void> {
     await this.putRecord(database, {
       key: INDEXED_DB_CORRUPT_BACKUP_KEY,
       capturedAt: Date.now(),
@@ -133,12 +156,15 @@ export class SettingsStorage {
       return this.normalizeSettings(value);
     }
 
-    throw new Error('Stored settings are corrupt or unsupported');
+    throw new Error("Stored settings are corrupt or unsupported");
   }
 
   private loadLegacySettings(): YoutubeUiModifierSettings {
     try {
-      const legacy = getValue<Partial<YoutubeUiModifierSettings>>(STORAGE_KEY, undefined);
+      const legacy = getValue<Partial<YoutubeUiModifierSettings>>(
+        STORAGE_KEY,
+        undefined,
+      );
       if (this.isPartialSettings(legacy)) {
         return this.normalizeSettings(legacy);
       }
@@ -149,12 +175,14 @@ export class SettingsStorage {
     return { ...DEFAULT_SETTINGS };
   }
 
-  private normalizeSettings(settings: Partial<YoutubeUiModifierSettings>): YoutubeUiModifierSettings {
+  private normalizeSettings(
+    settings: Partial<YoutubeUiModifierSettings>,
+  ): YoutubeUiModifierSettings {
     const normalized: YoutubeUiModifierSettings = { ...DEFAULT_SETTINGS };
 
     SETTING_IDS.forEach((id) => {
       const value = settings[id];
-      if (typeof value === 'boolean') {
+      if (typeof value === "boolean") {
         normalized[id] = value;
       }
     });
@@ -167,21 +195,29 @@ export class SettingsStorage {
       return false;
     }
 
-    return value.key === INDEXED_DB_SETTINGS_KEY && this.isPartialSettings(value.settings);
+    return (
+      value.key === INDEXED_DB_SETTINGS_KEY &&
+      this.isPartialSettings(value.settings)
+    );
   }
 
-  private isPartialSettings(value: unknown): value is Partial<YoutubeUiModifierSettings> {
+  private isPartialSettings(
+    value: unknown,
+  ): value is Partial<YoutubeUiModifierSettings> {
     if (!this.isObject(value)) {
       return false;
     }
 
     return Object.entries(value).every(([key, settingValue]) => {
-      return SETTING_IDS.includes(key as YoutubeUiModifierSettingId) && typeof settingValue === 'boolean';
+      return (
+        SETTING_IDS.includes(key as YoutubeUiModifierSettingId) &&
+        typeof settingValue === "boolean"
+      );
     });
   }
 
   private isObject(value: unknown): value is Record<string, unknown> {
-    return typeof value === 'object' && value !== null && !Array.isArray(value);
+    return typeof value === "object" && value !== null && !Array.isArray(value);
   }
 
   private getErrorMessage(error: unknown): string {

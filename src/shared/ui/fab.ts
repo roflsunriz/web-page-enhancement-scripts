@@ -1,4 +1,4 @@
-import { setTrustedInnerHTML } from '@/shared/trusted-html';
+import { setTrustedInnerHTML } from "@/shared/trusted-html";
 
 /**
  * 共有FAB（Floating Action Button）コンポーネント
@@ -6,7 +6,7 @@ import { setTrustedInnerHTML } from '@/shared/trusted-html';
  * Shadow DOMで隔離され、フルスクリーン対応・speed dial対応のFABを提供する。
  */
 
-const FAB_TEMPLATE_POLICY_NAME = 'shared-fab-template';
+const FAB_TEMPLATE_POLICY_NAME = "shared-fab-template";
 
 /** FABのアクション定義 */
 export interface FabAction {
@@ -61,18 +61,18 @@ export class FabButton {
 
   /** FABを生成しDOMに追加する */
   init(): void {
-    this.container = document.createElement('div');
-    this.container.id = 'fab-container';
+    this.container = document.createElement("div");
+    this.container.id = "fab-container";
     this.container.style.cssText = this.buildPositionStyle();
 
-    this.shadowRoot = this.container.attachShadow({ mode: 'closed' });
+    this.shadowRoot = this.container.attachShadow({ mode: "closed" });
 
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.textContent = this.getStyles();
     this.shadowRoot.appendChild(style);
 
-    const wrapper = document.createElement('div');
-    wrapper.className = 'fab-wrapper';
+    const wrapper = document.createElement("div");
+    wrapper.className = "fab-wrapper";
     setTrustedInnerHTML(wrapper, this.buildHTML(), FAB_TEMPLATE_POLICY_NAME);
     this.shadowRoot.appendChild(wrapper);
 
@@ -84,8 +84,14 @@ export class FabButton {
   /** FABをDOMから削除し、リソースを解放する */
   destroy(): void {
     if (this.expandTimer) clearTimeout(this.expandTimer);
-    document.removeEventListener('fullscreenchange', this.handleFullscreenChange);
-    document.removeEventListener('webkitfullscreenchange', this.handleFullscreenChange);
+    document.removeEventListener(
+      "fullscreenchange",
+      this.handleFullscreenChange,
+    );
+    document.removeEventListener(
+      "webkitfullscreenchange",
+      this.handleFullscreenChange,
+    );
     this.container?.remove();
     this.container = null;
     this.shadowRoot = null;
@@ -94,13 +100,14 @@ export class FabButton {
   /** FABの表示/非表示を切り替える */
   setVisible(visible: boolean): void {
     if (this.container) {
-      this.container.style.display = visible ? 'block' : 'none';
+      this.container.style.display = visible ? "block" : "none";
     }
   }
 
   /** FABメインボタンの色を一時的に変更する */
   setColor(color: string): void {
-    const mainBtn = this.shadowRoot?.querySelector<HTMLButtonElement>('.fab-main');
+    const mainBtn =
+      this.shadowRoot?.querySelector<HTMLButtonElement>(".fab-main");
     if (mainBtn) {
       mainBtn.style.background = color;
     }
@@ -108,42 +115,45 @@ export class FabButton {
 
   /** FABメインボタンの色をリセットする */
   resetColor(): void {
-    const mainBtn = this.shadowRoot?.querySelector<HTMLButtonElement>('.fab-main');
+    const mainBtn =
+      this.shadowRoot?.querySelector<HTMLButtonElement>(".fab-main");
     if (mainBtn) {
-      mainBtn.style.background = '';
+      mainBtn.style.background = "";
     }
   }
 
   /** FABメインボタンにCSSクラスを追加する */
   addMainClass(className: string): void {
-    const mainBtn = this.shadowRoot?.querySelector<HTMLButtonElement>('.fab-main');
+    const mainBtn =
+      this.shadowRoot?.querySelector<HTMLButtonElement>(".fab-main");
     mainBtn?.classList.add(className);
   }
 
   /** FABメインボタンからCSSクラスを削除する */
   removeMainClass(className: string): void {
-    const mainBtn = this.shadowRoot?.querySelector<HTMLButtonElement>('.fab-main');
+    const mainBtn =
+      this.shadowRoot?.querySelector<HTMLButtonElement>(".fab-main");
     mainBtn?.classList.remove(className);
   }
 
   private buildPositionStyle(): string {
     const { position } = this.config;
     const parts: string[] = [
-      'position: fixed !important',
-      'z-index: 9999 !important',
-      'pointer-events: none !important',
+      "position: fixed !important",
+      "z-index: 9999 !important",
+      "pointer-events: none !important",
     ];
     if (position.top) parts.push(`top: ${position.top} !important`);
     if (position.bottom) parts.push(`bottom: ${position.bottom} !important`);
     if (position.left) parts.push(`left: ${position.left} !important`);
     if (position.right) parts.push(`right: ${position.right} !important`);
-    return parts.join('; ') + ';';
+    return parts.join("; ") + ";";
   }
 
   private buildHTML(): string {
     const hasActions = this.config.actions && this.config.actions.length > 0;
 
-    let actionsHTML = '';
+    let actionsHTML = "";
     if (hasActions && this.config.actions) {
       const items = this.config.actions
         .map(
@@ -155,7 +165,7 @@ export class FabButton {
           </button>
         </div>`,
         )
-        .join('');
+        .join("");
       actionsHTML = `<div class="fab-speed-dial">${items}</div>`;
     }
 
@@ -170,20 +180,21 @@ export class FabButton {
   private setupEventListeners(wrapper: HTMLDivElement): void {
     if (!this.shadowRoot) return;
 
-    const mainBtn = this.shadowRoot.querySelector<HTMLButtonElement>('.fab-main');
+    const mainBtn =
+      this.shadowRoot.querySelector<HTMLButtonElement>(".fab-main");
     const hasActions = this.config.actions && this.config.actions.length > 0;
 
     if (mainBtn) {
       // ホバーコールバック（全モード共通）
       if (this.config.onHover) {
         const hoverHandler = this.config.onHover;
-        mainBtn.addEventListener('mouseenter', () => hoverHandler());
+        mainBtn.addEventListener("mouseenter", () => hoverHandler());
       }
 
       if (hasActions) {
         // speed dial モード: ホバーで展開
-        mainBtn.addEventListener('mouseenter', () => this.expand());
-        mainBtn.addEventListener('click', (e) => {
+        mainBtn.addEventListener("mouseenter", () => this.expand());
+        mainBtn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
           if (this.isExpanded) {
@@ -195,7 +206,7 @@ export class FabButton {
       } else if (this.config.onClick) {
         // 単一アクションモード
         const handler = this.config.onClick;
-        mainBtn.addEventListener('click', (e) => {
+        mainBtn.addEventListener("click", (e) => {
           e.preventDefault();
           e.stopPropagation();
           handler();
@@ -205,14 +216,15 @@ export class FabButton {
 
     // speed dial アクションのクリック処理
     if (hasActions && this.config.actions) {
-      const actionButtons = this.shadowRoot.querySelectorAll<HTMLButtonElement>('.fab-mini');
+      const actionButtons =
+        this.shadowRoot.querySelectorAll<HTMLButtonElement>(".fab-mini");
       actionButtons.forEach((btn) => {
-        const idxStr = btn.dataset['actionIndex'];
+        const idxStr = btn.dataset["actionIndex"];
         if (idxStr === undefined) return;
         const idx = parseInt(idxStr, 10);
         const action = this.config.actions?.[idx];
         if (action) {
-          btn.addEventListener('click', (e) => {
+          btn.addEventListener("click", (e) => {
             e.preventDefault();
             e.stopPropagation();
             action.onClick();
@@ -223,12 +235,12 @@ export class FabButton {
     }
 
     // コンテナからマウスが離れたら折りたたむ
-    wrapper.addEventListener('mouseleave', () => {
+    wrapper.addEventListener("mouseleave", () => {
       if (this.isExpanded) {
         this.expandTimer = window.setTimeout(() => this.collapse(), 800);
       }
     });
-    wrapper.addEventListener('mouseenter', () => {
+    wrapper.addEventListener("mouseenter", () => {
       if (this.expandTimer) {
         clearTimeout(this.expandTimer);
         this.expandTimer = null;
@@ -239,43 +251,46 @@ export class FabButton {
   private expand(): void {
     if (this.isExpanded) return;
     this.isExpanded = true;
-    const dial = this.shadowRoot?.querySelector('.fab-speed-dial');
-    dial?.classList.add('expanded');
-    const wrapper = this.shadowRoot?.querySelector('.fab-wrapper');
+    const dial = this.shadowRoot?.querySelector(".fab-speed-dial");
+    dial?.classList.add("expanded");
+    const wrapper = this.shadowRoot?.querySelector(".fab-wrapper");
     if (wrapper instanceof HTMLElement) {
-      wrapper.style.pointerEvents = 'auto';
+      wrapper.style.pointerEvents = "auto";
     }
   }
 
   private collapse(): void {
     if (!this.isExpanded) return;
     this.isExpanded = false;
-    const dial = this.shadowRoot?.querySelector('.fab-speed-dial');
-    dial?.classList.remove('expanded');
-    const wrapper = this.shadowRoot?.querySelector('.fab-wrapper');
+    const dial = this.shadowRoot?.querySelector(".fab-speed-dial");
+    dial?.classList.remove("expanded");
+    const wrapper = this.shadowRoot?.querySelector(".fab-wrapper");
     if (wrapper instanceof HTMLElement) {
-      wrapper.style.pointerEvents = '';
+      wrapper.style.pointerEvents = "";
     }
   }
 
   private readonly handleFullscreenChange = (): void => {
     const isFullscreen = !!document.fullscreenElement;
     if (this.container) {
-      this.container.style.display = isFullscreen ? 'none' : 'block';
+      this.container.style.display = isFullscreen ? "none" : "block";
     }
   };
 
   private setupFullscreenListener(): void {
-    document.addEventListener('fullscreenchange', this.handleFullscreenChange);
-    document.addEventListener('webkitfullscreenchange', this.handleFullscreenChange);
+    document.addEventListener("fullscreenchange", this.handleFullscreenChange);
+    document.addEventListener(
+      "webkitfullscreenchange",
+      this.handleFullscreenChange,
+    );
   }
 
   private escapeHTML(str: string): string {
     return str
-      .replace(/&/g, '&amp;')
-      .replace(/</g, '&lt;')
-      .replace(/>/g, '&gt;')
-      .replace(/"/g, '&quot;');
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;");
   }
 
   private getStyles(): string {

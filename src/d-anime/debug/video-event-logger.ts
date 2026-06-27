@@ -115,7 +115,7 @@ export class VideoEventLogger {
 
     // currentTimeの変更を検出
     const timeDiff = Math.abs(video.currentTime - this.lastCurrentTime);
-    
+
     // timeupdateイベントは完全にスキップ（ノイズが多いため）
     if (eventName === "timeupdate") {
       if (timeDiff > 0.1) {
@@ -123,12 +123,13 @@ export class VideoEventLogger {
       }
       return;
     }
-    
+
     if (timeDiff > 0.1) {
       logger.info(`${this.prefix}:event:${eventName}`, {
         ...logData,
         timeDiff: timeDiff.toFixed(2),
-        direction: video.currentTime > this.lastCurrentTime ? "forward" : "backward",
+        direction:
+          video.currentTime > this.lastCurrentTime ? "forward" : "backward",
       });
       this.lastCurrentTime = video.currentTime;
     } else {
@@ -206,8 +207,7 @@ export class VideoEventLogger {
   }
 
   private getVideoSource(video: HTMLVideoElement): string | null {
-    const cur =
-      typeof video.currentSrc === "string" ? video.currentSrc : "";
+    const cur = typeof video.currentSrc === "string" ? video.currentSrc : "";
     if (cur.length > 0) {
       // URLの長さが100文字を超える場合は短縮
       return cur.length > 100 ? `${cur.slice(0, 100)}...` : cur;
@@ -229,4 +229,3 @@ export function getGlobalVideoEventLogger(): VideoEventLogger {
   }
   return globalVideoEventLogger;
 }
-

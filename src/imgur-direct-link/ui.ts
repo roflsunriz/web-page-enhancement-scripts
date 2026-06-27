@@ -1,4 +1,4 @@
-import { createLogger } from '@/shared/logger';
+import { createLogger } from "@/shared/logger";
 
 // 再確認用のガード（多重防御）
 const DIRECT_IMGUR_RE =
@@ -10,14 +10,14 @@ const DIRECT_IMGUR_RE =
  * @param isSuccess 成功メッセージかどうか (デフォルト: true)
  */
 export function showToast(message: string, isSuccess = true): void {
-  const toast = document.createElement('div');
+  const toast = document.createElement("div");
   toast.textContent = message;
   toast.style.cssText = `
     position: fixed;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-    background-color: ${isSuccess ? '#4CAF50' : '#f44336'};
+    background-color: ${isSuccess ? "#4CAF50" : "#f44336"};
     color: white;
     padding: 16px;
     white-space: pre-wrap;
@@ -30,7 +30,7 @@ export function showToast(message: string, isSuccess = true): void {
   document.body.appendChild(toast);
 
   setTimeout(() => {
-    toast.style.opacity = '0';
+    toast.style.opacity = "0";
     setTimeout(() => toast.remove(), 500);
   }, 3000);
 }
@@ -41,22 +41,26 @@ export function showToast(message: string, isSuccess = true): void {
  * @param mediaUrl コピー対象のメディアURL
  * @param wrapper ボタンを追加する親要素
  */
-export function createShadowButton(index: number, mediaUrl: string, wrapper: HTMLElement): void {
+export function createShadowButton(
+  index: number,
+  mediaUrl: string,
+  wrapper: HTMLElement,
+): void {
   // 無効URLは早期離脱
   if (!DIRECT_IMGUR_RE.test(mediaUrl)) return;
 
   // 既存設置を重複させない
-  if (!wrapper.style.position || wrapper.style.position === '') {
-    wrapper.style.position = 'relative';
+  if (!wrapper.style.position || wrapper.style.position === "") {
+    wrapper.style.position = "relative";
   }
 
-  const container = document.createElement('div');
+  const container = document.createElement("div");
   container.id = `imgurCopyButton-container-${index}`;
-  container.dataset.imgurDirectLinkButtonContainer = 'true';
+  container.dataset.imgurDirectLinkButtonContainer = "true";
 
-  const shadowRoot = container.attachShadow({ mode: 'open' });
+  const shadowRoot = container.attachShadow({ mode: "open" });
 
-  const style = document.createElement('style');
+  const style = document.createElement("style");
   style.textContent = `
     :host {
       position: absolute;
@@ -123,15 +127,15 @@ export function createShadowButton(index: number, mediaUrl: string, wrapper: HTM
     }
   `;
 
-  const copyButton = document.createElement('button');
-  copyButton.className = 'btn';
-  copyButton.textContent = 'コピー';
-  copyButton.title = 'ダイレクトリンクをコピー';
+  const copyButton = document.createElement("button");
+  copyButton.className = "btn";
+  copyButton.textContent = "コピー";
+  copyButton.title = "ダイレクトリンクをコピー";
 
   // パーティクル用のspanを追加
   for (let i = 0; i < 10; i++) {
-    const particle = document.createElement('span');
-    particle.className = 'particle';
+    const particle = document.createElement("span");
+    particle.className = "particle";
     copyButton.appendChild(particle);
   }
   // クリック1回で確実にコピー: pointerdown 優先（クリック競合対策）
@@ -139,26 +143,36 @@ export function createShadowButton(index: number, mediaUrl: string, wrapper: HTM
     e.preventDefault();
     e.stopPropagation();
     if (!DIRECT_IMGUR_RE.test(mediaUrl)) {
-      showToast('直接リンクではありません（i.imgur.comのみ許可）', false);
-      copyButton.setAttribute('disabled', 'true');
+      showToast("直接リンクではありません（i.imgur.comのみ許可）", false);
+      copyButton.setAttribute("disabled", "true");
       return;
     }
 
     // アニメーションクラスを追加
-    copyButton.classList.add('explode');
-    copyButton.addEventListener('animationend', () => {
-      copyButton.classList.remove('explode');
-    }, { once: true });
+    copyButton.classList.add("explode");
+    copyButton.addEventListener(
+      "animationend",
+      () => {
+        copyButton.classList.remove("explode");
+      },
+      { once: true },
+    );
 
-    navigator.clipboard.writeText(mediaUrl)
-      .then(() => showToast(`メディア${index + 1}のリンクをコピー:\n${mediaUrl}`))
+    navigator.clipboard
+      .writeText(mediaUrl)
+      .then(() =>
+        showToast(`メディア${index + 1}のリンクをコピー:\n${mediaUrl}`),
+      )
       .catch((err) => {
-        createLogger('ImgurDirectLinkCopier').error('クリップボードへのコピーに失敗: ', err);
-        showToast('クリップボードへのコピーに失敗しました', false);
+        createLogger("ImgurDirectLinkCopier").error(
+          "クリップボードへのコピーに失敗: ",
+          err,
+        );
+        showToast("クリップボードへのコピーに失敗しました", false);
       });
   };
-  copyButton.addEventListener('pointerdown', doCopy, { passive: false });
-  copyButton.addEventListener('click', doCopy); // フォールバック
+  copyButton.addEventListener("pointerdown", doCopy, { passive: false });
+  copyButton.addEventListener("click", doCopy); // フォールバック
 
   shadowRoot.append(style, copyButton);
   wrapper.appendChild(container);
@@ -167,19 +181,30 @@ export function createShadowButton(index: number, mediaUrl: string, wrapper: HTM
   let hideTimer: number | null = null;
   const setVisible = (v: boolean) => {
     if (v) {
-      if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
-      container.style.opacity = '1';
+      if (hideTimer) {
+        clearTimeout(hideTimer);
+        hideTimer = null;
+      }
+      container.style.opacity = "1";
     } else {
       // 少し遅らせることでボタン上へ移動しても消えない
       hideTimer = window.setTimeout(() => {
-        container.style.opacity = '0.1';
+        container.style.opacity = "0.1";
       }, 120);
     }
   };
   // ラッパー上で表示
-  wrapper.addEventListener('mouseenter', () => setVisible(true), { passive: true });
-  wrapper.addEventListener('mouseleave', () => setVisible(false), { passive: true });
+  wrapper.addEventListener("mouseenter", () => setVisible(true), {
+    passive: true,
+  });
+  wrapper.addEventListener("mouseleave", () => setVisible(false), {
+    passive: true,
+  });
   // ボタン上でも表示維持（Shadow DOM 内）
-  container.addEventListener('mouseenter', () => setVisible(true), { passive: true });
-  container.addEventListener('mouseleave', () => setVisible(false), { passive: true });
+  container.addEventListener("mouseenter", () => setVisible(true), {
+    passive: true,
+  });
+  container.addEventListener("mouseleave", () => setVisible(false), {
+    passive: true,
+  });
 }

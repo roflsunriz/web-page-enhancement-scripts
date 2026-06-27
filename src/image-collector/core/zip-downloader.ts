@@ -110,11 +110,9 @@ export class ZipDownloader {
               imageDataMap.set(url, imageData);
               this.logger.debug("Blobダウンロード成功", { size: blob.size });
             } catch (error) {
-              this.logger.error(
-                "画像のダウンロードに失敗しました",
-                error,
-                { url },
-              );
+              this.logger.error("画像のダウンロードに失敗しました", error, {
+                url,
+              });
               failed += 1;
               continue;
             }
@@ -126,7 +124,11 @@ export class ZipDownloader {
           }
 
           const fileName = this.getFilenameFromUrl(url as string);
-          imagesToProcess.push({ url: url as string, entry: imageData, fileName });
+          imagesToProcess.push({
+            url: url as string,
+            entry: imageData,
+            fileName,
+          });
         } catch (error) {
           this.logger.error(
             "画像メタデータ処理中にエラーが発生しました",
@@ -170,14 +172,10 @@ export class ZipDownloader {
               bytes,
             } satisfies ProcessedImage;
           } catch (error) {
-            this.logger.error(
-              "画像処理中にエラーが発生しました",
-              error,
-              {
-                url,
-                fileName,
-              },
-            );
+            this.logger.error("画像処理中にエラーが発生しました", error, {
+              url,
+              fileName,
+            });
             return { success: false, url, fileName } satisfies ProcessedImage;
           }
         }),
@@ -232,13 +230,9 @@ export class ZipDownloader {
         this.filesData.clear();
       }
     } catch (error) {
-      this.logger.error(
-        "ZIP準備中にエラーが発生しました",
-        error,
-        {
-          filesDataSize: this.filesData.size,
-        },
-      );
+      this.logger.error("ZIP準備中にエラーが発生しました", error, {
+        filesDataSize: this.filesData.size,
+      });
       this.toast.show("ZIPファイルの準備に失敗しました", "error");
       this.uiBuilder.setZipButtonState("initial", svgDownload);
       this.filesData.clear();
@@ -295,13 +289,9 @@ export class ZipDownloader {
         await this.generateSingleZip(fileEntries);
       }
     } catch (error) {
-      this.logger.error(
-        "ZIPダウンロード中に詳細エラー情報",
-        error,
-        {
-          filesDataSize: this.filesData.size,
-        },
-      );
+      this.logger.error("ZIPダウンロード中に詳細エラー情報", error, {
+        filesDataSize: this.filesData.size,
+      });
       this.toast.show("ZIPファイルの生成に失敗しました", "error");
     } finally {
       this.progressBar.hide();
@@ -408,11 +398,7 @@ export class ZipDownloader {
           resolve();
         }, 100);
       } catch (error) {
-        this.logger.error(
-          "ダウンロードリンク作成エラー",
-          error,
-          { filename },
-        );
+        this.logger.error("ダウンロードリンク作成エラー", error, { filename });
         reject(error);
       }
     });
@@ -440,7 +426,10 @@ export class ZipDownloader {
           }
         })
         .catch((err) => {
-          this.logger.error("画像ダウンロード失敗", undefined, { url, error: err });
+          this.logger.error("画像ダウンロード失敗", undefined, {
+            url,
+            error: err,
+          });
           reject(err);
         });
     });

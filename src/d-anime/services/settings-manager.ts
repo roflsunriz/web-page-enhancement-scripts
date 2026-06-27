@@ -6,7 +6,10 @@ import type {
   RendererSettings,
   VideoMetadata,
 } from "@/shared/types";
-import type { Notifier, NotificationType } from "@/d-anime/services/notification";
+import type {
+  Notifier,
+  NotificationType,
+} from "@/d-anime/services/notification";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
@@ -108,7 +111,9 @@ export class SettingsManager {
         null,
       );
       if (!stored) {
-        this.playbackSettings = clonePlaybackSettings(DEFAULT_PLAYBACK_SETTINGS);
+        this.playbackSettings = clonePlaybackSettings(
+          DEFAULT_PLAYBACK_SETTINGS,
+        );
         this.notifyPlaybackObservers();
         return this.playbackSettings;
       }
@@ -145,9 +150,7 @@ export class SettingsManager {
     }
   }
 
-  updatePlaybackSettings(
-    newSettings: Partial<PlaybackSettings>,
-  ): boolean {
+  updatePlaybackSettings(newSettings: Partial<PlaybackSettings>): boolean {
     this.playbackSettings = {
       ...this.playbackSettings,
       ...newSettings,
@@ -157,17 +160,11 @@ export class SettingsManager {
 
   private savePlaybackSettings(): boolean {
     try {
-      GM_setValue(
-        PLAYBACK_SETTINGS_KEY,
-        JSON.stringify(this.playbackSettings),
-      );
+      GM_setValue(PLAYBACK_SETTINGS_KEY, JSON.stringify(this.playbackSettings));
       this.notifyPlaybackObservers();
       return true;
     } catch (error) {
-      console.error(
-        "[SettingsManager] 再生設定の保存に失敗しました",
-        error,
-      );
+      console.error("[SettingsManager] 再生設定の保存に失敗しました", error);
       this.notify("再生設定の保存に失敗しました", "error");
       return false;
     }

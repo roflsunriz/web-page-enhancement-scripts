@@ -329,7 +329,10 @@ export class ImageCollectorMain {
         .then((res) => {
           try {
             const parser = new DOMParser();
-            const body = String((res.response as unknown as { responseText?: string }).responseText ?? "");
+            const body = String(
+              (res.response as unknown as { responseText?: string })
+                .responseText ?? "",
+            );
             const doc = parser.parseFromString(body, "text/html");
             const meta = doc.querySelector('meta[property="og:image"]');
             if (meta?.getAttribute("content")) {
@@ -338,7 +341,10 @@ export class ImageCollectorMain {
               resolve(url);
             }
           } catch (error) {
-            this.logger.warn("SNS画像の解析中にエラーが発生しました", { error, url });
+            this.logger.warn("SNS画像の解析中にエラーが発生しました", {
+              error,
+              url,
+            });
             resolve(url);
           }
         })

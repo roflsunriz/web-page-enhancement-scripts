@@ -12,11 +12,7 @@
 
 import { createLogger } from "@/shared/logger";
 import { renderMdiSvg } from "@/shared/icons/mdi";
-import {
-  mdiAlertCircle,
-  mdiCheckCircle,
-  mdiTimerSandEmpty,
-} from "@mdi/js";
+import { mdiAlertCircle, mdiCheckCircle, mdiTimerSandEmpty } from "@mdi/js";
 import type {
   RankData,
   RankTier,
@@ -46,7 +42,8 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
       "linear-gradient(115deg, rgba(255,255,255,0.95) 0%, rgba(255,255,255,0.35) 12%, rgba(255,255,255,0) 24%, rgba(255,255,255,0.55) 38%, rgba(255,255,255,0) 52%), linear-gradient(135deg, #6f4300 0%, #c98900 16%, #fff3a6 34%, #d99a00 50%, #fff8cf 64%, #b47500 78%, #f7c94a 100%)",
     text: "#241700",
     border: "#9f6a00",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(84,51,0,0.42), 0 1px 4px rgba(160,105,0,0.34)",
+    shadow:
+      "inset 0 1px 0 rgba(255,255,255,0.72), inset 0 -1px 0 rgba(84,51,0,0.42), 0 1px 4px rgba(160,105,0,0.34)",
     textShadow: "0 1px 0 rgba(255,255,255,0.45)",
   },
   "S++": {
@@ -54,7 +51,8 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
       "linear-gradient(115deg, rgba(255,255,255,0.92) 0%, rgba(255,255,255,0.3) 13%, rgba(255,255,255,0) 25%, rgba(255,255,255,0.48) 39%, rgba(255,255,255,0) 53%), linear-gradient(135deg, #7c5200 0%, #d39a10 18%, #ffe887 34%, #c88700 50%, #fff4b8 65%, #a96b00 80%, #eeb735 100%)",
     text: "#241700",
     border: "#a16f08",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.68), inset 0 -1px 0 rgba(86,56,0,0.4), 0 1px 4px rgba(150,100,0,0.3)",
+    shadow:
+      "inset 0 1px 0 rgba(255,255,255,0.68), inset 0 -1px 0 rgba(86,56,0,0.4), 0 1px 4px rgba(150,100,0,0.3)",
     textShadow: "0 1px 0 rgba(255,255,255,0.42)",
   },
   "S+": {
@@ -62,15 +60,17 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
       "linear-gradient(115deg, rgba(255,255,255,0.9) 0%, rgba(255,255,255,0.28) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.44) 40%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #8a6500 0%, #d6a619 18%, #ffe27a 34%, #be8500 50%, #fff1a8 66%, #9f7000 80%, #e4ad26 100%)",
     text: "#241700",
     border: "#a5790a",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.64), inset 0 -1px 0 rgba(88,63,0,0.38), 0 1px 4px rgba(135,96,0,0.26)",
+    shadow:
+      "inset 0 1px 0 rgba(255,255,255,0.64), inset 0 -1px 0 rgba(88,63,0,0.38), 0 1px 4px rgba(135,96,0,0.26)",
     textShadow: "0 1px 0 rgba(255,255,255,0.4)",
   },
-  "S": {
+  S: {
     background:
       "linear-gradient(115deg, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.26) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.4) 40%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #957100 0%, #d1a124 18%, #ffdc6b 34%, #b98300 50%, #f7e49a 66%, #946800 80%, #d9a42a 100%)",
     text: "#261a00",
     border: "#9d750c",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(84,62,0,0.36), 0 1px 4px rgba(120,90,0,0.24)",
+    shadow:
+      "inset 0 1px 0 rgba(255,255,255,0.6), inset 0 -1px 0 rgba(84,62,0,0.36), 0 1px 4px rgba(120,90,0,0.24)",
     textShadow: "0 1px 0 rgba(255,255,255,0.38)",
   },
   A: {
@@ -78,7 +78,8 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
       "linear-gradient(115deg, rgba(255,255,255,0.96) 0%, rgba(255,255,255,0.34) 13%, rgba(255,255,255,0) 25%, rgba(255,255,255,0.58) 39%, rgba(255,255,255,0) 54%), linear-gradient(135deg, #777b80 0%, #c8ccd0 18%, #f7f8f8 34%, #a4a9ad 50%, #ffffff 64%, #8c9196 78%, #d8dbde 100%)",
     text: "#1e2328",
     border: "#8d9398",
-    shadow: "inset 0 1px 0 rgba(255,255,255,0.78), inset 0 -1px 0 rgba(66,72,78,0.36), 0 1px 4px rgba(90,96,102,0.26)",
+    shadow:
+      "inset 0 1px 0 rgba(255,255,255,0.78), inset 0 -1px 0 rgba(66,72,78,0.36), 0 1px 4px rgba(90,96,102,0.26)",
     textShadow: "0 1px 0 rgba(255,255,255,0.55)",
   },
   B: {
@@ -86,7 +87,8 @@ const TIER_COLORS: Record<RankTier, TierColor> = {
       "linear-gradient(115deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.22) 14%, rgba(255,255,255,0) 26%, rgba(255,255,255,0.36) 41%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #5b2e10 0%, #a85d25 18%, #e0a05b 34%, #8a4519 50%, #f0be7b 66%, #6d3512 82%, #bd7430 100%)",
     text: "#fffaf3",
     border: "#7a3c15",
-    shadow: "inset 0 1px 0 rgba(255,235,202,0.52), inset 0 -1px 0 rgba(45,22,7,0.52), 0 1px 4px rgba(95,48,17,0.32)",
+    shadow:
+      "inset 0 1px 0 rgba(255,235,202,0.52), inset 0 -1px 0 rgba(45,22,7,0.52), 0 1px 4px rgba(95,48,17,0.32)",
     textShadow: "0 1px 1px rgba(45,22,7,0.72)",
   },
   C: {
@@ -304,7 +306,7 @@ function createCheckIconHtml(pathD: string): string {
 export function createErrorBadge(
   title: string,
   errorMessage: string,
-  retryCallback?: RetryCallback
+  retryCallback?: RetryCallback,
 ): HTMLElement {
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-error";
@@ -330,9 +332,14 @@ export function createErrorBadge(
  * バッジに表示するテキストを生成する
  * 形式: "S+++ランク - 第1位(85.5点)"
  */
-function formatBadgeText(rankData: RankData, isRankingFinalized: boolean): string {
+function formatBadgeText(
+  rankData: RankData,
+  isRankingFinalized: boolean,
+): string {
   const scorePoints = (rankData.score.totalScore * 100).toFixed(1);
-  const checkMark = isRankingFinalized ? createCheckIconHtml(mdiCheckCircle) : "";
+  const checkMark = isRankingFinalized
+    ? createCheckIconHtml(mdiCheckCircle)
+    : "";
   return `${rankData.tier} - 第${rankData.rank}位(${scorePoints}点)${checkMark}`;
 }
 
@@ -344,14 +351,18 @@ export function createRankBadge(
   title: string,
   rankData: RankData,
   cacheEntry: CacheEntry,
-  isRankingFinalized = false
+  isRankingFinalized = false,
 ): HTMLElement {
   const badge = document.createElement("div") as BadgeElement;
   badge.className = "cf-ranking-badge cf-ranking-rank";
   badge.setAttribute("style", getTierStyle(rankData.tier));
   badge.innerHTML = formatBadgeText(rankData, isRankingFinalized);
 
-  const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);
+  const tooltipData = buildTooltipData(
+    rankData,
+    cacheEntry,
+    isRankingFinalized,
+  );
   const tooltipContent = formatTooltipContent(tooltipData);
   badge.__cfRanking = { title, tooltipContent };
 
@@ -377,7 +388,7 @@ export function updateBadge(
   rankData: RankData | null,
   cacheEntry: CacheEntry,
   retryCallback?: RetryCallback,
-  isRankingFinalized = false
+  isRankingFinalized = false,
 ): void {
   const badgeEl = badge as BadgeElement;
   const title = badgeEl.__cfRanking?.title ?? cacheEntry.title;
@@ -409,7 +420,11 @@ export function updateBadge(
     badge.innerHTML = formatBadgeText(rankData, isRankingFinalized);
     badge.style.cursor = "default";
 
-    const tooltipData = buildTooltipData(rankData, cacheEntry, isRankingFinalized);
+    const tooltipData = buildTooltipData(
+      rankData,
+      cacheEntry,
+      isRankingFinalized,
+    );
     const tooltipContent = formatTooltipContent(tooltipData);
     badgeEl.__cfRanking = { title, tooltipContent };
 
@@ -451,7 +466,7 @@ function setupTooltipEvents(badge: HTMLElement): void {
 function buildTooltipData(
   rankData: RankData,
   cacheEntry: CacheEntry,
-  isRankingFinalized: boolean
+  isRankingFinalized: boolean,
 ): TooltipData {
   return {
     rank: rankData.rank,
@@ -476,23 +491,25 @@ function formatTooltipContent(data: TooltipData): string {
 
   // 順位（確定状態を表示）
   const status = data.isRankingFinalized ? "✓確定" : "⏳暫定";
-  lines.push(`【${data.tier}ランク】第${data.rank}位 / ${data.totalCount}作品中 ${status}`);
+  lines.push(
+    `【${data.tier}ランク】第${data.rank}位 / ${data.totalCount}作品中 ${status}`,
+  );
   lines.push(`総合スコア: ${(data.totalScore * 100).toFixed(1)}点`);
   lines.push("");
 
   // 指標
   lines.push("▼ 指標 (生値 / 正規化)");
   lines.push(
-    `再生: ${formatNumber(data.rawMetrics.viewCount)} / ${(data.normalizedMetrics.viewCount * 100).toFixed(0)}%`
+    `再生: ${formatNumber(data.rawMetrics.viewCount)} / ${(data.normalizedMetrics.viewCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `マイリスト: ${formatNumber(data.rawMetrics.mylistCount)} / ${(data.normalizedMetrics.mylistCount * 100).toFixed(0)}%`
+    `マイリスト: ${formatNumber(data.rawMetrics.mylistCount)} / ${(data.normalizedMetrics.mylistCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `コメント: ${formatNumber(data.rawMetrics.commentCount)} / ${(data.normalizedMetrics.commentCount * 100).toFixed(0)}%`
+    `コメント: ${formatNumber(data.rawMetrics.commentCount)} / ${(data.normalizedMetrics.commentCount * 100).toFixed(0)}%`,
   );
   lines.push(
-    `いいね: ${formatNumber(data.rawMetrics.likeCount)} / ${(data.normalizedMetrics.likeCount * 100).toFixed(0)}%`
+    `いいね: ${formatNumber(data.rawMetrics.likeCount)} / ${(data.normalizedMetrics.likeCount * 100).toFixed(0)}%`,
   );
   lines.push("");
 
@@ -501,7 +518,7 @@ function formatTooltipContent(data: TooltipData): string {
     lines.push("▼ 代表動画");
     lines.push(`${data.representativeVideo.title}`);
     lines.push(
-      `投稿: ${formatDate(data.representativeVideo.postedAt)} (${getUploaderTypeLabel(data.representativeVideo.uploaderType)})`
+      `投稿: ${formatDate(data.representativeVideo.postedAt)} (${getUploaderTypeLabel(data.representativeVideo.uploaderType)})`,
     );
   }
 
@@ -549,7 +566,7 @@ function getUploaderTypeLabel(type: string): string {
 function handleRetryClick(
   badge: BadgeElement,
   title: string,
-  callback: RetryCallback
+  callback: RetryCallback,
 ): void {
   const now = Date.now();
   const lastRetry = badge.__cfRanking?.lastRetryTime ?? 0;

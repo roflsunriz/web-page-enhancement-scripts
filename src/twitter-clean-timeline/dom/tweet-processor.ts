@@ -2,15 +2,15 @@
  * twitter-clean-timeline - ツイート要素処理
  */
 
-import { removeTweetElement } from './tweet-remover';
-import { MediaFilter } from '../filters/media-filter';
-import { MuteFilter } from '../filters/mute-filter';
-import { RetweetFilter } from '../filters/retweet-filter';
-import { ReplaceFilter } from '../filters/replace-filter';
-import { createLogger } from '@/shared/logger';
-import { settings } from '../settings';
+import { removeTweetElement } from "./tweet-remover";
+import { MediaFilter } from "../filters/media-filter";
+import { MuteFilter } from "../filters/mute-filter";
+import { RetweetFilter } from "../filters/retweet-filter";
+import { ReplaceFilter } from "../filters/replace-filter";
+import { createLogger } from "@/shared/logger";
+import { settings } from "../settings";
 
-const logger = createLogger('twitter-clean-timeline:processor');
+const logger = createLogger("twitter-clean-timeline:processor");
 
 // フィルタインスタンス
 const mediaFilter = new MediaFilter();
@@ -46,17 +46,16 @@ export function processTweetElement(element: HTMLElement): void {
 
   for (const filter of filters) {
     const result = filter.shouldHideFromDOM(element);
-    
+
     if (result.shouldHide) {
       const reason = result.reason ?? filter.name;
-      
+
       if (settings.debugMode) {
         logger.debug(`ツイートをフィルタ: ${reason}`);
       }
-      
+
       removeTweetElement(element, reason);
       return; // 1つでもフィルタに引っかかったら削除して終了
     }
   }
 }
-

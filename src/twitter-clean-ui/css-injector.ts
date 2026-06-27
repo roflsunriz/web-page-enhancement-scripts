@@ -1,12 +1,12 @@
 /**
  * Twitter Clean UI - CSS静的インジェクションシステム
- * 
+ *
  * パフォーマンス最適化のため、JavaScriptでの個別スタイル操作ではなく、
  * CSS静的インジェクションで要素を制御する
  */
 
-import type { UIElementId, Settings } from './types';
-import { UI_ELEMENTS, CSS_CACHE_KEY } from './constants';
+import type { UIElementId, Settings } from "./types";
+import { UI_ELEMENTS, CSS_CACHE_KEY } from "./constants";
 
 /**
  * 設定ページかどうかを判定
@@ -14,7 +14,7 @@ import { UI_ELEMENTS, CSS_CACHE_KEY } from './constants';
  */
 function isSettingsPage(): boolean {
   const path = window.location.pathname;
-  return path === '/settings' || path.startsWith('/settings/');
+  return path === "/settings" || path.startsWith("/settings/");
 }
 
 /**
@@ -24,7 +24,7 @@ function isSettingsPage(): boolean {
  */
 function isExplorePage(): boolean {
   const path = window.location.pathname;
-  return path === '/explore' || path.startsWith('/explore/');
+  return path === "/explore" || path.startsWith("/explore/");
 }
 
 /**
@@ -32,10 +32,10 @@ function isExplorePage(): boolean {
  */
 export class CSSInjector {
   /** 静的スタイル要素のID（早期注入と共有） */
-  public static readonly STYLE_ELEMENT_ID = 'twitter-clean-ui-static-styles';
+  public static readonly STYLE_ELEMENT_ID = "twitter-clean-ui-static-styles";
 
   private styleElement: HTMLStyleElement;
-  private currentCSS: string = '';
+  private currentCSS: string = "";
 
   /**
    * コンストラクタ
@@ -50,7 +50,7 @@ export class CSSInjector {
    */
   private findOrCreateStyleElement(): HTMLStyleElement {
     const existing = document.getElementById(
-      CSSInjector.STYLE_ELEMENT_ID
+      CSSInjector.STYLE_ELEMENT_ID,
     ) as HTMLStyleElement | null;
     if (existing) {
       return existing;
@@ -62,9 +62,9 @@ export class CSSInjector {
    * スタイル要素を新規作成
    */
   private createStyleElement(): HTMLStyleElement {
-    const style = document.createElement('style');
+    const style = document.createElement("style");
     style.id = CSSInjector.STYLE_ELEMENT_ID;
-    style.type = 'text/css';
+    style.type = "text/css";
     const target = document.head || document.documentElement;
     target.appendChild(style);
     return style;
@@ -76,30 +76,30 @@ export class CSSInjector {
   private generateSelector(elementId: UIElementId): string {
     const definition = UI_ELEMENTS.find((def) => def.id === elementId);
     if (!definition) {
-      return '';
+      return "";
     }
 
     // 最初の戦略からセレクタを取得
     const firstStrategy = definition.strategies[0];
     if (!firstStrategy) {
-      return '';
+      return "";
     }
 
     switch (firstStrategy.type) {
-      case 'querySelector':
-      case 'querySelectorAll':
-        return firstStrategy.selector || '';
+      case "querySelector":
+      case "querySelectorAll":
+        return firstStrategy.selector || "";
 
-      case 'xpath':
+      case "xpath":
         // XPathは複雑なのでスキップ
-        return '';
+        return "";
 
-      case 'custom':
+      case "custom":
         // カスタムファインダーは動的なのでスキップ
-        return '';
+        return "";
 
       default:
-        return '';
+        return "";
     }
   }
 
@@ -119,7 +119,7 @@ export class CSSInjector {
         // explore ページでは sidebarColumn を CSS で非表示にしない
         // sidebarColumn 内にメイン検索バーが含まれるため、
         // display: none にすると検索バーごと消えてしまう
-        if (elementId === 'rightSidebar' && isExplorePage()) {
+        if (elementId === "rightSidebar" && isExplorePage()) {
           return;
         }
         const selector = this.generateSelector(elementId);
@@ -129,7 +129,7 @@ export class CSSInjector {
       }
     });
 
-    return rules.join('\n');
+    return rules.join("\n");
   }
 
   /**
@@ -142,7 +142,7 @@ export class CSSInjector {
 
     // 設定ページではメインコンテンツ幅の制御を無効化
     const primaryColumnCSS = isSettingsPage()
-      ? ''
+      ? ""
       : `
       /* メインコンテンツの幅 - data-testidセレクタ */
       [data-testid="primaryColumn"] {
@@ -194,7 +194,7 @@ export class CSSInjector {
    */
   private saveCSSToCache(css: string): void {
     try {
-      if (typeof GM_setValue !== 'undefined') {
+      if (typeof GM_setValue !== "undefined") {
         GM_setValue(CSS_CACHE_KEY, css);
       } else {
         localStorage.setItem(CSS_CACHE_KEY, css);
@@ -215,8 +215,8 @@ export class CSSInjector {
    * すべてのスタイルをクリア
    */
   public clear(): void {
-    this.styleElement.textContent = '';
-    this.currentCSS = '';
+    this.styleElement.textContent = "";
+    this.currentCSS = "";
   }
 
   /**
@@ -229,4 +229,3 @@ export class CSSInjector {
     }
   }
 }
-

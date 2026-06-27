@@ -1,7 +1,7 @@
-import { globalState } from './state';
-import React from '@/shared/react';
-import { createRoot } from '@/shared/react';
-import { getUnsafeWindow } from '@/shared/userscript';
+import { globalState } from "./state";
+import React from "@/shared/react";
+import { createRoot } from "@/shared/react";
+import { getUnsafeWindow } from "@/shared/userscript";
 
 /**
  * 安全なイベントリスナー追加
@@ -16,19 +16,26 @@ export function addEventListenerSafely(
   event: string,
   handler: EventListenerOrEventListenerObject,
   options: boolean | AddEventListenerOptions = false,
-): { element: EventTarget; event: string; handler: EventListenerOrEventListenerObject; options: boolean | AddEventListenerOptions } | null {
+): {
+  element: EventTarget;
+  event: string;
+  handler: EventListenerOrEventListenerObject;
+  options: boolean | AddEventListenerOptions;
+} | null {
   try {
     // 型チェックを厳密化して any を回避
     const maybeElement = element as unknown as { addEventListener?: unknown };
-    if (!maybeElement || typeof maybeElement.addEventListener !== 'function') {
+    if (!maybeElement || typeof maybeElement.addEventListener !== "function") {
       return null;
     }
 
-    (maybeElement.addEventListener as (ev: string, h: EventListenerOrEventListenerObject, o?: boolean | AddEventListenerOptions) => void)(
-      event,
-      handler,
-      options,
-    );
+    (
+      maybeElement.addEventListener as (
+        ev: string,
+        h: EventListenerOrEventListenerObject,
+        o?: boolean | AddEventListenerOptions,
+      ) => void
+    )(event, handler, options);
     const listenerInfo = { element, event, handler, options };
     globalState.eventListeners.push(listenerInfo);
     return listenerInfo;
@@ -44,7 +51,10 @@ export function addEventListenerSafely(
  * @param delay 遅延時間(ms)
  * @returns タイマーID。失敗した場合はnull
  */
-export function setTimeoutSafely(callback: () => void, delay: number): number | null {
+export function setTimeoutSafely(
+  callback: () => void,
+  delay: number,
+): number | null {
   try {
     const timerId = window.setTimeout(() => {
       try {
@@ -73,7 +83,10 @@ export function setTimeoutSafely(callback: () => void, delay: number): number | 
  * @param interval 間隔(ms)
  * @returns インターバルID。失敗した場合はnull
  */
-export function setIntervalSafely(callback: () => void, interval: number): number | null {
+export function setIntervalSafely(
+  callback: () => void,
+  interval: number,
+): number | null {
   try {
     const intervalId = window.setInterval(() => {
       try {
@@ -97,7 +110,9 @@ export function setIntervalSafely(callback: () => void, interval: number): numbe
  * @param options オプション
  * @returns MutationObserverインスタンス。失敗した場合はnull
  */
-export function createObserverSafely(callback: MutationCallback): MutationObserver | null {
+export function createObserverSafely(
+  callback: MutationCallback,
+): MutationObserver | null {
   try {
     const observer = new MutationObserver((mutations, obs) => {
       try {
@@ -121,10 +136,16 @@ export function createObserverSafely(callback: MutationCallback): MutationObserv
  */
 export const isMobile = (): boolean => {
   try {
-    const ua = typeof navigator !== 'undefined' && typeof navigator.userAgent === 'string' ? navigator.userAgent : '';
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(ua);
+    const ua =
+      typeof navigator !== "undefined" &&
+      typeof navigator.userAgent === "string"
+        ? navigator.userAgent
+        : "";
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(
+      ua,
+    );
   } catch (error) {
-    console.error('[MangaViewer] Error detecting mobile:', error);
+    console.error("[MangaViewer] Error detecting mobile:", error);
     return false;
   }
 };
@@ -134,21 +155,23 @@ export const isMobile = (): boolean => {
  */
 export const setViewport = (): void => {
   try {
-    let viewport = document.querySelector<HTMLMetaElement>('meta[name="viewport"]');
+    let viewport = document.querySelector<HTMLMetaElement>(
+      'meta[name="viewport"]',
+    );
     if (!viewport) {
-      viewport = document.createElement('meta');
-      viewport.name = 'viewport';
+      viewport = document.createElement("meta");
+      viewport.name = "viewport";
       if (document.head) {
         document.head.appendChild(viewport);
       } else {
-        console.error('[MangaViewer] Document head not available for viewport');
+        console.error("[MangaViewer] Document head not available for viewport");
         return;
       }
     }
     viewport.content =
-      'width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no';
+      "width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no";
   } catch (error) {
-    console.error('[MangaViewer] Error setting viewport:', error);
+    console.error("[MangaViewer] Error setting viewport:", error);
   }
 };
 
@@ -158,8 +181,10 @@ export const setViewport = (): void => {
  */
 export function checkReactAvailability(): boolean {
   try {
-    if (typeof React === 'undefined' || typeof createRoot !== 'function') {
-      console.error('[MangaViewer] React or ReactDOM.createRoot is not available');
+    if (typeof React === "undefined" || typeof createRoot !== "function") {
+      console.error(
+        "[MangaViewer] React or ReactDOM.createRoot is not available",
+      );
       return false;
     }
     return true;
@@ -181,7 +206,10 @@ export const win: Window & typeof globalThis = getUnsafeWindow();
 try {
   // 型安全に MangaViewer グローバルを初期化
   const mv = (win as unknown as { MangaViewer?: unknown }).MangaViewer as
-    | { _progressBuffer?: Array<[number, string, string | null]>; updateProgress?: (...args: unknown[]) => void }
+    | {
+        _progressBuffer?: Array<[number, string, string | null]>;
+        updateProgress?: (...args: unknown[]) => void;
+      }
     | undefined;
   if (!mv) {
     (win as unknown as { MangaViewer?: unknown }).MangaViewer = {
@@ -190,27 +218,44 @@ try {
       updateProgress: (...args: unknown[]) => {
         try {
           const [percent, message, phase] = args;
-          if (typeof percent !== 'number' || typeof message !== 'string') return;
-          const holder = (win as unknown as { MangaViewer?: { _progressBuffer?: Array<[number, string, string | null]> } }).MangaViewer;
+          if (typeof percent !== "number" || typeof message !== "string")
+            return;
+          const holder = (
+            win as unknown as {
+              MangaViewer?: {
+                _progressBuffer?: Array<[number, string, string | null]>;
+              };
+            }
+          ).MangaViewer;
           if (holder && Array.isArray(holder._progressBuffer)) {
-            holder._progressBuffer.push([percent, message, typeof phase === 'string' ? phase : null]);
+            holder._progressBuffer.push([
+              percent,
+              message,
+              typeof phase === "string" ? phase : null,
+            ]);
           }
         } catch {
           // ignore
         }
       },
     };
-  } else if (!('_progressBuffer' in mv)) {
-    (mv as { _progressBuffer?: Array<[number, string, string | null]> })._progressBuffer = [];
+  } else if (!("_progressBuffer" in mv)) {
+    (
+      mv as { _progressBuffer?: Array<[number, string, string | null]> }
+    )._progressBuffer = [];
     // 保守的に updateProgress を設定
-    (mv as { updateProgress?: (...args: unknown[]) => void }).updateProgress = (...args: unknown[]) => {
+    (mv as { updateProgress?: (...args: unknown[]) => void }).updateProgress = (
+      ...args: unknown[]
+    ) => {
       try {
         const [percent, message, phase] = args;
-        if (typeof percent !== 'number' || typeof message !== 'string') return;
-        (mv as { _progressBuffer?: Array<[number, string, string | null]> })._progressBuffer!.push([
+        if (typeof percent !== "number" || typeof message !== "string") return;
+        (
+          mv as { _progressBuffer?: Array<[number, string, string | null]> }
+        )._progressBuffer!.push([
           percent,
           message,
-          typeof phase === 'string' ? phase : null,
+          typeof phase === "string" ? phase : null,
         ]);
       } catch {
         /* ignore */

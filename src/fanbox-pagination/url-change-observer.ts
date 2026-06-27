@@ -4,8 +4,16 @@
 export class UrlChangeObserver {
   private lastUrl: string;
   private callback: () => void;
-  private originalPushState: (data: unknown, unused: string, url?: string | URL | null) => void;
-  private originalReplaceState: (data: unknown, unused: string, url?: string | URL | null) => void;
+  private originalPushState: (
+    data: unknown,
+    unused: string,
+    url?: string | URL | null,
+  ) => void;
+  private originalReplaceState: (
+    data: unknown,
+    unused: string,
+    url?: string | URL | null,
+  ) => void;
 
   constructor(callback: () => void) {
     this.lastUrl = location.href;
@@ -41,6 +49,6 @@ export class UrlChangeObserver {
       this.handleUrlChange();
     };
 
-    window.addEventListener('popstate', this.handleUrlChange);
+    window.addEventListener("popstate", this.handleUrlChange);
   }
 }

@@ -1,4 +1,4 @@
-import type { LoadingSpinner } from '../ui/loading-spinner';
+import type { LoadingSpinner } from "../ui/loading-spinner";
 
 /**
  * 画像収集の結果を表すインターフェース。

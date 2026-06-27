@@ -70,5 +70,3 @@ export interface ZipRequest {
   resources: ImageResource[];
   zipName: string;
 }
-
-

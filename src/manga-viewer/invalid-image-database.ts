@@ -62,16 +62,28 @@ export function isInvalidImage(
     const urlObj = new URL(url);
 
     return invalidImageRules.some((rule) => {
-      const pageHostMatch = !rule.pageHost || (
-        context.pageHost !== undefined && rule.pageHost.test(context.pageHost)
-      );
+      const pageHostMatch =
+        !rule.pageHost ||
+        (context.pageHost !== undefined &&
+          rule.pageHost.test(context.pageHost));
       const hostMatch = !rule.host || rule.host.test(urlObj.hostname);
       const pathMatch = !rule.path || rule.path.test(urlObj.pathname);
       const urlMatch = !rule.url || rule.url.test(url);
-      const widthMatch = rule.width === undefined || width === undefined || width <= rule.width;
-      const heightMatch = rule.height === undefined || height === undefined || height <= rule.height;
+      const widthMatch =
+        rule.width === undefined || width === undefined || width <= rule.width;
+      const heightMatch =
+        rule.height === undefined ||
+        height === undefined ||
+        height <= rule.height;
 
-      return pageHostMatch && hostMatch && pathMatch && urlMatch && widthMatch && heightMatch;
+      return (
+        pageHostMatch &&
+        hostMatch &&
+        pathMatch &&
+        urlMatch &&
+        widthMatch &&
+        heightMatch
+      );
     });
   } catch {
     return false;
