@@ -4,6 +4,7 @@ import type { TweetData } from "@/shared/types";
 import { notify } from "@/shared/userscript";
 import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
 import { loadSettings } from "./settings.js";
+import { t } from "./i18n.js";
 
 const GOOGLE_TRANSLATE_ENDPOINT = GOOGLE_TRANSLATE_API_URL;
 
@@ -110,7 +111,7 @@ export async function translateTweets(
   }
 
   if (usedLocalAiTranslation) {
-    notify("ローカルAIでの翻訳が完了しました。", "Twitter Thread Copier");
+    notify(t("localAiTranslationComplete"), "Twitter Thread Copier");
   }
 
   return { tweets: clonedTweets, hasTranslation };
@@ -297,7 +298,7 @@ ${text}
       logger.log("ローカルAIでの翻訳に成功しました。");
       return translated;
     }
-    throw new Error("ローカルAIからの翻訳結果が空です。");
+    throw new Error(t("localAiEmptyResult"));
   } catch (error) {
     logger.error(`ローカルAIでの翻訳に失敗: ${(error as Error).message}`);
     return null;
@@ -355,22 +356,20 @@ async function translateWithGoogle(text: string): Promise<string> {
     }
   }
 
-  throw new Error("Google翻訳に失敗しました。");
+  throw new Error(t("googleTranslateFailed"));
 }
 
 function ensureOpenAIConfig(): void {
   const settings = loadSettings();
   if (!settings.openaiApiKey) {
-    logger.warn(
-      "OpenAI互換 APIキーが設定されていません。設定画面から設定してください。",
-    );
+    logger.warn(t("openAiKeyMissing"));
   }
 }
 
 async function translateWithOpenAI(text: string): Promise<string | null> {
   const settings = loadSettings();
   if (!settings.openaiEndpoint) {
-    logger.error("OpenAI互換 APIエンドポイントが設定されていません。");
+    logger.error(t("openAiEndpointMissing"));
     return null;
   }
 

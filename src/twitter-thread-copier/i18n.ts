@@ -16,10 +16,15 @@ type TranslationKey =
   | "copied"
   | "firstMode"
   | "googleTranslate"
+  | "googleTranslateFailed"
   | "internalErrorContent"
   | "internalErrorTitle"
   | "localAi"
+  | "localAiEmptyResult"
+  | "localAiTranslationComplete"
   | "openAiCompatible"
+  | "openAiEndpointMissing"
+  | "openAiKeyMissing"
   | "readyContent"
   | "readyTitle"
   | "resetConfirm"
@@ -86,10 +91,17 @@ const translations = {
     copied: "コピーしました",
     firstMode: "最初のみ",
     googleTranslate: "Google翻訳",
+    googleTranslateFailed: "Google翻訳に失敗しました。",
     internalErrorContent: "処理中に予期せぬエラーが発生しました。",
     internalErrorTitle: "内部エラー",
     localAi: "ローカルAI",
+    localAiEmptyResult: "ローカルAIからの翻訳結果が空です。",
+    localAiTranslationComplete: "ローカルAIでの翻訳が完了しました。",
     openAiCompatible: "OpenAI互換",
+    openAiEndpointMissing:
+      "OpenAI互換 APIエンドポイントが設定されていません。",
+    openAiKeyMissing:
+      "OpenAI互換 APIキーが設定されていません。設定画面から設定してください。",
     readyContent: "{summary} クリックしてコピーしてください",
     readyTitle: "準備完了",
     resetConfirm: "設定をデフォルトに戻しますか？",
@@ -157,10 +169,17 @@ const translations = {
     copied: "Copied",
     firstMode: "First only",
     googleTranslate: "Google Translate",
+    googleTranslateFailed: "Google Translate failed.",
     internalErrorContent: "An unexpected error occurred while processing.",
     internalErrorTitle: "Internal error",
     localAi: "Local AI",
+    localAiEmptyResult: "Local AI returned an empty translation result.",
+    localAiTranslationComplete: "Local AI translation is complete.",
     openAiCompatible: "OpenAI-compatible",
+    openAiEndpointMissing:
+      "OpenAI-compatible API endpoint is not configured.",
+    openAiKeyMissing:
+      "OpenAI-compatible API key is not configured. Set it from the settings screen.",
     readyContent: "{summary} Click to copy.",
     readyTitle: "Ready",
     resetConfirm: "Reset settings to defaults?",

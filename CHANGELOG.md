@@ -27,6 +27,7 @@
 - `d-anime-nico-comment-renderer` の設定 UI、検索 UI、動画切り替え通知を多言語化しました。
 - `twitter-clean-ui` のプロファイル削除ボタン文言を多言語化しました。
 - `manga-viewer` と `youtube-info-copier` の起動スタイル切り替えメニューを多言語化しました。
+- `twitter-thread-copier` の翻訳完了通知と翻訳設定エラー文言を多言語化しました。
 
 ### Changed
 
@@ -53,3 +54,4 @@
 - `twitter-clean-ui` のバージョンを `1.14.0` に更新しました。
 - `manga-viewer` のバージョンを `10.9.0` に更新しました。
 - `youtube-info-copier` のバージョンを `2.6.0` に更新しました。
+- `twitter-thread-copier` のバージョンを `6.10.0` に更新しました。
