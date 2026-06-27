@@ -208,6 +208,7 @@ export interface TranslationKeys {
   // その他
   enableRealTimePreview: string;
   createNewProfile: string;
+  deleteButton: string;
   deleteProfile: string;
   exportSettings: string;
   importSettings: string;

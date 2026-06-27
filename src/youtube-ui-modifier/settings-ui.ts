@@ -8,7 +8,13 @@ import type {
 import { MODAL_ID, PANEL_ID, STATUS_ID, UI_STYLE_ID } from "./constants";
 import { DEFAULT_SETTINGS } from "./settings-definitions";
 import { UI_STYLES } from "./ui-styles";
-import { format, t } from "./i18n";
+import {
+  format,
+  t,
+  translateCategoryLabel,
+  translateOptionDescription,
+  translateOptionLabel,
+} from "./i18n";
 
 const ENABLED_FILTER_CATEGORY_ID = "__enabled__";
 
@@ -124,7 +130,7 @@ export class SettingsUi {
     panel.replaceChildren();
 
     const heading = document.createElement("h3");
-    heading.textContent = category.label;
+    heading.textContent = translateCategoryLabel(category.id, category.label);
     panel.appendChild(heading);
 
     const list = document.createElement("div");
@@ -213,7 +219,7 @@ export class SettingsUi {
       button.type = "button";
       button.className = "youtube-ui-modifier-category";
       button.dataset.categoryId = category.id;
-      button.textContent = category.label;
+      button.textContent = translateCategoryLabel(category.id, category.label);
       button.addEventListener("click", () => {
         this.activeCategoryId = category.id;
         this.renderActiveCategory();
@@ -311,12 +317,15 @@ export class SettingsUi {
 
     const title = document.createElement("span");
     title.className = "youtube-ui-modifier-option-title";
-    title.textContent = option.label;
+    title.textContent = translateOptionLabel(option.id, option.label);
     text.appendChild(title);
 
     const description = document.createElement("span");
     description.className = "youtube-ui-modifier-option-description";
-    description.textContent = option.description;
+    description.textContent = translateOptionDescription(
+      option.id,
+      option.description,
+    );
     text.appendChild(description);
 
     row.appendChild(text);

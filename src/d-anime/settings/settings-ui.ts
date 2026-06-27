@@ -35,6 +35,7 @@ import {
   buildNicovideoSearchUrl,
   NICOVIDEO_URLS,
 } from "@/shared/constants/urls";
+import { format, t } from "@/d-anime/i18n";
 import { USERSCRIPT_VERSION_UI_DISPLAY } from "@/d-anime/config/default-settings";
 
 const logger = createLogger("dAnime:SettingsUI");
@@ -365,18 +366,15 @@ export class SettingsUI extends ShadowDOMComponent {
       // ボタンを作成
       const button = document.createElement("button");
       button.className = "auto-comment-button";
-      button.title = "検索フォームにタイトル・話数・エピソードタイトルを入力";
-      button.setAttribute(
-        "aria-label",
-        "検索フォームにタイトル・話数・エピソードタイトルを入力",
-      );
+      button.title = t("autoFillSearchForm");
+      button.setAttribute("aria-label", t("autoFillSearchForm"));
 
       // アイコンを追加（入力/フォームアイコン）
       button.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
           <path d="M14,14H16L18,16V18H20V16L18,14V12H14M10,10H4V12H10M20,6H12L10,4H4A2,2 0 0,0 2,6V18A2,2 0 0,0 4,20H11.35C11.14,19.37 11,18.7 11,18A7,7 0 0,1 18,11C19.1,11 20.12,11.29 21,11.78V6M4,6H9.17L11.17,8H20V10H18V10.5C16.55,10.16 15,10.64 14,11.5V10H4M12,14H4V16H11.35C11.63,15.28 12.08,14.63 12.64,14.08L12,14Z" />
         </svg>
-        <span style="margin-left: 6px; font-size: 12px; font-weight: 500;">フォーム入力</span>
+        <span style="margin-left: 6px; font-size: 12px; font-weight: 500;">${t("formInput")}</span>
       `;
 
       button.addEventListener("click", (event) => {
@@ -422,7 +420,7 @@ export class SettingsUI extends ShadowDOMComponent {
         if (episodeTitle) parts.push(episodeTitle);
 
         NotificationManager.show(
-          `「${parts.join(" ")}」を検索フォームに入力しました`,
+          format("searchFormFilled", { keyword: parts.join(" ") }),
           "success",
         );
       });
@@ -500,7 +498,7 @@ export class SettingsUI extends ShadowDOMComponent {
       <div class="nico-comment-settings">
         <h2>
           <span class="settings-title">d-anime-nico-comment-renderer</span>
-          <span class="version-badge" aria-label="バージョン">${USERSCRIPT_VERSION_UI_DISPLAY}</span>
+          <span class="version-badge" aria-label="Version">${USERSCRIPT_VERSION_UI_DISPLAY}</span>
         </h2>
 
         <!-- Cinematic Glass Card -->
@@ -516,50 +514,50 @@ export class SettingsUI extends ShadowDOMComponent {
           <div class="video-card__body">
             <!-- サムネイル -->
             <div class="video-card__thumbnail">
-              <img id="currentThumbnail" src="${thumbnailUrl}" alt="サムネイル">
+              <img id="currentThumbnail" src="${thumbnailUrl}" alt="${t("thumbnail")}">
             </div>
 
             <!-- 情報セクション -->
             <div class="video-card__info">
               <!-- 上部: ID & 日付 -->
               <div class="video-card__meta-row">
-                <div class="video-card__id" title="動画ID">
+                <div class="video-card__id" title="${t("videoId")}">
                   <span class="video-card__id-icon" aria-hidden="true">${svgVideoId}</span>
-                  <span class="sr-only">動画ID</span>
-                  <span id="currentVideoId">${video?.videoId ?? "未設定"}</span>
+                  <span class="sr-only">${t("videoId")}</span>
+                  <span id="currentVideoId">${video?.videoId ?? t("currentVideoUnset")}</span>
                 </div>
-                <div class="video-card__date" title="投稿日">
+                <div class="video-card__date" title="${t("postedAt")}">
                   <span class="video-card__date-icon" aria-hidden="true">${svgPostedAt}</span>
-                  <span class="sr-only">投稿日</span>
+                  <span class="sr-only">${t("postedAt")}</span>
                   <span id="currentPostedAt">${renderDate(video?.postedAt)}</span>
                 </div>
               </div>
 
               <!-- 中央: タイトル & 投稿者 -->
               <div class="video-card__main">
-                <h3 class="video-card__title" id="currentTitle">${video?.title ?? "オーバーレイする動画が未設定です"}</h3>
-                <div class="video-card__owner" title="投稿者">
+                <h3 class="video-card__title" id="currentTitle">${video?.title ?? t("currentVideoUnset")}</h3>
+                <div class="video-card__owner" title="${t("videoOwner")}">
                   <span class="video-card__owner-icon" aria-hidden="true">${svgVideoOwner}</span>
-                  <span class="sr-only">投稿者</span>
+                  <span class="sr-only">${t("videoOwner")}</span>
                   <span id="currentOwner">${video?.owner?.nickname ?? video?.channel?.name ?? "-"}</span>
                 </div>
               </div>
 
               <!-- 下部: 統計情報 -->
               <div class="video-card__stats">
-                <div class="video-card__stat" title="再生数">
+                <div class="video-card__stat" title="${t("viewCountLong")}">
                   <span class="video-card__stat-icon" aria-hidden="true">${svgViewCount}</span>
-                  <span class="sr-only">再生数</span>
+                  <span class="sr-only">${t("viewCountLong")}</span>
                   <span class="video-card__stat-value" id="currentViewCount">${renderNumber(video?.viewCount)}</span>
                 </div>
-                <div class="video-card__stat" title="コメント数">
+                <div class="video-card__stat" title="${t("commentCountLong")}">
                   <span class="video-card__stat-icon" aria-hidden="true">${svgCommentCount}</span>
-                  <span class="sr-only">コメント数</span>
+                  <span class="sr-only">${t("commentCountLong")}</span>
                   <span class="video-card__stat-value" id="currentCommentCount">${renderNumber(video?.commentCount)}</span>
                 </div>
-                <div class="video-card__stat" title="マイリスト数">
+                <div class="video-card__stat" title="${t("mylistCountLong")}">
                   <span class="video-card__stat-icon" aria-hidden="true">${svgMylistCount}</span>
-                  <span class="sr-only">マイリスト数</span>
+                  <span class="sr-only">${t("mylistCountLong")}</span>
                   <span class="video-card__stat-value" id="currentMylistCount">${renderNumber(video?.mylistCount)}</span>
                 </div>
               </div>
@@ -576,25 +574,25 @@ export class SettingsUI extends ShadowDOMComponent {
         <div class="settings-modal__overlay"></div>
         <div class="settings-modal__content">
           <header class="settings-modal__header">
-            <h3 id="settingsModalTitle">設定</h3>
-            <button id="closeSettingsModal" class="settings-modal__close" type="button" aria-label="設定を閉じる">
+            <h3 id="settingsModalTitle">${t("settings")}</h3>
+            <button id="closeSettingsModal" class="settings-modal__close" type="button" aria-label="${t("settingsClose")}">
               <span aria-hidden="true">${svgClose}</span>
             </button>
           </header>
           <div class="settings-modal__tabs" role="tablist">
             <button class="settings-modal__tab is-active" type="button" data-tab="search" role="tab" aria-selected="true" aria-controls="settingsPaneSearch" id="settingsTabSearch">
               <span class="settings-modal__tab-icon" aria-hidden="true">${svgComment}</span>
-              <span class="settings-modal__tab-label">検索</span>
+              <span class="settings-modal__tab-label">${t("searchTab")}</span>
             </button>
             <button class="settings-modal__tab" type="button" data-tab="ng" role="tab" aria-selected="false" aria-controls="settingsPaneNg" id="settingsTabNg" tabindex="-1">
               <span class="settings-modal__tab-icon" aria-hidden="true">${svgLock}</span>
-              <span class="settings-modal__tab-label">NG</span>
+              <span class="settings-modal__tab-label">${t("ngTab")}</span>
             </button>
           </div>
           <div class="settings-modal__panes">
             <section class="settings-modal__pane is-active" data-pane="search" role="tabpanel" id="settingsPaneSearch" aria-labelledby="settingsTabSearch">
               <div class="setting-group search-section">
-                <h3>コメントをオーバーレイする動画を検索</h3>
+                <h3>${t("searchVideoHeading")}</h3>
                 <div
                   class="playback-option${this.settings.autoSearchEnabled ? " playback-option--active" : ""}"
                   id="autoSearchOptionRow"
@@ -607,8 +605,8 @@ export class SettingsUI extends ShadowDOMComponent {
                     ${svgSync}
                   </div>
                   <div class="playback-option__text">
-                    <span class="playback-option__title">自動検索</span>
-                    <span class="playback-option__desc">視聴ページ表示時に自動でコメントを設定</span>
+                    <span class="playback-option__title">${t("autoSearch")}</span>
+                    <span class="playback-option__desc">${t("autoSearchDescription")}</span>
                   </div>
                   <div class="playback-option__toggle">
                     <input
@@ -619,49 +617,49 @@ export class SettingsUI extends ShadowDOMComponent {
                     >
                     <span class="playback-option__switch"></span>
                   </div>
-                  <div class="info-badge" id="autoSearchInfoBadge" tabindex="0" aria-label="自動検索についての説明">
+                  <div class="info-badge" id="autoSearchInfoBadge" tabindex="0" aria-label="${t("autoSearchInfo")}">
                     ${svgInformation}
                   </div>
                 </div>
 
                 <div class="search-mode-switch">
-                  <span class="search-mode-switch__label search-mode-switch__label--active" id="searchModeLabelStructured">詳細入力</span>
-                  <label class="search-mode-switch__toggle" aria-label="入力モードを切り替え（詳細入力 / 自由入力）">
+                  <span class="search-mode-switch__label search-mode-switch__label--active" id="searchModeLabelStructured">${t("structuredInput")}</span>
+                  <label class="search-mode-switch__toggle" aria-label="${t("searchInputModeToggle")}">
                     <input type="checkbox" id="searchModeToggle" class="search-mode-switch__checkbox">
                     <span class="search-mode-switch__track"></span>
                     <span class="search-mode-switch__thumb"></span>
                   </label>
-                  <span class="search-mode-switch__label" id="searchModeLabelFree">自由入力</span>
+                  <span class="search-mode-switch__label" id="searchModeLabelFree">${t("freeInput")}</span>
                 </div>
 
                 <div class="search-fields" id="searchStructuredFields">
                   <div class="search-field">
-                    <label for="searchAnimeTitle" class="search-field__label">アニメタイトル</label>
-                    <input type="text" id="searchAnimeTitle" class="search-field__input" placeholder="例: 葬送のフリーレン">
+                    <label for="searchAnimeTitle" class="search-field__label">${t("animeTitle")}</label>
+                    <input type="text" id="searchAnimeTitle" class="search-field__input" placeholder="${t("searchAnimePlaceholder")}">
                   </div>
                   <div class="search-field-row">
                     <div class="search-field search-field--half">
-                      <label for="searchEpisodeNumber" class="search-field__label">話数</label>
-                      <input type="text" id="searchEpisodeNumber" class="search-field__input" placeholder="例: 第1話">
+                      <label for="searchEpisodeNumber" class="search-field__label">${t("episodeNumber")}</label>
+                      <input type="text" id="searchEpisodeNumber" class="search-field__input" placeholder="${t("searchEpisodeNumberPlaceholder")}">
                     </div>
                     <div class="search-field search-field--half">
-                      <label for="searchEpisodeTitle" class="search-field__label">エピソードタイトル（任意）</label>
-                      <input type="text" id="searchEpisodeTitle" class="search-field__input" placeholder="例: 冒険の終わり">
+                      <label for="searchEpisodeTitle" class="search-field__label">${t("episodeTitleOptional")}</label>
+                      <input type="text" id="searchEpisodeTitle" class="search-field__input" placeholder="${t("searchEpisodeTitlePlaceholder")}">
                     </div>
                   </div>
                 </div>
 
                 <div class="search-free-input" id="searchFreeInputArea" style="display:none;">
                   <div class="search-field">
-                    <label for="searchInput" class="search-field__label">フリーワード検索</label>
-                    <input type="text" id="searchInput" class="search-field__input" placeholder="検索キーワードを入力">
+                    <label for="searchInput" class="search-field__label">${t("searchFreeword")}</label>
+                    <input type="text" id="searchInput" class="search-field__input" placeholder="${t("manualSearchPlaceholder")}">
                   </div>
                 </div>
 
                 <div class="search-container">
-                  <button id="searchButton">検索</button>
-                  <button id="openSearchPageDirect" class="open-search-page-direct-btn">検索ページ</button>
-                  <div class="shield-badge" tabindex="0" aria-label="公式動画セーフガードについて">
+                  <button id="searchButton">${t("search")}</button>
+                  <button id="openSearchPageDirect" class="open-search-page-direct-btn">${t("searchPage")}</button>
+                  <div class="shield-badge" tabindex="0" aria-label="${t("officialVideoSafeguardInfo")}">
                     ${svgShieldCheck}
                   </div>
                 </div>
@@ -671,18 +669,18 @@ export class SettingsUI extends ShadowDOMComponent {
             <section class="settings-modal__pane" data-pane="ng" role="tabpanel" id="settingsPaneNg" aria-labelledby="settingsTabNg" aria-hidden="true">
               <div class="setting-group ng-settings">
                 <div class="ng-settings__column" aria-labelledby="ngWordsTitle">
-                  <h3 id="ngWordsTitle" class="ng-settings__title">NGワード</h3>
-                  <textarea class="ng-settings__textarea" id="ngWords" placeholder="NGワードを1行ずつ入力">${(this.settings.ngWords ?? []).join("\n")}</textarea>
+                  <h3 id="ngWordsTitle" class="ng-settings__title">${t("ngWords")}</h3>
+                  <textarea class="ng-settings__textarea" id="ngWords" placeholder="${t("ngWordsPlaceholder")}">${(this.settings.ngWords ?? []).join("\n")}</textarea>
                 </div>
                 <div class="ng-settings__column" aria-labelledby="ngRegexTitle">
-                  <h3 id="ngRegexTitle" class="ng-settings__title">NG正規表現</h3>
-                  <textarea class="ng-settings__textarea" id="ngRegexps" placeholder="NG正規表現を1行ずつ入力">${(this.settings.ngRegexps ?? []).join("\n")}</textarea>
+                  <h3 id="ngRegexTitle" class="ng-settings__title">${t("ngRegex")}</h3>
+                  <textarea class="ng-settings__textarea" id="ngRegexps" placeholder="${t("ngRegexPlaceholder")}">${(this.settings.ngRegexps ?? []).join("\n")}</textarea>
                 </div>
               </div>
             </section>
           </div>
           <footer class="settings-modal__footer">
-            <button id="saveSettings" type="button">設定を保存</button>
+            <button id="saveSettings" type="button">${t("saveSettings")}</button>
           </footer>
         </div>
       </div>
@@ -874,8 +872,8 @@ export class SettingsUI extends ShadowDOMComponent {
       this.settingsManager.updateSettings(this.settings);
       NotificationManager.show(
         this.settings.autoSearchEnabled
-          ? "自動検索を有効にしました"
-          : "自動検索を無効にしました（手動設定モード）",
+          ? t("autoSearchEnabled")
+          : t("autoSearchDisabledManual"),
         "success",
       );
     };
@@ -1227,7 +1225,7 @@ export class SettingsUI extends ShadowDOMComponent {
     const execute = async () => {
       const keyword = buildSearchKeyword();
       if (!keyword) {
-        NotificationManager.show("検索キーワードを入力してください", "warning");
+        NotificationManager.show(t("searchKeywordRequired"), "warning");
         return;
       }
 
@@ -1267,7 +1265,7 @@ export class SettingsUI extends ShadowDOMComponent {
     animeTitle?: string,
   ): Promise<NicoSearchResultItem[]> {
     try {
-      NotificationManager.show(`「${keyword}」を検索中...`, "info");
+      NotificationManager.show(format("searchingKeyword", { keyword }), "info");
       const allResults = await this.searcher.search(keyword);
 
       // アニメタイトルが指定されている場合、公式動画のみをフィルタリング
@@ -1291,7 +1289,7 @@ export class SettingsUI extends ShadowDOMComponent {
             animeTitle,
           });
           NotificationManager.show(
-            "公式動画が見つかりませんでした。全ての検索結果を表示しています。",
+            t("officialVideoMissing"),
             "warning",
           );
         }
@@ -1301,7 +1299,7 @@ export class SettingsUI extends ShadowDOMComponent {
         this.renderSearchResultItem(item),
       );
       if (results.length === 0) {
-        NotificationManager.show("検索結果が見つかりませんでした", "warning");
+        NotificationManager.show(t("searchNoResults"), "warning");
       }
       return results;
     } catch (error) {
@@ -1358,7 +1356,7 @@ export class SettingsUI extends ShadowDOMComponent {
     const similarityHtml =
       typeof item.similarity === "number"
         ? `
-          <div class="similarity-container" title="類似度: ${item.similarity.toFixed(2)}%">
+          <div class="similarity-container" title="${format("similarity", { score: item.similarity.toFixed(2) })}">
             <div class="similarity-bar" style="width: ${item.similarity.toFixed(2)}%;"></div>
             <span class="similarity-text">${item.similarity.toFixed(0)}%</span>
           </div>
@@ -1371,17 +1369,17 @@ export class SettingsUI extends ShadowDOMComponent {
         <div class="search-result-info">
           <div class="title">${item.title}</div>
           <div class="stats">
-            <span class="stat-icon" title="再生">
+            <span class="stat-icon" title="${t("viewCount")}">
               ${svgPlay}
             </span>
             <span>${item.viewCount.toLocaleString()}</span>
             <span style="margin: 0 8px;">/</span>
-            <span class="stat-icon" title="コメント">
+            <span class="stat-icon" title="${t("commentCount")}">
               ${svgCommentText}
             </span>
             <span>${item.commentCount.toLocaleString()}</span>
             <span style="margin: 0 8px;">/</span>
-            <span class="stat-icon" title="マイリスト">
+            <span class="stat-icon" title="${t("mylistCount")}">
               ${svgStar}
             </span>
             <span>${item.mylistCount.toLocaleString()}</span>
@@ -1402,7 +1400,7 @@ export class SettingsUI extends ShadowDOMComponent {
       const apiData = await this.fetcher.fetchApiData(result.videoId);
       await this.fetcher.fetchComments();
       NotificationManager.show(
-        `「${result.title}」のコメントを設定しました`,
+        format("commentsSet", { title: result.title }),
         "success",
       );
       this.updateCurrentVideoInfo(this.buildVideoMetadata(result, apiData));
@@ -1468,7 +1466,7 @@ export class SettingsUI extends ShadowDOMComponent {
     }
 
     this.settingsManager.updateSettings(this.settings);
-    NotificationManager.show("設定を保存しました", "success");
+    NotificationManager.show(t("settingsSaved"), "success");
   }
 
   private updateCurrentVideoInfo(videoInfo: VideoMetadata): void {
@@ -1499,7 +1497,7 @@ export class SettingsUI extends ShadowDOMComponent {
     );
     if (thumbnail && videoInfo.thumbnail) {
       thumbnail.src = videoInfo.thumbnail;
-      thumbnail.alt = videoInfo.title ?? "サムネイル";
+      thumbnail.alt = videoInfo.title ?? t("thumbnail");
     }
 
     // 背景ブラー用のアンビエント画像も更新
@@ -1701,9 +1699,9 @@ export class SettingsUI extends ShadowDOMComponent {
     }
     button.innerHTML = `
       <span class="fab-button__icon" aria-hidden="true">${svgComment}</span>
-      <span class="fab-button__label">設定</span>
+      <span class="fab-button__label">${t("settings")}</span>
     `;
-    button.setAttribute("aria-label", "ニコニココメント設定を開く");
+    button.setAttribute("aria-label", t("settingsFabLabel"));
     button.setAttribute("aria-haspopup", "dialog");
 
     let modal = container.querySelector<HTMLDivElement>(

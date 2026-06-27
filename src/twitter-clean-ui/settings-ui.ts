@@ -405,7 +405,7 @@ export class SettingsUI {
       if (profile.id !== "default") {
         const deleteBtn = document.createElement("button");
         deleteBtn.className = "twitter-clean-ui-icon-button";
-        deleteBtn.textContent = "Delete";
+        deleteBtn.textContent = t("deleteButton");
         deleteBtn.title = t("deleteProfile");
         deleteBtn.addEventListener("click", (e) => {
           e.stopPropagation();

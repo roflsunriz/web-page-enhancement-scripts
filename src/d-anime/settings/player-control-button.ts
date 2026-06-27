@@ -3,6 +3,7 @@ import type { SettingsManager } from "@/d-anime/services/settings-manager";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
 import { svgPalette, svgComment, svgLock } from "@/shared/icons/mdi";
 import { createLogger } from "@/shared/logger";
+import { t } from "@/d-anime/i18n";
 
 const logger = createLogger("dAnime:PlayerControlButton");
 
@@ -67,8 +68,8 @@ export class PlayerControlButton {
 
     const btn = document.createElement("button");
     btn.type = "button";
-    btn.title = "コメント設定";
-    btn.setAttribute("aria-label", "コメント設定パネル");
+    btn.title = t("commentSettings");
+    btn.setAttribute("aria-label", t("commentSettingsPanel"));
     btn.setAttribute("aria-expanded", "false");
     btn.style.cssText = [
       "width:100%",
@@ -118,7 +119,7 @@ export class PlayerControlButton {
     panel.className = "panel";
     panel.setAttribute("hidden", "");
     panel.setAttribute("role", "dialog");
-    panel.setAttribute("aria-label", "コメント設定");
+    panel.setAttribute("aria-label", t("commentSettings"));
     panel.innerHTML = this.buildPanelHTML(settings, playback);
     shadow.appendChild(panel);
 
@@ -313,13 +314,13 @@ export class PlayerControlButton {
     const speedDisabled = playback.fixedModeEnabled ? "" : "disabled";
 
     return `
-      <p class="panel__title">コメント設定</p>
+      <p class="panel__title">${t("commentSettings")}</p>
 
       <div class="row">
         <span class="row__label">
-          <span id="pcb-vis-icon">${visIcon}</span>コメント表示
+          <span id="pcb-vis-icon">${visIcon}</span>${t("commentVisibility")}
         </span>
-        <label class="toggle" aria-label="コメント表示切替">
+        <label class="toggle" aria-label="${t("commentVisibilityToggle")}">
           <input type="checkbox" id="pcb-visibility" ${settings.isCommentVisible ? "checked" : ""}>
           <span class="toggle__track"></span>
           <span class="toggle__thumb"></span>
@@ -327,13 +328,13 @@ export class PlayerControlButton {
       </div>
 
       <div class="row">
-        <span class="row__label">カラー</span>
+        <span class="row__label">${t("color")}</span>
         <input type="color" id="pcb-color" class="color-picker"
-               value="${settings.commentColor}" title="コメントカラー">
+               value="${settings.commentColor}" title="${t("commentColor")}">
       </div>
 
       <div class="row row--stacked">
-        <span class="row__label">不透明度</span>
+        <span class="row__label">${t("commentOpacity")}</span>
         <div class="slider-wrap">
           <input type="range" id="pcb-opacity" class="slider"
                  min="0.1" max="1" step="0.05" value="${settings.commentOpacity ?? 1}">
@@ -341,11 +342,11 @@ export class PlayerControlButton {
         </div>
       </div>
 
-      <p class="section-title">再生速度</p>
+      <p class="section-title">${t("playbackRate")}</p>
 
       <div class="row">
-        <span class="row__label">速度固定</span>
-        <label class="toggle" aria-label="再生速度固定ON/OFF">
+        <span class="row__label">${t("fixedPlaybackRate")}</span>
+        <label class="toggle" aria-label="${t("playbackRateFixedToggle")}">
           <input type="checkbox" id="pcb-speed-mode" ${playback.fixedModeEnabled ? "checked" : ""}>
           <span class="toggle__track"></span>
           <span class="toggle__thumb"></span>

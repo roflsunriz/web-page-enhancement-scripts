@@ -1,4 +1,5 @@
 import { getValue, setValue, registerMenuCommand } from "@/shared/userscript";
+import { createI18n, type LocaleCode } from "@/shared/i18n";
 import {
   LAUNCH_STYLES,
   LAUNCH_STYLE_LABELS,
@@ -6,6 +7,45 @@ import {
 import type { LaunchStyle } from "@/shared/types/launch-style";
 
 const STORAGE_KEY_PREFIX = "launch-style-";
+
+type LaunchStyleLocale = Extract<LocaleCode, "ja" | "en">;
+type TranslationKey =
+  | "changeLaunchStyle"
+  | "current"
+  | "styleChanged"
+  | "reloadToApply"
+  | `style_${LaunchStyle}`;
+
+const i18n = createI18n<TranslationKey, LaunchStyleLocale>({
+  translations: {
+    ja: {
+      changeLaunchStyle: "起動スタイル変更",
+      current: "現在",
+      styleChanged: "起動スタイルを「{style}」に変更しました。",
+      reloadToApply: "ページを再読み込みすると反映されます。",
+      style_classic: LAUNCH_STYLE_LABELS.classic,
+      style_fab: LAUNCH_STYLE_LABELS.fab,
+      "style_menu-only": LAUNCH_STYLE_LABELS["menu-only"],
+    },
+    en: {
+      changeLaunchStyle: "Change launch style",
+      current: "Current",
+      styleChanged: 'Changed launch style to "{style}".',
+      reloadToApply: "Reload the page to apply it.",
+      style_classic: "Classic style",
+      style_fab: "FAB button",
+      "style_menu-only": "Menu only",
+    },
+  },
+  defaultLocale: "ja",
+  fallbackLocale: "en",
+});
+
+i18n.setLocale(i18n.detectBrowserLocale());
+
+function getLaunchStyleLabel(style: LaunchStyle): string {
+  return i18n.t(`style_${style}`);
+}
 
 /**
  * 保存された起動スタイルを取得する
@@ -50,14 +90,14 @@ export function registerLaunchStyleMenu(
   onStyleChanged?: (newStyle: LaunchStyle) => void,
 ): void {
   const current = getLaunchStyle(scriptId);
-  const label = `起動スタイル変更 [現在: ${LAUNCH_STYLE_LABELS[current]}]`;
+  const label = `${i18n.t("changeLaunchStyle")} [${i18n.t("current")}: ${getLaunchStyleLabel(current)}]`;
   registerMenuCommand(label, () => {
     const currentStyle = getLaunchStyle(scriptId);
     const newStyle = cycleLaunchStyle(currentStyle);
     setLaunchStyle(scriptId, newStyle);
     onStyleChanged?.(newStyle);
     alert(
-      `起動スタイルを「${LAUNCH_STYLE_LABELS[newStyle]}」に変更しました。\nページを再読み込みすると反映されます。`,
+      `${i18n.format("styleChanged", { style: getLaunchStyleLabel(newStyle) })}\n${i18n.t("reloadToApply")}`,
     );
   });
 }

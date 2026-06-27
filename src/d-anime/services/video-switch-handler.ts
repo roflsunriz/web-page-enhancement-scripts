@@ -1,6 +1,7 @@
 import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type { VideoMetadata } from "@/shared/types";
 import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { format, t } from "@/d-anime/i18n";
 import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
 import { createLogger } from "@/shared/logger";
 import { DANIME_SELECTORS } from "@/shared/constants/d-anime";
@@ -209,7 +210,7 @@ export class VideoSwitchHandler {
         lastVideoSource: this.lastVideoSource,
       });
 
-      NotificationManager.show("動画の切り替わりを検知しました...", "info");
+      NotificationManager.show(t("videoSwitchDetected"), "info");
 
       // イベントロガーをアタッチ
       this.videoEventLogger.attach(resolvedVideoElement);
@@ -260,7 +261,7 @@ export class VideoSwitchHandler {
       const loadedCount = await this.populateComments(videoId, backupPreloaded);
       if (loadedCount === 0) {
         this.renderer.clearComments();
-        NotificationManager.show("コメントを取得できませんでした", "warning");
+        NotificationManager.show(t("commentsUnavailable"), "warning");
         logger.warn("videoSwitch:commentsMissing", {
           videoId: videoId ?? null,
         });
@@ -292,7 +293,10 @@ export class VideoSwitchHandler {
       if (apiData) {
         const metadata = toVideoMetadata(apiData);
         if (metadata) {
-          const message = `コメントソースを更新しました: ${metadata.title ?? "不明なタイトル"}（${loadedCount}件）`;
+          const message = format("commentSourceUpdated", {
+            count: String(loadedCount),
+            title: metadata.title ?? t("unknownTitle"),
+          });
           NotificationManager.show(
             message,
             loadedCount > 0 ? "success" : "warning",
@@ -305,7 +309,7 @@ export class VideoSwitchHandler {
         lastVideoId: this.lastVideoId,
       });
       NotificationManager.show(
-        `動画切り替えエラー: ${(error as Error).message}`,
+        format("videoSwitchError", { message: (error as Error).message }),
         "error",
       );
       this.renderer.clearComments();
@@ -511,7 +515,7 @@ export class VideoSwitchHandler {
       });
       this.renderer.clearComments();
       NotificationManager.show(
-        "次の動画のコメントを取得できませんでした。コメント表示をクリアします。",
+        t("nextVideoCommentsUnavailableClear"),
         "warning",
       );
     } else {
@@ -577,7 +581,7 @@ export class VideoSwitchHandler {
           videoId,
         });
         NotificationManager.show(
-          `コメント取得エラー: ${(error as Error).message}`,
+          format("commentFetchError", { message: (error as Error).message }),
           "error",
         );
         comments = null;

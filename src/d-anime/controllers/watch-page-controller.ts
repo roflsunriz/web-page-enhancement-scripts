@@ -2,6 +2,7 @@ import { cloneDefaultSettings } from "@/d-anime/config/default-settings";
 import { SettingsManager } from "@/d-anime/services/settings-manager";
 import type { RendererSettings, VideoMetadata } from "@/shared/types";
 import { NotificationManager } from "@/d-anime/services/notification-manager";
+import { format, t } from "@/d-anime/i18n";
 import { CommentRenderer } from "@/d-anime/comments/comment-renderer";
 import { NicoApiFetcher } from "@/d-anime/services/nico-api-fetcher";
 import { VideoSwitchHandler } from "@/d-anime/services/video-switch-handler";
@@ -124,7 +125,7 @@ export class WatchPageController {
     this.initialized = true;
 
     try {
-      NotificationManager.show("コメントローダーを初期化中...");
+      NotificationManager.show(t("initializingCommentLoader"));
 
       const notifier = NotificationManager.getInstance();
       const settingsManager =
@@ -148,7 +149,7 @@ export class WatchPageController {
           },
         );
         NotificationManager.show(
-          "コメントは非表示に設定されています。設定を変更するにはフローティングボタンをクリックしてください。",
+          t("commentsHiddenSkip"),
           "info",
         );
         return;
@@ -165,7 +166,7 @@ export class WatchPageController {
         if (!savedVideoData?.videoId) {
           // VideoMetadataがない場合は手動設定を促す
           NotificationManager.show(
-            "手動設定モードです。フローティングボタンから検索タブを開いて動画を選択してください。",
+            t("manualModeSelectVideo"),
             "info",
           );
           return;
@@ -197,14 +198,14 @@ export class WatchPageController {
 
       if (!autoSetupSuccess) {
         throw new Error(
-          "視聴ページからの自動取得に失敗しました。メタデータが取得できませんでした。",
+          t("metadataAutoFetchFailed"),
         );
       }
 
       const videoData = settingsManager.loadVideoData();
 
       if (!videoData?.videoId) {
-        throw new Error("動画データが見つかりません。");
+        throw new Error(t("videoDataMissing"));
       }
 
       const fetcher = new NicoApiFetcher();
@@ -248,13 +249,13 @@ export class WatchPageController {
       this.startPartIdMonitoring();
 
       NotificationManager.show(
-        `コメントの読み込みが完了しました（${comments.length}件）`,
+        format("commentsLoadComplete", { count: String(comments.length) }),
         "success",
       );
     } catch (error) {
       this.initialized = false;
       NotificationManager.show(
-        `初期化エラー: ${(error as Error).message}`,
+        format("initializationError", { message: (error as Error).message }),
         "error",
       );
       throw error;
@@ -672,7 +673,7 @@ export class WatchPageController {
           cachedAnimeTitle: this.cachedAnimeTitle,
         });
         NotificationManager.show(
-          "アニメタイトルが取得できませんでした。検索精度が低下する可能性があります。",
+          t("noAnimeTitle"),
           "warning",
         );
         return false;
@@ -694,7 +695,7 @@ export class WatchPageController {
         episodeTitle: metadata.episodeTitle,
         usingCachedTitle: !!this.cachedAnimeTitle && !metadata.animeTitle,
       });
-      NotificationManager.show(`「${keyword}」を検索中...`, "info");
+      NotificationManager.show(format("searchingKeyword", { keyword }), "info");
 
       // ニコニコ動画を検索
       const searcher = new NicoVideoSearcher();
@@ -702,7 +703,7 @@ export class WatchPageController {
 
       if (allResults.length === 0) {
         NotificationManager.show(
-          "ニコニコ動画が見つかりませんでした",
+          t("niconicoNotFound"),
           "warning",
         );
         return false;
@@ -730,7 +731,7 @@ export class WatchPageController {
             "不明",
         });
         NotificationManager.show(
-          "公式動画が見つかりませんでした。検索結果の最初の動画を使用します。",
+          t("officialVideoMissingUseFirst"),
           "warning",
         );
       }
@@ -774,7 +775,7 @@ export class WatchPageController {
         // 詳細な通知を表示（表示時間を5秒に延長）
         // HTMLとして表示するため、アイコンをインラインで配置
         const message = [
-          `<div style="font-weight: 600; margin-bottom: 8px;">ニコニコ動画を自動設定しました</div>`,
+          `<div style="font-weight: 600; margin-bottom: 8px;">${t("autoSetupComplete")}</div>`,
           `<div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">`,
           `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoTitle}</span>`,
           `  <span style="flex: 1; word-break: break-word;">${bestMatch.title}</span>`,
@@ -803,7 +804,7 @@ export class WatchPageController {
     } catch (error) {
       logger.error("watchPageController:autoSetup:error", error as Error);
       NotificationManager.show(
-        `自動設定エラー: ${(error as Error).message}`,
+        format("autoSetupError", { message: (error as Error).message }),
         "error",
       );
       return false;
@@ -904,7 +905,7 @@ export class WatchPageController {
           isCommentVisible: currentSettings.isCommentVisible,
         });
         NotificationManager.show(
-          "コメント非表示設定のためスキップしました",
+          t("commentsHiddenSkip"),
           "info",
         );
         return;
@@ -929,7 +930,7 @@ export class WatchPageController {
         if (!manualSettings?.animeTitle) {
           // アニメタイトルが保存されていない場合は通知のみ
           NotificationManager.show(
-            "手動設定モードです。フローティングボタンから検索タブを開いてアニメタイトルを設定してください。",
+            t("manualModeSelectAnimeTitle"),
             "info",
           );
           // コメントをクリア
@@ -958,7 +959,7 @@ export class WatchPageController {
         previousEpisodeNumber,
       });
 
-      NotificationManager.show("エピソード切り替えを検知しました...", "info");
+      NotificationManager.show(t("episodeChangeDetected"), "info");
 
       // 新しいpartIdのDOM更新を待つ
       const newPartId = this.getCurrentPartId();
@@ -979,7 +980,9 @@ export class WatchPageController {
           error as Error,
         );
         NotificationManager.show(
-          `DOM更新の待機に失敗しました: ${(error as Error).message}`,
+          format("domUpdateWaitFailed", {
+            message: (error as Error).message,
+          }),
           "error",
         );
         return;
@@ -1100,7 +1103,7 @@ export class WatchPageController {
     } catch (error) {
       logger.error("watchPageController:onPartIdChanged:error", error as Error);
       NotificationManager.show(
-        `エピソード切り替えエラー: ${(error as Error).message}`,
+        format("episodeSwitchError", { message: (error as Error).message }),
         "error",
       );
     } finally {
@@ -1162,7 +1165,10 @@ export class WatchPageController {
       this.startPartIdMonitoring();
 
       NotificationManager.show(
-        `【手動設定モード】コメントの読み込みが完了しました（${comments.length}件）\n動画: ${videoData.title}`,
+        format("manualModeCommentsLoadComplete", {
+          count: String(comments.length),
+          title: videoData.title,
+        }),
         "success",
       );
     } catch (error) {
@@ -1171,7 +1177,9 @@ export class WatchPageController {
         error as Error,
       );
       NotificationManager.show(
-        `コメント読み込みエラー: ${(error as Error).message}\nフローティングボタンから別の動画を選択してください。`,
+        format("commentsLoadErrorSelectAnother", {
+          message: (error as Error).message,
+        }),
         "error",
       );
     }
@@ -1206,7 +1214,9 @@ export class WatchPageController {
           error as Error,
         );
         NotificationManager.show(
-          `DOM更新の待機に失敗しました: ${(error as Error).message}`,
+          format("domUpdateWaitFailed", {
+            message: (error as Error).message,
+          }),
           "error",
         );
         return;
@@ -1220,10 +1230,7 @@ export class WatchPageController {
 
       if (!newEpisodeNumber) {
         logger.warn("watchPageController:manualModeSwitch:noEpisodeNumber");
-        NotificationManager.show(
-          "エピソード話数を取得できませんでした",
-          "warning",
-        );
+        NotificationManager.show(t("episodeNumberMissing"), "warning");
         return;
       }
 
@@ -1235,16 +1242,13 @@ export class WatchPageController {
         newEpisodeNumber,
       });
 
-      NotificationManager.show(`「${keyword}」を検索中...`, "info");
+      NotificationManager.show(format("searchingKeyword", { keyword }), "info");
 
       const searcher = new NicoVideoSearcher();
       const allResults = await searcher.search(keyword);
 
       if (allResults.length === 0) {
-        NotificationManager.show(
-          "ニコニコ動画が見つかりませんでした。手動で検索してください。",
-          "warning",
-        );
+        NotificationManager.show(t("niconicoNotFoundManual"), "warning");
         // コメントをクリア
         const renderer = this.global.instances.renderer;
         if (renderer) {
@@ -1266,10 +1270,7 @@ export class WatchPageController {
       });
 
       if (officialResults.length === 0) {
-        NotificationManager.show(
-          "公式動画が見つかりませんでした。手動で検索してください。",
-          "warning",
-        );
+        NotificationManager.show(t("officialVideoMissingManual"), "warning");
         // コメントをクリア
         const renderer = this.global.instances.renderer;
         if (renderer) {
@@ -1344,7 +1345,7 @@ export class WatchPageController {
 
       // 詳細な通知を表示
       const message = [
-        `<div style="font-weight: 600; margin-bottom: 8px;">次のエピソードを自動設定しました</div>`,
+        `<div style="font-weight: 600; margin-bottom: 8px;">${t("nextEpisodeAutoSetupComplete")}</div>`,
         `<div style="display: flex; align-items: center; gap: 6px; margin-top: 8px;">`,
         `  <span style="flex-shrink: 0; width: 18px; height: 18px; opacity: 0.8;">${svgVideoTitle}</span>`,
         `  <span style="flex: 1; word-break: break-word;">${bestMatch.title}</span>`,
@@ -1378,7 +1379,7 @@ export class WatchPageController {
         error as Error,
       );
       NotificationManager.show(
-        `エピソード切り替えエラー: ${(error as Error).message}`,
+        format("episodeSwitchError", { message: (error as Error).message }),
         "error",
       );
     }

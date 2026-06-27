@@ -61,6 +61,7 @@ const ja: TranslationKeys = {
   // その他
   enableRealTimePreview: "リアルタイムプレビュー",
   createNewProfile: "新しいプロファイルを作成",
+  deleteButton: "削除",
   deleteProfile: "プロファイルを削除",
   exportSettings: "設定をエクスポート",
   importSettings: "設定をインポート",
@@ -129,6 +130,7 @@ const en: TranslationKeys = {
   // Other
   enableRealTimePreview: "Real-time Preview",
   createNewProfile: "Create New Profile",
+  deleteButton: "Delete",
   deleteProfile: "Delete Profile",
   exportSettings: "Export Settings",
   importSettings: "Import Settings",

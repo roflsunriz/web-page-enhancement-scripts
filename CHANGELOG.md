@@ -23,6 +23,10 @@
 - `d-anime-cf-ranking` の設定パネル、詳細ランキング、バッジ tooltip を多言語化しました。
 - `youtube-ui-modifier` のメニュー、モーダル外枠、復帰ボックスの操作文言を多言語化しました。
 - `d-anime-nico-comment-renderer` の通知種別と設定保存/読み込み系通知を多言語化しました。
+- `youtube-ui-modifier` の設定カテゴリ、設定項目ラベル、説明文を多言語化しました。
+- `d-anime-nico-comment-renderer` の設定 UI、検索 UI、動画切り替え通知を多言語化しました。
+- `twitter-clean-ui` のプロファイル削除ボタン文言を多言語化しました。
+- `manga-viewer` と `youtube-info-copier` の起動スタイル切り替えメニューを多言語化しました。
 
 ### Changed
 
@@ -44,3 +48,8 @@
 - `d-anime-cf-ranking` のバージョンを `1.4.0` に更新しました。
 - `youtube-ui-modifier` のバージョンを `1.5.0` に更新しました。
 - `d-anime-nico-comment-renderer` のバージョンを `7.4.0` に更新しました。
+- `youtube-ui-modifier` のバージョンを `1.6.0` に更新しました。
+- `d-anime-nico-comment-renderer` のバージョンを `7.5.0` に更新しました。
+- `twitter-clean-ui` のバージョンを `1.14.0` に更新しました。
+- `manga-viewer` のバージョンを `10.9.0` に更新しました。
+- `youtube-info-copier` のバージョンを `2.6.0` に更新しました。
