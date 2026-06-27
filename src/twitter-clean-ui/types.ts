@@ -150,7 +150,7 @@ export interface StorageData {
 /**
  * 言語
  */
-export type Language = Extract<LocaleCode, "ja" | "en">;
+export type Language = LocaleCode;
 
 /**
  * 翻訳キー

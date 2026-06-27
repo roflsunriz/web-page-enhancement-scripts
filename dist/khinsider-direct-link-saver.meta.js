@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         khinsider-direct-link-saver
 // @namespace    khinsiderDirectLinkSaver
-// @version      1.4.0
+// @version      1.5.0
 // @author       roflsunriz
 // @description  KHInsiderのアルバムページから音声ファイルを並列ダウンロード
 // @license      MIT

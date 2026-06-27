@@ -29,6 +29,9 @@
 - `manga-viewer` と `youtube-info-copier` の起動スタイル切り替えメニューを多言語化しました。
 - `twitter-thread-copier` の翻訳完了通知と翻訳設定エラー文言を多言語化しました。
 - 共通 i18n 基盤に日本語＋主要10言語のロケール定義、ロケール表示名、標準エイリアス、翻訳補完ヘルパーを追加しました。
+- `trickcal-tool-sweep`、`khinsider-direct-link-saver`、`twitter-clean-timeline` の辞書を主要10言語の実翻訳へ拡張しました。
+- `image-collector`、`d-anime-cf-ranking`、`manga-viewer`、`twitter-thread-copier`、`d-anime-nico-comment-renderer`、`youtube-ui-modifier`、`twitter-clean-ui`、共通起動スタイルメニューを主要10言語の実翻訳へ拡張しました。
+- `youtube-ui-modifier` の設定カテゴリ、設定項目ラベル、設定説明文を主要10言語の実翻訳へ拡張しました。
 
 ### Changed
 
@@ -57,3 +60,14 @@
 - `youtube-info-copier` のバージョンを `2.6.0` に更新しました。
 - `twitter-thread-copier` のバージョンを `6.10.0` に更新しました。
 - ルートパッケージのバージョンを `2.2.0` に更新しました。
+- `d-anime-cf-ranking` のバージョンを `1.5.0` に更新しました。
+- `d-anime-nico-comment-renderer` のバージョンを `7.6.0` に更新しました。
+- `image-collector` のバージョンを `5.4.0` に更新しました。
+- `khinsider-direct-link-saver` のバージョンを `1.5.0` に更新しました。
+- `manga-viewer` のバージョンを `10.10.0` に更新しました。
+- `trickcal-tool-sweep` のバージョンを `1.3.0` に更新しました。
+- `twitter-clean-timeline` のバージョンを `1.7.0` に更新しました。
+- `twitter-thread-copier` のバージョンを `6.11.0` に更新しました。
+- `twitter-clean-ui` のバージョンを `1.15.0` に更新しました。
+- `youtube-ui-modifier` のバージョンを `1.7.0` に更新しました。
+- ルートパッケージのバージョンを `2.3.0` に更新しました。

@@ -52,11 +52,11 @@ function createReplacementTableHTML(): string {
             (rule, index) => `
           <tr style="border-bottom: 1px solid #2f3336;">
             <td style="padding: 8px;">
-              <input type="text" data-replace-index="${index}" data-replace-field="from" value="${escapeHtml(rule.from)}" 
+              <input type="text" data-replace-index="${index}" data-replace-field="from" value="${escapeHtml(rule.from)}"
                 style="width: 100%; padding: 4px; border: 1px solid #38444d; border-radius: 4px; background-color: #15202b; color: #ffffff; box-sizing: border-box;">
             </td>
             <td style="padding: 8px;">
-              <input type="text" data-replace-index="${index}" data-replace-field="to" value="${escapeHtml(rule.to)}" 
+              <input type="text" data-replace-index="${index}" data-replace-field="to" value="${escapeHtml(rule.to)}"
                 style="width: 100%; padding: 4px; border: 1px solid #38444d; border-radius: 4px; background-color: #15202b; color: #ffffff; box-sizing: border-box;">
             </td>
             <td style="padding: 8px; text-align: center;">
