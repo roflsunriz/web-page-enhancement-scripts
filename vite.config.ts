@@ -466,6 +466,22 @@ const xCommunityNoteCloseMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/x-community-note-close.user.js',
 };
 
+const yahooMailAdCleanerMeta: MonkeyUserScript = {
+  name: 'yahoo-mail-ad-cleaner',
+  namespace: 'yahooMailAdCleaner',
+  version: '1.0.0',
+  description: 'Yahoo!メール PC版に残る広告枠と空きカラムを非表示にする',
+  author: 'roflsunriz',
+  match: ['https://mail.yahoo.co.jp/*'],
+  grant: [],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=mail.yahoo.co.jp',
+  'run-at': 'document-start',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/yahoo-mail-ad-cleaner.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/yahoo-mail-ad-cleaner.user.js',
+};
+
 const yahooMailMarkReadMeta: MonkeyUserScript = {
   name: 'yahoo-mail-mark-read',
   namespace: 'yahooMailMarkRead',
@@ -614,6 +630,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'x-community-note-close.user.js',
     meta: xCommunityNoteCloseMeta,
   },
+  'yahoo-mail-ad-cleaner': {
+    entry: 'src/yahoo-mail-ad-cleaner/main.ts',
+    fileName: 'yahoo-mail-ad-cleaner.user.js',
+    meta: yahooMailAdCleanerMeta,
+  },
   'yahoo-mail-mark-read': {
     entry: 'src/yahoo-mail-mark-read/main.ts',
     fileName: 'yahoo-mail-mark-read.user.js',
@@ -668,6 +689,7 @@ export default defineConfig((configEnv) => {
         '@/twitter-thread-copier': resolve(dir, 'src/twitter-thread-copier'),
         '@/x-auto-spam-reporter': resolve(dir, 'src/x-auto-spam-reporter'),
         '@/x-community-note-close': resolve(dir, 'src/x-community-note-close'),
+        '@/yahoo-mail-ad-cleaner': resolve(dir, 'src/yahoo-mail-ad-cleaner'),
         '@/yahoo-mail-mark-read': resolve(dir, 'src/yahoo-mail-mark-read'),
         '@/youtube-info-copier': resolve(dir, 'src/youtube-info-copier'),
         '@/youtube-ui-modifier': resolve(dir, 'src/youtube-ui-modifier'),

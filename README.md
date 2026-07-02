@@ -27,6 +27,7 @@ web-page-enhancement-scripts
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
   - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
   - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
+  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠と空きカラムを非表示化
   - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
   - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
@@ -57,6 +58,7 @@ web-page-enhancement-scripts
 - [twitter-thread-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-thread-copier.user.js)
 - [x-auto-spam-reporter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-auto-spam-reporter.user.js)
 - [x-community-note-close](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-community-note-close.user.js)
+- [yahoo-mail-ad-cleaner](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-ad-cleaner.user.js)
 - [yahoo-mail-mark-read](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-mark-read.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)

@@ -1,6 +1,6 @@
 {
   "name": "web-page-enhancement-scripts",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "packageManager": "bun@1.3.8",
   "private": true,
   "type": "module",
@@ -25,6 +25,7 @@
     "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
     "dev:x-auto-spam-reporter": "vite --mode x-auto-spam-reporter",
     "dev:x-community-note-close": "vite --mode x-community-note-close",
+    "dev:yahoo-mail-ad-cleaner": "vite --mode yahoo-mail-ad-cleaner",
     "dev:yahoo-mail-mark-read": "vite --mode yahoo-mail-mark-read",
     "dev:youtube-info-copier": "vite --mode youtube-info-copier",
     "dev:youtube-ui-modifier": "vite --mode youtube-ui-modifier",

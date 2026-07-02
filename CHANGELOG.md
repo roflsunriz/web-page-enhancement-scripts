@@ -32,6 +32,7 @@
 - `trickcal-tool-sweep`、`khinsider-direct-link-saver`、`twitter-clean-timeline` の辞書を主要10言語の実翻訳へ拡張しました。
 - `image-collector`、`d-anime-cf-ranking`、`manga-viewer`、`twitter-thread-copier`、`d-anime-nico-comment-renderer`、`youtube-ui-modifier`、`twitter-clean-ui`、共通起動スタイルメニューを主要10言語の実翻訳へ拡張しました。
 - `youtube-ui-modifier` の設定カテゴリ、設定項目ラベル、設定説明文を主要10言語の実翻訳へ拡張しました。
+- `yahoo-mail-ad-cleaner` を追加し、Yahoo!メール PC版に残る広告枠と空きカラムを非表示にできるようにしました。
 
 ### Changed
 
@@ -71,3 +72,4 @@
 - `twitter-clean-ui` のバージョンを `1.15.0` に更新しました。
 - `youtube-ui-modifier` のバージョンを `1.7.0` に更新しました。
 - ルートパッケージのバージョンを `2.3.0` に更新しました。
+- ルートパッケージのバージョンを `2.4.0` に更新しました。
