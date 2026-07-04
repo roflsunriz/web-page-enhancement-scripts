@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         image-collector
 // @namespace    imageCollector
-// @version      5.4.1
+// @version      5.4.2
 // @author       roflsunriz
 // @description  Collect images from various hosts and export as archive.
 // @license      MIT
+// @icon         data:image/svg+xml,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230f766e%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M14%2018h36v25H14z%22%20fill%3D%22%23ecfeff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M18%2038l9-10%207%207%205-6%209%209v3H18z%22%20fill%3D%22%2314b8a6%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2225%22%20r%3D%224%22%20fill%3D%22%23f59e0b%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2046V24%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M23%2037l9%2010%209-10%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A
+// @icon64       data:image/svg+xml,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%230f766e%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M14%2018h36v25H14z%22%20fill%3D%22%23ecfeff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M18%2038l9-10%207%207%205-6%209%209v3H18z%22%20fill%3D%22%2314b8a6%22%2F%3E%0A%20%20%3Ccircle%20cx%3D%2242%22%20cy%3D%2225%22%20r%3D%224%22%20fill%3D%22%23f59e0b%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2046V24%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M23%2037l9%2010%209-10%22%20fill%3D%22none%22%20stroke%3D%22%23ffffff%22%20stroke-width%3D%226%22%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.user.js
 // @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.meta.js
 // @match        *://*

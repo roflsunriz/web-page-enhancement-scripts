@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name         book-style-manga-viewer
 // @namespace    bookStyleMangaViewer
-// @version      10.10.1
+// @version      10.10.2
 // @author       roflsunriz
 // @description  Layout images in book style viewer with keyboard controls.
 // @license      MIT
+// @icon         data:image/svg+xml,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%232563eb%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2017c7-3%2013-3%2019%202v32c-6-5-12-6-19-2z%22%20fill%3D%22%23eff6ff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2019c6-5%2012-5%2019-2v32c-7-4-13-3-19%202z%22%20fill%3D%22%23dbeafe%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2019v32%22%20stroke%3D%22%231e40af%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M18%2026c3-1%206-1%209%201M18%2034c3-1%206-1%209%201M37%2027c3-1%206-1%209%201M37%2035c3-1%206-1%209%201%22%20stroke%3D%22%233b82f6%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A
+// @icon64       data:image/svg+xml,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2064%2064%22%3E%0A%20%20%3Crect%20width%3D%2264%22%20height%3D%2264%22%20rx%3D%2214%22%20fill%3D%22%232563eb%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M13%2017c7-3%2013-3%2019%202v32c-6-5-12-6-19-2z%22%20fill%3D%22%23eff6ff%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2019c6-5%2012-5%2019-2v32c-7-4-13-3-19%202z%22%20fill%3D%22%23dbeafe%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M32%2019v32%22%20stroke%3D%22%231e40af%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%20%20%3Cpath%20d%3D%22M18%2026c3-1%206-1%209%201M18%2034c3-1%206-1%209%201M37%2027c3-1%206-1%209%201M37%2035c3-1%206-1%209%201%22%20stroke%3D%22%233b82f6%22%20stroke-width%3D%223%22%20stroke-linecap%3D%22round%22%2F%3E%0A%3C%2Fsvg%3E%0A
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.user.js
 // @updateURL    https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.meta.js
 // @match        *://*/*

@@ -5,6 +5,30 @@ import { dirname, resolve } from 'node:path';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 
+const createSvgDataIcon = (svg: string) =>
+  `data:image/svg+xml,${encodeURIComponent(svg)}`;
+
+const imageCollectorIcon = createSvgDataIcon(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0f766e"/>
+  <path d="M14 18h36v25H14z" fill="#ecfeff"/>
+  <path d="M18 38l9-10 7 7 5-6 9 9v3H18z" fill="#14b8a6"/>
+  <circle cx="42" cy="25" r="4" fill="#f59e0b"/>
+  <path d="M32 46V24" stroke="#ffffff" stroke-width="6" stroke-linecap="round"/>
+  <path d="M23 37l9 10 9-10" fill="none" stroke="#ffffff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
+`);
+
+const mangaViewerIcon = createSvgDataIcon(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#2563eb"/>
+  <path d="M13 17c7-3 13-3 19 2v32c-6-5-12-6-19-2z" fill="#eff6ff"/>
+  <path d="M32 19c6-5 12-5 19-2v32c-7-4-13-3-19 2z" fill="#dbeafe"/>
+  <path d="M32 19v32" stroke="#1e40af" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 26c3-1 6-1 9 1M18 34c3-1 6-1 9 1M37 27c3-1 6-1 9 1M37 35c3-1 6-1 9 1" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
+</svg>
+`);
+
 const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUserScript) =>
   monkey({
     entry,
@@ -167,7 +191,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.4.1',
+  version: '5.4.2',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -209,6 +233,8 @@ const imageCollectorMeta: MonkeyUserScript = {
     'GM_registerMenuCommand',
     'unsafeWindow',
   ],
+  icon: imageCollectorIcon,
+  icon64: imageCollectorIcon,
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/image-collector.meta.js',
   downloadURL:
@@ -261,7 +287,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.10.1',
+  version: '10.10.2',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -300,6 +326,8 @@ const mangaViewerMeta: MonkeyUserScript = {
     '*://mildom.com/*',
   ],
   grant: ['GM_registerMenuCommand', 'GM_getValue', 'GM_setValue'],
+  icon: mangaViewerIcon,
+  icon64: mangaViewerIcon,
   'run-at': 'document-start',
   updateURL:
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/manga-viewer.meta.js',
