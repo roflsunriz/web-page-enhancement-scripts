@@ -199,9 +199,7 @@ export const CSS_RULES: Partial<
   ],
   hideContextBoxes: ["ytd-info-panel-container-renderer"],
   hideCreateButton: [
-    'ytd-masthead ytd-button-renderer:has(button[aria-label="作成"])',
-    'ytd-masthead ytd-button-renderer:has(button[aria-label="Create"])',
-    'ytd-masthead ytd-button-renderer:has(button[aria-label="만들기"])',
+    'ytd-masthead ytd-button-renderer[data-youtube-ui-modifier-create-button="true"]',
   ],
 };
 

@@ -4,6 +4,7 @@ import type {
 } from "@/shared/types";
 
 export const DEFAULT_SETTINGS: YoutubeUiModifierSettings = {
+  language: "auto",
   globalEnabled: true,
   hideAds: false,
   hideAllShorts: false,

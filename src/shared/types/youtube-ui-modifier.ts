@@ -1,3 +1,5 @@
+import type { LocaleCode } from "@/shared/i18n";
+
 export type YoutubeUiModifierSettingId =
   | "globalEnabled"
   | "hideAds"
@@ -87,10 +89,14 @@ export type YoutubeUiModifierSettingId =
   | "lockSettingsWithCode"
   | "grayscaleMode";
 
+export type YoutubeUiModifierLanguageSetting = "auto" | LocaleCode;
+
 export type YoutubeUiModifierSettings = Record<
   YoutubeUiModifierSettingId,
   boolean
->;
+> & {
+  language: YoutubeUiModifierLanguageSetting;
+};
 
 export type YoutubeUiModifierOptionDefinition = {
   id: YoutubeUiModifierSettingId;
@@ -107,4 +113,8 @@ export type YoutubeUiModifierCategoryDefinition = {
 export type YoutubeUiModifierSettingsChangeHandler = (
   id: YoutubeUiModifierSettingId,
   value: boolean,
+) => void;
+
+export type YoutubeUiModifierLanguageChangeHandler = (
+  language: YoutubeUiModifierLanguageSetting,
 ) => void;

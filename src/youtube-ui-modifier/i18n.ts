@@ -1,9 +1,13 @@
 import {
   buildSupportedTranslationMap,
   createI18n,
+  getLocaleMetadata,
   type LocaleCode,
 } from "@/shared/i18n";
-import type { YoutubeUiModifierSettingId } from "@/shared/types";
+import type {
+  YoutubeUiModifierLanguageSetting,
+  YoutubeUiModifierSettingId,
+} from "@/shared/types";
 
 type TranslationKey =
   | "activeSettings"
@@ -11,6 +15,8 @@ type TranslationKey =
   | "dismissReveal"
   | "enabledCount"
   | "globalDisabled"
+  | "languageAuto"
+  | "languageSelectLabel"
   | "menuOpenSettings"
   | "menuToggleEnabled"
   | "noActiveSettings"
@@ -29,6 +35,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "今後表示しない",
       enabledCount: "有効な項目: {count}",
       globalDisabled: "全体設定: 無効",
+      languageAuto: "自動（ブラウザ設定）",
+      languageSelectLabel: "表示言語",
       menuOpenSettings: "YouTube UI Modifier 設定を開く",
       menuToggleEnabled: "YouTube UI Modifier 有効/無効",
       noActiveSettings: "現在オンになっている設定はありません。",
@@ -46,6 +54,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "Do not show again",
       enabledCount: "Active items: {count}",
       globalDisabled: "Global setting: disabled",
+      languageAuto: "Auto (browser setting)",
+      languageSelectLabel: "Display language",
       menuOpenSettings: "Open YouTube UI Modifier settings",
       menuToggleEnabled: "Toggle YouTube UI Modifier",
       noActiveSettings: "No settings are currently on.",
@@ -63,6 +73,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "以后不再显示",
       enabledCount: "启用项目：{count}",
       globalDisabled: "全局设置：已禁用",
+      languageAuto: "自动（浏览器设置）",
+      languageSelectLabel: "显示语言",
       menuOpenSettings: "打开 YouTube UI Modifier 设置",
       menuToggleEnabled: "切换 YouTube UI Modifier",
       noActiveSettings: "当前没有开启的设置。",
@@ -79,6 +91,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "फिर न दिखाएं",
       enabledCount: "सक्रिय आइटम: {count}",
       globalDisabled: "वैश्विक सेटिंग: अक्षम",
+      languageAuto: "स्वचालित (ब्राउज़र सेटिंग)",
+      languageSelectLabel: "प्रदर्शन भाषा",
       menuOpenSettings: "YouTube UI Modifier सेटिंग्स खोलें",
       menuToggleEnabled: "YouTube UI Modifier टॉगल करें",
       noActiveSettings: "अभी कोई सेटिंग चालू नहीं है।",
@@ -96,6 +110,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "No volver a mostrar",
       enabledCount: "Elementos activos: {count}",
       globalDisabled: "Ajuste global: desactivado",
+      languageAuto: "Automático (configuración del navegador)",
+      languageSelectLabel: "Idioma de visualización",
       menuOpenSettings: "Abrir ajustes de YouTube UI Modifier",
       menuToggleEnabled: "Activar/desactivar YouTube UI Modifier",
       noActiveSettings: "No hay ajustes activos actualmente.",
@@ -114,6 +130,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "Ne plus afficher",
       enabledCount: "Éléments actifs : {count}",
       globalDisabled: "Paramètre global : désactivé",
+      languageAuto: "Auto (paramètre du navigateur)",
+      languageSelectLabel: "Langue d'affichage",
       menuOpenSettings: "Ouvrir les paramètres de YouTube UI Modifier",
       menuToggleEnabled: "Activer/désactiver YouTube UI Modifier",
       noActiveSettings: "Aucun paramètre n'est actuellement activé.",
@@ -132,6 +150,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "عدم العرض مرة أخرى",
       enabledCount: "العناصر النشطة: {count}",
       globalDisabled: "الإعداد العام: معطل",
+      languageAuto: "تلقائي (إعداد المتصفح)",
+      languageSelectLabel: "لغة العرض",
       menuOpenSettings: "فتح إعدادات YouTube UI Modifier",
       menuToggleEnabled: "تبديل YouTube UI Modifier",
       noActiveSettings: "لا توجد إعدادات مفعلة حاليا.",
@@ -148,6 +168,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "Não mostrar novamente",
       enabledCount: "Itens ativos: {count}",
       globalDisabled: "Configuração global: desativada",
+      languageAuto: "Automático (configuração do navegador)",
+      languageSelectLabel: "Idioma de exibição",
       menuOpenSettings: "Abrir configurações do YouTube UI Modifier",
       menuToggleEnabled: "Alternar YouTube UI Modifier",
       noActiveSettings: "Nenhuma configuração está ativa no momento.",
@@ -166,6 +188,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "আবার দেখাবেন না",
       enabledCount: "সক্রিয় আইটেম: {count}",
       globalDisabled: "গ্লোবাল সেটিং: নিষ্ক্রিয়",
+      languageAuto: "স্বয়ংক্রিয় (ব্রাউজার সেটিং)",
+      languageSelectLabel: "প্রদর্শন ভাষা",
       menuOpenSettings: "YouTube UI Modifier সেটিংস খুলুন",
       menuToggleEnabled: "YouTube UI Modifier চালু/বন্ধ করুন",
       noActiveSettings: "বর্তমানে কোনো সেটিং চালু নেই।",
@@ -183,6 +207,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "Больше не показывать",
       enabledCount: "Активных пунктов: {count}",
       globalDisabled: "Глобальная настройка: отключено",
+      languageAuto: "Авто (настройка браузера)",
+      languageSelectLabel: "Язык интерфейса",
       menuOpenSettings: "Открыть настройки YouTube UI Modifier",
       menuToggleEnabled: "Переключить YouTube UI Modifier",
       noActiveSettings: "Сейчас нет включенных настроек.",
@@ -200,6 +226,8 @@ const translations = buildSupportedTranslationMap(
       dismissReveal: "دوبارہ نہ دکھائیں",
       enabledCount: "فعال آئٹمز: {count}",
       globalDisabled: "عالمی سیٹنگ: غیر فعال",
+      languageAuto: "خودکار (براؤزر سیٹنگ)",
+      languageSelectLabel: "ڈسپلے زبان",
       menuOpenSettings: "YouTube UI Modifier سیٹنگز کھولیں",
       menuToggleEnabled: "YouTube UI Modifier ٹوگل کریں",
       noActiveSettings: "فی الحال کوئی سیٹنگ آن نہیں ہے۔",
@@ -225,6 +253,42 @@ i18n.setLocale(i18n.detectBrowserLocale());
 
 export const format = i18n.format;
 export const t = i18n.t;
+
+export function applyLanguageSetting(
+  language: YoutubeUiModifierLanguageSetting,
+): void {
+  i18n.setLocale(language === "auto" ? i18n.detectBrowserLocale() : language);
+}
+
+export function getCurrentLocale(): LocaleCode {
+  return i18n.getLocale();
+}
+
+export function getTextDirection(): "ltr" | "rtl" {
+  return i18n.getDirection();
+}
+
+export function getLanguageOptions(): ReadonlyArray<{
+  value: YoutubeUiModifierLanguageSetting;
+  label: string;
+}> {
+  return [
+    {
+      value: "auto",
+      label: t("languageAuto"),
+    },
+    ...i18n.locales.map((locale) => {
+      const metadata = getLocaleMetadata(locale);
+      return {
+        value: locale,
+        label:
+          metadata.nativeName === metadata.englishName
+            ? metadata.nativeName
+            : `${metadata.nativeName} (${metadata.englishName})`,
+      };
+    }),
+  ];
+}
 
 const categoryLabels: Partial<Record<LocaleCode, Record<string, string>>> = {
   en: {

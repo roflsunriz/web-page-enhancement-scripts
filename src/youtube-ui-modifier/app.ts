@@ -1,5 +1,6 @@
 import { registerMenuCommand } from "@/shared/userscript";
 import type {
+  YoutubeUiModifierLanguageSetting,
   YoutubeUiModifierSettingId,
   YoutubeUiModifierSettings,
 } from "@/shared/types";
@@ -10,7 +11,7 @@ import { SettingsStorage } from "./settings-storage";
 import { SettingsUi } from "./settings-ui";
 import { StyleManager } from "./style-manager";
 import { RevealBoxManager } from "./reveal-box-manager";
-import { t } from "./i18n";
+import { applyLanguageSetting, t } from "./i18n";
 
 export class YoutubeUiModifierApp {
   private readonly storage = new SettingsStorage();
@@ -28,12 +29,14 @@ export class YoutubeUiModifierApp {
       categories: CATEGORIES,
       getSettings: () => this.settings,
       onSettingChange: (id, value) => this.updateSetting(id, value),
+      onLanguageChange: (language) => this.updateLanguage(language),
       onReset: () => this.resetSettings(),
     });
   }
 
   public async initialize(): Promise<void> {
     this.settings = await this.storage.load();
+    applyLanguageSetting(this.settings.language);
     this.applySettings();
     this.registerMenuCommands();
     this.startObserver();
@@ -57,6 +60,16 @@ export class YoutubeUiModifierApp {
     this.applySettingEffects(id, value);
     void this.storage.save(this.settings);
     this.applySettings();
+  }
+
+  private updateLanguage(language: YoutubeUiModifierLanguageSetting): void {
+    this.settings = {
+      ...this.settings,
+      language,
+    };
+    applyLanguageSetting(language);
+    void this.storage.save(this.settings);
+    this.settingsUi.rerender();
   }
 
   private applySettingEffects(
@@ -100,8 +113,10 @@ export class YoutubeUiModifierApp {
 
   private resetSettings(): void {
     this.settings = { ...DEFAULT_SETTINGS };
+    applyLanguageSetting(this.settings.language);
     void this.storage.save(this.settings);
     this.applySettings();
+    this.settingsUi.rerender();
   }
 
   private applySettings(): void {

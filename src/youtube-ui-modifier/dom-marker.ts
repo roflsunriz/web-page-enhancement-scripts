@@ -1,5 +1,158 @@
 import type { YoutubeUiModifierSettings } from "@/shared/types";
 
+type SubscriptionBadgeKind = "live" | "premiere" | "upcoming";
+
+const EXTRA_SIDEBAR_ALLOWED_TAGS = [
+  "all",
+  "すべて",
+  "全部",
+  "सभी",
+  "todos",
+  "todo",
+  "tous",
+  "كل",
+  "সব",
+  "все",
+  "تمام",
+  "related",
+  "関連",
+  "相关推荐",
+  "संबंधित",
+  "relacionados",
+  "asociados",
+  "associé",
+  "associés",
+  "ذات صلة",
+  "relacionado",
+  "সম্পর্কিত",
+  "похожие",
+  "متعلقہ",
+] as const;
+
+const SUBSCRIPTION_BADGE_KEYWORDS = {
+  live: [
+    "live",
+    "ライブ",
+    "直播",
+    "लाइव",
+    "en vivo",
+    "directo",
+    "en direct",
+    "مباشر",
+    "ao vivo",
+    "লাইভ",
+    "эфир",
+    "прямой",
+    "لائیو",
+  ],
+  premiere: [
+    "premiere",
+    "premieres",
+    "プレミア",
+    "首播",
+    "प्रीमियर",
+    "estreno",
+    "première",
+    "العرض الأول",
+    "estreia",
+    "প্রিমিয়ার",
+    "премьера",
+    "پریمیئر",
+  ],
+  upcoming: [
+    "upcoming",
+    "scheduled",
+    "配信予定",
+    "公開予定",
+    "即将",
+    "आगामी",
+    "próximamente",
+    "programado",
+    "à venir",
+    "prévu",
+    "قادم",
+    "مجدول",
+    "agendado",
+    "আসন্ন",
+    "запланировано",
+    "предстоит",
+    "آنے والا",
+    "شیڈول",
+  ],
+} as const satisfies Record<SubscriptionBadgeKind, ReadonlyArray<string>>;
+
+const SUBSCRIPTION_VOD_KEYWORDS = [
+  "streamed",
+  "配信済み",
+  "已直播",
+  "स्ट्रीम किया गया",
+  "emitido",
+  "transmitido",
+  "diffusé",
+  "تم بثه",
+  "ট্রিম করা হয়েছে",
+  "প্রচারিত",
+  "трансляция",
+  "стрим",
+  "اسٹریم",
+] as const;
+
+const MOST_RELEVANT_KEYWORDS = [
+  "most relevant",
+  "関連性が高い",
+  "最相关",
+  "सबसे प्रासंगिक",
+  "más relevante",
+  "plus pertinent",
+  "الأكثر صلة",
+  "mais relevantes",
+  "সবচেয়ে প্রাসঙ্গিক",
+  "самые релевантные",
+  "سب سے زیادہ متعلقہ",
+] as const;
+
+const CHANNEL_FOR_YOU_KEYWORDS = [
+  "for you",
+  "あなた向け",
+  "为你推荐",
+  "आपके लिए",
+  "para ti",
+  "pour vous",
+  "لك",
+  "para você",
+  "আপনার জন্য",
+  "для вас",
+  "آپ کے لیے",
+] as const;
+
+const PLAYER_TOGGLE_KEYWORDS = {
+  ambientMode: [
+    "ambient",
+    "アンビエント",
+    "环境",
+    "ऐम्बिएंट",
+    "ambiente",
+    "ambiant",
+    "المحيط",
+    "পরিবেশ",
+    "фоновый",
+    "محیطی",
+  ],
+  annotations: [
+    "annotation",
+    "アノテーション",
+    "注释",
+    "एनोटेशन",
+    "anotaciones",
+    "annotations",
+    "تعليقات توضيحية",
+    "anotações",
+    "টীকা",
+    "аннотации",
+    "تشریحات",
+  ],
+} as const;
+
 export class DomMarker {
   public apply(settings: YoutubeUiModifierSettings): void {
     if (!settings.globalEnabled) {
@@ -32,6 +185,10 @@ export class DomMarker {
 
     if (settings.hideClipButton) {
       this.markClipButtons();
+    }
+
+    if (settings.hideCreateButton) {
+      this.markCreateButtons();
     }
 
     if (this.shouldMarkSubscriptionItems(settings)) {
@@ -147,7 +304,6 @@ export class DomMarker {
   }
 
   private markExtraSidebarTags(): void {
-    const allowedTitles = new Set(["all", "related"]);
     document.querySelectorAll("yt-chip-cloud-chip-renderer").forEach((chip) => {
       const title = chip
         .querySelector("yt-formatted-string")
@@ -156,7 +312,8 @@ export class DomMarker {
         .toLowerCase();
       chip.toggleAttribute(
         "data-youtube-ui-modifier-hide-chip",
-        title !== undefined && !allowedTitles.has(title),
+        title !== undefined &&
+          !this.matchesKeyword(title, EXTRA_SIDEBAR_ALLOWED_TAGS),
       );
     });
   }
@@ -170,6 +327,25 @@ export class DomMarker {
         .closest("#menu button")
         ?.setAttribute("data-youtube-ui-modifier-clip-button", "true");
     });
+  }
+
+  private markCreateButtons(): void {
+    document
+      .querySelectorAll("ytd-masthead ytd-button-renderer")
+      .forEach((renderer) => {
+        const hasCreateEndpoint =
+          renderer.querySelector('[href*="/upload"]') !== null ||
+          renderer.innerHTML.includes("/upload");
+        const hasCreateIcon =
+          renderer.querySelector(
+            'path[d^="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"]',
+          ) !== null;
+
+        renderer.toggleAttribute(
+          "data-youtube-ui-modifier-create-button",
+          hasCreateEndpoint || hasCreateIcon,
+        );
+      });
   }
 
   private shouldMarkSubscriptionItems(
@@ -221,7 +397,12 @@ export class DomMarker {
 
     if (settings.hideSubscriptionVods) {
       document.querySelectorAll("#metadata-line span").forEach((span) => {
-        if (!this.getElementText(span).includes("Streamed")) {
+        if (
+          !this.matchesKeyword(
+            this.getElementText(span),
+            SUBSCRIPTION_VOD_KEYWORDS,
+          )
+        ) {
           return;
         }
 
@@ -241,7 +422,7 @@ export class DomMarker {
           const title = this.getElementText(shelf.querySelector("span#title"))
             .trim()
             .toLowerCase();
-          if (title === "most relevant") {
+          if (this.matchesKeyword(title, MOST_RELEVANT_KEYWORDS)) {
             shelf
               .closest("ytd-rich-section-renderer")
               ?.setAttribute("data-youtube-ui-modifier-most-relevant", "true");
@@ -251,21 +432,18 @@ export class DomMarker {
   }
 
   private markBadgeText(badge: Element): void {
-    const badgeText = this.getElementText(badge)
-      .trim()
-      .split(" ")[0]
-      ?.trim()
-      .toLowerCase();
-    if (!badgeText) {
+    const badgeText = this.getElementText(badge).trim().toLowerCase();
+    const badgeKind = this.getSubscriptionBadgeKind(badgeText);
+    if (!badgeKind) {
       return;
     }
 
     badge
       .closest("ytd-grid-video-renderer")
-      ?.setAttribute("data-youtube-ui-modifier-badge-text", badgeText);
+      ?.setAttribute("data-youtube-ui-modifier-badge-text", badgeKind);
     badge
       .closest("ytd-rich-item-renderer")
-      ?.setAttribute("data-youtube-ui-modifier-badge-text", badgeText);
+      ?.setAttribute("data-youtube-ui-modifier-badge-text", badgeKind);
   }
 
   private markChannelForYou(): void {
@@ -275,7 +453,7 @@ export class DomMarker {
         const title = this.getElementText(section.querySelector("span#title"))
           .trim()
           .toLowerCase();
-        if (title === "for you") {
+        if (this.matchesKeyword(title, CHANNEL_FOR_YOU_KEYWORDS)) {
           section.setAttribute(
             "data-youtube-ui-modifier-channel-for-you",
             "true",
@@ -296,11 +474,11 @@ export class DomMarker {
     }
 
     if (settings.disableAmbientMode) {
-      this.disablePlayerToggle(["ambient", "アンビエント"]);
+      this.disablePlayerToggle(PLAYER_TOGGLE_KEYWORDS.ambientMode);
     }
 
     if (settings.disableAnnotations) {
-      this.disablePlayerToggle(["annotation", "アノテーション"]);
+      this.disablePlayerToggle(PLAYER_TOGGLE_KEYWORDS.annotations);
     }
 
     if (settings.expandDescription || settings.hideComments) {
@@ -458,6 +636,28 @@ export class DomMarker {
     return element instanceof HTMLElement
       ? element.innerText
       : (element?.textContent ?? "");
+  }
+
+  private getSubscriptionBadgeKind(text: string): SubscriptionBadgeKind | null {
+    for (const [kind, keywords] of Object.entries(
+      SUBSCRIPTION_BADGE_KEYWORDS,
+    ) as Array<[SubscriptionBadgeKind, ReadonlyArray<string>]>) {
+      if (this.matchesKeyword(text, keywords)) {
+        return kind;
+      }
+    }
+
+    return null;
+  }
+
+  private matchesKeyword(
+    text: string,
+    keywords: ReadonlyArray<string>,
+  ): boolean {
+    const normalizedText = text.trim().toLowerCase();
+    return keywords.some((keyword) =>
+      normalizedText.includes(keyword.toLowerCase()),
+    );
   }
 
   private isVisible(element: HTMLElement): boolean {

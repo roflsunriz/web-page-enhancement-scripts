@@ -1,5 +1,8 @@
 import { getValue } from "@/shared/userscript";
+import { SUPPORTED_LOCALES } from "@/shared/i18n";
+import type { LocaleCode } from "@/shared/i18n";
 import type {
+  YoutubeUiModifierLanguageSetting,
   YoutubeUiModifierSettingId,
   YoutubeUiModifierSettings,
 } from "@/shared/types";
@@ -29,9 +32,13 @@ type CorruptBackupRecord = {
 
 type StoredRecord = SettingsRecord | CorruptBackupRecord;
 
-const SETTING_IDS = Object.keys(
-  DEFAULT_SETTINGS,
+const SETTING_IDS = Object.keys(DEFAULT_SETTINGS).filter(
+  (id) => id !== "language",
 ) as YoutubeUiModifierSettingId[];
+const LANGUAGE_SETTINGS = [
+  "auto",
+  ...SUPPORTED_LOCALES,
+] as const satisfies ReadonlyArray<YoutubeUiModifierLanguageSetting>;
 
 export class SettingsStorage {
   public async load(): Promise<YoutubeUiModifierSettings> {
@@ -187,6 +194,10 @@ export class SettingsStorage {
       }
     });
 
+    if (this.isLanguageSetting(settings.language)) {
+      normalized.language = settings.language;
+    }
+
     return normalized;
   }
 
@@ -209,11 +220,24 @@ export class SettingsStorage {
     }
 
     return Object.entries(value).every(([key, settingValue]) => {
+      if (key === "language") {
+        return this.isLanguageSetting(settingValue);
+      }
+
       return (
         SETTING_IDS.includes(key as YoutubeUiModifierSettingId) &&
         typeof settingValue === "boolean"
       );
     });
+  }
+
+  private isLanguageSetting(
+    value: unknown,
+  ): value is YoutubeUiModifierLanguageSetting {
+    return (
+      typeof value === "string" &&
+      LANGUAGE_SETTINGS.includes(value as "auto" | LocaleCode)
+    );
   }
 
   private isObject(value: unknown): value is Record<string, unknown> {

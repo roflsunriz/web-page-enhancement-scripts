@@ -1,5 +1,6 @@
 import type {
   YoutubeUiModifierCategoryDefinition,
+  YoutubeUiModifierLanguageChangeHandler,
   YoutubeUiModifierOptionDefinition,
   YoutubeUiModifierSettingId,
   YoutubeUiModifierSettings,
@@ -10,6 +11,8 @@ import { DEFAULT_SETTINGS } from "./settings-definitions";
 import { UI_STYLES } from "./ui-styles";
 import {
   format,
+  getLanguageOptions,
+  getTextDirection,
   t,
   translateCategoryLabel,
   translateOptionDescription,
@@ -22,6 +25,7 @@ type SettingsUiOptions = {
   categories: ReadonlyArray<YoutubeUiModifierCategoryDefinition>;
   getSettings: () => YoutubeUiModifierSettings;
   onSettingChange: YoutubeUiModifierSettingsChangeHandler;
+  onLanguageChange: YoutubeUiModifierLanguageChangeHandler;
   onReset: () => void;
 };
 
@@ -29,6 +33,7 @@ export class SettingsUi {
   private readonly categories: ReadonlyArray<YoutubeUiModifierCategoryDefinition>;
   private readonly getSettings: () => YoutubeUiModifierSettings;
   private readonly onSettingChange: YoutubeUiModifierSettingsChangeHandler;
+  private readonly onLanguageChange: YoutubeUiModifierLanguageChangeHandler;
   private readonly onReset: () => void;
   private activeCategoryId: string;
 
@@ -36,6 +41,7 @@ export class SettingsUi {
     this.categories = options.categories;
     this.getSettings = options.getSettings;
     this.onSettingChange = options.onSettingChange;
+    this.onLanguageChange = options.onLanguageChange;
     this.onReset = options.onReset;
     this.activeCategoryId = this.categories[0]?.id ?? "general";
     this.injectStyles();
@@ -57,6 +63,7 @@ export class SettingsUi {
 
     const modal = document.createElement("section");
     modal.className = "youtube-ui-modifier-dialog";
+    modal.dir = getTextDirection();
     modal.setAttribute("aria-label", t("settingsTitle"));
     modal.appendChild(this.createHeader());
     modal.appendChild(this.createContent());
@@ -107,6 +114,26 @@ export class SettingsUi {
     if (this.activeCategoryId === ENABLED_FILTER_CATEGORY_ID) {
       this.renderActiveCategory();
     }
+  }
+
+  public rerender(): void {
+    const overlay = document.getElementById(MODAL_ID);
+    if (!overlay) {
+      return;
+    }
+
+    overlay.replaceChildren();
+
+    const modal = document.createElement("section");
+    modal.className = "youtube-ui-modifier-dialog";
+    modal.dir = getTextDirection();
+    modal.setAttribute("aria-label", t("settingsTitle"));
+    modal.appendChild(this.createHeader());
+    modal.appendChild(this.createContent());
+    modal.appendChild(this.createFooter());
+
+    overlay.appendChild(modal);
+    this.renderActiveCategory();
   }
 
   public renderActiveCategory(): void {
@@ -291,6 +318,10 @@ export class SettingsUi {
     status.id = STATUS_ID;
     footer.appendChild(status);
 
+    const actions = document.createElement("div");
+    actions.className = "youtube-ui-modifier-footer-actions";
+    actions.appendChild(this.createLanguageSelector());
+
     const resetButton = document.createElement("button");
     resetButton.type = "button";
     resetButton.className =
@@ -299,12 +330,39 @@ export class SettingsUi {
     resetButton.addEventListener("click", () => {
       if (window.confirm(t("resetConfirm"))) {
         this.onReset();
-        this.renderActiveCategory();
       }
     });
-    footer.appendChild(resetButton);
+    actions.appendChild(resetButton);
+    footer.appendChild(actions);
 
     return footer;
+  }
+
+  private createLanguageSelector(): HTMLElement {
+    const label = document.createElement("label");
+    label.className = "youtube-ui-modifier-language-select";
+
+    const text = document.createElement("span");
+    text.textContent = t("languageSelectLabel");
+    label.appendChild(text);
+
+    const select = document.createElement("select");
+    getLanguageOptions().forEach((option) => {
+      const item = document.createElement("option");
+      item.value = option.value;
+      item.textContent = option.label;
+      select.appendChild(item);
+    });
+    select.value = this.getSettings().language;
+    select.addEventListener("change", () => {
+      const value = select.value;
+      if (this.isLanguageSetting(value)) {
+        this.onLanguageChange(value);
+      }
+    });
+    label.appendChild(select);
+
+    return label;
   }
 
   private createOption(option: YoutubeUiModifierOptionDefinition): HTMLElement {
@@ -352,9 +410,9 @@ export class SettingsUi {
     }
 
     const settings = this.getSettings();
-    const enabledCount = Object.entries(settings).filter(
-      ([key, value]) => key !== "globalEnabled" && value,
-    ).length;
+    const enabledCount = Object.keys(DEFAULT_SETTINGS).filter((key) => {
+      return this.isSettingId(key) && key !== "globalEnabled" && settings[key];
+    }).length;
     status.textContent = settings.globalEnabled
       ? format("enabledCount", { count: String(enabledCount) })
       : t("globalDisabled");
@@ -363,6 +421,17 @@ export class SettingsUi {
   private isSettingId(
     value: string | undefined,
   ): value is YoutubeUiModifierSettingId {
-    return value !== undefined && value in DEFAULT_SETTINGS;
+    return (
+      value !== undefined &&
+      value in DEFAULT_SETTINGS &&
+      typeof DEFAULT_SETTINGS[value as keyof YoutubeUiModifierSettings] ===
+        "boolean"
+    );
+  }
+
+  private isLanguageSetting(
+    value: string,
+  ): value is YoutubeUiModifierSettings["language"] {
+    return getLanguageOptions().some((option) => option.value === value);
   }
 }
