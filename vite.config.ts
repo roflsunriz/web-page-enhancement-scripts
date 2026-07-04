@@ -545,7 +545,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.8.2',
+  version: '1.8.3',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [

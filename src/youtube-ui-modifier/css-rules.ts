@@ -199,7 +199,7 @@ export const CSS_RULES: Partial<
   ],
   hideContextBoxes: ["ytd-info-panel-container-renderer"],
   hideCreateButton: [
-    'ytd-masthead ytd-button-renderer[data-youtube-ui-modifier-create-button="true"]',
+    'ytd-masthead [data-youtube-ui-modifier-create-button="true"]',
   ],
 };
 

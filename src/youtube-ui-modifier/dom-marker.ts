@@ -153,6 +153,31 @@ const PLAYER_TOGGLE_KEYWORDS = {
   ],
 } as const;
 
+const CREATE_BUTTON_CONTAINER_SELECTORS = [
+  "ytd-button-renderer",
+  "ytd-topbar-menu-button-renderer",
+  "yt-button-view-model",
+  "yt-icon-button",
+  "button",
+  "a",
+] as const;
+
+const CREATE_BUTTON_ENDPOINT_FRAGMENTS = [
+  "/upload",
+  "studio.youtube.com",
+  "upload.youtube.com",
+] as const;
+
+const CREATION_MENU_STYLE = "MULTI_PAGE_MENU_STYLE_TYPE_CREATION";
+const CREATION_MENU_ITEM_STYLE = "COMPACT_LINK_STYLE_TYPE_CREATION_MENU";
+
+type YoutubeRendererElement = Element & {
+  data?: unknown;
+  __data?: {
+    data?: unknown;
+  };
+};
+
 export class DomMarker {
   public apply(settings: YoutubeUiModifierSettings): void {
     if (!settings.globalEnabled) {
@@ -330,22 +355,149 @@ export class DomMarker {
   }
 
   private markCreateButtons(): void {
-    document
-      .querySelectorAll("ytd-masthead ytd-button-renderer")
-      .forEach((renderer) => {
-        const hasCreateEndpoint =
-          renderer.querySelector('[href*="/upload"]') !== null ||
-          renderer.innerHTML.includes("/upload");
-        const hasCreateIcon =
-          renderer.querySelector(
-            'path[d^="M14 13h-3v3H9v-3H6v-2h3V8h2v3h3v2z"]',
-          ) !== null;
+    const mastheadButtons = document.querySelector("ytd-masthead #buttons");
+    if (!mastheadButtons) {
+      return;
+    }
 
-        renderer.toggleAttribute(
-          "data-youtube-ui-modifier-create-button",
-          hasCreateEndpoint || hasCreateIcon,
-        );
-      });
+    const containers = Array.from(
+      mastheadButtons.querySelectorAll(
+        CREATE_BUTTON_CONTAINER_SELECTORS.join(","),
+      ),
+    );
+    containers.forEach((container) => {
+      container.toggleAttribute(
+        "data-youtube-ui-modifier-create-button",
+        this.isCreateButtonContainer(container),
+      );
+    });
+  }
+
+  private isCreateButtonContainer(container: Element): boolean {
+    if (!this.isTopbarButtonContainer(container)) {
+      return false;
+    }
+
+    return (
+      this.hasCreationMenuData(container) || this.hasCreateEndpoint(container)
+    );
+  }
+
+  private isTopbarButtonContainer(container: Element): boolean {
+    const mastheadButtons = container.closest("ytd-masthead #buttons");
+    return (
+      mastheadButtons !== null && container.parentElement === mastheadButtons
+    );
+  }
+
+  private hasCreateEndpoint(container: Element): boolean {
+    const hrefValues = Array.from(container.querySelectorAll("a[href]"))
+      .map((anchor) => anchor.getAttribute("href") ?? "")
+      .concat(container.getAttribute("href") ?? "");
+
+    const rendererData = this.getRendererData(container);
+    if (rendererData) {
+      hrefValues.push(...this.collectStrings(rendererData));
+    }
+
+    return hrefValues.some((value) =>
+      this.matchesCreateEndpointFragment(value),
+    );
+  }
+
+  private hasCreationMenuData(container: Element): boolean {
+    const rendererData = this.getRendererData(container);
+    if (!rendererData) {
+      return false;
+    }
+
+    const commandStyle = this.getStringAtPath(rendererData, [
+      "command",
+      "openPopupAction",
+      "popup",
+      "multiPageMenuRenderer",
+      "style",
+    ]);
+    if (commandStyle === CREATION_MENU_STYLE) {
+      return true;
+    }
+
+    return this.collectStrings(rendererData).includes(CREATION_MENU_ITEM_STYLE);
+  }
+
+  private getRendererData(container: Element): unknown {
+    const renderer = container as YoutubeRendererElement;
+    return renderer.data ?? renderer.__data?.data ?? null;
+  }
+
+  private getStringAtPath(
+    value: unknown,
+    path: ReadonlyArray<string>,
+  ): string | null {
+    let current: unknown = value;
+    for (const key of path) {
+      const record = this.asRecord(current);
+      if (!record) {
+        return null;
+      }
+      current = record[key];
+    }
+
+    return typeof current === "string" ? current : null;
+  }
+
+  private collectStrings(value: unknown): Array<string> {
+    const strings: Array<string> = [];
+    this.collectStringsRecursive(value, strings, new WeakSet(), 0);
+    return strings;
+  }
+
+  private collectStringsRecursive(
+    value: unknown,
+    strings: Array<string>,
+    seen: WeakSet<object>,
+    depth: number,
+  ): void {
+    if (depth > 8 || value === null || value === undefined) {
+      return;
+    }
+
+    if (typeof value === "string") {
+      strings.push(value);
+      return;
+    }
+
+    if (typeof value !== "object") {
+      return;
+    }
+
+    if (seen.has(value)) {
+      return;
+    }
+    seen.add(value);
+
+    if (Array.isArray(value)) {
+      value.forEach((item) =>
+        this.collectStringsRecursive(item, strings, seen, depth + 1),
+      );
+      return;
+    }
+
+    Object.values(value).forEach((item) =>
+      this.collectStringsRecursive(item, strings, seen, depth + 1),
+    );
+  }
+
+  private asRecord(value: unknown): Record<string, unknown> | null {
+    return typeof value === "object" && value !== null && !Array.isArray(value)
+      ? (value as Record<string, unknown>)
+      : null;
+  }
+
+  private matchesCreateEndpointFragment(value: string): boolean {
+    return CREATE_BUTTON_ENDPOINT_FRAGMENTS.some((fragment) =>
+      value.includes(fragment),
+    );
   }
 
   private shouldMarkSubscriptionItems(
