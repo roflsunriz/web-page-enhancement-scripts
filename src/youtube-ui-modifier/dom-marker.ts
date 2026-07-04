@@ -288,7 +288,8 @@ export class DomMarker {
     );
     const perRow = Number.parseInt(perRowValue, 10) || 4;
     items.forEach((item, index) => {
-      item.toggleAttribute(
+      this.setBooleanMarker(
+        item,
         "data-youtube-ui-modifier-hidden-home-row",
         index >= perRow,
       );
@@ -335,7 +336,8 @@ export class DomMarker {
         ?.getAttribute("title")
         ?.trim()
         .toLowerCase();
-      chip.toggleAttribute(
+      this.setBooleanMarker(
+        chip,
         "data-youtube-ui-modifier-hide-chip",
         title !== undefined &&
           !this.matchesKeyword(title, EXTRA_SIDEBAR_ALLOWED_TAGS),
@@ -366,7 +368,8 @@ export class DomMarker {
       ),
     );
     containers.forEach((container) => {
-      container.toggleAttribute(
+      this.setBooleanMarker(
+        container,
         "data-youtube-ui-modifier-create-button",
         this.isCreateButtonContainer(container),
       );
@@ -824,5 +827,18 @@ export class DomMarker {
 
   private isVisible(element: HTMLElement): boolean {
     return element.offsetParent !== null;
+  }
+
+  private setBooleanMarker(
+    element: Element,
+    attributeName: string,
+    enabled: boolean,
+  ): void {
+    if (enabled) {
+      element.setAttribute(attributeName, "true");
+      return;
+    }
+
+    element.removeAttribute(attributeName);
   }
 }
