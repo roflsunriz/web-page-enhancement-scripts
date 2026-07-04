@@ -534,8 +534,8 @@ function buildPanelHTML(settings: Settings): string {
         <div class="section-title">${t("cacheTtl")}</div>
         <div class="ttl-container">
           <div class="ttl-slider-row">
-            <input type="range" class="ttl-slider" 
-                   min="${TTL_MIN_HOURS}" max="${TTL_MAX_HOURS}" 
+            <input type="range" class="ttl-slider"
+                   min="${TTL_MIN_HOURS}" max="${TTL_MAX_HOURS}"
                    value="${settings.cacheTtlHours}" step="1">
             <div class="ttl-value">${formatTtlValue(settings.cacheTtlHours)}</div>
           </div>

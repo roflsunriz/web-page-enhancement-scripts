@@ -12,18 +12,13 @@
 // @run-at       document-start
 // ==/UserScript==
 
-(function () {
-  'use strict';
-
-  const n="yahoo-mail-ad-cleaner",r=`${n}-styles`,i=["#tagYadsListTop","#tagYadsSideColumn","#tagYadsDetail"],s=`data-${n}-collapsed`,m=["#tagYadsListTop","#tagYadsSideColumn","#tagYadsDetail"];function d(){if(document.getElementById(r))return;const t=document.createElement("style");t.id=r,t.textContent=`
-    ${i.join(`,
+(function(){"use strict";var e=`yahoo-mail-ad-cleaner`,t=`${e}-styles`,n=[`#tagYadsListTop`,`#tagYadsSideColumn`,`#tagYadsDetail`],r=`data-${e}-collapsed`,i=[`#tagYadsListTop`,`#tagYadsSideColumn`,`#tagYadsDetail`];function a(){if(document.getElementById(t))return;let r=document.createElement(`style`);r.id=t,r.textContent=`
+    ${n.join(`,
     `)} {
       display: none !important;
     }
 
-    [data-${n}-collapsed="true"] {
+    [data-${e}-collapsed="true"] {
       display: none !important;
     }
-  `,document.documentElement.append(t);}function f(t){return t instanceof HTMLElement}function y(t){return Array.from(t.children).some(e=>{if(!f(e)||i.some(l=>e.matches(l)))return  false;const u=window.getComputedStyle(e),o=e.getBoundingClientRect();return u.display!=="none"&&o.width>0&&o.height>0})}function E(t){const e=t.parentElement;e&&(e.removeAttribute(s),!y(e)&&e.setAttribute(s,"true"));}function c(){for(const t of m){const e=document.querySelector(t);e&&E(e);}}function S(){if(!document.body)return;new MutationObserver(()=>{c();}).observe(document.body,{childList:true,subtree:true});}function a(){d(),c(),S();}d();document.readyState==="loading"?document.addEventListener("DOMContentLoaded",a,{once:true}):a();
-
-})();
+  `,document.documentElement.append(r)}function o(e){return e instanceof HTMLElement}function s(e){return Array.from(e.children).some(e=>{if(!o(e)||n.some(t=>e.matches(t)))return!1;let t=window.getComputedStyle(e),r=e.getBoundingClientRect();return t.display!==`none`&&r.width>0&&r.height>0})}function c(e){let t=e.parentElement;t&&(t.removeAttribute(r),!s(t)&&t.setAttribute(r,`true`))}function l(){for(let e of i){let t=document.querySelector(e);t&&c(t)}}function u(){document.body&&new MutationObserver(()=>{l()}).observe(document.body,{childList:!0,subtree:!0})}function d(){a(),l(),u()}a(),document.readyState===`loading`?document.addEventListener(`DOMContentLoaded`,d,{once:!0}):d()})();

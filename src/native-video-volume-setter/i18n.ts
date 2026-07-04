@@ -1,11 +1,7 @@
 import { createI18n, type LocaleCode } from "@/shared/i18n";
 
 type TranslationKey =
-  | "openSettings"
-  | "title"
-  | "description"
-  | "currentVolume"
-  | "close";
+  "openSettings" | "title" | "description" | "currentVolume" | "close";
 
 const translations = {
   ja: {

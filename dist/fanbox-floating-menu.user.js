@@ -12,10 +12,7 @@
 // @run-at       document-idle
 // ==/UserScript==
 
-(function () {
-    'use strict';
-
-    const s={footerLinksWrapper:'[class*="FooterLinks__Wrapper-sc-"]',footerPrevLink:'div[class*="FooterLinks__PrevPostWrapper-sc-"]',footerNextLink:'div[class*="FooterLinks__NextPostWrapper-sc-"]',paginationWrapper:'[class*="Pagination__DesktopWrapper-sc-"]',creatorPostListWrapper:'[class*="CreatorPostList__Wrapper-sc-"]'},l="fanbox-floating-menu-container";class d{container=null;remove(){this.container?.remove(),this.container=null;}create(e){this.remove();const t=document.createElement("div");t.id=l,this.container=t;const o=t.attachShadow({mode:"closed"}),a=document.createElement("style");a.textContent=this.getStyle();const r=e.cloneNode(true);r.classList.add("floating-menu"),o.appendChild(a),o.appendChild(r),document.body.appendChild(t);}getStyle(){const{footerPrevLink:e,footerNextLink:t}=s;return `
+(function(){"use strict";var e={footerLinksWrapper:`[class*="FooterLinks__Wrapper-sc-"]`,footerPrevLink:`div[class*="FooterLinks__PrevPostWrapper-sc-"]`,footerNextLink:`div[class*="FooterLinks__NextPostWrapper-sc-"]`,paginationWrapper:`[class*="Pagination__DesktopWrapper-sc-"]`,creatorPostListWrapper:`[class*="CreatorPostList__Wrapper-sc-"]`},t=`fanbox-floating-menu-container`,n=class{container=null;remove(){this.container?.remove(),this.container=null}create(e){this.remove();let n=document.createElement(`div`);n.id=t,this.container=n;let r=n.attachShadow({mode:`closed`}),i=document.createElement(`style`);i.textContent=this.getStyle();let a=e.cloneNode(!0);a.classList.add(`floating-menu`),r.appendChild(i),r.appendChild(a),document.body.appendChild(n)}getStyle(){let{footerPrevLink:t,footerNextLink:n}=e;return`
       .floating-menu {
           position: fixed;
           left: 0;
@@ -31,8 +28,8 @@
           gap: 10px;
       }
       .floating-menu a,
-      .floating-menu ${e},
-      .floating-menu ${t} {
+      .floating-menu ${t},
+      .floating-menu ${n} {
           padding: 5px 10px;
           border-radius: 3px;
           text-decoration: none;
@@ -40,10 +37,8 @@
           transition: background-color 0.2s;
       }
       .floating-menu a:hover,
-      .floating-menu ${e}:hover,
-      .floating-menu ${t}:hover {
+      .floating-menu ${t}:hover,
+      .floating-menu ${n}:hover {
           background-color: rgba(0,0,0,0.1);
       }
-    `}}class u{lastUrl=location.href;callback;debounceTimer=null;constructor(e){this.callback=e;}start(){const e=history.pushState;history.pushState=(...o)=>{e.apply(history,o),this.handleUrlChange();};const t=history.replaceState;history.replaceState=(...o)=>{t.apply(history,o),this.handleUrlChange();},window.addEventListener("popstate",()=>this.handleUrlChange());}handleUrlChange(){this.lastUrl!==location.href&&(this.lastUrl=location.href,this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.callback(),500));}}function p(n,e=5e3){return new Promise((t,o)=>{const a=document.querySelector(n);if(a){t(a);return}const r=new MutationObserver(()=>{const i=document.querySelector(n);i&&(r.disconnect(),clearTimeout(c),t(i));}),c=setTimeout(()=>{r.disconnect(),o(new Error(`Element not found: ${n}`));},e);r.observe(document.body,{childList:true,subtree:true});})}async function h(){const n=new d,e=async()=>{try{const o=await p(s.footerLinksWrapper);n.create(o);}catch(o){n.remove(),console.error("[Fanbox Floating Menu] Could not display floating menu:",o.message);}};new u(e).start(),e();}h();
-
-})();
+    `}},r=class{lastUrl=location.href;callback;debounceTimer=null;constructor(e){this.callback=e}start(){let e=history.pushState;history.pushState=(...t)=>{e.apply(history,t),this.handleUrlChange()};let t=history.replaceState;history.replaceState=(...e)=>{t.apply(history,e),this.handleUrlChange()},window.addEventListener(`popstate`,()=>this.handleUrlChange())}handleUrlChange(){this.lastUrl!==location.href&&(this.lastUrl=location.href,this.debounceTimer&&clearTimeout(this.debounceTimer),this.debounceTimer=window.setTimeout(()=>this.callback(),500))}};function i(e,t=5e3){return new Promise((n,r)=>{let i=document.querySelector(e);if(i){n(i);return}let a=new MutationObserver(()=>{let t=document.querySelector(e);t&&(a.disconnect(),clearTimeout(o),n(t))}),o=setTimeout(()=>{a.disconnect(),r(Error(`Element not found: ${e}`))},t);a.observe(document.body,{childList:!0,subtree:!0})})}async function a(){let t=new n,a=async()=>{try{let n=await i(e.footerLinksWrapper);t.create(n)}catch(e){t.remove(),console.error(`[Fanbox Floating Menu] Could not display floating menu:`,e.message)}};new r(a).start(),a()}a()})();

@@ -13,17 +13,7 @@ export type CacheStatus = "ok" | "failed" | "pending";
 
 /** ランク帯（パーセンタイル） */
 export type RankTier =
-  | "S+++"
-  | "S++"
-  | "S+"
-  | "S"
-  | "A"
-  | "B"
-  | "C"
-  | "D"
-  | "E"
-  | "F"
-  | "G";
+  "S+++" | "S++" | "S+" | "S" | "A" | "B" | "C" | "D" | "E" | "F" | "G";
 
 /** 投稿者種別 */
 export type UploaderType = "danime" | "official" | "unknown";

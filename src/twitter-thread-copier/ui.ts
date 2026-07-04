@@ -723,9 +723,7 @@ class UIManager {
     }
     providerSelect.addEventListener("change", (e: Event) => {
       const val = (e.target as HTMLSelectElement).value as
-        | "local"
-        | "google"
-        | "openai";
+        "local" | "google" | "openai";
       localStorage.setItem("translationProvider", val);
       logger.log(`Translation provider set to ${val}`);
     });

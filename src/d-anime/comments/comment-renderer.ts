@@ -48,10 +48,7 @@ export class CommentRenderer {
   constructor(config?: CommentRendererConfig);
   constructor(
     settingsOrConfig?:
-      | RendererSettings
-      | CommentRendererConfig
-      | null
-      | undefined,
+      RendererSettings | CommentRendererConfig | null | undefined,
     maybeConfig?: CommentRendererConfig,
   ) {
     if (isRendererSettings(settingsOrConfig) || settingsOrConfig === null) {

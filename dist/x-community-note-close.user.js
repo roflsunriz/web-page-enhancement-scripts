@@ -13,9 +13,4 @@
 // @run-at       document-end
 // ==/UserScript==
 
-(function () {
-	'use strict';
-
-	const e={mask:'[data-testid="mask"]',closeButton:'[data-testid="app-bar-close"]',dialog:'[role="dialog"]'};function c(){document.addEventListener("click",a=>{const t=a.target;if(!(t instanceof HTMLElement)||!t.matches(e.mask))return;const o=t.closest(e.dialog);if(!o)return;const s=o.querySelector(e.closeButton);s&&s.click();});}c();
-
-})();
+(function(){"use strict";var e={mask:`[data-testid="mask"]`,closeButton:`[data-testid="app-bar-close"]`,dialog:`[role="dialog"]`};function t(){document.addEventListener(`click`,t=>{let n=t.target;if(!(n instanceof HTMLElement)||!n.matches(e.mask))return;let r=n.closest(e.dialog);if(!r)return;let i=r.querySelector(e.closeButton);i&&i.click()})}t()})();

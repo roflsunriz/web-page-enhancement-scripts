@@ -13,9 +13,4 @@
 // @run-at       document-start
 // ==/UserScript==
 
-(function () {
-	'use strict';
-
-	const a=/^https:\/\/(pbs|ton)\.twimg\.com\/media\/([^?&]+)/,i=["orig"],r="twitter_image_redirect_count";const c=".twimg.com",m=e=>`https://${e}${c}`;function l(e){const t=e.match(a);return t?{domain:t[1],mediaId:t[2]}:null}function u(e){const n=new URLSearchParams(new URL(e).search).get("name");return n?i.includes(n):false}function d(e,t){const n=t.get("format");if(n)return n;if(e.includes(".")){const s=e.split(".");return s[s.length-1].split(":")[0]}return "jpg"}function I(e,t){const n=new URLSearchParams(new URL(e).search),s=d(t.mediaId,n),o=t.mediaId.split(".")[0];return `${m(t.domain)}/media/${o}?format=${s}&name=orig`}function g(e){const t=l(e);if(!t){sessionStorage.removeItem(r);return}const n=parseInt(sessionStorage.getItem(r)||"0");if(n>=3){sessionStorage.removeItem(r);return}if(u(e)){sessionStorage.removeItem(r);return}sessionStorage.setItem(r,(n+1).toString());const s=I(e,t);window.location.replace(s);}g(window.location.href);
-
-})();
+(function(){"use strict";var e=/^https:\/\/(pbs|ton)\.twimg\.com\/media\/([^?&]+)/,t=[`orig`],n=`twitter_image_redirect_count`,r=`https://www.nicovideo.jp`;`${r}`,`${r}`;var i=`https://twitter.com`,a=`https://t.co`,o=`.twimg.com`;`${i}`;var s=e=>`https://${e}${o}`;`${a}`;function c(t){let n=t.match(e);return n?{domain:n[1],mediaId:n[2]}:null}function l(e){let n=new URLSearchParams(new URL(e).search).get(`name`);return n?t.includes(n):!1}function u(e,t){let n=t.get(`format`);if(n)return n;if(e.includes(`.`)){let t=e.split(`.`);return t[t.length-1].split(`:`)[0]}return`jpg`}function d(e,t){let n=new URLSearchParams(new URL(e).search),r=u(t.mediaId,n),i=t.mediaId.split(`.`)[0];return`${s(t.domain)}/media/${i}?format=${r}&name=orig`}function f(e){let t=c(e);if(!t){sessionStorage.removeItem(n);return}let r=parseInt(sessionStorage.getItem(`twitter_image_redirect_count`)||`0`);if(r>=3){sessionStorage.removeItem(n);return}if(l(e)){sessionStorage.removeItem(n);return}sessionStorage.setItem(n,(r+1).toString());let i=d(e,t);window.location.replace(i)}f(window.location.href)})();

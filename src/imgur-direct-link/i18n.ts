@@ -1,11 +1,7 @@
 import { createI18n, type LocaleCode } from "@/shared/i18n";
 
 type TranslationKey =
-  | "copy"
-  | "copyDirectLink"
-  | "notDirectLink"
-  | "copySuccess"
-  | "copyFailed";
+  "copy" | "copyDirectLink" | "notDirectLink" | "copySuccess" | "copyFailed";
 
 const translations = {
   ja: {

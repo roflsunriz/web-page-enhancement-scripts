@@ -2709,6 +2709,10 @@ const optionDescriptions: Partial<
 };
 
 export function translateCategoryLabel(id: string, fallback: string): string {
+  if (i18n.getLocale() === "ja") {
+    return fallback;
+  }
+
   return (
     categoryLabels[i18n.getLocale()]?.[id] ??
     categoryLabels.en?.[id] ??
@@ -2720,6 +2724,10 @@ export function translateOptionLabel(
   id: YoutubeUiModifierSettingId,
   fallback: string,
 ): string {
+  if (i18n.getLocale() === "ja") {
+    return fallback;
+  }
+
   return (
     optionLabels[i18n.getLocale()]?.[id] ?? optionLabels.en?.[id] ?? fallback
   );
@@ -2729,6 +2737,10 @@ export function translateOptionDescription(
   id: YoutubeUiModifierSettingId,
   fallback: string,
 ): string {
+  if (i18n.getLocale() === "ja") {
+    return fallback;
+  }
+
   return (
     optionDescriptions[i18n.getLocale()]?.[id] ??
     optionDescriptions.en?.[id] ??

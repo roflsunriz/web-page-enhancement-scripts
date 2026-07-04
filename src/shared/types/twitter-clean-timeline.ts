@@ -57,9 +57,4 @@ export interface FilterResult {
 }
 
 export type PageType =
-  | "timeline"
-  | "list"
-  | "profile"
-  | "search"
-  | "tweetDetail"
-  | "other";
+  "timeline" | "list" | "profile" | "search" | "tweetDetail" | "other";

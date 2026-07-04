@@ -47,8 +47,7 @@ export class WatchPageController {
   private cachedAnimeTitle: string | null = null; // アニメタイトルのキャッシュ
   private lastEpisodeNumber: string | null = null; // 前回のエピソード番号
   private rendererSettingsObserver:
-    | ((settings: RendererSettings) => void)
-    | null = null;
+    ((settings: RendererSettings) => void) | null = null;
 
   constructor(private readonly global: DanimeGlobal) {
     // localStorageからアニメタイトルのキャッシュを読み込み
