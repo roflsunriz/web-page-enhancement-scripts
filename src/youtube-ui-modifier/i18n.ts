@@ -1374,8 +1374,7 @@ const optionDescriptions: Partial<
     hideComments: "Hide the comments area and comment prompt panels.",
     hideContextBoxes:
       "Hide contextual boxes such as info panels and supplemental cards.",
-    hideCreateButton:
-      "Hide the top bar Create button identified by CDP inspection.",
+    hideCreateButton: "Hide the Create button in the YouTube top bar.",
     hideEmbeddedMoreVideos:
       "Hide extra video panels shown on pause in embedded players.",
     hideEndScreen: "Hide the recommendation grid shown when a video ends.",
@@ -1496,7 +1495,7 @@ const optionDescriptions: Partial<
     hideCommentUsernames: "在评论区隐藏作者姓名。",
     hideComments: "隐藏评论区和评论提示面板。",
     hideContextBoxes: "隐藏上下文框，例如信息面板和补充卡。",
-    hideCreateButton: "隐藏由 CDP 检查识别的顶部栏“创建”按钮。",
+    hideCreateButton: "隐藏 YouTube 顶部栏中的“创建”按钮。",
     hideEmbeddedMoreVideos: "隐藏嵌入式播放器中暂停时显示的额外视频面板。",
     hideEndScreen: "隐藏视频结束时显示的推荐网格。",
     hideEntireWatchSidebar: "隐藏整个右列并将视频列居中。",
@@ -1597,8 +1596,7 @@ const optionDescriptions: Partial<
     hideCommentUsernames: "टिप्पणी क्षेत्र में लेखक के नाम छिपाएँ।",
     hideComments: "टिप्पणी क्षेत्र और टिप्पणी शीघ्र पैनल छिपाएँ।",
     hideContextBoxes: "सूचना पैनल और पूरक कार्ड जैसे प्रासंगिक बक्से छुपाएं।",
-    hideCreateButton:
-      "सीडीपी निरीक्षण द्वारा पहचाने गए शीर्ष बार क्रिएट बटन को छुपाएं।",
+    hideCreateButton: "YouTube शीर्ष बार में बनाएं बटन छिपाएँ।",
     hideEmbeddedMoreVideos:
       "एम्बेडेड प्लेयर्स में रुकने पर दिखाए गए अतिरिक्त वीडियो पैनल छिपाएँ।",
     hideEndScreen: "वीडियो समाप्त होने पर दिखाई गई अनुशंसा ग्रिड छिपाएँ।",
@@ -1736,7 +1734,7 @@ const optionDescriptions: Partial<
     hideContextBoxes:
       "Masquez les boîtes contextuelles telles que les panneaux d’informations et les cartes supplémentaires.",
     hideCreateButton:
-      "Masquer le bouton Créer de la barre supérieure identifié par l'inspection CDP.",
+      "Masquer le bouton Créer dans la barre supérieure de YouTube.",
     hideEmbeddedMoreVideos:
       "Masquez les panneaux vidéo supplémentaires affichés en pause dans les lecteurs intégrés.",
     hideEndScreen:
@@ -1894,8 +1892,7 @@ const optionDescriptions: Partial<
       "Oculte a área de comentários e os painéis de prompt de comentários.",
     hideContextBoxes:
       "Oculte caixas contextuais, como painéis de informações e cartões complementares.",
-    hideCreateButton:
-      "Oculte o botão Criar da barra superior identificado pela inspeção do CDP.",
+    hideCreateButton: "Oculte o botão Criar na barra superior do YouTube.",
     hideEmbeddedMoreVideos:
       "Oculte painéis de vídeo extras exibidos em pausa em players incorporados.",
     hideEndScreen:
@@ -2171,8 +2168,7 @@ const optionDescriptions: Partial<
       "Скройте область комментариев и панели подсказок для комментариев.",
     hideContextBoxes:
       "Скройте контекстные поля, такие как информационные панели и дополнительные карточки.",
-    hideCreateButton:
-      "Скройте верхнюю панель. Кнопка «Создать», обнаруженная при проверке CDP.",
+    hideCreateButton: "Скрыть кнопку «Создать» в верхней панели YouTube.",
     hideEmbeddedMoreVideos:
       "Скрыть дополнительные видеопанели, отображаемые во время паузы во встроенных проигрывателях.",
     hideEndScreen:
@@ -2318,8 +2314,7 @@ const optionDescriptions: Partial<
     hideComments: "تبصرے کے علاقے کو چھپائیں اور پرامپٹ پینل کمنٹس کریں۔",
     hideContextBoxes:
       "سیاق و سباق کے خانوں کو چھپائیں جیسے معلوماتی پینلز اور اضافی کارڈز۔",
-    hideCreateButton:
-      "اوپری بار کو چھپائیں CDP معائنہ کے ذریعہ شناخت کردہ بٹن بنائیں۔",
+    hideCreateButton: "YouTube کے اوپری بار میں بنائیں بٹن کو چھپائیں۔",
     hideEmbeddedMoreVideos:
       "ایمبیڈڈ پلیئرز میں توقف پر دکھائے گئے اضافی ویڈیو پینلز کو چھپائیں۔",
     hideEndScreen:
@@ -2457,8 +2452,7 @@ const optionDescriptions: Partial<
       "Oculte el área de comentarios y los paneles de mensajes de comentarios.",
     hideContextBoxes:
       "Oculte cuadros contextuales como paneles de información y tarjetas complementarias.",
-    hideCreateButton:
-      "Oculte el botón Crear de la barra superior identificado por la inspección de CDP.",
+    hideCreateButton: "Oculte el botón Crear de la barra superior de YouTube.",
     hideEmbeddedMoreVideos:
       "Oculte paneles de video adicionales que se muestran en pausa en reproductores integrados.",
     hideEndScreen:
@@ -2608,8 +2602,7 @@ const optionDescriptions: Partial<
     hideComments: "إخفاء منطقة التعليقات ولوحات المطالبة بالتعليق.",
     hideContextBoxes:
       "إخفاء المربعات السياقية مثل لوحات المعلومات والبطاقات الإضافية.",
-    hideCreateButton:
-      "قم بإخفاء زر إنشاء الشريط العلوي الذي تم تحديده بواسطة فحص CDP.",
+    hideCreateButton: "إخفاء زر إنشاء في الشريط العلوي من YouTube.",
     hideEmbeddedMoreVideos:
       "إخفاء لوحات الفيديو الإضافية التي تظهر عند الإيقاف المؤقت في المشغلات المضمنة.",
     hideEndScreen: "إخفاء شبكة التوصيات التي تظهر عند انتهاء الفيديو.",

@@ -587,8 +587,7 @@ export const CATEGORIES: ReadonlyArray<YoutubeUiModifierCategoryDefinition> = [
       {
         id: "hideCreateButton",
         label: "作成ボタンを隠す",
-        description:
-          "CDPで確認したトップバーの「作成」ボタンを非表示にします。",
+        description: "YouTube上部バーの作成ボタンを非表示にします。",
       },
       {
         id: "lockSettingsWithTimer",
