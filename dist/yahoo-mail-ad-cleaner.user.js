@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         yahoo-mail-ad-cleaner
 // @namespace    yahooMailAdCleaner
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  Yahoo!メール PC版に残る広告枠と空きカラムを非表示にする
 // @license      MIT

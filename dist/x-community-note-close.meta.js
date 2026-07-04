@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         x-community-note-close
 // @namespace    xCommunityNoteClose
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  X/Twitterのコミュニティノート評価モーダルをバックドロップクリックで閉じる
 // @license      MIT

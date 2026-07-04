@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         x-auto-spam-reporter
 // @namespace    xAutoSpamReporter
-// @version      1.2.0
+// @version      1.2.1
 // @author       roflsunriz
 // @description  X/Twitterのツイート詳細ページでリプライをワンクリックでスパム報告＆ブロック
 // @license      MIT
