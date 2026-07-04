@@ -379,7 +379,9 @@ export class DomMarker {
     }
 
     return (
-      this.hasCreationMenuData(container) || this.hasCreateEndpoint(container)
+      this.hasCreateButtonShape(container) ||
+      this.hasCreationMenuData(container) ||
+      this.hasCreateEndpoint(container)
     );
   }
 
@@ -387,6 +389,14 @@ export class DomMarker {
     const mastheadButtons = container.closest("ytd-masthead #buttons");
     return (
       mastheadButtons !== null && container.parentElement === mastheadButtons
+    );
+  }
+
+  private hasCreateButtonShape(container: Element): boolean {
+    return (
+      container.matches("ytd-button-renderer[button-renderer][button-next]") &&
+      container.querySelector(":scope > yt-button-shape > button") !== null &&
+      container.querySelector(":scope > yt-button-shape > a") === null
     );
   }
 
