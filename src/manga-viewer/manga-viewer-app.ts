@@ -1,5 +1,5 @@
 import { globalState } from "./state";
-import { checkReactAvailability, isMobile, setViewport } from "./util";
+import { checkReactAvailability, isMobile, setViewport, win } from "./util";
 import { ChapterNavigator } from "./chapter-navigator";
 import { DataLoader } from "./data-loader";
 import { GlassControlPanel } from "./ui/glass-control-panel";
@@ -13,6 +13,17 @@ import type { LaunchStyle } from "@/shared/types/launch-style";
 import { format, t } from "./i18n";
 
 const SCRIPT_ID = "manga-viewer";
+const RUNTIME_STATE_KEY = "__bookStyleMangaViewerRuntime";
+
+type RuntimeState = {
+  activeOwnerId: string | null;
+  launchOwnerId: string | null;
+};
+
+type RuntimeWindow = Window &
+  typeof globalThis & {
+    [RUNTIME_STATE_KEY]?: RuntimeState;
+  };
 
 export class MangaViewerApp {
   private controlPanel: GlassControlPanel | null = null;
@@ -22,6 +33,9 @@ export class MangaViewerApp {
   private launchShortcutHandler: ((e: KeyboardEvent) => void) | null = null;
   private beforeUnloadHandler: (() => void) | null = null;
   private isLaunchInProgress = false;
+  private readonly ownerId = `${Date.now().toString(36)}-${Math.random()
+    .toString(36)
+    .slice(2)}`;
 
   constructor() {
     this.spaObserver = new SPAPageObserver();
@@ -105,17 +119,19 @@ export class MangaViewerApp {
   }
 
   public async launch() {
-    if (globalState.isViewerActive) {
+    const runtimeState = this.getRuntimeState();
+    if (globalState.isViewerActive || runtimeState.activeOwnerId !== null) {
       console.warn("[MangaViewer] Viewer is already active.");
       return;
     }
 
-    if (this.isLaunchInProgress) {
+    if (this.isLaunchInProgress || runtimeState.launchOwnerId !== null) {
       console.warn("[MangaViewer] Viewer launch is already in progress.");
       return;
     }
 
     this.isLaunchInProgress = true;
+    runtimeState.launchOwnerId = this.ownerId;
     let spinner: LoadingSpinner | null = null;
     try {
       if (!checkReactAvailability()) {
@@ -160,6 +176,7 @@ export class MangaViewerApp {
       if (!viewerElement) {
         throw new Error("Failed to build viewer");
       }
+      runtimeState.activeOwnerId = this.ownerId;
 
       result.onValidated((updatedUrls) => {
         builder.getUpdateImagesCallback()?.(updatedUrls);
@@ -178,10 +195,21 @@ export class MangaViewerApp {
       );
     } finally {
       this.isLaunchInProgress = false;
+      if (runtimeState.launchOwnerId === this.ownerId) {
+        runtimeState.launchOwnerId = null;
+      }
     }
   }
 
   private cleanup() {
+    const runtimeState = this.getRuntimeState();
+    if (runtimeState.activeOwnerId === this.ownerId) {
+      runtimeState.activeOwnerId = null;
+    }
+    if (runtimeState.launchOwnerId === this.ownerId) {
+      runtimeState.launchOwnerId = null;
+    }
+
     globalState.eventListeners.forEach(
       ({ element, event, handler, options }) => {
         try {
@@ -258,5 +286,14 @@ export class MangaViewerApp {
     } catch {
       /* Errors during hook installation are not critical */
     }
+  }
+
+  private getRuntimeState(): RuntimeState {
+    const runtimeWindow = win as RuntimeWindow;
+    runtimeWindow[RUNTIME_STATE_KEY] ??= {
+      activeOwnerId: null,
+      launchOwnerId: null,
+    };
+    return runtimeWindow[RUNTIME_STATE_KEY];
   }
 }
