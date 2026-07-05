@@ -1,10 +1,5 @@
 import { globalState } from "./state";
-import {
-  addEventListenerSafely,
-  checkReactAvailability,
-  isMobile,
-  setViewport,
-} from "./util";
+import { checkReactAvailability, isMobile, setViewport } from "./util";
 import { ChapterNavigator } from "./chapter-navigator";
 import { DataLoader } from "./data-loader";
 import { GlassControlPanel } from "./ui/glass-control-panel";
@@ -24,6 +19,8 @@ export class MangaViewerApp {
   private fab: FabButton | null = null;
   private spaObserver: SPAPageObserver;
   private launchStyle: LaunchStyle = "classic";
+  private launchShortcutHandler: ((e: KeyboardEvent) => void) | null = null;
+  private beforeUnloadHandler: (() => void) | null = null;
 
   constructor() {
     this.spaObserver = new SPAPageObserver();
@@ -75,12 +72,11 @@ export class MangaViewerApp {
     // メニューコマンド: 起動スタイル切り替え
     registerLaunchStyleMenu(SCRIPT_ID);
 
-    addEventListenerSafely(document, "keydown", (e: Event) => {
-      const keyboardEvent = e as KeyboardEvent;
+    this.launchShortcutHandler = (keyboardEvent: KeyboardEvent) => {
       if (
         keyboardEvent.ctrlKey &&
         keyboardEvent.shiftKey &&
-        keyboardEvent.key === "M"
+        (keyboardEvent.key === "M" || keyboardEvent.code === "KeyM")
       ) {
         keyboardEvent.preventDefault();
         if (this.launchStyle === "classic") {
@@ -94,7 +90,8 @@ export class MangaViewerApp {
           void this.launch();
         }
       }
-    });
+    };
+    document.addEventListener("keydown", this.launchShortcutHandler, true);
 
     const navigator = new ChapterNavigator();
     if (navigator.checkAutoLaunch()) {
@@ -102,7 +99,8 @@ export class MangaViewerApp {
       setTimeout(() => this.launch(), autoLaunchDelayMs);
     }
 
-    addEventListenerSafely(window, "beforeunload", () => this.destroy());
+    this.beforeUnloadHandler = () => this.destroy();
+    window.addEventListener("beforeunload", this.beforeUnloadHandler);
   }
 
   public async launch() {
@@ -197,10 +195,19 @@ export class MangaViewerApp {
 
     this.controlPanel?.show();
     this.fab?.setVisible(true);
+    globalState.keyDispatcher = null;
     globalState.isViewerActive = false;
   }
 
   private destroy() {
+    if (this.launchShortcutHandler) {
+      document.removeEventListener("keydown", this.launchShortcutHandler, true);
+      this.launchShortcutHandler = null;
+    }
+    if (this.beforeUnloadHandler) {
+      window.removeEventListener("beforeunload", this.beforeUnloadHandler);
+      this.beforeUnloadHandler = null;
+    }
     this.controlPanel?.destroy();
     this.controlPanel = null;
     globalState.controlPanel = null;
