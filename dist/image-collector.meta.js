@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         image-collector
 // @namespace    imageCollector
-// @version      5.4.2
+// @version      5.5.0
 // @author       roflsunriz
 // @description  Collect images from various hosts and export as archive.
 // @license      MIT
@@ -42,7 +42,9 @@
 // @connect      weibo.com
 // @connect      vk.com
 // @connect      example.com
+// @grant        GM_getValue
 // @grant        GM_registerMenuCommand
+// @grant        GM_setValue
 // @grant        GM_xmlhttpRequest
 // @grant        unsafeWindow
 // ==/UserScript==

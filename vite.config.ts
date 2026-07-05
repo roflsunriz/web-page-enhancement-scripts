@@ -191,7 +191,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.4.2',
+  version: '5.5.0',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -229,6 +229,8 @@ const imageCollectorMeta: MonkeyUserScript = {
     'example.com',
   ],
   grant: [
+    'GM_getValue',
+    'GM_setValue',
     'GM_xmlhttpRequest',
     'GM_registerMenuCommand',
     'unsafeWindow',
@@ -287,7 +289,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.10.5',
+  version: '10.11.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],

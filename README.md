@@ -31,7 +31,7 @@ web-page-enhancement-scripts
   - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
   - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
-- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義などのユーティリティ
+- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義、スクリプト設定モーダルなどのユーティリティ
 - `dist/` — ビルド済みの userscript（配布用）
 
 各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。

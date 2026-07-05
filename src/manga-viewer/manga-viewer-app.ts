@@ -6,7 +6,11 @@ import { GlassControlPanel } from "./ui/glass-control-panel";
 import { LoadingSpinner } from "./ui/loading-spinner";
 import { UIBuilder } from "./ui/ui-builder";
 import { SPAPageObserver } from "./spa-page-observer";
-import { getLaunchStyle, registerLaunchStyleMenu } from "@/shared/launch-style";
+import { getLaunchStyle } from "@/shared/launch-style";
+import {
+  isSiteAccessAllowed,
+  registerScriptSettingsMenu,
+} from "@/shared/script-settings";
 import { FabButton } from "@/shared/ui/fab";
 import { svgBookOpen } from "@/shared/icons/mdi";
 import type { LaunchStyle } from "@/shared/types/launch-style";
@@ -46,6 +50,17 @@ export class MangaViewerApp {
     this.launchStyle = getLaunchStyle(SCRIPT_ID);
     globalState.app = this;
 
+    registerScriptSettingsMenu({
+      scriptId: SCRIPT_ID,
+      scriptName: "book-style-manga-viewer",
+      includeLaunchStyle: true,
+      defaultLaunchStyle: "classic",
+    });
+
+    if (!isSiteAccessAllowed(SCRIPT_ID)) {
+      return;
+    }
+
     // 起動スタイルに応じたUIを作成
     switch (this.launchStyle) {
       case "classic": {
@@ -83,9 +98,6 @@ export class MangaViewerApp {
     void import("@/shared/userscript").then((m) =>
       m.registerMenuCommand(t("launchMenu"), () => this.launch()),
     );
-
-    // メニューコマンド: 起動スタイル切り替え
-    registerLaunchStyleMenu(SCRIPT_ID);
 
     this.launchShortcutHandler = (keyboardEvent: KeyboardEvent) => {
       if (
