@@ -21,6 +21,7 @@ export class MangaViewerApp {
   private launchStyle: LaunchStyle = "classic";
   private launchShortcutHandler: ((e: KeyboardEvent) => void) | null = null;
   private beforeUnloadHandler: (() => void) | null = null;
+  private isLaunchInProgress = false;
 
   constructor() {
     this.spaObserver = new SPAPageObserver();
@@ -104,15 +105,21 @@ export class MangaViewerApp {
   }
 
   public async launch() {
+    if (globalState.isViewerActive) {
+      console.warn("[MangaViewer] Viewer is already active.");
+      return;
+    }
+
+    if (this.isLaunchInProgress) {
+      console.warn("[MangaViewer] Viewer launch is already in progress.");
+      return;
+    }
+
+    this.isLaunchInProgress = true;
     let spinner: LoadingSpinner | null = null;
     try {
       if (!checkReactAvailability()) {
         throw new Error("React or ReactDOM is not available.");
-      }
-
-      if (globalState.isViewerActive) {
-        console.warn("[MangaViewer] Viewer is already active, relaunching...");
-        this.cleanup();
       }
 
       this.controlPanel?.hide();
@@ -169,6 +176,8 @@ export class MangaViewerApp {
           message: (error as Error).message || String(error),
         }),
       );
+    } finally {
+      this.isLaunchInProgress = false;
     }
   }
 
