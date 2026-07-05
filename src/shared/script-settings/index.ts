@@ -5,9 +5,15 @@ import {
   LAUNCH_STYLE_LABELS,
   type LaunchStyle,
 } from "@/shared/types/launch-style";
-import { getValue, registerMenuCommand, setValue } from "@/shared/userscript";
+import {
+  getUnsafeWindow,
+  getValue,
+  registerMenuCommand,
+  setValue,
+} from "@/shared/userscript";
 
 const STORAGE_KEY_PREFIX = "script-settings-";
+const RUNTIME_STATE_KEY = "__sharedScriptSettingsRuntime";
 
 type SiteAccessMode = "all" | "allowlist";
 type SiteAccessRuleType = "domain" | "regex";
@@ -32,6 +38,16 @@ type ScriptSettingsOptions = {
   onSettingsChanged?: () => void;
 };
 
+type ScriptSettingsRuntimeState = {
+  activeHost: HTMLElement | null;
+  registeredMenuScriptIds: Record<string, boolean>;
+};
+
+type ScriptSettingsRuntimeWindow = Window &
+  typeof globalThis & {
+    [RUNTIME_STATE_KEY]?: ScriptSettingsRuntimeState;
+  };
+
 const DEFAULT_SETTINGS: StoredScriptSettings = {
   siteAccessMode: "all",
   siteAccessRules: [],
@@ -54,6 +70,12 @@ export function isSiteAccessAllowed(
 export function registerScriptSettingsMenu(
   options: ScriptSettingsOptions,
 ): void {
+  const runtimeState = getRuntimeState();
+  if (runtimeState.registeredMenuScriptIds[options.scriptId]) {
+    return;
+  }
+  runtimeState.registeredMenuScriptIds[options.scriptId] = true;
+
   registerMenuCommand(`${options.scriptName} 設定`, () => {
     openScriptSettingsModal(options);
   });
@@ -140,9 +162,13 @@ function normalizeDomain(value: string): string {
 }
 
 function openScriptSettingsModal(options: ScriptSettingsOptions): void {
-  activeModal?.dispose();
+  closeModal();
+
+  const hostId = getModalHostId(options.scriptId);
+  document.getElementById(hostId)?.remove();
+
   activeModal = createShadowHost({
-    id: `script-settings-${options.scriptId}`,
+    id: hostId,
     mode: "closed",
     cssText: `
       position: fixed;
@@ -151,6 +177,8 @@ function openScriptSettingsModal(options: ScriptSettingsOptions): void {
       pointer-events: auto;
     `,
   });
+  getRuntimeState().activeHost = activeModal.host;
+
   const root = activeModal.root;
   const style = document.createElement("style");
   style.textContent = getModalStyles();
@@ -488,8 +516,25 @@ function appendOption(
 }
 
 function closeModal(): void {
+  const runtimeState = getRuntimeState();
   activeModal?.dispose();
+  runtimeState.activeHost?.remove();
   activeModal = null;
+  runtimeState.activeHost = null;
+}
+
+function getRuntimeState(): ScriptSettingsRuntimeState {
+  const runtimeWindow = getUnsafeWindow() as ScriptSettingsRuntimeWindow;
+  runtimeWindow[RUNTIME_STATE_KEY] ??= {
+    activeHost: null,
+    registeredMenuScriptIds: {},
+  };
+  runtimeWindow[RUNTIME_STATE_KEY].registeredMenuScriptIds ??= {};
+  return runtimeWindow[RUNTIME_STATE_KEY];
+}
+
+function getModalHostId(scriptId: string): string {
+  return `script-settings-${scriptId}`;
 }
 
 function getModalStyles(): string {
