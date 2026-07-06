@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         book-style-manga-viewer
 // @namespace    bookStyleMangaViewer
-// @version      10.13.6
+// @version      10.13.7
 // @author       roflsunriz
 // @description  Layout images in book style viewer with keyboard controls.
 // @license      MIT

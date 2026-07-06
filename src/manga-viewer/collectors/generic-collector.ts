@@ -12,6 +12,7 @@ import {
   collectPageImagesWithScrollFallback,
   isLoadedPageImageCandidate,
   mergePageImageCollectionItems,
+  sortPageImageCollectionItems,
   type PageImageCollectionResult,
   type PageImageCollectionItem,
 } from "@/shared/page-image-candidates";
@@ -239,9 +240,9 @@ export class GenericCollector implements ICollector {
   }
 
   private async validateUrlsWithMetadata(
-    urlsWithMetadata: { url: string; needsValidation: boolean }[],
+    urlsWithMetadata: PageImageCollectionItem[],
   ): Promise<CollectionResult> {
-    const validUrls: string[] = [];
+    const validUrlSet = new Set<string>();
 
     const filteredUrlsWithMetadataByUrl = urlsWithMetadata.filter((item) => {
       if (item.needsValidation) {
@@ -254,21 +255,24 @@ export class GenericCollector implements ICollector {
     const filteredUrlsWithMetadata = await this.filterUserHashExcludedImages(
       filteredUrlsWithMetadataByUrl,
     );
+    const orderedItems = sortPageImageCollectionItems(filteredUrlsWithMetadata);
+
+    const buildOrderedValidUrls = () =>
+      orderedItems
+        .filter((item) => validUrlSet.has(item.url))
+        .map((item) => item.url);
 
     // 検証不要なURLを先に抽出
-    const preValidatedUrls = filteredUrlsWithMetadata
+    orderedItems
       .filter((item) => !item.needsValidation)
-      .map((item) => item.url);
-    validUrls.push(...preValidatedUrls);
+      .forEach((item) => validUrlSet.add(item.url));
 
-    const initialUrls = [...validUrls];
+    const initialUrls = buildOrderedValidUrls();
 
     this.spinner?.updateMessage(
       format("initialImagesReady", {
-        count: String(preValidatedUrls.length),
-        remaining: String(
-          filteredUrlsWithMetadata.length - preValidatedUrls.length,
-        ),
+        count: String(initialUrls.length),
+        remaining: String(orderedItems.length - initialUrls.length),
       }),
     );
 
@@ -278,7 +282,7 @@ export class GenericCollector implements ICollector {
         // バックグラウンドで検証処理
         (async () => {
           try {
-            const validationNeeded = filteredUrlsWithMetadata.filter(
+            const validationNeeded = orderedItems.filter(
               (item) => item.needsValidation,
             );
             let validatedCount = 0;
@@ -286,18 +290,18 @@ export class GenericCollector implements ICollector {
             if (validationNeeded.length === 0) {
               this.safeUpdateProgress(
                 100,
-                format("readyImages", { count: String(validUrls.length) }),
+                format("readyImages", { count: String(validUrlSet.size) }),
                 "complete",
               );
-              callback([...validUrls]);
+              callback(buildOrderedValidUrls());
               return;
             }
 
             for (const item of validationNeeded) {
               const isValid = await this.isImageAccessible(item.url);
               if (isValid) {
-                validUrls.push(item.url);
-                callback([...validUrls]);
+                validUrlSet.add(item.url);
+                callback(buildOrderedValidUrls());
               }
               validatedCount++;
               if (typeof win.MangaViewer?.updateProgress === "function") {
@@ -318,11 +322,11 @@ export class GenericCollector implements ICollector {
             this.safeUpdateProgress(
               100,
               format("validationComplete", {
-                count: String(validUrls.length),
+                count: String(validUrlSet.size),
               }),
               "complete",
             );
-            callback([...validUrls]);
+            callback(buildOrderedValidUrls());
           } catch (err) {
             console.error("[GenericCollector] validation error", err);
             // エラー時は完了を通知してコールバックする
@@ -333,7 +337,7 @@ export class GenericCollector implements ICollector {
                 "complete",
               );
             }
-            callback([...validUrls]);
+            callback(buildOrderedValidUrls());
           }
         })();
       },
@@ -353,13 +357,13 @@ export class GenericCollector implements ICollector {
   }
 
   private async filterUserHashExcludedImages(
-    urlsWithMetadata: { url: string; needsValidation: boolean }[],
-  ): Promise<{ url: string; needsValidation: boolean }[]> {
+    urlsWithMetadata: PageImageCollectionItem[],
+  ): Promise<PageImageCollectionItem[]> {
     if (!hasUserImageHashExclusions("manga-viewer")) {
       return urlsWithMetadata;
     }
 
-    const filtered: { url: string; needsValidation: boolean }[] = [];
+    const filtered: PageImageCollectionItem[] = [];
     for (const item of urlsWithMetadata) {
       const isExcluded = await isUserExcludedImageByPixelHash(
         "manga-viewer",

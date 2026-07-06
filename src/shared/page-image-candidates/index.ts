@@ -7,6 +7,7 @@ export type PageImageCandidate = {
   kind: PageImageCandidateKind;
   width?: number;
   height?: number;
+  documentOrder?: number;
 };
 
 export type CollectPageImageCandidatesOptions = {
@@ -91,6 +92,7 @@ export function collectPageImageCandidates(
   const candidates: PageImageCandidate[] = [];
   const seen = new Set<string>();
 
+  const elementOrder = createElementOrderIndex();
   const addCandidate = (
     rawUrl: string | null | undefined,
     element: Element | null,
@@ -100,7 +102,13 @@ export function collectPageImageCandidates(
     const url = normalizePageImageUrl(rawUrl);
     if (!url || seen.has(url)) return;
     seen.add(url);
-    candidates.push({ url, element, kind, ...dimensions });
+    candidates.push({
+      url,
+      element,
+      kind,
+      ...dimensions,
+      documentOrder: getElementDocumentOrder(element, elementOrder),
+    });
   };
 
   if (include.has("image")) {
@@ -142,9 +150,10 @@ export function collectPageImageCandidates(
     });
   }
 
+  const sortedCandidates = sortPageImageCandidates(candidates);
   return options.maxCandidates === undefined
-    ? candidates
-    : candidates.slice(0, options.maxCandidates);
+    ? sortedCandidates
+    : sortedCandidates.slice(0, options.maxCandidates);
 }
 
 export async function scanPageImageCandidates(
@@ -209,9 +218,10 @@ export async function scanPageImageCandidates(
 
   options.onProgress?.({ phase: "complete", count: candidates.size });
   const values = Array.from(candidates.values());
+  const sortedValues = sortPageImageCandidates(values);
   return options.maxCandidates === undefined
-    ? values
-    : values.slice(0, options.maxCandidates);
+    ? sortedValues
+    : sortedValues.slice(0, options.maxCandidates);
 }
 
 export async function collectPageImages(
@@ -222,7 +232,10 @@ export async function collectPageImages(
   const candidates = shouldScan
     ? await scanPageImageCandidates(options)
     : collectPageImageCandidates(options);
-  return toPageImageCollectionResult(candidates, options);
+  return toPageImageCollectionResult(
+    sortPageImageCandidates(candidates),
+    options,
+  );
 }
 
 export function collectLoadedPageImages(
@@ -234,6 +247,7 @@ export function collectLoadedPageImages(
 
   const candidates: PageImageCandidate[] = [];
   const seen = new Set<string>();
+  const elementOrder = createElementOrderIndex();
   document.querySelectorAll<HTMLImageElement>("img").forEach((image) => {
     const url = normalizePageImageUrl(getImageElementCandidateUrls(image)[0]);
     if (!url || seen.has(url)) return;
@@ -243,6 +257,7 @@ export function collectLoadedPageImages(
       element: image,
       kind: "image",
       ...dimensions,
+      documentOrder: getElementDocumentOrder(image, elementOrder),
     };
     if (!isLoadedPageImageCandidate(candidate, options)) return;
     seen.add(url);
@@ -281,7 +296,13 @@ export function mergePageImageCollectionItems(
       merged.set(item.url, item);
     });
   });
-  return Array.from(merged.values());
+  return sortPageImageCollectionItems(Array.from(merged.values()));
+}
+
+export function sortPageImageCollectionItems(
+  items: PageImageCollectionItem[],
+): PageImageCollectionItem[] {
+  return [...items].sort(comparePageImageCandidates);
 }
 
 export function isLoadedPageImageCandidate(
@@ -391,7 +412,7 @@ function toPageImageCollectionResult(
   candidates: PageImageCandidate[],
   options: Pick<CollectPageImagesOptions, "exclude" | "needsValidation">,
 ): PageImageCollectionResult {
-  const items = candidates
+  const items = sortPageImageCandidates(candidates)
     .filter((candidate) => options.exclude?.(candidate) !== true)
     .map((candidate) => ({
       ...candidate,
@@ -447,6 +468,41 @@ function uniqueNormalizedUrls(
     normalized.push(value);
   });
   return normalized;
+}
+
+function createElementOrderIndex(): Map<Element, number> {
+  const order = new Map<Element, number>();
+  document.querySelectorAll<Element>("*").forEach((element, index) => {
+    order.set(element, index);
+  });
+  return order;
+}
+
+function getElementDocumentOrder(
+  element: Element | null,
+  elementOrder: Map<Element, number>,
+): number | undefined {
+  return element === null ? undefined : elementOrder.get(element);
+}
+
+function comparePageImageCandidates(
+  left: PageImageCandidate,
+  right: PageImageCandidate,
+): number {
+  const leftOrder = left.documentOrder;
+  const rightOrder = right.documentOrder;
+  if (leftOrder !== undefined && rightOrder !== undefined) {
+    return leftOrder - rightOrder;
+  }
+  if (leftOrder !== undefined) return -1;
+  if (rightOrder !== undefined) return 1;
+  return 0;
+}
+
+function sortPageImageCandidates<T extends PageImageCandidate>(
+  items: T[],
+): T[] {
+  return [...items].sort(comparePageImageCandidates);
 }
 
 function waitForDynamicImages(
