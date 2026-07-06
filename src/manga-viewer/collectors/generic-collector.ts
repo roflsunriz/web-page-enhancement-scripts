@@ -7,9 +7,10 @@ import {
   isUserExcludedImageByPixelHash,
 } from "@/shared/image-exclusion-settings";
 import {
-  collectPageImageCandidates,
   collectPageImages,
   getImageElementCandidateUrls,
+  type PageImageCollectionItem,
+  type PageImageCandidate,
 } from "@/shared/page-image-candidates";
 import { format, t } from "../i18n";
 
@@ -65,29 +66,40 @@ export class GenericCollector implements ICollector {
   public async collect(): Promise<CollectionResult> {
     this.spinner?.updateMessage(t("imageCollecting"));
 
-    // 1. 初期表示されている画像を収集
-    const urlSet = new Set<string>();
-    this.collectVisibleImages(urlSet);
-
-    if (this.canUseFastLoadedImages(urlSet)) {
+    const fastLoadedImages = this.collectFastLoadedImages();
+    if (fastLoadedImages.length >= 2) {
       this.spinner?.updateMessage(
-        format("fastLoadedImages", { count: String(urlSet.size) }),
+        format("fastLoadedImages", { count: String(fastLoadedImages.length) }),
       );
-      return this.validateUrlsWithMetadata(this.toUrlsWithMetadata(urlSet));
+      return this.createFastLoadedResult(fastLoadedImages);
     }
 
-    // 2. 動的に読み込まれる画像を待機・収集
     this.spinner?.updateMessage(t("nextDynamicImages"));
-    const scanned = await collectPageImages({
+    const scanned = await this.collectCurrentPageImages({ scroll: false });
+    if (scanned.urls.length >= 2) {
+      return this.validateUrlsWithMetadata(scanned.items);
+    }
+
+    const scrollScanned = await this.collectCurrentPageImages({ scroll: true });
+    return this.validateUrlsWithMetadata(scrollScanned.items);
+  }
+
+  private collectCurrentPageImages(options: { scroll: boolean }): Promise<{
+    items: PageImageCollectionItem[];
+    urls: string[];
+  }> {
+    return collectPageImages({
       include: ["image", "source"],
-      dynamicWaitMs: 3000,
-      scroll: {
-        enabled: true,
-        maxScrolls: 20,
-        stepRatio: 0.8,
-        delayMs: 400,
-        stopAfterNoNewScans: 3,
-      },
+      dynamicWaitMs: options.scroll ? 1500 : 500,
+      scroll: options.scroll
+        ? {
+            enabled: true,
+            maxScrolls: 20,
+            stepRatio: 0.8,
+            delayMs: 400,
+            stopAfterNoNewScans: 3,
+          }
+        : undefined,
       onProgress: (progress) => {
         if (progress.phase === "scroll") {
           this.spinner?.updateMessage(
@@ -104,63 +116,23 @@ export class GenericCollector implements ICollector {
       },
       needsValidation: (candidate) => !this.isSameOrigin(candidate.url),
     });
-    scanned.urls.forEach((url) => urlSet.add(url));
-
-    return this.validateUrlsWithMetadata(scanned.items);
   }
 
-  private async collectStaticImages(): Promise<
-    { url: string; needsValidation: boolean }[]
-  > {
-    const urlsWithMetadata: { url: string; needsValidation: boolean }[] = [];
-    const urlSet = new Set<string>();
-
-    const collected = await collectPageImages({
-      include: ["image", "source"],
-      needsValidation: (candidate) => !this.isSameOrigin(candidate.url),
-    });
-    collected.items.forEach((item) => {
-      if (urlSet.has(item.url)) return;
-      urlSet.add(item.url);
-      urlsWithMetadata.push({
-        url: item.url,
-        needsValidation: item.needsValidation,
-      });
-    });
-    return urlsWithMetadata;
-  }
-
-  private collectVisibleImages(urlSet: Set<string>): number {
-    const initialSize = urlSet.size;
-
-    collectPageImageCandidates({ include: ["image", "source"] }).forEach(
-      (candidate) => {
-        urlSet.add(candidate.url);
-      },
-    );
-    return urlSet.size - initialSize;
-  }
-
-  private toUrlsWithMetadata(
-    urlSet: Set<string>,
-  ): { url: string; needsValidation: boolean }[] {
-    return Array.from(urlSet).map((url) => ({
-      url,
-      needsValidation: !this.isSameOrigin(url),
-    }));
-  }
-
-  private canUseFastLoadedImages(urlSet: Set<string>): boolean {
-    if (!this.isNicoMangaPage() || urlSet.size < 2) {
-      return false;
+  private collectFastLoadedImages(): {
+    url: string;
+    needsValidation: boolean;
+  }[] {
+    if (!this.isNicoMangaPage()) {
+      return [];
     }
 
-    let loadedImageCount = 0;
+    const loadedImages: { url: string; needsValidation: boolean }[] = [];
+    const seen = new Set<string>();
     document.querySelectorAll("img").forEach((element) => {
       const imageUrl = getImageElementCandidateUrls(element)[0] ?? null;
       if (
         imageUrl &&
-        urlSet.has(imageUrl) &&
+        !seen.has(imageUrl) &&
         element.complete &&
         element.naturalWidth > 100 &&
         element.naturalHeight > 100 &&
@@ -168,11 +140,101 @@ export class GenericCollector implements ICollector {
           pageHost: window.location.hostname,
         })
       ) {
-        loadedImageCount++;
+        seen.add(imageUrl);
+        loadedImages.push({ url: imageUrl, needsValidation: false });
       }
     });
 
-    return loadedImageCount >= 2;
+    return loadedImages;
+  }
+
+  private createFastLoadedResult(
+    fastLoadedImages: { url: string; needsValidation: boolean }[],
+  ): CollectionResult {
+    const initialUrls = fastLoadedImages.map((item) => item.url);
+    return {
+      initialUrls,
+      onValidated: (callback) => {
+        callback(initialUrls);
+        void this.scanAdditionalImages(fastLoadedImages, callback);
+      },
+    };
+  }
+
+  private async scanAdditionalImages(
+    initialItems: { url: string; needsValidation: boolean }[],
+    callback: (urls: string[]) => void,
+  ): Promise<void> {
+    try {
+      const scanned = await collectPageImages({
+        include: ["image", "source"],
+        dynamicWaitMs: 500,
+        onProgress: (progress) => {
+          this.safeUpdateProgress(
+            0,
+            format("imageCollected", { count: String(progress.count) }),
+            "loading",
+          );
+        },
+        exclude: (candidate) =>
+          isInvalidImage(candidate.url, candidate.width, candidate.height, {
+            pageHost: window.location.hostname,
+          }),
+        needsValidation: (candidate) => !this.isLoadedValidCandidate(candidate),
+      });
+
+      const mergedItems = this.mergeUrlMetadata(initialItems, scanned.items);
+      const result = await this.validateUrlsWithMetadata(mergedItems);
+      callback(result.initialUrls);
+      result.onValidated(callback);
+    } catch (error) {
+      console.error("[GenericCollector] additional scan error", error);
+      this.safeUpdateProgress(
+        100,
+        format("readyImages", { count: String(initialItems.length) }),
+        "complete",
+      );
+      callback(initialItems.map((item) => item.url));
+    }
+  }
+
+  private mergeUrlMetadata(
+    initialItems: { url: string; needsValidation: boolean }[],
+    scannedItems: PageImageCollectionItem[],
+  ): { url: string; needsValidation: boolean }[] {
+    const merged = new Map<string, { url: string; needsValidation: boolean }>();
+    initialItems.forEach((item) => {
+      merged.set(item.url, item);
+    });
+    scannedItems.forEach((item) => {
+      const existing = merged.get(item.url);
+      if (existing && !existing.needsValidation) return;
+      merged.set(item.url, {
+        url: item.url,
+        needsValidation: item.needsValidation,
+      });
+    });
+    return Array.from(merged.values());
+  }
+
+  private isLoadedValidCandidate(candidate: PageImageCandidate): boolean {
+    const element = candidate.element;
+    if (!(element instanceof HTMLImageElement)) {
+      return false;
+    }
+    return (
+      element.complete &&
+      element.naturalWidth > 100 &&
+      element.naturalHeight > 100 &&
+      !isInvalidImage(
+        candidate.url,
+        element.naturalWidth,
+        element.naturalHeight,
+        {
+          pageHost: window.location.hostname,
+        },
+      )
+    );
   }
 
   private isNicoMangaPage(): boolean {
