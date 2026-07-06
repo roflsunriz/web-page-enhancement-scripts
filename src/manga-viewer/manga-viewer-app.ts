@@ -15,7 +15,8 @@ import { FabButton } from "@/shared/ui/fab";
 import { svgBookOpen } from "@/shared/icons/mdi";
 import type { LaunchStyle } from "@/shared/types/launch-style";
 import { format, t } from "./i18n";
-import { createImageExclusionSettingsSection } from "@/shared/image-exclusion-settings";
+import { createImageExclusionSettingsSectionFactory } from "@/shared/image-exclusion-settings";
+import { isInvalidImage } from "./invalid-image-database";
 
 const SCRIPT_ID = "manga-viewer";
 const RUNTIME_STATE_KEY = "__bookStyleMangaViewerRuntime";
@@ -55,7 +56,19 @@ export class MangaViewerApp {
       scriptId: SCRIPT_ID,
       scriptName: "book-style-manga-viewer",
       includeLaunchStyle: true,
-      customSections: [createImageExclusionSettingsSection],
+      customSections: [
+        createImageExclusionSettingsSectionFactory({
+          shouldIncludeCandidate: (candidate) =>
+            !isInvalidImage(candidate.url, candidate.width, candidate.height, {
+              pageHost: candidate.pageHost,
+            }) &&
+            !(
+              candidate.width !== undefined &&
+              candidate.height !== undefined &&
+              (candidate.width < 100 || candidate.height < 100)
+            ),
+        }),
+      ],
       defaultLaunchStyle: "classic",
     });
 

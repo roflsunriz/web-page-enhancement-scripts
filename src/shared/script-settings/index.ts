@@ -39,7 +39,7 @@ type ScriptSettingsOptions = {
   onSettingsChanged?: () => void;
 };
 
-type ScriptSettingsCustomSection = (
+export type ScriptSettingsCustomSection = (
   context: ScriptSettingsCustomSectionContext,
 ) => HTMLElement;
 

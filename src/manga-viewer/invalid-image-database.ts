@@ -48,6 +48,15 @@ const invalidImageRules: InvalidImageRule[] = [
   {
     host: /^4\.bp\.blogspot\.com$/,
   },
+  {
+    pageHost: /nicomanga\.com$/,
+    host: /^[1-4]\.bp\.blogspot\.com$/,
+  },
+  {
+    pageHost: /nicomanga\.com$/,
+    host: /^(?:fonts|www)\.gstatic\.com$/,
+    path: /\/(?:s\/i\/productlogos\/translate\/|images\/branding\/product\/)/,
+  },
 ];
 
 export function isInvalidImage(

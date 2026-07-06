@@ -4,7 +4,8 @@ import {
   isSiteAccessAllowed,
   registerScriptSettingsMenu,
 } from "@/shared/script-settings";
-import { createImageExclusionSettingsSection } from "@/shared/image-exclusion-settings";
+import { createImageExclusionSettingsSectionFactory } from "@/shared/image-exclusion-settings";
+import { isKnownBadImageCollectorCandidate } from "../core/bad-image-handler";
 
 const log = createLogger("ImageCollector2");
 const SCRIPT_ID = "image-collector";
@@ -15,7 +16,16 @@ export async function bootstrapImageCollectorUserscript(): Promise<void> {
     registerScriptSettingsMenu({
       scriptId: SCRIPT_ID,
       scriptName: "image-collector",
-      customSections: [createImageExclusionSettingsSection],
+      customSections: [
+        createImageExclusionSettingsSectionFactory({
+          shouldIncludeCandidate: (candidate) =>
+            !isKnownBadImageCollectorCandidate(
+              candidate.url,
+              candidate.width,
+              candidate.height,
+            ),
+        }),
+      ],
     });
 
     if (!isSiteAccessAllowed(SCRIPT_ID)) {

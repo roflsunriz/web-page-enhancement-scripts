@@ -6,6 +6,7 @@ import {
   type PageImageCandidate,
 } from "@/shared/page-image-candidates";
 import { getValue, setValue } from "@/shared/userscript";
+import type { ScriptSettingsCustomSection } from "@/shared/script-settings";
 
 const STORAGE_KEY_PREFIX = "image-exclusion-fingerprints-";
 const LEGACY_MANGA_VIEWER_STORAGE_KEY =
@@ -38,6 +39,10 @@ type ImageCandidate = {
   pixelHashAlgorithm?: string;
   width?: number;
   height?: number;
+};
+
+type ImageExclusionSettingsOptions = {
+  shouldIncludeCandidate?: (candidate: ImageCandidate) => boolean;
 };
 
 export function isUserExcludedImage(
@@ -130,6 +135,20 @@ export async function isUserExcludedImageByPixelHash(
 export function createImageExclusionSettingsSection(
   context: ScriptSettingsCustomSectionContext,
 ): HTMLElement {
+  return createImageExclusionSettingsSectionContent(context, {});
+}
+
+export function createImageExclusionSettingsSectionFactory(
+  options: ImageExclusionSettingsOptions,
+): ScriptSettingsCustomSection {
+  return (context) =>
+    createImageExclusionSettingsSectionContent(context, options);
+}
+
+function createImageExclusionSettingsSectionContent(
+  context: ScriptSettingsCustomSectionContext,
+  options: ImageExclusionSettingsOptions,
+): HTMLElement {
   const section = document.createElement("section");
   section.className = "ss-section";
 
@@ -146,7 +165,7 @@ export function createImageExclusionSettingsSection(
   section.append(
     createManualForm(context),
     createFingerprintList(context),
-    createCandidateList(context),
+    createCandidateList(context, options),
   );
 
   return section;
@@ -246,6 +265,7 @@ function createFingerprintList(
 
 function createCandidateList(
   context: ScriptSettingsCustomSectionContext,
+  options: ImageExclusionSettingsOptions,
 ): HTMLElement {
   const wrapper = document.createElement("div");
   wrapper.className = "ss-rule-list";
@@ -276,7 +296,10 @@ function createCandidateList(
   });
   wrapper.appendChild(scanButton);
 
-  const candidates = collectImageCandidates(context.currentUrl.hostname);
+  const candidates = collectImageCandidates(
+    context.currentUrl.hostname,
+    options,
+  );
   const count = document.createElement("div");
   count.className = "ss-empty";
   count.textContent = `候補: ${candidates.length}件`;
@@ -341,13 +364,17 @@ function createCandidateList(
   return wrapper;
 }
 
-function collectImageCandidates(pageHost: string): ImageCandidate[] {
+function collectImageCandidates(
+  pageHost: string,
+  options: ImageExclusionSettingsOptions,
+): ImageCandidate[] {
   const candidates: ImageCandidate[] = [];
   const seen = new Set<string>();
 
   getCachedOrCurrentPageCandidates(pageHost).forEach((pageCandidate) => {
     const candidate = parseCandidate(pageCandidate.url, pageHost);
     if (!candidate) return;
+    if (options.shouldIncludeCandidate?.(candidate) === false) return;
     const key = `${candidate.pageHost}\n${candidate.host}\n${candidate.path}`;
     if (seen.has(key)) return;
     seen.add(key);

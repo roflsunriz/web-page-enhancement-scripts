@@ -13,14 +13,42 @@ interface DeletedImageSize {
   height: number;
 }
 
+const DELETED_IMAGE_SIZES: DeletedImageSize[] = [
+  { width: 320, height: 320 },
+  { width: 161, height: 81 },
+];
+
+const IMAGE_COLLECTOR_MIN_SIZE = 50;
+const IMAGE_COLLECTOR_MAX_SIZE = 5000;
+
+export function isKnownBadImageCollectorCandidate(
+  url: string,
+  width?: number,
+  height?: number,
+): boolean {
+  if (!isImageUrl(url)) {
+    return true;
+  }
+  if (isUserExcludedImage("image-collector", url, width, height)) {
+    return true;
+  }
+  if (width === undefined || height === undefined) {
+    return false;
+  }
+  if (isDeletedImageSize(width, height)) {
+    return true;
+  }
+  if (width < IMAGE_COLLECTOR_MIN_SIZE || height < IMAGE_COLLECTOR_MIN_SIZE) {
+    return true;
+  }
+  return width > IMAGE_COLLECTOR_MAX_SIZE || height > IMAGE_COLLECTOR_MAX_SIZE;
+}
+
 export class BadImageHandler {
-  readonly minSize = 50;
-  readonly maxSize = 5000;
+  readonly minSize = IMAGE_COLLECTOR_MIN_SIZE;
+  readonly maxSize = IMAGE_COLLECTOR_MAX_SIZE;
   readonly maxFileSize = 5 * 1024 * 1024; // 5MB
-  private readonly deletedImageSizes: DeletedImageSize[] = [
-    { width: 320, height: 320 },
-    { width: 161, height: 81 },
-  ];
+  private readonly deletedImageSizes: DeletedImageSize[] = DELETED_IMAGE_SIZES;
 
   constructor(private readonly logger: Logger) {}
 
@@ -288,8 +316,18 @@ export class BadImageHandler {
   }
 
   private isImageUrl(url: string): boolean {
-    const extensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
-    const lower = url.toLowerCase();
-    return extensions.some((ext) => lower.endsWith(ext));
+    return isImageUrl(url);
   }
+}
+
+function isDeletedImageSize(width: number, height: number): boolean {
+  return DELETED_IMAGE_SIZES.some(
+    (size) => size.width === width && size.height === height,
+  );
+}
+
+function isImageUrl(url: string): boolean {
+  const extensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
+  const lower = url.toLowerCase();
+  return extensions.some((ext) => lower.endsWith(ext));
 }

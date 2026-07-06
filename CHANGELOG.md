@@ -44,6 +44,7 @@
 
 ### Changed
 
+- 不要画像除外設定の候補一覧に各スクリプトの既知不要画像判定を適用し、ビューアや収集結果に出ない画像候補を減らすようにしました。`manga-viewer` を `10.13.3`、`image-collector` を `5.6.3` に更新しました。
 - 不要画像除外設定のプレビュー候補件数制限を撤廃し、`manga-viewer` を `10.13.2`、`image-collector` を `5.6.2` に更新しました。
 - 共通設定モーダルのレイヤーを注入先ページより前面に出やすい host 配置へ修正し、`manga-viewer` を `10.13.1`、`image-collector` を `5.6.1` に更新しました。
 - 共通 Shadow DOM host の更新に伴い、`native-video-volume-setter` のバージョンを `1.2.2` に更新しました。
