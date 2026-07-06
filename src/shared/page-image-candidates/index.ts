@@ -1,6 +1,14 @@
 export type PageImageCandidateKind =
   "image" | "source" | "anchor" | "background" | "observed";
 
+export type PageImageRequestSource =
+  | "performance"
+  | "img-src"
+  | "source-srcset"
+  | "set-attribute"
+  | "fetch"
+  | "xhr";
+
 export type PageImageCandidate = {
   url: string;
   element: Element | null;
@@ -9,6 +17,7 @@ export type PageImageCandidate = {
   height?: number;
   documentOrder?: number;
   observedAt?: number;
+  observedSource?: PageImageRequestSource;
 };
 
 export type CollectPageImageCandidatesOptions = {
@@ -88,14 +97,6 @@ const LAZY_IMAGE_ATTRIBUTES = [
 const IMAGE_EXTENSION_PATTERN =
   /\.(?:avif|bmp|gif|jpe?g|png|svg|webp)(?:[?#]|$)/i;
 
-type PageImageRequestSource =
-  | "performance"
-  | "img-src"
-  | "source-srcset"
-  | "set-attribute"
-  | "fetch"
-  | "xhr";
-
 type ObservedPageImageRequest = {
   url: string;
   element: Element | null;
@@ -154,6 +155,7 @@ export function collectObservedPageImageCandidates(): PageImageCandidate[] {
       ...dimensions,
       documentOrder: getElementDocumentOrder(element, elementOrder),
       observedAt: record.observedAt,
+      observedSource: record.source,
     };
   });
 }
@@ -165,6 +167,7 @@ export function collectPageImageCandidates(
   const include = new Set(options.include ?? DEFAULT_KINDS);
   const candidates: PageImageCandidate[] = [];
   const seen = new Set<string>();
+  const candidatesByUrl = new Map<string, PageImageCandidate>();
 
   const elementOrder = createElementOrderIndex();
   const addCandidate = (
@@ -176,13 +179,15 @@ export function collectPageImageCandidates(
     const url = normalizePageImageUrl(rawUrl);
     if (!url || seen.has(url)) return;
     seen.add(url);
-    candidates.push({
+    const candidate: PageImageCandidate = {
       url,
       element,
       kind,
       ...dimensions,
       documentOrder: getElementDocumentOrder(element, elementOrder),
-    });
+    };
+    candidates.push(candidate);
+    candidatesByUrl.set(url, candidate);
   };
 
   if (include.has("image")) {
@@ -226,9 +231,14 @@ export function collectPageImageCandidates(
 
   if (options.includeObserved !== false) {
     collectObservedPageImageCandidates().forEach((candidate) => {
-      if (seen.has(candidate.url)) return;
+      const existing = candidatesByUrl.get(candidate.url);
+      if (existing) {
+        mergeObservedCandidateIntoDomSlot(existing, candidate);
+        return;
+      }
       seen.add(candidate.url);
       candidates.push(candidate);
+      candidatesByUrl.set(candidate.url, candidate);
     });
   }
 
@@ -412,6 +422,12 @@ export function isLoadedPageImageCandidate(
   return options.exclude?.({ ...candidate, width, height }) !== true;
 }
 
+export function isDomOrderedPageImageCandidate(
+  candidate: PageImageCandidate,
+): boolean {
+  return candidate.documentOrder !== undefined && candidate.element !== null;
+}
+
 export function getImageElementCandidateUrls(
   image: HTMLImageElement,
 ): string[] {
@@ -593,6 +609,22 @@ function sortPageImageCandidates<T extends PageImageCandidate>(
   items: T[],
 ): T[] {
   return [...items].sort(comparePageImageCandidates);
+}
+
+function mergeObservedCandidateIntoDomSlot(
+  domCandidate: PageImageCandidate,
+  observedCandidate: PageImageCandidate,
+): void {
+  domCandidate.observedAt ??= observedCandidate.observedAt;
+  domCandidate.observedSource ??= observedCandidate.observedSource;
+  domCandidate.width ??= observedCandidate.width;
+  domCandidate.height ??= observedCandidate.height;
+
+  if (domCandidate.element === null && observedCandidate.element !== null) {
+    domCandidate.element = observedCandidate.element;
+    domCandidate.kind = observedCandidate.kind;
+    domCandidate.documentOrder = observedCandidate.documentOrder;
+  }
 }
 
 function waitForDynamicImages(

@@ -10,9 +10,11 @@ import {
   collectLoadedPageImages,
   collectPageImages,
   collectPageImagesWithScrollFallback,
+  isDomOrderedPageImageCandidate,
   isLoadedPageImageCandidate,
   mergePageImageCollectionItems,
   sortPageImageCollectionItems,
+  type PageImageCandidate,
   type PageImageCollectionResult,
   type PageImageCollectionItem,
 } from "@/shared/page-image-candidates";
@@ -113,7 +115,8 @@ export class GenericCollector implements ICollector {
           format("imageCollected", { count: String(progress.count) }),
         );
       },
-      needsValidation: (candidate) => !this.isSameOrigin(candidate.url),
+      needsValidation: (candidate) =>
+        this.needsExternalImageValidation(candidate),
     });
     return this.validateUrlsWithMetadata(scanned.items);
   }
@@ -207,14 +210,7 @@ export class GenericCollector implements ICollector {
             pageHost: window.location.hostname,
           }),
         needsValidation: (candidate) =>
-          !isLoadedPageImageCandidate(candidate, {
-            minWidth: 100,
-            minHeight: 100,
-            exclude: (candidate) =>
-              isInvalidImage(candidate.url, candidate.width, candidate.height, {
-                pageHost: window.location.hostname,
-              }),
-          }),
+          this.needsExternalImageValidation(candidate),
       });
 
       const mergedItems = mergePageImageCollectionItems(
@@ -354,6 +350,30 @@ export class GenericCollector implements ICollector {
     } catch {
       return false;
     }
+  }
+
+  private needsExternalImageValidation(candidate: PageImageCandidate): boolean {
+    if (
+      isLoadedPageImageCandidate(candidate, {
+        minWidth: 100,
+        minHeight: 100,
+        exclude: (candidate) =>
+          isInvalidImage(candidate.url, candidate.width, candidate.height, {
+            pageHost: window.location.hostname,
+          }),
+      })
+    ) {
+      return false;
+    }
+
+    if (
+      isDomOrderedPageImageCandidate(candidate) &&
+      (candidate.kind === "image" || candidate.kind === "source")
+    ) {
+      return false;
+    }
+
+    return !this.isSameOrigin(candidate.url);
   }
 
   private async filterUserHashExcludedImages(
