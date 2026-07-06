@@ -13,6 +13,10 @@ import {
   isUserExcludedImage,
   isUserExcludedImageByPixelHash,
 } from "@/shared/image-exclusion-settings";
+import {
+  collectPageImages,
+  type PageImageCandidate,
+} from "@/shared/page-image-candidates";
 import { format, t } from "../i18n";
 
 interface CollectedImageData {
@@ -54,10 +58,11 @@ export class ImageCollectorMain {
       let fastPathImages: ClassifiedImage[] = [];
       const slowPathImages: string[] = [];
 
-      this.collectFromImages(imageData, fastPathImages, slowPathImages);
-      this.collectFromPictureSources(imageData, fastPathImages, slowPathImages);
-      this.collectFromAnchors(imageData, slowPathImages);
-      this.collectFromBackgrounds(imageData, slowPathImages);
+      await this.collectFromPageCandidates(
+        imageData,
+        fastPathImages,
+        slowPathImages,
+      );
 
       this.logger.debug("画像分類完了", {
         fastPath: fastPathImages.length,
@@ -118,158 +123,62 @@ export class ImageCollectorMain {
     }
   }
 
-  private collectFromImages(
+  private async collectFromPageCandidates(
     imageData: Map<string, CollectedImageData>,
     fastPathImages: ClassifiedImage[],
     slowPathImages: string[],
-  ): void {
-    document.querySelectorAll("img").forEach((img) => {
-      try {
-        const src = this.resolveUrl(img.src);
-        if (!src) {
-          return;
-        }
-        const classification = this.imageSourceClassifier.classifyImageSource(
-          src,
-          img,
-        );
-        if (
-          isUserExcludedImage(
-            "image-collector",
-            src,
-            img.naturalWidth || img.width || undefined,
-            img.naturalHeight || img.height || undefined,
-          )
-        ) {
-          return;
-        }
-        imageData.set(src, { element: img, classification });
+  ): Promise<void> {
+    const collected = await collectPageImages({
+      exclude: (candidate) =>
+        isUserExcludedImage(
+          "image-collector",
+          candidate.url,
+          candidate.width,
+          candidate.height,
+        ),
+    });
 
-        if (classification.fastPath) {
-          fastPathImages.push({ url: src, classification });
+    collected.items.forEach((candidate) => {
+      try {
+        const classification = this.imageSourceClassifier.classifyImageSource(
+          candidate.url,
+          candidate.element ?? undefined,
+        );
+        imageData.set(candidate.url, {
+          element: candidate.element,
+          classification,
+        });
+
+        if (this.canUseFastPath(candidate, classification)) {
+          fastPathImages.push({ url: candidate.url, classification });
           this.logger.debug("高速パス画像", {
-            src: src.substring(0, 50),
+            src: candidate.url.substring(0, 50),
             reason: classification.reason,
           });
         } else {
-          slowPathImages.push(src);
+          slowPathImages.push(candidate.url);
           this.logger.debug("低速パス画像", {
-            src: src.substring(0, 50),
+            src: candidate.url.substring(0, 50),
             reason: classification.reason,
           });
         }
       } catch (error) {
-        this.logger.warn("img要素の処理中にエラーが発生しました", {
+        this.logger.warn("画像候補の処理中にエラーが発生しました", {
           error,
-          src: img.src,
+          src: candidate.url,
         });
       }
     });
   }
 
-  private collectFromPictureSources(
-    imageData: Map<string, CollectedImageData>,
-    fastPathImages: ClassifiedImage[],
-    slowPathImages: string[],
-  ): void {
-    document
-      .querySelectorAll<HTMLSourceElement>("picture source")
-      .forEach((source) => {
-        try {
-          const srcset = source.srcset
-            .split(",")
-            .map((s: string) => s.trim().split(" ")[0])
-            .filter(Boolean);
-
-          srcset.forEach((src: string) => {
-            const resolved = this.resolveUrl(src);
-            if (!resolved || imageData.has(resolved)) {
-              return;
-            }
-            const classification =
-              this.imageSourceClassifier.classifyImageSource(resolved, source);
-            imageData.set(resolved, { element: source, classification });
-
-            if (classification.fastPath) {
-              fastPathImages.push({ url: resolved, classification });
-              this.logger.debug("高速パス(picture)", {
-                src: resolved.substring(0, 50),
-                reason: classification.reason,
-              });
-            } else {
-              slowPathImages.push(resolved);
-              this.logger.debug("低速パス(picture)", {
-                src: resolved.substring(0, 50),
-                reason: classification.reason,
-              });
-            }
-          });
-        } catch (error) {
-          this.logger.warn("picture要素の処理中にエラーが発生しました", {
-            error,
-            srcset: source.srcset,
-          });
-        }
-      });
-  }
-
-  private collectFromAnchors(
-    imageData: Map<string, CollectedImageData>,
-    slowPathImages: string[],
-  ): void {
-    document.querySelectorAll("a").forEach((anchor) => {
-      try {
-        const href = this.resolveUrl(anchor.href);
-        if (!href || !this.isImageUrl(href) || imageData.has(href)) {
-          return;
-        }
-        const classification =
-          this.imageSourceClassifier.classifyImageSource(href);
-        imageData.set(href, { element: null, classification });
-        slowPathImages.push(href);
-        this.logger.debug("低速パス(link)", {
-          src: href.substring(0, 50),
-          reason: classification.reason,
-        });
-      } catch (error) {
-        this.logger.warn("a要素の処理中にエラーが発生しました", {
-          error,
-          href: anchor.href,
-        });
-      }
-    });
-  }
-
-  private collectFromBackgrounds(
-    imageData: Map<string, CollectedImageData>,
-    slowPathImages: string[],
-  ): void {
-    document.querySelectorAll<HTMLElement>("*").forEach((element) => {
-      try {
-        const bgImage = window.getComputedStyle(element).backgroundImage;
-        if (!bgImage || bgImage === "none") {
-          return;
-        }
-        const url = bgImage.replace(/^url\(["']?/, "").replace(/["']?\)$/, "");
-        const resolved = this.resolveUrl(url);
-        if (!resolved || imageData.has(resolved)) {
-          return;
-        }
-        const classification =
-          this.imageSourceClassifier.classifyImageSource(resolved);
-        imageData.set(resolved, { element: null, classification });
-        slowPathImages.push(resolved);
-        this.logger.debug("低速パス(bg)", {
-          src: resolved.substring(0, 50),
-          reason: classification.reason,
-        });
-      } catch (error) {
-        this.logger.warn("背景画像の処理中にエラーが発生しました", {
-          error,
-          tag: element.tagName,
-        });
-      }
-    });
+  private canUseFastPath(
+    candidate: PageImageCandidate,
+    classification: ImageClassification,
+  ): boolean {
+    return (
+      classification.fastPath &&
+      (candidate.kind === "image" || candidate.kind === "source")
+    );
   }
 
   private async processSlowPathImages(slowPathImages: string[]): Promise<void> {
@@ -337,34 +246,6 @@ export class ImageCollectorMain {
       }
     }
     return filtered;
-  }
-
-  private resolveUrl(url: string | null | undefined): string | null {
-    if (!url) {
-      return null;
-    }
-
-    try {
-      if (url.includes("?http")) {
-        const redirect = url.split("?http")[1];
-        if (redirect) {
-          return new URL(`http${redirect}`).href;
-        }
-      }
-      return new URL(url, window.location.href).href;
-    } catch (error) {
-      this.logger.debug("URL解決に失敗しました", { url, error });
-      return null;
-    }
-  }
-
-  private isImageUrl(url: string | null | undefined): boolean {
-    if (!url) {
-      return false;
-    }
-    const extensions = [".jpg", ".jpeg", ".png", ".gif", ".webp", ".svg"];
-    const lower = url.toLowerCase();
-    return extensions.some((ext) => lower.endsWith(ext));
   }
 
   private async getSnsImageUrl(url: string): Promise<string> {

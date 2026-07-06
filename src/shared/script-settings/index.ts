@@ -182,11 +182,13 @@ function openScriptSettingsModal(options: ScriptSettingsOptions): void {
   activeModal = createShadowHost({
     id: hostId,
     mode: "closed",
-    cssText: `
+    appendTo: "documentElement",
+    hostCssText: `
       position: fixed;
       inset: 0;
       z-index: 2147483647;
       pointer-events: auto;
+      isolation: isolate;
     `,
   });
   getRuntimeState().activeHost = activeModal.host;
@@ -566,14 +568,18 @@ function getModalStyles(): string {
     .ss-backdrop {
       position: fixed;
       inset: 0;
+      z-index: 2147483647;
       display: flex;
       align-items: center;
       justify-content: center;
       padding: 24px;
       background: rgba(15, 23, 42, 0.62);
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      isolation: isolate;
     }
     .ss-panel {
+      position: relative;
+      z-index: 2147483647;
       width: min(720px, 100%);
       max-height: min(760px, calc(100vh - 48px));
       overflow: auto;

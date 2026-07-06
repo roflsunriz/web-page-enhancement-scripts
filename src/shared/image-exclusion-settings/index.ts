@@ -1,5 +1,10 @@
 import type { ScriptSettingsCustomSectionContext } from "@/shared/script-settings";
 import { gmRequest } from "@/shared/network/gmHttp";
+import {
+  collectPageImageCandidates,
+  scanPageImageCandidates,
+  type PageImageCandidate,
+} from "@/shared/page-image-candidates";
 import { getValue, setValue } from "@/shared/userscript";
 
 const STORAGE_KEY_PREFIX = "image-exclusion-fingerprints-";
@@ -8,6 +13,7 @@ const LEGACY_MANGA_VIEWER_STORAGE_KEY =
 const MAX_CANDIDATES = 12;
 const HASH_SIZE = 64;
 const PIXEL_HASH_ALGORITHM = `sha256-rgba-${HASH_SIZE}x${HASH_SIZE}`;
+const scannedCandidateCache = new Map<string, PageImageCandidate[]>();
 
 type ImageExclusionFingerprint = {
   id: string;
@@ -249,6 +255,29 @@ function createCandidateList(
   title.textContent = "現在ページの画像候補";
   wrapper.appendChild(title);
 
+  const scanButton = document.createElement("button");
+  scanButton.type = "button";
+  scanButton.className = "ss-secondary";
+  scanButton.textContent = "ページをスキャンして候補更新";
+  scanButton.addEventListener("click", async () => {
+    scanButton.disabled = true;
+    scanButton.textContent = "スキャン中...";
+    const scanned = await scanPageImageCandidates({
+      maxCandidates: MAX_CANDIDATES,
+      dynamicWaitMs: 1500,
+      scroll: {
+        enabled: true,
+        maxScrolls: 12,
+        stepRatio: 0.8,
+        delayMs: 300,
+        stopAfterNoNewScans: 3,
+      },
+    });
+    scannedCandidateCache.set(getCandidateCacheKey(context), scanned);
+    context.render();
+  });
+  wrapper.appendChild(scanButton);
+
   const candidates = collectImageCandidates(context.currentUrl.hostname);
   if (candidates.length === 0) {
     const empty = document.createElement("div");
@@ -314,21 +343,36 @@ function collectImageCandidates(pageHost: string): ImageCandidate[] {
   const candidates: ImageCandidate[] = [];
   const seen = new Set<string>();
 
-  document.querySelectorAll("img").forEach((element) => {
-    const imageElement = element as HTMLImageElement;
-    const url = imageElement.currentSrc || imageElement.src;
-    const candidate = parseCandidate(url, pageHost);
+  getCachedOrCurrentPageCandidates(pageHost).forEach((pageCandidate) => {
+    const candidate = parseCandidate(pageCandidate.url, pageHost);
     if (!candidate) return;
-    const width = imageElement.naturalWidth || imageElement.width || undefined;
-    const height =
-      imageElement.naturalHeight || imageElement.height || undefined;
     const key = `${candidate.pageHost}\n${candidate.host}\n${candidate.path}`;
     if (seen.has(key)) return;
     seen.add(key);
-    candidates.push({ ...candidate, width, height });
+    candidates.push({
+      ...candidate,
+      width: pageCandidate.width,
+      height: pageCandidate.height,
+    });
   });
 
-  return candidates.slice(0, MAX_CANDIDATES);
+  return candidates;
+}
+
+function getCachedOrCurrentPageCandidates(
+  pageHost: string,
+): PageImageCandidate[] {
+  const cacheKey = `${pageHost}\n${window.location.href}`;
+  return (
+    scannedCandidateCache.get(cacheKey) ??
+    collectPageImageCandidates({ maxCandidates: MAX_CANDIDATES })
+  );
+}
+
+function getCandidateCacheKey(
+  context: ScriptSettingsCustomSectionContext,
+): string {
+  return `${context.currentUrl.hostname}\n${context.currentUrl.href}`;
 }
 
 function addFingerprint(scriptId: string, candidate: ImageCandidate): void {

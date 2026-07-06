@@ -2,7 +2,9 @@ export interface ShadowHostOptions {
   id?: string;
   mode?: ShadowRootMode;
   cssText?: string;
+  hostCssText?: string;
   adoptStyles?: string[];
+  appendTo?: "body" | "documentElement";
 }
 
 export interface ShadowHostHandle {
@@ -20,6 +22,9 @@ export const createShadowHost = (
   }
 
   host.style.position = "relative";
+  if (options.hostCssText) {
+    host.style.cssText = options.hostCssText;
+  }
   const root = host.attachShadow({ mode: options.mode ?? "open" });
 
   if (options.cssText) {
@@ -36,7 +41,11 @@ export const createShadowHost = (
     });
   }
 
-  document.body.appendChild(host);
+  const parent =
+    options.appendTo === "documentElement"
+      ? document.documentElement
+      : document.body;
+  parent.appendChild(host);
 
   return {
     host,
