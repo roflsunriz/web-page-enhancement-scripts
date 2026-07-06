@@ -31,6 +31,10 @@ type RuntimeWindow = Window &
     [RUNTIME_STATE_KEY]?: RuntimeState;
   };
 
+type LaunchOptions = {
+  preferFastLoadedWait?: boolean;
+};
+
 export class MangaViewerApp {
   private controlPanel: GlassControlPanel | null = null;
   private fab: FabButton | null = null;
@@ -138,14 +142,17 @@ export class MangaViewerApp {
     const navigator = new ChapterNavigator();
     if (navigator.checkAutoLaunch()) {
       const autoLaunchDelayMs = 1200 + Math.floor(Math.random() * 501);
-      setTimeout(() => this.launch(), autoLaunchDelayMs);
+      setTimeout(
+        () => this.launch({ preferFastLoadedWait: true }),
+        autoLaunchDelayMs,
+      );
     }
 
     this.beforeUnloadHandler = () => this.destroy();
     window.addEventListener("beforeunload", this.beforeUnloadHandler);
   }
 
-  public async launch() {
+  public async launch(options: LaunchOptions = {}) {
     const runtimeState = this.getRuntimeState();
     if (globalState.isViewerActive || runtimeState.activeOwnerId !== null) {
       console.warn("[MangaViewer] Viewer is already active.");
@@ -175,7 +182,9 @@ export class MangaViewerApp {
       spinner = new LoadingSpinner();
       spinner.show(t("imageSearch"));
 
-      const loader = new DataLoader();
+      const loader = new DataLoader({
+        preferFastLoadedWait: options.preferFastLoadedWait,
+      });
       loader.setSpinner(spinner);
 
       const result = await loader.collectImageUrls();

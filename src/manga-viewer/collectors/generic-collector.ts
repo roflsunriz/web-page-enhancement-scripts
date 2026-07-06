@@ -36,6 +36,12 @@ declare global {
 export class GenericCollector implements ICollector {
   private spinner: LoadingSpinner | null = null;
 
+  constructor(
+    private readonly options: {
+      preferFastLoadedWait?: boolean;
+    } = {},
+  ) {}
+
   private safeUpdateProgress(
     percent: number,
     message: string,
@@ -69,7 +75,7 @@ export class GenericCollector implements ICollector {
   public async collect(): Promise<CollectionResult> {
     this.spinner?.updateMessage(t("imageCollecting"));
 
-    const fastLoadedImages = this.collectFastLoadedImages();
+    const fastLoadedImages = await this.collectFastLoadedImagesForLaunch();
     if (fastLoadedImages.items.length >= 2) {
       this.spinner?.updateMessage(
         format("fastLoadedImages", {
@@ -126,6 +132,45 @@ export class GenericCollector implements ICollector {
         }),
       needsValidation: () => false,
     });
+  }
+
+  private async collectFastLoadedImagesForLaunch(): Promise<PageImageCollectionResult> {
+    const initial = this.collectFastLoadedImages();
+    if (initial.items.length >= 2 || !this.options.preferFastLoadedWait) {
+      return initial;
+    }
+
+    return this.waitForFastLoadedImages({
+      minCount: 2,
+      timeoutMs: 3000,
+      intervalMs: 100,
+      currentBest: initial,
+    });
+  }
+
+  private async waitForFastLoadedImages(options: {
+    minCount: number;
+    timeoutMs: number;
+    intervalMs: number;
+    currentBest: PageImageCollectionResult;
+  }): Promise<PageImageCollectionResult> {
+    const deadline = Date.now() + options.timeoutMs;
+    let best = options.currentBest;
+
+    while (Date.now() < deadline) {
+      await new Promise((resolve) =>
+        window.setTimeout(resolve, options.intervalMs),
+      );
+      const current = this.collectFastLoadedImages();
+      if (current.items.length > best.items.length) {
+        best = current;
+      }
+      if (current.items.length >= options.minCount) {
+        return current;
+      }
+    }
+
+    return best;
   }
 
   private createFastLoadedResult(

@@ -13,7 +13,11 @@ export class DataLoader {
   private spinner: LoadingSpinner | null = null;
   private collector: ICollector;
 
-  constructor() {
+  constructor(
+    private readonly options: {
+      preferFastLoadedWait?: boolean;
+    } = {},
+  ) {
     this.collector = this.createCollector();
   }
 
@@ -30,7 +34,9 @@ export class DataLoader {
     if (href.includes("twitter.com") || href.includes("x.com")) {
       return new TwitterCollector();
     }
-    return new GenericCollector();
+    return new GenericCollector({
+      preferFastLoadedWait: this.options.preferFastLoadedWait,
+    });
   }
 
   /**

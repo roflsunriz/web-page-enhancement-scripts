@@ -289,7 +289,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.13.5',
+  version: '10.13.6',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
