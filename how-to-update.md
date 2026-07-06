@@ -10,8 +10,10 @@
 1. 対象スクリプトのソースを更新します。
 2. `vite.config.ts` の対象スクリプトの `version` を上げます。
 3. `d-anime` を更新する場合は、`src/d-anime/config/default-settings.ts` の `USERSCRIPT_VERSION_UI_DISPLAY` も同じ値へ更新します。
-4. ユーザー向けの挙動や設定項目が変わる場合は、`README.md`、`userscripts.md`、`CHANGELOG.md` を更新します。
-5. 検証を実行します。
+4. ユーザー向けの挙動や設定項目が変わる場合は、`README.md`、`userscripts.md` を更新します。
+5. `CHANGELOG.md` を対象スクリプトの実バージョン単位で更新します。`main` / `origin/main` に push した時点でリリース済みなので、`Unreleased` 節は作りません。
+6. 変更履歴はコミットメッセージではなく、実際の差分、変更ファイル、ユーザーに見える挙動を基に書きます。「バージョンを上げた」だけの記述は避けます。
+7. 検証を実行します。
 
 ```powershell
 bun run lint
