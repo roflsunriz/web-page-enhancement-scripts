@@ -4,6 +4,14 @@ import { globalState } from '../state';
 import { MOUSE_INACTIVITY_DELAY } from '../constants';
 import { DataLoader } from '../data-loader';
 import { LoadingSpinner } from './loading-spinner';
+import {
+  buildPageTurnLayout,
+  getPageTurnAnimationName,
+  getSpreadAtIndex,
+  getPageTurnTransformOrigin,
+  PAGE_TURN_ANIMATION_DURATION_MS,
+  PAGE_TURN_ANIMATION_TIMING,
+} from '../page-turn-animation';
 import { format, t } from '../i18n';
 import { win } from '../util';
 
@@ -152,12 +160,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       setIsAnimating(true);
       setTurnDirection(direction);
 
-      setCurrentSpreadIndex((prev) => (direction === 'prev' ? prev - 1 : prev + 1));
-
       setTimeout(() => {
+        setCurrentSpreadIndex((prev) => (direction === 'prev' ? prev - 1 : prev + 1));
         setIsAnimating(false);
         setTurnDirection(null);
-      }, 200);
+      }, PAGE_TURN_ANIMATION_DURATION_MS);
     },
     [images.length, autoChapterNavigation, onClose, progressState.phase, showBounceAnimation],
   );
@@ -418,20 +425,15 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   }, [onClose]);
 
   const spread = useMemo(() => {
-    const startIdx = currentSpreadIndex * 2;
-    const leftPageIndex = startIdx + 1;
-    const rightPageIndex = startIdx;
-    const isLastSpread = Math.ceil(images.length / 2) - 1 === currentSpreadIndex;
-    const isOddNumberOfImages = images.length % 2 === 1;
-
-    if (isLastSpread && isOddNumberOfImages && leftPageIndex === images.length) {
-      return [null, rightPageIndex < images.length ? images[rightPageIndex] : null];
-    }
-    return [
-      leftPageIndex < images.length ? images[leftPageIndex] : null,
-      rightPageIndex < images.length ? images[rightPageIndex] : null,
-    ];
+    return getSpreadAtIndex(images, currentSpreadIndex);
   }, [currentSpreadIndex, images]);
+
+  const turnLayout = useMemo(() => {
+    if (!isAnimating || !turnDirection) return null;
+    return buildPageTurnLayout(images, currentSpreadIndex, turnDirection);
+  }, [currentSpreadIndex, images, isAnimating, turnDirection]);
+
+  const displaySpread = turnLayout?.displaySpread ?? spread;
 
   useEffect(() => {
     const handleResize = () => {
@@ -679,12 +681,12 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                   : 'none',
             }}
           >
-            {spread.map((url, index) => {
+            <div className="mv-spine" />
+            {displaySpread.map((url, index) => {
               const pageSide = index === 0 ? 'left' : 'right';
-              const isAnimatingThisPage =
-                isAnimating &&
-                ((turnDirection === 'next' && pageSide === 'left') ||
-                  (turnDirection === 'prev' && pageSide === 'right'));
+              const isAnimatingThisPage = turnLayout?.turningSide === pageSide;
+              const turningFrontUrl = isAnimatingThisPage ? turnLayout.turningFrontPage : null;
+              const turningBackUrl = isAnimatingThisPage ? turnLayout.turningBackPage : null;
 
               return url ? (
                 <div
@@ -695,17 +697,21 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                   <img
                     ref={pageSide === 'right' ? rightImgRef : undefined}
                     src={url}
-                    className={`mv-page ${isAnimatingThisPage ? 'mv-page-animating' : ''}`}
-                    style={{
-                      animation: isAnimatingThisPage
-                        ? turnDirection === 'next'
-                          ? 'turnPageForward 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)'
-                          : 'turnPageBackward 0.2s cubic-bezier(0.645, 0.045, 0.355, 1)'
-                        : 'none',
-                      transformOrigin: pageSide === 'left' ? 'right center' : 'left center',
-                    }}
+                    className="mv-page"
                     draggable={false}
                   />
+                  {isAnimatingThisPage && turningFrontUrl && turningBackUrl && (
+                    <div
+                      className={`mv-turning-page-shell ${turnDirection === 'next' ? 'next' : 'prev'}`}
+                      style={{
+                        animation: `${getPageTurnAnimationName(turnDirection ?? 'next')} ${PAGE_TURN_ANIMATION_DURATION_MS}ms ${PAGE_TURN_ANIMATION_TIMING} forwards`,
+                        transformOrigin: getPageTurnTransformOrigin(turnDirection ?? 'next'),
+                      }}
+                    >
+                      <img className="mv-page mv-turning-page-face front" src={turningFrontUrl} draggable={false} />
+                      <img className="mv-page mv-turning-page-face back" src={turningBackUrl} draggable={false} />
+                    </div>
+                  )}
                 </div>
               ) : (
                 <div key={`empty-${index}`} className="mv-page-container">
