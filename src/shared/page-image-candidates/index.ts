@@ -781,7 +781,7 @@ function installFetchObserver(state: PageImageRequestCacheState): void {
     init?: RequestInit,
   ): Promise<Response> {
     recordObservedPageImageUrl(state, getFetchInputUrl(input), "fetch");
-    return originalFetch.call(this, input, init);
+    return originalFetch.call(window, input, init);
   };
 }
 

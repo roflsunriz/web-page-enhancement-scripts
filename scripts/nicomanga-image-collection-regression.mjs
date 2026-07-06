@@ -71,6 +71,7 @@ async function runMangaViewerRegression() {
   await installUserscriptHarness(page, "manga-viewer");
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForFixtureImagesLoaded(page);
+  await assertDetachedFetchWorks(page, "manga-viewer");
   await waitForMenuCommand(
     page,
     /ブック風マンガビューア起動|Launch Book-Style Manga Viewer/,
@@ -141,6 +142,7 @@ async function runImageCollectorRegression() {
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForFixtureImagesLoaded(page);
   await runUserscriptNow(page, "image-collector");
+  await assertDetachedFetchWorks(page, "image-collector");
   await waitForMenuCommand(page, /起動|Launch/i);
   await page.evaluate(() => {
     const commands = window.__userscriptTest.menuCommands;
@@ -279,6 +281,31 @@ async function waitForFixtureImagesLoaded(page) {
         return Boolean(image?.complete && image.naturalWidth > 0);
       }),
     imageUrls,
+  );
+}
+
+async function assertDetachedFetchWorks(page, label) {
+  const result = await page.evaluate(async () => {
+    try {
+      const detachedFetch = window.fetch;
+      const response = await detachedFetch("/api/detached-fetch-check");
+      return {
+        ok: response.status === 204,
+        status: response.status,
+        error: null,
+      };
+    } catch (error) {
+      return {
+        ok: false,
+        status: null,
+        error: error instanceof Error ? error.message : String(error),
+      };
+    }
+  });
+
+  assert(
+    result.ok,
+    `${label} broke detached fetch calls: status=${String(result.status)} error=${String(result.error)}`,
   );
 }
 
