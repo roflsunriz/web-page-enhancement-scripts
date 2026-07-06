@@ -1,2545 +1,1893 @@
 # 変更履歴
 
-このリポジトリでは、`main` / `origin/main` に push された時点でリリース済みとして扱います。`Unreleased` 節は使わず、必ず対象スクリプトの実バージョンごとに記録します。
+このリポジトリでは、`main` / `origin/main` に push された時点でリリース済みとして扱います。`Unreleased` 節は使わず、対象スクリプトの実バージョンごとに記録します。
 
-コミットメッセージは参考情報に留め、各エントリは `vite.config.ts` のバージョン差分と実際に変更されたファイルを基に作成します。
+コミットメッセージは参考情報に留め、各エントリは対象バージョンの実差分から、ユーザーに見える挙動、設定項目、対象サイト、修正内容を中心に記録します。
 
 ## スクリプト別リリース履歴
 
 ### d-anime-nico-comment-renderer
 
 #### 7.6.1 - 2026-07-04
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `src/shared/types/twitter-clean-timeline.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 7.6.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/i18n.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
 
 #### 7.5.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/i18n.ts`, `src/d-anime/services/video-switch-handler.ts`, `src/d-anime/settings/player-control-button.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/launch-style/index.ts`, `userscripts.md`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `7c6ba7342a4a`
 
 #### 7.4.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 主な変更ファイル: `README.md`, `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/debug/video-event-logger.ts`, `src/d-anime/i18n.ts`, `src/d-anime/services/nico-video-searcher.ts`, `src/d-anime/services/notification-manager.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
 #### 7.3.13 - 2026-06-26
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/shared/logger/index.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
 
 #### 7.3.12 - 2026-06-20
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/d-anime/config/default-settings.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- コメントの影の強さ設定を追加し、動画上での視認性を調整できるようにした。
+- 根拠: `6db15f56cc48`
 
 #### 7.3.11 - 2026-05-09
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `1eaa38d3cc8f`
 
 #### 7.3.10 - 2026-04-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `17328a2c686b`
 
 #### 7.3.9 - 2026-04-17
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- 設定変更監視の再登録処理を整理し、視聴ページコントローラーの設定反映を安定させた。
+- 根拠: `05a0a00ef5f8`
 
 #### 7.3.8 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/services/settings-manager.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `aaddf6b9c5a6`
 
 #### 7.3.7 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `a46f056518a1`
 
 #### 7.3.6 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `3d49562193f8`
 
 #### 7.3.5 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `cb10a78e5529`
 
 #### 7.3.4 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/player-control-button.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `abd627f83b8c`
 
 #### 7.3.3 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/player-control-button.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/icons/mdi.ts`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `6f7a9dfb77f2`
 
 #### 7.3.2 - 2026-03-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/player-control-button.ts`, `vite.config.ts`
+- コントロールパネルをマウスホバーとマウスアウトで表示するように調整。
+- 根拠: `ae15651dad96`
 
 #### 7.3.1 - 2026-03-04
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/player-control-button.ts`, `vite.config.ts`
+- 設定パネルのパレットアイコンを白抜きに修正した。
+- 根拠: `95965126f2f5`
 
 #### 7.3.0 - 2026-03-04
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/settings/player-control-button.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/constants/d-anime.ts`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `9d27b302793c`
 
 #### 7.2.3 - 2026-02-14
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `f0091139d689`
 
 #### 7.2.2 - 2026-02-14
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/auto-button.css`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `2d862f046859`
 
 #### 7.2.1 - 2026-02-14
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `12892a0df197`
 
 #### 7.2.0 - 2026-02-14
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `ffc0b3608ca9`
 
 #### 7.1.1 - 2026-01-26
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `4ccb50cc106d`
 
 #### 7.1.0 - 2025-12-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `e6486ac1af3b`
 
 #### 7.0.4 - 2025-12-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `2203b46aabc4`
 
 #### 7.0.3 - 2025-12-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `e0afc139d3d1`
 
 #### 7.0.2 - 2025-12-13
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 根拠: `4571fec5b4ef`
 
 #### 7.0.1 - 2025-12-13
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `8d04ff71440c`
 
 #### 7.0.0 - 2025-12-13
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/nico-video-searcher.ts`, `src/d-anime/services/settings-manager.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `41d23ef2419f`
 
 #### 6.16.1 - 2025-12-12
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `68207d3de6fc`
 
 #### 6.16.0 - 2025-12-12
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `d7d0b9f739f9`
 
 #### 6.15.15 - 2025-12-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- 設定UIでコメント非表示のときにAPIが一切飛ばないよう早期リターンする仕様を実装 v6.15.15。
+- 根拠: `deefdd799b24`
 
 #### 6.15.14 - 2025-12-01
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `73d0d3becf97`
 
 #### 6.15.13 - 2025-11-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `5931c68c3554`
 
 #### 6.15.12 - 2025-11-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `faca1c30fbc5`
 
 #### 6.15.11 - 2025-11-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `5ce0c63f50e0`
 
 #### 6.15.10 - 2025-11-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `e8020fec4891`
 
 #### 6.15.9 - 2025-11-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `f4ea2028b53e`
 
 #### 6.15.8 - 2025-11-24
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `ededa0bc8b85`
 
 #### 6.15.7 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `a2e7b748646a`
 
 #### 6.15.6 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `2d0d7b15d745`
 
 #### 6.15.5 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `c4044669080f`
 
 #### 6.15.4 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/video-switch-handler.ts`, `src/d-anime/settings/settings-ui.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `fb326c250d83`
 
 #### 6.15.3 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `3cf1e7142488`
 
 #### 6.15.2 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/debug/video-event-logger.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `972d08d8b05f`
 
 #### 6.15.1 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/notification-manager.ts`, `src/d-anime/settings/settings-ui.ts`, `src/d-anime/styles/notification.css`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `a2d465566c3d`
 
 #### 6.15.0 - 2025-11-23
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/nico-video-searcher.ts`, `src/shared/constants/d-anime.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `f84beb84e606`
 
 #### 6.14.0 - 2025-11-19
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- コメントの影の強さ設定を追加し、動画上での視認性を調整できるようにした。
+- 根拠: `cff5f1d171b4`
 
 #### 6.13.2 - 2025-11-19
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `023e6fdd980d`
 
 #### 6.13.1 - 2025-11-19
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/debug/video-event-logger.ts`, `src/d-anime/services/video-switch-handler.ts`, `vite.config.ts`
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `ab58fed6e37c`
 
 #### 6.13.0 - 2025-11-18
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `0065b5c889eb`
 
 #### 6.12.0 - 2025-11-16
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/watch-page-controller.ts`, `src/d-anime/services/settings-manager.ts`, `src/d-anime/services/video-switch-handler.ts`, `src/d-anime/settings/settings-ui.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `8057c5137201`
 
 #### 6.11.6 - 2025-11-11
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- ニコニコ API 取得とコメント取得処理を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/application.ts`, `src/d-anime/bootstrap.ts`, `src/d-anime/comments/comment-renderer.ts`, `src/d-anime/comments/comment.ts`, `src/d-anime/config/default-settings.ts`, `src/d-anime/controllers/mypage-controller.ts`, `src/d-anime/controllers/watch-page-controller.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `173c8c69affe`
 
 #### 6.11.5 - 2025-11-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `ba02f193e73d`
 
 #### 6.11.4 - 2025-11-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `2bf50292383b`
 
 #### 6.11.3 - 2025-11-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `c587e34951cd`
 
 #### 6.11.2 - 2025-11-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `dd3209c06d2b`
 
 #### 6.11.1 - 2025-11-08
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `316b084dc772`
 
 #### 6.11.0 - 2025-11-07
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `77490b48e078`
 
 #### 6.10.0 - 2025-11-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `6aa90a2eb65c`
 
 #### 6.9.3 - 2025-11-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `9ea540cfc3ac`
 
 #### 6.9.2 - 2025-11-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `87c824d361e9`
 
 #### 6.9.1 - 2025-11-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `da05a24890ba`
 
 #### 6.9.0 - 2025-11-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/comment.ts`, `src/shared/types/comment-overlay.d.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `21bf06bc03fe`
 
 #### 6.8.1 - 2025-11-03
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `a55a43be1a2c`
 
 #### 6.8.0 - 2025-11-03
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/globals.ts`, `src/d-anime/runtime/services/playback-rate-controller.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/d-anime/services/settings-manager.ts`, `src/d-anime/styles/common.css`, `src/shared/types/danime.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 根拠: `e4f5a22abf52`
 
 #### 6.7.0 - 2025-11-03
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- ニコニコ API 取得とコメント取得処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/services/nico-api-fetcher.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `66b2f9a7b140`
 
 #### 6.6.1 - 2025-11-02
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `39b4b6443466`
 
 #### 6.6.0 - 2025-11-02
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `3526b37b4c91`
 
 #### 6.5.1 - 2025-11-02
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- `comment-overlay`依存を更新し、コメント描画エンジンのAPI変更に追従した。
+- 根拠: `2cc4ca793e38`
 
 #### 6.5.0 - 2025-11-02
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/class.mmd`, `src/d-anime/config/default-settings.ts`, `src/d-anime/flow.mmd`, `src/d-anime/original.js.old`, `src/d-anime/plan.md`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/comment.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `0c027437493a`
 
 #### 6.4.1 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `4414676f1e74`
 
 #### 6.4.0 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/comment.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `10bc73bbe72c`
 
 #### 6.3.0 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 根拠: `87dce0ad4db6`
 
 #### 6.2.3 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `d5b13712209f`
 
 #### 6.2.2 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 根拠: `384f96e13b3b`
 
 #### 6.2.1 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `d32f178d2caf`
 
 #### 6.2.0 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/styles/common.css`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `a4a68c0298a0`
 
 #### 6.1.8 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `d5c058995a9f`
 
 #### 6.1.7 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `d86ea6ae6e3a`
 
 #### 6.1.5 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `bda7b84d01c2`
 
 #### 6.1.4 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `1193e20c77c7`
 
 #### 6.1.3 - 2025-10-31
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `9d9656f606a7`
 
 #### 6.1.2 - 2025-10-30
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `3037f92c864e`
 
 #### 6.1.1 - 2025-10-30
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/styles/common.css`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `a00f4f7f38a8`
 
 #### 6.1.0 - 2025-10-30
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/notification-manager.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/d-anime/styles/common.css`, `src/shared/icons/mdi.ts`, `vite.config.ts`
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `76faa975092e`
 
 #### 6.0.0 - 2025-10-30
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `6317a9a8889f`
 
 #### 5.9.0 - 2025-10-29
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `49f5a74e54fb`
 
 #### 5.8.0 - 2025-10-29
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/config/default-settings.ts`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `997eaeda1f81`
 
 #### 5.7.0 - 2025-10-28
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/comment-renderer.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 根拠: `de5150690382`
 
 #### 5.6.3 - 2025-10-28
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `ef9151214e03`
 
 #### 5.6.2 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `d52157766a2e`
 
 #### 5.6.1 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/services/nico-video-searcher.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `7788e1ed2564`
 
 #### 5.6.0 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/services/nico-video-searcher.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `db6267fdac9d`
 
 #### 5.5.3 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `6ff151e9e1d0`
 
 #### 5.5.2 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/comment-renderer.ts`, `src/d-anime/runtime/services/video-switch-handler.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `40b190e9a322`
 
 #### 5.5.1 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/comment-renderer.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `5f15de67e298`
 
 #### 5.5.0 - 2025-10-27
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/comment-renderer.ts`, `src/shared/types/danime.ts`, `src/shared/types/index.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 再生速度固定や動画の再生速度追従を調整した。
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- 根拠: `d14a87cb6625`
 
 #### 5.4.0 - 2025-10-26
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/original.js.old`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/d-anime/services/settings-manager.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `6eab0f510c7a`
 
 #### 5.3.1 - 2025-10-13
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- ニコニコ API 取得とコメント取得処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/services/nico-api-fetcher.ts`, `src/d-anime/runtime/services/nico-video-searcher.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/shared/constants/index.ts`, `src/shared/constants/urls.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- ニコニコ動画検索、手動検索、自動検索、検索結果選択の導線を調整した。
+- 根拠: `91a344bcd6ec`
 
 #### 5.3.0 - 2025-10-13
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/controllers/mypage-controller.ts`, `src/d-anime/runtime/controllers/watch-page-controller.ts`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- dアニメのエピソード切り替え検出、動画ソース変更時のコメントリセット、再検索処理を調整した。
+- 根拠: `fa5c190a6661`
 
 #### 5.2.1 - 2025-10-12
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `c84a04f56beb`
 
 #### 5.2.0 - 2025-10-12
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/settings/settings-ui.ts`, `src/d-anime/styles/auto-button.css`, `src/d-anime/styles/common.css`, `src/shared/icons/mdi.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `6cde6458faa1`
 
 #### 5.1.1 - 2025-10-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `8ac5b5ea4990`
 
 #### 5.1.0 - 2025-10-06
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/d-anime/runtime/settings/settings-ui.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `59759b9384ae`
 
 #### 5.0.1 - 2025-10-05
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
 
 #### 5.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- コメント描画エンジン、レーン、同期、キャンバス処理を変更。
-- 視聴ページの動画切り替え検出、再生状態追従、初期化を変更。
-- 動画ソース変更時のコメント再取得とレンダラー再初期化を変更。
-- ニコニコ動画検索、候補表示、類似度計算を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/d-anime/class.mmd`, `src/d-anime/config/default-settings.ts`, `src/d-anime/flow.mmd`, `src/d-anime/main.ts`, `src/d-anime/original.js`, `src/d-anime/plan.md`
+- dアニメストアの動画プレーヤー上にCanvasでニコニコ風コメントを描画する機能を追加。
+- ニコニコ動画検索、コメント取得、レーン管理、シーク/再生速度/リサイズ追従、終盤コメント表示、設定UIを実装。
+- 根拠: `680e1908ec07`
 
 ### d-anime-cf-ranking
 
 #### 1.5.1 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/d-anime-cf-ranking/ui/control-panel.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `src/shared/types/twitter-clean-timeline.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.5.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- ランキングバッジの表示、色、ツールチップを変更。
-- 詳細ランキング一覧モーダルを変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/d-anime-cf-ranking/i18n.ts`, `src/d-anime-cf-ranking/ui/rank-badge.ts`, `src/d-anime-cf-ranking/ui/ranking-list-modal.ts`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `userscripts.md`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
 
 #### 1.4.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- ランキングバッジの表示、色、ツールチップを変更。
-- 詳細ランキング一覧モーダルを変更。
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ランキングスコア計算と代表動画選択を変更。
-- 主な変更ファイル: `README.md`, `src/d-anime-cf-ranking/config/settings.ts`, `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/dom/viewport-observer.ts`, `src/d-anime-cf-ranking/i18n.ts`, `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/cache-manager.ts`, `src/d-anime-cf-ranking/services/fetch-controller.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
 #### 1.3.0 - 2026-06-26
-- 詳細ランキング一覧モーダルを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/ui/control-panel.ts`, `src/d-anime-cf-ranking/ui/ranking-list-modal.ts`, `vite.config.ts`
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `5c09eccd5b79`
 
 #### 1.2.2 - 2026-06-26
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/logger/index.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
 
 #### 1.2.1 - 2026-05-30
-- ランキングバッジの表示、色、ツールチップを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/ui/rank-badge.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `7726b1bf093e`
 
 #### 1.2.0 - 2026-05-30
-- ランキングバッジの表示、色、ツールチップを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/ui/rank-badge.ts`, `vite.config.ts`
+- ランキングバッジの配色を金属調グラデーションへ調整し、順位表示の視認性を改善した。
+- 根拠: `5fd45e1b9c67`
 
 #### 1.1.0 - 2026-02-03
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/config/settings.ts`, `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/cache-manager.ts`, `src/d-anime-cf-ranking/ui/control-panel.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `5b1b43329e7c`
 
 #### 1.0.10 - 2026-02-02
-- ランキングスコア計算と代表動画選択を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/services/representative-selector.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `218a1c360e92`
 
 #### 1.0.9 - 2026-02-02
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `e54ec2277c78`
 
 #### 1.0.8 - 2026-02-02
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `d9450be6794f`
 
 #### 1.0.7 - 2026-02-02
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `fd3939c9b03a`
 
 #### 1.0.6 - 2026-02-02
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `d5da9c991c4e`
 
 #### 1.0.5 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ランキングスコア計算と代表動画選択を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/score-calculator.ts`, `src/d-anime-cf-ranking/ui/rank-badge.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `3156fee5e28d`
 
 #### 1.0.3 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/ui/rank-badge.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `e5c3731f9328`
 
 #### 1.0.2 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/ui/rank-badge.ts`, `vite.config.ts`
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `50ab4035e6aa`
 
 #### 1.0.1 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/ui/rank-badge.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `c35e50b929e0`
 
 #### 0.0.2 - 2026-02-02
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/services/fetch-controller.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `be728f440ef1`
 
 #### 0.0.1 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `5270106dc0a9`
 
 #### 1.1.0 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `6a499ba7aadc`
 
 #### 1.0.5 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4fe507eb4964`
 
 #### 1.0.4 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `ad9b7288fd35`
 
 #### 1.0.3 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `vite.config.ts`
+- ランキング取得結果のキャッシュ、TTL、再取得、確定/暫定表示を調整した。
+- 根拠: `01894e6f38c8`
 
 #### 1.0.2 - 2026-02-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/nico-api-client.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `8fd3cc9149a4`
 
 #### 1.0.1 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ランキングスコア計算と代表動画選択を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/dom/viewport-observer.ts`, `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/nico-api-client.ts`, `src/d-anime-cf-ranking/services/representative-selector.ts`, `src/d-anime-cf-ranking/ui/rank-badge.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `adc0d2a113ec`
 
 #### 1.0.0 - 2026-02-02
-- ランキングバッジの表示、色、ツールチップを変更。
-- ランキング対象カードの検出、可視範囲監視、遅延初期化を変更。
-- ランキングスコア計算と代表動画選択を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `package.json`, `src/d-anime-cf-ranking/config/settings.ts`, `src/d-anime-cf-ranking/dom/card-detector.ts`, `src/d-anime-cf-ranking/dom/viewport-observer.ts`, `src/d-anime-cf-ranking/main.ts`, `src/d-anime-cf-ranking/services/cache-manager.ts`, `src/d-anime-cf-ranking/services/fetch-controller.ts`, `src/d-anime-cf-ranking/services/nico-api-client.ts`
+- IndexedDBキャッシュ、24時間TTL、ビューポート内取得、失敗時リトライ、詳細ツールチップ、表示ON/OFFメニューを実装。
+- 根拠: `1442b5da74a7`
 
 ### chatgpt-notify
 
 #### 2.2.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 2.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/chatgpt-notify/i18n.ts`, `src/chatgpt-notify/main.ts`, `src/chatgpt-notify/notification.ts`, `src/chatgpt-notify/original.js.old`, `src/chatgpt-notify/settings.ts`, `src/chatgpt-notify/ui.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
 #### 2.1.1 - 2025-10-13
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/chatgpt-notify/notification.ts`, `src/chatgpt-notify/ui.ts`, `src/shared/constants/index.ts`, `src/shared/constants/urls.ts`, `vite.config.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `91a344bcd6ec`
 
 #### 2.1.0 - 2025-10-13
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/chatgpt-notify/dom-observer.ts`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
 
 #### 2.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
 
 #### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/chatgpt-notify/dom-observer.ts`, `src/chatgpt-notify/main.ts`, `src/chatgpt-notify/notification.ts`, `src/chatgpt-notify/original.js`, `src/chatgpt-notify/settings.ts`, `src/chatgpt-notify/ui.ts`
+- ChatGPTの生成完了を監視し、完了時にデスクトップ通知と任意の完了音を出す機能を追加。
+- 通知ON/OFF、完了音ON/OFF、音量、カスタム通知音URLを設定画面から変更できるようにした。
+- 根拠: `680e1908ec07`
 
 ### fanbox-floating-menu
 
 #### 2.1.1 - 2026-07-04
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/fanbox-floating-menu/floating-menu-ui.ts`, `src/fanbox-floating-menu/main.ts`, `src/fanbox-floating-menu/original.js.old`, `src/fanbox-floating-menu/url-change-observer.ts`, `src/fanbox-floating-menu/wait-for-element.ts`, `src/shared/constants/d-anime.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 2.1.0 - 2025-10-13
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/fanbox-floating-menu/floating-menu-ui.ts`, `src/fanbox-floating-menu/main.ts`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
 
 #### 2.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
 
 #### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/fanbox-floating-menu/floating-menu-ui.ts`, `src/fanbox-floating-menu/main.ts`, `src/fanbox-floating-menu/original.js`, `src/fanbox-floating-menu/url-change-observer.ts`, `src/fanbox-floating-menu/wait-for-element.ts`, `src/shared/dom/index.ts`
+- FANBOX記事ページの前後移動リンクを画面左側中央に固定表示するフローティングメニューを追加。
+- Shadow DOM内にスタイルを閉じ込め、元ページのCSS影響を受けにくい表示にした。
+- 根拠: `680e1908ec07`
 
 ### fanbox-pagination-helper
 
 #### 2.1.1 - 2026-07-04
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/fanbox-pagination/main.ts`, `src/fanbox-pagination/original.js.old`, `src/fanbox-pagination/pagination-ui.ts`, `src/fanbox-pagination/styles.ts`, `src/fanbox-pagination/url-change-observer.ts`, `src/shared/constants/d-anime.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 2.1.0 - 2025-10-13
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/fanbox-pagination/main.ts`, `src/fanbox-pagination/pagination-ui.ts`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
 
 #### 2.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
 
 #### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/fanbox-pagination/main.ts`, `src/fanbox-pagination/original.js`, `src/fanbox-pagination/pagination-ui.ts`, `src/fanbox-pagination/styles.ts`, `src/fanbox-pagination/url-change-observer.ts`, `src/shared/dom/index.ts`
-
-### image-collector
-
-#### 5.6.5 - 2026-07-06
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/image-collector/core/image-collector.ts`, `vite.config.ts`
-
-#### 5.6.4 - 2026-07-06
-- 共通ページ画像候補スキャナの候補抽出、ロード済み画像判定、スクロールフォールバックを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/page-image-candidates/index.ts`, `vite.config.ts`
-
-#### 5.6.3 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 既知の不要画像、削除済み画像、サイズ範囲の判定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/image-collector/core/bad-image-handler.ts`, `src/image-collector/runtime/bootstrap.ts`, `src/shared/image-exclusion-settings/index.ts`, `src/shared/script-settings/index.ts`, `vite.config.ts`
-
-#### 5.6.2 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/image-exclusion-settings/index.ts`, `vite.config.ts`
-
-#### 5.6.1 - 2026-07-06
-- 共通ページ画像候補スキャナの候補抽出、ロード済み画像判定、スクロールフォールバックを変更。
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- Shadow DOM host の配置と重なり順を変更。
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- 主な変更ファイル: `src/image-collector/core/image-collector.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/image-exclusion-settings/index.ts`, `src/shared/page-image-candidates/index.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 5.6.0 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- 既知の不要画像、削除済み画像、サイズ範囲の判定を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `src/image-collector/core/bad-image-handler.ts`, `src/image-collector/core/image-collector.ts`, `src/image-collector/runtime/bootstrap.ts`, `src/shared/image-exclusion-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 5.5.2 - 2026-07-06
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 5.5.1 - 2026-07-06
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/script-settings/index.ts`, `vite.config.ts`
-
-#### 5.5.0 - 2026-07-06
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `src/image-collector/runtime/bootstrap.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 5.4.2 - 2026-07-04
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 5.4.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 5.4.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/image-collector/core/zip-downloader.ts`, `src/image-collector/i18n.ts`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 5.3.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- 既知の不要画像、削除済み画像、サイズ範囲の判定を変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 主な変更ファイル: `README.md`, `src/image-collector/core/bad-image-handler.ts`, `src/image-collector/core/image-collector.ts`, `src/image-collector/core/image-host-manager.ts`, `src/image-collector/core/image-source-classifier.ts`, `src/image-collector/core/request-batch-limiter.ts`, `src/image-collector/core/zip-downloader.ts`, `src/image-collector/i18n.ts`
-
-#### 5.2.2 - 2026-06-26
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- 既知の不要画像、削除済み画像、サイズ範囲の判定を変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `package.json`, `src/image-collector/class.mmd`, `src/image-collector/core/bad-image-handler.ts`, `src/image-collector/core/image-collector.ts`, `src/image-collector/core/image-source-classifier.ts`, `src/image-collector/core/request-batch-limiter.ts`, `src/image-collector/core/zip-downloader.ts`, `src/image-collector/flow.mmd`
-
-#### 5.2.0 - 2025-10-13
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`
-
-#### 5.1.0 - 2025-10-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/image-collector/ui/progress-bar.ts`, `src/image-collector/ui/toast.ts`, `src/image-collector/ui/ui-event-handler.ts`, `vite.config.ts`
-
-#### 5.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 5.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画像収集の入口、fast path / slow path 分類、検証対象の組み立てを変更。
-- 既知の不要画像、削除済み画像、サイズ範囲の判定を変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/image-collector/class.mmd`, `src/image-collector/config.ts`, `src/image-collector/core/bad-image-handler.ts`, `src/image-collector/core/image-collector.ts`, `src/image-collector/core/image-host-manager.ts`, `src/image-collector/core/image-source-classifier.ts`
-
-### imgur-direct-link
-
-#### 3.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/imgur-direct-link/app.ts`, `src/imgur-direct-link/dom.ts`, `src/imgur-direct-link/main.ts`, `src/imgur-direct-link/original.js`, `src/imgur-direct-link/ui.ts`, `src/shared/dom/index.ts`
-
-### book-style-manga-viewer
-
-#### 10.13.5 - 2026-07-06
-- 共通ページ画像候補スキャナの候補抽出、ロード済み画像判定、スクロールフォールバックを変更。
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/shared/page-image-candidates/index.ts`, `vite.config.ts`
-
-#### 10.13.4 - 2026-07-06
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `vite.config.ts`
-
-#### 10.13.3 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/invalid-image-database.ts`, `src/manga-viewer/manga-viewer-app.ts`, `src/shared/image-exclusion-settings/index.ts`, `src/shared/script-settings/index.ts`, `vite.config.ts`
-
-#### 10.13.2 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/image-exclusion-settings/index.ts`, `vite.config.ts`
-
-#### 10.13.1 - 2026-07-06
-- 共通ページ画像候補スキャナの候補抽出、ロード済み画像判定、スクロールフォールバックを変更。
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- Shadow DOM host の配置と重なり順を変更。
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/image-exclusion-settings/index.ts`, `src/shared/page-image-candidates/index.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.13.0 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/invalid-image-database.ts`, `src/manga-viewer/manga-viewer-app.ts`, `src/shared/image-exclusion-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.12.0 - 2026-07-06
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/manga-viewer/image-exclusion-settings.ts`, `src/manga-viewer/invalid-image-database.ts`, `src/manga-viewer/manga-viewer-app.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.11.1 - 2026-07-06
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/script-settings/index.ts`, `vite.config.ts`
-
-#### 10.11.0 - 2026-07-06
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `src/manga-viewer/manga-viewer-app.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.10.5 - 2026-07-06
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/manga-viewer-app.ts`, `vite.config.ts`
-
-#### 10.10.4 - 2026-07-06
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/manga-viewer-app.ts`, `vite.config.ts`
-
-#### 10.10.3 - 2026-07-06
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/manga-viewer-app.ts`, `vite.config.ts`
-
-#### 10.10.2 - 2026-07-04
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 10.10.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 10.10.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/manga-viewer/i18n.ts`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.9.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/launch-style/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 10.8.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 章移動と次章・前章ナビゲーションを変更。
-- 主な変更ファイル: `README.md`, `src/manga-viewer/chapter-navigator.ts`, `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/collectors/i-collector.ts`, `src/manga-viewer/collectors/twitter-collector.ts`, `src/manga-viewer/constants.ts`, `src/manga-viewer/data-loader.ts`, `src/manga-viewer/i18n.ts`
-
-#### 10.7.1 - 2026-06-04
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/ui/viewer-component.tsx`, `vite.config.ts`
-
-#### 10.7.0 - 2026-06-04
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/ui/viewer-component.tsx`, `src/manga-viewer/ui/viewer.css`, `vite.config.ts`
-
-#### 10.6.7 - 2026-06-04
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/ui/viewer-component.tsx`, `vite.config.ts`
-
-#### 10.6.6 - 2026-06-04
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `vite.config.ts`
-
-#### 10.6.5 - 2026-06-04
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/collectors/i-collector.ts`, `src/manga-viewer/ui/ui-builder.ts`, `vite.config.ts`
-
-#### 10.6.4 - 2026-06-04
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/ui/ui-builder.ts`, `vite.config.ts`
-
-#### 10.6.3 - 2026-06-04
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/invalid-image-database.ts`, `vite.config.ts`
-
-#### 10.6.1 - 2026-06-04
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/invalid-image-database.ts`, `vite.config.ts`
-
-#### 10.6.0 - 2026-02-09
-- 起動スタイル選択とメニュー連携を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/manga-viewer-app.ts`, `src/shared/launch-style/index.ts`, `src/shared/types/index.ts`, `src/shared/types/launch-style.ts`, `src/shared/ui/fab.ts`, `vite.config.ts`
-
-#### 10.5.2 - 2025-12-27
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/ui/ui-builder.ts`, `src/manga-viewer/ui/viewer-component.tsx`, `src/manga-viewer/util.ts`, `vite.config.ts`
-
-#### 10.5.1 - 2025-12-03
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/arch.mmd`, `src/manga-viewer/original.js.old`, `src/manga-viewer/plan.md`, `src/shared/types/comment-overlay.d.ts`, `src/shared/types/danime.ts`, `vite.config.ts`
-
-#### 10.5.0 - 2025-10-13
-- 章移動と次章・前章ナビゲーションを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/chapter-navigator.ts`, `src/manga-viewer/collectors/twitter-collector.ts`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`
-
-#### 10.4.2 - 2025-10-10
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/invalid-image-database.ts`, `vite.config.ts`
-
-#### 10.4.1 - 2025-10-10
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/invalid-image-database.ts`, `vite.config.ts`
-
-#### 10.4.0 - 2025-10-10
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- 漫画ビューアの既知不要画像データベースとサイト別除外ルールを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/invalid-image-database.ts`, `vite.config.ts`
-
-#### 10.3.0 - 2025-10-09
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/ui/glass-control-panel.ts`, `src/manga-viewer/ui/loading-spinner.ts`, `src/manga-viewer/ui/ui-builder.ts`, `vite.config.ts`
-
-#### 10.2.0 - 2025-10-09
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/manga-viewer/ui/glass-control-panel.ts`, `src/shared/icons/mdi.ts`, `vite.config.ts`
-
-#### 10.1.0 - 2025-10-08
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/manga-viewer/collectors/twitter-collector.ts`, `vite.config.ts`
-
-#### 10.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 10.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 汎用画像コレクターの画像候補収集、検証、追加反映フローを変更。
-- ビューア本体、操作パネル、表示レイアウトを変更。
-- 章移動と次章・前章ナビゲーションを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/manga-viewer/arch.mmd`, `src/manga-viewer/chapter-navigator.ts`, `src/manga-viewer/collectors/generic-collector.ts`, `src/manga-viewer/collectors/i-collector.ts`, `src/manga-viewer/collectors/twitter-collector.ts`, `src/manga-viewer/constants.ts`
-
-### twitter-full-size-image
-
-#### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画像 URL の解析とフルサイズ画像へのリダイレクトを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/dom/index.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/icons/mdi.ts`, `src/shared/logger/index.ts`, `src/shared/network/gmHttp.ts`, `src/shared/network/index.ts`
-
-### twitter-clean-timeline
-
-#### 1.7.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 1.7.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `src/twitter-clean-timeline/i18n.ts`, `src/twitter-clean-timeline/ui/settings-ui.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 1.6.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
-
-#### 1.5.1 - 2026-06-26
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/logger/index.ts`, `vite.config.ts`
-
-#### 1.5.0 - 2025-11-27
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/types/twitter-clean-timeline.ts`, `src/twitter-clean-timeline/dom/tweet-processor.ts`, `src/twitter-clean-timeline/filters/replace-filter.ts`, `src/twitter-clean-timeline/settings.ts`, `src/twitter-clean-timeline/ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.4.0 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/types/twitter-clean-timeline.ts`, `src/twitter-clean-timeline/filters/base-filter.ts`, `src/twitter-clean-timeline/filters/media-filter.ts`, `src/twitter-clean-timeline/filters/mute-filter.ts`, `src/twitter-clean-timeline/filters/retweet-filter.ts`, `src/twitter-clean-timeline/main.ts`, `src/twitter-clean-timeline/network/timeline-parser.ts`, `src/twitter-clean-timeline/network/xhr-interceptor.ts`
-
-#### 1.3.3 - 2025-11-25
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/network/xhr-interceptor.ts`, `vite.config.ts`
-
-#### 1.3.2 - 2025-11-25
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/network/xhr-interceptor.ts`, `vite.config.ts`
-
-#### 1.3.1 - 2025-11-25
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/network/xhr-interceptor.ts`, `vite.config.ts`
-
-#### 1.3.0 - 2025-11-25
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/main.ts`, `src/twitter-clean-timeline/network/xhr-interceptor.ts`, `vite.config.ts`
-
-#### 1.2.0 - 2025-11-25
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/filters/media-filter.ts`, `src/twitter-clean-timeline/network/xhr-interceptor.ts`, `vite.config.ts`
-
-#### 1.1.1 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-timeline/ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.0.1 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/types/index.ts`, `src/shared/types/twitter-clean-timeline.ts`, `src/shared/types/twitter-media.ts`, `src/shared/types/twitter-mute-retweets.ts`, `src/shared/types/twitter-mute.ts`, `src/twitter-clean-timeline/filters/base-filter.ts`, `src/twitter-clean-timeline/filters/media-filter.ts`, `src/twitter-clean-timeline/filters/mute-filter.ts`
-
-#### 1.0.0 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- タイムライン投稿の検出、フィルター、置換、XHR 解析を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `README.md`, `src/twitter-clean-timeline/dom/observer.ts`, `src/twitter-clean-timeline/dom/placeholder.ts`, `src/twitter-clean-timeline/dom/tweet-processor.ts`, `src/twitter-clean-timeline/dom/tweet-remover.ts`, `src/twitter-clean-timeline/filters/base-filter.ts`, `src/twitter-clean-timeline/filters/media-filter.ts`, `src/twitter-clean-timeline/filters/mute-filter.ts`
-
-### twitter-clean-ui
-
-#### 1.15.1 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 1.15.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `package.json`, `src/shared/launch-style/index.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/types.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 1.14.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/launch-style/index.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/types.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 1.13.0 - 2026-06-27
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/i18n/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 1.12.6 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
-
-#### 1.12.5 - 2026-03-06
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.12.4 - 2026-02-23
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/sidebar-cloak.ts`, `vite.config.ts`
-
-#### 1.12.3 - 2026-02-23
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/sidebar-cloak.ts`, `vite.config.ts`
-
-#### 1.12.2 - 2026-02-23
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.12.1 - 2026-02-23
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/sidebar-cloak.ts`, `vite.config.ts`
-
-#### 1.12.0 - 2026-02-23
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.11.0 - 2026-02-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.10.0 - 2026-02-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.9.0 - 2026-02-09
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.8.0 - 2026-01-15
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.7.2 - 2025-12-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.7.1 - 2025-12-17
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/settings-manager.ts`, `src/twitter-clean-ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.6.5 - 2025-12-17
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/settings-manager.ts`, `vite.config.ts`
-
-#### 1.6.4 - 2025-12-17
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/settings-manager.ts`, `src/twitter-clean-ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.6.3 - 2025-12-17
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `vite.config.ts`
-
-#### 1.6.2 - 2025-12-17
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/settings-manager.ts`, `vite.config.ts`
-
-#### 1.6.1 - 2025-12-17
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.6.0 - 2025-12-17
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.5.1 - 2025-12-05
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.5.0 - 2025-12-05
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/element-detector.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/types.ts`
-
-#### 1.4.4 - 2025-12-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.4.3 - 2025-12-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.4.2 - 2025-12-03
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 1.4.1 - 2025-12-03
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.5.1 - 2025-12-03
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.5.0 - 2025-12-03
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.4.2 - 2025-12-01
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.4.1 - 2025-11-28
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.4.0 - 2025-11-28
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.3.9 - 2025-11-28
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.3.8 - 2025-11-28
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/settings-ui.ts`, `vite.config.ts`
-
-#### 1.3.7 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.3.6 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.3.5 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.4.3 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.4.2 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.4.1 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.4.0 - 2025-11-27
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/css-injector.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/element-detector.ts`, `src/twitter-clean-ui/main.ts`, `vite.config.ts`
-
-#### 1.3.5 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.3.4 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.3.3 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-detector.ts`, `vite.config.ts`
-
-#### 1.3.2 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `vite.config.ts`
-
-#### 1.3.1 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.3.0 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/main.ts`, `src/twitter-clean-ui/settings-ui.ts`, `src/twitter-clean-ui/styles.ts`, `vite.config.ts`
-
-#### 1.2.0 - 2025-11-25
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/types.ts`, `vite.config.ts`
-
-#### 1.1.1 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.1.0 - 2025-11-25
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/element-controller.ts`, `vite.config.ts`
-
-#### 1.0.0 - 2025-11-25
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `package.json`, `src/shared/types/index.ts`, `src/shared/types/twitter-wide-layout.ts`, `src/twitter-clean-ui/constants.ts`, `src/twitter-clean-ui/element-controller.ts`, `src/twitter-clean-ui/element-detector.ts`, `src/twitter-clean-ui/i18n.ts`, `src/twitter-clean-ui/main.ts`
-
-#### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/dom/index.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/icons/mdi.ts`, `src/shared/logger/index.ts`, `src/shared/network/gmHttp.ts`, `src/shared/network/index.ts`
-
-### twitter-thread-copier
-
-#### 6.11.1 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/shared/types/d-anime-cf-ranking.ts`, `src/shared/types/twitter-clean-timeline.ts`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 6.11.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `src/twitter-thread-copier/i18n.ts`, `src/twitter-thread-copier/main.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 6.10.0 - 2026-06-27
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/i18n.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 6.9.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
-
-#### 6.8.0 - 2026-05-09
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/types/twitter-thread.ts`, `src/twitter-thread-copier/scraper.ts`, `vite.config.ts`
-
-#### 6.7.3 - 2025-12-27
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/main.ts`, `vite.config.ts`
-
-#### 6.7.2 - 2025-12-24
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/scraper.ts`, `vite.config.ts`
-
-#### 6.7.1 - 2025-11-19
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 6.7.0 - 2025-11-19
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/settings.ts`, `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 6.6.1 - 2025-11-11
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 6.6.0 - 2025-11-11
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/settings.ts`, `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/types.ts`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 6.5.1 - 2025-11-08
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 6.5.0 - 2025-11-08
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/types/comment-overlay.d.ts`, `src/shared/types/danime.ts`, `src/twitter-thread-copier/class.mmd`, `src/twitter-thread-copier/flow.mmd`, `src/twitter-thread-copier/original.js.old`, `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/ui.ts`
-
-#### 6.4.0 - 2025-10-14
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/auto-conversion.ts`, `vite.config.ts`
-
-#### 6.3.0 - 2025-10-14
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/auto-conversion.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 6.2.0 - 2025-10-14
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/auto-conversion.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 6.1.0 - 2025-10-14
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 6.0.0 - 2025-10-14
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/formatter.ts`, `src/twitter-thread-copier/main.ts`, `src/twitter-thread-copier/original.js.old`, `vite.config.ts`
-
-#### 5.9.1 - 2025-10-13
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/index.ts`, `src/shared/constants/urls.ts`, `src/twitter-thread-copier/main.ts`, `src/twitter-thread-copier/scraper.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.9.0 - 2025-10-13
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`
-
-#### 5.8.0 - 2025-10-12
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 5.7.1 - 2025-10-10
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.7.0 - 2025-10-10
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/scraper.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.6.0 - 2025-10-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/main.ts`, `src/twitter-thread-copier/state.ts`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 5.5.1 - 2025-10-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 5.5.0 - 2025-10-08
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/scraper.ts`, `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.4.3 - 2025-10-07
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/scraper.ts`, `vite.config.ts`
-
-#### 5.4.2 - 2025-10-07
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.4.1 - 2025-10-07
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 5.4.0 - 2025-10-07
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/services/clipboard.ts`, `src/twitter-thread-copier/services/translator.ts`, `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/ui/control-panel.ts`, `src/twitter-thread-copier/ui/reset-start-point-button.ts`, `src/twitter-thread-copier/ui/shadow-dom-host.ts`, `src/twitter-thread-copier/ui/toast.ts`
-
-#### 5.3.2 - 2025-10-07
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/scraper.ts`, `vite.config.ts`
-
-#### 5.3.1 - 2025-10-06
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 5.3.0 - 2025-10-06
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/types/twitter-thread.ts`, `src/twitter-thread-copier/formatter.ts`, `src/twitter-thread-copier/logger.ts`, `src/twitter-thread-copier/main.ts`, `src/twitter-thread-copier/scraper.ts`, `src/twitter-thread-copier/translator.ts`, `src/twitter-thread-copier/ui.ts`
-
-#### 5.2.0 - 2025-10-06
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/twitter-thread-copier/ui.ts`, `vite.config.ts`
-
-#### 5.1.0 - 2025-10-06
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/twitter-thread-copier/translator.ts`, `vite.config.ts`
-
-#### 5.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 5.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ツイート収集、整形、翻訳、クリップボード出力を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/dom/index.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/icons/mdi.ts`, `src/shared/logger/index.ts`, `src/shared/network/gmHttp.ts`, `src/shared/network/index.ts`
-
-### youtube-info-copier
-
-#### 2.6.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
-
-#### 2.6.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/launch-style/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 2.5.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
-
-#### 2.4.3 - 2026-06-26
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/logger/index.ts`, `vite.config.ts`
-
-#### 2.4.2 - 2026-03-21
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.4.1 - 2026-03-21
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/ui/fab.ts`, `src/youtube-info-copier/main.ts`, `vite.config.ts`
-
-#### 2.4.0 - 2026-02-09
-- 起動スタイル選択とメニュー連携を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/launch-style/index.ts`, `src/shared/types/index.ts`, `src/shared/types/launch-style.ts`, `src/shared/ui/fab.ts`, `src/youtube-info-copier/main.ts`, `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.3.2 - 2025-11-24
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-info-copier/dom-utils.ts`, `src/youtube-info-copier/ui.ts`, `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.3.1 - 2025-11-24
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-info-copier/dom-utils.ts`, `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.3.0 - 2025-11-24
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/youtube.ts`, `src/shared/types/comment-overlay.d.ts`, `src/shared/types/danime.ts`, `src/youtube-info-copier/dom-utils.ts`, `src/youtube-info-copier/original.js.old`, `src/youtube-info-copier/youtube-info-copier.ts`, `userscripts.md`
-
-#### 2.2.1 - 2025-10-13
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/index.ts`, `src/shared/constants/urls.ts`, `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.2.0 - 2025-10-13
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/constants/chatgpt.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/fanbox.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`
-
-#### 2.1.0 - 2025-10-09
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/shared/icons/mdi.ts`, `src/youtube-info-copier/ui.ts`, `src/youtube-info-copier/youtube-info-copier.ts`, `vite.config.ts`
-
-#### 2.0.1 - 2025-10-05
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
-
-#### 2.0.0 - 2025-10-04
-- Shadow DOM host の配置と重なり順を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/dom/index.ts`, `src/shared/dom/shadowHost.ts`, `src/shared/icons/mdi.ts`, `src/shared/logger/index.ts`, `src/shared/network/gmHttp.ts`, `src/shared/network/index.ts`
-
-### native-video-volume-setter
-
-#### 1.2.2 - 2026-07-06
-- 共通ページ画像候補スキャナの候補抽出、ロード済み画像判定、スクロールフォールバックを変更。
-- 不要画像の URL 指紋、画素ハッシュ、候補プレビュー登録フローを変更。
-- 共通設定モーダル、対象サイト許可ルール、起動スタイル設定を変更。
-- Shadow DOM host の配置と重なり順を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/dom/shadowHost.ts`, `src/shared/image-exclusion-settings/index.ts`, `src/shared/page-image-candidates/index.ts`, `src/shared/script-settings/index.ts`, `userscripts.md`, `vite.config.ts`
-
-#### 1.2.1 - 2026-07-04
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/native-video-volume-setter/i18n.ts`, `src/shared/types/d-anime-cf-ranking.ts`, `src/shared/types/twitter-clean-timeline.ts`, `vite.config.ts`
-
-#### 1.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 動画音量の保存、復元、対象 video 要素の制御を変更。
-- 主な変更ファイル: `README.md`, `src/native-video-volume-setter/i18n.ts`, `src/native-video-volume-setter/main.ts`, `src/native-video-volume-setter/settings-panel.ts`, `src/native-video-volume-setter/video-controller.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`
-
-#### 1.1.2 - 2026-01-18
-- 動画音量の保存、復元、対象 video 要素の制御を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/native-video-volume-setter/video-controller.ts`, `vite.config.ts`
-
-#### 1.1.1 - 2025-12-09
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/native-video-volume-setter/settings-panel.ts`, `vite.config.ts`
-
-#### 1.1.0 - 2025-12-09
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/native-video-volume-setter/main.ts`, `src/native-video-volume-setter/settings-panel.ts`, `vite.config.ts`
-
-#### 1.0.0 - 2025-12-07
-- 動画音量の保存、復元、対象 video 要素の制御を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/native-video-volume-setter/main.ts`, `src/native-video-volume-setter/video-controller.ts`, `src/native-video-volume-setter/volume-settings.ts`, `userscripts.md`, `vite.config.ts`
-
-### x-auto-spam-reporter
-
-#### 1.2.1 - 2026-07-04
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/x-auto-spam-reporter/i18n.ts`, `src/x-auto-spam-reporter/main.ts`, `vite.config.ts`
-
-#### 1.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
-
-#### 1.1.2 - 2026-06-26
-- スパム報告対象の検出、選択、送信操作を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/shared/logger/index.ts`, `vite.config.ts`
-
-#### 1.1.1 - 2025-12-12
-- スパム報告対象の検出、選択、送信操作を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/x-auto-spam-reporter/main.ts`, `vite.config.ts`
-
-#### 1.1.0 - 2025-12-12
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/x-auto-spam-reporter/main.ts`, `src/x-auto-spam-reporter/ui.ts`, `vite.config.ts`
-
-#### 1.0.0 - 2025-12-11
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `src/shared/icons/mdi.ts`, `src/shared/types/index.ts`, `src/shared/types/x-auto-spam-reporter.ts`, `src/x-auto-spam-reporter/main.ts`, `src/x-auto-spam-reporter/reporter.ts`, `src/x-auto-spam-reporter/selectors.ts`, `src/x-auto-spam-reporter/ui.ts`
-
-### x-community-note-close
-
-#### 1.0.1 - 2026-07-04
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- Community Notes モーダルの背景クリック閉じ処理を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`
-
-#### 1.0.0 - 2026-03-26
-- Community Notes モーダルの背景クリック閉じ処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/x-community-note-close/backdrop-close.ts`, `src/x-community-note-close/main.ts`, `vite.config.ts`
+- FANBOX投稿一覧の下部ページネーションを複製し、一覧上部にも表示する機能を追加。
+- URL変更とページネーションDOMの変化を監視し、SPA遷移後も上部ページネーションを再生成するようにした。
+- 根拠: `680e1908ec07`
 
 ### hf-download-command-copier
 
 #### 1.2.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/hf-download-command-copier/i18n.ts`, `src/hf-download-command-copier/main.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
 #### 1.1.0 - 2026-05-12
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/hf-download-command-copier/main.ts`, `vite.config.ts`
+- Hugging Faceページで`hf download`コマンドをコピーする内容や対象ファイル判定を調整した。
+- 根拠: `bd44bef51435`
 
 #### 1.0.1 - 2026-05-12
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `userscripts.md`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `5714349a6625`
 
 #### 1.0.0 - 2026-05-12
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/hf-download-command-copier/main.ts`, `vite.config.ts`
+- Hugging Faceのモデル、データセット、Spaceページに、リポジトリ全体用の`hf download`コマンドをコピーするボタンを追加。
+- Files一覧の各ファイル行にも単体ファイル用コピーボタンを追加し、repo typeやrevisionを反映するようにした。
+- 根拠: `b2d635850e27`
 
-### trickcal-tool-sweep
+### image-collector
 
-#### 1.3.2 - 2026-07-04
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `vite.config.ts`
+#### 5.6.5 - 2026-07-06
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `e4c7dcddfd69`
 
-#### 1.3.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
+#### 5.6.4 - 2026-07-06
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `7ffba177009c`
 
-#### 1.3.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `src/trickcal-tool-sweep/i18n.ts`, `src/trickcal-tool-sweep/main.ts`, `userscripts.md`, `vite.config.ts`
+#### 5.6.3 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `c3cb3097325c`
 
-#### 1.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
+#### 5.6.2 - 2026-07-06
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `98973d4a5980`
 
-#### 1.1.0 - 2026-05-30
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/trickcal-tool-sweep/main.ts`, `userscripts.md`, `vite.config.ts`
+#### 5.6.1 - 2026-07-06
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `3598e2c23246`
 
-#### 1.0.0 - 2026-05-30
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/trickcal-tool-sweep/main.ts`, `userscripts.md`, `vite.config.ts`
+#### 5.6.0 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `632b68aba1fb`
+
+#### 5.5.2 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 根拠: `3df7f6a8d30e`
+
+#### 5.5.1 - 2026-07-06
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `cce65cd51ebd`
+
+#### 5.5.0 - 2026-07-06
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 対象サイトを全サイトまたはドメイン/正規表現の許可リストで制限できる設定を追加した。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `cbdd01416d38`
+
+#### 5.4.2 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `7e8324448b2a`
+
+#### 5.4.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 5.4.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
+
+#### 5.3.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 5.2.2 - 2026-06-26
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
+
+#### 5.2.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 5.1.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `692d0b753258`
+
+#### 5.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 5.0.0 - 2025-10-04
+- ページ内の`img`、`picture source`、画像リンク、背景画像を収集し、サムネイル一覧へ追加する機能を追加。
+- 信頼できる画像は高速追加し、外部画像は検証後に追加する2段階処理とZIPダウンロードを実装。
+- 根拠: `680e1908ec07`
+
+### imgur-direct-link
+
+#### 3.3.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 3.3.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 3.2.1 - 2026-06-26
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
+
+#### 3.2.0 - 2025-11-04
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `bfa2a69934bc`
+
+#### 3.1.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 3.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 3.0.0 - 2025-10-04
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `680e1908ec07`
 
 ### khinsider-direct-link-saver
 
 #### 1.5.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.5.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/khinsider-direct-link-saver/i18n.ts`, `src/khinsider-direct-link-saver/main.ts`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `userscripts.md`, `vite.config.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
 
 #### 1.4.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/khinsider-direct-link-saver/i18n.ts`, `src/khinsider-direct-link-saver/main.ts`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
 #### 1.3.0 - 2026-06-08
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `src/khinsider-direct-link-saver/main.ts`, `userscripts.md`, `vite.config.ts`
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- KHInsiderの音声直リンク抽出、検証、並列ダウンロード、進捗表示を調整した。
+- クリップボードコピー処理をユーザースクリプト環境で失敗しにくい方式へ変更した。
+- 根拠: `4906953b9add`
 
 #### 1.1.2 - 2026-06-08
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/khinsider-direct-link-saver/main.ts`, `vite.config.ts`
+- KHInsiderの音声直リンク抽出、検証、並列ダウンロード、進捗表示を調整した。
+- 根拠: `d48ce179206a`
 
 #### 1.1.1 - 2026-06-08
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/khinsider-direct-link-saver/main.ts`, `vite.config.ts`
+- KHInsiderの音声直リンク抽出、検証、並列ダウンロード、進捗表示を調整した。
+- 根拠: `dff274afab17`
 
 #### 1.1.0 - 2026-06-08
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `src/khinsider-direct-link-saver/main.ts`, `userscripts.md`, `vite.config.ts`
+- KHInsiderの音声直リンク抽出、検証、並列ダウンロード、進捗表示を調整した。
+- 根拠: `bd40499b80df`
 
 #### 1.0.0 - 2026-06-08
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/khinsider-direct-link-saver/main.ts`, `userscripts.md`, `vite.config.ts`
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- KHInsiderの音声直リンク抽出、検証、並列ダウンロード、進捗表示を調整した。
+- 根拠: `a55305e93f9b`
 
-### yahoo-mail-mark-read
+### book-style-manga-viewer
+
+#### 10.13.5 - 2026-07-06
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `7ffba177009c`
+
+#### 10.13.4 - 2026-07-06
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `108474614336`
+
+#### 10.13.3 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 不要画像をURL指紋または画素ハッシュで登録し、収集/表示対象から除外できるようにした。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `c3cb3097325c`
+
+#### 10.13.2 - 2026-07-06
+- 不要画像をURL指紋または画素ハッシュで登録し、収集/表示対象から除外できるようにした。
+- 根拠: `98973d4a5980`
+
+#### 10.13.1 - 2026-07-06
+- 不要画像をURL指紋または画素ハッシュで登録し、収集/表示対象から除外できるようにした。
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- 根拠: `3598e2c23246`
+
+#### 10.13.0 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 不要画像をURL指紋または画素ハッシュで登録し、収集/表示対象から除外できるようにした。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `632b68aba1fb`
+
+#### 10.12.0 - 2026-07-06
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 不要画像をURL指紋または画素ハッシュで登録し、収集/表示対象から除外できるようにした。
+- 根拠: `3df7f6a8d30e`
+
+#### 10.11.1 - 2026-07-06
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `cce65cd51ebd`
+
+#### 10.11.0 - 2026-07-06
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 対象サイトを全サイトまたはドメイン/正規表現の許可リストで制限できる設定を追加した。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `cbdd01416d38`
+
+#### 10.10.5 - 2026-07-06
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `b783da759255`
+
+#### 10.10.4 - 2026-07-06
+- ビューアの二重起動を防止。
+- 根拠: `c8897e979331`
+
+#### 10.10.3 - 2026-07-06
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- 根拠: `43fe91cd7458`
+
+#### 10.10.2 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `7e8324448b2a`
+
+#### 10.10.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 10.10.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- 根拠: `4e6e67ff1763`
+
+#### 10.9.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- 根拠: `7c6ba7342a4a`
+
+#### 10.8.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- ページ画像候補の収集で、ロード済み画像、lazy/srcset/CSS背景、必要時のスクロールスキャンを扱えるようにした。
+- 根拠: `ee4c844e2e8e`
+
+#### 10.7.1 - 2026-06-04
+- ビューアから前後チャプターへ移動する操作を追加または修正した。
+- 根拠: `e923bba5e8d2`
+
+#### 10.7.0 - 2026-06-04
+- ビューアから前後チャプターへ移動する操作を追加または修正した。
+- 根拠: `63a7f4ac6fbb`
+
+#### 10.6.7 - 2026-06-04
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `98b44c4fca65`
+
+#### 10.6.6 - 2026-06-04
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `2c7a834530cc`
+
+#### 10.6.5 - 2026-06-04
+- enhance image validation and callback mechanism。
+- 根拠: `a34641f634f3`
+
+#### 10.6.4 - 2026-06-04
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `a2980d9a0824`
+
+#### 10.6.3 - 2026-06-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `c63296e9ad47`
+
+#### 10.6.1 - 2026-06-04
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `f25b8a4c6776`
+
+#### 10.6.0 - 2026-02-09
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- クリップボードコピー処理をユーザースクリプト環境で失敗しにくい方式へ変更した。
+- 根拠: `be09e3ee5747`
+
+#### 10.5.2 - 2025-12-27
+- remove unnecessary debug logs。
+- 根拠: `9271f7b90da6`
+
+#### 10.5.1 - 2025-12-03
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `2293cc02c53b`
+
+#### 10.5.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- ビューアから前後チャプターへ移動する操作を追加または修正した。
+- 根拠: `fa5c190a6661`
+
+#### 10.4.2 - 2025-10-10
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `e8f1a353658b`
+
+#### 10.4.1 - 2025-10-10
+- CHANGELOG.mdにv1.6.1の変更内容を追加しました。manga-viewer.user.jsの不要画像除外機能を修正し、画像収集機能の改善を行いました。また、無効な画像判定のロジックを修正しました。
+- 根拠: `662a6034dff3`
+
+#### 10.4.0 - 2025-10-10
+- NicoManga向けに本文画像の高速収集とロゴ/アバターなど不要画像の除外を調整した。
+- 根拠: `7ddb90b9dab5`
+
+#### 10.3.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `692d0b753258`
+
+#### 10.2.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `75118ad93279`
+
+#### 10.1.0 - 2025-10-08
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `e5945ae87c3c`
+
+#### 10.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 10.0.0 - 2025-10-04
+- 任意ページの画像を収集し、ブック風の漫画ビューアとして表示する機能を追加。
+- 根拠: `680e1908ec07`
+
+### native-video-volume-setter
+
+#### 1.2.2 - 2026-07-06
+- 標準動画ページ判定、既定音量設定パネル、動画への音量反映を調整した。
+- 根拠: `3598e2c23246`
 
 #### 1.2.1 - 2026-07-04
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/yahoo-mail-mark-read/i18n.ts`, `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.2.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- スパム報告対象の検出、選択、送信操作を変更。
-- 通信、API 呼び出し、リクエスト制限、レスポンス解析を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
-#### 1.1.0 - 2026-06-26
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+#### 1.1.2 - 2026-01-18
+- 標準動画ページ判定、既定音量設定パネル、動画への音量反映を調整した。
+- 根拠: `38df10360ce5`
 
-#### 1.0.4 - 2026-06-23
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+#### 1.1.1 - 2025-12-09
+- 標準動画ページ判定、既定音量設定パネル、動画への音量反映を調整した。
+- 根拠: `20d5eb90b6a6`
 
-#### 1.0.3 - 2026-06-10
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+#### 1.1.0 - 2025-12-09
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- 標準動画ページ判定、既定音量設定パネル、動画への音量反映を調整した。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `c886862d637b`
 
-#### 1.0.2 - 2026-06-10
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+#### 1.0.0 - 2025-12-07
+- ブラウザ標準の動画ページを検出し、保存済みの既定音量を`video`要素へ自動適用するスクリプトを追加。
+- メニューから0〜100%の既定音量を保存でき、後から追加された`video`にも適用するようにした。
+- 根拠: `7fe1aa0ab424`
 
-#### 1.0.1 - 2026-06-10
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/yahoo-mail-mark-read/main.ts`, `vite.config.ts`
+### trickcal-tool-sweep
 
-#### 1.0.0 - 2026-06-10
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/yahoo-mail-mark-read/main.ts`, `userscripts.md`, `vite.config.ts`
+#### 1.3.2 - 2026-07-04
+- Trickcal素材画像の差し替え対象と日本語ツールチップ置換を調整した。
+- 根拠: `70e8192948ca`
 
-### youtube-ui-modifier
+#### 1.3.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
-#### 1.8.5 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/youtube-ui-modifier/dom-marker.ts`, `vite.config.ts`
+#### 1.3.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
 
-#### 1.8.4 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/youtube-ui-modifier/dom-marker.ts`, `vite.config.ts`
+#### 1.2.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
-#### 1.8.3 - 2026-07-04
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/youtube-ui-modifier/css-rules.ts`, `src/youtube-ui-modifier/dom-marker.ts`, `vite.config.ts`
+#### 1.1.0 - 2026-05-30
+- Trickcal素材画像の差し替え対象と日本語ツールチップ置換を調整した。
+- 根拠: `efed9cc07dcb`
 
-#### 1.8.2 - 2026-07-04
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `src/youtube-ui-modifier/i18n.ts`, `src/youtube-ui-modifier/settings-definitions.ts`, `vite.config.ts`
+#### 1.0.0 - 2026-05-30
+- Trickcal掃蕩工具向けに、Rank 8素材のプレースホルダー画像を実画像へ差し替える機能を追加。
+- 中国語素材名のtitle/alt/ツールチップを日本語名へ置き換え、画像差し替えとツールチップ置換を個別にON/OFFできるようにした。
+- 根拠: `f75316632bb0`
 
-#### 1.8.1 - 2026-07-04
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `bun.lock`, `package.json`, `src/shared/types/d-anime-cf-ranking.ts`, `src/shared/types/twitter-clean-timeline.ts`, `src/youtube-ui-modifier/i18n.ts`, `vite.config.ts`
+### twitter-clean-timeline
 
-#### 1.8.0 - 2026-07-04
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 主な変更ファイル: `package.json`, `src/shared/types/youtube-ui-modifier.ts`, `src/youtube-ui-modifier/app.ts`, `src/youtube-ui-modifier/css-rules.ts`, `src/youtube-ui-modifier/dom-marker.ts`, `src/youtube-ui-modifier/i18n.ts`, `src/youtube-ui-modifier/settings-definitions.ts`, `src/youtube-ui-modifier/settings-storage.ts`
+#### 1.7.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.7.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/i18n/index.ts`, `src/shared/launch-style/index.ts`, `src/youtube-ui-modifier/i18n.ts`, `userscripts.md`, `vite.config.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
 
 #### 1.6.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/launch-style/index.ts`, `src/youtube-ui-modifier/i18n.ts`, `src/youtube-ui-modifier/settings-ui.ts`, `userscripts.md`, `vite.config.ts`
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
 
-#### 1.5.0 - 2026-06-27
-- 起動スタイル選択とメニュー連携を変更。
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 日本語と多言語表示の翻訳辞書、ロケール検出、フォールバックを変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 主な変更ファイル: `README.md`, `src/shared/constants/d-anime.ts`, `src/shared/constants/imgur.ts`, `src/shared/constants/index.ts`, `src/shared/constants/manga.ts`, `src/shared/constants/twitter.ts`, `src/shared/constants/youtube.ts`, `src/shared/dom/index.ts`
+#### 1.5.1 - 2026-06-26
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
 
-#### 1.4.1 - 2026-06-26
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-ui-modifier/main.ts`, `vite.config.ts`
+#### 1.5.0 - 2025-11-27
+- Twitterタイムライン整理に、文字列/正規表現でツイート本文を置き換えるフィルタを追加した。
+- 根拠: `0facdd10018c`
 
-#### 1.4.0 - 2026-06-26
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-ui-modifier/settings-ui.ts`, `src/youtube-ui-modifier/ui-styles.ts`, `vite.config.ts`
+#### 1.4.0 - 2025-11-25
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `b75dbb4cf933`
 
-#### 1.3.0 - 2026-06-26
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `src/shared/types/youtube-ui-modifier.ts`, `src/youtube-ui-modifier/app.ts`, `src/youtube-ui-modifier/constants.ts`, `src/youtube-ui-modifier/css-rules.ts`, `src/youtube-ui-modifier/main.ts`, `src/youtube-ui-modifier/settings-definitions.ts`, `src/youtube-ui-modifier/settings-storage.ts`, `vite.config.ts`
+#### 1.3.3 - 2025-11-25
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `2a882d568efa`
 
-#### 1.2.1 - 2026-06-26
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `src/youtube-ui-modifier/settings-ui.ts`, `vite.config.ts`
+#### 1.3.2 - 2025-11-25
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `52016551e25a`
 
-#### 1.2.0 - 2026-06-26
-- 設定 UI、設定項目、既定値、保存形式を変更。
-- 画面 UI、ボタン、モーダル、スタイルを変更。
-- ページ DOM の判定、マーカー属性、CSS 注入、非表示制御を変更。
-- 対象ページの DOM 解析と操作アプリ本体を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/shared/types/index.ts`, `src/shared/types/youtube-ui-modifier.ts`, `src/youtube-ui-modifier/app.ts`, `src/youtube-ui-modifier/constants.ts`, `src/youtube-ui-modifier/css-rules.ts`, `src/youtube-ui-modifier/dom-marker.ts`
+#### 1.3.1 - 2025-11-25
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `34a04ff0e34c`
+
+#### 1.3.0 - 2025-11-25
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `1b0dad1e9191`
+
+#### 1.2.0 - 2025-11-25
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `50e767826892`
+
+#### 1.1.1 - 2025-11-25
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `a6ed187c640e`
+
+#### 1.0.1 - 2025-11-25
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `e70b8e197224`
+
+#### 1.0.0 - 2025-11-25
+- 旧`twitter-media-filter`、`twitter-mute-filter`、`twitter-mute-retweets`を統合し、タイムライン整理用の設定画面を追加。
+- メディアなしツイート、キーワード/正規表現一致ツイート、プロフィールページのリツイートを削除またはプレースホルダー表示できるようにした。
+- 根拠: `7594b90552d5`
+
+### twitter-clean-ui
+
+#### 1.15.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 1.15.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
+
+#### 1.14.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `7c6ba7342a4a`
+
+#### 1.13.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 1.12.6 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `b5ff81ed77a9`
+
+#### 1.12.5 - 2026-03-06
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `a92ee27a9e2e`
+
+#### 1.12.4 - 2026-02-23
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `0ad0cd8e537c`
+
+#### 1.12.3 - 2026-02-23
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `c77005dba242`
+
+#### 1.12.2 - 2026-02-23
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `34dfd6432c53`
+
+#### 1.12.1 - 2026-02-23
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `bd12bb990f2b`
+
+#### 1.12.0 - 2026-02-23
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `fa198028b658`
+
+#### 1.11.0 - 2026-02-09
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `a68e41246761`
+
+#### 1.10.0 - 2026-02-09
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `7a578dbe98ac`
+
+#### 1.9.0 - 2026-02-09
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `e257b0a6d29b`
+
+#### 1.8.0 - 2026-01-15
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 根拠: `70f7b53c618d`
+
+#### 1.7.2 - 2025-12-27
+- remove unnecessary debug logs。
+- 根拠: `9271f7b90da6`
+
+#### 1.7.1 - 2025-12-17
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `48c10e35587c`
+
+#### 1.6.5 - 2025-12-17
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `5a8605934911`
+
+#### 1.6.4 - 2025-12-17
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `c1da145e3831`
+
+#### 1.6.3 - 2025-12-17
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `ed2855f9f2f2`
+
+#### 1.6.2 - 2025-12-17
+- コネクトとビジネスのデフォルト設定漏れ。
+- 根拠: `eeb1558a2fcb`
+
+#### 1.6.1 - 2025-12-17
+- コネクトとビジネスの項目追加し忘れ。
+- 根拠: `d8f6ffe3ebeb`
+
+#### 1.6.0 - 2025-12-17
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `fffebc2c3294`
+
+#### 1.5.1 - 2025-12-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `b8839fcd0f8d`
+
+#### 1.5.0 - 2025-12-05
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `71e7cf40a9ae`
+
+#### 1.4.4 - 2025-12-04
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `2f3054568fcf`
+
+#### 1.4.3 - 2025-12-04
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `da7ff484ca3a`
+
+#### 1.4.2 - 2025-12-03
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `2293cc02c53b`
+
+#### 1.4.1 - 2025-12-03
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `0e1cc28a1ab0`
+
+#### 1.5.1 - 2025-12-03
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `a2d56466078c`
+
+#### 1.5.0 - 2025-12-03
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `54231cb68e18`
+
+#### 1.4.2 - 2025-12-01
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `328a4c17767c`
+
+#### 1.4.1 - 2025-11-28
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `15392f54a362`
+
+#### 1.4.0 - 2025-11-28
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `ac67875c5a4b`
+
+#### 1.3.9 - 2025-11-28
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `14b51502e646`
+
+#### 1.3.8 - 2025-11-28
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `7f3e23d82d8a`
+
+#### 1.3.7 - 2025-11-27
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `3dfd2a97d9b0`
+
+#### 1.3.6 - 2025-11-27
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `64f2d197948a`
+
+#### 1.3.5 - 2025-11-27
+- 1.4系で入った表示切替処理を取り消し、1.3.5相当の安定した表示制御へ戻した。
+- 根拠: `759ad7ffe7ee`
+
+#### 1.4.3 - 2025-11-27
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `0338aabcc19a`
+
+#### 1.4.2 - 2025-11-27
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `88f0876372b9`
+
+#### 1.4.1 - 2025-11-27
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `ddccc51f4b85`
+
+#### 1.4.0 - 2025-11-27
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `cdb675560a21`
+
+#### 1.3.5 - 2025-11-25
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `2b7c8e17199d`
+
+#### 1.3.4 - 2025-11-25
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `5ce5d9e2a606`
+
+#### 1.3.3 - 2025-11-25
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `613d328bf8f1`
+
+#### 1.3.2 - 2025-11-25
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `e21765701633`
+
+#### 1.3.1 - 2025-11-25
+- レイアウト調整の対象セレクターを見直し、XPath指定を併用してメインカラム幅の適用範囲を広げた。
+- 根拠: `cb0b66356472`
+
+#### 1.3.0 - 2025-11-25
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `fd144e6e0d6e`
+
+#### 1.2.0 - 2025-11-25
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `d4669737e0a8`
+
+#### 1.1.1 - 2025-11-25
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `fff5f79ce3b2`
+
+#### 1.1.0 - 2025-11-25
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `6669466992a8`
+
+#### 1.0.0 - 2025-11-25
+- カラム幅、余白、プロファイル保存、リアルタイムプレビュー、Tampermonkeyメニューを実装。
+- 根拠: `2340683f07ec`
+
+### twitter-full-size-image
+
+#### 2.1.4 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 2.1.3 - 2026-06-19
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `2cce5ef95901`
+
+#### 2.1.2 - 2025-12-27
+- remove unnecessary debug logs。
+- 根拠: `9271f7b90da6`
+
+#### 2.1.1 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `91a344bcd6ec`
+
+#### 2.1.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- `pbs.twimg.com/media`と`ton.twimg.com/media`の画像URLを`name=orig`へ自動リダイレクトする機能を追加。
+- 既に高解像度指定のURLではリダイレクトせず、セッション内カウンターでループを防止するようにした。
+- 根拠: `680e1908ec07`
+
+### twitter-thread-copier
+
+#### 6.11.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 6.11.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
+
+#### 6.10.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動ショートカットの登録/解除とキーボード配列差への対応を修正した。
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `392690fc186b`
+
+#### 6.9.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 6.8.0 - 2026-05-09
+- コピー結果に相対時刻を含め、ツイートの時系列を追いやすくした。
+- 根拠: `c3d750a9a071`
+
+#### 6.7.3 - 2025-12-27
+- remove unnecessary debug logs。
+- 根拠: `9271f7b90da6`
+
+#### 6.7.2 - 2025-12-24
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `08388a80aa09`
+
+#### 6.7.1 - 2025-11-19
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `71db3b4d6374`
+
+#### 6.7.0 - 2025-11-19
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `516eea198210`
+
+#### 6.6.1 - 2025-11-11
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `8e18d33a5470`
+
+#### 6.6.0 - 2025-11-11
+- 動画サイズ変更やフルスクリーン切替時のコメント/ビューア表示追従を改善した。
+- クリップボードコピー処理をユーザースクリプト環境で失敗しにくい方式へ変更した。
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `7bf421c37e13`
+
+#### 6.5.1 - 2025-11-08
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `f6307ac4834f`
+
+#### 6.5.0 - 2025-11-08
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- Twitterタイムライン整理のFetch/XHR介入やDOM処理への移行を調整した。
+- 根拠: `a6f040970fbb`
+
+#### 6.4.0 - 2025-10-14
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `a29293af6aaf`
+
+#### 6.3.0 - 2025-10-14
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `a59bc1be9047`
+
+#### 6.2.0 - 2025-10-14
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `efef76903589`
+
+#### 6.1.0 - 2025-10-14
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 翻訳後テキストへ通貨、単位、大きな数、電力単位の換算表記を補足する処理を追加/調整した。
+- 根拠: `16df0727e33e`
+
+#### 6.0.0 - 2025-10-14
+- CHANGELOG.mdにv1.7.2の変更内容を追加しました。twitter-thread-copierのしたらば掲示板モードでのURL制限機能を追加しました。
+- 根拠: `298331f45415`
+
+#### 5.9.1 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `91a344bcd6ec`
+
+#### 5.9.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 5.8.0 - 2025-10-12
+- CHANGELOG.mdにv1.6.4の変更内容を追加しました。twitter-thread-copierのコピー待ち受け状態の表示を強調するスタイルを追加しました。
+- 根拠: `94429a250df5`
+
+#### 5.7.1 - 2025-10-10
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `51126aaf4669`
+
+#### 5.7.0 - 2025-10-10
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `c8483e830798`
+
+#### 5.6.0 - 2025-10-09
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `42130b3a2acf`
+
+#### 5.5.1 - 2025-10-09
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `c015f7ba70d3`
+
+#### 5.5.0 - 2025-10-08
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- ツイート本文内の短縮URLや表示用URLを展開し、コピー/翻訳でURLが壊れにくいようにした。
+- 根拠: `3442db73cf0d`
+
+#### 5.4.3 - 2025-10-07
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `8ac519e82509`
+
+#### 5.4.2 - 2025-10-07
+- twitter-thread-copierのメタデータファイルも同様に更新しました。また、翻訳時のタイムアウトを2分に延長しました。
+- 根拠: `f486ffee5d4e`
+
+#### 5.4.1 - 2025-10-07
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `779e53624d72`
+
+#### 5.4.0 - 2025-10-07
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `ce92038bfca7`
+
+#### 5.3.2 - 2025-10-07
+- twitter-thread-copierのツイート収集時にスレッドURLを正しく取得するように修正しました。また、関連するメタデータファイルも更新しました。
+- 根拠: `09200630187b`
+
+#### 5.3.1 - 2025-10-06
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `cee66f6c6a54`
+
+#### 5.3.0 - 2025-10-06
+- CHANGELOG.mdにv1.3.0の修正内容を追加し、twitter-thread-copierのました。また、ツイート翻訳機能の改善とUIのドラッグ＆ドロップ機能を追加しました。
+- 根拠: `352ad6127147`
+
+#### 5.2.0 - 2025-10-06
+- CHANGELOG.mdにv1.2.0の修正内容を追加し、twitter-thread-copierのました。また、UI表示時にアイコンが表示されるように修正しました。
+- 根拠: `4e9208b20fec`
+
+#### 5.1.0 - 2025-10-06
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- Twitterスレッドコピーの翻訳プロバイダー、ローカルAI/OpenAI互換設定、リトライ、タイムアウトを調整した。
+- 根拠: `7dca7c6179e3`
+
+#### 5.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 5.0.0 - 2025-10-04
+- X/Twitterのスレッド詳細ページにコピー用フローティングボタンを追加し、同一投稿者の連投を整形コピーできるようにした。
+- 全ツイート、最初のツイートのみ、したらば4096文字、5ch2048文字、引用、画像/動画URL、開始位置指定、翻訳チェックを実装。
+- 根拠: `680e1908ec07`
+
+### twitter-media-filter
+
+#### 2.2.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.1.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `692d0b753258`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `680e1908ec07`
+
+### twitter-mute-filter
+
+#### 2.2.1 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `91a344bcd6ec`
+
+#### 2.2.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.1.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `692d0b753258`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `680e1908ec07`
+
+### twitter-mute-retweets
+
+#### 2.2.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.1.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 設定モーダルや進捗表示のShadow DOM生成/破棄を共通化し、開き直し時の残骸を減らした。
+- 根拠: `692d0b753258`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- 設定画面から有効/無効とチェック間隔を変更できるようにした。
+- 根拠: `680e1908ec07`
+
+### twitter-wide-layout-fix
+
+#### 2.2.0 - 2025-11-25
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `9ca8cf4b5ac2`
+
+#### 2.1.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- 設定画面からCSS、XPath、幅を編集し、保存後すぐページへ反映できるようにした。
+- 根拠: `680e1908ec07`
+
+### x-auto-spam-reporter
+
+#### 1.2.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 1.2.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 1.1.2 - 2026-06-26
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
+
+#### 1.1.1 - 2025-12-12
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- X/Twitterのサイドバー、検索欄、Premium枠、メインカラム幅、ちらつき防止の表示制御を調整した。
+- 根拠: `0508c34ca13b`
+
+#### 1.1.0 - 2025-12-12
+- X/Twitterのスパム報告ボタンの表示対象、SPA遷移、報告操作の待機処理を調整した。
+- 根拠: `26c572a7d50e`
+
+#### 1.0.0 - 2025-12-11
+- X/Twitterのツイート詳細ページで、各リプライにスパム報告ボタンを追加。
+- ボタン押下で報告メニュー、スパム選択、ブロック確認まで進め、処理中/完了/失敗をトースト表示するようにした。
+- 根拠: `6545affa5068`
+
+### x-community-note-close
+
+#### 1.0.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 1.0.0 - 2026-03-26
+- X/Twitterのコミュニティノート評価モーダルで、背景の余白部分をクリックすると閉じるボタンを押してモーダルを閉じるスクリプトを追加。
+- 根拠: `f9d3253c7123`
 
 ### yahoo-mail-ad-cleaner
 
 #### 1.0.1 - 2026-07-04
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `package.json`, `vite.config.ts`
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
 
 #### 1.0.0 - 2026-07-02
-- スクリプトの起動、初期化、ページ監視処理を変更。
-- 共通ヘルパー、型定義、アイコン、ログ出力を変更。
-- README と userscripts 一覧の導線を変更。
-- 依存関係、実行環境、ビルド設定を変更。
-- ユーザースクリプトのメタデータ、match/connect、配布ファイルを変更。
-- 主な変更ファイル: `README.md`, `package.json`, `src/yahoo-mail-ad-cleaner/main.ts`, `userscripts.md`, `vite.config.ts`
+- Yahoo!メールPC版の広告枠、広告iframe、広告カラムを非表示にするスクリプトを追加。
+- 広告枠だけが残った親要素を折りたたみ、後から挿入される広告にもMutationObserverで追従するようにした。
+- 根拠: `591bd9f591d1`
+
+### yahoo-mail-mark-read
+
+#### 1.2.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 1.2.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 1.1.0 - 2026-06-26
+- Yahoo!メールの既読化ボタン、一括既読、フォルダー移動、操作メニュー検出を調整した。
+- 根拠: `5fefad48516a`
+
+#### 1.0.4 - 2026-06-23
+- Yahoo!メールの既読化ボタン、一括既読、フォルダー移動、操作メニュー検出を調整した。
+- 根拠: `0bc5584511f1`
+
+#### 1.0.3 - 2026-06-10
+- 未読メール検出と既読化ボタンの生成条件を調整した。
+- 根拠: `74dbb305cda0`
+
+#### 1.0.2 - 2026-06-10
+- 対象フォルダーを選択できる設定を追加し、フォルダー別の既読化処理を扱えるようにした。
+- 根拠: `b7aed02012d2`
+
+#### 1.0.1 - 2026-06-10
+- Yahoo!メールの既読化ボタン、一括既読、フォルダー移動、操作メニュー検出を調整した。
+- 根拠: `e2de917d8e10`
+
+#### 1.0.0 - 2026-06-10
+- Yahoo!メールPC版のフォルダー一覧に「既読」ボタンを追加。
+- ボタン押下でメール一覧を全選択し、標準メニューの「既読にする」を実行するようにした。
+- 根拠: `61fae0596c36`
+
+### youtube-info-copier
+
+#### 2.6.1 - 2026-07-04
+- 配布メタデータ/依存更新のみ、ユーザー機能差分なし。
+- 根拠: `39e966868e42`
+
+#### 2.6.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `7c6ba7342a4a`
+
+#### 2.5.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 2.4.3 - 2026-06-26
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `eeb07c8653a7`
+
+#### 2.4.2 - 2026-03-21
+- クリップボードコピー処理をユーザースクリプト環境で失敗しにくい方式へ変更した。
+- 根拠: `07feff4a7610`
+
+#### 2.4.1 - 2026-03-21
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `31035ffa3811`
+
+#### 2.4.0 - 2026-02-09
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- YouTube概要欄の展開待機と本文取得を改善し、空の概要がコピーされるケースを減らした。
+- 根拠: `be09e3ee5747`
+
+#### 2.3.2 - 2025-11-24
+- YouTube概要欄の展開待機と本文取得を改善し、空の概要がコピーされるケースを減らした。
+- 根拠: `d1dbb0815777`
+
+#### 2.3.1 - 2025-11-24
+- YouTube概要欄の展開待機と本文取得を改善し、空の概要がコピーされるケースを減らした。
+- 根拠: `5bb606f121c0`
+
+#### 2.3.0 - 2025-11-24
+- YouTube概要欄の展開待機と本文取得を改善し、空の概要がコピーされるケースを減らした。
+- 根拠: `feca9559ed5d`
+
+#### 2.2.1 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `91a344bcd6ec`
+
+#### 2.2.0 - 2025-10-13
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `fa5c190a6661`
+
+#### 2.1.0 - 2025-10-09
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `75118ad93279`
+
+#### 2.0.1 - 2025-10-05
+- 共通基盤、配布メタデータ、または依存更新のみで、このスクリプト固有のユーザー機能差分は確認できなかった。
+- 根拠: `4bb3860cd592`
+
+#### 2.0.0 - 2025-10-04
+- YouTube動画ページに左下の操作パネルを追加し、タイトル、投稿者名、短縮URL、概要欄をまとめてコピーできるようにした。
+- タイトルとURLだけをコピーするクイックコピー、概要ポップアップ表示、フルスクリーン時のUI非表示に対応。
+- 根拠: `680e1908ec07`
+
+### youtube-ui-modifier
+
+#### 1.8.5 - 2026-07-04
+- マーカー属性値をCSSと一致させる。
+- 根拠: `d72ee74489a0`
+
+#### 1.8.4 - 2026-07-04
+- YouTubeの作成ボタン非表示設定と、現在のYouTube DOMに合わせた検出条件を追加/修正した。
+- 根拠: `0b02c488fdc0`
+
+#### 1.8.3 - 2026-07-04
+- YouTubeの作成ボタン非表示設定と、現在のYouTube DOMに合わせた検出条件を追加/修正した。
+- 外部フォントに依存していたアイコン表示を同梱SVG/MDIアイコンへ置き換えた。
+- 根拠: `35f33b7f576f`
+
+#### 1.8.2 - 2026-07-04
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- YouTubeの作成ボタン非表示設定と、現在のYouTube DOMに合わせた検出条件を追加/修正した。
+- 根拠: `5e1099c4ad30`
+
+#### 1.8.1 - 2026-07-04
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 複数インスタンスや連打でビューア/設定モーダルが二重起動しないよう起動状態を共有管理した。
+- 根拠: `41b2c7cbc293`
+
+#### 1.8.0 - 2026-07-04
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- YouTubeの作成ボタン非表示設定と、現在のYouTube DOMに合わせた検出条件を追加/修正した。
+- YouTube UI Modifierの設定画面に表示言語選択を追加し、自動検出以外の言語を保存できるようにした。
+- 根拠: `9f674f7908d7`
+
+#### 1.7.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `4e6e67ff1763`
+
+#### 1.6.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `7c6ba7342a4a`
+
+#### 1.5.0 - 2026-06-27
+- 表示文言を日本語・英語に加えて中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語の翻訳辞書から出すようにした。
+- 起動方法を従来UI/FAB/メニューのみから選べる起動スタイル設定へ対応した。
+- 根拠: `ee4c844e2e8e`
+
+#### 1.4.1 - 2026-06-26
+- YouTube UI Modifierの初期化をウィンドウのコンテキストに基づいて実行するように変更。
+- 根拠: `bc148342ca12`
+
+#### 1.4.0 - 2026-06-26
+- YouTube UI設定画面で有効中の項目だけを絞り込めるようにした。
+- 根拠: `1e9b86151ac7`
+
+#### 1.3.0 - 2026-06-26
+- YouTubeの作成ボタン非表示設定と、現在のYouTube DOMに合わせた検出条件を追加/修正した。
+- 根拠: `ceb6e3c79792`
+
+#### 1.2.1 - 2026-06-26
+- サブタイトルを更新し、リアルタイム設定反映と自動保存を明示。
+- 根拠: `9731299f780b`
+
+#### 1.2.0 - 2026-06-26
+- YouTubeのおすすめ、Shorts、コメント、サイドバー、チップ、終了画面などを設定画面から表示/非表示にするスクリプトを追加。
+- 設定の即時反映、自動保存、復帰ボックス、ホームのリダイレクト、検索欄自動フォーカスを実装。
+- 根拠: `918db0a61a2d`
