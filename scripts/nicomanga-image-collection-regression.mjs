@@ -15,9 +15,14 @@ const adUrl =
   "https://nicomanga.com/uploads/PoweredBy_200px-Black_HorizLogo.png";
 
 const chromePathCandidates = [
+  process.env.CHROME_PATH,
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "C:\\Program Files (x86)\\Google\\Chrome\\Application\\chrome.exe",
-  process.env.CHROME_PATH,
+  "/usr/bin/google-chrome",
+  "/usr/bin/google-chrome-stable",
+  "/usr/bin/chromium",
+  "/usr/bin/chromium-browser",
+  "/snap/bin/chromium",
 ].filter((path) => typeof path === "string" && path.length > 0);
 
 const chromePath = chromePathCandidates.find((path) => existsSync(path));
