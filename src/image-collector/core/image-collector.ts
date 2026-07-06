@@ -7,6 +7,7 @@ import type { BadImageHandler } from "./bad-image-handler";
 import { ImageHostManager } from "./image-host-manager";
 import { ImageSourceClassifier } from "./image-source-classifier";
 import { RequestBatchLimiter } from "./request-batch-limiter";
+import { isKnownBadImageCollectorCandidate } from "./bad-image-handler";
 import { gmRequest } from "@/shared/network";
 import {
   hasUserImageHashExclusions,
@@ -183,11 +184,18 @@ export class ImageCollectorMain {
   }
 
   private isUserExcludedCandidate(candidate: PageImageCandidate): boolean {
-    return isUserExcludedImage(
-      "image-collector",
-      candidate.url,
-      candidate.width,
-      candidate.height,
+    return (
+      isKnownBadImageCollectorCandidate(
+        candidate.url,
+        candidate.width,
+        candidate.height,
+      ) ||
+      isUserExcludedImage(
+        "image-collector",
+        candidate.url,
+        candidate.width,
+        candidate.height,
+      )
     );
   }
 

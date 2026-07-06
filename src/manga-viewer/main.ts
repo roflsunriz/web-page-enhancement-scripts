@@ -1,7 +1,9 @@
+import { installPageImageRequestCache } from "../shared/page-image-candidates";
 import { MangaViewerApp } from "./manga-viewer-app";
 
 function main() {
   try {
+    installPageImageRequestCache();
     const app = new MangaViewerApp();
     if (document.readyState === "loading") {
       document.addEventListener("DOMContentLoaded", () => app.initialize());

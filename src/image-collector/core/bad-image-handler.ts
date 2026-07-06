@@ -6,6 +6,7 @@ import {
   isUserExcludedImage,
   isUserExcludedImageByPixelHash,
 } from "@/shared/image-exclusion-settings";
+import { isKnownInvalidImage } from "@/shared/known-invalid-images";
 import { format, t } from "../i18n";
 
 interface DeletedImageSize {
@@ -30,6 +31,13 @@ export function isKnownBadImageCollectorCandidate(
     return true;
   }
   if (isUserExcludedImage("image-collector", url, width, height)) {
+    return true;
+  }
+  if (
+    isKnownInvalidImage(url, width, height, {
+      pageHost: window.location.hostname,
+    })
+  ) {
     return true;
   }
   if (width === undefined || height === undefined) {
@@ -64,6 +72,13 @@ export class BadImageHandler {
     if (isUserExcludedImage("image-collector", url, undefined, undefined)) {
       return false;
     }
+    if (
+      isKnownInvalidImage(url, undefined, undefined, {
+        pageHost: window.location.hostname,
+      })
+    ) {
+      return false;
+    }
 
     try {
       const metadata = await this.getImageMetadata(url);
@@ -78,6 +93,13 @@ export class BadImageHandler {
           metadata.width,
           metadata.height,
         )
+      ) {
+        return false;
+      }
+      if (
+        isKnownInvalidImage(url, metadata.width, metadata.height, {
+          pageHost: window.location.hostname,
+        })
       ) {
         return false;
       }

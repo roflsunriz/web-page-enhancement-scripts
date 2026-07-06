@@ -1,5 +1,5 @@
 export type PageImageCandidateKind =
-  "image" | "source" | "anchor" | "background";
+  "image" | "source" | "anchor" | "background" | "observed";
 
 export type PageImageCandidate = {
   url: string;
@@ -8,10 +8,12 @@ export type PageImageCandidate = {
   width?: number;
   height?: number;
   documentOrder?: number;
+  observedAt?: number;
 };
 
 export type CollectPageImageCandidatesOptions = {
   include?: PageImageCandidateKind[];
+  includeObserved?: boolean;
   maxCandidates?: number;
 };
 
@@ -66,6 +68,7 @@ const DEFAULT_KINDS: PageImageCandidateKind[] = [
   "source",
   "anchor",
   "background",
+  "observed",
 ];
 
 const LAZY_IMAGE_ATTRIBUTES = [
@@ -85,9 +88,80 @@ const LAZY_IMAGE_ATTRIBUTES = [
 const IMAGE_EXTENSION_PATTERN =
   /\.(?:avif|bmp|gif|jpe?g|png|svg|webp)(?:[?#]|$)/i;
 
+type PageImageRequestSource =
+  | "performance"
+  | "img-src"
+  | "source-srcset"
+  | "set-attribute"
+  | "fetch"
+  | "xhr";
+
+type ObservedPageImageRequest = {
+  url: string;
+  element: Element | null;
+  source: PageImageRequestSource;
+  observedAt: number;
+};
+
+type PageImageRequestCacheState = {
+  installed: boolean;
+  sequence: number;
+  records: Map<string, ObservedPageImageRequest>;
+  observer?: PerformanceObserver;
+};
+
+type PageImageRequestCacheWindow = Window &
+  typeof globalThis & {
+    __pageImageRequestCache?: PageImageRequestCacheState;
+  };
+
+export function installPageImageRequestCache(): void {
+  const cacheWindow = window as PageImageRequestCacheWindow;
+  const state =
+    cacheWindow.__pageImageRequestCache ??
+    createPageImageRequestCacheState(cacheWindow);
+
+  if (state.installed) {
+    return;
+  }
+  state.installed = true;
+
+  collectExistingPerformanceImageEntries(state);
+  installPerformanceImageObserver(state);
+  installElementAttributeObserver(state);
+  installImageSrcObserver(state);
+  installSourceSrcsetObserver(state);
+  installFetchObserver(state);
+  installXhrObserver(state);
+}
+
+export function collectObservedPageImageCandidates(): PageImageCandidate[] {
+  const cacheWindow = window as PageImageRequestCacheWindow;
+  const state = cacheWindow.__pageImageRequestCache;
+  if (!state) return [];
+
+  const elementOrder = createElementOrderIndex();
+  return Array.from(state.records.values()).map((record) => {
+    const element = record.element;
+    const dimensions =
+      element instanceof HTMLImageElement
+        ? getImageElementDimensions(element)
+        : {};
+    return {
+      url: record.url,
+      element,
+      kind: getObservedCandidateKind(element),
+      ...dimensions,
+      documentOrder: getElementDocumentOrder(element, elementOrder),
+      observedAt: record.observedAt,
+    };
+  });
+}
+
 export function collectPageImageCandidates(
   options: CollectPageImageCandidatesOptions = {},
 ): PageImageCandidate[] {
+  installPageImageRequestCache();
   const include = new Set(options.include ?? DEFAULT_KINDS);
   const candidates: PageImageCandidate[] = [];
   const seen = new Set<string>();
@@ -150,6 +224,14 @@ export function collectPageImageCandidates(
     });
   }
 
+  if (options.includeObserved !== false) {
+    collectObservedPageImageCandidates().forEach((candidate) => {
+      if (seen.has(candidate.url)) return;
+      seen.add(candidate.url);
+      candidates.push(candidate);
+    });
+  }
+
   const sortedCandidates = sortPageImageCandidates(candidates);
   return options.maxCandidates === undefined
     ? sortedCandidates
@@ -162,6 +244,7 @@ export async function scanPageImageCandidates(
   const candidates = new Map<string, PageImageCandidate>();
   const scanOptions: CollectPageImageCandidatesOptions = {
     include: options.include,
+    includeObserved: options.includeObserved,
   };
   const mergeCurrentCandidates = () => {
     collectPageImageCandidates(scanOptions).forEach((candidate) => {
@@ -496,6 +579,13 @@ function comparePageImageCandidates(
   }
   if (leftOrder !== undefined) return -1;
   if (rightOrder !== undefined) return 1;
+  const leftObservedAt = left.observedAt;
+  const rightObservedAt = right.observedAt;
+  if (leftObservedAt !== undefined && rightObservedAt !== undefined) {
+    return leftObservedAt - rightObservedAt;
+  }
+  if (leftObservedAt !== undefined) return -1;
+  if (rightObservedAt !== undefined) return 1;
   return 0;
 }
 
@@ -530,4 +620,251 @@ function delay(milliseconds: number): Promise<void> {
   return new Promise((resolve) => {
     window.setTimeout(resolve, milliseconds);
   });
+}
+
+function createPageImageRequestCacheState(
+  cacheWindow: PageImageRequestCacheWindow,
+): PageImageRequestCacheState {
+  const state: PageImageRequestCacheState = {
+    installed: false,
+    sequence: 0,
+    records: new Map(),
+  };
+  cacheWindow.__pageImageRequestCache = state;
+  return state;
+}
+
+function recordObservedPageImageUrl(
+  state: PageImageRequestCacheState,
+  rawUrl: string | URL | null | undefined,
+  source: PageImageRequestSource,
+  element: Element | null = null,
+): void {
+  const url = normalizePageImageUrl(String(rawUrl ?? ""));
+  if (!url) return;
+  if (!element && !isLikelyImageUrl(url)) return;
+
+  const existing = state.records.get(url);
+  if (existing) {
+    if (!existing.element && element) {
+      existing.element = element;
+      existing.source = source;
+    }
+    return;
+  }
+
+  state.sequence += 1;
+  state.records.set(url, {
+    url,
+    element,
+    source,
+    observedAt: state.sequence,
+  });
+}
+
+function recordObservedSrcset(
+  state: PageImageRequestCacheState,
+  srcset: string | null | undefined,
+  source: PageImageRequestSource,
+  element: Element | null,
+): void {
+  parseSrcset(srcset).forEach((url) => {
+    recordObservedPageImageUrl(state, url, source, element);
+  });
+}
+
+function collectExistingPerformanceImageEntries(
+  state: PageImageRequestCacheState,
+): void {
+  if (typeof performance.getEntriesByType !== "function") return;
+  performance
+    .getEntriesByType("resource")
+    .forEach((entry) => recordPerformanceImageEntry(state, entry));
+}
+
+function installPerformanceImageObserver(
+  state: PageImageRequestCacheState,
+): void {
+  if (typeof PerformanceObserver !== "function") return;
+  try {
+    const observer = new PerformanceObserver((list) => {
+      list
+        .getEntries()
+        .forEach((entry) => recordPerformanceImageEntry(state, entry));
+    });
+    observer.observe({ entryTypes: ["resource"] });
+    state.observer = observer;
+  } catch {
+    // PerformanceObserver is optional; DOM scanning remains the fallback.
+  }
+}
+
+function recordPerformanceImageEntry(
+  state: PageImageRequestCacheState,
+  entry: PerformanceEntry,
+): void {
+  if (entry.entryType !== "resource") return;
+  const resource = entry as PerformanceResourceTiming;
+  if (!isImageResourceInitiator(resource.initiatorType)) return;
+  recordObservedPageImageUrl(state, resource.name, "performance");
+}
+
+function installElementAttributeObserver(
+  state: PageImageRequestCacheState,
+): void {
+  const originalSetAttribute = Element.prototype.setAttribute;
+  Element.prototype.setAttribute = function patchedSetAttribute(
+    this: Element,
+    qualifiedName: string,
+    value: string,
+  ): void {
+    recordElementAttributeImageUrl(state, this, qualifiedName, value);
+    originalSetAttribute.call(this, qualifiedName, value);
+  };
+}
+
+function installImageSrcObserver(state: PageImageRequestCacheState): void {
+  const descriptor = getPropertyDescriptor(HTMLImageElement.prototype, "src");
+  if (
+    !descriptor?.set ||
+    !descriptor.get ||
+    descriptor.configurable === false
+  ) {
+    return;
+  }
+
+  Object.defineProperty(HTMLImageElement.prototype, "src", {
+    configurable: true,
+    enumerable: descriptor.enumerable,
+    get(this: HTMLImageElement): string {
+      return descriptor.get?.call(this) ?? "";
+    },
+    set(this: HTMLImageElement, value: string): void {
+      recordObservedPageImageUrl(state, value, "img-src", this);
+      descriptor.set?.call(this, value);
+    },
+  });
+}
+
+function installSourceSrcsetObserver(state: PageImageRequestCacheState): void {
+  const descriptor = getPropertyDescriptor(
+    HTMLSourceElement.prototype,
+    "srcset",
+  );
+  if (
+    !descriptor?.set ||
+    !descriptor.get ||
+    descriptor.configurable === false
+  ) {
+    return;
+  }
+
+  Object.defineProperty(HTMLSourceElement.prototype, "srcset", {
+    configurable: true,
+    enumerable: descriptor.enumerable,
+    get(this: HTMLSourceElement): string {
+      return descriptor.get?.call(this) ?? "";
+    },
+    set(this: HTMLSourceElement, value: string): void {
+      recordObservedSrcset(state, value, "source-srcset", this);
+      descriptor.set?.call(this, value);
+    },
+  });
+}
+
+function installFetchObserver(state: PageImageRequestCacheState): void {
+  const originalFetch = window.fetch;
+  if (typeof originalFetch !== "function") return;
+
+  window.fetch = function patchedFetch(
+    input: RequestInfo | URL,
+    init?: RequestInit,
+  ): Promise<Response> {
+    recordObservedPageImageUrl(state, getFetchInputUrl(input), "fetch");
+    return originalFetch.call(this, input, init);
+  };
+}
+
+function installXhrObserver(state: PageImageRequestCacheState): void {
+  const originalOpen = XMLHttpRequest.prototype.open;
+  const patchedOpen = function patchedOpen(
+    this: XMLHttpRequest,
+    ...args: Parameters<XMLHttpRequest["open"]>
+  ): ReturnType<XMLHttpRequest["open"]> {
+    recordObservedPageImageUrl(state, args[1], "xhr");
+    return originalOpen.apply(this, args);
+  } as XMLHttpRequest["open"];
+  XMLHttpRequest.prototype.open = patchedOpen;
+}
+
+function recordElementAttributeImageUrl(
+  state: PageImageRequestCacheState,
+  element: Element,
+  attributeName: string,
+  value: string,
+): void {
+  const normalizedName = attributeName.toLowerCase();
+  if (element instanceof HTMLImageElement) {
+    if (normalizedName === "src") {
+      recordObservedPageImageUrl(state, value, "set-attribute", element);
+      return;
+    }
+    if (normalizedName === "srcset" || normalizedName.includes("srcset")) {
+      recordObservedSrcset(state, value, "set-attribute", element);
+      return;
+    }
+    if (
+      LAZY_IMAGE_ATTRIBUTES.includes(normalizedName) ||
+      (normalizedName.startsWith("data-") && normalizedName.includes("src"))
+    ) {
+      recordObservedPageImageUrl(state, value, "set-attribute", element);
+    }
+    return;
+  }
+
+  if (
+    element instanceof HTMLSourceElement &&
+    (normalizedName === "srcset" || normalizedName.includes("srcset"))
+  ) {
+    recordObservedSrcset(state, value, "set-attribute", element);
+  }
+}
+
+function getFetchInputUrl(input: RequestInfo | URL): string | URL | null {
+  if (typeof input === "string" || input instanceof URL) return input;
+  if (input instanceof Request) return input.url;
+  return null;
+}
+
+function getPropertyDescriptor<T extends object>(
+  prototype: T,
+  propertyName: string,
+): PropertyDescriptor | undefined {
+  let current: object | null = prototype;
+  while (current) {
+    const descriptor = Object.getOwnPropertyDescriptor(current, propertyName);
+    if (descriptor) return descriptor;
+    current = Object.getPrototypeOf(current);
+  }
+  return undefined;
+}
+
+function getObservedCandidateKind(
+  element: Element | null,
+): PageImageCandidateKind {
+  if (element instanceof HTMLImageElement) return "image";
+  if (element instanceof HTMLSourceElement) return "source";
+  return "observed";
+}
+
+function isImageResourceInitiator(initiatorType: string): boolean {
+  return [
+    "img",
+    "image",
+    "css",
+    "link",
+    "fetch",
+    "xmlhttprequest",
+    "other",
+  ].includes(initiatorType);
 }
