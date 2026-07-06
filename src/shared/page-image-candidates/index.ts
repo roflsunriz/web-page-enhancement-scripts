@@ -9,27 +9,28 @@ export type PageImageCandidate = {
   height?: number;
 };
 
-type CollectPageImageCandidatesOptions = {
+export type CollectPageImageCandidatesOptions = {
   include?: PageImageCandidateKind[];
   maxCandidates?: number;
 };
 
-type PageImageCandidateScanOptions = CollectPageImageCandidatesOptions & {
-  dynamicWaitMs?: number;
-  scroll?: {
-    enabled: boolean;
-    maxScrolls?: number;
-    stepRatio?: number;
-    delayMs?: number;
-    stopAfterNoNewScans?: number;
+export type PageImageCandidateScanOptions =
+  CollectPageImageCandidatesOptions & {
+    dynamicWaitMs?: number;
+    scroll?: {
+      enabled: boolean;
+      maxScrolls?: number;
+      stepRatio?: number;
+      delayMs?: number;
+      stopAfterNoNewScans?: number;
+    };
+    onProgress?: (progress: {
+      phase: "initial" | "dynamic" | "scroll" | "complete";
+      count: number;
+      currentScroll?: number;
+      totalScrolls?: number;
+    }) => void;
   };
-  onProgress?: (progress: {
-    phase: "initial" | "dynamic" | "scroll" | "complete";
-    count: number;
-    currentScroll?: number;
-    totalScrolls?: number;
-  }) => void;
-};
 
 export type PageImageCollectionItem = PageImageCandidate & {
   needsValidation: boolean;
@@ -44,6 +45,20 @@ export type CollectPageImagesOptions = PageImageCandidateScanOptions & {
   exclude?: (candidate: PageImageCandidate) => boolean;
   needsValidation?: (candidate: PageImageCandidate) => boolean;
 };
+
+export type LoadedPageImagesOptions = CollectPageImageCandidatesOptions & {
+  minWidth?: number;
+  minHeight?: number;
+  exclude?: (candidate: PageImageCandidate) => boolean;
+  needsValidation?: (candidate: PageImageCandidate) => boolean;
+};
+
+export type CollectPageImagesWithScrollFallbackOptions =
+  CollectPageImagesOptions & {
+    minCandidatesBeforeScroll: number;
+    fallbackDynamicWaitMs?: number;
+    scrollFallback?: NonNullable<PageImageCandidateScanOptions["scroll"]>;
+  };
 
 const DEFAULT_KINDS: PageImageCandidateKind[] = [
   "image",
@@ -207,17 +222,90 @@ export async function collectPageImages(
   const candidates = shouldScan
     ? await scanPageImageCandidates(options)
     : collectPageImageCandidates(options);
-  const items = candidates
-    .filter((candidate) => options.exclude?.(candidate) !== true)
-    .map((candidate) => ({
-      ...candidate,
-      needsValidation: options.needsValidation?.(candidate) ?? false,
-    }));
+  return toPageImageCollectionResult(candidates, options);
+}
 
-  return {
-    items,
-    urls: items.map((item) => item.url),
-  };
+export function collectLoadedPageImages(
+  options: LoadedPageImagesOptions = {},
+): PageImageCollectionResult {
+  if (options.include !== undefined && !options.include.includes("image")) {
+    return { items: [], urls: [] };
+  }
+
+  const candidates: PageImageCandidate[] = [];
+  const seen = new Set<string>();
+  document.querySelectorAll<HTMLImageElement>("img").forEach((image) => {
+    const url = normalizePageImageUrl(getImageElementCandidateUrls(image)[0]);
+    if (!url || seen.has(url)) return;
+    const dimensions = getImageElementDimensions(image);
+    const candidate: PageImageCandidate = {
+      url,
+      element: image,
+      kind: "image",
+      ...dimensions,
+    };
+    if (!isLoadedPageImageCandidate(candidate, options)) return;
+    seen.add(url);
+    candidates.push(candidate);
+  });
+
+  return toPageImageCollectionResult(candidates, options);
+}
+
+export async function collectPageImagesWithScrollFallback(
+  options: CollectPageImagesWithScrollFallbackOptions,
+): Promise<PageImageCollectionResult> {
+  const initial = await collectPageImages({
+    ...options,
+    scroll: undefined,
+  });
+  if (initial.urls.length >= options.minCandidatesBeforeScroll) {
+    return initial;
+  }
+
+  return collectPageImages({
+    ...options,
+    dynamicWaitMs: options.fallbackDynamicWaitMs ?? options.dynamicWaitMs,
+    scroll: options.scrollFallback ?? options.scroll,
+  });
+}
+
+export function mergePageImageCollectionItems(
+  ...itemGroups: PageImageCollectionItem[][]
+): PageImageCollectionItem[] {
+  const merged = new Map<string, PageImageCollectionItem>();
+  itemGroups.forEach((items) => {
+    items.forEach((item) => {
+      const existing = merged.get(item.url);
+      if (existing && !existing.needsValidation) return;
+      merged.set(item.url, item);
+    });
+  });
+  return Array.from(merged.values());
+}
+
+export function isLoadedPageImageCandidate(
+  candidate: PageImageCandidate,
+  options: {
+    minWidth?: number;
+    minHeight?: number;
+    exclude?: (candidate: PageImageCandidate) => boolean;
+  } = {},
+): boolean {
+  const element = candidate.element;
+  if (!(element instanceof HTMLImageElement)) {
+    return false;
+  }
+  if (!element.complete) {
+    return false;
+  }
+
+  const width = element.naturalWidth || candidate.width || 0;
+  const height = element.naturalHeight || candidate.height || 0;
+  if (width < (options.minWidth ?? 1) || height < (options.minHeight ?? 1)) {
+    return false;
+  }
+  return options.exclude?.({ ...candidate, width, height }) !== true;
 }
 
 export function getImageElementCandidateUrls(
@@ -296,6 +384,23 @@ function getImageElementDimensions(image: HTMLImageElement): {
   return {
     width: image.naturalWidth || image.width || undefined,
     height: image.naturalHeight || image.height || undefined,
+  };
+}
+
+function toPageImageCollectionResult(
+  candidates: PageImageCandidate[],
+  options: Pick<CollectPageImagesOptions, "exclude" | "needsValidation">,
+): PageImageCollectionResult {
+  const items = candidates
+    .filter((candidate) => options.exclude?.(candidate) !== true)
+    .map((candidate) => ({
+      ...candidate,
+      needsValidation: options.needsValidation?.(candidate) ?? false,
+    }));
+
+  return {
+    items,
+    urls: items.map((item) => item.url),
   };
 }
 
