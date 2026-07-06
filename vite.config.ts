@@ -191,7 +191,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.5.2',
+  version: '5.6.0',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -289,7 +289,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.12.0',
+  version: '10.13.0',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -327,7 +327,13 @@ const mangaViewerMeta: MonkeyUserScript = {
     '*://www.mildom.com/*',
     '*://mildom.com/*',
   ],
-  grant: ['GM_registerMenuCommand', 'GM_getValue', 'GM_setValue'],
+  grant: [
+    'GM_registerMenuCommand',
+    'GM_getValue',
+    'GM_setValue',
+    'GM_xmlhttpRequest',
+  ],
+  connect: ['*'],
   icon: mangaViewerIcon,
   icon64: mangaViewerIcon,
   'run-at': 'document-start',

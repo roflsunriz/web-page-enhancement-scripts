@@ -1,6 +1,11 @@
 import type { Logger } from "@/shared/logger";
 import type { ImageMetadata } from "@/shared/types";
 import { gmRequest } from "@/shared/network";
+import {
+  hasUserImageHashExclusions,
+  isUserExcludedImage,
+  isUserExcludedImageByPixelHash,
+} from "@/shared/image-exclusion-settings";
 import { format, t } from "../i18n";
 
 interface DeletedImageSize {
@@ -28,9 +33,31 @@ export class BadImageHandler {
       return false;
     }
 
+    if (isUserExcludedImage("image-collector", url, undefined, undefined)) {
+      return false;
+    }
+
     try {
       const metadata = await this.getImageMetadata(url);
       if (!metadata) {
+        return false;
+      }
+
+      if (
+        isUserExcludedImage(
+          "image-collector",
+          url,
+          metadata.width,
+          metadata.height,
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        hasUserImageHashExclusions("image-collector") &&
+        (await isUserExcludedImageByPixelHash("image-collector", url))
+      ) {
         return false;
       }
 

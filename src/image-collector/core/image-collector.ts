@@ -8,6 +8,11 @@ import { ImageHostManager } from "./image-host-manager";
 import { ImageSourceClassifier } from "./image-source-classifier";
 import { RequestBatchLimiter } from "./request-batch-limiter";
 import { gmRequest } from "@/shared/network";
+import {
+  hasUserImageHashExclusions,
+  isUserExcludedImage,
+  isUserExcludedImageByPixelHash,
+} from "@/shared/image-exclusion-settings";
 import { format, t } from "../i18n";
 
 interface CollectedImageData {
@@ -46,7 +51,7 @@ export class ImageCollectorMain {
 
     try {
       const imageData = new Map<string, CollectedImageData>();
-      const fastPathImages: ClassifiedImage[] = [];
+      let fastPathImages: ClassifiedImage[] = [];
       const slowPathImages: string[] = [];
 
       this.collectFromImages(imageData, fastPathImages, slowPathImages);
@@ -65,6 +70,11 @@ export class ImageCollectorMain {
         }),
         "info",
       );
+
+      if (fastPathImages.length > 0) {
+        fastPathImages =
+          await this.filterUserExcludedFastPathImages(fastPathImages);
+      }
 
       if (fastPathImages.length > 0) {
         this.toast.show(t("reliableImagesProcessing"), "info");
@@ -123,6 +133,16 @@ export class ImageCollectorMain {
           src,
           img,
         );
+        if (
+          isUserExcludedImage(
+            "image-collector",
+            src,
+            img.naturalWidth || img.width || undefined,
+            img.naturalHeight || img.height || undefined,
+          )
+        ) {
+          return;
+        }
         imageData.set(src, { element: img, classification });
 
         if (classification.fastPath) {
@@ -297,6 +317,26 @@ export class ImageCollectorMain {
     }
 
     this.progressBar.update(60);
+  }
+
+  private async filterUserExcludedFastPathImages(
+    images: ClassifiedImage[],
+  ): Promise<ClassifiedImage[]> {
+    if (!hasUserImageHashExclusions("image-collector")) {
+      return images;
+    }
+
+    const filtered: ClassifiedImage[] = [];
+    for (const image of images) {
+      const isExcluded = await isUserExcludedImageByPixelHash(
+        "image-collector",
+        image.url,
+      );
+      if (!isExcluded) {
+        filtered.push(image);
+      }
+    }
+    return filtered;
   }
 
   private resolveUrl(url: string | null | undefined): string | null {

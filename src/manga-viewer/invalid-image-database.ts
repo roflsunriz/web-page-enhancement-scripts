@@ -1,4 +1,4 @@
-import { isUserExcludedImage } from "./image-exclusion-settings";
+import { isUserExcludedImage } from "@/shared/image-exclusion-settings";
 
 interface InvalidImageRule {
   pageHost?: RegExp;
@@ -60,7 +60,7 @@ export function isInvalidImage(
     return false;
   }
 
-  if (isUserExcludedImage(url, width, height, context)) {
+  if (isUserExcludedImage("manga-viewer", url, width, height, context)) {
     return true;
   }
 

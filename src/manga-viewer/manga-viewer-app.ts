@@ -15,7 +15,7 @@ import { FabButton } from "@/shared/ui/fab";
 import { svgBookOpen } from "@/shared/icons/mdi";
 import type { LaunchStyle } from "@/shared/types/launch-style";
 import { format, t } from "./i18n";
-import { createImageExclusionSettingsSection } from "./image-exclusion-settings";
+import { createImageExclusionSettingsSection } from "@/shared/image-exclusion-settings";
 
 const SCRIPT_ID = "manga-viewer";
 const RUNTIME_STATE_KEY = "__bookStyleMangaViewerRuntime";

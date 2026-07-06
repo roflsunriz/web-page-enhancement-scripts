@@ -4,6 +4,7 @@ import {
   isSiteAccessAllowed,
   registerScriptSettingsMenu,
 } from "@/shared/script-settings";
+import { createImageExclusionSettingsSection } from "@/shared/image-exclusion-settings";
 
 const log = createLogger("ImageCollector2");
 const SCRIPT_ID = "image-collector";
@@ -14,6 +15,7 @@ export async function bootstrapImageCollectorUserscript(): Promise<void> {
     registerScriptSettingsMenu({
       scriptId: SCRIPT_ID,
       scriptName: "image-collector",
+      customSections: [createImageExclusionSettingsSection],
     });
 
     if (!isSiteAccessAllowed(SCRIPT_ID)) {

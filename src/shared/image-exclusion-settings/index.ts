@@ -1,8 +1,13 @@
 import type { ScriptSettingsCustomSectionContext } from "@/shared/script-settings";
+import { gmRequest } from "@/shared/network/gmHttp";
 import { getValue, setValue } from "@/shared/userscript";
 
-const STORAGE_KEY = "manga-viewer-image-exclusion-fingerprints";
+const STORAGE_KEY_PREFIX = "image-exclusion-fingerprints-";
+const LEGACY_MANGA_VIEWER_STORAGE_KEY =
+  "manga-viewer-image-exclusion-fingerprints";
 const MAX_CANDIDATES = 12;
+const HASH_SIZE = 64;
+const PIXEL_HASH_ALGORITHM = `sha256-rgba-${HASH_SIZE}x${HASH_SIZE}`;
 
 type ImageExclusionFingerprint = {
   id: string;
@@ -10,6 +15,9 @@ type ImageExclusionFingerprint = {
   pageHost: string;
   host: string;
   path: string;
+  sourceUrl?: string;
+  pixelHash?: string;
+  pixelHashAlgorithm?: string;
   width?: number;
   height?: number;
   label?: string;
@@ -21,11 +29,14 @@ type ImageCandidate = {
   pageHost: string;
   host: string;
   path: string;
+  pixelHash?: string;
+  pixelHashAlgorithm?: string;
   width?: number;
   height?: number;
 };
 
 export function isUserExcludedImage(
+  scriptId: string,
   url: string,
   width?: number,
   height?: number,
@@ -37,7 +48,7 @@ export function isUserExcludedImage(
   );
   if (!candidate) return false;
 
-  return getImageExclusionFingerprints().some((fingerprint) => {
+  return getImageExclusionFingerprints(scriptId).some((fingerprint) => {
     if (!fingerprint.enabled) return false;
     if (fingerprint.pageHost && fingerprint.pageHost !== candidate.pageHost) {
       return false;
@@ -66,6 +77,51 @@ export function isUserExcludedImage(
   });
 }
 
+export function hasUserImageHashExclusions(scriptId: string): boolean {
+  return getImageExclusionFingerprints(scriptId).some(
+    (fingerprint) =>
+      fingerprint.enabled &&
+      fingerprint.pixelHash !== undefined &&
+      fingerprint.pixelHashAlgorithm === PIXEL_HASH_ALGORITHM,
+  );
+}
+
+export async function isUserExcludedImageByPixelHash(
+  scriptId: string,
+  url: string,
+  context: { pageHost?: string } = {},
+): Promise<boolean> {
+  const candidate = parseCandidate(
+    url,
+    context.pageHost ?? window.location.host,
+  );
+  if (!candidate) return false;
+
+  const fingerprints = getImageExclusionFingerprints(scriptId).filter(
+    (fingerprint) =>
+      fingerprint.enabled &&
+      fingerprint.pixelHash !== undefined &&
+      fingerprint.pixelHashAlgorithm === PIXEL_HASH_ALGORITHM &&
+      (!fingerprint.pageHost || fingerprint.pageHost === candidate.pageHost),
+  );
+  if (fingerprints.length === 0) return false;
+
+  const hashed = await createPixelHashCandidate(candidate);
+  if (!hashed) return false;
+
+  return fingerprints.some(
+    (fingerprint) =>
+      fingerprint.pixelHash === hashed.pixelHash &&
+      fingerprint.pixelHashAlgorithm === hashed.pixelHashAlgorithm &&
+      (fingerprint.width === undefined ||
+        hashed.width === undefined ||
+        fingerprint.width === hashed.width) &&
+      (fingerprint.height === undefined ||
+        hashed.height === undefined ||
+        fingerprint.height === hashed.height),
+  );
+}
+
 export function createImageExclusionSettingsSection(
   context: ScriptSettingsCustomSectionContext,
 ): HTMLElement {
@@ -79,7 +135,7 @@ export function createImageExclusionSettingsSection(
   const description = document.createElement("div");
   description.className = "ss-empty";
   description.textContent =
-    "登録した画像と同じ host/path の画像を manga-viewer の収集対象から除外します。";
+    "登録した画像と同じ画素ハッシュ、または同じ host/path の画像を収集対象から除外します。";
   section.appendChild(description);
 
   section.append(
@@ -105,14 +161,17 @@ function createManualForm(
   const button = document.createElement("button");
   button.type = "submit";
   button.className = "ss-primary";
-  button.textContent = "URLを登録";
+  button.textContent = "URLからハッシュ登録";
 
   form.append(input, button);
-  form.addEventListener("submit", (event) => {
+  form.addEventListener("submit", async (event) => {
     event.preventDefault();
     const candidate = parseCandidate(input.value, context.currentUrl.hostname);
     if (!candidate) return;
-    addFingerprint(candidate);
+    button.disabled = true;
+    button.textContent = "計算中...";
+    const hashed = await createPixelHashCandidate(candidate);
+    addFingerprint(context.scriptId, hashed ?? candidate);
     context.notifySettingsChanged();
     context.render();
   });
@@ -125,7 +184,7 @@ function createFingerprintList(
 ): HTMLElement {
   const list = document.createElement("div");
   list.className = "ss-rule-list";
-  const fingerprints = getImageExclusionFingerprints();
+  const fingerprints = getImageExclusionFingerprints(context.scriptId);
 
   if (fingerprints.length === 0) {
     const empty = document.createElement("div");
@@ -143,7 +202,9 @@ function createFingerprintList(
     checkbox.type = "checkbox";
     checkbox.checked = fingerprint.enabled;
     checkbox.addEventListener("change", () => {
-      updateFingerprint(fingerprint.id, { enabled: checkbox.checked });
+      updateFingerprint(context.scriptId, fingerprint.id, {
+        enabled: checkbox.checked,
+      });
       context.notifySettingsChanged();
       context.render();
     });
@@ -155,14 +216,18 @@ function createFingerprintList(
     type.textContent = `${fingerprint.host}${formatSize(fingerprint)}`;
     const pattern = document.createElement("span");
     pattern.textContent = fingerprint.path;
-    label.append(type, pattern);
+    const hash = document.createElement("span");
+    hash.textContent = fingerprint.pixelHash
+      ? `${fingerprint.pixelHashAlgorithm}: ${fingerprint.pixelHash}`
+      : "URL指紋のみ";
+    label.append(type, pattern, hash);
 
     const remove = document.createElement("button");
     remove.type = "button";
     remove.className = "ss-danger";
     remove.textContent = "削除";
     remove.addEventListener("click", () => {
-      removeFingerprint(fingerprint.id);
+      removeFingerprint(context.scriptId, fingerprint.id);
       context.notifySettingsChanged();
       context.render();
     });
@@ -196,6 +261,17 @@ function createCandidateList(
   candidates.forEach((candidate) => {
     const row = document.createElement("div");
     row.className = "ss-rule-row";
+    row.dataset.imageExclusionCandidate = "true";
+
+    const preview = document.createElement("img");
+    preview.src = candidate.url;
+    preview.alt = "";
+    preview.loading = "lazy";
+    preview.style.width = "64px";
+    preview.style.height = "64px";
+    preview.style.objectFit = "contain";
+    preview.style.background = "#f3f4f6";
+    preview.style.borderRadius = "6px";
 
     const label = document.createElement("div");
     label.className = "ss-rule-label";
@@ -204,19 +280,30 @@ function createCandidateList(
     meta.textContent = `${candidate.host}${formatSize(candidate)}`;
     const path = document.createElement("span");
     path.textContent = candidate.path;
-    label.append(meta, path);
+    const hash = document.createElement("span");
+    hash.textContent = "ハッシュ未計算";
+    label.append(meta, path, hash);
 
     const add = document.createElement("button");
     add.type = "button";
     add.className = "ss-secondary";
-    add.textContent = "登録";
-    add.addEventListener("click", () => {
-      addFingerprint(candidate);
+    add.textContent = "ハッシュ登録";
+    add.addEventListener("click", async () => {
+      add.disabled = true;
+      add.textContent = "計算中...";
+      hash.textContent = "画素ハッシュを計算中...";
+      const hashed = await createPixelHashCandidate(candidate);
+      if (hashed) {
+        hash.textContent = `${hashed.pixelHashAlgorithm}: ${hashed.pixelHash}`;
+      } else {
+        hash.textContent = "ハッシュ計算に失敗したためURL指紋で登録します";
+      }
+      addFingerprint(context.scriptId, hashed ?? candidate);
       context.notifySettingsChanged();
       context.render();
     });
 
-    row.append(label, add);
+    row.append(preview, label, add);
     wrapper.appendChild(row);
   });
 
@@ -244,24 +331,29 @@ function collectImageCandidates(pageHost: string): ImageCandidate[] {
   return candidates.slice(0, MAX_CANDIDATES);
 }
 
-function addFingerprint(candidate: ImageCandidate): void {
-  const fingerprints = getImageExclusionFingerprints();
+function addFingerprint(scriptId: string, candidate: ImageCandidate): void {
+  const fingerprints = getImageExclusionFingerprints(scriptId);
   const existing = fingerprints.find(
     (fingerprint) =>
-      fingerprint.pageHost === candidate.pageHost &&
-      fingerprint.host === candidate.host &&
-      fingerprint.path === candidate.path,
+      (candidate.pixelHash !== undefined &&
+        fingerprint.pixelHash === candidate.pixelHash &&
+        fingerprint.pixelHashAlgorithm === candidate.pixelHashAlgorithm) ||
+      (fingerprint.pageHost === candidate.pageHost &&
+        fingerprint.host === candidate.host &&
+        fingerprint.path === candidate.path),
   );
   if (existing) {
-    updateFingerprint(existing.id, {
+    updateFingerprint(scriptId, existing.id, {
       enabled: true,
+      pixelHash: candidate.pixelHash,
+      pixelHashAlgorithm: candidate.pixelHashAlgorithm,
       width: candidate.width,
       height: candidate.height,
     });
     return;
   }
 
-  setImageExclusionFingerprints([
+  setImageExclusionFingerprints(scriptId, [
     ...fingerprints,
     {
       ...candidate,
@@ -273,36 +365,53 @@ function addFingerprint(candidate: ImageCandidate): void {
 }
 
 function updateFingerprint(
+  scriptId: string,
   id: string,
   patch: Partial<
-    Pick<ImageExclusionFingerprint, "enabled" | "width" | "height">
+    Pick<
+      ImageExclusionFingerprint,
+      "enabled" | "pixelHash" | "pixelHashAlgorithm" | "width" | "height"
+    >
   >,
 ): void {
   setImageExclusionFingerprints(
-    getImageExclusionFingerprints().map((fingerprint) =>
+    scriptId,
+    getImageExclusionFingerprints(scriptId).map((fingerprint) =>
       fingerprint.id === id ? { ...fingerprint, ...patch } : fingerprint,
     ),
   );
 }
 
-function removeFingerprint(id: string): void {
+function removeFingerprint(scriptId: string, id: string): void {
   setImageExclusionFingerprints(
-    getImageExclusionFingerprints().filter(
+    scriptId,
+    getImageExclusionFingerprints(scriptId).filter(
       (fingerprint) => fingerprint.id !== id,
     ),
   );
 }
 
-function getImageExclusionFingerprints(): ImageExclusionFingerprint[] {
-  const stored = getValue<unknown>(STORAGE_KEY);
+function getImageExclusionFingerprints(
+  scriptId: string,
+): ImageExclusionFingerprint[] {
+  const stored =
+    getValue<unknown>(getStorageKey(scriptId)) ??
+    (scriptId === "manga-viewer"
+      ? getValue<unknown>(LEGACY_MANGA_VIEWER_STORAGE_KEY)
+      : undefined);
   if (!Array.isArray(stored)) return [];
   return stored.filter(isImageExclusionFingerprint);
 }
 
 function setImageExclusionFingerprints(
+  scriptId: string,
   fingerprints: ImageExclusionFingerprint[],
 ): void {
-  setValue(STORAGE_KEY, fingerprints);
+  setValue(getStorageKey(scriptId), fingerprints);
+}
+
+function getStorageKey(scriptId: string): string {
+  return `${STORAGE_KEY_PREFIX}${scriptId}`;
 }
 
 function parseCandidate(url: string, pageHost: string): ImageCandidate | null {
@@ -322,6 +431,67 @@ function parseCandidate(url: string, pageHost: string): ImageCandidate | null {
   }
 }
 
+async function createPixelHashCandidate(
+  candidate: ImageCandidate,
+): Promise<ImageCandidate | null> {
+  try {
+    const imageData = await loadImageData(candidate.url);
+    const bytes = new Uint8Array(imageData.data);
+    const digest = await crypto.subtle.digest(
+      "SHA-256",
+      bytes.buffer as ArrayBuffer,
+    );
+    return {
+      ...candidate,
+      width: imageData.width,
+      height: imageData.height,
+      pixelHash: toHex(new Uint8Array(digest)),
+      pixelHashAlgorithm: PIXEL_HASH_ALGORITHM,
+    };
+  } catch (error) {
+    console.warn("[ImageExclusion] pixel hash calculation failed:", error);
+    return null;
+  }
+}
+
+async function loadImageData(
+  url: string,
+): Promise<{ data: Uint8ClampedArray; width: number; height: number }> {
+  const response = await gmRequest<Blob>({
+    url,
+    responseType: "blob",
+    timeout: 30000,
+  });
+  const objectUrl = URL.createObjectURL(response.response);
+  try {
+    const image = await loadImageElement(objectUrl);
+    const canvas = document.createElement("canvas");
+    canvas.width = HASH_SIZE;
+    canvas.height = HASH_SIZE;
+    const context = canvas.getContext("2d", { willReadFrequently: true });
+    if (!context) {
+      throw new Error("Canvas 2D context is unavailable");
+    }
+    context.drawImage(image, 0, 0, HASH_SIZE, HASH_SIZE);
+    return {
+      data: context.getImageData(0, 0, HASH_SIZE, HASH_SIZE).data,
+      width: image.naturalWidth,
+      height: image.naturalHeight,
+    };
+  } finally {
+    URL.revokeObjectURL(objectUrl);
+  }
+}
+
+function loadImageElement(url: string): Promise<HTMLImageElement> {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = () => reject(new Error("Image decode failed"));
+    image.src = url;
+  });
+}
+
 function isImageExclusionFingerprint(
   value: unknown,
 ): value is ImageExclusionFingerprint {
@@ -335,6 +505,9 @@ function isImageExclusionFingerprint(
     width?: unknown;
     height?: unknown;
     label?: unknown;
+    sourceUrl?: unknown;
+    pixelHash?: unknown;
+    pixelHashAlgorithm?: unknown;
     createdAt?: unknown;
   };
   return (
@@ -343,11 +516,23 @@ function isImageExclusionFingerprint(
     typeof candidate.pageHost === "string" &&
     typeof candidate.host === "string" &&
     typeof candidate.path === "string" &&
+    (candidate.sourceUrl === undefined ||
+      typeof candidate.sourceUrl === "string") &&
+    (candidate.pixelHash === undefined ||
+      typeof candidate.pixelHash === "string") &&
+    (candidate.pixelHashAlgorithm === undefined ||
+      typeof candidate.pixelHashAlgorithm === "string") &&
     (candidate.width === undefined || typeof candidate.width === "number") &&
     (candidate.height === undefined || typeof candidate.height === "number") &&
     (candidate.label === undefined || typeof candidate.label === "string") &&
     typeof candidate.createdAt === "string"
   );
+}
+
+function toHex(bytes: Uint8Array): string {
+  return Array.from(bytes)
+    .map((byte) => byte.toString(16).padStart(2, "0"))
+    .join("");
 }
 
 function formatSize(value: { width?: number; height?: number }): string {

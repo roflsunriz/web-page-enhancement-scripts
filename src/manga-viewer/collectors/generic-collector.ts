@@ -2,6 +2,10 @@ import type { LoadingSpinner } from "../ui/loading-spinner";
 import { ICollector, CollectionResult } from "./i-collector";
 import { win } from "../util";
 import { isInvalidImage } from "../invalid-image-database";
+import {
+  hasUserImageHashExclusions,
+  isUserExcludedImageByPixelHash,
+} from "@/shared/image-exclusion-settings";
 import { format, t } from "../i18n";
 
 // unsafeWindowの型定義を拡張
@@ -299,7 +303,7 @@ export class GenericCollector implements ICollector {
   ): Promise<CollectionResult> {
     const validUrls: string[] = [];
 
-    const filteredUrlsWithMetadata = urlsWithMetadata.filter((item) => {
+    const filteredUrlsWithMetadataByUrl = urlsWithMetadata.filter((item) => {
       if (item.needsValidation) {
         return true;
       }
@@ -307,6 +311,9 @@ export class GenericCollector implements ICollector {
         pageHost: window.location.hostname,
       });
     });
+    const filteredUrlsWithMetadata = await this.filterUserHashExcludedImages(
+      filteredUrlsWithMetadataByUrl,
+    );
 
     // 検証不要なURLを先に抽出
     const preValidatedUrls = filteredUrlsWithMetadata
@@ -403,6 +410,29 @@ export class GenericCollector implements ICollector {
     } catch {
       return false;
     }
+  }
+
+  private async filterUserHashExcludedImages(
+    urlsWithMetadata: { url: string; needsValidation: boolean }[],
+  ): Promise<{ url: string; needsValidation: boolean }[]> {
+    if (!hasUserImageHashExclusions("manga-viewer")) {
+      return urlsWithMetadata;
+    }
+
+    const filtered: { url: string; needsValidation: boolean }[] = [];
+    for (const item of urlsWithMetadata) {
+      const isExcluded = await isUserExcludedImageByPixelHash(
+        "manga-viewer",
+        item.url,
+        {
+          pageHost: window.location.hostname,
+        },
+      );
+      if (!isExcluded) {
+        filtered.push(item);
+      }
+    }
+    return filtered;
   }
 
   private isImageAccessible(url: string): Promise<boolean> {
