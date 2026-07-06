@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         youtube-ui-modifier
 // @namespace    youtubeUiModifier
-// @version      1.8.5
+// @version      1.8.6
 // @author       roflsunriz
 // @description  YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整
 // @license      MIT
@@ -32,7 +32,9 @@
 
 .youtube-ui-modifier-dialog {
   width: min(920px, 96vw);
-  max-height: min(760px, 92vh);
+  height: min(760px, calc(100dvh - 48px));
+  min-height: min(560px, calc(100dvh - 48px));
+  max-height: min(760px, calc(100dvh - 48px));
   display: grid;
   grid-template-rows: auto 1fr auto;
   overflow: hidden;
@@ -85,6 +87,7 @@
   min-height: 0;
   display: grid;
   grid-template-columns: 190px 1fr;
+  overflow: hidden;
 }
 
 .youtube-ui-modifier-sidebar {
@@ -305,8 +308,16 @@
     padding: 10px;
   }
 
+  .youtube-ui-modifier-dialog {
+    width: min(920px, calc(100vw - 20px));
+    height: calc(100dvh - 20px);
+    min-height: calc(100dvh - 20px);
+    max-height: calc(100dvh - 20px);
+  }
+
   .youtube-ui-modifier-content {
     grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr;
   }
 
   .youtube-ui-modifier-sidebar {
