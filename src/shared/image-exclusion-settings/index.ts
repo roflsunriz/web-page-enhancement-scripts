@@ -10,7 +10,6 @@ import { getValue, setValue } from "@/shared/userscript";
 const STORAGE_KEY_PREFIX = "image-exclusion-fingerprints-";
 const LEGACY_MANGA_VIEWER_STORAGE_KEY =
   "manga-viewer-image-exclusion-fingerprints";
-const MAX_CANDIDATES = 12;
 const HASH_SIZE = 64;
 const PIXEL_HASH_ALGORITHM = `sha256-rgba-${HASH_SIZE}x${HASH_SIZE}`;
 const scannedCandidateCache = new Map<string, PageImageCandidate[]>();
@@ -263,7 +262,6 @@ function createCandidateList(
     scanButton.disabled = true;
     scanButton.textContent = "スキャン中...";
     const scanned = await scanPageImageCandidates({
-      maxCandidates: MAX_CANDIDATES,
       dynamicWaitMs: 1500,
       scroll: {
         enabled: true,
@@ -279,6 +277,10 @@ function createCandidateList(
   wrapper.appendChild(scanButton);
 
   const candidates = collectImageCandidates(context.currentUrl.hostname);
+  const count = document.createElement("div");
+  count.className = "ss-empty";
+  count.textContent = `候補: ${candidates.length}件`;
+  wrapper.appendChild(count);
   if (candidates.length === 0) {
     const empty = document.createElement("div");
     empty.className = "ss-empty";
@@ -363,10 +365,7 @@ function getCachedOrCurrentPageCandidates(
   pageHost: string,
 ): PageImageCandidate[] {
   const cacheKey = `${pageHost}\n${window.location.href}`;
-  return (
-    scannedCandidateCache.get(cacheKey) ??
-    collectPageImageCandidates({ maxCandidates: MAX_CANDIDATES })
-  );
+  return scannedCandidateCache.get(cacheKey) ?? collectPageImageCandidates();
 }
 
 function getCandidateCacheKey(
