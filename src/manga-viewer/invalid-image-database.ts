@@ -1,3 +1,5 @@
+import { isUserExcludedImage } from "./image-exclusion-settings";
+
 interface InvalidImageRule {
   pageHost?: RegExp;
   host?: RegExp;
@@ -56,6 +58,10 @@ export function isInvalidImage(
 ): boolean {
   if (!url) {
     return false;
+  }
+
+  if (isUserExcludedImage(url, width, height, context)) {
+    return true;
   }
 
   try {

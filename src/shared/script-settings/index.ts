@@ -34,8 +34,20 @@ type ScriptSettingsOptions = {
   scriptId: string;
   scriptName: string;
   includeLaunchStyle?: boolean;
+  customSections?: ScriptSettingsCustomSection[];
   defaultLaunchStyle?: LaunchStyle;
   onSettingsChanged?: () => void;
+};
+
+type ScriptSettingsCustomSection = (
+  context: ScriptSettingsCustomSectionContext,
+) => HTMLElement;
+
+export type ScriptSettingsCustomSectionContext = {
+  scriptId: string;
+  currentUrl: URL;
+  render: () => void;
+  notifySettingsChanged: () => void;
 };
 
 type ScriptSettingsRuntimeState = {
@@ -253,6 +265,16 @@ function createModalContent(context: ModalContentContext): HTMLElement {
   }
 
   panel.append(createSiteAccessSection(context));
+  options.customSections?.forEach((createCustomSection) => {
+    panel.append(
+      createCustomSection({
+        scriptId: options.scriptId,
+        currentUrl: context.currentUrl,
+        render: context.render,
+        notifySettingsChanged: () => options.onSettingsChanged?.(),
+      }),
+    );
+  });
 
   const footer = document.createElement("div");
   footer.className = "ss-footer";
