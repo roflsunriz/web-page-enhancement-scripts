@@ -14,7 +14,9 @@ import {
   isUserExcludedImageByPixelHash,
 } from "@/shared/image-exclusion-settings";
 import {
-  collectPageImages,
+  collectLoadedPageImages,
+  collectPageImagesWithScrollFallback,
+  mergePageImageCollectionItems,
   type PageImageCandidate,
 } from "@/shared/page-image-candidates";
 import { format, t } from "../i18n";
@@ -128,47 +130,65 @@ export class ImageCollectorMain {
     fastPathImages: ClassifiedImage[],
     slowPathImages: string[],
   ): Promise<void> {
-    const collected = await collectPageImages({
-      exclude: (candidate) =>
-        isUserExcludedImage(
-          "image-collector",
-          candidate.url,
-          candidate.width,
-          candidate.height,
-        ),
+    const loaded = collectLoadedPageImages({
+      exclude: (candidate) => this.isUserExcludedCandidate(candidate),
+    });
+    const collected = await collectPageImagesWithScrollFallback({
+      dynamicWaitMs: 500,
+      minCandidatesBeforeScroll: 1,
+      fallbackDynamicWaitMs: 1500,
+      scrollFallback: {
+        enabled: true,
+        maxScrolls: 20,
+        stepRatio: 0.8,
+        delayMs: 400,
+        stopAfterNoNewScans: 3,
+      },
+      exclude: (candidate) => this.isUserExcludedCandidate(candidate),
     });
 
-    collected.items.forEach((candidate) => {
-      try {
-        const classification = this.imageSourceClassifier.classifyImageSource(
-          candidate.url,
-          candidate.element ?? undefined,
-        );
-        imageData.set(candidate.url, {
-          element: candidate.element,
-          classification,
-        });
-
-        if (this.canUseFastPath(candidate, classification)) {
-          fastPathImages.push({ url: candidate.url, classification });
-          this.logger.debug("高速パス画像", {
-            src: candidate.url.substring(0, 50),
-            reason: classification.reason,
+    mergePageImageCollectionItems(loaded.items, collected.items).forEach(
+      (candidate) => {
+        try {
+          const classification = this.imageSourceClassifier.classifyImageSource(
+            candidate.url,
+            candidate.element ?? undefined,
+          );
+          imageData.set(candidate.url, {
+            element: candidate.element,
+            classification,
           });
-        } else {
-          slowPathImages.push(candidate.url);
-          this.logger.debug("低速パス画像", {
-            src: candidate.url.substring(0, 50),
-            reason: classification.reason,
+
+          if (this.canUseFastPath(candidate, classification)) {
+            fastPathImages.push({ url: candidate.url, classification });
+            this.logger.debug("高速パス画像", {
+              src: candidate.url.substring(0, 50),
+              reason: classification.reason,
+            });
+          } else {
+            slowPathImages.push(candidate.url);
+            this.logger.debug("低速パス画像", {
+              src: candidate.url.substring(0, 50),
+              reason: classification.reason,
+            });
+          }
+        } catch (error) {
+          this.logger.warn("画像候補の処理中にエラーが発生しました", {
+            error,
+            src: candidate.url,
           });
         }
-      } catch (error) {
-        this.logger.warn("画像候補の処理中にエラーが発生しました", {
-          error,
-          src: candidate.url,
-        });
-      }
-    });
+      },
+    );
+  }
+
+  private isUserExcludedCandidate(candidate: PageImageCandidate): boolean {
+    return isUserExcludedImage(
+      "image-collector",
+      candidate.url,
+      candidate.width,
+      candidate.height,
+    );
   }
 
   private canUseFastPath(
