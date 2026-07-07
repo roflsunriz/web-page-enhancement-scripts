@@ -606,7 +606,14 @@ function createInitHarness() {
     const getRect = (selector) => {
       const element = root?.querySelector(selector);
       const rect = element?.getBoundingClientRect();
-      return rect ? { width: rect.width, height: rect.height } : null;
+      return rect
+        ? {
+            left: rect.left,
+            right: rect.right,
+            width: rect.width,
+            height: rect.height
+          }
+        : null;
     };
   return {
       left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
@@ -627,9 +634,19 @@ function createInitHarness() {
           return {
             side: element.dataset.pageSide,
             source: image ? image.currentSrc || image.src : null,
-            rect: { width: rect.width, height: rect.height },
+            rect: {
+              left: rect.left,
+              right: rect.right,
+              width: rect.width,
+              height: rect.height
+            },
             imageRect: imageRect
-              ? { width: imageRect.width, height: imageRect.height }
+              ? {
+                  left: imageRect.left,
+                  right: imageRect.right,
+                  width: imageRect.width,
+                  height: imageRect.height
+                }
               : null
           };
         }),
@@ -822,5 +839,17 @@ function assertMangaViewerImageAspect(spread, expectedAspectRatio) {
         `manga-viewer image escaped half-spread bounds: max=${maxPageWidth} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
       );
     }
+  }
+  const spineX = (spread.bookRect?.width ?? spread.blockRect?.width) / 2;
+  for (const activePage of spread.activePages ?? []) {
+    if (!activePage.imageRect) continue;
+    const innerGap =
+      activePage.side === "left"
+        ? spineX - activePage.imageRect.right
+        : activePage.imageRect.left - spineX;
+    assert(
+      Math.abs(innerGap) <= 1,
+      `manga-viewer image was not aligned to the spine: gap=${innerGap} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+    );
   }
 }

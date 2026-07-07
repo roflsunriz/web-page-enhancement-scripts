@@ -329,6 +329,14 @@
     background: #f8fafc;
 }
 
+.mv-flip-page[data-page-side="left"] .mv-flip-page-surface {
+    justify-content: flex-end;
+}
+
+.mv-flip-page[data-page-side="right"] .mv-flip-page-surface {
+    justify-content: flex-start;
+}
+
 .mv-flip-image {
     display: block;
     width: auto !important;
