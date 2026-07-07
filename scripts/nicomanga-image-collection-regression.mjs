@@ -220,8 +220,10 @@ async function runMangaViewerSettingsRegression() {
     `manga-viewer delay settings inputs were missing: ${settingsResult.inputCount}`,
   );
   assert(
-    settingsResult.labels.some((label) =>
-      label.includes("自動起動時の高速再確認待機"),
+    settingsResult.labels.some(
+      (label) =>
+        label.includes("自動起動時の高速再確認待機") ||
+        label.includes("Fast recheck wait during auto-launch"),
     ),
     `manga-viewer delay settings label was missing: ${settingsResult.labels.join(", ")}`,
   );
