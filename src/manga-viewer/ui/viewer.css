@@ -276,8 +276,25 @@
 }
 
 .mv-flip-book {
-    width: min(96vw, 1400px);
-    height: min(88vh, 1000px);
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.mv-flip-book::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 16px;
+    pointer-events: none;
+    transform: translateX(-50%);
+    z-index: 20;
+    background:
+        linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(0, 0, 0, 0.04) 38%, rgba(255, 255, 255, 0.16) 50%, rgba(0, 0, 0, 0.04) 62%, rgba(0, 0, 0, 0.28)),
+        linear-gradient(90deg, transparent 0 47%, rgba(0, 0, 0, 0.5) 47% 53%, transparent 53% 100%);
+    opacity: 0.72;
 }
 
 .mv-flip-page {

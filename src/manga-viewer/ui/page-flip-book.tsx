@@ -82,9 +82,9 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
           height: BASE_PAGE_HEIGHT,
           size: "stretch",
           minWidth: 240,
-          maxWidth: 1400,
+          maxWidth: 4096,
           minHeight: 320,
-          maxHeight: 2000,
+          maxHeight: 4096,
           drawShadow: true,
           flippingTime: FLIPPING_TIME_MS,
           usePortrait: false,
@@ -134,40 +134,14 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
               )
                 return false;
               syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
-              const nextSpreadIndex = spreadIndexRef.current + 1;
-              animateToMangaSpread(
-                pageFlip,
-                nextSpreadIndex,
-                spreadCount,
-                "prev",
-              );
-              window.setTimeout(() => {
-                finishMangaSpreadTurn(pageFlip, nextSpreadIndex, spreadCount);
-                spreadIndexRef.current = nextSpreadIndex;
-                onSpreadChangeRef.current(nextSpreadIndex);
-                onFlipStateChangeRef.current?.(false);
-                emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
-              }, FLIPPING_TIME_MS + 80);
+              pageFlip.flipNext("top");
               return true;
             },
             flipPreviousMangaPage: () => {
               if (isFlippingRef.current || spreadIndexRef.current <= 0)
                 return false;
               syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
-              const nextSpreadIndex = spreadIndexRef.current - 1;
-              animateToMangaSpread(
-                pageFlip,
-                nextSpreadIndex,
-                spreadCount,
-                "next",
-              );
-              window.setTimeout(() => {
-                finishMangaSpreadTurn(pageFlip, nextSpreadIndex, spreadCount);
-                spreadIndexRef.current = nextSpreadIndex;
-                onSpreadChangeRef.current(nextSpreadIndex);
-                onFlipStateChangeRef.current?.(false);
-                emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
-              }, FLIPPING_TIME_MS + 80);
+              pageFlip.flipPrev("top");
               return true;
             },
           });
@@ -270,58 +244,11 @@ const emitLibraryState = (
   );
 };
 
-const animateToMangaSpread = (
-  pageFlip: PageFlip,
-  nextSpreadIndex: number,
-  spreadCount: number,
-  completionDirection: "prev" | "next",
-) => {
-  const targetPageIndex = getLibraryPageIndexForSpread(
-    nextSpreadIndex,
-    spreadCount,
-  );
-  const originalTurnToPrevPage = pageFlip.turnToPrevPage.bind(pageFlip);
-  const originalTurnToNextPage = pageFlip.turnToNextPage.bind(pageFlip);
-  const restoreTurnMethods = () => {
-    pageFlip.turnToPrevPage = originalTurnToPrevPage;
-    pageFlip.turnToNextPage = originalTurnToNextPage;
-  };
-
-  if (completionDirection === "prev") {
-    pageFlip.turnToPrevPage = () => {
-      pageFlip.turnToPage(targetPageIndex);
-      restoreTurnMethods();
-    };
-  } else {
-    pageFlip.turnToNextPage = () => {
-      pageFlip.turnToPage(targetPageIndex);
-      restoreTurnMethods();
-    };
-  }
-
-  window.setTimeout(restoreTurnMethods, FLIPPING_TIME_MS + 250);
-  if (completionDirection === "prev") {
-    pageFlip.flipPrev("top");
-  } else {
-    pageFlip.flipNext("top");
-  }
-};
-
-const finishMangaSpreadTurn = (
-  pageFlip: PageFlip,
-  nextSpreadIndex: number,
-  spreadCount: number,
-) => {
-  pageFlip.turnToPage(
-    getLibraryPageIndexForSpread(nextSpreadIndex, spreadCount),
-  );
-};
-
 const buildMangaFlipPages = (images: string[]): MangaFlipPage[] => {
   const spreadCount = Math.max(1, Math.ceil(images.length / 2));
   const pages: MangaFlipPage[] = [];
 
-  for (let spreadIndex = spreadCount - 1; spreadIndex >= 0; spreadIndex -= 1) {
+  for (let spreadIndex = 0; spreadIndex < spreadCount; spreadIndex += 1) {
     const rightPageIndex = spreadIndex * 2;
     const leftPageIndex = rightPageIndex + 1;
     const leftSrc =
@@ -354,7 +281,7 @@ const getLibraryPageIndexForSpread = (
     Math.max(spreadIndex, 0),
     spreadCount - 1,
   );
-  return (spreadCount - 1 - clampedSpreadIndex) * 2;
+  return clampedSpreadIndex * 2;
 };
 
 const getLogicalSpreadIndexFromLibraryPage = (
@@ -362,8 +289,5 @@ const getLogicalSpreadIndexFromLibraryPage = (
   spreadCount: number,
 ): number => {
   const librarySpreadIndex = Math.floor(libraryPageIndex / 2);
-  return Math.min(
-    Math.max(spreadCount - 1 - librarySpreadIndex, 0),
-    spreadCount - 1,
-  );
+  return Math.min(Math.max(librarySpreadIndex, 0), spreadCount - 1);
 };
