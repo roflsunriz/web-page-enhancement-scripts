@@ -94,15 +94,12 @@ async function runMangaViewerRegression() {
     command.callback();
   });
 
-  await page.waitForFunction(() => {
-    return getOpenShadowImages(".mv-page").some((src) =>
-      src.includes("page-001.png"),
-    );
-  });
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
 
   const result = await page.evaluate(() => {
     const state = window.__userscriptTest;
     const viewerSources = getOpenShadowImages(".mv-page");
+    const spread = getMangaViewerSpreadState();
     return {
       menuCount: state.menuCommands.length,
       settingMenuCount: state.menuCommands.filter((item) =>
@@ -111,6 +108,7 @@ async function runMangaViewerRegression() {
       scrollByCount: state.scrollByCount,
       xhrCount: state.xhrUrls.length,
       viewerSources,
+      spread,
     };
   });
 
@@ -131,14 +129,33 @@ async function runMangaViewerRegression() {
     `manga-viewer duplicated image networking through GM_xmlhttpRequest: ${result.xhrCount}`,
   );
   assert(
-    result.viewerSources[0]?.includes("page-002.png") &&
-      result.viewerSources[1]?.includes("page-001.png"),
-    `manga-viewer did not render the first spread from the first two DOM pages: ${result.viewerSources.join(", ")}`,
+    result.spread.left?.includes("page-002.png") &&
+      result.spread.right?.includes("page-001.png"),
+    `manga-viewer did not render the first spread left=page-002 right=page-001: ${JSON.stringify(result.spread)}`,
   );
   assert(
     !result.viewerSources.some((src) => src.includes("PoweredBy")),
     "manga-viewer included a known invalid NicoManga ad image",
   );
+
+  await turnMangaViewerPage(page, "next");
+  await waitForMangaViewerAnimationState(page, [
+    "page-002.png",
+    "page-001.png",
+    "page-004.png",
+    "page-003.png",
+  ]);
+  await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
+
+  await turnMangaViewerPage(page, "previous");
+  await waitForMangaViewerAnimationState(page, [
+    "page-004.png",
+    "page-003.png",
+    "page-002.png",
+    "page-001.png",
+  ]);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
   await page.close();
 }
 
@@ -221,7 +238,7 @@ async function createFixturePage() {
     }
   });
   page.on("pageerror", (error) => {
-    console.error(`[browser:pageerror] ${error.message}`);
+    console.error(`[browser:pageerror] ${error.stack || error.message}`);
   });
 
   await page.route("**/*", async (route) => {
@@ -289,6 +306,63 @@ async function waitForFixtureImagesLoaded(page) {
   );
 }
 
+async function waitForMangaViewerSpread(page, leftPageFileName, rightPageFileName) {
+  try {
+    await page.waitForFunction(
+      ({ leftPageFileName, rightPageFileName }) => {
+        const spread = getMangaViewerSpreadState();
+        return (
+          spread.left?.includes(leftPageFileName) &&
+          spread.right?.includes(rightPageFileName)
+        );
+      },
+      { leftPageFileName, rightPageFileName },
+    );
+  } catch (error) {
+    const state = await page.evaluate(() => getMangaViewerSpreadState());
+    throw new Error(
+      `manga-viewer spread did not become left=${leftPageFileName} right=${rightPageFileName}: ${JSON.stringify(state)}`,
+      { cause: error },
+    );
+  }
+}
+
+async function waitForMangaViewerAnimationState(page, expectedPageFileNames) {
+  try {
+    await page.waitForFunction(
+      (expectedPageFileNames) => {
+        const spread = getMangaViewerSpreadState();
+        return (
+          spread.debug?.libraryState === "flipping" &&
+          expectedPageFileNames.every((fileName) =>
+            spread.activeSources.some((src) => src.includes(fileName)),
+          )
+        );
+      },
+      expectedPageFileNames,
+      { timeout: 1000 },
+    );
+  } catch (error) {
+    const state = await page.evaluate(() => getMangaViewerSpreadState());
+    throw new Error(
+      `manga-viewer did not expose expected in-flight page turn state: ${JSON.stringify(state)}`,
+      { cause: error },
+    );
+  }
+}
+
+async function turnMangaViewerPage(page, direction) {
+  await page.evaluate((key) => {
+    window.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key,
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  }, direction === "next" ? "ArrowLeft" : "ArrowRight");
+}
+
 async function assertDetachedFetchWorks(page, label) {
   const result = await page.evaluate(async () => {
     try {
@@ -329,6 +403,40 @@ function createInitHarness() {
     .flatMap((element) => element.shadowRoot ? Array.from(element.shadowRoot.querySelectorAll(selector)) : [])
     .map((image) => image.currentSrc || image.src)
     .filter((src) => src.includes("/uploads/"));
+  window.getMangaViewerShadowRoot = () => Array.from(document.querySelectorAll("*"))
+    .map((element) => element.shadowRoot)
+    .find((root) => root?.querySelector(".manga-viewer-container")) || null;
+  window.getMangaViewerSpreadState = () => {
+    const root = window.getMangaViewerShadowRoot();
+    const book = root?.querySelector(".mv-flip-book");
+    const block = root?.querySelector(".stf__block");
+    const bookRect = book?.getBoundingClientRect();
+    const blockRect = block?.getBoundingClientRect();
+    const debug = window.MangaViewer?.__pageFlipDebug ?? null;
+    const spreadSelector = debug ? '[data-logical-spread-index="' + String(debug.currentSpreadIndex) + '"]' : "";
+    const getSrc = (selector) => {
+      const image = root?.querySelector(selector);
+      return image ? image.currentSrc || image.src : null;
+    };
+    return {
+      left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
+      right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
+      pageCount: root?.querySelectorAll(".mv-flip-page").length ?? 0,
+      bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
+      blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
+      classList: Array.from(root?.querySelectorAll(".mv-flip-page") ?? []).map((element) => element.className),
+      sources: Array.from(root?.querySelectorAll(".mv-flip-image") ?? []).map((image) => image.currentSrc || image.src),
+      activeSources: Array.from(root?.querySelectorAll(".mv-flip-page") ?? [])
+        .filter((element) => getComputedStyle(element).display !== "none")
+        .map((element) => {
+          const image = element.querySelector(".mv-flip-image");
+          return image ? image.currentSrc || image.src : null;
+        })
+        .filter(Boolean),
+      debug,
+      header: root?.querySelector(".mv-header-text")?.textContent ?? null
+    };
+  };
 
   const originalAttachShadow = Element.prototype.attachShadow;
   Element.prototype.attachShadow = function(init) {

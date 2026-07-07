@@ -17,7 +17,6 @@
     "dev:imgur-direct-link-copier": "vite --mode imgur-direct-link-copier",
     "dev:khinsider-direct-link-saver": "vite --mode khinsider-direct-link-saver",
     "dev:manga-viewer": "vite --mode manga-viewer",
-    "debug:manga-viewer-page-turn": "bun scripts/manga-viewer-page-turn-animation-mock.ts",
     "dev:native-video-volume-setter": "vite --mode native-video-volume-setter",
     "dev:trickcal-tool-sweep": "vite --mode trickcal-tool-sweep",
     "dev:twitter-clean-timeline": "vite --mode twitter-clean-timeline",
@@ -73,6 +72,7 @@
     "@mdi/js": "7.4.47",
     "comment-overlay": "^4.0.0",
     "fflate": "^0.8.3",
+    "page-flip": "2.0.7",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   }

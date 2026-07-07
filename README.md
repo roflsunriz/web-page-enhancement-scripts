@@ -106,8 +106,8 @@ bun dev:youtube-info-copier
 # 画像収集機能を開発する場合
 bun dev:image-collector
 
-# book-style-manga-viewer のページめくりアニメーションをログで確認する場合
-bun debug:manga-viewer-page-turn
+# book-style-manga-viewer を開発する場合
+bun dev:manga-viewer
 ```
 
 開発用のモードは `package.json` の `scripts` に多数定義されています（例: `dev:d-anime`, `dev:twitter-thread-copier` 等）。

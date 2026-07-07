@@ -1,17 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { ChapterNavigator } from '../chapter-navigator';
 import { globalState } from '../state';
 import { MOUSE_INACTIVITY_DELAY } from '../constants';
 import { DataLoader } from '../data-loader';
 import { LoadingSpinner } from './loading-spinner';
-import {
-  buildPageTurnLayout,
-  getPageTurnAnimationName,
-  getSpreadAtIndex,
-  getPageTurnTransformOrigin,
-  PAGE_TURN_ANIMATION_DURATION_MS,
-  PAGE_TURN_ANIMATION_TIMING,
-} from '../page-turn-animation';
+import { PageFlipBook, type PageFlipBookController } from './page-flip-book';
 import { format, t } from '../i18n';
 import { win } from '../util';
 
@@ -34,6 +27,17 @@ type ProgressState = {
   phase: 'init' | 'loading' | 'complete' | string;
 };
 
+type PageFlipDebugState = {
+  ready: boolean;
+  requestCount: number;
+  lastRequest: 'prev' | 'next' | null;
+  lastStarted: boolean;
+  currentSpreadIndex: number;
+  libraryPageIndex: number | null;
+  librarySpreadIndex: number | null;
+  libraryState: string | null;
+};
+
 const INTERACTIVE_VIEWER_UI_SELECTOR = [
   '.mv-top-container',
   '.mv-mobile-close-button',
@@ -43,6 +47,27 @@ const INTERACTIVE_VIEWER_UI_SELECTOR = [
 
 const isInteractiveViewerUiTarget = (target: EventTarget | null): target is HTMLElement =>
   target instanceof HTMLElement && target.closest(INTERACTIVE_VIEWER_UI_SELECTOR) !== null;
+
+const updatePageFlipDebug = (patch: Partial<PageFlipDebugState>) => {
+  const holder = win as unknown as {
+    MangaViewer?: {
+      __pageFlipDebug?: PageFlipDebugState;
+    };
+  };
+  holder.MangaViewer = holder.MangaViewer || {};
+  holder.MangaViewer.__pageFlipDebug = {
+    ready: false,
+    requestCount: 0,
+    lastRequest: null,
+    lastStarted: false,
+    currentSpreadIndex: 0,
+    libraryPageIndex: null,
+    librarySpreadIndex: null,
+    libraryState: null,
+    ...holder.MangaViewer.__pageFlipDebug,
+    ...patch,
+  };
+};
 
 export const ViewerComponent: React.FC<ViewerProps> = ({
   images,
@@ -57,7 +82,6 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   });
   const [isDragging, setIsDragging] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [turnDirection, setTurnDirection] = useState<'prev' | 'next' | null>(null);
   const [bounceDirection, setBounceDirection] = useState<'left' | 'right' | null>(null);
   const [autoChapterNavigation, setAutoChapterNavigation] = useState(initialAutoNav);
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
@@ -82,9 +106,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
 
   const [showRetryButton, setShowRetryButton] = useState(images.length === 0);
   const [isRetrying, setIsRetrying] = useState(false);
-  const [rightImageWidth, setRightImageWidth] = useState<number | null>(null);
 
-  const rightImgRef = useRef<HTMLImageElement | null>(null);
+  const pageFlipControllerRef = useRef<PageFlipBookController | null>(null);
 
   const viewerRef = useRef<HTMLDivElement>(null);
   const mainViewerRef = useRef<HTMLDivElement>(null);
@@ -137,6 +160,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     (direction: 'prev' | 'next') => {
       setIsMouseActive(false);
       if (isAnimatingRef.current) return;
+      updatePageFlipDebug({ lastRequest: direction, lastStarted: false });
 
       const currentIndex = currentSpreadIndexRef.current;
       const maxSpreadIndex = Math.ceil(images.length / 2) - 1;
@@ -157,14 +181,21 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         return;
       }
 
-      setIsAnimating(true);
-      setTurnDirection(direction);
+      const didStartFlip =
+        direction === 'next'
+          ? pageFlipControllerRef.current?.flipNextMangaPage()
+          : pageFlipControllerRef.current?.flipPreviousMangaPage();
 
-      setTimeout(() => {
-        setCurrentSpreadIndex((prev) => (direction === 'prev' ? prev - 1 : prev + 1));
-        setIsAnimating(false);
-        setTurnDirection(null);
-      }, PAGE_TURN_ANIMATION_DURATION_MS);
+      if (didStartFlip) {
+        updatePageFlipDebug({
+          requestCount: (
+            (win as unknown as { MangaViewer?: { __pageFlipDebug?: PageFlipDebugState } })
+              .MangaViewer?.__pageFlipDebug?.requestCount ?? 0
+          ) + 1,
+          lastStarted: true,
+        });
+        setIsAnimating(true);
+      }
     },
     [images.length, autoChapterNavigation, onClose, progressState.phase, showBounceAnimation],
   );
@@ -424,32 +455,6 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     }
   }, [onClose]);
 
-  const spread = useMemo(() => {
-    return getSpreadAtIndex(images, currentSpreadIndex);
-  }, [currentSpreadIndex, images]);
-
-  const turnLayout = useMemo(() => {
-    if (!isAnimating || !turnDirection) return null;
-    return buildPageTurnLayout(images, currentSpreadIndex, turnDirection);
-  }, [currentSpreadIndex, images, isAnimating, turnDirection]);
-
-  const displaySpread = turnLayout?.displaySpread ?? spread;
-
-  useEffect(() => {
-    const handleResize = () => {
-      if (rightImgRef.current) {
-        try {
-          const w = rightImgRef.current.getBoundingClientRect().width;
-          setRightImageWidth(w);
-        } catch {
-          // ignore
-        }
-      }
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
   const handleClick = (e: React.MouseEvent) => {
     if (isInteractiveViewerUiTarget(e.target)) return;
 
@@ -681,61 +686,38 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                   : 'none',
             }}
           >
-            <div className="mv-spine" />
-            {displaySpread.map((url, index) => {
-              const pageSide = index === 0 ? 'left' : 'right';
-              const isAnimatingThisPage = turnLayout?.turningSide === pageSide;
-              const turningFrontUrl = isAnimatingThisPage ? turnLayout.turningFrontPage : null;
-              const turningBackUrl = isAnimatingThisPage ? turnLayout.turningBackPage : null;
-
-              return url ? (
-                <div
-                  key={`page-container-${index}`}
-                  className="mv-page-container"
-                  style={{ zIndex: isAnimatingThisPage ? 10 : 1 }}
-                >
-                  <img
-                    ref={pageSide === 'right' ? rightImgRef : undefined}
-                    src={url}
-                    className="mv-page"
-                    draggable={false}
-                  />
-                  {isAnimatingThisPage && turningFrontUrl && turningBackUrl && (
-                    <div
-                      className={`mv-turning-page-shell ${turnDirection === 'next' ? 'next' : 'prev'}`}
-                      style={{
-                        animation: `${getPageTurnAnimationName(turnDirection ?? 'next')} ${PAGE_TURN_ANIMATION_DURATION_MS}ms ${PAGE_TURN_ANIMATION_TIMING} forwards`,
-                        transformOrigin: getPageTurnTransformOrigin(turnDirection ?? 'next'),
-                      }}
-                    >
-                      <img className="mv-page mv-turning-page-face front" src={turningFrontUrl} draggable={false} />
-                      <img className="mv-page mv-turning-page-face back" src={turningBackUrl} draggable={false} />
-                    </div>
-                  )}
+            <PageFlipBook
+              images={images}
+              spreadIndex={currentSpreadIndex}
+              onReady={(controller) => {
+                pageFlipControllerRef.current = controller;
+                updatePageFlipDebug({ ready: true });
+              }}
+              onSpreadChange={(nextSpreadIndex) => {
+                setCurrentSpreadIndex(nextSpreadIndex);
+                updatePageFlipDebug({ currentSpreadIndex: nextSpreadIndex });
+              }}
+              onFlipStateChange={(isFlipping) => {
+                setIsAnimating(isFlipping);
+              }}
+              onLibraryStateChange={(pageIndex, spreadIndex, state) => {
+                updatePageFlipDebug({
+                  libraryPageIndex: pageIndex,
+                  librarySpreadIndex: spreadIndex,
+                  libraryState: state,
+                });
+              }}
+              blankPageContent={(
+                <div className="mv-end-page-content">
+                  <div className="mv-end-page-title">{t('endOfContents')}</div>
+                  <div className="mv-end-page-description">
+                    {autoChapterNavigation
+                      ? t('clickNextChapter')
+                      : format('autoChapterNavigation', { state: t('stateOff') })}
+                  </div>
                 </div>
-              ) : (
-                <div key={`empty-${index}`} className="mv-page-container">
-                  {index === 0 && images.length % 2 === 1 && currentSpreadIndex === Math.ceil(images.length / 2) - 1 && (
-                    // 空ページは通常のページと同じクラス/サイズで白地を作り、テキストを中央に配置する
-                    <div
-                      className="mv-page mv-end-page"
-                    style={{
-                        background: '#fff',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        justifyContent: 'center',
-                        alignItems: 'center',
-                        // 右側画像幅が取得できない場合は 700px をフォールバック幅として使用
-                        width: rightImageWidth ? `${rightImageWidth}px` : '700px',
-                      }}
-                    >
-                      <div style={{ fontWeight: 'bold', marginBottom: '8px' }}>{t('endOfContents')}</div>
-                      <div style={{ fontSize: '14px' }}>{autoChapterNavigation ? t('clickNextChapter') : t('lastPage')}</div>
-                    </div>
-                  )}
-                </div>
-              );
-            })}
+              )}
+            />
           </div>
         )}
       </div>
