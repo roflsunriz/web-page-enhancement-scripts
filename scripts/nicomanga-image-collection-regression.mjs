@@ -17,6 +17,8 @@ const imageUrls = Array.from({ length: 8 }, (_, index) => {
 });
 const adUrl =
   "https://nicomanga.com/uploads/PoweredBy_200px-Black_HorizLogo.png";
+const coverThumbUrl =
+  "https://nicomanga.com/covers/monster-no-goshujin-sama-cover.png";
 
 const chromePathCandidates = [
   process.env.CHROME_PATH,
@@ -79,7 +81,7 @@ try {
 }
 
 async function runMangaViewerRegression() {
-  const page = await createFixturePage();
+  const page = await createFixturePage({ includeCoverThumb: true });
   await installUserscriptHarness(page, "manga-viewer");
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForFixtureImagesLoaded(page);
@@ -168,7 +170,7 @@ async function runMangaViewerRegression() {
 }
 
 async function runMangaViewerSettingsRegression() {
-  const page = await createFixturePage();
+  const page = await createFixturePage({ includeCoverThumb: true });
   await installUserscriptHarness(page, "manga-viewer");
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForMenuCommand(page, /book-style-manga-viewer 設定/);
@@ -231,7 +233,7 @@ async function runMangaViewerSettingsRegression() {
 }
 
 async function runMangaViewerShortcutRegression() {
-  const page = await createFixturePage();
+  const page = await createFixturePage({ includeCoverThumb: true });
   await installUserscriptHarness(page, "manga-viewer");
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForFixtureImagesLoaded(page);
@@ -259,7 +261,7 @@ async function runMangaViewerShortcutRegression() {
 }
 
 async function runMangaViewerDestroyRegression() {
-  const page = await createFixturePage();
+  const page = await createFixturePage({ includeCoverThumb: true });
   await installUserscriptHarness(page, "manga-viewer");
   await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
   await waitForFixtureImagesLoaded(page);
@@ -344,7 +346,8 @@ async function runImageCollectorRegression() {
   await page.close();
 }
 
-async function createFixturePage() {
+async function createFixturePage(options = {}) {
+  const { includeCoverThumb = false } = options;
   const context = await browser.newContext({
     viewport: { width: 1280, height: 900 },
   });
@@ -364,7 +367,7 @@ async function createFixturePage() {
       await route.fulfill({
         status: 200,
         contentType: "text/html; charset=utf-8",
-        body: createNicoMangaFixtureHtml(),
+        body: createNicoMangaFixtureHtml({ includeCoverThumb }),
       });
       return;
     }
@@ -585,6 +588,21 @@ function createInitHarness() {
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
       classList: Array.from(root?.querySelectorAll(".mv-flip-page") ?? []).map((element) => element.className),
       sources: Array.from(root?.querySelectorAll(".mv-flip-image") ?? []).map((image) => image.currentSrc || image.src),
+      activePages: Array.from(root?.querySelectorAll(".mv-flip-page") ?? [])
+        .filter((element) => getComputedStyle(element).display !== "none")
+        .map((element) => {
+          const image = element.querySelector(".mv-flip-image");
+          const rect = element.getBoundingClientRect();
+          const imageRect = image?.getBoundingClientRect();
+          return {
+            side: element.dataset.pageSide,
+            source: image ? image.currentSrc || image.src : null,
+            rect: { width: rect.width, height: rect.height },
+            imageRect: imageRect
+              ? { width: imageRect.width, height: imageRect.height }
+              : null
+          };
+        }),
       activeSources: Array.from(root?.querySelectorAll(".mv-flip-page") ?? [])
         .filter((element) => getComputedStyle(element).display !== "none")
         .map((element) => {
@@ -675,7 +693,8 @@ function createInitHarness() {
 `;
 }
 
-function createNicoMangaFixtureHtml() {
+function createNicoMangaFixtureHtml(options = {}) {
+  const { includeCoverThumb = false } = options;
   const imageTags = imageUrls
     .map(
       (url, index) =>
@@ -705,6 +724,11 @@ function createNicoMangaFixtureHtml() {
         <a rel="prev" href="${prevChapterUrl}">前</a>
         <a rel="next" href="${nextChapterUrl}">次</a>
       </nav>
+      ${
+        includeCoverThumb
+          ? `<img class="manga-cover-thumb" width="45" height="60" src="${coverThumbUrl}" alt="cover">`
+          : ""
+      }
       ${imageTags}
       <img class="advertisement" width="200" height="50" src="${adUrl}" alt="advertisement">
       <div class="spacer"></div>
@@ -716,8 +740,9 @@ function createNicoMangaFixtureHtml() {
 function createFixtureImageSvg(url) {
   const match = /page-(\d+)/.exec(url);
   const pageNumber = match ? match[1] : "ad";
-  const width = pageNumber === "ad" ? 200 : 640;
-  const height = pageNumber === "ad" ? 50 : 960;
+  const isCover = url === coverThumbUrl;
+  const width = isCover ? 320 : pageNumber === "ad" ? 200 : 640;
+  const height = isCover ? 454 : pageNumber === "ad" ? 50 : 960;
   return `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}">
   <rect width="100%" height="100%" fill="#f8fafc"/>
   <text x="24" y="56" font-family="sans-serif" font-size="32" fill="#111827">${pageNumber}</text>
@@ -745,5 +770,22 @@ function assertMangaViewerImageAspect(spread, expectedAspectRatio) {
       Math.abs(actualAspectRatio - expectedAspectRatio) <= tolerance,
       `manga-viewer ${side} image aspect ratio was stretched: expected=${expectedAspectRatio} actual=${actualAspectRatio} rect=${JSON.stringify(rect)}`,
     );
+  }
+  const maxPageWidth = (spread.blockRect?.width ?? spread.bookRect?.width) / 2;
+  assert(
+    Number.isFinite(maxPageWidth) && maxPageWidth > 0,
+    `manga-viewer did not expose a measurable book width: ${JSON.stringify(spread)}`,
+  );
+  for (const activePage of spread.activePages ?? []) {
+    assert(
+      activePage.rect.width <= maxPageWidth + 1,
+      `manga-viewer active page escaped half-spread bounds: max=${maxPageWidth} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+    );
+    if (activePage.imageRect) {
+      assert(
+        activePage.imageRect.width <= maxPageWidth + 1,
+        `manga-viewer image escaped half-spread bounds: max=${maxPageWidth} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+      );
+    }
   }
 }

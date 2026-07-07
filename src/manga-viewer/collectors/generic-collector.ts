@@ -96,6 +96,7 @@ export class GenericCollector implements ICollector {
       dynamicWaitMs: delaySettings.dynamicWaitMs,
       minCandidatesBeforeScroll: 2,
       fallbackDynamicWaitMs: delaySettings.fallbackDynamicWaitMs,
+      exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
       scrollFallback: {
         enabled: true,
         maxScrolls: 20,
@@ -132,10 +133,7 @@ export class GenericCollector implements ICollector {
       include: ["image"],
       minWidth: 100,
       minHeight: 100,
-      exclude: (candidate) =>
-        isInvalidImage(candidate.url, candidate.width, candidate.height, {
-          pageHost: window.location.hostname,
-        }),
+      exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
       needsValidation: () => false,
     });
 
@@ -145,10 +143,7 @@ export class GenericCollector implements ICollector {
 
     const observed = await collectPageImages({
       include: ["image", "source"],
-      exclude: (candidate) =>
-        isInvalidImage(candidate.url, candidate.width, candidate.height, {
-          pageHost: window.location.hostname,
-        }),
+      exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
       needsValidation: () => false,
     });
     const items = mergePageImageCollectionItems(loaded.items, observed.items);
@@ -228,10 +223,7 @@ export class GenericCollector implements ICollector {
             "loading",
           );
         },
-        exclude: (candidate) =>
-          isInvalidImage(candidate.url, candidate.width, candidate.height, {
-            pageHost: window.location.hostname,
-          }),
+        exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
         needsValidation: (candidate) =>
           this.needsExternalImageValidation(candidate),
       });
@@ -267,9 +259,7 @@ export class GenericCollector implements ICollector {
       if (item.needsValidation) {
         return true;
       }
-      return !isInvalidImage(item.url, undefined, undefined, {
-        pageHost: window.location.hostname,
-      });
+      return !this.isExcludedPageImageCandidate(item);
     });
     const filteredUrlsWithMetadata = await this.filterUserHashExcludedImages(
       filteredUrlsWithMetadataByUrl,
@@ -380,10 +370,7 @@ export class GenericCollector implements ICollector {
       isLoadedPageImageCandidate(candidate, {
         minWidth: 100,
         minHeight: 100,
-        exclude: (candidate) =>
-          isInvalidImage(candidate.url, candidate.width, candidate.height, {
-            pageHost: window.location.hostname,
-          }),
+        exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
       })
     ) {
       return false;
@@ -439,5 +426,57 @@ export class GenericCollector implements ICollector {
       img.onerror = () => resolve(false);
       img.src = url;
     });
+  }
+
+  private isExcludedPageImageCandidate(candidate: PageImageCandidate): boolean {
+    if (
+      isInvalidImage(candidate.url, candidate.width, candidate.height, {
+        pageHost: window.location.hostname,
+      })
+    ) {
+      return true;
+    }
+
+    if (!this.isNicoMangaPage()) {
+      return false;
+    }
+
+    return this.isNicoMangaNonPageImage(candidate);
+  }
+
+  private isNicoMangaNonPageImage(candidate: PageImageCandidate): boolean {
+    const element = candidate.element;
+    if (!(element instanceof HTMLImageElement)) {
+      return false;
+    }
+
+    const descriptor = [
+      element.className,
+      element.id,
+      element.alt,
+      element.getAttribute("role"),
+    ]
+      .filter((value): value is string => typeof value === "string")
+      .join(" ")
+      .toLowerCase();
+
+    if (
+      /(?:^|[-_\s])(cover|thumb|thumbnail|avatar|logo|banner|ad|ads|advert)(?:$|[-_\s])/i.test(
+        descriptor,
+      )
+    ) {
+      return true;
+    }
+
+    const rect = element.getBoundingClientRect();
+    if (
+      rect.width > 0 &&
+      rect.height > 0 &&
+      (rect.width < 100 || rect.height < 100)
+    ) {
+      return true;
+    }
+
+    return false;
   }
 }
