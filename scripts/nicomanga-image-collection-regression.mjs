@@ -70,6 +70,7 @@ const browser = await chromium.launch({
 try {
   await runMangaViewerRegression();
   await runMangaViewerSettingsRegression();
+  await runMangaViewerDestroyRegression();
   await runMangaViewerShortcutRegression();
   await runImageCollectorRegression();
   console.log("NicoManga image collection regression passed");
@@ -253,6 +254,24 @@ async function runMangaViewerShortcutRegression() {
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
   await turnMangaViewerPage(page, "previous");
   await page.waitForURL(prevChapterUrl);
+
+  await page.close();
+}
+
+async function runMangaViewerDestroyRegression() {
+  const page = await createFixturePage();
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForFixtureImagesLoaded(page);
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
+  await page.evaluate(() => {
+    window.dispatchEvent(new Event("beforeunload"));
+  });
+  await page.waitForSelector("#book-style-manga-viewer-root", {
+    state: "detached",
+  });
 
   await page.close();
 }

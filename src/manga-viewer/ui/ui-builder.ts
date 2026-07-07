@@ -20,6 +20,7 @@ export class UIBuilder {
   private reactRoot: ReactRoot | null = null;
   private updateImagesCallback: ((images: string[]) => void) | null = null;
   private currentImageUrls: string[] = [];
+  private isDestroyed = false;
 
   public setSpinner(spinner: LoadingSpinner) {
     this.spinner = spinner;
@@ -142,6 +143,7 @@ export class UIBuilder {
     options: { initialAutoNav?: boolean } = {},
     onCloseCallback: () => void,
   ): Promise<HTMLElement | null> {
+    this.isDestroyed = false;
     globalState.isViewerActive = true;
 
     if (initialImageUrls.length > 0) {
@@ -152,7 +154,10 @@ export class UIBuilder {
 
     document
       .querySelectorAll<HTMLElement>(`#${VIEWER_HOST_ID}`)
-      .forEach((staleHost) => staleHost.remove());
+      .forEach((staleHost) => {
+        resetOpenShadowPageFlipArtifacts(staleHost);
+        staleHost.remove();
+      });
 
     const { host, root } = createShadowHost({
       id: VIEWER_HOST_ID,
@@ -208,11 +213,7 @@ export class UIBuilder {
         images: images,
         onClose: () => {
           try {
-            this.reactRoot?.unmount();
-            this.shadowHost?.remove();
-            this.shadowHost = null;
-            this.shadowRoot = null;
-            this.reactRoot = null;
+            this.destroy();
             onCloseCallback();
           } catch (closeError) {
             console.error("[MangaViewer] Error closing viewer:", closeError);
@@ -222,8 +223,62 @@ export class UIBuilder {
       }),
     );
   }
+
+  public destroy(): void {
+    if (this.isDestroyed) return;
+    this.isDestroyed = true;
+    this.updateImagesCallback = null;
+    this.currentImageUrls = [];
+
+    try {
+      this.reactRoot?.unmount();
+    } catch (error) {
+      console.warn("[MangaViewer] UIBuilder.destroy: unmount failed:", error);
+    }
+
+    try {
+      if (this.shadowHost) {
+        resetOpenShadowPageFlipArtifacts(this.shadowHost);
+        this.shadowHost.remove();
+      }
+    } catch (error) {
+      console.warn(
+        "[MangaViewer] UIBuilder.destroy: host cleanup failed:",
+        error,
+      );
+    } finally {
+      this.shadowHost = null;
+      this.shadowRoot = null;
+      this.reactRoot = null;
+    }
+  }
 }
 
 const areSameImageUrls = (left: string[], right: string[]): boolean =>
   left.length === right.length &&
   left.every((url, index) => url === right[index]);
+
+const resetOpenShadowPageFlipArtifacts = (host: HTMLElement): void => {
+  const root = host.shadowRoot;
+  if (!root) return;
+
+  root.querySelectorAll<HTMLElement>(".mv-flip-page").forEach((page) => {
+    page.style.cssText = "";
+    page.classList.remove(
+      "stf__item",
+      "--soft",
+      "--hard",
+      "--left",
+      "--right",
+      "--simple",
+    );
+  });
+  root
+    .querySelectorAll<HTMLElement>(
+      ".stf__outerShadow, .stf__innerShadow, .stf__hardShadow, .stf__hardInnerShadow",
+    )
+    .forEach((element) => element.remove());
+  root.querySelectorAll<HTMLElement>(".stf__wrapper").forEach((element) => {
+    element.style.cssText = "";
+  });
+};

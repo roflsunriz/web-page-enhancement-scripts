@@ -44,6 +44,7 @@ export class MangaViewerApp {
   private launchShortcutHandler: ((e: KeyboardEvent) => void) | null = null;
   private beforeUnloadHandler: (() => void) | null = null;
   private isLaunchInProgress = false;
+  private currentBuilder: UIBuilder | null = null;
   private readonly ownerId = `${Date.now().toString(36)}-${Math.random()
     .toString(36)
     .slice(2)}`;
@@ -199,6 +200,7 @@ export class MangaViewerApp {
       );
 
       const builder = new UIBuilder();
+      this.currentBuilder = builder;
       builder.setSpinner(spinner);
 
       const isTwitter =
@@ -209,7 +211,12 @@ export class MangaViewerApp {
       const viewerElement = await builder.buildAndRenderViewer(
         result.initialUrls,
         viewerOptions,
-        () => this.cleanup(),
+        () => {
+          if (this.currentBuilder === builder) {
+            this.currentBuilder = null;
+          }
+          this.cleanup();
+        },
       );
       if (!viewerElement) {
         throw new Error("Failed to build viewer");
@@ -247,6 +254,9 @@ export class MangaViewerApp {
     if (runtimeState.launchOwnerId === this.ownerId) {
       runtimeState.launchOwnerId = null;
     }
+
+    this.currentBuilder?.destroy();
+    this.currentBuilder = null;
 
     globalState.eventListeners.forEach(
       ({ element, event, handler, options }) => {
