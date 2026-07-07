@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
 import { ChapterNavigator } from '../chapter-navigator';
 import { globalState } from '../state';
 import { MOUSE_INACTIVITY_DELAY } from '../constants';
@@ -546,6 +546,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     setInitialTransformState(null);
   };
 
+  const pageFlipBookKey = useMemo(() => images.join('\n'), [images]);
+
   return (
     <div
       className={`manga-viewer-container ${isMouseActive ? '' : 'mouse-inactive'}`}
@@ -687,6 +689,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
             }}
           >
             <PageFlipBook
+              key={pageFlipBookKey}
               images={images}
               spreadIndex={currentSpreadIndex}
               onReady={(controller) => {
