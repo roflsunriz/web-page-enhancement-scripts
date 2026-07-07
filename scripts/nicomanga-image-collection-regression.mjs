@@ -133,6 +133,7 @@ async function runMangaViewerRegression() {
       result.spread.right?.includes("page-001.png"),
     `manga-viewer did not render the first spread left=page-002 right=page-001: ${JSON.stringify(result.spread)}`,
   );
+  assertMangaViewerImageAspect(result.spread, 640 / 960);
   assert(
     !result.viewerSources.some((src) => src.includes("PoweredBy")),
     "manga-viewer included a known invalid NicoManga ad image",
@@ -306,7 +307,11 @@ async function waitForFixtureImagesLoaded(page) {
   );
 }
 
-async function waitForMangaViewerSpread(page, leftPageFileName, rightPageFileName) {
+async function waitForMangaViewerSpread(
+  page,
+  leftPageFileName,
+  rightPageFileName,
+) {
   try {
     await page.waitForFunction(
       ({ leftPageFileName, rightPageFileName }) => {
@@ -352,15 +357,18 @@ async function waitForMangaViewerAnimationState(page, expectedPageFileNames) {
 }
 
 async function turnMangaViewerPage(page, direction) {
-  await page.evaluate((key) => {
-    window.dispatchEvent(
-      new KeyboardEvent("keydown", {
-        key,
-        bubbles: true,
-        cancelable: true,
-      }),
-    );
-  }, direction === "next" ? "ArrowLeft" : "ArrowRight");
+  await page.evaluate(
+    (key) => {
+      window.dispatchEvent(
+        new KeyboardEvent("keydown", {
+          key,
+          bubbles: true,
+          cancelable: true,
+        }),
+      );
+    },
+    direction === "next" ? "ArrowLeft" : "ArrowRight",
+  );
 }
 
 async function assertDetachedFetchWorks(page, label) {
@@ -418,9 +426,16 @@ function createInitHarness() {
       const image = root?.querySelector(selector);
       return image ? image.currentSrc || image.src : null;
     };
-    return {
+    const getRect = (selector) => {
+      const element = root?.querySelector(selector);
+      const rect = element?.getBoundingClientRect();
+      return rect ? { width: rect.width, height: rect.height } : null;
+    };
+  return {
       left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
       right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
+      leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
+      rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
       pageCount: root?.querySelectorAll(".mv-flip-page").length ?? 0,
       bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
@@ -564,5 +579,23 @@ function createFixtureImageSvg(url) {
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
+  }
+}
+
+function assertMangaViewerImageAspect(spread, expectedAspectRatio) {
+  const tolerance = 0.02;
+  for (const [side, rect] of [
+    ["left", spread.leftImageRect],
+    ["right", spread.rightImageRect],
+  ]) {
+    assert(
+      rect && rect.width > 0 && rect.height > 0,
+      `manga-viewer ${side} image did not expose a visible image rect: ${JSON.stringify(spread)}`,
+    );
+    const actualAspectRatio = rect.width / rect.height;
+    assert(
+      Math.abs(actualAspectRatio - expectedAspectRatio) <= tolerance,
+      `manga-viewer ${side} image aspect ratio was stretched: expected=${expectedAspectRatio} actual=${actualAspectRatio} rect=${JSON.stringify(rect)}`,
+    );
   }
 }

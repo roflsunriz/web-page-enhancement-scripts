@@ -7,7 +7,11 @@ type PageFlipBookProps = {
   onSpreadChange: (spreadIndex: number) => void;
   onReady?: (controller: PageFlipBookController) => void;
   onFlipStateChange?: (isFlipping: boolean) => void;
-  onLibraryStateChange?: (pageIndex: number, spreadIndex: number, state: string) => void;
+  onLibraryStateChange?: (
+    pageIndex: number,
+    spreadIndex: number,
+    state: string,
+  ) => void;
   blankPageContent?: React.ReactNode;
 };
 
@@ -62,7 +66,9 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
     const root = rootRef.current;
     if (!root) return;
 
-    const pageElements = Array.from(root.querySelectorAll<HTMLElement>(".mv-flip-page"));
+    const pageElements = Array.from(
+      root.querySelectorAll<HTMLElement>(".mv-flip-page"),
+    );
     if (pageElements.length === 0) return;
 
     let isDisposed = false;
@@ -91,30 +97,50 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
           useMouseEvents: false,
           showPageCorners: false,
           disableFlipByClick: false,
-          startPage: getLibraryPageIndexForSpread(spreadIndexRef.current, spreadCount),
+          startPage: getLibraryPageIndexForSpread(
+            spreadIndexRef.current,
+            spreadCount,
+          ),
         });
 
         pageFlip.on<number>("flip", (event) => {
-          const nextSpreadIndex = getLogicalSpreadIndexFromLibraryPage(event.data, spreadCount);
+          const nextSpreadIndex = getLogicalSpreadIndexFromLibraryPage(
+            event.data,
+            spreadCount,
+          );
           spreadIndexRef.current = nextSpreadIndex;
           onSpreadChangeRef.current(nextSpreadIndex);
           emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
         });
         pageFlip.on<string>("changeState", (event) => {
-          const isFlipping = event.data === "flipping" || event.data === "user_fold";
+          const isFlipping =
+            event.data === "flipping" || event.data === "user_fold";
           isFlippingRef.current = isFlipping;
           onFlipStateChangeRef.current?.(isFlipping);
-          emitLibraryState(pageFlip, onLibraryStateChangeRef.current, event.data);
+          emitLibraryState(
+            pageFlip,
+            onLibraryStateChangeRef.current,
+            event.data,
+          );
         });
         pageFlip.on("init", () => {
           syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
           emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
           onReadyRef.current?.({
             flipNextMangaPage: () => {
-              if (isFlippingRef.current || spreadIndexRef.current >= spreadCount - 1) return false;
+              if (
+                isFlippingRef.current ||
+                spreadIndexRef.current >= spreadCount - 1
+              )
+                return false;
               syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
               const nextSpreadIndex = spreadIndexRef.current + 1;
-              animateToMangaSpread(pageFlip, nextSpreadIndex, spreadCount, "prev");
+              animateToMangaSpread(
+                pageFlip,
+                nextSpreadIndex,
+                spreadCount,
+                "prev",
+              );
               window.setTimeout(() => {
                 finishMangaSpreadTurn(pageFlip, nextSpreadIndex, spreadCount);
                 spreadIndexRef.current = nextSpreadIndex;
@@ -125,10 +151,16 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
               return true;
             },
             flipPreviousMangaPage: () => {
-              if (isFlippingRef.current || spreadIndexRef.current <= 0) return false;
+              if (isFlippingRef.current || spreadIndexRef.current <= 0)
+                return false;
               syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
               const nextSpreadIndex = spreadIndexRef.current - 1;
-              animateToMangaSpread(pageFlip, nextSpreadIndex, spreadCount, "next");
+              animateToMangaSpread(
+                pageFlip,
+                nextSpreadIndex,
+                spreadCount,
+                "next",
+              );
               window.setTimeout(() => {
                 finishMangaSpreadTurn(pageFlip, nextSpreadIndex, spreadCount);
                 spreadIndexRef.current = nextSpreadIndex;
@@ -191,7 +223,13 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
           key={page.key}
         >
           {page.src ? (
-            <img className="mv-flip-image mv-page" src={page.src} draggable={false} />
+            <div className="mv-flip-page-surface">
+              <img
+                className="mv-flip-image mv-page"
+                src={page.src}
+                draggable={false}
+              />
+            </div>
           ) : (
             <div className="mv-flip-blank-page mv-page mv-end-page">
               {blankPageContent}
@@ -208,9 +246,14 @@ const syncPageFlipSpread = (
   spreadIndex: number,
   spreadCount: number,
 ) => {
-  const libraryPageIndex = getLibraryPageIndexForSpread(spreadIndex, spreadCount);
+  const libraryPageIndex = getLibraryPageIndexForSpread(
+    spreadIndex,
+    spreadCount,
+  );
   pageFlip.turnToPage(libraryPageIndex);
-  pageFlip.getPageCollection().setCurrentSpreadIndex(Math.floor(libraryPageIndex / 2));
+  pageFlip
+    .getPageCollection()
+    .setCurrentSpreadIndex(Math.floor(libraryPageIndex / 2));
 };
 
 const emitLibraryState = (
@@ -233,7 +276,10 @@ const animateToMangaSpread = (
   spreadCount: number,
   completionDirection: "prev" | "next",
 ) => {
-  const targetPageIndex = getLibraryPageIndexForSpread(nextSpreadIndex, spreadCount);
+  const targetPageIndex = getLibraryPageIndexForSpread(
+    nextSpreadIndex,
+    spreadCount,
+  );
   const originalTurnToPrevPage = pageFlip.turnToPrevPage.bind(pageFlip);
   const originalTurnToNextPage = pageFlip.turnToNextPage.bind(pageFlip);
   const restoreTurnMethods = () => {
@@ -266,7 +312,9 @@ const finishMangaSpreadTurn = (
   nextSpreadIndex: number,
   spreadCount: number,
 ) => {
-  pageFlip.turnToPage(getLibraryPageIndexForSpread(nextSpreadIndex, spreadCount));
+  pageFlip.turnToPage(
+    getLibraryPageIndexForSpread(nextSpreadIndex, spreadCount),
+  );
 };
 
 const buildMangaFlipPages = (images: string[]): MangaFlipPage[] => {
@@ -276,8 +324,10 @@ const buildMangaFlipPages = (images: string[]): MangaFlipPage[] => {
   for (let spreadIndex = spreadCount - 1; spreadIndex >= 0; spreadIndex -= 1) {
     const rightPageIndex = spreadIndex * 2;
     const leftPageIndex = rightPageIndex + 1;
-    const leftSrc = leftPageIndex < images.length ? images[leftPageIndex] : null;
-    const rightSrc = rightPageIndex < images.length ? images[rightPageIndex] : null;
+    const leftSrc =
+      leftPageIndex < images.length ? images[leftPageIndex] : null;
+    const rightSrc =
+      rightPageIndex < images.length ? images[rightPageIndex] : null;
 
     pages.push({
       key: `spread-${spreadIndex}-left`,
@@ -296,8 +346,14 @@ const buildMangaFlipPages = (images: string[]): MangaFlipPage[] => {
   return pages;
 };
 
-const getLibraryPageIndexForSpread = (spreadIndex: number, spreadCount: number): number => {
-  const clampedSpreadIndex = Math.min(Math.max(spreadIndex, 0), spreadCount - 1);
+const getLibraryPageIndexForSpread = (
+  spreadIndex: number,
+  spreadCount: number,
+): number => {
+  const clampedSpreadIndex = Math.min(
+    Math.max(spreadIndex, 0),
+    spreadCount - 1,
+  );
   return (spreadCount - 1 - clampedSpreadIndex) * 2;
 };
 
@@ -306,5 +362,8 @@ const getLogicalSpreadIndexFromLibraryPage = (
   spreadCount: number,
 ): number => {
   const librarySpreadIndex = Math.floor(libraryPageIndex / 2);
-  return Math.min(Math.max(spreadCount - 1 - librarySpreadIndex, 0), spreadCount - 1);
+  return Math.min(
+    Math.max(spreadCount - 1 - librarySpreadIndex, 0),
+    spreadCount - 1,
+  );
 };

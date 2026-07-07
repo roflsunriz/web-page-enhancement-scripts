@@ -18,6 +18,7 @@ export class UIBuilder {
   private spinner: LoadingSpinner | null = null;
   private reactRoot: ReactRoot | null = null;
   private updateImagesCallback: ((images: string[]) => void) | null = null;
+  private currentImageUrls: string[] = [];
 
   public setSpinner(spinner: LoadingSpinner) {
     this.spinner = spinner;
@@ -165,10 +166,15 @@ export class UIBuilder {
     this.reactRoot = createRoot(reactContainer) as ReactRoot;
 
     // 初回レンダリング
+    this.currentImageUrls = initialImageUrls;
     this.renderViewer(initialImageUrls, options, onCloseCallback);
 
     // 画像更新用のコールバックを設定
     this.updateImagesCallback = (newImages: string[]) => {
+      if (areSameImageUrls(this.currentImageUrls, newImages)) {
+        return;
+      }
+      this.currentImageUrls = newImages;
       this.renderViewer(newImages, options, onCloseCallback);
     };
 
@@ -209,3 +215,7 @@ export class UIBuilder {
     );
   }
 }
+
+const areSameImageUrls = (left: string[], right: string[]): boolean =>
+  left.length === right.length &&
+  left.every((url, index) => url === right[index]);
