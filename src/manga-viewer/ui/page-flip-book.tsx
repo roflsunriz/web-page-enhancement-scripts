@@ -1,5 +1,6 @@
 import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import type { PageFlip } from "page-flip";
+import type { MutableRefObject } from "react";
 
 type PageFlipBookProps = {
   images: string[];
@@ -43,6 +44,7 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
   const rootRef = useRef<HTMLDivElement | null>(null);
   const pageFlipRef = useRef<PageFlip | null>(null);
   const isFlippingRef = useRef(false);
+  const isProgrammaticSyncRef = useRef(false);
   const spreadIndexRef = useRef(spreadIndex);
   const onSpreadChangeRef = useRef(onSpreadChange);
   const onReadyRef = useRef(onReady);
@@ -104,7 +106,26 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
           ),
         });
 
+        const syncToCurrentSpread = () => {
+          const targetPage = getLibraryPageIndexForSpread(
+            spreadIndexRef.current,
+            spreadCount,
+          );
+          if (pageFlip.getCurrentPageIndex() === targetPage) return;
+          runPageFlipSync(
+            pageFlip,
+            spreadIndexRef.current,
+            spreadCount,
+            isProgrammaticSyncRef,
+          );
+        };
+
         pageFlip.on<number>("flip", (event) => {
+          if (isProgrammaticSyncRef.current) {
+            emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
+            return;
+          }
+
           const nextSpreadIndex = getLogicalSpreadIndexFromLibraryPage(
             event.data,
             spreadCount,
@@ -133,14 +154,14 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
                 spreadIndexRef.current >= spreadCount - 1
               )
                 return false;
-              syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
+              syncToCurrentSpread();
               pageFlip.flipPrev("top");
               return true;
             },
             flipPreviousMangaPage: () => {
               if (isFlippingRef.current || spreadIndexRef.current <= 0)
                 return false;
-              syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
+              syncToCurrentSpread();
               pageFlip.flipNext("top");
               return true;
             },
@@ -148,12 +169,22 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
         };
 
         pageFlip.on("init", () => {
-          queuePageFlipSync(pageFlip, spreadIndexRef.current, spreadCount);
+          queuePageFlipSync(
+            pageFlip,
+            spreadIndexRef.current,
+            spreadCount,
+            isProgrammaticSyncRef,
+          );
           emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
           publishController();
         });
         pageFlip.loadFromHTML(pageElements);
-        queuePageFlipSync(pageFlip, spreadIndexRef.current, spreadCount);
+        queuePageFlipSync(
+          pageFlip,
+          spreadIndexRef.current,
+          spreadCount,
+          isProgrammaticSyncRef,
+        );
         publishController();
       })
       .catch((error: unknown) => {
@@ -217,7 +248,12 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
 
     const targetPage = getLibraryPageIndexForSpread(spreadIndex, spreadCount);
     if (pageFlip.getCurrentPageIndex() !== targetPage) {
-      pageFlip.turnToPage(targetPage);
+      runPageFlipSync(
+        pageFlip,
+        spreadIndex,
+        spreadCount,
+        isProgrammaticSyncRef,
+      );
     }
   }, [spreadCount, spreadIndex]);
 
@@ -277,11 +313,27 @@ const queuePageFlipSync = (
   pageFlip: PageFlip,
   spreadIndex: number,
   spreadCount: number,
+  syncingRef: MutableRefObject<boolean>,
 ) => {
-  syncPageFlipSpread(pageFlip, spreadIndex, spreadCount);
+  runPageFlipSync(pageFlip, spreadIndex, spreadCount, syncingRef);
   window.requestAnimationFrame(() => {
     pageFlip.update();
-    syncPageFlipSpread(pageFlip, spreadIndex, spreadCount);
+    runPageFlipSync(pageFlip, spreadIndex, spreadCount, syncingRef);
+  });
+};
+
+const runPageFlipSync = (
+  pageFlip: PageFlip,
+  spreadIndex: number,
+  spreadCount: number,
+  syncingRef: MutableRefObject<boolean>,
+) => {
+  syncingRef.current = true;
+  syncPageFlipSpread(pageFlip, spreadIndex, spreadCount);
+  window.requestAnimationFrame(() => {
+    window.requestAnimationFrame(() => {
+      syncingRef.current = false;
+    });
   });
 };
 
