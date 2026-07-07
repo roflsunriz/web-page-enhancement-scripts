@@ -303,6 +303,20 @@
     overflow: hidden;
 }
 
+.mv-static-book {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.mv-static-page {
+    width: 50%;
+    max-width: 50%;
+    height: 100%;
+    max-height: 100%;
+    overflow: hidden;
+}
+
 .mv-flip-page.stf__item {
     width: 50% !important;
     max-width: 50% !important;

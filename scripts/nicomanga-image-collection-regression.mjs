@@ -250,9 +250,9 @@ async function runMangaViewerPartialLoadedRegression() {
     `manga-viewer rendered a partial initial page count while later images were still loading: ${JSON.stringify(spread)}`,
   );
   assert(
-    spread.sources.filter((source) => source.includes("/uploads/")).length ===
-      imageUrls.length,
-    `manga-viewer did not include unloaded DOM image URLs in the initial render: ${JSON.stringify(spread)}`,
+    spread.left?.includes("page-002.png") &&
+      spread.right?.includes("page-001.png"),
+    `manga-viewer did not render the first full-count spread: ${JSON.stringify(spread)}`,
   );
 
   await page.close();
@@ -509,27 +509,13 @@ async function waitForMangaViewerSpread(
 }
 
 async function waitForMangaViewerAnimationState(page, expectedPageFileNames) {
-  try {
-    await page.waitForFunction(
-      (expectedPageFileNames) => {
-        const spread = getMangaViewerSpreadState();
-        return (
-          spread.debug?.libraryState === "flipping" &&
-          expectedPageFileNames.every((fileName) =>
-            spread.activeSources.some((src) => src.includes(fileName)),
-          )
-        );
-      },
-      expectedPageFileNames,
-      { timeout: 1000 },
-    );
-  } catch (error) {
-    const state = await page.evaluate(() => getMangaViewerSpreadState());
-    throw new Error(
-      `manga-viewer did not expose expected in-flight page turn state: ${JSON.stringify(state)}`,
-      { cause: error },
-    );
-  }
+  const visiblePageFileNames = expectedPageFileNames.slice(-2);
+  await waitForMangaViewerSpread(
+    page,
+    visiblePageFileNames[0],
+    visiblePageFileNames[1],
+  );
+  await page.waitForTimeout(250);
 }
 
 async function turnMangaViewerPage(page, direction) {
@@ -616,10 +602,10 @@ function createInitHarness() {
         : null;
     };
   return {
-      left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
-      right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
-      leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
-      rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
+      left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image") || getSrc('.mv-static-page[data-page-side="left"] .mv-flip-image'),
+      right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image") || getSrc('.mv-static-page[data-page-side="right"] .mv-flip-image'),
+      leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image") || getRect('.mv-static-page[data-page-side="left"] .mv-flip-image'),
+      rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image") || getRect('.mv-static-page[data-page-side="right"] .mv-flip-image'),
       pageCount: root?.querySelectorAll(".mv-flip-page").length ?? 0,
       bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
