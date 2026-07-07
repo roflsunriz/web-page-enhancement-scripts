@@ -11,6 +11,7 @@ import { format } from "../i18n";
 
 // React.createElementのエイリアス（インポート後に定義）
 const e = React.createElement;
+const VIEWER_HOST_ID = "book-style-manga-viewer-root";
 
 export class UIBuilder {
   private shadowHost: HTMLDivElement | null = null;
@@ -149,7 +150,14 @@ export class UIBuilder {
       this.spinner?.updateMessage(format("validImageSearch", {}));
     }
 
-    const { host, root } = createShadowHost({ mode: "closed" });
+    document
+      .querySelectorAll<HTMLElement>(`#${VIEWER_HOST_ID}`)
+      .forEach((staleHost) => staleHost.remove());
+
+    const { host, root } = createShadowHost({
+      id: VIEWER_HOST_ID,
+      mode: "closed",
+    });
     this.shadowHost = host;
     this.shadowHost.style.cssText = `
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;

@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import type { PageFlip } from "page-flip";
 
 type PageFlipBookProps = {
@@ -51,7 +51,7 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
   const spreadCount = Math.max(1, Math.ceil(images.length / 2));
   const pages = useMemo(() => buildMangaFlipPages(images), [images]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     spreadIndexRef.current = spreadIndex;
   }, [spreadIndex]);
 
@@ -164,6 +164,7 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
       if (!pageFlip) return;
       try {
         pageFlip.clear();
+        resetPageFlipElementMutations(root);
         const removeRoot = root.remove.bind(root);
         try {
           root.remove = () => undefined;
@@ -173,11 +174,13 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
         }
       } catch {
         root.querySelector(".stf__wrapper")?.remove();
+      } finally {
+        resetPageFlipElementMutations(root);
       }
     };
   }, [pages, spreadCount]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     const pageFlip = pageFlipRef.current;
     if (!pageFlip || isFlippingRef.current) return;
 
@@ -213,6 +216,25 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
       ))}
     </div>
   );
+};
+
+const resetPageFlipElementMutations = (root: HTMLElement) => {
+  root.querySelectorAll<HTMLElement>(".mv-flip-page").forEach((page) => {
+    page.style.cssText = "";
+    page.classList.remove(
+      "stf__item",
+      "--soft",
+      "--hard",
+      "--left",
+      "--right",
+      "--simple",
+    );
+  });
+  root
+    .querySelectorAll<HTMLElement>(
+      ".stf__outerShadow, .stf__innerShadow, .stf__hardShadow, .stf__hardInnerShadow",
+    )
+    .forEach((shadow) => shadow.remove());
 };
 
 const syncPageFlipSpread = (
