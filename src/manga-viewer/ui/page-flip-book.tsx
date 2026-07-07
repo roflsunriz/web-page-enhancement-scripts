@@ -73,7 +73,8 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
 
     let isDisposed = false;
 
-    void import("page-flip")
+    void waitForStableFlipRoot(root)
+      .then(() => import("page-flip"))
       .then(({ PageFlip: PageFlipConstructor }) => {
         if (isDisposed || !root.isConnected) return;
 
@@ -180,6 +181,30 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
     };
   }, [pages, spreadCount]);
 
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || typeof ResizeObserver !== "function") return;
+
+    let frameId: number | null = null;
+    const observer = new ResizeObserver(() => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      frameId = window.requestAnimationFrame(() => {
+        frameId = null;
+        pageFlipRef.current?.update();
+      });
+    });
+    observer.observe(root);
+
+    return () => {
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
+      }
+      observer.disconnect();
+    };
+  }, []);
+
   useLayoutEffect(() => {
     const pageFlip = pageFlipRef.current;
     if (!pageFlip || isFlippingRef.current) return;
@@ -217,6 +242,30 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
     </div>
   );
 };
+
+const waitForStableFlipRoot = async (root: HTMLElement): Promise<void> => {
+  let previous: DOMRectReadOnly | null = null;
+
+  for (let attempt = 0; attempt < 8; attempt += 1) {
+    await nextAnimationFrame();
+    const current = root.getBoundingClientRect();
+    if (
+      current.width > 0 &&
+      current.height > 0 &&
+      previous !== null &&
+      Math.abs(current.width - previous.width) < 1 &&
+      Math.abs(current.height - previous.height) < 1
+    ) {
+      return;
+    }
+    previous = current;
+  }
+};
+
+const nextAnimationFrame = (): Promise<void> =>
+  new Promise((resolve) => {
+    window.requestAnimationFrame(() => resolve());
+  });
 
 const resetPageFlipElementMutations = (root: HTMLElement) => {
   root.querySelectorAll<HTMLElement>(".mv-flip-page").forEach((page) => {
@@ -270,11 +319,7 @@ const buildMangaFlipPages = (images: string[]): MangaFlipPage[] => {
   const spreadCount = Math.max(1, Math.ceil(images.length / 2));
   const pages: MangaFlipPage[] = [];
 
-  for (
-    let spreadIndex = spreadCount - 1;
-    spreadIndex >= 0;
-    spreadIndex -= 1
-  ) {
+  for (let spreadIndex = spreadCount - 1; spreadIndex >= 0; spreadIndex -= 1) {
     const rightPageIndex = spreadIndex * 2;
     const leftPageIndex = rightPageIndex + 1;
     const leftSrc =
