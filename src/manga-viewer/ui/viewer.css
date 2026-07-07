@@ -303,7 +303,7 @@
     overflow: hidden;
 }
 
-.mv-flip-page.stf__item.--simple {
+.mv-flip-page.stf__item {
     width: 50% !important;
     max-width: 50% !important;
     height: 100% !important;
@@ -311,11 +311,11 @@
     overflow: hidden !important;
 }
 
-.mv-flip-page.stf__item.--simple.--left {
+.mv-flip-page.stf__item.--left {
     left: 0 !important;
 }
 
-.mv-flip-page.stf__item.--simple.--right {
+.mv-flip-page.stf__item.--right {
     left: 50% !important;
 }
 

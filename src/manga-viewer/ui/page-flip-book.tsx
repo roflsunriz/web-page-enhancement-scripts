@@ -124,9 +124,8 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
             event.data,
           );
         });
-        pageFlip.on("init", () => {
-          syncPageFlipSpread(pageFlip, spreadIndexRef.current, spreadCount);
-          emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
+        pageFlipRef.current = pageFlip;
+        const publishController = () => {
           onReadyRef.current?.({
             flipNextMangaPage: () => {
               if (
@@ -146,9 +145,16 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
               return true;
             },
           });
+        };
+
+        pageFlip.on("init", () => {
+          queuePageFlipSync(pageFlip, spreadIndexRef.current, spreadCount);
+          emitLibraryState(pageFlip, onLibraryStateChangeRef.current);
+          publishController();
         });
         pageFlip.loadFromHTML(pageElements);
-        pageFlipRef.current = pageFlip;
+        queuePageFlipSync(pageFlip, spreadIndexRef.current, spreadCount);
+        publishController();
       })
       .catch((error: unknown) => {
         console.error("[MangaViewer] Failed to load page-flip", error);
@@ -266,6 +272,18 @@ const nextAnimationFrame = (): Promise<void> =>
   new Promise((resolve) => {
     window.requestAnimationFrame(() => resolve());
   });
+
+const queuePageFlipSync = (
+  pageFlip: PageFlip,
+  spreadIndex: number,
+  spreadCount: number,
+) => {
+  syncPageFlipSpread(pageFlip, spreadIndex, spreadCount);
+  window.requestAnimationFrame(() => {
+    pageFlip.update();
+    syncPageFlipSpread(pageFlip, spreadIndex, spreadCount);
+  });
+};
 
 const resetPageFlipElementMutations = (root: HTMLElement) => {
   root.querySelectorAll<HTMLElement>(".mv-flip-page").forEach((page) => {
