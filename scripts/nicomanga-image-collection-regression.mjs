@@ -71,6 +71,7 @@ const browser = await chromium.launch({
 
 try {
   await runMangaViewerRegression();
+  await runMangaViewerPartialLoadedRegression();
   await runMangaViewerSettingsRegression();
   await runMangaViewerDestroyRegression();
   await runMangaViewerShortcutRegression();
@@ -232,6 +233,31 @@ async function runMangaViewerSettingsRegression() {
   await page.close();
 }
 
+async function runMangaViewerPartialLoadedRegression() {
+  const page = await createFixturePage({
+    delayImagesFromPage: 4,
+    includeCoverThumb: true,
+  });
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForFixtureImagesLoaded(page, imageUrls.slice(0, 3));
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
+  const spread = await page.evaluate(() => getMangaViewerSpreadState());
+  assert(
+    spread.header?.includes("1 / 4"),
+    `manga-viewer rendered a partial initial page count while later images were still loading: ${JSON.stringify(spread)}`,
+  );
+  assert(
+    spread.sources.filter((source) => source.includes("/uploads/")).length ===
+      imageUrls.length,
+    `manga-viewer did not include unloaded DOM image URLs in the initial render: ${JSON.stringify(spread)}`,
+  );
+
+  await page.close();
+}
+
 async function runMangaViewerShortcutRegression() {
   const page = await createFixturePage({ includeCoverThumb: true });
   await installUserscriptHarness(page, "manga-viewer");
@@ -347,7 +373,7 @@ async function runImageCollectorRegression() {
 }
 
 async function createFixturePage(options = {}) {
-  const { includeCoverThumb = false } = options;
+  const { delayImagesFromPage = Infinity, includeCoverThumb = false } = options;
   const context = await browser.newContext({
     viewport: { width: 1280, height: 900 },
   });
@@ -380,6 +406,10 @@ async function createFixturePage(options = {}) {
       return;
     }
     if (requestUrl.endsWith(".png")) {
+      const pageNumber = getFixturePageNumber(requestUrl);
+      if (pageNumber !== null && pageNumber >= delayImagesFromPage) {
+        await new Promise((resolve) => setTimeout(resolve, 1200));
+      }
       await route.fulfill({
         status: 200,
         contentType: "image/svg+xml",
@@ -440,7 +470,7 @@ async function waitForMenuCommand(page, pattern) {
   }, pattern.source);
 }
 
-async function waitForFixtureImagesLoaded(page) {
+async function waitForFixtureImagesLoaded(page, expectedUrls = imageUrls) {
   await page.waitForFunction(
     (expectedUrls) =>
       expectedUrls.every((url) => {
@@ -747,6 +777,11 @@ function createFixtureImageSvg(url) {
   <rect width="100%" height="100%" fill="#f8fafc"/>
   <text x="24" y="56" font-family="sans-serif" font-size="32" fill="#111827">${pageNumber}</text>
 </svg>`;
+}
+
+function getFixturePageNumber(url) {
+  const match = /page-(\d+)/.exec(url);
+  return match ? Number(match[1]) : null;
 }
 
 function assert(condition, message) {

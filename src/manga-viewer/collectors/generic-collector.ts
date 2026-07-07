@@ -137,10 +137,6 @@ export class GenericCollector implements ICollector {
       needsValidation: () => false,
     });
 
-    if (loaded.items.length >= 2) {
-      return loaded;
-    }
-
     const observed = await collectPageImages({
       include: ["image", "source"],
       exclude: (candidate) => this.isExcludedPageImageCandidate(candidate),
