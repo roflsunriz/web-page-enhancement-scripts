@@ -78,7 +78,7 @@ export class GenericCollector implements ICollector {
   public async collect(): Promise<CollectionResult> {
     this.spinner?.updateMessage(t("imageCollecting"));
 
-    const fastLoadedImages = await this.collectFastLoadedImagesForLaunch();
+    const fastLoadedImages = await this.collectFastLaunchImagesForLaunch();
     if (fastLoadedImages.items.length >= 2) {
       this.spinner?.updateMessage(
         format("fastLoadedImages", {
@@ -121,12 +121,12 @@ export class GenericCollector implements ICollector {
     return this.validateUrlsWithMetadata(scanned.items);
   }
 
-  private collectFastLoadedImages(): PageImageCollectionResult {
+  private async collectFastLaunchImages(): Promise<PageImageCollectionResult> {
     if (!this.isNicoMangaPage()) {
       return { items: [], urls: [] };
     }
 
-    return collectLoadedPageImages({
+    const loaded = collectLoadedPageImages({
       include: ["image"],
       minWidth: 100,
       minHeight: 100,
@@ -136,23 +136,42 @@ export class GenericCollector implements ICollector {
         }),
       needsValidation: () => false,
     });
+
+    if (loaded.items.length >= 2) {
+      return loaded;
+    }
+
+    const observed = await collectPageImages({
+      include: ["image", "source"],
+      exclude: (candidate) =>
+        isInvalidImage(candidate.url, candidate.width, candidate.height, {
+          pageHost: window.location.hostname,
+        }),
+      needsValidation: () => false,
+    });
+    const items = mergePageImageCollectionItems(loaded.items, observed.items);
+
+    return {
+      items,
+      urls: items.map((item) => item.url),
+    };
   }
 
-  private async collectFastLoadedImagesForLaunch(): Promise<PageImageCollectionResult> {
-    const initial = this.collectFastLoadedImages();
-    if (initial.items.length >= 2 || !this.options.preferFastLoadedWait) {
+  private async collectFastLaunchImagesForLaunch(): Promise<PageImageCollectionResult> {
+    const initial = await this.collectFastLaunchImages();
+    if (initial.items.length > 0 || !this.options.preferFastLoadedWait) {
       return initial;
     }
 
-    return this.waitForFastLoadedImages({
-      minCount: 2,
-      timeoutMs: 3000,
+    return this.waitForFastLaunchImages({
+      minCount: 1,
+      timeoutMs: 500,
       intervalMs: 100,
       currentBest: initial,
     });
   }
 
-  private async waitForFastLoadedImages(options: {
+  private async waitForFastLaunchImages(options: {
     minCount: number;
     timeoutMs: number;
     intervalMs: number;
@@ -165,7 +184,7 @@ export class GenericCollector implements ICollector {
       await new Promise((resolve) =>
         window.setTimeout(resolve, options.intervalMs),
       );
-      const current = this.collectFastLoadedImages();
+      const current = await this.collectFastLaunchImages();
       if (current.items.length > best.items.length) {
         best = current;
       }
