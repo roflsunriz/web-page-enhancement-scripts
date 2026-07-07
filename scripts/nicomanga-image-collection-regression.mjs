@@ -7,6 +7,10 @@ import { chromium } from "playwright";
 const repoRoot = resolve(fileURLToPath(new URL("..", import.meta.url)));
 const targetUrl =
   "https://nicomanga.com/manga572/monster-no-goshujin-sama-raw/chapter-c55.3i107213.html";
+const prevChapterUrl =
+  "https://nicomanga.com/manga572/monster-no-goshujin-sama-raw/chapter-c55.2i107212.html";
+const nextChapterUrl =
+  "https://nicomanga.com/manga572/monster-no-goshujin-sama-raw/chapter-c55.4i107214.html";
 const imageUrls = Array.from({ length: 8 }, (_, index) => {
   const page = String(index + 1).padStart(3, "0");
   return `https://nicomanga.com/uploads/chapter-c55.3i107213/page-${page}.png`;
@@ -65,6 +69,8 @@ const browser = await chromium.launch({
 
 try {
   await runMangaViewerRegression();
+  await runMangaViewerSettingsRegression();
+  await runMangaViewerShortcutRegression();
   await runImageCollectorRegression();
   console.log("NicoManga image collection regression passed");
 } finally {
@@ -156,6 +162,97 @@ async function runMangaViewerRegression() {
     "page-001.png",
   ]);
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
+  await page.close();
+}
+
+async function runMangaViewerSettingsRegression() {
+  const page = await createFixturePage();
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForMenuCommand(page, /book-style-manga-viewer 設定/);
+  await page.evaluate(() => {
+    const command = window.__userscriptTest.menuCommands.find((item) =>
+      /book-style-manga-viewer 設定/.test(item.caption),
+    );
+    if (!command) {
+      throw new Error("manga-viewer settings menu was not registered");
+    }
+    command.callback();
+  });
+
+  await page.waitForFunction(() =>
+    Array.from(document.querySelectorAll("*")).some((element) =>
+      element.shadowRoot?.querySelector(".ss-panel"),
+    ),
+  );
+
+  const settingsResult = await page.evaluate(() => {
+    const root = Array.from(document.querySelectorAll("*"))
+      .map((element) => element.shadowRoot)
+      .find((shadowRoot) => shadowRoot?.querySelector(".ss-panel"));
+    const inputs = Array.from(
+      root?.querySelectorAll("input[type='number']") ?? [],
+    );
+    const labels = Array.from(
+      root?.querySelectorAll(".ss-rule-type") ?? [],
+    ).map((element) => element.textContent ?? "");
+    const firstInput = inputs[0];
+    if (firstInput instanceof HTMLInputElement) {
+      firstInput.value = "750";
+      firstInput.dispatchEvent(new Event("change", { bubbles: true }));
+    }
+    return {
+      inputCount: inputs.length,
+      labels,
+      stored: window.__userscriptTest.getStoredValue(
+        "manga-viewer-image-collection-delays",
+      ),
+    };
+  });
+
+  assert(
+    settingsResult.inputCount >= 5,
+    `manga-viewer delay settings inputs were missing: ${settingsResult.inputCount}`,
+  );
+  assert(
+    settingsResult.labels.some((label) =>
+      label.includes("自動起動時の高速再確認待機"),
+    ),
+    `manga-viewer delay settings label was missing: ${settingsResult.labels.join(", ")}`,
+  );
+  assert(
+    settingsResult.stored?.fastLaunchRetryWaitMs === 750,
+    `manga-viewer delay setting was not saved: ${JSON.stringify(settingsResult.stored)}`,
+  );
+
+  await page.close();
+}
+
+async function runMangaViewerShortcutRegression() {
+  const page = await createFixturePage();
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForFixtureImagesLoaded(page);
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+  await page.evaluate(() => {
+    window.dispatchEvent(
+      new KeyboardEvent("keydown", {
+        key: "Escape",
+        bubbles: true,
+        cancelable: true,
+      }),
+    );
+  });
+  await page.waitForSelector("#book-style-manga-viewer-root", {
+    state: "detached",
+  });
+
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+  await turnMangaViewerPage(page, "previous");
+  await page.waitForURL(prevChapterUrl);
 
   await page.close();
 }
@@ -252,6 +349,14 @@ async function createFixturePage() {
       });
       return;
     }
+    if (requestUrl === prevChapterUrl || requestUrl === nextChapterUrl) {
+      await route.fulfill({
+        status: 200,
+        contentType: "text/html; charset=utf-8",
+        body: "<!doctype html><html><body>chapter navigation target</body></html>",
+      });
+      return;
+    }
     if (requestUrl.endsWith(".png")) {
       await route.fulfill({
         status: 200,
@@ -283,6 +388,25 @@ async function runUserscriptNow(page, scriptName) {
       ? scripts.mangaViewer
       : scripts.imageCollector;
   await page.addScriptTag({ content: script });
+}
+
+async function launchMangaViewerFromMenu(page) {
+  await waitForMenuCommand(
+    page,
+    /ブック風マンガビューア起動|Launch Book-Style Manga Viewer/,
+  );
+  await page.evaluate(() => {
+    const commands = window.__userscriptTest.menuCommands;
+    const command = commands.find((item) =>
+      /ブック風マンガビューア起動|Launch Book-Style Manga Viewer/.test(
+        item.caption,
+      ),
+    );
+    if (!command) {
+      throw new Error("manga-viewer launch menu was not registered");
+    }
+    command.callback();
+  });
 }
 
 async function waitForMenuCommand(page, pattern) {
@@ -405,7 +529,8 @@ function createInitHarness() {
     menuCommands: [],
     requestUrls: [],
     xhrUrls: [],
-    scrollByCount: 0
+    scrollByCount: 0,
+    getStoredValue: (key) => store.get(key)
   };
   window.getOpenShadowImages = (selector) => Array.from(document.querySelectorAll("*"))
     .flatMap((element) => element.shadowRoot ? Array.from(element.shadowRoot.querySelectorAll(selector)) : [])
@@ -557,6 +682,10 @@ function createNicoMangaFixtureHtml() {
   </head>
   <body>
     <main id="chapter-reader">
+      <nav>
+        <a rel="prev" href="${prevChapterUrl}">前</a>
+        <a rel="next" href="${nextChapterUrl}">次</a>
+      </nav>
       ${imageTags}
       <img class="advertisement" width="200" height="50" src="${adUrl}" alt="advertisement">
       <div class="spacer"></div>

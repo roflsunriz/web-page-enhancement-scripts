@@ -16,9 +16,15 @@ type TranslationKey =
   | "endOfContents"
   | "errorOccurred"
   | "fastLoadedImages"
+  | "fastLaunchRetryDelay"
   | "foundTweetImages"
+  | "additionalImageScanDelay"
+  | "dynamicImageWaitDelay"
+  | "fallbackImageWaitDelay"
   | "imageCollecting"
   | "imageCollected"
+  | "imageCollectionDelaySettings"
+  | "imageCollectionDelaySettingsDescription"
   | "imageSearch"
   | "initialImagesReady"
   | "launch"
@@ -29,6 +35,7 @@ type TranslationKey =
   | "loadedImagesReady"
   | "loadingImages"
   | "loadingImagesWithErrors"
+  | "millisecondsUnit"
   | "nextDynamicImages"
   | "noImages"
   | "noImagesDescription"
@@ -44,6 +51,7 @@ type TranslationKey =
   | "retryingImages"
   | "retrying"
   | "scrollFound"
+  | "scrollScanDelay"
   | "scrollSearchImages"
   | "stateOff"
   | "stateOn"
@@ -67,9 +75,16 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "画像を読み込み中...",
       endOfContents: "End of Contents",
       errorOccurred: "エラーが発生しました。",
+      additionalImageScanDelay: "追加スキャン待機",
+      dynamicImageWaitDelay: "初回の動的画像待機",
+      fallbackImageWaitDelay: "候補不足時の追加待機",
       fastLoadedImages:
         "{count}枚の読み込み済み画像を検出しました。高速起動します...",
+      fastLaunchRetryDelay: "自動起動時の高速再確認待機",
       foundTweetImages: "{count}枚のツイート画像を見つけました。検証中...",
+      imageCollectionDelaySettings: "画像収集の待機時間",
+      imageCollectionDelaySettingsDescription:
+        "画像候補が出揃うまで待つ時間をミリ秒で調整します。0にするとその待機を省略します。",
       imageCollecting: "ページ上の画像を収集しています...",
       imageCollected: "{count}枚の画像を収集しました...",
       imageSearch: "画像を検索中...",
@@ -84,6 +99,7 @@ const translations = buildSupportedTranslationMap(
       loadingImages: "画像をプリロード中... {loaded}/{total} ({percent}%)",
       loadingImagesWithErrors:
         "画像をプリロード中... {loaded}/{total} ({percent}%) - {errors}枚エラー",
+      millisecondsUnit: "ミリ秒",
       nextDynamicImages: "動的に読み込まれる画像を待機中...",
       noImages: "画像が見つかりません",
       noImagesDescription:
@@ -101,6 +117,7 @@ const translations = buildSupportedTranslationMap(
       retryingImages: "画像を再収集中...",
       retrying: "再収集中...",
       scrollFound: "スクロール中... ({current}/) - {count}枚発見",
+      scrollScanDelay: "スクロールスキャン間隔",
       scrollSearchImages: "画像を探すためにページをスクロール中...",
       stateOff: "OFF",
       stateOn: "ON",
@@ -122,9 +139,16 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Loading images...",
       endOfContents: "End of Contents",
       errorOccurred: "An error occurred.",
+      additionalImageScanDelay: "Additional scan wait",
+      dynamicImageWaitDelay: "Initial dynamic image wait",
+      fallbackImageWaitDelay: "Extra wait when candidates are insufficient",
       fastLoadedImages:
         "Detected {count} already-loaded images. Starting quickly...",
+      fastLaunchRetryDelay: "Fast recheck wait during auto-launch",
       foundTweetImages: "Found {count} tweet images. Validating...",
+      imageCollectionDelaySettings: "Image collection wait times",
+      imageCollectionDelaySettingsDescription:
+        "Adjust how long the collector waits for image candidates, in milliseconds. Set a value to 0 to skip that wait.",
       imageCollecting: "Collecting images on the page...",
       imageCollected: "Collected {count} images...",
       imageSearch: "Searching for images...",
@@ -140,6 +164,7 @@ const translations = buildSupportedTranslationMap(
       loadingImages: "Preloading images... {loaded}/{total} ({percent}%)",
       loadingImagesWithErrors:
         "Preloading images... {loaded}/{total} ({percent}%) - {errors} error(s)",
+      millisecondsUnit: "milliseconds",
       nextDynamicImages: "Waiting for dynamically loaded images...",
       noImages: "No images found",
       noImagesDescription:
@@ -157,6 +182,7 @@ const translations = buildSupportedTranslationMap(
       retryingImages: "Collecting images again...",
       retrying: "Collecting again...",
       scrollFound: "Scrolling... ({current}/) - {count} found",
+      scrollScanDelay: "Scroll scan interval",
       scrollSearchImages: "Scrolling the page to find images...",
       stateOff: "OFF",
       stateOn: "ON",

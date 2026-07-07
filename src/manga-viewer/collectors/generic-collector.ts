@@ -6,6 +6,7 @@ import {
   hasUserImageHashExclusions,
   isUserExcludedImageByPixelHash,
 } from "@/shared/image-exclusion-settings";
+import { getImageCollectionDelaySettings } from "../image-collection-settings";
 import {
   collectLoadedPageImages,
   collectPageImages,
@@ -77,6 +78,7 @@ export class GenericCollector implements ICollector {
 
   public async collect(): Promise<CollectionResult> {
     this.spinner?.updateMessage(t("imageCollecting"));
+    const delaySettings = getImageCollectionDelaySettings();
 
     const fastLoadedImages = await this.collectFastLaunchImagesForLaunch();
     if (fastLoadedImages.items.length >= 2) {
@@ -91,14 +93,14 @@ export class GenericCollector implements ICollector {
     this.spinner?.updateMessage(t("nextDynamicImages"));
     const scanned = await collectPageImagesWithScrollFallback({
       include: ["image", "source"],
-      dynamicWaitMs: 500,
+      dynamicWaitMs: delaySettings.dynamicWaitMs,
       minCandidatesBeforeScroll: 2,
-      fallbackDynamicWaitMs: 1500,
+      fallbackDynamicWaitMs: delaySettings.fallbackDynamicWaitMs,
       scrollFallback: {
         enabled: true,
         maxScrolls: 20,
         stepRatio: 0.8,
-        delayMs: 400,
+        delayMs: delaySettings.scrollDelayMs,
         stopAfterNoNewScans: 3,
       },
       onProgress: (progress) => {
@@ -163,9 +165,10 @@ export class GenericCollector implements ICollector {
       return initial;
     }
 
+    const delaySettings = getImageCollectionDelaySettings();
     return this.waitForFastLaunchImages({
       minCount: 1,
-      timeoutMs: 500,
+      timeoutMs: delaySettings.fastLaunchRetryWaitMs,
       intervalMs: 100,
       currentBest: initial,
     });
@@ -216,7 +219,8 @@ export class GenericCollector implements ICollector {
     try {
       const scanned = await collectPageImages({
         include: ["image", "source"],
-        dynamicWaitMs: 500,
+        dynamicWaitMs:
+          getImageCollectionDelaySettings().additionalScanDynamicWaitMs,
         onProgress: (progress) => {
           this.safeUpdateProgress(
             0,

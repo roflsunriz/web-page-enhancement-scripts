@@ -17,6 +17,7 @@ import type { LaunchStyle } from "@/shared/types/launch-style";
 import { format, t } from "./i18n";
 import { createImageExclusionSettingsSectionFactory } from "@/shared/image-exclusion-settings";
 import { isInvalidImage } from "./invalid-image-database";
+import { createImageCollectionDelaySettingsSectionFactory } from "./image-collection-settings";
 
 const SCRIPT_ID = "manga-viewer";
 const RUNTIME_STATE_KEY = "__bookStyleMangaViewerRuntime";
@@ -61,6 +62,7 @@ export class MangaViewerApp {
       scriptName: "book-style-manga-viewer",
       includeLaunchStyle: true,
       customSections: [
+        createImageCollectionDelaySettingsSectionFactory(),
         createImageExclusionSettingsSectionFactory({
           shouldIncludeCandidate: (candidate) =>
             !isInvalidImage(candidate.url, candidate.width, candidate.height, {

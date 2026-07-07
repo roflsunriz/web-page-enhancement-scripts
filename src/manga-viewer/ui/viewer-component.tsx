@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef, useCallback, useMemo } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from 'react';
 import { ChapterNavigator } from '../chapter-navigator';
 import { globalState } from '../state';
 import { MOUSE_INACTIVITY_DELAY } from '../constants';
@@ -45,8 +51,11 @@ const INTERACTIVE_VIEWER_UI_SELECTOR = [
   '.mv-shortcuts-hint',
 ].join(', ');
 
-const isInteractiveViewerUiTarget = (target: EventTarget | null): target is HTMLElement =>
-  target instanceof HTMLElement && target.closest(INTERACTIVE_VIEWER_UI_SELECTOR) !== null;
+const isInteractiveViewerUiTarget = (
+  target: EventTarget | null,
+): target is HTMLElement =>
+  target instanceof HTMLElement &&
+  target.closest(INTERACTIVE_VIEWER_UI_SELECTOR) !== null;
 
 const updatePageFlipDebug = (patch: Partial<PageFlipDebugState>) => {
   const holder = win as unknown as {
@@ -82,8 +91,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   });
   const [isDragging, setIsDragging] = useState(false);
   const [isAnimating, setIsAnimating] = useState(false);
-  const [bounceDirection, setBounceDirection] = useState<'left' | 'right' | null>(null);
-  const [autoChapterNavigation, setAutoChapterNavigation] = useState(initialAutoNav);
+  const [bounceDirection, setBounceDirection] = useState<
+    'left' | 'right' | null
+  >(null);
+  const [autoChapterNavigation, setAutoChapterNavigation] =
+    useState(initialAutoNav);
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
   const [hintsVisible, setHintsVisible] = useState(false);
   const [isMouseActive, setIsMouseActive] = useState(false);
@@ -99,10 +111,15 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   const [touchStartX, setTouchStartX] = useState(0);
   const [touchStartY, setTouchStartY] = useState(0);
   const [touchStartTime, setTouchStartTime] = useState(0);
-  const [initialPinchDistance, setInitialPinchDistance] = useState<number | null>(null);
-  const [initialTransformState, setInitialTransformState] = useState<TransformState | null>(null);
+  const [initialPinchDistance, setInitialPinchDistance] = useState<
+    number | null
+  >(null);
+  const [initialTransformState, setInitialTransformState] =
+    useState<TransformState | null>(null);
   const [showTurnIndicator, setShowTurnIndicator] = useState(false);
-  const [turnIndicatorSide, setTurnIndicatorSide] = useState<'left' | 'right' | null>(null);
+  const [turnIndicatorSide, setTurnIndicatorSide] = useState<
+    'left' | 'right' | null
+  >(null);
 
   const [showRetryButton, setShowRetryButton] = useState(images.length === 0);
   const [isRetrying, setIsRetrying] = useState(false);
@@ -164,18 +181,17 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
 
       const currentIndex = currentSpreadIndexRef.current;
       const maxSpreadIndex = Math.ceil(images.length / 2) - 1;
-      const isLoading = progressState.phase !== 'complete';
 
       if (direction === 'prev' && currentIndex <= 0) {
-        showBounceAnimation('left');
-        if (!isLoading && autoChapterNavigation && images.length > 0) {
+        showBounceAnimation('right');
+        if (autoChapterNavigation && images.length > 0) {
           if (chapterNavigator.current.navigatePrevChapter()) onClose();
         }
         return;
       }
       if (direction === 'next' && currentIndex >= maxSpreadIndex) {
-        showBounceAnimation('right');
-        if (!isLoading && autoChapterNavigation && images.length > 0) {
+        showBounceAnimation('left');
+        if (autoChapterNavigation && images.length > 0) {
           if (chapterNavigator.current.navigateNextChapter()) onClose();
         }
         return;
@@ -188,16 +204,18 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
 
       if (didStartFlip) {
         updatePageFlipDebug({
-          requestCount: (
-            (win as unknown as { MangaViewer?: { __pageFlipDebug?: PageFlipDebugState } })
-              .MangaViewer?.__pageFlipDebug?.requestCount ?? 0
-          ) + 1,
+          requestCount:
+            ((
+              win as unknown as {
+                MangaViewer?: { __pageFlipDebug?: PageFlipDebugState };
+              }
+            ).MangaViewer?.__pageFlipDebug?.requestCount ?? 0) + 1,
           lastStarted: true,
         });
         setIsAnimating(true);
       }
     },
-    [images.length, autoChapterNavigation, onClose, progressState.phase, showBounceAnimation],
+    [images.length, autoChapterNavigation, onClose, showBounceAnimation],
   );
 
   const handlePageTurn = useCallback(
@@ -214,9 +232,10 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
 
   const handleChapterNavigation = useCallback(
     (direction: 'prev' | 'next') => {
-      const didNavigate = direction === 'prev'
-        ? chapterNavigator.current.navigatePrevChapter()
-        : chapterNavigator.current.navigateNextChapter();
+      const didNavigate =
+        direction === 'prev'
+          ? chapterNavigator.current.navigatePrevChapter()
+          : chapterNavigator.current.navigateNextChapter();
 
       if (didNavigate) onClose();
     },
@@ -237,11 +256,18 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
           let newPhase = phase || prev.phase;
           if (percent >= 100) newPhase = 'complete';
           if (percent < prev.percent && newPhase === prev.phase) return prev;
-          return { visible: true, percent, message: message || '', phase: newPhase };
+          return {
+            visible: true,
+            percent,
+            message: message || '',
+            phase: newPhase,
+          };
         });
 
         // フォールバックタイマーは 'loading' フェーズのみで動作させる
-        const shouldUseFallback = (phase === 'loading') || (phase === null && progressStateRef.current.phase === 'loading');
+        const shouldUseFallback =
+          phase === 'loading' ||
+          (phase === null && progressStateRef.current.phase === 'loading');
         // Clear any existing fallback timer unless we should set a new one
         if (progressFallbackTimer.current) {
           clearTimeout(progressFallbackTimer.current);
@@ -250,18 +276,28 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         if (shouldUseFallback && percent < 100) {
           progressFallbackTimer.current = window.setTimeout(() => {
             setProgressState((prev) => ({ ...prev, phase: 'complete' }));
-            setTimeout(() => setProgressState((prev) => ({ ...prev, visible: false })), 2000);
+            setTimeout(
+              () => setProgressState((prev) => ({ ...prev, visible: false })),
+              2000,
+            );
           }, 8000);
         }
 
         if (percent >= 100) {
           // Hide the UI after a short delay but keep phase at 'complete'.
-          setTimeout(() => setProgressState((prev) => ({ ...prev, visible: false })), 2000);
+          setTimeout(
+            () => setProgressState((prev) => ({ ...prev, visible: false })),
+            2000,
+          );
         }
       };
       // マウント時に global buffer が存在すればフラッシュして Viewer の updateProgress を呼び出す
       try {
-        const mvHolder = win as unknown as { MangaViewer?: { _progressBuffer?: Array<[number, string, string | null]> } };
+        const mvHolder = win as unknown as {
+          MangaViewer?: {
+            _progressBuffer?: Array<[number, string, string | null]>;
+          };
+        };
         const buffer = mvHolder.MangaViewer?._progressBuffer;
         if (Array.isArray(buffer) && buffer.length > 0) {
           for (const [p, m, ph] of buffer) {
@@ -291,7 +327,9 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     // マウント時の処理
     if (viewerRef.current) {
       viewerRef.current.focus();
-      document.querySelectorAll('iframe').forEach((iframe) => iframe.setAttribute('tabindex', '-1'));
+      document
+        .querySelectorAll('iframe')
+        .forEach((iframe) => iframe.setAttribute('tabindex', '-1'));
     }
     resetMouseActivity();
 
@@ -329,7 +367,37 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         return;
       }
 
-      const isPageTurnKey = ['ArrowLeft', 'ArrowRight', 'a', 'A', 'd', 'D'].includes(event.key);
+      const isHandledKey = [
+        'ArrowLeft',
+        'ArrowRight',
+        'a',
+        'A',
+        'd',
+        'D',
+        'w',
+        'W',
+        'ArrowUp',
+        's',
+        'S',
+        'ArrowDown',
+        'q',
+        'Q',
+        'h',
+        'H',
+        'Escape',
+      ].includes(event.key);
+      const isPageTurnKey = [
+        'ArrowLeft',
+        'ArrowRight',
+        'a',
+        'A',
+        'd',
+        'D',
+      ].includes(event.key);
+      if (isHandledKey) {
+        event.preventDefault();
+        event.stopPropagation();
+      }
       if (!isPageTurnKey) resetMouseActivity();
 
       switch (event.key) {
@@ -351,7 +419,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
           const pinchY = mousePosition.y / transformState.scale;
           const newTranslateX = mousePosition.x - pinchX * newScale;
           const newTranslateY = mousePosition.y - pinchY * newScale;
-          setTransformState({ scale: newScale, translateX: newTranslateX, translateY: newTranslateY });
+          setTransformState({
+            scale: newScale,
+            translateX: newTranslateX,
+            translateY: newTranslateY,
+          });
           showZoomLevel();
           break;
         }
@@ -363,7 +435,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
           const pinchY = mousePosition.y / transformState.scale;
           const newTranslateX = mousePosition.x - pinchX * newScale;
           const newTranslateY = mousePosition.y - pinchY * newScale;
-          setTransformState({ scale: newScale, translateX: newTranslateX, translateY: newTranslateY });
+          setTransformState({
+            scale: newScale,
+            translateX: newTranslateX,
+            translateY: newTranslateY,
+          });
           showZoomLevel();
           break;
         }
@@ -376,6 +452,9 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         case 'H':
           setHintsVisible((prev) => !prev);
           break;
+        case 'Escape':
+          onClose();
+          break;
       }
     };
     globalState.keyDispatcher = handleKeyPress;
@@ -384,7 +463,14 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         globalState.keyDispatcher = null;
       }
     };
-  }, [transformState, mousePosition, handlePageTurn, resetMouseActivity, showZoomLevel]);
+  }, [
+    transformState,
+    mousePosition,
+    handlePageTurn,
+    resetMouseActivity,
+    showZoomLevel,
+    onClose,
+  ]);
 
   const handleMouseMove = useCallback(
     (e: React.MouseEvent) => {
@@ -410,16 +496,21 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       e.stopPropagation();
       resetMouseActivity();
 
-      const newScale = e.deltaY < 0
-        ? Math.min(transformState.scale * 1.1, 3)
-        : Math.max(transformState.scale * 0.9, 0.5);
+      const newScale =
+        e.deltaY < 0
+          ? Math.min(transformState.scale * 1.1, 3)
+          : Math.max(transformState.scale * 0.9, 0.5);
 
       const pinchX = mousePosition.x / transformState.scale;
       const pinchY = mousePosition.y / transformState.scale;
       const newTranslateX = mousePosition.x - pinchX * newScale;
       const newTranslateY = mousePosition.y - pinchY * newScale;
 
-      setTransformState({ scale: newScale, translateX: newTranslateX, translateY: newTranslateY });
+      setTransformState({
+        scale: newScale,
+        translateX: newTranslateX,
+        translateY: newTranslateY,
+      });
       showZoomLevel();
     },
     [transformState, mousePosition, resetMouseActivity, showZoomLevel],
@@ -514,13 +605,21 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
           setShowTurnIndicator(false);
         }
       }
-    } else if (e.touches.length === 2 && initialPinchDistance && initialTransformState) {
+    } else if (
+      e.touches.length === 2 &&
+      initialPinchDistance &&
+      initialTransformState
+    ) {
       const distance = Math.hypot(
         e.touches[0].clientX - e.touches[1].clientX,
         e.touches[0].clientY - e.touches[1].clientY,
       );
-      const newScale = initialTransformState.scale * (distance / initialPinchDistance);
-      setTransformState((prev) => ({ ...prev, scale: Math.min(Math.max(newScale, 0.5), 3) }));
+      const newScale =
+        initialTransformState.scale * (distance / initialPinchDistance);
+      setTransformState((prev) => ({
+        ...prev,
+        scale: Math.min(Math.max(newScale, 0.5), 3),
+      }));
       showZoomLevel();
     }
   };
@@ -574,7 +673,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      <button key="mobile-close-button" className="mv-mobile-close-button" onClick={onClose} />
+      <button
+        key="mobile-close-button"
+        className="mv-mobile-close-button"
+        onClick={onClose}
+      />
 
       <div
         className="mv-top-container"
@@ -632,7 +735,10 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
         {/* Progress Bar */}
         {progressState.visible && (
           <div className="mv-progress-container">
-            <div className="mv-progress-bar" style={{ width: `${progressState.percent}%` }} />
+            <div
+              className="mv-progress-bar"
+              style={{ width: `${progressState.percent}%` }}
+            />
             {progressState.message && (
               <div className="mv-progress-message">{progressState.message}</div>
             )}
@@ -643,7 +749,10 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       <div
         className="mv-main-viewer"
         ref={mainViewerRef}
-        style={{ cursor: isDragging && transformState.scale > 1 ? 'grabbing' : 'default' }}
+        style={{
+          cursor:
+            isDragging && transformState.scale > 1 ? 'grabbing' : 'default',
+        }}
       >
         {images.length === 0 ? (
           <div
@@ -655,18 +764,29 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
               padding: '20px',
             }}
           >
-            <div style={{ fontSize: '24px', fontWeight: 'bold', marginBottom: '20px' }}>
+            <div
+              style={{
+                fontSize: '24px',
+                fontWeight: 'bold',
+                marginBottom: '20px',
+              }}
+            >
               {t('noImagesFound')}
             </div>
             <div style={{ fontSize: '16px', marginBottom: '30px' }}>
               {t('noImagesDescription')}
             </div>
             {showRetryButton && !isRetrying && (
-              <button onClick={handleRetryCollection} className="mv-close-button">
+              <button
+                onClick={handleRetryCollection}
+                className="mv-close-button"
+              >
                 {t('retryCollection')}
               </button>
             )}
-            {isRetrying && <div style={{ fontSize: '16px' }}>{t('retrying')}</div>}
+            {isRetrying && (
+              <div style={{ fontSize: '16px' }}>{t('retrying')}</div>
+            )}
           </div>
         ) : (
           <div
@@ -684,8 +804,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                 bounceDirection === 'left'
                   ? 'bounceLeft 0.3s ease-in-out'
                   : bounceDirection === 'right'
-                  ? 'bounceRight 0.3s ease-in-out'
-                  : 'none',
+                    ? 'bounceRight 0.3s ease-in-out'
+                    : 'none',
             }}
           >
             <PageFlipBook
@@ -710,16 +830,18 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                   libraryState: state,
                 });
               }}
-              blankPageContent={(
+              blankPageContent={
                 <div className="mv-end-page-content">
                   <div className="mv-end-page-title">{t('endOfContents')}</div>
                   <div className="mv-end-page-description">
                     {autoChapterNavigation
                       ? t('clickNextChapter')
-                      : format('autoChapterNavigation', { state: t('stateOff') })}
+                      : format('autoChapterNavigation', {
+                          state: t('stateOff'),
+                        })}
                   </div>
                 </div>
-              )}
+              }
             />
           </div>
         )}
@@ -728,12 +850,34 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
       {/* UI Overlays */}
       <div
         className={`mv-zoom-indicator ${showZoomIndicator ? 'visible' : ''}`}
-      >{format('zoom', { percent: String(Math.round(transformState.scale * 100)) })}</div>
+      >
+        {format('zoom', {
+          percent: String(Math.round(transformState.scale * 100)),
+        })}
+      </div>
 
-      <div ref={hintsRef} className={`mv-shortcuts-hint ${hintsVisible ? 'visible' : 'hidden'}`}>
-        <span>移動: <span className="mv-key">←</span><span className="mv-key">→</span></span> |
-        <span>{t('zoom').replace(': {percent}%', '')}: <span className="mv-key">↑</span><span className="mv-key">↓</span></span> |
-        <span>{t('reset')}: <span className="mv-key">Q</span></span>
+      <div
+        ref={hintsRef}
+        className={`mv-shortcuts-hint ${hintsVisible ? 'visible' : 'hidden'}`}
+      >
+        <span>
+          移動: <span className="mv-key">←</span>
+          <span className="mv-key">→</span>
+        </span>{' '}
+        |
+        <span>
+          {t('zoom').replace(': {percent}%', '')}:{' '}
+          <span className="mv-key">↑</span>
+          <span className="mv-key">↓</span>
+        </span>{' '}
+        |
+        <span>
+          {t('reset')}: <span className="mv-key">Q</span>
+        </span>{' '}
+        |
+        <span>
+          {t('close')}: <span className="mv-key">Esc</span>
+        </span>
       </div>
 
       {showTurnIndicator && (
