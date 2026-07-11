@@ -23,6 +23,7 @@
     "dev:twitter-clean-ui": "vite --mode twitter-clean-ui",
     "dev:twitter-full-size-image": "vite --mode twitter-full-size-image",
     "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
+    "dev:video-screen-off-detection-blocker": "vite --mode video-screen-off-detection-blocker",
     "dev:x-auto-spam-reporter": "vite --mode x-auto-spam-reporter",
     "dev:x-community-note-close": "vite --mode x-community-note-close",
     "dev:yahoo-mail-ad-cleaner": "vite --mode yahoo-mail-ad-cleaner",

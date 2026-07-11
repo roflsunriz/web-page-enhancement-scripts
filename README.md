@@ -22,6 +22,7 @@ web-page-enhancement-scripts
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
+  - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
   - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
@@ -56,6 +57,7 @@ web-page-enhancement-scripts
 - [twitter-full-size-image](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-full-size-image.user.js)
 - [twitter-clean-timeline](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-timeline.user.js)
 - [twitter-thread-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-thread-copier.user.js)
+- [video-screen-off-detection-blocker](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/video-screen-off-detection-blocker.user.js)
 - [x-auto-spam-reporter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-auto-spam-reporter.user.js)
 - [x-community-note-close](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/x-community-note-close.user.js)
 - [yahoo-mail-ad-cleaner](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-ad-cleaner.user.js)

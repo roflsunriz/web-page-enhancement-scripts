@@ -29,6 +29,15 @@ const mangaViewerIcon = createSvgDataIcon(`
 </svg>
 `);
 
+const videoScreenOffDetectionBlockerIcon = createSvgDataIcon(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#0f172a"/>
+  <rect x="11" y="18" width="42" height="28" rx="5" fill="#e0f2fe"/>
+  <path d="M28 25v14l12-7z" fill="#0f172a"/>
+  <path d="M15 49 49 15" stroke="#38bdf8" stroke-width="6" stroke-linecap="round"/>
+</svg>
+`);
+
 const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUserScript) =>
   monkey({
     entry,
@@ -470,6 +479,26 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-thread-copier.user.js',
 };
 
+const videoScreenOffDetectionBlockerMeta: MonkeyUserScript = {
+  name: 'video-screen-off-detection-blocker',
+  namespace: 'videoScreenOffDetectionBlocker',
+  version: '1.0.0',
+  description:
+    'Webページ上のvideo要素に対する画面オフ・バックグラウンド検知を遮断し、SPAで追加される動画にも追従する',
+  author: 'roflsunriz',
+  match: ['*://*/*'],
+  grant: 'none',
+  sandbox: 'raw',
+  'inject-into': 'page',
+  'run-at': 'document-start',
+  icon: videoScreenOffDetectionBlockerIcon,
+  icon64: videoScreenOffDetectionBlockerIcon,
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-screen-off-detection-blocker.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-screen-off-detection-blocker.user.js',
+};
+
 const xAutoSpamReporterMeta: MonkeyUserScript = {
   name: 'x-auto-spam-reporter',
   namespace: 'xAutoSpamReporter',
@@ -655,6 +684,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/twitter-thread-copier/main.ts',
     fileName: 'twitter-thread-copier.user.js',
     meta: twitterThreadCopierMeta,
+  },
+  'video-screen-off-detection-blocker': {
+    entry: 'src/video-screen-off-detection-blocker/main.ts',
+    fileName: 'video-screen-off-detection-blocker.user.js',
+    meta: videoScreenOffDetectionBlockerMeta,
   },
   'x-auto-spam-reporter': {
     entry: 'src/x-auto-spam-reporter/main.ts',
