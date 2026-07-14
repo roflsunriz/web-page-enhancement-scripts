@@ -15,6 +15,8 @@ import { TWITTER_THREAD_URL_PATTERN } from "@/shared/constants/urls";
 import { format, t } from "./i18n.js";
 
 class TwitterThreadCopierApp {
+  private activeStatusId: string | null = null;
+
   constructor() {
     this.init();
   }
@@ -24,7 +26,6 @@ class TwitterThreadCopierApp {
       // ページの種類に関わらず、まずURL監視を開始する
       this.observeUrlChanges();
       this.updateButtonVisibility();
-      this.observeUrlChanges();
       logger.log("Application initialized.");
     } catch (error) {
       logger.error(`初期化中にエラーが発生: ${(error as Error).message}`);
@@ -164,11 +165,21 @@ class TwitterThreadCopierApp {
   private updateButtonVisibility(): void {
     // 現在のURLがツイート詳細ページかどうかを判定
     if (this.isTwitterStatusPage()) {
+      const statusId = location.pathname.match(/\/status\/(\d+)/)?.[1] ?? null;
+      if (
+        this.activeStatusId !== null &&
+        statusId !== null &&
+        this.activeStatusId !== statusId
+      ) {
+        uiManager.resetThreadContext();
+      }
+      this.activeStatusId = statusId;
       // UI（Shadow DOM）がなければ初期化する
       uiManager.init();
       uiManager.addMainButton(this.handleButtonClick.bind(this));
       uiManager.updateAllUI();
     } else {
+      this.activeStatusId = null;
       uiManager.destroy();
     }
   }

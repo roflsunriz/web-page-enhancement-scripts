@@ -15,6 +15,7 @@ import {
   type TranslatorSettings,
 } from "./settings.js";
 import { format, getTextDirection, t } from "./i18n.js";
+import { tweetControlsManager } from "./tweet-controls.js";
 
 type ButtonAction = "copy" | "clipboard";
 
@@ -79,6 +80,12 @@ class UIManager {
     this.ensureFloatingContainer();
 
     document.body.appendChild(this.container);
+    tweetControlsManager.init({
+      onToggleSelection: (tweetElement, tweetId) =>
+        this.toggleTweetSelection(tweetElement, tweetId),
+      onToggleStartPoint: (tweetElement, tweetId) =>
+        this.setStartPoint(tweetElement, tweetId),
+    });
     window.addEventListener("resize", this.handleResize);
     logger.log("Shadow DOM initialized");
   }
@@ -88,7 +95,6 @@ class UIManager {
       return;
     }
     const styleElement = document.createElement("style");
-    const tweetArticleSelector = TWITTER_SELECTORS.article;
     styleElement.textContent = `
       .floating-ui-container {
           position: fixed;
@@ -246,67 +252,6 @@ class UIManager {
       }
       .toast-title { font-weight: bold; margin-bottom: 5px; }
       .toast-content { font-size: 13px; opacity: 0.9; overflow: hidden; text-overflow: ellipsis; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; }
-      .start-point-button {
-          position: absolute;
-          top: 10px;
-          right: 10px;
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background-color: rgba(29, 161, 242, 0.1);
-          border: 2px solid #1DA1F2;
-          color: #1DA1F2;
-          cursor: pointer;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          z-index: 1000;
-          opacity: 0;
-          transition: all 0.3s ease;
-          pointer-events: auto;
-          font-size: 14px;
-          font-weight: bold;
-      }
-      ${tweetArticleSelector}:hover .start-point-button { opacity: 1; }
-      .start-point-button:hover { background-color: rgba(29, 161, 242, 0.2); transform: scale(1.1); }
-      .start-point-button.active { background-color: #1DA1F2; color: white; opacity: 1; }
-      .start-point-button.active:hover { background-color: #1991DB; }
-      ${tweetArticleSelector}.start-point-set { background-color: rgba(29, 161, 242, 0.05); border: 1px solid rgba(29, 161, 242, 0.2); border-radius: 8px; }
-      .select-tweet-button {
-          position: absolute;
-          top: 10px;
-          left: 10px;
-          width: 28px;
-          height: 28px;
-          border-radius: 50%;
-          background-color: rgba(29, 161, 242, 0.08);
-          border: 2px solid rgba(29, 161, 242, 0.4);
-          color: #1DA1F2;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          font-weight: bold;
-          font-size: 13px;
-          pointer-events: auto;
-          opacity: 0;
-          transition: all 0.3s ease;
-      }
-      ${tweetArticleSelector}:hover .select-tweet-button { opacity: 1; }
-      .select-tweet-button:hover { transform: scale(1.1); }
-      .select-tweet-button.active {
-          background-color: #1DA1F2;
-          color: white;
-          border-color: #1DA1F2;
-          opacity: 1;
-      }
-      ${tweetArticleSelector}.tweet-selected {
-          background-color: rgba(29, 161, 242, 0.04);
-          border: 1px solid rgba(29, 161, 242, 0.3);
-          border-radius: 8px;
-      }
-      ${tweetArticleSelector}.tweet-selected.start-point-set {
-          box-shadow: 0 0 0 2px rgba(29, 161, 242, 0.12);
-      }
       .reset-selection {
           padding: 8px 12px;
           background-color: #5e72e4;
@@ -491,18 +436,8 @@ class UIManager {
     floating.appendChild(element);
   }
 
-  private extractTweetId(tweetElement: HTMLElement): string | null {
-    const tweetLink = tweetElement.querySelector<HTMLAnchorElement>(
-      'a[href*="/status/"]',
-    );
-    if (!tweetLink) {
-      return null;
-    }
-    const tweetId = tweetLink.href.split("/").pop()?.split("?")[0] ?? "";
-    return tweetId || null;
-  }
-
   public destroy(): void {
+    tweetControlsManager.destroy();
     if (this.container) {
       this.container.remove();
     }
@@ -518,81 +453,8 @@ class UIManager {
     this.hoverPointerCount = 0;
     this.clearHoverHideTimeout();
     window.removeEventListener("resize", this.handleResize);
-    state.selectedTweetIds = [];
+    this.clearThreadTargetingState();
     logger.log("Shadow DOM destroyed");
-  }
-
-  private addSelectionButtons(): void {
-    document
-      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
-      .forEach((tweetElement) => {
-        const tweetId = this.extractTweetId(tweetElement);
-        if (!tweetId) {
-          return;
-        }
-
-        let selectButton = Array.from(tweetElement.children).find((child) =>
-          child.classList.contains("select-tweet-button"),
-        ) as HTMLButtonElement | undefined;
-
-        if (!selectButton) {
-          selectButton = document.createElement("button");
-          selectButton.type = "button";
-          selectButton.className = "select-tweet-button";
-          selectButton.textContent = "+";
-          selectButton.title = t("selectTweet");
-          selectButton.dataset.tweetId = tweetId;
-          selectButton.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            this.toggleTweetSelection(tweetElement, tweetId);
-          });
-          tweetElement.appendChild(selectButton);
-        } else if (!selectButton.dataset.tweetId) {
-          selectButton.dataset.tweetId = tweetId;
-        }
-      });
-
-    this.refreshSelectionIndicators();
-  }
-
-  private refreshSelectionIndicators(): void {
-    const orderMap = new Map<string, number>();
-    state.selectedTweetIds.forEach((id, index) => {
-      orderMap.set(id, index + 1);
-    });
-
-    document
-      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
-      .forEach((tweetElement) => {
-        const tweetId = this.extractTweetId(tweetElement);
-        if (!tweetId) {
-          return;
-        }
-        const selectButton = tweetElement.querySelector<HTMLButtonElement>(
-          ".select-tweet-button",
-        );
-        if (!selectButton) {
-          return;
-        }
-
-        if (orderMap.has(tweetId)) {
-          const order = orderMap.get(tweetId) ?? 0;
-          tweetElement.classList.add("tweet-selected");
-          selectButton.classList.add("active");
-          selectButton.textContent = order > 0 ? order.toString() : "✓";
-          selectButton.title = format("selectedTitle", {
-            order: String(order),
-          });
-        } else {
-          tweetElement.classList.remove("tweet-selected");
-          selectButton.classList.remove("active");
-          selectButton.textContent = "+";
-          selectButton.title = t("selectTweet");
-        }
-      });
-
-    this.updateSelectionResetButton();
   }
 
   private toggleTweetSelection(
@@ -605,6 +467,9 @@ class UIManager {
         (id) => id !== tweetId,
       );
     } else {
+      if (state.startFromTweetId) {
+        this.resetStartPoint(false);
+      }
       state.selectedTweetIds = [...state.selectedTweetIds, tweetId];
     }
 
@@ -619,7 +484,8 @@ class UIManager {
         ? format("selectedCount", { count: String(selectedCount) })
         : t("selectionCleared");
 
-    this.refreshSelectionIndicators();
+    tweetControlsManager.sync();
+    this.updateSelectionResetButton();
     this.updateMainButtonText();
 
     if (alreadySelected) {
@@ -646,7 +512,7 @@ class UIManager {
     }
   }
 
-  private resetSelection(): void {
+  private resetSelection(showNotification = true): void {
     if (state.selectedTweetIds.length === 0) {
       return;
     }
@@ -655,9 +521,12 @@ class UIManager {
       state.isSecondStage = false;
     }
     state.collectedThreadData = null;
-    this.refreshSelectionIndicators();
+    tweetControlsManager.sync();
+    this.updateSelectionResetButton();
     this.updateMainButtonText();
-    this.showToast(t("selectionReset"), t("selectionClearedAll"));
+    if (showNotification) {
+      this.showToast(t("selectionReset"), t("selectionClearedAll"));
+    }
     logger.log("Selections reset");
   }
 
@@ -850,55 +719,17 @@ class UIManager {
 
   public updateAllUI(): void {
     this.addControlPanel();
-    this.addSelectionButtons();
-    this.addStartPointButtons();
+    tweetControlsManager.refresh();
     this.updateResetButton();
   }
 
-  private addStartPointButtons(): void {
-    document
-      .querySelectorAll<HTMLElement>(TWITTER_SELECTORS.article)
-      .forEach((tweetElement) => {
-        // 既にボタンが直接の子要素として存在するかチェック
-        const existingButton = Array.from(tweetElement.children).find((child) =>
-          child.classList.contains("start-point-button"),
-        );
-        if (existingButton) return;
-
-        const tweetId = this.extractTweetId(tweetElement);
-        if (!tweetId) return;
-
-        const startButton = document.createElement("button");
-        startButton.className = "start-point-button";
-        startButton.textContent = "★";
-        startButton.title = t("startPointTitle");
-        startButton.dataset.tweetId = tweetId;
-
-        if (state.startFromTweetId === tweetId) {
-          startButton.classList.add("active");
-          startButton.textContent = "✓";
-          tweetElement.classList.add("start-point-set");
-        }
-
-        startButton.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          this.setStartPoint(tweetElement, tweetId);
-        });
-        tweetElement.appendChild(startButton);
-      });
-  }
-
   private setStartPoint(tweetElement: HTMLElement, tweetId: string): void {
-    if (state.startFromTweetId) {
-      document.querySelectorAll(".start-point-set").forEach((tweet) => {
-        tweet.classList.remove("start-point-set");
-        const prevButton = tweet.querySelector(".start-point-button");
-        if (prevButton) {
-          prevButton.classList.remove("active");
-          prevButton.textContent = "★";
-        }
-      });
+    if (state.startFromTweetId === tweetId) {
+      this.resetStartPoint();
+      return;
+    }
+    if (state.selectedTweetIds.length > 0) {
+      this.resetSelection(false);
     }
 
     const author =
@@ -912,13 +743,7 @@ class UIManager {
     state.startFromTweetAuthor = author;
     state.startFromTweetText = tweetText;
 
-    tweetElement.classList.add("start-point-set");
-    const startButton = tweetElement.querySelector(".start-point-button");
-    if (startButton) {
-      startButton.classList.add("active");
-      startButton.textContent = "✓";
-    }
-
+    tweetControlsManager.sync();
     this.updateResetButton();
     this.updateMainButtonText();
     this.showToast(
@@ -945,24 +770,35 @@ class UIManager {
     }
   }
 
-  private resetStartPoint(): void {
+  private resetStartPoint(showNotification = true): void {
     state.startFromTweetId = null;
     state.startFromTweetAuthor = "";
     state.startFromTweetText = "";
 
-    document.querySelectorAll(".start-point-set").forEach((tweet) => {
-      tweet.classList.remove("start-point-set");
-      const button = tweet.querySelector(".start-point-button");
-      if (button) {
-        button.classList.remove("active");
-        button.textContent = "★";
-      }
-    });
-
+    tweetControlsManager.sync();
     this.updateResetButton();
     this.updateMainButtonText();
-    this.showToast(t("startPointResetTitle"), t("startPointResetContent"));
+    if (showNotification) {
+      this.showToast(t("startPointResetTitle"), t("startPointResetContent"));
+    }
     logger.log("Start point reset");
+  }
+
+  public resetThreadContext(): void {
+    this.clearThreadTargetingState();
+    tweetControlsManager.sync();
+    this.updateSelectionResetButton();
+    this.updateResetButton();
+    this.updateMainButtonText();
+  }
+
+  private clearThreadTargetingState(): void {
+    state.selectedTweetIds = [];
+    state.startFromTweetId = null;
+    state.startFromTweetAuthor = "";
+    state.startFromTweetText = "";
+    state.collectedThreadData = null;
+    state.isSecondStage = false;
   }
 
   private configureHoverVisibility(): void {
