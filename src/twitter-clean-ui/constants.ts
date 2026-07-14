@@ -3,18 +3,17 @@
  */
 
 import type { UIElementDefinition, Settings } from "./types";
+import {
+  DEFAULT_RIGHT_SIDEBAR_VISIBILITY,
+  RIGHT_SIDEBAR_SELECTORS,
+} from "./right-sidebar-visibility";
+
+export { CSS_CACHE_KEY, STORAGE_KEY } from "./storage-keys";
 
 /**
  * ストレージキー
  */
-export const STORAGE_KEY = "twitter_clean_ui_settings";
 export const STORAGE_VERSION = "1.0.0";
-
-/**
- * CSSキャッシュ用ストレージキー
- * FOUC防止のため、生成済みCSSテキストをキャッシュする
- */
-export const CSS_CACHE_KEY = "twitter_clean_ui_css_cache";
 
 /**
  * デフォルト設定
@@ -42,14 +41,7 @@ export const DEFAULT_SETTINGS: Settings = {
     leftSidebar_ProfileMenu: true,
 
     // 右サイドバー - 広告系はデフォルトで非表示
-    rightSidebar: true,
-    rightSidebar_SearchBox: true,
-    rightSidebar_PremiumSubscribe: false, // Premiumは非表示
-    rightSidebar_TrendsList: true,
-    rightSidebar_WhoToFollow: true,
-    rightSidebar_TodayNews: true,
-    rightSidebar_RelatedAccounts: true,
-    rightSidebar_Footer: true,
+    ...DEFAULT_RIGHT_SIDEBAR_VISIBILITY,
   },
   layout: {
     mainContentWidth: 600, // 読みやすい幅
@@ -354,7 +346,7 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     strategies: [
       {
         type: "querySelector",
-        selector: '[data-testid="sidebarColumn"]',
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar,
         method: "data-testid",
         confidence: 0.95,
       },
@@ -365,6 +357,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     category: "rightSidebar",
     description: "検索ボックス",
     strategies: [
+      {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_SearchBox,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
       {
         type: "custom",
         method: "Search box container",
@@ -435,6 +433,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     description: "Premiumサブスクライブセクション",
     strategies: [
       {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_PremiumSubscribe,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
+      {
         type: "custom",
         method: "Premium subscribe section - find bordered container first",
         confidence: 0.9,
@@ -479,6 +483,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     category: "rightSidebar",
     description: "トレンド一覧",
     strategies: [
+      {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_TrendsList,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
       {
         type: "custom",
         method: "Trends list with border container",
@@ -530,6 +540,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     description: "おすすめユーザーセクション",
     strategies: [
       {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_WhoToFollow,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
+      {
         type: "custom",
         method: "Who to follow with border container",
         confidence: 0.9,
@@ -566,6 +582,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     category: "rightSidebar",
     description: "本日のニュースセクション",
     strategies: [
+      {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_TodayNews,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
       {
         type: "custom",
         method:
@@ -615,6 +637,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     category: "rightSidebar",
     description: "関連性の高いアカウント（ツイート詳細ページ）",
     strategies: [
+      {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_RelatedAccounts,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
       {
         type: "custom",
         method: "Related accounts section - find by heading text",
@@ -697,6 +725,12 @@ export const UI_ELEMENTS: UIElementDefinition[] = [
     category: "rightSidebar",
     description: "フッターリンク",
     strategies: [
+      {
+        type: "querySelector",
+        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_Footer,
+        method: "CSS :has selector",
+        confidence: 0.95,
+      },
       {
         type: "custom",
         method: "Footer navigation",

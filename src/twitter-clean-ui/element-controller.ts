@@ -26,6 +26,7 @@ export class ElementController {
   private appliedStyles: Map<UIElementId, string> = new Map();
   private hiddenElements: Set<UIElementId> = new Set();
   private styleElement: HTMLStyleElement;
+  private appliedSettings: Settings | null = null;
 
   /**
    * コンストラクタ
@@ -162,10 +163,17 @@ export class ElementController {
    * 設定を適用（CSS静的インジェクション + 動的要素処理）
    */
   public applySettings(settings: Settings): void {
-    this.cssInjector.applySettings(settings);
-    this.applyLayout(settings);
+    const settingsSnapshot: Settings = {
+      ...settings,
+      visibility: { ...settings.visibility },
+      layout: { ...settings.layout },
+    };
+    this.appliedSettings = settingsSnapshot;
 
-    const { visibility } = settings;
+    this.cssInjector.applySettings(settingsSnapshot);
+    this.applyLayout(settingsSnapshot);
+
+    const { visibility } = settingsSnapshot;
 
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
@@ -187,6 +195,15 @@ export class ElementController {
   }
 
   /**
+   * 最後に実適用した設定を再適用する。
+   * リアルタイムプレビューOFF中の未適用設定は参照しない。
+   */
+  public reapplySettings(): void {
+    if (!this.appliedSettings) return;
+    this.applySettings(this.appliedSettings);
+  }
+
+  /**
    * すべての変更をリセット
    */
   public reset(): void {
@@ -200,6 +217,7 @@ export class ElementController {
     this.styleElement.textContent = "";
     this.appliedStyles.clear();
     this.hiddenElements.clear();
+    this.appliedSettings = null;
   }
 
   /**

@@ -351,6 +351,9 @@ export class SettingsUI {
         this.settingsManager.updateSettings({
           enableRealTimePreview: checked,
         });
+        if (checked) {
+          this.controller.applySettings(this.settingsManager.getSettings());
+        }
       },
     );
     section.appendChild(previewControl);

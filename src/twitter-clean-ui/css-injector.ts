@@ -6,7 +6,14 @@
  */
 
 import type { UIElementId, Settings } from "./types";
-import { UI_ELEMENTS, CSS_CACHE_KEY } from "./constants";
+import { UI_ELEMENTS } from "./constants";
+import { CSS_CACHE_KEY } from "./storage-keys";
+import {
+  applyRightSidebarVisibilityCSS,
+  clearRightSidebarVisibilityCSS,
+  isRightSidebarElementId,
+  removeRightSidebarVisibilityStyle,
+} from "./right-sidebar-visibility";
 
 /**
  * 設定ページかどうかを判定
@@ -15,16 +22,6 @@ import { UI_ELEMENTS, CSS_CACHE_KEY } from "./constants";
 function isSettingsPage(): boolean {
   const path = window.location.pathname;
   return path === "/settings" || path.startsWith("/settings/");
-}
-
-/**
- * explore ページかどうかを判定
- * explore ページでは sidebarColumn 内にメイン検索バーが含まれるため、
- * sidebarColumn を丸ごと非表示にすると検索バーも消えてしまう
- */
-function isExplorePage(): boolean {
-  const path = window.location.pathname;
-  return path === "/explore" || path.startsWith("/explore/");
 }
 
 /**
@@ -113,15 +110,14 @@ export class CSSInjector {
     Object.entries(visibility).forEach(([key, visible]) => {
       const elementId = key as UIElementId;
 
+      // 右サイドバーは document-start から有効な専用 style 要素で管理する。
+      if (isRightSidebarElementId(elementId)) {
+        return;
+      }
+
       // 明示的にfalseの場合のみ非表示CSSルールを追加
       // undefinedやtrueの場合は表示（CSSルールを追加しない）
       if (visible === false) {
-        // explore ページでは sidebarColumn を CSS で非表示にしない
-        // sidebarColumn 内にメイン検索バーが含まれるため、
-        // display: none にすると検索バーごと消えてしまう
-        if (elementId === "rightSidebar" && isExplorePage()) {
-          return;
-        }
         const selector = this.generateSelector(elementId);
         if (selector) {
           rules.push(`${selector} { display: none !important; }`);
@@ -169,6 +165,8 @@ export class CSSInjector {
    * 設定を適用してCSSを更新し、キャッシュに保存
    */
   public applySettings(settings: Settings): void {
+    applyRightSidebarVisibilityCSS(settings.visibility);
+
     const visibilityCSS = this.generateVisibilityCSS(settings);
     const layoutCSS = this.generateLayoutCSS(settings);
 
@@ -217,6 +215,7 @@ export class CSSInjector {
   public clear(): void {
     this.styleElement.textContent = "";
     this.currentCSS = "";
+    clearRightSidebarVisibilityCSS();
   }
 
   /**
@@ -224,6 +223,7 @@ export class CSSInjector {
    */
   public destroy(): void {
     this.clear();
+    removeRightSidebarVisibilityStyle();
     if (this.styleElement.parentNode) {
       this.styleElement.parentNode.removeChild(this.styleElement);
     }

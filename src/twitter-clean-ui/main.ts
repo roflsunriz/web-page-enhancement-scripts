@@ -1,34 +1,29 @@
 /**
  * Twitter Clean UI - メインエントリーポイント
  *
- * FOUC（Flash of Unstyled Content）防止のため、3フェーズでCSSを注入する:
- * Phase 0: サイドバークローク（visibility: hidden）を即座に注入（sidebar-cloak.ts）
- * Phase 1: キャッシュ済みCSSを同期的に注入（即時）
- * Phase 2: 初期化完了後にCSSInjectorが同じ<style>要素を再利用して動的更新 → クローク解除
+ * FOUC（Flash of Unstyled Content）防止のため、2系統のCSSを注入する:
+ * - 右サイドバー: 保存設定から項目別CSSをdocument-startで同期注入
+ * - その他のUI: キャッシュ済みCSSを同期注入し、初期化後に動的更新
  *
- * Phase 0 は sidebar-cloak.ts に分離されており、他のモジュールに一切依存しない。
- * main.ts の最初の import として読み込むことで、バンドル内の最初のコードとして
- * 評価され、全モジュールの中で最速でクロークが挿入される。
- *
- * SPA遷移時は history API をインターセプトし、遷移ごとにクローク→再適用→リビールのサイクルを実行
+ * SPA遷移時は history API をインターセプトし、遷移先パスに合わせてCSSを即時再生成する。
  */
 
-// Phase 0: 最初に import — バンドル内で最初に評価されるモジュール
-import { SIDEBAR_CLOAK_ID, SIDEBAR_CLOAK_CSS } from "./sidebar-cloak";
+// 最初に評価し、保存済みの右サイドバー設定をdocument-startで適用する。
+import "./startup-right-sidebar";
 
 import { ElementDetector } from "./element-detector";
 import { ElementController } from "./element-controller";
 import { SettingsManager } from "./settings-manager";
 import { SettingsUI } from "./settings-ui";
 import { setLanguage, detectBrowserLanguage, t } from "./i18n";
-import { CSS_CACHE_KEY } from "./constants";
+import { CSS_CACHE_KEY } from "./storage-keys";
 import { CSSInjector } from "./css-injector";
+import { stripLegacyRightSidebarVisibilityCSS } from "./right-sidebar-visibility";
+import type { Settings } from "./types";
 
 // ─────────────────────────────────────────────────
-// Phase 1: キャッシュ済みCSS即時注入
-//
-// Phase 0（sidebar-cloak.ts import の副作用）でクロークは既に挿入済み。
-// ここではキャッシュ済みの表示/非表示CSSを注入する。
+// キャッシュ済みCSS即時注入
+// 右サイドバーは専用styleで管理し、ここではそれ以外のCSSを注入する。
 // ─────────────────────────────────────────────────
 try {
   let cachedCSS: string | null = null;
@@ -44,18 +39,7 @@ try {
     style.id = CSSInjector.STYLE_ELEMENT_ID;
     style.type = "text/css";
 
-    // explore ページへの直接アクセス時、キャッシュ CSS に含まれる
-    // sidebarColumn の display:none ルールを除去する。
-    // sidebarColumn 内にメイン検索バーが含まれるため、そのまま適用すると
-    // 検索バーが一時的に消えてしまう（Phase 2 で正しい CSS が再生成される）。
-    const path = window.location.pathname;
-    const onExplorePage = path === "/explore" || path.startsWith("/explore/");
-    style.textContent = onExplorePage
-      ? cachedCSS.replace(
-          /\[data-testid="sidebarColumn"\]\s*\{[^}]*display\s*:\s*none[^}]*\}/g,
-          "",
-        )
-      : cachedCSS;
+    style.textContent = stripLegacyRightSidebarVisibilityCSS(cachedCSS);
 
     (document.head || document.documentElement).appendChild(style);
   }
@@ -67,10 +51,6 @@ try {
 // 以下、クラス定義・ヘルパー関数・Phase 2 初期化
 // ─────────────────────────────────────────────────
 
-const SIDEBAR_REVEAL_FAILSAFE_MS = 2000;
-const SIDEBAR_NAV_SETTLE_INTERVAL_MS = 100;
-const SIDEBAR_NAV_SETTLE_MAX_RETRIES = 20;
-
 /**
  * アプリケーションクラス
  */
@@ -80,14 +60,10 @@ class TwitterCleanUI {
   private settingsManager: SettingsManager;
   private settingsUI: SettingsUI;
   private isInitialized: boolean = false;
-  private settingsWatcherInterval: ReturnType<typeof setInterval> | null = null;
   private primaryMutationObserver: MutationObserver | null = null;
-  private sidebarMutationObserver: MutationObserver | null = null;
   private applySettingsDebounceTimer: ReturnType<typeof setTimeout> | null =
     null;
   private rafId: number | null = null;
-  private sidebarDebounceTimer: ReturnType<typeof setTimeout> | null = null;
-  private revealFailsafeTimer: ReturnType<typeof setTimeout> | null = null;
   private lastUrl: string = "";
   private isApplyingSettings: boolean = false;
   private primaryObservingBody: boolean = false;
@@ -111,20 +87,15 @@ class TwitterCleanUI {
       const settings = this.settingsManager.getSettings();
       setLanguage(settings.language || detectBrowserLanguage());
 
-      this.guardedApplySettings();
+      this.guardedApplySettings(settings);
 
       this.startPrimaryMutationObserver();
-      this.startSidebarMutationObserver();
       this.registerMenuCommand();
-      this.startSettingsWatcher();
       this.setupNavigationInterception();
-
-      this.revealSidebar();
 
       this.isInitialized = true;
     } catch (error) {
       console.error("[TwitterCleanUI] Initialization failed:", error);
-      this.revealSidebar();
     }
   }
 
@@ -132,56 +103,20 @@ class TwitterCleanUI {
 
   /**
    * applySettings のガード付きラッパー。
-   * 実行中フラグを立てることで、applySettings が引き起こす DOM 変更を
-   * サイドバー MutationObserver が拾って無限ループに陥るのを防ぐ。
+   * 明示設定がなければ、リアルタイムプレビューで最後に実適用した設定を
+   * 再利用し、OFF中の未適用変更がDOM監視経由で反映されるのを防ぐ。
    */
-  private guardedApplySettings(): void {
+  private guardedApplySettings(settings?: Settings): void {
     this.isApplyingSettings = true;
     try {
       this.detector.detectAll();
-      const settings = this.settingsManager.getSettings();
-      this.controller.applySettings(settings);
+      if (settings) {
+        this.controller.applySettings(settings);
+      } else {
+        this.controller.reapplySettings();
+      }
     } finally {
       this.isApplyingSettings = false;
-    }
-  }
-
-  // ─── サイドバークローク制御 ───
-
-  private cloakSidebar(): void {
-    let cloakEl = document.getElementById(
-      SIDEBAR_CLOAK_ID,
-    ) as HTMLStyleElement | null;
-    if (!cloakEl) {
-      cloakEl = document.createElement("style");
-      cloakEl.id = SIDEBAR_CLOAK_ID;
-      const target = document.head || document.documentElement;
-      target.appendChild(cloakEl);
-    }
-    cloakEl.textContent = SIDEBAR_CLOAK_CSS;
-
-    this.clearRevealFailsafe();
-    this.revealFailsafeTimer = setTimeout(() => {
-      this.revealSidebar();
-    }, SIDEBAR_REVEAL_FAILSAFE_MS);
-  }
-
-  private revealSidebar(): void {
-    this.clearRevealFailsafe();
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
-        if (cloakEl) {
-          cloakEl.textContent = "";
-        }
-      });
-    });
-  }
-
-  private clearRevealFailsafe(): void {
-    if (this.revealFailsafeTimer !== null) {
-      clearTimeout(this.revealFailsafeTimer);
-      this.revealFailsafeTimer = null;
     }
   }
 
@@ -219,29 +154,10 @@ class TwitterCleanUI {
   }
 
   /**
-   * SPA遷移発生時: クローク → サイドバーDOM安定待ち → 検出+適用 → リビール
+   * SPA遷移発生時: 適用済み設定から遷移先パス用のCSSを即時再生成する。
    */
   private handleNavigation(): void {
-    this.cloakSidebar();
-
-    let retryCount = 0;
-    const settle = (): void => {
-      this.guardedApplySettings();
-
-      const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
-      const hasSidebarContent = sidebar !== null && sidebar.children.length > 0;
-
-      if (hasSidebarContent || retryCount >= SIDEBAR_NAV_SETTLE_MAX_RETRIES) {
-        this.revealSidebar();
-        this.reattachSidebarObserver();
-        return;
-      }
-
-      retryCount++;
-      setTimeout(settle, SIDEBAR_NAV_SETTLE_INTERVAL_MS);
-    };
-
-    setTimeout(settle, SIDEBAR_NAV_SETTLE_INTERVAL_MS);
+    this.guardedApplySettings();
   }
 
   // ─── MutationObserver: primaryColumn ───
@@ -300,67 +216,6 @@ class TwitterCleanUI {
     }
   }
 
-  // ─── MutationObserver: sidebarColumn ───
-
-  private startSidebarMutationObserver(): void {
-    const sidebar = document.querySelector('[data-testid="sidebarColumn"]');
-    if (!sidebar) return;
-
-    this.sidebarMutationObserver = new MutationObserver((mutations) => {
-      if (this.isApplyingSettings) {
-        return;
-      }
-
-      const hasSignificantChange = mutations.some(
-        (m) =>
-          m.type === "childList" &&
-          (m.addedNodes.length > 0 || m.removedNodes.length > 0),
-      );
-      if (!hasSignificantChange) return;
-
-      if (this.sidebarDebounceTimer) {
-        clearTimeout(this.sidebarDebounceTimer);
-      }
-
-      this.sidebarDebounceTimer = setTimeout(() => {
-        this.guardedApplySettings();
-      }, 200);
-    });
-
-    this.sidebarMutationObserver.observe(sidebar, {
-      childList: true,
-      subtree: true,
-    });
-  }
-
-  /**
-   * SPA遷移後にサイドバーのDOMが置き換わるため、Observerを再接続する
-   */
-  private reattachSidebarObserver(): void {
-    if (this.sidebarMutationObserver) {
-      this.sidebarMutationObserver.disconnect();
-      this.sidebarMutationObserver = null;
-    }
-    this.startSidebarMutationObserver();
-  }
-
-  // ─── 定期チェック（フォールバック） ───
-
-  private startSettingsWatcher(): void {
-    let checkCount = 0;
-    const initialInterval = setInterval(() => {
-      this.guardedApplySettings();
-      checkCount++;
-      if (checkCount >= 10) {
-        clearInterval(initialInterval);
-      }
-    }, 500);
-
-    this.settingsWatcherInterval = setInterval(() => {
-      this.guardedApplySettings();
-    }, 5000);
-  }
-
   // ─── メニューコマンド ───
 
   private registerMenuCommand(): void {
@@ -381,24 +236,14 @@ class TwitterCleanUI {
   // ─── クリーンアップ ───
 
   public destroy(): void {
-    if (this.settingsWatcherInterval) {
-      clearInterval(this.settingsWatcherInterval);
-    }
     if (this.applySettingsDebounceTimer) {
       clearTimeout(this.applySettingsDebounceTimer);
     }
-    if (this.sidebarDebounceTimer) {
-      clearTimeout(this.sidebarDebounceTimer);
-    }
-    this.clearRevealFailsafe();
     if (this.rafId !== null) {
       cancelAnimationFrame(this.rafId);
     }
     if (this.primaryMutationObserver) {
       this.primaryMutationObserver.disconnect();
-    }
-    if (this.sidebarMutationObserver) {
-      this.sidebarMutationObserver.disconnect();
     }
     this.detector.stopObserving();
     this.controller.destroy();
@@ -461,9 +306,5 @@ function waitForReactRoot(timeout: number = 10000): Promise<void> {
       app;
   } catch (error) {
     console.error("[TwitterCleanUI] Fatal error:", error);
-    const cloakEl = document.getElementById(SIDEBAR_CLOAK_ID);
-    if (cloakEl) {
-      cloakEl.textContent = "";
-    }
   }
 })();
