@@ -7,6 +7,11 @@ import type { SettingsManager } from "./settings-manager";
 import type { ElementController } from "./element-controller";
 import { t } from "./i18n";
 import { UI_STYLES } from "./styles";
+import {
+  CONTENT_ELEMENT_IDS,
+  LEFT_SIDEBAR_ELEMENT_IDS,
+} from "./ui-visibility-selectors";
+import { RIGHT_SIDEBAR_ELEMENT_IDS } from "./right-sidebar-visibility";
 
 /**
  * 設定UIクラス
@@ -141,6 +146,7 @@ export class SettingsUI {
     const tabs = [
       { id: "visibility", label: t("leftSidebarSettings") },
       { id: "rightSidebar", label: t("rightSidebarSettings") },
+      { id: "content", label: t("contentSettings") },
       { id: "layout", label: t("layoutSettings") },
       { id: "profiles", label: t("profileSettings") },
     ];
@@ -179,6 +185,9 @@ export class SettingsUI {
       case "rightSidebar":
         body.appendChild(this.createRightSidebarTab());
         break;
+      case "content":
+        body.appendChild(this.createContentTab());
+        break;
       case "layout":
         body.appendChild(this.createLayoutTab());
         break;
@@ -199,25 +208,7 @@ export class SettingsUI {
     // 左サイドバーセクション
     const leftSidebarSection = this.createSection(t("leftSidebarSettings"));
 
-    const leftSidebarElements: UIElementId[] = [
-      "leftSidebar_Logo",
-      "leftSidebar_HomeLink",
-      "leftSidebar_ExploreLink",
-      "leftSidebar_NotificationsLink",
-      "leftSidebar_ConnectLink",
-      "leftSidebar_MessagesLink",
-      "leftSidebar_GrokLink",
-      "leftSidebar_BookmarksLink",
-      "leftSidebar_ListsLink",
-      "leftSidebar_CommunitiesLink",
-      "leftSidebar_ProfileLink",
-      "leftSidebar_PremiumLink",
-      "leftSidebar_BusinessLink",
-      "leftSidebar_CreatorStudioLink",
-      "leftSidebar_MoreMenu",
-      "leftSidebar_TweetButton",
-      "leftSidebar_ProfileMenu",
-    ];
+    const leftSidebarElements: UIElementId[] = [...LEFT_SIDEBAR_ELEMENT_IDS];
 
     leftSidebarElements.forEach((elementId) => {
       const visibility = settings.visibility as unknown as Record<
@@ -256,16 +247,7 @@ export class SettingsUI {
 
     const section = this.createSection(t("rightSidebarSettings"));
 
-    const rightSidebarElements: UIElementId[] = [
-      "rightSidebar",
-      "rightSidebar_SearchBox",
-      "rightSidebar_PremiumSubscribe",
-      "rightSidebar_TrendsList",
-      "rightSidebar_WhoToFollow",
-      "rightSidebar_TodayNews",
-      "rightSidebar_RelatedAccounts",
-      "rightSidebar_Footer",
-    ];
+    const rightSidebarElements: UIElementId[] = [...RIGHT_SIDEBAR_ELEMENT_IDS];
 
     rightSidebarElements.forEach((elementId) => {
       const visibility = settings.visibility as unknown as Record<
@@ -281,6 +263,37 @@ export class SettingsUI {
           };
           this.settingsManager.updateSettings({
             visibility: partialVisibility as typeof settings.visibility,
+          });
+          if (this.settingsManager.getSettings().enableRealTimePreview) {
+            this.controller.applySettings(this.settingsManager.getSettings());
+          }
+        },
+      );
+      section.appendChild(control);
+    });
+
+    container.appendChild(section);
+    return container;
+  }
+
+  /**
+   * コンテンツタブを作成
+   */
+  private createContentTab(): HTMLElement {
+    const container = document.createElement("div");
+    const settings = this.settingsManager.getSettings();
+    const section = this.createSection(t("contentSettings"));
+
+    CONTENT_ELEMENT_IDS.forEach((elementId) => {
+      const control = this.createToggleControl(
+        t(elementId),
+        settings.visibility[elementId],
+        (checked) => {
+          this.settingsManager.updateSettings({
+            visibility: {
+              ...this.settingsManager.getSettings().visibility,
+              [elementId]: checked,
+            },
           });
           if (this.settingsManager.getSettings().enableRealTimePreview) {
             this.controller.applySettings(this.settingsManager.getSettings());

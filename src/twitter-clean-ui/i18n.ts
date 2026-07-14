@@ -5,6 +5,191 @@
 import { buildSupportedTranslationMap, createI18n } from "@/shared/i18n";
 import type { Language, TranslationKeys } from "./types";
 
+type ModifierTranslationKeys = Pick<
+  TranslationKeys,
+  | "contentSettings"
+  | "leftSidebar_AdsLink"
+  | "leftSidebar_CreateSpaceLink"
+  | "leftSidebar_SettingsLink"
+  | "content_TimelineTabs"
+  | "content_PostComposer"
+  | "content_GrokDrawer"
+  | "content_ChatDrawer"
+  | "content_PostReplyAction"
+  | "content_PostRepostAction"
+  | "content_PostLikeAction"
+  | "content_PostAnalyticsAction"
+  | "content_PostBookmarkAction"
+>;
+
+const modifierTranslations: Record<Language, ModifierTranslationKeys> = {
+  ja: {
+    contentSettings: "コンテンツ設定",
+    leftSidebar_AdsLink: "広告",
+    leftSidebar_CreateSpaceLink: "スペースを作成",
+    leftSidebar_SettingsLink: "設定とプライバシー",
+    content_TimelineTabs: "タイムラインタブ",
+    content_PostComposer: "ホームの投稿入力欄",
+    content_GrokDrawer: "Grokドロワー",
+    content_ChatDrawer: "チャットドロワー",
+    content_PostReplyAction: "返信ボタン",
+    content_PostRepostAction: "リポストボタン",
+    content_PostLikeAction: "いいねボタン",
+    content_PostAnalyticsAction: "表示数・アナリティクス",
+    content_PostBookmarkAction: "ブックマークボタン",
+  },
+  en: {
+    contentSettings: "Content Settings",
+    leftSidebar_AdsLink: "Ads",
+    leftSidebar_CreateSpaceLink: "Create a Space",
+    leftSidebar_SettingsLink: "Settings and privacy",
+    content_TimelineTabs: "Timeline Tabs",
+    content_PostComposer: "Home Post Composer",
+    content_GrokDrawer: "Grok Drawer",
+    content_ChatDrawer: "Chat Drawer",
+    content_PostReplyAction: "Reply Button",
+    content_PostRepostAction: "Repost Button",
+    content_PostLikeAction: "Like Button",
+    content_PostAnalyticsAction: "Views and Analytics",
+    content_PostBookmarkAction: "Bookmark Button",
+  },
+  "zh-Hans": {
+    contentSettings: "内容设置",
+    leftSidebar_AdsLink: "广告",
+    leftSidebar_CreateSpaceLink: "创建空间",
+    leftSidebar_SettingsLink: "设置与隐私",
+    content_TimelineTabs: "时间线标签",
+    content_PostComposer: "主页发帖框",
+    content_GrokDrawer: "Grok 抽屉",
+    content_ChatDrawer: "聊天抽屉",
+    content_PostReplyAction: "回复按钮",
+    content_PostRepostAction: "转帖按钮",
+    content_PostLikeAction: "喜欢按钮",
+    content_PostAnalyticsAction: "查看次数与分析",
+    content_PostBookmarkAction: "书签按钮",
+  },
+  hi: {
+    contentSettings: "कंटेंट सेटिंग्स",
+    leftSidebar_AdsLink: "विज्ञापन",
+    leftSidebar_CreateSpaceLink: "स्पेस बनाएं",
+    leftSidebar_SettingsLink: "सेटिंग्स और गोपनीयता",
+    content_TimelineTabs: "टाइमलाइन टैब",
+    content_PostComposer: "होम पोस्ट कंपोज़र",
+    content_GrokDrawer: "Grok ड्रॉअर",
+    content_ChatDrawer: "चैट ड्रॉअर",
+    content_PostReplyAction: "जवाब बटन",
+    content_PostRepostAction: "रीपोस्ट बटन",
+    content_PostLikeAction: "लाइक बटन",
+    content_PostAnalyticsAction: "व्यू और एनालिटिक्स",
+    content_PostBookmarkAction: "बुकमार्क बटन",
+  },
+  es: {
+    contentSettings: "Ajustes de contenido",
+    leftSidebar_AdsLink: "Anuncios",
+    leftSidebar_CreateSpaceLink: "Crear un Espacio",
+    leftSidebar_SettingsLink: "Configuración y privacidad",
+    content_TimelineTabs: "Pestañas de la cronología",
+    content_PostComposer: "Editor de publicaciones de inicio",
+    content_GrokDrawer: "Panel de Grok",
+    content_ChatDrawer: "Panel de chat",
+    content_PostReplyAction: "Botón de responder",
+    content_PostRepostAction: "Botón de republicar",
+    content_PostLikeAction: "Botón Me gusta",
+    content_PostAnalyticsAction: "Visualizaciones y estadísticas",
+    content_PostBookmarkAction: "Botón de marcador",
+  },
+  fr: {
+    contentSettings: "Paramètres du contenu",
+    leftSidebar_AdsLink: "Publicités",
+    leftSidebar_CreateSpaceLink: "Créer un Espace",
+    leftSidebar_SettingsLink: "Paramètres et confidentialité",
+    content_TimelineTabs: "Onglets du fil",
+    content_PostComposer: "Zone de publication de l'accueil",
+    content_GrokDrawer: "Tiroir Grok",
+    content_ChatDrawer: "Tiroir de discussion",
+    content_PostReplyAction: "Bouton Répondre",
+    content_PostRepostAction: "Bouton Republier",
+    content_PostLikeAction: "Bouton J'aime",
+    content_PostAnalyticsAction: "Vues et statistiques",
+    content_PostBookmarkAction: "Bouton Signet",
+  },
+  ar: {
+    contentSettings: "إعدادات المحتوى",
+    leftSidebar_AdsLink: "الإعلانات",
+    leftSidebar_CreateSpaceLink: "إنشاء مساحة",
+    leftSidebar_SettingsLink: "الإعدادات والخصوصية",
+    content_TimelineTabs: "علامات تبويب الخط الزمني",
+    content_PostComposer: "محرر منشورات الرئيسية",
+    content_GrokDrawer: "درج Grok",
+    content_ChatDrawer: "درج الدردشة",
+    content_PostReplyAction: "زر الرد",
+    content_PostRepostAction: "زر إعادة النشر",
+    content_PostLikeAction: "زر الإعجاب",
+    content_PostAnalyticsAction: "المشاهدات والتحليلات",
+    content_PostBookmarkAction: "زر الإشارة المرجعية",
+  },
+  pt: {
+    contentSettings: "Configurações de conteúdo",
+    leftSidebar_AdsLink: "Anúncios",
+    leftSidebar_CreateSpaceLink: "Criar um Espaço",
+    leftSidebar_SettingsLink: "Configurações e privacidade",
+    content_TimelineTabs: "Abas da timeline",
+    content_PostComposer: "Editor de posts da página inicial",
+    content_GrokDrawer: "Gaveta do Grok",
+    content_ChatDrawer: "Gaveta de chat",
+    content_PostReplyAction: "Botão de responder",
+    content_PostRepostAction: "Botão de repostar",
+    content_PostLikeAction: "Botão Curtir",
+    content_PostAnalyticsAction: "Visualizações e análises",
+    content_PostBookmarkAction: "Botão de item salvo",
+  },
+  bn: {
+    contentSettings: "কনটেন্ট সেটিংস",
+    leftSidebar_AdsLink: "বিজ্ঞাপন",
+    leftSidebar_CreateSpaceLink: "স্পেস তৈরি করুন",
+    leftSidebar_SettingsLink: "সেটিংস ও গোপনীয়তা",
+    content_TimelineTabs: "টাইমলাইন ট্যাব",
+    content_PostComposer: "হোম পোস্ট কম্পোজার",
+    content_GrokDrawer: "Grok ড্রয়ার",
+    content_ChatDrawer: "চ্যাট ড্রয়ার",
+    content_PostReplyAction: "উত্তর বোতাম",
+    content_PostRepostAction: "রিপোস্ট বোতাম",
+    content_PostLikeAction: "লাইক বোতাম",
+    content_PostAnalyticsAction: "ভিউ ও অ্যানালিটিক্স",
+    content_PostBookmarkAction: "বুকমার্ক বোতাম",
+  },
+  ru: {
+    contentSettings: "Настройки содержимого",
+    leftSidebar_AdsLink: "Реклама",
+    leftSidebar_CreateSpaceLink: "Создать аудиокомнату",
+    leftSidebar_SettingsLink: "Настройки и конфиденциальность",
+    content_TimelineTabs: "Вкладки ленты",
+    content_PostComposer: "Редактор поста на главной",
+    content_GrokDrawer: "Панель Grok",
+    content_ChatDrawer: "Панель чата",
+    content_PostReplyAction: "Кнопка ответа",
+    content_PostRepostAction: "Кнопка репоста",
+    content_PostLikeAction: "Кнопка «Нравится»",
+    content_PostAnalyticsAction: "Просмотры и аналитика",
+    content_PostBookmarkAction: "Кнопка закладки",
+  },
+  ur: {
+    contentSettings: "مواد کی ترتیبات",
+    leftSidebar_AdsLink: "اشتہارات",
+    leftSidebar_CreateSpaceLink: "اسپیس بنائیں",
+    leftSidebar_SettingsLink: "ترتیبات اور رازداری",
+    content_TimelineTabs: "ٹائم لائن ٹیبز",
+    content_PostComposer: "ہوم پوسٹ کمپوزر",
+    content_GrokDrawer: "Grok ڈراؤر",
+    content_ChatDrawer: "چیٹ ڈراؤر",
+    content_PostReplyAction: "جواب کا بٹن",
+    content_PostRepostAction: "ری پوسٹ بٹن",
+    content_PostLikeAction: "پسند کا بٹن",
+    content_PostAnalyticsAction: "مناظر اور تجزیات",
+    content_PostBookmarkAction: "بک مارک بٹن",
+  },
+};
+
 /**
  * 日本語翻訳
  */
@@ -23,6 +208,7 @@ const ja: TranslationKeys = {
   rightSidebarSettings: "右サイドバー設定",
   layoutSettings: "レイアウト設定",
   profileSettings: "プロファイル設定",
+  ...modifierTranslations.ja,
 
   // 左サイドバー
   leftSidebar: "左サイドバー全体",
@@ -92,6 +278,7 @@ const en: TranslationKeys = {
   rightSidebarSettings: "Right Sidebar Settings",
   layoutSettings: "Layout Settings",
   profileSettings: "Profile Settings",
+  ...modifierTranslations.en,
 
   // Left Sidebar
   leftSidebar: "Left Sidebar (Entire)",
@@ -147,6 +334,7 @@ const translations = {
   ja,
   en,
   "zh-Hans": {
+    ...modifierTranslations["zh-Hans"],
     appName: "twitter-clean-ui",
     settings: "设置",
     save: "保存",
@@ -201,6 +389,7 @@ const translations = {
     resetSettingsConfirm: "重置设置？",
   },
   hi: {
+    ...modifierTranslations.hi,
     appName: "twitter-clean-ui",
     settings: "सेटिंग्स",
     save: "सहेजें",
@@ -255,6 +444,7 @@ const translations = {
     resetSettingsConfirm: "सेटिंग्स रीसेट करें?",
   },
   es: {
+    ...modifierTranslations.es,
     appName: "twitter-clean-ui",
     settings: "Ajustes",
     save: "Guardar",
@@ -309,6 +499,7 @@ const translations = {
     resetSettingsConfirm: "¿Restablecer ajustes?",
   },
   fr: {
+    ...modifierTranslations.fr,
     appName: "twitter-clean-ui",
     settings: "Paramètres",
     save: "Enregistrer",
@@ -363,6 +554,7 @@ const translations = {
     resetSettingsConfirm: "Réinitialiser les paramètres ?",
   },
   ar: {
+    ...modifierTranslations.ar,
     appName: "twitter-clean-ui",
     settings: "الإعدادات",
     save: "حفظ",
@@ -417,6 +609,7 @@ const translations = {
     resetSettingsConfirm: "إعادة ضبط الإعدادات؟",
   },
   pt: {
+    ...modifierTranslations.pt,
     appName: "twitter-clean-ui",
     settings: "Configurações",
     save: "Salvar",
@@ -471,6 +664,7 @@ const translations = {
     resetSettingsConfirm: "Redefinir configurações?",
   },
   bn: {
+    ...modifierTranslations.bn,
     appName: "twitter-clean-ui",
     settings: "সেটিংস",
     save: "সংরক্ষণ",
@@ -525,6 +719,7 @@ const translations = {
     resetSettingsConfirm: "সেটিংস রিসেট করবেন?",
   },
   ru: {
+    ...modifierTranslations.ru,
     appName: "twitter-clean-ui",
     settings: "Настройки",
     save: "Сохранить",
@@ -579,6 +774,7 @@ const translations = {
     resetSettingsConfirm: "Сбросить настройки?",
   },
   ur: {
+    ...modifierTranslations.ur,
     appName: "twitter-clean-ui",
     settings: "سیٹنگز",
     save: "محفوظ کریں",

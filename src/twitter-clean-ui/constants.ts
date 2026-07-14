@@ -2,758 +2,133 @@
  * Twitter Clean UI - 定数定義
  */
 
-import type { UIElementDefinition, Settings } from "./types";
+import type { UIElementDefinition, UIElementCategory, Settings } from "./types";
+import {
+  CONTENT_ELEMENT_IDS,
+  CONTENT_SELECTORS,
+  DEFAULT_CONTENT_VISIBILITY,
+  DEFAULT_LEFT_SIDEBAR_VISIBILITY,
+  LEFT_SIDEBAR_ELEMENT_IDS,
+  LEFT_SIDEBAR_SELECTORS,
+  type ContentElementId,
+  type LeftSidebarElementId,
+} from "./ui-visibility-selectors";
 import {
   DEFAULT_RIGHT_SIDEBAR_VISIBILITY,
+  RIGHT_SIDEBAR_ELEMENT_IDS,
   RIGHT_SIDEBAR_SELECTORS,
+  type RightSidebarElementId,
 } from "./right-sidebar-visibility";
 
 export { CSS_CACHE_KEY, STORAGE_KEY } from "./storage-keys";
 
-/**
- * ストレージキー
- */
 export const STORAGE_VERSION = "1.0.0";
 
-/**
- * デフォルト設定
- */
 export const DEFAULT_SETTINGS: Settings = {
   visibility: {
-    // 左サイドバー - デフォルトはすべて表示
-    leftSidebar: true,
-    leftSidebar_Logo: true,
-    leftSidebar_HomeLink: true,
-    leftSidebar_ExploreLink: true,
-    leftSidebar_NotificationsLink: true,
-    leftSidebar_MessagesLink: true,
-    leftSidebar_GrokLink: true,
-    leftSidebar_ConnectLink: true,
-    leftSidebar_BookmarksLink: true,
-    leftSidebar_ListsLink: true,
-    leftSidebar_CommunitiesLink: true,
-    leftSidebar_ProfileLink: true,
-    leftSidebar_PremiumLink: true,
-    leftSidebar_BusinessLink: true,
-    leftSidebar_CreatorStudioLink: true,
-    leftSidebar_MoreMenu: true,
-    leftSidebar_TweetButton: true,
-    leftSidebar_ProfileMenu: true,
-
-    // 右サイドバー - 広告系はデフォルトで非表示
+    ...DEFAULT_LEFT_SIDEBAR_VISIBILITY,
     ...DEFAULT_RIGHT_SIDEBAR_VISIBILITY,
+    ...DEFAULT_CONTENT_VISIBILITY,
   },
   layout: {
-    mainContentWidth: 600, // 読みやすい幅
+    mainContentWidth: 600,
     timelineRightPadding: 16,
   },
   enableRealTimePreview: true,
   language: "ja",
 };
 
-/**
- * UI要素の定義
- */
+const LEFT_SIDEBAR_DESCRIPTIONS: Record<LeftSidebarElementId, string> = {
+  leftSidebar: "左サイドバー全体",
+  leftSidebar_Logo: "Xロゴ",
+  leftSidebar_HomeLink: "ホームリンク",
+  leftSidebar_ExploreLink: "話題を検索リンク",
+  leftSidebar_NotificationsLink: "通知リンク",
+  leftSidebar_MessagesLink: "メッセージリンク",
+  leftSidebar_GrokLink: "Grokリンク",
+  leftSidebar_ConnectLink: "フォローリンク",
+  leftSidebar_BookmarksLink: "ブックマークリンク",
+  leftSidebar_ListsLink: "リストリンク",
+  leftSidebar_CommunitiesLink: "コミュニティリンク",
+  leftSidebar_ProfileLink: "プロフィールリンク",
+  leftSidebar_PremiumLink: "Premiumリンク",
+  leftSidebar_BusinessLink: "ビジネスリンク",
+  leftSidebar_CreatorStudioLink: "クリエイタースタジオリンク",
+  leftSidebar_AdsLink: "広告リンク",
+  leftSidebar_CreateSpaceLink: "スペース作成リンク",
+  leftSidebar_SettingsLink: "設定とプライバシーリンク",
+  leftSidebar_MoreMenu: "もっと見るメニュー",
+  leftSidebar_TweetButton: "ポスト作成ボタン",
+  leftSidebar_ProfileMenu: "プロフィールメニュー",
+};
+
+const RIGHT_SIDEBAR_DESCRIPTIONS: Record<RightSidebarElementId, string> = {
+  rightSidebar: "右サイドバー全体",
+  rightSidebar_SearchBox: "検索ボックス",
+  rightSidebar_PremiumSubscribe: "Premiumサブスクライブセクション",
+  rightSidebar_TrendsList: "トレンド一覧",
+  rightSidebar_WhoToFollow: "おすすめユーザーセクション",
+  rightSidebar_TodayNews: "本日のニュースセクション",
+  rightSidebar_RelatedAccounts: "関連性の高いアカウント",
+  rightSidebar_Footer: "フッターリンク",
+};
+
+const CONTENT_DESCRIPTIONS: Record<ContentElementId, string> = {
+  content_TimelineTabs: "タイムラインタブ",
+  content_PostComposer: "ホームの投稿入力欄",
+  content_GrokDrawer: "Grokドロワー",
+  content_ChatDrawer: "チャットドロワー",
+  content_PostReplyAction: "ポストの返信操作",
+  content_PostRepostAction: "ポストのリポスト操作",
+  content_PostLikeAction: "ポストのいいね操作",
+  content_PostAnalyticsAction: "ポストの表示数・アナリティクス",
+  content_PostBookmarkAction: "ポストのブックマーク操作",
+};
+
+function createDefinition(
+  id: UIElementDefinition["id"],
+  category: UIElementCategory,
+  description: string,
+  selector: string,
+): UIElementDefinition {
+  return {
+    id,
+    category,
+    description,
+    strategies: [
+      {
+        type: "querySelector",
+        selector,
+        method: "verified CSS selector",
+        confidence: 0.95,
+      },
+    ],
+  };
+}
+
 export const UI_ELEMENTS: UIElementDefinition[] = [
-  // ========================================
-  // 左サイドバー
-  // ========================================
-  {
-    id: "leftSidebar",
-    category: "leftSidebar",
-    description: "左サイドバー全体",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'header[role="banner"]',
-        method: "header banner role",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_Logo",
-    category: "leftSidebar",
-    description: "Xロゴ",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'h1[role="heading"] a[aria-label*="X"]',
-        method: "X logo link",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_HomeLink",
-    category: "leftSidebar",
-    description: "ホームリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Home_Link"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_ExploreLink",
-    category: "leftSidebar",
-    description: "話題を検索リンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Explore_Link"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_NotificationsLink",
-    category: "leftSidebar",
-    description: "通知リンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Notifications_Link"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_MessagesLink",
-    category: "leftSidebar",
-    description: "メッセージリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_DirectMessage_Link"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_GrokLink",
-    category: "leftSidebar",
-    description: "Grokリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/grok"]',
-        method: "href selector",
-        confidence: 0.95,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[aria-label="Grok"]',
-        method: "aria-label",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_ConnectLink",
-    category: "leftSidebar",
-    description: "フォロー/つながるリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Follow_Link"]',
-        method: "data-testid (Follow)",
-        confidence: 0.95,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Connect_Link"]',
-        method: "data-testid (Connect - legacy)",
-        confidence: 0.9,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/connect_people"]',
-        method: "href selector",
-        confidence: 0.85,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_BookmarksLink",
-    category: "leftSidebar",
-    description: "ブックマークリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/bookmarks"]',
-        method: "href selector",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_ListsLink",
-    category: "leftSidebar",
-    description: "リストリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href*="/lists"]',
-        method: "href contains",
-        confidence: 0.85,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_CommunitiesLink",
-    category: "leftSidebar",
-    description: "コミュニティリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href*="/communities"]',
-        method: "href contains",
-        confidence: 0.9,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[aria-label="コミュニティ"], a[aria-label="Communities"]',
-        method: "aria-label",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_ProfileLink",
-    category: "leftSidebar",
-    description: "プロフィールリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="AppTabBar_Profile_Link"]',
-        method: "data-testid",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_PremiumLink",
-    category: "leftSidebar",
-    description: "Premiumリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/premium_sign_up"]',
-        method: "href selector",
-        confidence: 0.9,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="premium-signup-tab"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_BusinessLink",
-    category: "leftSidebar",
-    description: "ビジネスリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="premium-business-signup-tab"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/premium-business"]',
-        method: "href selector",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_CreatorStudioLink",
-    category: "leftSidebar",
-    description: "クリエイタースタジオリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[href="/i/jf/creators/studio"]',
-        method: "href selector",
-        confidence: 0.95,
-      },
-      {
-        type: "querySelector",
-        selector:
-          'a[aria-label="クリエイタースタジオ"], a[aria-label="Creator Studio"]',
-        method: "aria-label",
-        confidence: 0.85,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_MoreMenu",
-    category: "leftSidebar",
-    description: "もっと見るメニュー",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'button[data-testid="AppTabBar_More_Menu"]',
-        method: "data-testid",
-        confidence: 0.9,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_TweetButton",
-    category: "leftSidebar",
-    description: "ツイート作成ボタン",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'a[data-testid="SideNav_NewTweet_Button"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "leftSidebar_ProfileMenu",
-    category: "leftSidebar",
-    description: "プロフィールメニュー",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: 'button[data-testid="SideNav_AccountSwitcher_Button"]',
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-
-  // ========================================
-  // 右サイドバー
-  // ========================================
-  {
-    id: "rightSidebar",
-    category: "rightSidebar",
-    description: "右サイドバー全体",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar,
-        method: "data-testid",
-        confidence: 0.95,
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_SearchBox",
-    category: "rightSidebar",
-    description: "検索ボックス",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_SearchBox,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Search box container",
-        confidence: 0.85,
-        finder: () => {
-          const sidebar = document.querySelector(
-            '[data-testid="sidebarColumn"]',
-          );
-          if (!sidebar) return null;
-
-          // sidebarColumn 内のみを対象とすることで、explore ページの
-          // primaryColumn にある検索バーを誤取得しない
-          const searchInput = sidebar.querySelector(
-            '[data-testid="SearchBox_Search_Input"]',
-          );
-          if (!searchInput) return null;
-
-          // 検索ボックス全体のコンテナを取得（より柔軟な探索）
-          let container: HTMLElement | null = searchInput as HTMLElement;
-          for (let i = 0; i < 8; i++) {
-            if (!container.parentElement) break;
-            container = container.parentElement;
-
-            // sidebarColumnを超えたら終了
-            if (container === sidebar) break;
-            if (!sidebar.contains(container)) break;
-
-            const style = window.getComputedStyle(container);
-            const hasBackground =
-              style.backgroundColor !== "rgba(0, 0, 0, 0)" &&
-              style.backgroundColor !== "transparent";
-            const hasBorder =
-              style.border !== "" && style.border !== "0px none rgb(0, 0, 0)";
-            const hasRoundedCorners = style.borderRadius !== "0px";
-
-            // 背景色やボーダーを持つコンテナを検出
-            // かつ、sidebarColumnの直接の子要素の子要素程度まで
-            if ((hasBackground || hasBorder) && hasRoundedCorners) {
-              // さらに1階層上のコンテナがあればそれを返す（余白を含むため）
-              if (
-                container.parentElement &&
-                sidebar.contains(container.parentElement) &&
-                container.parentElement !== sidebar
-              ) {
-                return container.parentElement;
-              }
-              return container;
-            }
-          }
-
-          // フォールバック: sidebarColumn 内で5階層上を返す
-          let fallback: HTMLElement | null = searchInput as HTMLElement;
-          for (let i = 0; i < 5; i++) {
-            if (!fallback.parentElement) break;
-            // sidebarColumn を超えないよう制約
-            if (fallback.parentElement === sidebar) break;
-            if (!sidebar.contains(fallback.parentElement)) break;
-            fallback = fallback.parentElement;
-          }
-          return fallback;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_PremiumSubscribe",
-    category: "rightSidebar",
-    description: "Premiumサブスクライブセクション",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_PremiumSubscribe,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Premium subscribe section - find bordered container first",
-        confidence: 0.9,
-        finder: () => {
-          const sidebar = document.querySelector(
-            '[data-testid="sidebarColumn"]',
-          );
-          if (!sidebar) return null;
-
-          // 方式変更: ボーダー付きセクションを先に見つけて、その中にプレミアムテキストがあるかチェック
-          // これにより、検索バーなど他の要素を巻き込まない
-          const allDivs = Array.from(sidebar.querySelectorAll("div"));
-
-          for (const elem of allDivs) {
-            const style = window.getComputedStyle(elem);
-
-            // 1px以上のボーダーとborderRadiusを持つ要素を探す
-            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-            const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
-            const hasRadius =
-              style.borderRadius !== "0px" && style.borderRadius !== "9999px"; // 検索バーの丸い枠を除外
-
-            if (hasBorder && hasRadius) {
-              const text = elem.textContent || "";
-              // プレミアムテキストを含み、かつテキスト長が適切な範囲（検索バーを含まない）
-              if (
-                text.length < 500 &&
-                (text.includes("プレミアムにサブスクライブ") ||
-                  text.includes("Subscribe to Premium"))
-              ) {
-                return elem as HTMLElement;
-              }
-            }
-          }
-          return null;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_TrendsList",
-    category: "rightSidebar",
-    description: "トレンド一覧",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_TrendsList,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Trends list with border container",
-        confidence: 0.9,
-        finder: () => {
-          const trends = document.querySelectorAll('[data-testid="trend"]');
-          if (trends.length === 0) return null;
-
-          const firstTrend = trends[0];
-          let container: HTMLElement | null =
-            firstTrend.parentElement as HTMLElement;
-
-          // 複数のtrendを含むコンテナを探す
-          for (let i = 0; i < 8; i++) {
-            if (!container) break;
-            const foundTrends = container.querySelectorAll(
-              '[data-testid="trend"]',
-            );
-            if (foundTrends.length > 1) {
-              // さらに親要素でボーダー付きコンテナを探す
-              let parent = container.parentElement;
-              for (let j = 0; j < 5; j++) {
-                if (!parent) break;
-                const style = window.getComputedStyle(parent);
-                // 1px以上のボーダーとborderRadiusを持つ要素を探す
-                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-                if (
-                  borderMatch &&
-                  parseFloat(borderMatch[1]) > 0 &&
-                  style.borderRadius !== "0px"
-                ) {
-                  return parent;
-                }
-                parent = parent.parentElement;
-              }
-              // ボーダー付きコンテナが見つからない場合は2階層上
-              return container.parentElement?.parentElement as HTMLElement;
-            }
-            container = container.parentElement as HTMLElement;
-          }
-          return null;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_WhoToFollow",
-    category: "rightSidebar",
-    description: "おすすめユーザーセクション",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_WhoToFollow,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Who to follow with border container",
-        confidence: 0.9,
-        finder: () => {
-          const aside = document.querySelector(
-            'aside[aria-label*="おすすめユーザー"], aside[aria-label*="Who to follow"]',
-          ) as HTMLElement;
-          if (!aside) return null;
-
-          // asideを含むボーダー付きコンテナを探す（最大5階層）
-          let current: HTMLElement | null = aside;
-          for (let i = 0; i < 5; i++) {
-            if (!current.parentElement) break;
-            const style = window.getComputedStyle(current.parentElement);
-            // 1px以上のボーダーとborderRadiusを持つ要素を探す
-            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-            if (
-              borderMatch &&
-              parseFloat(borderMatch[1]) > 0 &&
-              style.borderRadius !== "0px"
-            ) {
-              return current.parentElement;
-            }
-            current = current.parentElement;
-          }
-          // ボーダー付きコンテナが見つからない場合は2階層上
-          return aside.parentElement?.parentElement as HTMLElement;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_TodayNews",
-    category: "rightSidebar",
-    description: "本日のニュースセクション",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_TodayNews,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method:
-          "Today news section - find news_sidebar testid and bordered container",
-        confidence: 0.9,
-        finder: () => {
-          const sidebar = document.querySelector(
-            '[data-testid="sidebarColumn"]',
-          );
-          if (!sidebar) return null;
-
-          const newsElement = sidebar.querySelector(
-            '[data-testid="news_sidebar"]',
-          );
-          if (!newsElement) return null;
-
-          // news_sidebarを含むボーダー付きコンテナを探す（最大5階層）
-          let current: HTMLElement | null = newsElement as HTMLElement;
-          for (let i = 0; i < 5; i++) {
-            if (!current.parentElement) break;
-            if (
-              current.parentElement === sidebar ||
-              !sidebar.contains(current.parentElement)
-            ) {
-              break;
-            }
-
-            const style = window.getComputedStyle(current.parentElement);
-            const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-            const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
-            const hasRadius = style.borderRadius !== "0px";
-
-            if (hasBorder && hasRadius) {
-              return current.parentElement;
-            }
-            current = current.parentElement;
-          }
-
-          // ボーダー付きコンテナが見つからない場合は2階層上
-          return newsElement.parentElement?.parentElement as HTMLElement;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_RelatedAccounts",
-    category: "rightSidebar",
-    description: "関連性の高いアカウント（ツイート詳細ページ）",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_RelatedAccounts,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Related accounts section - find by heading text",
-        confidence: 0.9,
-        finder: () => {
-          const sidebar = document.querySelector(
-            '[data-testid="sidebarColumn"]',
-          );
-          if (!sidebar) return null;
-
-          // ツイート詳細ページでのみ表示される「関連性の高いアカウント」を検索
-          const searchTexts = [
-            "関連性の高いアカウント",
-            "Relevant accounts",
-            "Relevant people",
-          ];
-
-          const allDivs = Array.from(
-            sidebar.querySelectorAll("div, section, aside"),
-          );
-
-          for (const elem of allDivs) {
-            const textContent = elem.textContent || "";
-
-            // テキストが長すぎる場合はスキップ（親要素の可能性が高い）
-            if (textContent.length > 3000) continue;
-
-            // 検索テキストとのマッチング
-            let matchedText: string | null = null;
-            for (const searchText of searchTexts) {
-              if (textContent.includes(searchText)) {
-                matchedText = searchText;
-                break;
-              }
-            }
-
-            if (matchedText) {
-              // ボーダー付きの親コンテナを探す（最大5階層まで遡る）
-              let current: HTMLElement | null = elem as HTMLElement;
-
-              for (let i = 0; i < 5; i++) {
-                if (!current.parentElement) break;
-
-                // sidebarColumnを超えて遡らない
-                if (
-                  current.parentElement === sidebar ||
-                  !sidebar.contains(current.parentElement)
-                ) {
-                  break;
-                }
-
-                const style = window.getComputedStyle(current.parentElement);
-                // 1px以上のボーダーとborderRadiusを持つ要素を探す
-                const borderMatch = style.border.match(/^(\d+(?:\.\d+)?)px/);
-                const hasBorder = borderMatch && parseFloat(borderMatch[1]) > 0;
-                const hasRadius = style.borderRadius !== "0px";
-
-                if (hasBorder && hasRadius) {
-                  return current.parentElement;
-                }
-
-                current = current.parentElement;
-              }
-
-              // ボーダー付きコンテナが見つからない場合は1階層上
-              if (elem.parentElement && sidebar.contains(elem.parentElement)) {
-                return elem.parentElement as HTMLElement;
-              }
-              return elem as HTMLElement;
-            }
-          }
-
-          return null;
-        },
-      },
-    ],
-  },
-  {
-    id: "rightSidebar_Footer",
-    category: "rightSidebar",
-    description: "フッターリンク",
-    strategies: [
-      {
-        type: "querySelector",
-        selector: RIGHT_SIDEBAR_SELECTORS.rightSidebar_Footer,
-        method: "CSS :has selector",
-        confidence: 0.95,
-      },
-      {
-        type: "custom",
-        method: "Footer navigation",
-        confidence: 0.8,
-        finder: () => {
-          const sidebar = document.querySelector(
-            '[data-testid="sidebarColumn"]',
-          );
-          if (!sidebar) return null;
-
-          const navs = Array.from(sidebar.querySelectorAll("nav"));
-          for (const nav of navs) {
-            const ariaLabel = nav.getAttribute("aria-label");
-            if (
-              ariaLabel?.includes("フッター") ||
-              ariaLabel?.includes("Footer")
-            ) {
-              return nav.parentElement as HTMLElement;
-            }
-          }
-          return null;
-        },
-      },
-    ],
-  },
+  ...LEFT_SIDEBAR_ELEMENT_IDS.map((id) =>
+    createDefinition(
+      id,
+      "leftSidebar",
+      LEFT_SIDEBAR_DESCRIPTIONS[id],
+      LEFT_SIDEBAR_SELECTORS[id],
+    ),
+  ),
+  ...RIGHT_SIDEBAR_ELEMENT_IDS.map((id) =>
+    createDefinition(
+      id,
+      "rightSidebar",
+      RIGHT_SIDEBAR_DESCRIPTIONS[id],
+      RIGHT_SIDEBAR_SELECTORS[id],
+    ),
+  ),
+  ...CONTENT_ELEMENT_IDS.map((id) =>
+    createDefinition(
+      id,
+      "content",
+      CONTENT_DESCRIPTIONS[id],
+      CONTENT_SELECTORS[id],
+    ),
+  ),
 ];

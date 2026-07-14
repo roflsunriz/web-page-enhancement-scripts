@@ -24,6 +24,9 @@ export type UIElementId =
   | "leftSidebar_PremiumLink"
   | "leftSidebar_BusinessLink"
   | "leftSidebar_CreatorStudioLink"
+  | "leftSidebar_AdsLink"
+  | "leftSidebar_CreateSpaceLink"
+  | "leftSidebar_SettingsLink"
   | "leftSidebar_MoreMenu"
   | "leftSidebar_TweetButton"
   | "leftSidebar_ProfileMenu"
@@ -35,12 +38,23 @@ export type UIElementId =
   | "rightSidebar_WhoToFollow"
   | "rightSidebar_TodayNews"
   | "rightSidebar_RelatedAccounts"
-  | "rightSidebar_Footer";
+  | "rightSidebar_Footer"
+  // コンテンツ
+  | "content_TimelineTabs"
+  | "content_PostComposer"
+  | "content_GrokDrawer"
+  | "content_ChatDrawer"
+  | "content_PostReplyAction"
+  | "content_PostRepostAction"
+  | "content_PostLikeAction"
+  | "content_PostAnalyticsAction"
+  | "content_PostBookmarkAction";
 
 /**
  * UI要素のカテゴリ
  */
-export type UIElementCategory = "leftSidebar" | "rightSidebar" | "layout";
+export type UIElementCategory =
+  "leftSidebar" | "rightSidebar" | "content" | "layout";
 
 /**
  * UI要素の検出方法
@@ -94,6 +108,9 @@ export interface VisibilitySettings {
   leftSidebar_PremiumLink: boolean;
   leftSidebar_BusinessLink: boolean;
   leftSidebar_CreatorStudioLink: boolean;
+  leftSidebar_AdsLink: boolean;
+  leftSidebar_CreateSpaceLink: boolean;
+  leftSidebar_SettingsLink: boolean;
   leftSidebar_MoreMenu: boolean;
   leftSidebar_TweetButton: boolean;
   leftSidebar_ProfileMenu: boolean;
@@ -107,6 +124,17 @@ export interface VisibilitySettings {
   rightSidebar_TodayNews: boolean;
   rightSidebar_RelatedAccounts: boolean;
   rightSidebar_Footer: boolean;
+
+  // コンテンツ
+  content_TimelineTabs: boolean;
+  content_PostComposer: boolean;
+  content_GrokDrawer: boolean;
+  content_ChatDrawer: boolean;
+  content_PostReplyAction: boolean;
+  content_PostRepostAction: boolean;
+  content_PostLikeAction: boolean;
+  content_PostAnalyticsAction: boolean;
+  content_PostBookmarkAction: boolean;
 }
 
 /**
@@ -168,6 +196,7 @@ export interface TranslationKeys {
   // セクション
   leftSidebarSettings: string;
   rightSidebarSettings: string;
+  contentSettings: string;
   layoutSettings: string;
   profileSettings: string;
 
@@ -187,6 +216,9 @@ export interface TranslationKeys {
   leftSidebar_PremiumLink: string;
   leftSidebar_BusinessLink: string;
   leftSidebar_CreatorStudioLink: string;
+  leftSidebar_AdsLink: string;
+  leftSidebar_CreateSpaceLink: string;
+  leftSidebar_SettingsLink: string;
   leftSidebar_MoreMenu: string;
   leftSidebar_TweetButton: string;
   leftSidebar_ProfileMenu: string;
@@ -200,6 +232,17 @@ export interface TranslationKeys {
   rightSidebar_TodayNews: string;
   rightSidebar_RelatedAccounts: string;
   rightSidebar_Footer: string;
+
+  // コンテンツ
+  content_TimelineTabs: string;
+  content_PostComposer: string;
+  content_GrokDrawer: string;
+  content_ChatDrawer: string;
+  content_PostReplyAction: string;
+  content_PostRepostAction: string;
+  content_PostLikeAction: string;
+  content_PostAnalyticsAction: string;
+  content_PostBookmarkAction: string;
 
   // レイアウト
   mainContentWidth: string;

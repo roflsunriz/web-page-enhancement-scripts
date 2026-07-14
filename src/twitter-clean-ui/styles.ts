@@ -235,6 +235,8 @@ export const UI_STYLES = `
   gap: 4px;
   padding: 0 20px;
   border-bottom: 1px solid #e1e8ed;
+  overflow-x: auto;
+  flex-shrink: 0;
 }
 
 .twitter-clean-ui-tab {
@@ -247,6 +249,8 @@ export const UI_STYLES = `
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .twitter-clean-ui-tab:hover {

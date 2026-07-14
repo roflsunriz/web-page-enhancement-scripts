@@ -41,7 +41,6 @@ export const TWITTER_IMAGE_SOURCE_SELECTOR = [
 ].join(", ");
 
 export const TWITTER_LAYOUT_DEFAULTS = {
-  wideLayoutClass: ".r-1ye8kvj",
-  wideLayoutXPath:
-    "/html/body/div[1]/div/div/div[2]/main/div/div/div/div/div/div[5]",
+  timelineContainer:
+    '[data-testid="primaryColumn"] div:has(> [data-testid="cellInnerDiv"])',
 } as const;

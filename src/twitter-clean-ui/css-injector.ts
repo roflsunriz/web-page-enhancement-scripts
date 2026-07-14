@@ -6,6 +6,7 @@
  */
 
 import type { UIElementId, Settings } from "./types";
+import { TWITTER_LAYOUT_DEFAULTS } from "@/shared/constants/twitter";
 import { UI_ELEMENTS } from "./constants";
 import { CSS_CACHE_KEY } from "./storage-keys";
 import {
@@ -147,6 +148,12 @@ export class CSSInjector {
         min-width: ${layout.mainContentWidth}px !important;
         margin-right: ${layout.timelineRightPadding}px !important;
         padding-right: 0px !important;
+      }
+
+      /* タイムライン仮想リスト - 生成クラスや絶対XPathに依存しない */
+      ${TWITTER_LAYOUT_DEFAULTS.timelineContainer} {
+        max-width: ${layout.mainContentWidth}px !important;
+        width: 100% !important;
       }`;
 
     return `

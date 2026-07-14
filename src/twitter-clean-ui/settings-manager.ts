@@ -300,13 +300,16 @@ export class SettingsManager {
         throw new Error("Invalid settings data");
       }
 
-      this.currentSettings = data.settings;
+      this.currentSettings = this.mergeWithDefaults(data.settings);
       this.currentProfileId = data.currentProfileId;
 
       // プロファイルをマップに変換
       this.profiles.clear();
       Object.entries(data.profiles).forEach(([id, profile]) => {
-        this.profiles.set(id, profile);
+        this.profiles.set(id, {
+          ...profile,
+          settings: this.mergeWithDefaults(profile.settings),
+        });
       });
 
       this.save();

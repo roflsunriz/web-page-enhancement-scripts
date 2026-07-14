@@ -5,17 +5,7 @@
 import type { UIElementId, Settings } from "./types";
 import type { ElementDetector } from "./element-detector";
 import { CSSInjector } from "./css-injector";
-import { TWITTER_LAYOUT_DEFAULTS } from "@/shared/constants/twitter";
 import { UI_ELEMENTS } from "./constants";
-
-/**
- * 設定ページかどうかを判定
- * 「もっと見る」→「設定とプライバシー」で開かれるページは /settings/* パスを持つ
- */
-function isSettingsPage(): boolean {
-  const path = window.location.pathname;
-  return path === "/settings" || path.startsWith("/settings/");
-}
 
 /**
  * UI要素制御クラス
@@ -25,7 +15,6 @@ export class ElementController {
   private cssInjector: CSSInjector;
   private appliedStyles: Map<UIElementId, string> = new Map();
   private hiddenElements: Set<UIElementId> = new Set();
-  private styleElement: HTMLStyleElement;
   private appliedSettings: Settings | null = null;
 
   /**
@@ -34,17 +23,6 @@ export class ElementController {
   constructor(detector: ElementDetector) {
     this.detector = detector;
     this.cssInjector = new CSSInjector();
-    this.styleElement = this.createStyleElement();
-  }
-
-  /**
-   * スタイル要素を作成（動的要素用のフォールバック）
-   */
-  private createStyleElement(): HTMLStyleElement {
-    const style = document.createElement("style");
-    style.id = "twitter-clean-ui-dynamic-styles";
-    document.head.appendChild(style);
-    return style;
   }
 
   /**
@@ -99,50 +77,6 @@ export class ElementController {
   }
 
   /**
-   * レイアウトを適用（XPath要素用の動的CSS）
-   * 設定ページ（/settings/*）ではレイアウト変更をスキップする
-   * （共通セレクタ使用によるレイアウト崩れ防止）
-   */
-  public applyLayout(settings: Settings): void {
-    // 設定ページではレイアウト変更を適用しない
-    if (isSettingsPage()) {
-      this.styleElement.textContent = "";
-      return;
-    }
-
-    const { layout } = settings;
-
-    // XPathクラスセレクタ用の追加CSS（CSSInjectorではカバーできない部分）
-    const css = `
-      /* メインコンテンツの幅 - CSSクラスセレクタ（twitter-wide-layout-fixから移植） */
-      ${TWITTER_LAYOUT_DEFAULTS.wideLayoutClass} {
-        max-width: ${layout.mainContentWidth}px !important;
-      }
-    `;
-
-    this.styleElement.textContent = css;
-
-    // XPathベースの要素にもスタイルを適用（twitter-wide-layout-fixから移植）
-    this.applyStyleByXpath(layout.mainContentWidth);
-  }
-
-  /**
-   * XPathを使用して要素にスタイルを適用（twitter-wide-layout-fixから移植）
-   */
-  private applyStyleByXpath(width: number): void {
-    const target = document.evaluate(
-      TWITTER_LAYOUT_DEFAULTS.wideLayoutXPath,
-      document,
-      null,
-      XPathResult.FIRST_ORDERED_NODE_TYPE,
-      null,
-    ).singleNodeValue as HTMLElement | null;
-    if (target) {
-      target.style.setProperty("max-width", `${width}px`, "important");
-    }
-  }
-
-  /**
    * 要素がCSSInjectで処理可能かチェック
    */
   private canBeHandledByCSS(elementId: UIElementId): boolean {
@@ -171,7 +105,6 @@ export class ElementController {
     this.appliedSettings = settingsSnapshot;
 
     this.cssInjector.applySettings(settingsSnapshot);
-    this.applyLayout(settingsSnapshot);
 
     const { visibility } = settingsSnapshot;
 
@@ -214,7 +147,6 @@ export class ElementController {
 
     // スタイルをクリア
     this.cssInjector.clear();
-    this.styleElement.textContent = "";
     this.appliedStyles.clear();
     this.hiddenElements.clear();
     this.appliedSettings = null;
@@ -254,9 +186,6 @@ export class ElementController {
   public destroy(): void {
     this.reset();
     this.cssInjector.destroy();
-    if (this.styleElement.parentNode) {
-      this.styleElement.parentNode.removeChild(this.styleElement);
-    }
     this.appliedStyles.clear();
     this.hiddenElements.clear();
   }
