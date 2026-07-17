@@ -9,6 +9,6 @@ export const cloneDefaultSettings = (): RendererSettings => ({
   autoSearchEnabled: true,
 });
 
-// USERSCRIPT_VERSION_UI_DISPLAYはcomment-overlayのバージョンではなく、d-anime-nico-comment-rendererユーザースクリプトのバージョンです。
-// なので変更しないこと！！！ UIにd-anime-nico-comment-rendererのバージョンが表示されるためのものです。
-export const USERSCRIPT_VERSION_UI_DISPLAY = "v7.6.0";
+// comment-overlayではなくd-anime-nico-comment-rendererのバージョンをUIへ表示する値です。
+// vite.config.tsのd-animeバージョンと常に一致させます。
+export const USERSCRIPT_VERSION_UI_DISPLAY = "v7.6.2";

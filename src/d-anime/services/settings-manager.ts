@@ -11,6 +11,7 @@ import type {
   NotificationType,
 } from "@/d-anime/services/notification";
 import { t } from "@/d-anime/i18n";
+import { migrateStoredRendererSettings } from "@/d-anime/services/settings-migration";
 
 const SETTINGS_STORAGE_KEY = "settings";
 const VIDEO_STORAGE_KEY = "currentVideo";
@@ -71,7 +72,9 @@ export class SettingsManager {
       }
 
       if (typeof stored === "string") {
-        const parsed = JSON.parse(stored) as Partial<RendererSettings>;
+        const parsed = migrateStoredRendererSettings(
+          JSON.parse(stored) as Partial<RendererSettings>,
+        );
         this.settings = {
           ...cloneDefaultSettings(),
           ...parsed,
@@ -81,12 +84,13 @@ export class SettingsManager {
             : [],
         };
       } else {
+        const migrated = migrateStoredRendererSettings(stored);
         this.settings = {
           ...cloneDefaultSettings(),
-          ...stored,
-          ngWords: Array.isArray(stored.ngWords) ? [...stored.ngWords] : [],
-          ngRegexps: Array.isArray(stored.ngRegexps)
-            ? [...stored.ngRegexps]
+          ...migrated,
+          ngWords: Array.isArray(migrated.ngWords) ? [...migrated.ngWords] : [],
+          ngRegexps: Array.isArray(migrated.ngRegexps)
+            ? [...migrated.ngRegexps]
             : [],
         };
       }

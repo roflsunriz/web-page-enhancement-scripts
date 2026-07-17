@@ -33,7 +33,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "node scripts/nicomanga-image-collection-regression.mjs",
+    "test": "bun test src/d-anime/services/settings-migration.test.mjs && node scripts/nicomanga-image-collection-regression.mjs",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
@@ -71,7 +71,7 @@
   },
   "dependencies": {
     "@mdi/js": "7.4.47",
-    "comment-overlay": "^4.0.0",
+    "comment-overlay": "^4.1.4",
     "fflate": "^0.8.3",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"

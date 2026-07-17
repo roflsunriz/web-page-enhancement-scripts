@@ -15,7 +15,7 @@ web-page-enhancement-scripts
 
 - `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
   - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
-  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト
+  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
   - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
   - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード

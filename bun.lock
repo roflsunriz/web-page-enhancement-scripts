@@ -6,7 +6,7 @@
       "name": "web-page-enhancement-scripts",
       "dependencies": {
         "@mdi/js": "7.4.47",
-        "comment-overlay": "^4.0.0",
+        "comment-overlay": "^4.1.4",
         "fflate": "^0.8.3",
         "react": "^19.2.7",
         "react-dom": "^19.2.7",
@@ -210,7 +210,7 @@
 
     "bundle-name": ["bundle-name@4.1.0", "", { "dependencies": { "run-applescript": "^7.0.0" } }, "sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q=="],
 
-    "comment-overlay": ["comment-overlay@4.0.0", "", {}, "sha512-X2e46se/8JN4lTJQLifLt9rNemH4QIGoKHvUX1GjiwFy6D+Ffd0/FtbqNQjBwDO3C+ZBU1zUJgVpDCkyLFgAUg=="],
+    "comment-overlay": ["comment-overlay@4.1.4", "", {}, "sha512-D6n+hSTtssI3PEAz+ZFUxc2Lzg0gORbGq7xN9H6x4Em6yodIKJfd5eBvlFWckzGE2500jU+nIQJpgthSyk0Y2g=="],
 
     "concat-map": ["concat-map@0.0.1", "", {}, "sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg=="],
 
