@@ -169,6 +169,15 @@ export class VideoSwitchHandler {
       const resolvedVideoElement =
         (await this.resolveVideoElement(videoElement)) ?? null;
 
+      if (resolvedVideoElement?.ended) {
+        logger.info("videoSwitch:skipEndedVideo", {
+          currentTime: resolvedVideoElement.currentTime,
+          duration: resolvedVideoElement.duration,
+          paused: resolvedVideoElement.paused,
+        });
+        return;
+      }
+
       const backupPreloaded =
         this.preloadedComments ?? this.lastPreloadedComments ?? null;
       const elementId =
@@ -251,7 +260,11 @@ export class VideoSwitchHandler {
 
       let apiData: NicoApiResponseBody | null = null;
       if (videoId) {
-        apiData = await this.fetchVideoApiData(videoId, backupPreloaded);
+        const cachedApiData = this.fetcher.lastApiData;
+        apiData =
+          backupPreloaded && cachedApiData?.video?.id === videoId
+            ? cachedApiData
+            : await this.fetchVideoApiData(videoId, backupPreloaded);
         if (apiData) {
           this.persistVideoMetadata(apiData);
           this.lastVideoId = videoId;
@@ -414,13 +427,12 @@ export class VideoSwitchHandler {
   }
 
   private resetRendererState(videoElement: HTMLVideoElement): void {
-    const beforeTime = videoElement.currentTime;
     const currentSource = this.getVideoSource(videoElement);
     const sourceChanged = this.lastVideoSource !== currentSource;
     const commentsBeforeClear = this.renderer.getCommentsSnapshot().length;
 
     logger.warn("videoSwitch:resetRendererState:before", {
-      currentTime: beforeTime,
+      currentTime: videoElement.currentTime,
       duration: videoElement.duration,
       src: currentSource,
       lastSrc: this.lastVideoSource ?? null,
@@ -430,32 +442,8 @@ export class VideoSwitchHandler {
       commentsCount: commentsBeforeClear,
     });
 
-    // 動画ソースが実際に変わった場合のみcurrentTimeをリセット
-    // これにより、同じ動画での誤発火による10秒巻き戻しバグを防ぐ
-    if (sourceChanged) {
-      try {
-        this.videoEventLogger.logManualSeek(
-          beforeTime,
-          0,
-          "resetRendererState: video source changed",
-        );
-        videoElement.currentTime = 0;
-        logger.warn("videoSwitch:resetRendererState:seeked", {
-          currentTime: videoElement.currentTime,
-          timeDiff: videoElement.currentTime - beforeTime,
-        });
-      } catch (error) {
-        logger.debug("videoSwitch:resetCurrentTimeFailed", error as Error);
-      }
-    } else {
-      logger.warn("videoSwitch:resetRendererState:skipSeek", {
-        reason: "same video source, skipping currentTime reset",
-        currentTime: beforeTime,
-        willClearComments: true,
-      });
-    }
-
-    // コメントをクリア（エピソード切り替えの場合はコントローラー側でdestroy済み）
+    // 動画の再生位置は公式プレイヤーだけに管理させる。
+    // コメント側でcurrentTimeを書き換えると、終端停止やレジューム位置を破壊する。
     logger.warn("videoSwitch:resetRendererState:clearingComments", {
       commentsBeforeClear,
       sourceChanged,
@@ -571,7 +559,7 @@ export class VideoSwitchHandler {
     } else if (videoId) {
       try {
         logger.warn("videoSwitch:populateComments:fetching", { videoId });
-        comments = await this.fetcher.fetchAllData(videoId);
+        comments = await this.fetcher.fetchComments();
         logger.warn("videoSwitch:commentsFetched", {
           videoId,
           count: comments.length,

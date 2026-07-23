@@ -6,6 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-all.mjs",
+    "capture:d-anime-official": "node scripts/capture-d-anime-official-assets.mjs",
+    "research:d-anime": "bun scripts/research-d-anime-switch-handler.mjs",
+    "research:d-anime:official": "node scripts/replay-d-anime-official-phases.mjs",
     "dev": "vite",
     "dev:chatgpt-notify": "vite --mode chatgpt-notify",
     "dev:d-anime": "vite --mode d-anime",
@@ -33,7 +36,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/d-anime/services/settings-migration.test.mjs && node scripts/nicomanga-image-collection-regression.mjs",
+    "test": "bun test src/d-anime/services/settings-migration.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
@@ -46,7 +49,7 @@
   ],
   "license": "MIT",
   "overrides": {
-    "brace-expansion": "1.1.13",
+    "brace-expansion": "1.1.16",
     "flatted": "3.4.2",
     "minimatch": "3.1.4",
     "picomatch": "4.0.4"

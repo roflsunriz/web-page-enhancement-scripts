@@ -17,4 +17,7 @@ node_modules
 CLAUDE.md
 COMMON-AGENTS.md
 
+# 認証済みブラウザから取得した dアニメストア公式資産（ローカル検証専用）
+/.d-anime-sandbox/
+
 COMMON-AGENTS.md

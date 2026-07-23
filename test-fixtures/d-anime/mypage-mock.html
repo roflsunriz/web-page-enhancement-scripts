@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <title>dアニメストア マイページモック</title>
+  </head>
+  <body>
+    <header class="p-mypageHeader">
+      <h1 class="p-mypageHeader__title">マイページ</h1>
+    </header>
+    <main class="p-mypageMain">
+      <div class="itemModule list watched">
+        <input type="hidden" name="workId" value="" class="workId" />
+        <section>
+          <div class="itemModuleIn">
+            <div class="thumbnailContainer">
+              <a href="#">
+                <i class="icon iconPlay"></i>
+                <div class="progress">
+                  <span class="progressBar"
+                    ><span class="progressCompleted"></span
+                  ></span>
+                </div>
+                <div class="imgWrap16x9">
+                  <img
+                    class="lazyload"
+                    src='data:image/svg+xml,%3Csvg xmlns="http://www.w3.org/2000/svg" width="16" height="9"/%3E'
+                    width="288"
+                    height="162"
+                    alt="モックサムネイル"
+                  />
+                </div>
+              </a>
+            </div>
+            <a class="textContainer" href="#">
+              <div class="textContainerIn">
+                <h2 class="line1">モック作品タイトル</h2>
+                <span class="number line1">
+                  <span>第1話</span>
+                </span>
+                <span class="episode line1">
+                  <span>モックエピソード</span>
+                </span>
+                <ul class="iconContainer"></ul>
+              </div>
+            </a>
+          </div>
+          <div class="detail">
+            <a href="#">詳しく見る<i class="icon iconArrowOrangeRightS"></i></a>
+          </div>
+          <ul class="option"></ul>
+        </section>
+        <div class="selectedImg"></div>
+      </div>
+    </main>
+  </body>
+</html>

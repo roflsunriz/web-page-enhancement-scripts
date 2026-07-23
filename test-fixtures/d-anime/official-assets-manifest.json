@@ -1,0 +1,55 @@
+{
+  "captureVersion": 1,
+  "capturedAt": "2026-07-22T23:58:25.273Z",
+  "cdpEndpoint": "http://127.0.0.1:9222",
+  "mypage": {
+    "fixture": "mypage-mock.html",
+    "sourceUrl": "https://animestore.docomo.ne.jp/animestore/mp_viw_pc"
+  },
+  "player": {
+    "assets": [
+      {
+        "filename": "sc_d_pc-20260514102930.js",
+        "mimeType": "application/javascript",
+        "sha256": "80b022798f8218fd1bffc17ea55a6bdf773f95cbbeaa7ab30709e781e4845982",
+        "size": 778,
+        "status": 200,
+        "url": "https://animestore.docomo.ne.jp/animestore/script/pc/sc_d_pc.js?v=20260514102930"
+      },
+      {
+        "filename": "ini-dash-20250801184904.js",
+        "mimeType": "application/javascript",
+        "sha256": "b35535fdd580b417d555491200a3f300ea2a7d91915938297d5b26cefeecc56d",
+        "size": 437925,
+        "status": 200,
+        "url": "https://animestore.docomo.ne.jp/js/cms/ini-dash.js?v=20250801184904"
+      },
+      {
+        "filename": "player.min-20260319174448.js",
+        "mimeType": "application/javascript",
+        "sha256": "99a1886d92e812089481e6546798df8758d03385872024787ee3aa085d1acd98",
+        "size": 205630,
+        "status": 200,
+        "url": "https://animestore.docomo.ne.jp/js/cms/player.min.js?v=20260319174448"
+      },
+      {
+        "filename": "PlayMovie-20251003175130.js",
+        "mimeType": "application/javascript",
+        "sha256": "5ea4bf236e94721534615006593a41f9e0c6f28657508febcc27ecb492a70b98",
+        "size": 84931,
+        "status": 200,
+        "url": "https://animestore.docomo.ne.jp/js/PlayMovie.js?v=20251003175130"
+      }
+    ],
+    "initialState": {
+      "readyState": 4,
+      "paused": false,
+      "ended": false,
+      "hasCurrentSrc": true
+    },
+    "stateAfterCapture": {
+      "paused": true
+    },
+    "sourceUrl": "https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=<redacted>"
+  }
+}

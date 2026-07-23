@@ -395,7 +395,7 @@ export class WatchPageController {
 
       const eventType = event.type;
       const sourceChanged = this.hasVideoSourceChanged(video);
-      if (eventType === "ended" && !sourceChanged) {
+      if (eventType === "ended") {
         logger.info("watchPageController:skipSwitchOnEnded", {
           eventType,
           currentTime: video.currentTime,
@@ -403,6 +403,7 @@ export class WatchPageController {
           ended: video.ended,
           paused: video.paused,
           currentSrc: video.currentSrc || video.getAttribute("src") || null,
+          sourceChanged,
         });
         return;
       }
@@ -722,20 +723,16 @@ export class WatchPageController {
       const bestMatch =
         officialResults.length > 0 ? officialResults[0] : allResults[0];
 
-      // 動画情報をフェッチして保存
-      const fetcher = new NicoApiFetcher();
-      const apiData = await fetcher.fetchApiData(bestMatch.videoId);
-
       const videoMetadata: VideoMetadata = {
         videoId: bestMatch.videoId,
         title: bestMatch.title,
-        viewCount: apiData.video?.count?.view ?? bestMatch.viewCount,
-        commentCount: apiData.video?.count?.comment ?? bestMatch.commentCount,
-        mylistCount: apiData.video?.count?.mylist ?? bestMatch.mylistCount,
-        postedAt: apiData.video?.registeredAt ?? bestMatch.postedAt,
-        thumbnail: apiData.video?.thumbnail?.url ?? bestMatch.thumbnail,
-        owner: apiData.owner ?? bestMatch.owner ?? null,
-        channel: apiData.channel ?? bestMatch.channel ?? null,
+        viewCount: bestMatch.viewCount,
+        commentCount: bestMatch.commentCount,
+        mylistCount: bestMatch.mylistCount,
+        postedAt: bestMatch.postedAt,
+        thumbnail: bestMatch.thumbnail,
+        owner: bestMatch.owner ?? null,
+        channel: bestMatch.channel ?? null,
       };
 
       const success = settingsManager.saveVideoData(
@@ -1258,20 +1255,16 @@ export class WatchPageController {
       // コメント数が最も多い公式動画を選択
       const bestMatch = officialResults[0];
 
-      // 動画情報をフェッチして保存
-      const fetcher = new NicoApiFetcher();
-      const apiData = await fetcher.fetchApiData(bestMatch.videoId);
-
       const videoMetadata: VideoMetadata = {
         videoId: bestMatch.videoId,
         title: bestMatch.title,
-        viewCount: apiData.video?.count?.view ?? bestMatch.viewCount,
-        commentCount: apiData.video?.count?.comment ?? bestMatch.commentCount,
-        mylistCount: apiData.video?.count?.mylist ?? bestMatch.mylistCount,
-        postedAt: apiData.video?.registeredAt ?? bestMatch.postedAt,
-        thumbnail: apiData.video?.thumbnail?.url ?? bestMatch.thumbnail,
-        owner: apiData.owner ?? bestMatch.owner ?? null,
-        channel: apiData.channel ?? bestMatch.channel ?? null,
+        viewCount: bestMatch.viewCount,
+        commentCount: bestMatch.commentCount,
+        mylistCount: bestMatch.mylistCount,
+        postedAt: bestMatch.postedAt,
+        thumbnail: bestMatch.thumbnail,
+        owner: bestMatch.owner ?? null,
+        channel: bestMatch.channel ?? null,
       };
 
       settingsManager.saveVideoData(bestMatch.title, videoMetadata);
