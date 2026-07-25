@@ -85,7 +85,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeCfRankingMeta: MonkeyUserScript = {
   name: 'd-anime-cf-ranking',
   namespace: 'dAnimeCfRanking',
-  version: '1.5.1',
+  version: '1.5.2',
   description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
   author: 'roflsunriz',
   match: [
@@ -114,7 +114,7 @@ const danimeCfRankingMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '7.6.3',
+  version: '7.6.4',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -200,7 +200,7 @@ const hfDownloadCommandCopierMeta: MonkeyUserScript = {
 const imageCollectorMeta: MonkeyUserScript = {
   name: 'image-collector',
   namespace: 'imageCollector',
-  version: '5.8.0',
+  version: '5.8.1',
   description: 'Collect images from various hosts and export as archive.',
   author: 'roflsunriz',
   match: ['*://*', '*://*/*'],
@@ -298,7 +298,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.21.1',
+  version: '10.21.2',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -582,7 +582,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.8.6',
+  version: '1.8.7',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [
