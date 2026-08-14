@@ -6,6 +6,7 @@
   "type": "module",
   "scripts": {
     "build": "node scripts/build-all.mjs",
+    "check:d-anime-version": "node scripts/check-d-anime-version.mjs",
     "capture:d-anime-official": "node scripts/capture-d-anime-official-assets.mjs",
     "research:d-anime": "bun scripts/research-d-anime-switch-handler.mjs",
     "research:d-anime:official": "node scripts/replay-d-anime-official-phases.mjs",
@@ -36,7 +37,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/d-anime/services/settings-migration.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs",
+    "test": "bun test src/d-anime/services/settings-migration.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && bun run check:d-anime-version",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
@@ -49,9 +50,10 @@
   ],
   "license": "MIT",
   "overrides": {
-    "brace-expansion": "5.0.8",
+    "brace-expansion": "5.0.9",
     "flatted": "3.4.2",
     "minimatch": "3.1.4",
+    "nanoid": "3.3.18",
     "picomatch": "4.0.4"
   },
   "devDependencies": {

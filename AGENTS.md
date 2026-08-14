@@ -43,8 +43,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 ## バージョン管理
 
 - ビルドする前に `vite.config.ts` を編集しバージョンを上げる。
-- `src/d-anime/config/default-settings.ts` にユーザースクリプトのバージョン情報 `USERSCRIPT_VERSION_UI_DISPLAY` がある。ここもバージョンを上げて、ビルドする前に編集する。
-- `USERSCRIPT_VERSION_UI_DISPLAY` はルートディレクトリの `vite.config.ts` で指定しているバージョン情報と必ず一致させる。
+- `src/d-anime/config/default-settings.ts` の `USERSCRIPT_VERSION_UI_DISPLAY` は、ビルド時に `vite.config.ts` の対象スクリプトのバージョンから自動生成されるため、手動更新しない。
 - バージョンアップの目安は、パッチ（v.x.y.z の z 部分）が軽微なバグフィックス、マイナー（v.x.y.z の y 部分）が機能追加、メジャー（v.x.y.z の x 部分）が大幅な機能追加や破壊的変更。
 
 ## 変更履歴

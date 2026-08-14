@@ -114,7 +114,7 @@ const danimeCfRankingMeta: MonkeyUserScript = {
 const danimeMeta: MonkeyUserScript = {
   name: 'd-anime-nico-comment-renderer',
   namespace: 'dAnimeNicoCommentRenderer',
-  version: '7.6.4',
+  version: '7.6.5',
   description: 'Render NicoNico style comments on dAnime Store player.',
   author: 'roflsunriz',
   match: [
@@ -738,6 +738,9 @@ export default defineConfig((configEnv) => {
   const scriptConfig = SCRIPT_CONFIGS[target];
 
   return {
+    define: {
+      'import.meta.env.USERSCRIPT_VERSION': JSON.stringify(scriptConfig.meta.version),
+    },
     resolve: {
       alias: {
         '@': resolve(dir, 'src'),

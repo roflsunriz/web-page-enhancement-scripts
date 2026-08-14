@@ -10,6 +10,10 @@ declare namespace GM {}
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
 declare global {
+  interface ImportMetaEnv {
+    readonly USERSCRIPT_VERSION?: string;
+  }
+
   interface Window {
     ImageCollector2?: Record<string, unknown>;
     setImageCollectorDebug?(value: boolean): boolean;
