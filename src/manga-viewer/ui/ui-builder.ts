@@ -155,7 +155,6 @@ export class UIBuilder {
     document
       .querySelectorAll<HTMLElement>(`#${VIEWER_HOST_ID}`)
       .forEach((staleHost) => {
-        resetOpenShadowPageFlipArtifacts(staleHost);
         staleHost.remove();
       });
 
@@ -238,7 +237,6 @@ export class UIBuilder {
 
     try {
       if (this.shadowHost) {
-        resetOpenShadowPageFlipArtifacts(this.shadowHost);
         this.shadowHost.remove();
       }
     } catch (error) {
@@ -257,28 +255,3 @@ export class UIBuilder {
 const areSameImageUrls = (left: string[], right: string[]): boolean =>
   left.length === right.length &&
   left.every((url, index) => url === right[index]);
-
-const resetOpenShadowPageFlipArtifacts = (host: HTMLElement): void => {
-  const root = host.shadowRoot;
-  if (!root) return;
-
-  root.querySelectorAll<HTMLElement>(".mv-flip-page").forEach((page) => {
-    page.style.cssText = "";
-    page.classList.remove(
-      "stf__item",
-      "--soft",
-      "--hard",
-      "--left",
-      "--right",
-      "--simple",
-    );
-  });
-  root
-    .querySelectorAll<HTMLElement>(
-      ".stf__outerShadow, .stf__innerShadow, .stf__hardShadow, .stf__hardInnerShadow",
-    )
-    .forEach((element) => element.remove());
-  root.querySelectorAll<HTMLElement>(".stf__wrapper").forEach((element) => {
-    element.style.cssText = "";
-  });
-};

@@ -582,7 +582,7 @@ function createInitHarness() {
   window.getMangaViewerSpreadState = () => {
     const root = window.getMangaViewerShadowRoot();
     const book = root?.querySelector(".mv-flip-book");
-    const block = root?.querySelector(".stf__block");
+    const block = root?.querySelector(".page-flip-2__block");
     const bookRect = book?.getBoundingClientRect();
     const blockRect = block?.getBoundingClientRect();
     const debug = window.MangaViewer?.__pageFlipDebug ?? null;
@@ -604,10 +604,10 @@ function createInitHarness() {
         : null;
     };
   return {
-      left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image") || getSrc('.mv-static-page[data-page-side="left"] .mv-flip-image'),
-      right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image") || getSrc('.mv-static-page[data-page-side="right"] .mv-flip-image'),
-      leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image") || getRect('.mv-static-page[data-page-side="left"] .mv-flip-image'),
-      rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image") || getRect('.mv-static-page[data-page-side="right"] .mv-flip-image'),
+      left: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
+      right: getSrc(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
+      leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
+      rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
       pageCount: root?.querySelectorAll(".mv-flip-page").length ?? 0,
       bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,

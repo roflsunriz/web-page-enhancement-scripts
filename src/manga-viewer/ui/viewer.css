@@ -303,21 +303,7 @@
     overflow: hidden;
 }
 
-.mv-static-book {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-}
-
-.mv-static-page {
-    width: 50%;
-    max-width: 50%;
-    height: 100%;
-    max-height: 100%;
-    overflow: hidden;
-}
-
-.mv-flip-page.stf__item {
+.mv-flip-page.page-flip-2__item {
     width: 50% !important;
     max-width: 50% !important;
     height: 100% !important;
@@ -325,11 +311,11 @@
     overflow: hidden !important;
 }
 
-.mv-flip-page.stf__item.--left {
+.mv-flip-page.page-flip-2__item.--left {
     left: 0 !important;
 }
 
-.mv-flip-page.stf__item.--right {
+.mv-flip-page.page-flip-2__item.--right {
     left: 50% !important;
 }
 
@@ -396,60 +382,6 @@
 .mv-end-page-description {
     font-size: 14px;
     opacity: 0.72;
-}
-
-.stf__parent {
-    position: relative;
-    display: block;
-    box-sizing: border-box;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    transform: translateZ(0);
-    -ms-touch-action: pan-y;
-    touch-action: pan-y;
-}
-
-.stf__wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    padding-bottom: 0 !important;
-    box-sizing: border-box;
-}
-
-.stf__parent canvas {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    left: 0;
-    top: 0;
-}
-
-.stf__block {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    box-sizing: border-box;
-    perspective: 2000px;
-}
-
-.stf__item {
-    display: none;
-    position: absolute;
-    transform-style: preserve-3d;
-}
-
-.stf__outerShadow,
-.stf__innerShadow,
-.stf__hardShadow,
-.stf__hardInnerShadow {
-    position: absolute;
-    left: 0;
-    top: 0;
 }
 
 /* ショートカットヒント */
