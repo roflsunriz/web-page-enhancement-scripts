@@ -325,6 +325,10 @@
     overflow: hidden;
 }
 
+.mv-flip-book[data-image-fit-mode="width"] > .page-flip-2__wrapper {
+    max-height: none;
+}
+
 .mv-flip-book::after {
     content: '';
     position: absolute;

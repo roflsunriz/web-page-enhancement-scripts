@@ -184,6 +184,13 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
     const pageFlip = pageFlipRef.current;
     if (!pageFlip || isFlippingRef.current) return;
 
+    pageFlip.update();
+  }, [imageFitMode]);
+
+  useLayoutEffect(() => {
+    const pageFlip = pageFlipRef.current;
+    if (!pageFlip || isFlippingRef.current) return;
+
     const targetPage = getLibraryPageIndexForSpread(spreadIndex, spreadCount);
     if (pageFlip.getCurrentPageIndex() === targetPage) return;
 

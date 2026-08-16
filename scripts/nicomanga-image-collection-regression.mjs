@@ -347,11 +347,21 @@ async function runMangaViewerDynamicViewportRegression() {
     );
     await page.waitForTimeout(100);
 
-    const spread = await page.evaluate(() =>
+    const heightFitSpread = await page.evaluate(() =>
       window.getMangaViewerSpreadState(),
     );
-    assertMangaViewerViewportFit(spread, viewport);
-    assertMangaViewerImageFit(spread, "height");
+    assertMangaViewerViewportFit(heightFitSpread, viewport);
+    assertMangaViewerImageFit(heightFitSpread, "height");
+
+    await setMangaViewerImageFitMode(page, "width");
+    await page.waitForTimeout(100);
+    const widthFitSpread = await page.evaluate(() =>
+      window.getMangaViewerSpreadState(),
+    );
+    assertMangaViewerImageFit(widthFitSpread, "width");
+    assertMangaViewerWidthFitUsesViewportWidth(widthFitSpread, viewport);
+    assertMangaViewerFitModesDiffer(widthFitSpread, heightFitSpread, viewport);
+    await setMangaViewerImageFitMode(page, "height");
   }
 
   await turnMangaViewerPage(page, "next");
@@ -640,9 +650,17 @@ async function waitForMangaViewerSpread(
 }
 
 async function captureMangaViewerAnimationState(page, expectedPageFileNames) {
-  await page.waitForFunction(
-    () => getMangaViewerSpreadState().debug?.libraryState === "flipping",
-  );
+  try {
+    await page.waitForFunction(
+      () => getMangaViewerSpreadState().debug?.libraryState === "flipping",
+    );
+  } catch (error) {
+    const state = await page.evaluate(() => getMangaViewerSpreadState());
+    throw new Error(
+      `manga-viewer animation did not start: ${JSON.stringify(state)}`,
+      { cause: error },
+    );
+  }
   await page.waitForTimeout(160);
   const spread = await page.evaluate(() => getMangaViewerSpreadState());
   for (const pageFileName of expectedPageFileNames) {
@@ -1109,6 +1127,35 @@ function assertMangaViewerViewportFit(spread, expectedViewport) {
         rect.width <= expectedViewport.width + tolerance &&
         rect.height <= expectedViewport.height + tolerance,
       `manga-viewer ${label} retained a size larger than the live viewport: expected=${JSON.stringify(expectedViewport)} rect=${JSON.stringify(rect)} spread=${JSON.stringify(spread)}`,
+    );
+  }
+}
+
+function assertMangaViewerWidthFitUsesViewportWidth(spread, viewport) {
+  const expectedPageWidth = viewport.width / 2;
+  for (const activePage of spread.activePages ?? []) {
+    if (!activePage.imageRect) continue;
+    assert(
+      Math.abs(activePage.imageRect.width - expectedPageWidth) <= 1,
+      `manga-viewer width fit did not use half of the live viewport width: expected=${expectedPageWidth} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+    );
+  }
+}
+
+function assertMangaViewerFitModesDiffer(
+  widthFitSpread,
+  heightFitSpread,
+  viewport,
+) {
+  for (const [index, widthPage] of (
+    widthFitSpread.activePages ?? []
+  ).entries()) {
+    const heightPage = heightFitSpread.activePages?.[index];
+    if (!widthPage.imageRect || !heightPage?.imageRect) continue;
+    assert(
+      widthPage.imageRect.width > heightPage.imageRect.width + 1 &&
+        widthPage.imageRect.height > viewport.height + 1,
+      `manga-viewer width and height fit modes resolved to the same contained size: width=${JSON.stringify(widthPage)} height=${JSON.stringify(heightPage)} viewport=${JSON.stringify(viewport)}`,
     );
   }
 }
