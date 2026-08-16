@@ -76,6 +76,7 @@ try {
     width: 1920,
     height: 1080,
   });
+  await runMangaViewerDynamicViewportRegression();
   await runMangaViewerPartialLoadedRegression();
   await runMangaViewerSettingsRegression();
   await runMangaViewerDestroyRegression();
@@ -319,6 +320,42 @@ async function runMangaViewerAnimationViewportRegression(viewport) {
   );
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
 
+  await page.close();
+}
+
+async function runMangaViewerDynamicViewportRegression() {
+  const page = await createFixturePage({
+    includeCoverThumb: true,
+    viewport: { width: 1440, height: 900 },
+  });
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForFixtureImagesLoaded(page);
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+  await setMangaViewerImageFitMode(page, "height");
+
+  for (const viewport of [
+    { width: 420, height: 260 },
+    { width: 1120, height: 700 },
+  ]) {
+    await page.setViewportSize(viewport);
+    await page.waitForFunction(
+      ({ width, height }) =>
+        window.innerWidth === width && window.innerHeight === height,
+      viewport,
+    );
+    await page.waitForTimeout(100);
+
+    const spread = await page.evaluate(() =>
+      window.getMangaViewerSpreadState(),
+    );
+    assertMangaViewerViewportFit(spread, viewport);
+    assertMangaViewerImageFit(spread, "height");
+  }
+
+  await turnMangaViewerPage(page, "next");
+  await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
   await page.close();
 }
 
@@ -698,8 +735,14 @@ function createInitHarness() {
     .find((root) => root?.querySelector(".manga-viewer-container")) || null;
   window.getMangaViewerSpreadState = () => {
     const root = window.getMangaViewerShadowRoot();
+    const host = root?.host;
+    const container = root?.querySelector(".manga-viewer-container");
+    const mainViewer = root?.querySelector(".mv-main-viewer");
     const book = root?.querySelector(".mv-flip-book");
     const block = root?.querySelector(".page-flip-2__block");
+    const hostRect = host?.getBoundingClientRect();
+    const containerRect = container?.getBoundingClientRect();
+    const mainViewerRect = mainViewer?.getBoundingClientRect();
     const bookRect = book?.getBoundingClientRect();
     const blockRect = block?.getBoundingClientRect();
     const debug = window.MangaViewer?.__pageFlipDebug ?? null;
@@ -726,6 +769,10 @@ function createInitHarness() {
       leftImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--left .mv-flip-image"),
       rightImageRect: getRect(".mv-flip-page" + spreadSelector + ".--simple.--right .mv-flip-image"),
       pageCount: root?.querySelectorAll(".mv-flip-page").length ?? 0,
+      viewport: { width: window.innerWidth, height: window.innerHeight },
+      hostRect: hostRect ? { width: hostRect.width, height: hostRect.height } : null,
+      containerRect: containerRect ? { width: containerRect.width, height: containerRect.height } : null,
+      mainViewerRect: mainViewerRect ? { width: mainViewerRect.width, height: mainViewerRect.height } : null,
       bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
       classList: Array.from(root?.querySelectorAll(".mv-flip-page") ?? []).map((element) => element.className),
@@ -1038,6 +1085,30 @@ function assertMangaViewerImageFit(spread, expectedMode) {
     assert(
       Math.abs(fittedSize[0] - fittedSize[1]) <= 1,
       `manga-viewer image did not fit to ${expectedMode}: page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+    );
+  }
+}
+
+function assertMangaViewerViewportFit(spread, expectedViewport) {
+  const tolerance = 1;
+  assert(
+    spread.viewport?.width === expectedViewport.width &&
+      spread.viewport?.height === expectedViewport.height,
+    `manga-viewer test viewport did not resize: expected=${JSON.stringify(expectedViewport)} spread=${JSON.stringify(spread)}`,
+  );
+
+  for (const [label, rect] of [
+    ["host", spread.hostRect],
+    ["container", spread.containerRect],
+    ["main viewer", spread.mainViewerRect],
+    ["book", spread.bookRect],
+    ["page-flip block", spread.blockRect],
+  ]) {
+    assert(
+      rect &&
+        rect.width <= expectedViewport.width + tolerance &&
+        rect.height <= expectedViewport.height + tolerance,
+      `manga-viewer ${label} retained a size larger than the live viewport: expected=${JSON.stringify(expectedViewport)} rect=${JSON.stringify(rect)} spread=${JSON.stringify(spread)}`,
     );
   }
 }

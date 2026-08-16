@@ -38,6 +38,7 @@ type MangaFlipPage = {
 
 const BASE_PAGE_WIDTH = 700;
 const BASE_PAGE_HEIGHT = 1000;
+const MIN_PAGE_SIZE = 1;
 const FLIPPING_TIME_MS = 520;
 
 export const PageFlipBook: React.FC<PageFlipBookProps> = ({
@@ -89,9 +90,9 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
         width: BASE_PAGE_WIDTH,
         height: BASE_PAGE_HEIGHT,
         size: SizeType.STRETCH,
-        minWidth: 240,
+        minWidth: MIN_PAGE_SIZE,
         maxWidth: 4096,
-        minHeight: 320,
+        minHeight: MIN_PAGE_SIZE,
         maxHeight: 4096,
         drawShadow: true,
         flippingTime: FLIPPING_TIME_MS,
