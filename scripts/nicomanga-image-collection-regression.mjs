@@ -149,6 +149,41 @@ async function runMangaViewerRegression() {
     `manga-viewer did not render the first spread left=page-002 right=page-001: ${JSON.stringify(result.spread)}`,
   );
   assertMangaViewerImageAspect(result.spread, 640 / 960);
+  assertMangaViewerImageFit(result.spread, "width");
+
+  await assertMangaViewerImageFitKeyboardAccess(page);
+  const heightFitSpread = await setMangaViewerImageFitMode(page, "height");
+  assertMangaViewerImageFit(heightFitSpread, "height");
+  const storedImageFitMode = await page.evaluate(() =>
+    window.__userscriptTest.getStoredValue("manga-viewer-image-fit-mode"),
+  );
+  assert(
+    storedImageFitMode === "height",
+    `manga-viewer did not save the height fit mode: ${String(storedImageFitMode)}`,
+  );
+
+  await page.evaluate(() => {
+    const closeButton = window
+      .getMangaViewerShadowRoot()
+      ?.querySelector(".mv-close-button");
+    if (!(closeButton instanceof HTMLButtonElement)) {
+      throw new Error("manga-viewer close button was not found");
+    }
+    closeButton.click();
+  });
+  await page.waitForFunction(() => window.getMangaViewerShadowRoot() === null);
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+  const persistedHeightFitSpread = await page.evaluate(() =>
+    window.getMangaViewerSpreadState(),
+  );
+  assertMangaViewerImageFit(persistedHeightFitSpread, "height");
+
+  const restoredWidthFitSpread = await setMangaViewerImageFitMode(
+    page,
+    "width",
+  );
+  assertMangaViewerImageFit(restoredWidthFitSpread, "width");
   assert(
     !result.viewerSources.some((src) => src.includes("PoweredBy")),
     "manga-viewer included a known invalid NicoManga ad image",
@@ -249,6 +284,14 @@ async function runMangaViewerAnimationViewportRegression(viewport) {
   await waitForFixtureImagesLoaded(page);
   await launchMangaViewerFromMenu(page);
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
+  const widthFitSpread = await page.evaluate(() =>
+    window.getMangaViewerSpreadState(),
+  );
+  assertMangaViewerImageFit(widthFitSpread, "width");
+  const heightFitSpread = await setMangaViewerImageFitMode(page, "height");
+  assertMangaViewerImageFit(heightFitSpread, "height");
+  await setMangaViewerImageFitMode(page, "width");
 
   await turnMangaViewerPage(page, "next");
   const nextAnimation = await captureMangaViewerAnimationState(page, [
@@ -543,6 +586,7 @@ async function waitForMangaViewerSpread(
       ({ leftPageFileName, rightPageFileName }) => {
         const spread = getMangaViewerSpreadState();
         return (
+          spread.debug?.ready === true &&
           spread.left?.includes(leftPageFileName) &&
           spread.right?.includes(rightPageFileName)
         );
@@ -729,6 +773,8 @@ function createInitHarness() {
           return image ? image.currentSrc || image.src : null;
         })
         .filter(Boolean),
+      fitMode: book?.dataset.imageFitMode ?? null,
+      fitControlValue: root?.querySelector(".mv-image-fit-select")?.value ?? null,
       debug,
       header: root?.querySelector(".mv-header-text")?.textContent ?? null
     };
@@ -873,6 +919,57 @@ function getFixturePageNumber(url) {
   return match ? Number(match[1]) : null;
 }
 
+async function setMangaViewerImageFitMode(page, mode) {
+  await page.evaluate((nextMode) => {
+    const root = window.getMangaViewerShadowRoot();
+    const select = root?.querySelector(".mv-image-fit-select");
+    if (!(select instanceof HTMLSelectElement)) {
+      throw new Error("manga-viewer image fit select was not found");
+    }
+    select.value = nextMode;
+    select.dispatchEvent(new Event("change", { bubbles: true }));
+  }, mode);
+
+  await page.waitForFunction((expectedMode) => {
+    const state = window.getMangaViewerSpreadState();
+    return (
+      state.fitMode === expectedMode && state.fitControlValue === expectedMode
+    );
+  }, mode);
+
+  return page.evaluate(() => window.getMangaViewerSpreadState());
+}
+
+async function assertMangaViewerImageFitKeyboardAccess(page) {
+  const result = await page.evaluate(() => {
+    const root = window.getMangaViewerShadowRoot();
+    const select = root?.querySelector(".mv-image-fit-select");
+    if (!(select instanceof HTMLSelectElement)) {
+      return { focused: false, arrowKeyPrevented: true };
+    }
+    select.focus();
+    const arrowKeyEvent = new KeyboardEvent("keydown", {
+      key: "ArrowDown",
+      bubbles: true,
+      cancelable: true,
+      composed: true,
+    });
+    select.dispatchEvent(arrowKeyEvent);
+    return {
+      focused: root?.activeElement === select,
+      arrowKeyPrevented: arrowKeyEvent.defaultPrevented,
+    };
+  });
+  assert(
+    result.focused,
+    "manga-viewer image fit select could not receive focus",
+  );
+  assert(
+    !result.arrowKeyPrevented,
+    "manga-viewer intercepted the image fit select arrow key",
+  );
+}
+
 function assert(condition, message) {
   if (!condition) {
     throw new Error(message);
@@ -922,6 +1019,25 @@ function assertMangaViewerImageAspect(spread, expectedAspectRatio) {
     assert(
       Math.abs(innerGap) <= 1,
       `manga-viewer image was not aligned to the spine: gap=${innerGap} page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
+    );
+  }
+}
+
+function assertMangaViewerImageFit(spread, expectedMode) {
+  assert(
+    spread.fitMode === expectedMode && spread.fitControlValue === expectedMode,
+    `manga-viewer image fit control did not show ${expectedMode}: ${JSON.stringify(spread)}`,
+  );
+
+  for (const activePage of spread.activePages ?? []) {
+    if (!activePage.imageRect) continue;
+    const fittedSize =
+      expectedMode === "height"
+        ? [activePage.imageRect.height, activePage.rect.height]
+        : [activePage.imageRect.width, activePage.rect.width];
+    assert(
+      Math.abs(fittedSize[0] - fittedSize[1]) <= 1,
+      `manga-viewer image did not fit to ${expectedMode}: page=${JSON.stringify(activePage)} spread=${JSON.stringify(spread)}`,
     );
   }
 }

@@ -17,12 +17,15 @@ type TranslationKey =
   | "errorOccurred"
   | "fastLoadedImages"
   | "fastLaunchRetryDelay"
+  | "fitHeight"
+  | "fitWidth"
   | "foundTweetImages"
   | "additionalImageScanDelay"
   | "dynamicImageWaitDelay"
   | "fallbackImageWaitDelay"
   | "imageCollecting"
   | "imageCollected"
+  | "imageFit"
   | "imageCollectionDelaySettings"
   | "imageCollectionDelaySettingsDescription"
   | "imageSearch"
@@ -75,6 +78,8 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "画像を読み込み中...",
       endOfContents: "End of Contents",
       errorOccurred: "エラーが発生しました。",
+      fitHeight: "高さに合わせる",
+      fitWidth: "幅に合わせる",
       additionalImageScanDelay: "追加スキャン待機",
       dynamicImageWaitDelay: "初回の動的画像待機",
       fallbackImageWaitDelay: "候補不足時の追加待機",
@@ -87,6 +92,7 @@ const translations = buildSupportedTranslationMap(
         "画像候補が出揃うまで待つ時間をミリ秒で調整します。0にするとその待機を省略します。",
       imageCollecting: "ページ上の画像を収集しています...",
       imageCollected: "{count}枚の画像を収集しました...",
+      imageFit: "画像の表示",
       imageSearch: "画像を検索中...",
       initialImagesReady: "{count}枚を即時追加。残り{remaining}枚を検証中...",
       launch: "ビューア起動",
@@ -139,6 +145,8 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Loading images...",
       endOfContents: "End of Contents",
       errorOccurred: "An error occurred.",
+      fitHeight: "Fit to height",
+      fitWidth: "Fit to width",
       additionalImageScanDelay: "Additional scan wait",
       dynamicImageWaitDelay: "Initial dynamic image wait",
       fallbackImageWaitDelay: "Extra wait when candidates are insufficient",
@@ -151,6 +159,7 @@ const translations = buildSupportedTranslationMap(
         "Adjust how long the collector waits for image candidates, in milliseconds. Set a value to 0 to skip that wait.",
       imageCollecting: "Collecting images on the page...",
       imageCollected: "Collected {count} images...",
+      imageFit: "Image sizing",
       imageSearch: "Searching for images...",
       initialImagesReady:
         "Added {count} image(s) immediately. Validating {remaining} remaining...",
@@ -204,10 +213,13 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "正在加载图片...",
       endOfContents: "内容结束",
       errorOccurred: "发生错误。",
+      fitHeight: "适应高度",
+      fitWidth: "适应宽度",
       fastLoadedImages: "检测到 {count} 张已加载图片。快速启动中...",
       foundTweetImages: "找到 {count} 张推文图片。正在验证...",
       imageCollecting: "正在收集页面上的图片...",
       imageCollected: "已收集 {count} 张图片...",
+      imageFit: "图片大小",
       imageSearch: "正在搜索图片...",
       initialImagesReady:
         "已立即添加 {count} 张图片。正在验证剩余 {remaining} 张...",
@@ -257,11 +269,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "छवियां लोड हो रही हैं...",
       endOfContents: "सामग्री समाप्त",
       errorOccurred: "एक त्रुटि हुई।",
+      fitHeight: "ऊंचाई के अनुसार",
+      fitWidth: "चौड़ाई के अनुसार",
       fastLoadedImages:
         "{count} पहले से लोड छवियां मिलीं। तेज़ी से शुरू हो रहा है...",
       foundTweetImages: "{count} ट्वीट छवियां मिलीं। जांच हो रही है...",
       imageCollecting: "पेज पर छवियां एकत्र की जा रही हैं...",
       imageCollected: "{count} छवियां एकत्र की गईं...",
+      imageFit: "छवि आकार",
       imageSearch: "छवियां खोजी जा रही हैं...",
       initialImagesReady:
         "{count} छवियां तुरंत जोड़ी गईं। शेष {remaining} की जांच हो रही है...",
@@ -314,12 +329,15 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Cargando imágenes...",
       endOfContents: "Fin del contenido",
       errorOccurred: "Ocurrió un error.",
+      fitHeight: "Ajustar a la altura",
+      fitWidth: "Ajustar al ancho",
       fastLoadedImages:
         "Se detectaron {count} imágenes ya cargadas. Iniciando rápidamente...",
       foundTweetImages:
         "Se encontraron {count} imágenes de tweets. Validando...",
       imageCollecting: "Recopilando imágenes de la página...",
       imageCollected: "Se recopilaron {count} imágenes...",
+      imageFit: "Tamaño de imagen",
       imageSearch: "Buscando imágenes...",
       initialImagesReady:
         "Se agregaron {count} imagen(es) de inmediato. Validando {remaining} restantes...",
@@ -372,11 +390,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Chargement des images...",
       endOfContents: "Fin du contenu",
       errorOccurred: "Une erreur s'est produite.",
+      fitHeight: "Ajuster à la hauteur",
+      fitWidth: "Ajuster à la largeur",
       fastLoadedImages:
         "{count} images déjà chargées détectées. Démarrage rapide...",
       foundTweetImages: "{count} images de tweets trouvées. Validation...",
       imageCollecting: "Collecte des images de la page...",
       imageCollected: "{count} images collectées...",
+      imageFit: "Taille de l’image",
       imageSearch: "Recherche d'images...",
       initialImagesReady:
         "{count} image(s) ajoutée(s) immédiatement. Validation des {remaining} restantes...",
@@ -431,11 +452,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "جار تحميل الصور...",
       endOfContents: "نهاية المحتوى",
       errorOccurred: "حدث خطأ.",
+      fitHeight: "ملاءمة للارتفاع",
+      fitWidth: "ملاءمة للعرض",
       fastLoadedImages: "تم اكتشاف {count} صورة محملة مسبقا. بدء سريع...",
       foundTweetImages:
         "تم العثور على {count} صورة من التغريدات. جار التحقق...",
       imageCollecting: "جار جمع الصور من الصفحة...",
       imageCollected: "تم جمع {count} صورة...",
+      imageFit: "حجم الصورة",
       imageSearch: "جار البحث عن الصور...",
       initialImagesReady:
         "تمت إضافة {count} صورة فورا. جار التحقق من {remaining} المتبقية...",
@@ -487,11 +511,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Carregando imagens...",
       endOfContents: "Fim do conteúdo",
       errorOccurred: "Ocorreu um erro.",
+      fitHeight: "Ajustar à altura",
+      fitWidth: "Ajustar à largura",
       fastLoadedImages:
         "{count} imagens já carregadas detectadas. Iniciando rapidamente...",
       foundTweetImages: "{count} imagens de tweets encontradas. Validando...",
       imageCollecting: "Coletando imagens na página...",
       imageCollected: "{count} imagens coletadas...",
+      imageFit: "Tamanho da imagem",
       imageSearch: "Procurando imagens...",
       initialImagesReady:
         "{count} imagem(ns) adicionada(s) imediatamente. Validando {remaining} restantes...",
@@ -545,11 +572,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "ছবি লোড হচ্ছে...",
       endOfContents: "বিষয়বস্তু শেষ",
       errorOccurred: "একটি ত্রুটি ঘটেছে।",
+      fitHeight: "উচ্চতার সাথে মানান",
+      fitWidth: "প্রস্থের সাথে মানান",
       fastLoadedImages:
         "{count}টি আগে লোড হওয়া ছবি পাওয়া গেছে। দ্রুত চালু হচ্ছে...",
       foundTweetImages: "{count}টি টুইট ছবি পাওয়া গেছে। যাচাই হচ্ছে...",
       imageCollecting: "পেজের ছবি সংগ্রহ করা হচ্ছে...",
       imageCollected: "{count}টি ছবি সংগ্রহ করা হয়েছে...",
+      imageFit: "ছবির মাপ",
       imageSearch: "ছবি খোঁজা হচ্ছে...",
       initialImagesReady:
         "{count}টি ছবি সঙ্গে সঙ্গে যোগ করা হয়েছে। বাকি {remaining}টি যাচাই হচ্ছে...",
@@ -600,11 +630,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "Загрузка изображений...",
       endOfContents: "Конец содержимого",
       errorOccurred: "Произошла ошибка.",
+      fitHeight: "По высоте",
+      fitWidth: "По ширине",
       fastLoadedImages:
         "Обнаружено уже загруженных изображений: {count}. Быстрый запуск...",
       foundTweetImages: "Найдено изображений из твитов: {count}. Проверка...",
       imageCollecting: "Сбор изображений на странице...",
       imageCollected: "Собрано изображений: {count}...",
+      imageFit: "Размер изображения",
       imageSearch: "Поиск изображений...",
       initialImagesReady:
         "Сразу добавлено изображений: {count}. Проверка оставшихся: {remaining}...",
@@ -658,11 +691,14 @@ const translations = buildSupportedTranslationMap(
       defaultLoadingImages: "تصاویر لوڈ ہو رہی ہیں...",
       endOfContents: "مواد ختم",
       errorOccurred: "ایک خرابی ہوئی۔",
+      fitHeight: "اونچائی کے مطابق",
+      fitWidth: "چوڑائی کے مطابق",
       fastLoadedImages:
         "{count} پہلے سے لوڈ تصاویر ملیں۔ تیزی سے شروع ہو رہا ہے...",
       foundTweetImages: "{count} ٹویٹ تصاویر ملیں۔ توثیق ہو رہی ہے...",
       imageCollecting: "صفحے کی تصاویر جمع ہو رہی ہیں...",
       imageCollected: "{count} تصاویر جمع ہو گئیں...",
+      imageFit: "تصویر کا سائز",
       imageSearch: "تصاویر تلاش ہو رہی ہیں...",
       initialImagesReady:
         "{count} تصاویر فوری شامل ہو گئیں۔ باقی {remaining} کی توثیق ہو رہی ہے...",

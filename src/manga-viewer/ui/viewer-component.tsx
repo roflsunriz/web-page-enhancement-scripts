@@ -13,6 +13,11 @@ import { LoadingSpinner } from './loading-spinner';
 import { PageFlipBook, type PageFlipBookController } from './page-flip-book';
 import { format, t } from '../i18n';
 import { win } from '../util';
+import {
+  getImageFitMode,
+  setImageFitMode,
+  type ImageFitMode,
+} from '../image-fit-settings';
 
 type ViewerProps = {
   images: string[];
@@ -57,6 +62,13 @@ const isInteractiveViewerUiTarget = (
   target instanceof HTMLElement &&
   target.closest(INTERACTIVE_VIEWER_UI_SELECTOR) !== null;
 
+const isFormControlTarget = (
+  target: EventTarget | null,
+): target is HTMLElement =>
+  target instanceof HTMLElement &&
+  (['BUTTON', 'INPUT', 'TEXTAREA', 'SELECT'].includes(target.tagName) ||
+    target.isContentEditable);
+
 const updatePageFlipDebug = (patch: Partial<PageFlipDebugState>) => {
   const holder = win as unknown as {
     MangaViewer?: {
@@ -96,6 +108,8 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
   >(null);
   const [autoChapterNavigation, setAutoChapterNavigation] =
     useState(initialAutoNav);
+  const [imageFitMode, setCurrentImageFitMode] =
+    useState<ImageFitMode>(getImageFitMode);
   const [showZoomIndicator, setShowZoomIndicator] = useState(false);
   const [hintsVisible, setHintsVisible] = useState(false);
   const [isMouseActive, setIsMouseActive] = useState(false);
@@ -172,6 +186,16 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     setBounceDirection(direction);
     setTimeout(() => setBounceDirection(null), 300);
   }, []);
+
+  const handleImageFitModeChange = useCallback(
+    (event: React.ChangeEvent<HTMLSelectElement>) => {
+      const nextMode: ImageFitMode =
+        event.target.value === 'height' ? 'height' : 'width';
+      setCurrentImageFitMode(nextMode);
+      setImageFitMode(nextMode);
+    },
+    [],
+  );
 
   const animatePageTurn = useCallback(
     (direction: 'prev' | 'next') => {
@@ -334,14 +358,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     resetMouseActivity();
 
     const handleFocusOut = (e: FocusEvent) => {
-      const newTarget = e.relatedTarget as HTMLElement;
-      if (
-        newTarget &&
-        ['INPUT', 'TEXTAREA', 'SELECT'].includes(newTarget.tagName) &&
-        newTarget.isContentEditable
-      ) {
-        return;
-      }
+      if (isFormControlTarget(e.relatedTarget)) return;
       setTimeout(() => viewerRef.current?.focus(), 10);
     };
     viewerRef.current?.addEventListener('focusout', handleFocusOut);
@@ -356,16 +373,7 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
     // キーボードイベント
     const handleKeyPress = (event: KeyboardEvent) => {
       if (!viewerRef.current || !globalState.isViewerActive) return;
-      const activeElement = document.activeElement as HTMLElement;
-      if (
-        activeElement &&
-        (activeElement.tagName === 'INPUT' ||
-          activeElement.tagName === 'TEXTAREA' ||
-          activeElement.tagName === 'SELECT' ||
-          activeElement.isContentEditable)
-      ) {
-        return;
-      }
+      if (isFormControlTarget(event.composedPath()[0] ?? null)) return;
 
       const isHandledKey = [
         'ArrowLeft',
@@ -704,6 +712,18 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
                   chapterTitle ? `- ${chapterTitle}` : ''
                 }`}
           </div>
+          <label className="mv-image-fit-control">
+            <span>{t('imageFit')}</span>
+            <select
+              aria-label={t('imageFit')}
+              className="mv-image-fit-select"
+              value={imageFitMode}
+              onChange={handleImageFitModeChange}
+            >
+              <option value="width">{t('fitWidth')}</option>
+              <option value="height">{t('fitHeight')}</option>
+            </select>
+          </label>
           <div className="mv-chapter-navigation">
             <button
               type="button"
@@ -811,10 +831,11 @@ export const ViewerComponent: React.FC<ViewerProps> = ({
             <PageFlipBook
               key={pageFlipBookKey}
               images={images}
+              imageFitMode={imageFitMode}
               spreadIndex={currentSpreadIndex}
               onReady={(controller) => {
                 pageFlipControllerRef.current = controller;
-                updatePageFlipDebug({ ready: true });
+                updatePageFlipDebug({ ready: controller !== null });
               }}
               onSpreadChange={(nextSpreadIndex) => {
                 setCurrentSpreadIndex(nextSpreadIndex);

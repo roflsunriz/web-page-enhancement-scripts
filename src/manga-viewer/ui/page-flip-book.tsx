@@ -7,12 +7,14 @@ import {
   SizeType,
 } from "page-flip-2";
 import React, { useEffect, useLayoutEffect, useMemo, useRef } from "react";
+import type { ImageFitMode } from "../image-fit-settings";
 
 type PageFlipBookProps = {
   images: string[];
+  imageFitMode: ImageFitMode;
   spreadIndex: number;
   onSpreadChange: (spreadIndex: number) => void;
-  onReady?: (controller: PageFlipBookController) => void;
+  onReady?: (controller: PageFlipBookController | null) => void;
   onFlipStateChange?: (isFlipping: boolean) => void;
   onLibraryStateChange?: (
     pageIndex: number,
@@ -40,6 +42,7 @@ const FLIPPING_TIME_MS = 520;
 
 export const PageFlipBook: React.FC<PageFlipBookProps> = ({
   images,
+  imageFitMode,
   spreadIndex,
   onSpreadChange,
   onReady,
@@ -165,10 +168,7 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
     }
 
     return () => {
-      onReadyRef.current?.({
-        flipNextMangaPage: () => false,
-        flipPreviousMangaPage: () => false,
-      });
+      onReadyRef.current?.(null);
       isFlippingRef.current = false;
       onFlipStateChangeRef.current?.(false);
 
@@ -196,7 +196,11 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
   }, [spreadCount, spreadIndex]);
 
   return (
-    <div className="mv-flip-book" ref={rootRef}>
+    <div
+      className="mv-flip-book"
+      data-image-fit-mode={imageFitMode}
+      ref={rootRef}
+    >
       {pages.map((page) => (
         <div
           className={`mv-flip-page ${page.src ? "" : "mv-flip-page-blank"}`}
