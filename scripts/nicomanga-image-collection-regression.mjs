@@ -71,6 +71,11 @@ const browser = await chromium.launch({
 
 try {
   await runMangaViewerRegression();
+  await runMangaViewerAnimationViewportRegression({ width: 800, height: 1000 });
+  await runMangaViewerAnimationViewportRegression({
+    width: 1920,
+    height: 1080,
+  });
   await runMangaViewerPartialLoadedRegression();
   await runMangaViewerSettingsRegression();
   await runMangaViewerDestroyRegression();
@@ -150,21 +155,23 @@ async function runMangaViewerRegression() {
   );
 
   await turnMangaViewerPage(page, "next");
-  await waitForMangaViewerAnimationState(page, [
+  const nextAnimation = await captureMangaViewerAnimationState(page, [
     "page-002.png",
     "page-001.png",
     "page-004.png",
     "page-003.png",
   ]);
+  assertMangaViewerAnimationGeometry(nextAnimation, "next");
   await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
 
   await turnMangaViewerPage(page, "previous");
-  await waitForMangaViewerAnimationState(page, [
+  const previousAnimation = await captureMangaViewerAnimationState(page, [
     "page-004.png",
     "page-003.png",
     "page-002.png",
     "page-001.png",
   ]);
+  assertMangaViewerAnimationGeometry(previousAnimation, "previous");
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
 
   await page.close();
@@ -231,6 +238,43 @@ async function runMangaViewerSettingsRegression() {
     settingsResult.stored?.fastLaunchRetryWaitMs === 750,
     `manga-viewer delay setting was not saved: ${JSON.stringify(settingsResult.stored)}`,
   );
+
+  await page.close();
+}
+
+async function runMangaViewerAnimationViewportRegression(viewport) {
+  const page = await createFixturePage({ includeCoverThumb: true, viewport });
+  await installUserscriptHarness(page, "manga-viewer");
+  await page.goto(targetUrl, { waitUntil: "domcontentloaded" });
+  await waitForFixtureImagesLoaded(page);
+  await launchMangaViewerFromMenu(page);
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
+
+  await turnMangaViewerPage(page, "next");
+  const nextAnimation = await captureMangaViewerAnimationState(page, [
+    "page-002.png",
+    "page-001.png",
+    "page-004.png",
+    "page-003.png",
+  ]);
+  assertMangaViewerAnimationGeometry(
+    nextAnimation,
+    `next at ${viewport.width}x${viewport.height}`,
+  );
+  await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
+
+  await turnMangaViewerPage(page, "previous");
+  const previousAnimation = await captureMangaViewerAnimationState(page, [
+    "page-004.png",
+    "page-003.png",
+    "page-002.png",
+    "page-001.png",
+  ]);
+  assertMangaViewerAnimationGeometry(
+    previousAnimation,
+    `previous at ${viewport.width}x${viewport.height}`,
+  );
+  await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
 
   await page.close();
 }
@@ -375,9 +419,13 @@ async function runImageCollectorRegression() {
 }
 
 async function createFixturePage(options = {}) {
-  const { delayImagesFromPage = Infinity, includeCoverThumb = false } = options;
+  const {
+    delayImagesFromPage = Infinity,
+    includeCoverThumb = false,
+    viewport = { width: 1280, height: 900 },
+  } = options;
   const context = await browser.newContext({
-    viewport: { width: 1280, height: 900 },
+    viewport,
   });
   const page = await context.newPage();
   page.on("console", (message) => {
@@ -510,14 +558,39 @@ async function waitForMangaViewerSpread(
   }
 }
 
-async function waitForMangaViewerAnimationState(page, expectedPageFileNames) {
-  const visiblePageFileNames = expectedPageFileNames.slice(-2);
-  await waitForMangaViewerSpread(
-    page,
-    visiblePageFileNames[0],
-    visiblePageFileNames[1],
+async function captureMangaViewerAnimationState(page, expectedPageFileNames) {
+  await page.waitForFunction(
+    () => getMangaViewerSpreadState().debug?.libraryState === "flipping",
   );
-  await page.waitForTimeout(250);
+  await page.waitForTimeout(160);
+  const spread = await page.evaluate(() => getMangaViewerSpreadState());
+  for (const pageFileName of expectedPageFileNames) {
+    assert(
+      spread.activeSources.some((source) => source.includes(pageFileName)),
+      `manga-viewer animation did not contain ${pageFileName}: ${JSON.stringify(spread)}`,
+    );
+  }
+  return spread;
+}
+
+function assertMangaViewerAnimationGeometry(spread, direction) {
+  const animatedPages = spread.activePages.filter(
+    (page) => !page.className.includes("--simple"),
+  );
+  assert(
+    animatedPages.length >= 2,
+    `manga-viewer ${direction} animation did not expose both faces of the turning sheet: ${JSON.stringify(spread)}`,
+  );
+  for (const page of animatedPages) {
+    const inlineLeft = Number.parseFloat(page.inlineStyle.left);
+    const computedLeft = Number.parseFloat(page.computedStyle.left);
+    assert(
+      Number.isFinite(inlineLeft) &&
+        Number.isFinite(computedLeft) &&
+        Math.abs(inlineLeft - computedLeft) <= 1,
+      `manga-viewer ${direction} animation overrode the library page position: ${JSON.stringify(page)}`,
+    );
+  }
 }
 
 async function turnMangaViewerPage(page, direction) {
@@ -620,8 +693,19 @@ function createInitHarness() {
           const rect = element.getBoundingClientRect();
           const imageRect = image?.getBoundingClientRect();
           return {
+            className: element.className,
             side: element.dataset.pageSide,
             source: image ? image.currentSrc || image.src : null,
+            inlineStyle: {
+              left: element.style.left,
+              width: element.style.width
+            },
+            computedStyle: {
+              left: getComputedStyle(element).left,
+              width: getComputedStyle(element).width,
+              transform: getComputedStyle(element).transform,
+              clipPath: getComputedStyle(element).clipPath
+            },
             rect: {
               left: rect.left,
               right: rect.right,
