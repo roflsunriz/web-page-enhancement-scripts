@@ -20,6 +20,7 @@ import {
   svgCommentCount,
 } from "@/shared/icons/mdi";
 import { PlayerControlButton } from "@/d-anime/settings/player-control-button";
+import { resolveCommentLoadingMode } from "@/d-anime/controllers/comment-loading-policy";
 import { GM_getValue, GM_setValue } from "$";
 
 const INITIALIZATION_RETRY_MS = 100;
@@ -138,21 +139,10 @@ export class WatchPageController {
         this.playerControlButton.mount();
       }
 
-      // 設定UIでコメント非表示の場合はAPI呼び出し前に早期リターン
       const currentSettings = settingsManager.loadSettings();
-      if (!currentSettings.isCommentVisible) {
-        logger.info(
-          "watchPageController:initializeWithVideo:skipDueToVisibility",
-          {
-            isCommentVisible: currentSettings.isCommentVisible,
-          },
-        );
-        NotificationManager.show(t("commentsHiddenSkip"), "info");
-        return;
-      }
 
       // 自動検索が無効の場合は手動設定モード
-      if (!currentSettings.autoSearchEnabled) {
+      if (resolveCommentLoadingMode(currentSettings) === "manual") {
         logger.info("watchPageController:initializeWithVideo:manualMode", {
           autoSearchEnabled: currentSettings.autoSearchEnabled,
         });
@@ -877,15 +867,7 @@ export class WatchPageController {
         return;
       }
 
-      // 設定UIでコメント非表示の場合はAPI呼び出し前に早期リターン
       const currentSettings = settingsManager.getSettings();
-      if (!currentSettings.isCommentVisible) {
-        logger.info("watchPageController:onPartIdChanged:skipDueToVisibility", {
-          isCommentVisible: currentSettings.isCommentVisible,
-        });
-        NotificationManager.show(t("commentsHiddenSkip"), "info");
-        return;
-      }
 
       // 切り替え前の現在のエピソード番号を記録
       const previousEpisodeNumber =
@@ -896,7 +878,7 @@ export class WatchPageController {
         null;
 
       // 自動検索が無効の場合は手動設定モード（保存されたアニメタイトル+新エピソードで検索）
-      if (!currentSettings.autoSearchEnabled) {
+      if (resolveCommentLoadingMode(currentSettings) === "manual") {
         logger.info("watchPageController:onPartIdChanged:manualMode", {
           autoSearchEnabled: currentSettings.autoSearchEnabled,
         });

@@ -43,7 +43,6 @@ type TranslationKey =
   | "commentsSet"
   | "autoSetupComplete"
   | "autoSetupError"
-  | "commentsHiddenSkip"
   | "commentsLoadComplete"
   | "commentsLoadErrorSelectAnother"
   | "commentsUnavailable"
@@ -153,7 +152,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: "「{title}」のコメントを設定しました",
       autoSetupComplete: "ニコニコ動画を自動設定しました",
       autoSetupError: "自動設定エラー: {message}",
-      commentsHiddenSkip: "コメント非表示設定のためスキップしました",
       commentsLoadComplete: "コメントの読み込みが完了しました（{count}件）",
       commentsLoadErrorSelectAnother:
         "コメント読み込みエラー: {message}\nフローティングボタンから別の動画を選択してください。",
@@ -274,7 +272,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: 'Set comments from "{title}"',
       autoSetupComplete: "Niconico video was set automatically",
       autoSetupError: "Auto setup error: {message}",
-      commentsHiddenSkip: "Skipped because comments are hidden in settings",
       commentsLoadComplete: "Finished loading comments ({count})",
       commentsLoadErrorSelectAnother:
         "Comment loading error: {message}\nSelect another video from the floating button.",
@@ -391,7 +388,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: "设置来自“{title}”的评论",
       autoSetupComplete: "Niconico 视频已自动设置",
       autoSetupError: "自动设置错误：{message}",
-      commentsHiddenSkip: "已跳过，因为评论隐藏在设置中",
       commentsLoadComplete: "评论加载完毕({count})",
       commentsLoadErrorSelectAnother:
         "评论加载错误：{message}\\n从浮动按钮中选择另一个视频。",
@@ -505,8 +501,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: '"{title}" से टिप्पणियाँ सेट करें',
       autoSetupComplete: "निकोनिको वीडियो स्वचालित रूप से सेट किया गया था",
       autoSetupError: "स्वतः सेटअप त्रुटि: {message}",
-      commentsHiddenSkip:
-        "छोड़ दिया गया क्योंकि टिप्पणियाँ सेटिंग्स में छिपी हुई हैं",
       commentsLoadComplete: "टिप्पणियाँ लोड करना समाप्त ({count})",
       commentsLoadErrorSelectAnother:
         "टिप्पणी लोड करने में त्रुटि: {message}\\nफ़्लोटिंग बटन से कोई अन्य वीडियो चुनें।",
@@ -628,8 +622,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: 'Establecer comentarios de "{title}"',
       autoSetupComplete: "El vídeo de Niconico se configuró automáticamente.",
       autoSetupError: "Error de configuración automática: {message}",
-      commentsHiddenSkip:
-        "Omitido porque los comentarios están ocultos en la configuración",
       commentsLoadComplete: "Terminado de cargar comentarios ({count})",
       commentsLoadErrorSelectAnother:
         "Error al cargar el comentario: {message}\\nSelecciona otro vídeo desde el botón flotante.",
@@ -758,8 +750,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: 'Définir les commentaires de "{title}"',
       autoSetupComplete: "La vidéo de Niconico a été réglée automatiquement",
       autoSetupError: "Erreur de configuration automatique : {message}",
-      commentsHiddenSkip:
-        "Ignoré car les commentaires sont masqués dans les paramètres",
       commentsLoadComplete: "Chargement des commentaires terminé ({count})",
       commentsLoadErrorSelectAnother:
         "Erreur de chargement du commentaire : {message}\\nSélectionnez une autre vidéo à partir du bouton flottant.",
@@ -884,7 +874,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: 'تعيين التعليقات من "{title}"',
       autoSetupComplete: "تم ضبط فيديو Niconico تلقائيًا",
       autoSetupError: "خطأ في الإعداد التلقائي: {message}",
-      commentsHiddenSkip: "تم تخطيه لأن التعليقات مخفية في الإعدادات",
       commentsLoadComplete: "تم الانتهاء من تحميل التعليقات ({count})",
       commentsLoadErrorSelectAnother:
         "خطأ في تحميل التعليق: {message}\\nحدد فيديو آخر من الزر العائم.",
@@ -1003,8 +992,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: 'Definir comentários de "{title}"',
       autoSetupComplete: "O vídeo do Niconico foi definido automaticamente",
       autoSetupError: "Erro de configuração automática: {message}",
-      commentsHiddenSkip:
-        "Ignorado porque os comentários estão ocultos nas configurações",
       commentsLoadComplete: "Comentários de carregamento concluídos ({count})",
       commentsLoadErrorSelectAnother:
         "Erro ao carregar o comentário: {message}\\nSelecione outro vídeo no botão flutuante.",
@@ -1129,8 +1116,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: '"{title}" থেকে মন্তব্য সেট করুন',
       autoSetupComplete: "Niconico ভিডিও স্বয়ংক্রিয়ভাবে সেট করা হয়েছে",
       autoSetupError: "স্বয়ংক্রিয় সেটআপ ত্রুটি: {message}",
-      commentsHiddenSkip:
-        "বাদ দেওয়া হয়েছে কারণ মন্তব্যগুলি সেটিংসে লুকানো আছে৷",
       commentsLoadComplete: "মন্তব্য লোড করা সমাপ্ত ({count})",
       commentsLoadErrorSelectAnother:
         "মন্তব্য লোডিং ত্রুটি: {message}\\nভাসমান বোতাম থেকে অন্য ভিডিও নির্বাচন করুন৷",
@@ -1254,8 +1239,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: "Установить комментарии от «{title}»",
       autoSetupComplete: "Видео Niconico было установлено автоматически",
       autoSetupError: "Ошибка автоматической настройки: {message}.",
-      commentsHiddenSkip:
-        "Пропущено, поскольку комментарии скрыты в настройках.",
       commentsLoadComplete: "Загрузка комментариев завершена ({count}).",
       commentsLoadErrorSelectAnother:
         "Ошибка загрузки комментария: {message}\\nВыберите другое видео с помощью плавающей кнопки.",
@@ -1376,7 +1359,6 @@ const translations = buildSupportedTranslationMap(
       commentsSet: '"{title}" سے تبصرے سیٹ کریں',
       autoSetupComplete: "Niconico ویڈیو خود بخود ترتیب دی گئی تھی۔",
       autoSetupError: "آٹو سیٹ اپ کی خرابی: {message}",
-      commentsHiddenSkip: "چھوڑ دیا گیا کیونکہ تبصرے ترتیبات میں پوشیدہ ہیں۔",
       commentsLoadComplete: "تبصرے لوڈ کرنا مکمل ہو گیا ({count})",
       commentsLoadErrorSelectAnother:
         "تبصرہ لوڈ کرنے میں خرابی: {message}\\nتیرتے بٹن سے ایک اور ویڈیو منتخب کریں۔",
