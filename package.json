@@ -78,7 +78,7 @@
     "@mdi/js": "7.4.47",
     "comment-overlay": "^4.1.4",
     "fflate": "^0.8.3",
-    "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.1.1/page-flip-2-0.1.1.tgz",
+    "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.2.1/page-flip-2-0.2.1.tgz",
     "react": "^19.2.8",
     "react-dom": "^19.2.8"
   }

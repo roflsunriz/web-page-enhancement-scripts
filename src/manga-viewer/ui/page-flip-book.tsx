@@ -1,4 +1,5 @@
 import {
+  DisplayMode,
   FlipCorner,
   FlippingState,
   PageFlip,
@@ -91,6 +92,7 @@ export const PageFlipBook: React.FC<PageFlipBookProps> = ({
         maxHeight: 4096,
         drawShadow: true,
         flippingTime: FLIPPING_TIME_MS,
+        displayMode: DisplayMode.LANDSCAPE,
         usePortrait: false,
         autoSize: true,
         maxShadowOpacity: 0.65,
