@@ -190,23 +190,19 @@ async function runMangaViewerRegression() {
     "manga-viewer included a known invalid NicoManga ad image",
   );
 
-  await turnMangaViewerPage(page, "next");
-  const nextAnimation = await captureMangaViewerAnimationState(page, [
-    "page-002.png",
-    "page-001.png",
-    "page-004.png",
-    "page-003.png",
-  ]);
+  const nextAnimation = await captureMangaViewerPageTurnAnimation(
+    page,
+    "next",
+    ["page-002.png", "page-001.png", "page-004.png", "page-003.png"],
+  );
   assertMangaViewerAnimationGeometry(nextAnimation, "next");
   await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
 
-  await turnMangaViewerPage(page, "previous");
-  const previousAnimation = await captureMangaViewerAnimationState(page, [
-    "page-004.png",
-    "page-003.png",
-    "page-002.png",
-    "page-001.png",
-  ]);
+  const previousAnimation = await captureMangaViewerPageTurnAnimation(
+    page,
+    "previous",
+    ["page-004.png", "page-003.png", "page-002.png", "page-001.png"],
+  );
   assertMangaViewerAnimationGeometry(previousAnimation, "previous");
   await waitForMangaViewerSpread(page, "page-002.png", "page-001.png");
 
@@ -294,26 +290,22 @@ async function runMangaViewerAnimationViewportRegression(viewport) {
   assertMangaViewerImageFit(heightFitSpread, "height");
   await setMangaViewerImageFitMode(page, "width");
 
-  await turnMangaViewerPage(page, "next");
-  const nextAnimation = await captureMangaViewerAnimationState(page, [
-    "page-002.png",
-    "page-001.png",
-    "page-004.png",
-    "page-003.png",
-  ]);
+  const nextAnimation = await captureMangaViewerPageTurnAnimation(
+    page,
+    "next",
+    ["page-002.png", "page-001.png", "page-004.png", "page-003.png"],
+  );
   assertMangaViewerAnimationGeometry(
     nextAnimation,
     `next at ${viewport.width}x${viewport.height}`,
   );
   await waitForMangaViewerSpread(page, "page-004.png", "page-003.png");
 
-  await turnMangaViewerPage(page, "previous");
-  const previousAnimation = await captureMangaViewerAnimationState(page, [
-    "page-004.png",
-    "page-003.png",
-    "page-002.png",
-    "page-001.png",
-  ]);
+  const previousAnimation = await captureMangaViewerPageTurnAnimation(
+    page,
+    "previous",
+    ["page-004.png", "page-003.png", "page-002.png", "page-001.png"],
+  );
   assertMangaViewerAnimationGeometry(
     previousAnimation,
     `previous at ${viewport.width}x${viewport.height}`,
@@ -649,10 +641,96 @@ async function waitForMangaViewerSpread(
   }
 }
 
-async function captureMangaViewerAnimationState(page, expectedPageFileNames) {
+async function captureMangaViewerPageTurnAnimation(
+  page,
+  direction,
+  expectedPageFileNames,
+) {
   try {
-    await page.waitForFunction(
-      () => getMangaViewerSpreadState().debug?.libraryState === "flipping",
+    return await page.evaluate(
+      ({ key, expectedPageFileNames }) => {
+        const mangaViewer = window.MangaViewer;
+        if (!mangaViewer?.__pageFlipDebug) {
+          throw new Error("Page flip debug state is unavailable");
+        }
+
+        const initialRequestCount = mangaViewer.__pageFlipDebug.requestCount;
+        const originalDebugDescriptor = Object.getOwnPropertyDescriptor(
+          mangaViewer,
+          "__pageFlipDebug",
+        );
+        let debugState = mangaViewer.__pageFlipDebug;
+
+        return new Promise((resolve, reject) => {
+          let animationSpread = null;
+
+          const restoreDebugState = () => {
+            if (originalDebugDescriptor) {
+              Object.defineProperty(mangaViewer, "__pageFlipDebug", {
+                ...originalDebugDescriptor,
+                value: debugState,
+              });
+            }
+          };
+
+          Object.defineProperty(mangaViewer, "__pageFlipDebug", {
+            configurable: true,
+            enumerable: true,
+            get: () => debugState,
+            set: (nextDebugState) => {
+              debugState = nextDebugState;
+              if (nextDebugState.libraryState !== "flipping") return;
+
+              const spread = getMangaViewerSpreadState();
+              const containsExpectedPages = expectedPageFileNames.every(
+                (pageFileName) =>
+                  spread.activeSources.some((source) =>
+                    source.includes(pageFileName),
+                  ),
+              );
+              const animatedPageCount = spread.activePages.filter(
+                (activePage) => !activePage.className.includes("--simple"),
+              ).length;
+              if (containsExpectedPages && animatedPageCount >= 2) {
+                animationSpread = spread;
+              }
+            },
+          });
+
+          const timeoutId = window.setTimeout(() => {
+            window.clearInterval(observationIntervalId);
+            restoreDebugState();
+            reject(new Error("Timed out while observing the page turn"));
+          }, 5000);
+
+          const observationIntervalId = window.setInterval(() => {
+            if (
+              debugState.requestCount > initialRequestCount &&
+              debugState.lastStarted === true &&
+              animationSpread
+            ) {
+              window.clearTimeout(timeoutId);
+              window.clearInterval(observationIntervalId);
+              restoreDebugState();
+              resolve(animationSpread);
+            }
+          }, 10);
+
+          // CIで描画フレームが省略されても中間状態を取り逃がさないよう、
+          // デバッグ状態への同期書き込みをキーイベントより先に監視する。
+          window.dispatchEvent(
+            new KeyboardEvent("keydown", {
+              key,
+              bubbles: true,
+              cancelable: true,
+            }),
+          );
+        });
+      },
+      {
+        key: direction === "next" ? "ArrowLeft" : "ArrowRight",
+        expectedPageFileNames,
+      },
     );
   } catch (error) {
     const state = await page.evaluate(() => getMangaViewerSpreadState());
@@ -661,15 +739,6 @@ async function captureMangaViewerAnimationState(page, expectedPageFileNames) {
       { cause: error },
     );
   }
-  await page.waitForTimeout(160);
-  const spread = await page.evaluate(() => getMangaViewerSpreadState());
-  for (const pageFileName of expectedPageFileNames) {
-    assert(
-      spread.activeSources.some((source) => source.includes(pageFileName)),
-      `manga-viewer animation did not contain ${pageFileName}: ${JSON.stringify(spread)}`,
-    );
-  }
-  return spread;
 }
 
 function assertMangaViewerAnimationGeometry(spread, direction) {
