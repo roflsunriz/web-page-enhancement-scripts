@@ -1996,6 +1996,12 @@
 
 ### twitter-thread-copier
 
+#### 6.14.0 - 2026-08-19
+
+- 翻訳プロバイダーをローカル翻訳、Google翻訳、OpenRouter Free、Sakura AI Engine、Cerebras、OpenAI互換自由入力の6方式から明示的に選べるよう変更した。
+- OpenRouter Freeは `openrouter/free`、Sakura AI EngineとCerebrasは認証付きモデル一覧を自動利用し、3方式ともAPIキーだけで翻訳を開始できる設定へ整理した。
+- 旧OpenAI互換設定は保存済みエンドポイントから対応する専用プロバイダーへ自動移行し、APIキー入力欄を伏字表示へ変更した。
+
 #### 6.13.0 - 2026-08-19
 
 - CerebrasやさくらのAI Engineのモデル提供変更へ自動追従できるように、認証付きモデル一覧から音声・埋め込みを除外した有効なチャットモデルを選ぶよう変更した。

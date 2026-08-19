@@ -24,6 +24,8 @@ type TranslationKey =
   | "localAi"
   | "localAiEmptyResult"
   | "localAiTranslationComplete"
+  | "cerebras"
+  | "openRouterFree"
   | "openAiCompatible"
   | "openAiEndpointMissing"
   | "openAiKeyMissing"
@@ -45,7 +47,9 @@ type TranslationKey =
   | "settingsApiEndpoint"
   | "settingsApiKey"
   | "settingsApiKeyPlaceholder"
+  | "settingsAutomaticModel"
   | "settingsCancel"
+  | "settingsCloudSystemPrompt"
   | "settingsLocalAi"
   | "settingsModel"
   | "settingsOpenAi"
@@ -56,6 +60,7 @@ type TranslationKey =
   | "settingsSavedContent"
   | "settingsSavedTitle"
   | "settingsSystemPrompt"
+  | "sakuraAiEngine"
   | "settingsTitle"
   | "startPointReset"
   | "startPointResetContent"
@@ -100,6 +105,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "ローカルAI",
       localAiEmptyResult: "ローカルAIからの翻訳結果が空です。",
       localAiTranslationComplete: "ローカルAIでの翻訳が完了しました。",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI互換",
       openAiEndpointMissing:
         "OpenAI互換 APIエンドポイントが設定されていません。",
@@ -124,7 +131,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "APIエンドポイント",
       settingsApiKey: "APIキー",
       settingsApiKeyPlaceholder: "常に必要なので必ず入力してください",
+      settingsAutomaticModel: "利用可能なモデルを自動選択",
       settingsCancel: "キャンセル",
+      settingsCloudSystemPrompt: "クラウドAI共通システムプロンプト",
       settingsLocalAi: "ローカルAI設定",
       settingsModel: "モデル名",
       settingsOpenAi: "OpenAI互換設定",
@@ -135,6 +144,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "設定を保存しました",
       settingsSavedTitle: "設定保存",
       settingsSystemPrompt: "システムプロンプト",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "翻訳設定",
       startPointReset: "起点をリセット",
       startPointResetContent: "コピー起点をリセットしました",
@@ -178,6 +188,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "Local AI",
       localAiEmptyResult: "Local AI returned an empty translation result.",
       localAiTranslationComplete: "Local AI translation is complete.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI-compatible",
       openAiEndpointMissing:
         "OpenAI-compatible API endpoint is not configured.",
@@ -203,7 +215,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "Required. Enter a key before using this provider.",
+      settingsAutomaticModel: "Automatically selects an available model",
       settingsCancel: "Cancel",
+      settingsCloudSystemPrompt: "Shared cloud AI system prompt",
       settingsLocalAi: "Local AI settings",
       settingsModel: "Model name",
       settingsOpenAi: "OpenAI-compatible settings",
@@ -214,6 +228,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "Settings were saved",
       settingsSavedTitle: "Settings saved",
       settingsSystemPrompt: "System prompt",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "Translation Settings",
       startPointReset: "Reset start point",
       startPointResetContent: "The copy start point was reset",
@@ -257,6 +272,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "本地 AI",
       localAiEmptyResult: "本地 AI 返回的翻译结果为空。",
       localAiTranslationComplete: "本地 AI 翻译已完成。",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI 兼容",
       openAiEndpointMissing: "尚未设置 OpenAI 兼容 API 端点。",
       openAiKeyMissing: "尚未设置 OpenAI 兼容 API 密钥。请在设置画面中设置。",
@@ -278,7 +295,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "API 端点",
       settingsApiKey: "API 密钥",
       settingsApiKeyPlaceholder: "必填。使用该提供方前请输入密钥。",
+      settingsAutomaticModel: "自动选择可用模型",
       settingsCancel: "取消",
+      settingsCloudSystemPrompt: "云端 AI 共用系统提示词",
       settingsLocalAi: "本地 AI 设置",
       settingsModel: "模型名称",
       settingsOpenAi: "OpenAI 兼容设置",
@@ -289,6 +308,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "设置已保存",
       settingsSavedTitle: "设置已保存",
       settingsSystemPrompt: "系统提示词",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "翻译设置",
       startPointReset: "重置起点",
       startPointResetContent: "复制起点已重置",
@@ -332,6 +352,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "स्थानीय AI",
       localAiEmptyResult: "स्थानीय AI से खाली अनुवाद परिणाम मिला।",
       localAiTranslationComplete: "स्थानीय AI अनुवाद पूरा हुआ।",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI-संगत",
       openAiEndpointMissing: "OpenAI-संगत API endpoint सेट नहीं है।",
       openAiKeyMissing:
@@ -356,7 +378,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "आवश्यक। इस provider का उपयोग करने से पहले key डालें।",
+      settingsAutomaticModel: "उपलब्ध मॉडल अपने आप चुना जाता है",
       settingsCancel: "रद्द करें",
+      settingsCloudSystemPrompt: "क्लाउड AI साझा सिस्टम प्रॉम्प्ट",
       settingsLocalAi: "स्थानीय AI सेटिंग्स",
       settingsModel: "मॉडल नाम",
       settingsOpenAi: "OpenAI-संगत सेटिंग्स",
@@ -367,6 +391,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "सेटिंग्स सहेजी गईं",
       settingsSavedTitle: "सेटिंग्स सहेजी गईं",
       settingsSystemPrompt: "सिस्टम prompt",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "अनुवाद सेटिंग्स",
       startPointReset: "शुरुआती बिंदु रीसेट करें",
       startPointResetContent: "कॉपी शुरुआती बिंदु रीसेट हो गया",
@@ -412,6 +437,8 @@ const translations = buildSupportedTranslationMap(
       localAiEmptyResult:
         "La IA local devolvió un resultado de traducción vacío.",
       localAiTranslationComplete: "La traducción con IA local se completó.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "Compatible con OpenAI",
       openAiEndpointMissing:
         "No se configuró el endpoint API compatible con OpenAI.",
@@ -437,7 +464,10 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Clave API",
       settingsApiKeyPlaceholder:
         "Obligatoria. Introduce una clave antes de usar este proveedor.",
+      settingsAutomaticModel: "Selecciona automáticamente un modelo disponible",
       settingsCancel: "Cancelar",
+      settingsCloudSystemPrompt:
+        "Prompt de sistema compartido para IA en la nube",
       settingsLocalAi: "Ajustes de IA local",
       settingsModel: "Nombre del modelo",
       settingsOpenAi: "Ajustes compatibles con OpenAI",
@@ -448,6 +478,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "Los ajustes se guardaron",
       settingsSavedTitle: "Ajustes guardados",
       settingsSystemPrompt: "Prompt del sistema",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "Ajustes de traducción",
       startPointReset: "Restablecer punto de inicio",
       startPointResetContent: "El punto de inicio de copia se restableció",
@@ -494,6 +525,8 @@ const translations = buildSupportedTranslationMap(
       localAiEmptyResult:
         "L'IA locale a renvoyé un résultat de traduction vide.",
       localAiTranslationComplete: "La traduction par IA locale est terminée.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "Compatible OpenAI",
       openAiEndpointMissing:
         "Le point de terminaison API compatible OpenAI n'est pas configuré.",
@@ -519,7 +552,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Clé API",
       settingsApiKeyPlaceholder:
         "Obligatoire. Saisissez une clé avant d'utiliser ce fournisseur.",
+      settingsAutomaticModel: "Sélection automatique d’un modèle disponible",
       settingsCancel: "Annuler",
+      settingsCloudSystemPrompt: "Invite système partagée pour l’IA cloud",
       settingsLocalAi: "Paramètres de l'IA locale",
       settingsModel: "Nom du modèle",
       settingsOpenAi: "Paramètres compatibles OpenAI",
@@ -530,6 +565,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "Les paramètres ont été enregistrés",
       settingsSavedTitle: "Paramètres enregistrés",
       settingsSystemPrompt: "Prompt système",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "Paramètres de traduction",
       startPointReset: "Réinitialiser le point de départ",
       startPointResetContent: "Le point de départ de copie a été réinitialisé",
@@ -574,6 +610,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "ذكاء اصطناعي محلي",
       localAiEmptyResult: "أعاد الذكاء الاصطناعي المحلي نتيجة ترجمة فارغة.",
       localAiTranslationComplete: "اكتملت الترجمة بالذكاء الاصطناعي المحلي.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "متوافق مع OpenAI",
       openAiEndpointMissing: "لم يتم تكوين نقطة نهاية API المتوافقة مع OpenAI.",
       openAiKeyMissing:
@@ -597,7 +635,10 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "نقطة نهاية API",
       settingsApiKey: "مفتاح API",
       settingsApiKeyPlaceholder: "مطلوب. أدخل مفتاحا قبل استخدام هذا المزود.",
+      settingsAutomaticModel: "يختار نموذجًا متاحًا تلقائيًا",
       settingsCancel: "إلغاء",
+      settingsCloudSystemPrompt:
+        "موجّه النظام المشترك للذكاء الاصطناعي السحابي",
       settingsLocalAi: "إعدادات الذكاء الاصطناعي المحلي",
       settingsModel: "اسم النموذج",
       settingsOpenAi: "إعدادات متوافقة مع OpenAI",
@@ -608,6 +649,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "تم حفظ الإعدادات",
       settingsSavedTitle: "تم حفظ الإعدادات",
       settingsSystemPrompt: "موجه النظام",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "إعدادات الترجمة",
       startPointReset: "إعادة ضبط نقطة البداية",
       startPointResetContent: "تمت إعادة ضبط نقطة بدء النسخ",
@@ -652,6 +694,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "IA local",
       localAiEmptyResult: "A IA local retornou um resultado de tradução vazio.",
       localAiTranslationComplete: "A tradução com IA local foi concluída.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "Compatível com OpenAI",
       openAiEndpointMissing:
         "O endpoint de API compatível com OpenAI não está configurado.",
@@ -677,7 +721,10 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Chave da API",
       settingsApiKeyPlaceholder:
         "Obrigatória. Insira uma chave antes de usar este provedor.",
+      settingsAutomaticModel: "Seleciona automaticamente um modelo disponível",
       settingsCancel: "Cancelar",
+      settingsCloudSystemPrompt:
+        "Prompt de sistema compartilhado para IA em nuvem",
       settingsLocalAi: "Configurações da IA local",
       settingsModel: "Nome do modelo",
       settingsOpenAi: "Configurações compatíveis com OpenAI",
@@ -688,6 +735,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "As configurações foram salvas",
       settingsSavedTitle: "Configurações salvas",
       settingsSystemPrompt: "Prompt do sistema",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "Configurações de tradução",
       startPointReset: "Redefinir ponto inicial",
       startPointResetContent: "O ponto inicial da cópia foi redefinido",
@@ -732,6 +780,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "লোকাল AI",
       localAiEmptyResult: "লোকাল AI খালি অনুবাদ ফলাফল ফিরিয়েছে।",
       localAiTranslationComplete: "লোকাল AI অনুবাদ সম্পন্ন হয়েছে।",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI-সামঞ্জস্যপূর্ণ",
       openAiEndpointMissing: "OpenAI-সামঞ্জস্যপূর্ণ API endpoint সেট করা নেই।",
       openAiKeyMissing:
@@ -756,7 +806,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "প্রয়োজনীয়। এই provider ব্যবহারের আগে key দিন।",
+      settingsAutomaticModel: "উপলভ্য মডেল স্বয়ংক্রিয়ভাবে নির্বাচন করে",
       settingsCancel: "বাতিল",
+      settingsCloudSystemPrompt: "ক্লাউড AI-এর শেয়ার করা সিস্টেম প্রম্পট",
       settingsLocalAi: "লোকাল AI সেটিংস",
       settingsModel: "মডেল নাম",
       settingsOpenAi: "OpenAI-সামঞ্জস্যপূর্ণ সেটিংস",
@@ -767,6 +819,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "সেটিংস সংরক্ষিত হয়েছে",
       settingsSavedTitle: "সেটিংস সংরক্ষিত",
       settingsSystemPrompt: "সিস্টেম prompt",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "অনুবাদ সেটিংস",
       startPointReset: "শুরু বিন্দু রিসেট",
       startPointResetContent: "কপি শুরুর বিন্দু রিসেট হয়েছে",
@@ -811,6 +864,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "Локальный AI",
       localAiEmptyResult: "Локальный AI вернул пустой результат перевода.",
       localAiTranslationComplete: "Перевод локальным AI завершен.",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "Совместимо с OpenAI",
       openAiEndpointMissing: "API endpoint, совместимый с OpenAI, не настроен.",
       openAiKeyMissing:
@@ -835,7 +890,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "Обязательно. Введите key перед использованием provider.",
+      settingsAutomaticModel: "Автоматически выбирает доступную модель",
       settingsCancel: "Отмена",
+      settingsCloudSystemPrompt: "Общий системный промпт облачного ИИ",
       settingsLocalAi: "Настройки локального AI",
       settingsModel: "Название модели",
       settingsOpenAi: "Настройки совместимости с OpenAI",
@@ -846,6 +903,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "Настройки сохранены",
       settingsSavedTitle: "Настройки сохранены",
       settingsSystemPrompt: "Системный prompt",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "Настройки перевода",
       startPointReset: "Сбросить начальную точку",
       startPointResetContent: "Начальная точка копирования сброшена",
@@ -889,6 +947,8 @@ const translations = buildSupportedTranslationMap(
       localAi: "مقامی AI",
       localAiEmptyResult: "مقامی AI نے خالی ترجمہ نتیجہ واپس کیا۔",
       localAiTranslationComplete: "مقامی AI ترجمہ مکمل ہو گیا۔",
+      cerebras: "Cerebras",
+      openRouterFree: "OpenRouter Free",
       openAiCompatible: "OpenAI compatible",
       openAiEndpointMissing: "OpenAI compatible API endpoint سیٹ نہیں ہے۔",
       openAiKeyMissing:
@@ -913,7 +973,9 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "ضروری۔ اس provider کو استعمال کرنے سے پہلے key درج کریں۔",
+      settingsAutomaticModel: "دستیاب ماڈل خودکار طور پر منتخب کرتا ہے",
       settingsCancel: "منسوخ",
+      settingsCloudSystemPrompt: "کلاؤڈ AI کا مشترکہ سسٹم پرامپٹ",
       settingsLocalAi: "مقامی AI سیٹنگز",
       settingsModel: "ماڈل نام",
       settingsOpenAi: "OpenAI compatible سیٹنگز",
@@ -924,6 +986,7 @@ const translations = buildSupportedTranslationMap(
       settingsSavedContent: "سیٹنگز محفوظ ہو گئیں",
       settingsSavedTitle: "سیٹنگز محفوظ",
       settingsSystemPrompt: "سسٹم prompt",
+      sakuraAiEngine: "Sakura AI Engine",
       settingsTitle: "ترجمہ سیٹنگز",
       startPointReset: "آغاز نقطہ ری سیٹ کریں",
       startPointResetContent: "کاپی آغاز نقطہ ری سیٹ ہو گیا",

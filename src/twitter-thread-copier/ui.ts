@@ -10,8 +10,11 @@ import {
 import { TWITTER_SELECTORS } from "@/shared/constants/twitter";
 import {
   loadSettings,
+  loadTranslationProvider,
   saveSettings,
+  saveTranslationProvider,
   resetSettings,
+  type TranslationProvider,
   type TranslatorSettings,
 } from "./settings.js";
 import { format, getTextDirection, t } from "./i18n.js";
@@ -363,6 +366,7 @@ class UIManager {
           color: #ccc;
       }
       .settings-modal input[type="text"],
+      .settings-modal input[type="password"],
       .settings-modal textarea {
           width: 100%;
           padding: 8px 12px;
@@ -381,9 +385,16 @@ class UIManager {
           font-family: monospace;
       }
       .settings-modal input[type="text"]:focus,
+      .settings-modal input[type="password"]:focus,
       .settings-modal textarea:focus {
           outline: none;
           border-color: #1DA1F2;
+      }
+      .settings-modal .settings-help {
+          margin: -8px 0 16px 0;
+          color: #999;
+          font-size: 12px;
+          line-height: 1.5;
       }
       .settings-modal-buttons {
           display: flex;
@@ -577,23 +588,15 @@ class UIManager {
     providerSelect.innerHTML = `
       <option value="local">${t("localAi")}</option>
       <option value="google">${t("googleTranslate")}</option>
-      <option value="openai">${t("openAiCompatible")}</option>
+      <option value="openrouter-free">${t("openRouterFree")}</option>
+      <option value="sakura">${t("sakuraAiEngine")}</option>
+      <option value="cerebras">${t("cerebras")}</option>
+      <option value="custom">${t("openAiCompatible")}</option>
     `;
-    // Initialize from stored preference
-    const storedProvider = localStorage.getItem("translationProvider");
-    if (
-      storedProvider === "local" ||
-      storedProvider === "google" ||
-      storedProvider === "openai"
-    ) {
-      providerSelect.value = storedProvider;
-    } else {
-      providerSelect.value = "local";
-    }
+    providerSelect.value = loadTranslationProvider();
     providerSelect.addEventListener("change", (e: Event) => {
-      const val = (e.target as HTMLSelectElement).value as
-        "local" | "google" | "openai";
-      localStorage.setItem("translationProvider", val);
+      const val = (e.target as HTMLSelectElement).value as TranslationProvider;
+      saveTranslationProvider(val);
       logger.log(`Translation provider set to ${val}`);
     });
     const providerContainer = document.createElement("div");
@@ -1081,18 +1084,33 @@ class UIManager {
       <label>${t("settingsSystemPrompt")}</label>
       <textarea id="local-ai-system-prompt">${this.escapeHtml(settings.localAiSystemPrompt)}</textarea>
       
+      <h3>${t("settingsCloudSystemPrompt")}</h3>
+      <textarea id="cloud-system-prompt">${this.escapeHtml(settings.cloudSystemPrompt)}</textarea>
+
+      <h3>${t("openRouterFree")}</h3>
+      <label>${t("settingsApiKey")}</label>
+      <input type="password" id="openrouter-api-key" value="${this.escapeHtml(settings.openRouterApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <p class="settings-help">${t("settingsAutomaticModel")}: openrouter/free</p>
+
+      <h3>${t("sakuraAiEngine")}</h3>
+      <label>${t("settingsApiKey")}</label>
+      <input type="password" id="sakura-api-key" value="${this.escapeHtml(settings.sakuraApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <p class="settings-help">${t("settingsAutomaticModel")}</p>
+
+      <h3>${t("cerebras")}</h3>
+      <label>${t("settingsApiKey")}</label>
+      <input type="password" id="cerebras-api-key" value="${this.escapeHtml(settings.cerebrasApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <p class="settings-help">${t("settingsAutomaticModel")}</p>
+
       <h3>${t("settingsOpenAi")}</h3>
       <label>${t("settingsApiEndpoint")}</label>
-      <input type="text" id="openai-endpoint" value="${this.escapeHtml(settings.openaiEndpoint)}" />
-      
+      <input type="text" id="custom-endpoint" value="${this.escapeHtml(settings.customEndpoint)}" />
+
       <label>${t("settingsModel")}</label>
-      <input type="text" id="openai-model" value="${this.escapeHtml(settings.openaiModel)}" />
-      
-      <label>${t("settingsSystemPrompt")}</label>
-      <textarea id="openai-system-prompt">${this.escapeHtml(settings.openaiSystemPrompt)}</textarea>
-      
+      <input type="text" id="custom-model" value="${this.escapeHtml(settings.customModel)}" />
+
       <label>${t("settingsApiKey")}</label>
-      <input type="text" id="openai-api-key" value="${this.escapeHtml(settings.openaiApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" />
+      <input type="password" id="custom-api-key" value="${this.escapeHtml(settings.customApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
       
       <div class="settings-modal-buttons">
         <button class="btn-reset" type="button">${t("settingsReset")}</button>
@@ -1135,21 +1153,37 @@ class UIManager {
                 "#local-ai-system-prompt",
               ) as HTMLTextAreaElement | null
             )?.value ?? settings.localAiSystemPrompt,
-          openaiEndpoint:
-            (modal.querySelector("#openai-endpoint") as HTMLInputElement | null)
-              ?.value ?? settings.openaiEndpoint,
-          openaiModel:
-            (modal.querySelector("#openai-model") as HTMLInputElement | null)
-              ?.value ?? settings.openaiModel,
-          openaiSystemPrompt:
+          settingsVersion: 2,
+          cloudSystemPrompt:
             (
               modal.querySelector(
-                "#openai-system-prompt",
+                "#cloud-system-prompt",
               ) as HTMLTextAreaElement | null
-            )?.value ?? settings.openaiSystemPrompt,
-          openaiApiKey:
-            (modal.querySelector("#openai-api-key") as HTMLInputElement | null)
-              ?.value ?? settings.openaiApiKey,
+            )?.value ?? settings.cloudSystemPrompt,
+          openRouterApiKey:
+            (
+              modal.querySelector(
+                "#openrouter-api-key",
+              ) as HTMLInputElement | null
+            )?.value ?? settings.openRouterApiKey,
+          sakuraApiKey:
+            (modal.querySelector("#sakura-api-key") as HTMLInputElement | null)
+              ?.value ?? settings.sakuraApiKey,
+          cerebrasApiKey:
+            (
+              modal.querySelector(
+                "#cerebras-api-key",
+              ) as HTMLInputElement | null
+            )?.value ?? settings.cerebrasApiKey,
+          customEndpoint:
+            (modal.querySelector("#custom-endpoint") as HTMLInputElement | null)
+              ?.value ?? settings.customEndpoint,
+          customModel:
+            (modal.querySelector("#custom-model") as HTMLInputElement | null)
+              ?.value ?? settings.customModel,
+          customApiKey:
+            (modal.querySelector("#custom-api-key") as HTMLInputElement | null)
+              ?.value ?? settings.customApiKey,
         };
         saveSettings(newSettings);
         this.hideSettingsModal();

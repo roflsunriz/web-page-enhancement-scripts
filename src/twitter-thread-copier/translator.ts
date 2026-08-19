@@ -3,7 +3,13 @@ import { applyAutoConversions } from "./auto-conversion.js";
 import type { TweetData } from "@/shared/types";
 import { notify } from "@/shared/userscript";
 import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
-import { loadSettings } from "./settings.js";
+import {
+  getRemoteProviderSettings,
+  isRemoteProvider,
+  loadSettings,
+  loadTranslationProvider,
+  type TranslationProvider,
+} from "./settings.js";
 import { t } from "./i18n.js";
 import { resolveOpenAIModel } from "./model-catalog.js";
 
@@ -24,19 +30,9 @@ type TextSegment = {
 
 type Segment = FixedSegment | TextSegment;
 
-type TranslationProvider = "local" | "google" | "openai" | "none";
-
-function getPreferredProvider(): TranslationProvider {
-  const stored = localStorage.getItem("translationProvider");
-  if (stored === "local" || stored === "google" || stored === "openai") {
-    return stored as TranslationProvider;
-  }
-  return "local";
-}
-
 interface SegmentTranslationResult {
   text: string;
-  provider: TranslationProvider;
+  provider: TranslationProvider | "none";
 }
 
 export interface TranslateTweetsResult {
@@ -222,7 +218,7 @@ async function translateSingleSegment(
     return { text, provider: "none" };
   }
 
-  const provider = getPreferredProvider();
+  const provider = loadTranslationProvider();
 
   if (provider === "local") {
     const localResult = await translateWithLocalAI(text);
@@ -242,11 +238,10 @@ async function translateSingleSegment(
     }
   }
 
-  if (provider === "openai") {
-    ensureOpenAIConfig();
-    const openaiResult = await translateWithOpenAI(text);
+  if (isRemoteProvider(provider)) {
+    const openaiResult = await translateWithRemoteProvider(text, provider);
     if (openaiResult) {
-      return { text: openaiResult, provider: "openai" };
+      return { text: openaiResult, provider };
     }
     return { text, provider: "none" };
   }
@@ -360,30 +355,33 @@ async function translateWithGoogle(text: string): Promise<string> {
   throw new Error(t("googleTranslateFailed"));
 }
 
-function ensureOpenAIConfig(): void {
+async function translateWithRemoteProvider(
+  text: string,
+  provider: Exclude<TranslationProvider, "local" | "google">,
+): Promise<string | null> {
   const settings = loadSettings();
-  if (!settings.openaiApiKey) {
-    logger.warn(t("openAiKeyMissing"));
+  const remote = getRemoteProviderSettings(provider, settings);
+  if (!remote.apiKey) {
+    logger.error(`${provider}: ${t("openAiKeyMissing")}`);
+    return null;
   }
-}
-
-async function translateWithOpenAI(text: string): Promise<string | null> {
-  const settings = loadSettings();
-  if (!settings.openaiEndpoint) {
+  if (!remote.endpoint) {
     logger.error(t("openAiEndpointMissing"));
     return null;
   }
-
-  let model: string;
-  try {
-    model = await resolveOpenAIModel(
-      settings.openaiEndpoint,
-      settings.openaiApiKey,
-      settings.openaiModel,
-    );
-  } catch (error) {
-    logger.error(`モデル一覧の取得に失敗: ${(error as Error).message}`);
+  if (provider === "custom" && !remote.model) {
+    logger.error("OpenAI-compatible model is not configured");
     return null;
+  }
+
+  let model = remote.model;
+  if (remote.resolveModelFromCatalog) {
+    try {
+      model = await resolveOpenAIModel(remote.endpoint, remote.apiKey, "");
+    } catch (error) {
+      logger.error(`モデル一覧の取得に失敗: ${(error as Error).message}`);
+      return null;
+    }
   }
 
   let retryCount = 0;
@@ -395,12 +393,10 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
       const headers: Record<string, string> = {
         "Content-Type": "application/json",
       };
-      if (settings.openaiApiKey) {
-        headers["Authorization"] = `Bearer ${settings.openaiApiKey}`;
-      }
+      headers["Authorization"] = `Bearer ${remote.apiKey}`;
 
       // OpenRouter用のヘッダーを追加
-      const isOpenRouter = settings.openaiEndpoint.includes("openrouter.ai");
+      const isOpenRouter = remote.endpoint.includes("openrouter.ai");
       if (isOpenRouter) {
         headers["HTTP-Referer"] = window.location.href;
         headers["X-Title"] = "Twitter Thread Copier";
@@ -412,12 +408,12 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
         (resolve, reject) => {
           GM_xmlhttpRequest({
             method: "POST",
-            url: settings.openaiEndpoint,
+            url: remote.endpoint,
             headers,
             data: JSON.stringify({
               model,
               messages: [
-                { role: "system", content: settings.openaiSystemPrompt },
+                { role: "system", content: settings.cloudSystemPrompt },
                 { role: "user", content: userPrompt },
               ],
               temperature: 0,
