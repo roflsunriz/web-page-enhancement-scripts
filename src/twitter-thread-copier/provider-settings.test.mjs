@@ -6,6 +6,7 @@ import {
   SAKURA_ENDPOINT,
   getDefaultSettings,
   getRemoteProviderSettings,
+  initializeSettingsStorage,
   loadSettings,
   loadTranslationProvider,
   resetSettings,
@@ -29,18 +30,12 @@ Object.defineProperty(globalThis, "localStorage", {
   configurable: true,
   value: storage,
 });
-Object.defineProperties(globalThis, {
-  GM_getValue: {
-    configurable: true,
-    value: (key, fallback) => secretValues.get(key) ?? fallback,
-  },
-  GM_setValue: {
-    configurable: true,
-    value: (key, value) => secretValues.set(key, value),
-  },
-  GM_deleteValue: {
-    configurable: true,
-    value: (key) => secretValues.delete(key),
+Object.defineProperty(globalThis, "GM", {
+  configurable: true,
+  value: {
+    getValue: async (key, fallback) => secretValues.get(key) ?? fallback,
+    setValue: async (key, value) => secretValues.set(key, value),
+    deleteValue: async (key) => secretValues.delete(key),
   },
 });
 
@@ -101,7 +96,7 @@ describe("translation provider settings", () => {
     });
   });
 
-  test("旧OpenAI互換のCerebras設定を新しい専用設定へ移行する", () => {
+  test("Firefox系Promise APIで起動時に旧平文設定を自動移行する", async () => {
     storage.setItem(
       "twitter-thread-copier-settings",
       JSON.stringify({
@@ -114,6 +109,7 @@ describe("translation provider settings", () => {
     );
     storage.setItem("translationProvider", "openai");
 
+    await initializeSettingsStorage();
     const settings = loadSettings();
     expect(settings.cerebrasApiKey).toBe("legacy-key");
     expect(settings.cloudSystemPrompt).toBe("legacy prompt");
@@ -129,8 +125,8 @@ describe("translation provider settings", () => {
     expect(sanitized).not.toContain("cerebrasApiKey");
   });
 
-  test("APIキーをuserscript専用領域だけへ保存する", () => {
-    saveSettings({
+  test("APIキーをuserscript専用領域だけへ保存する", async () => {
+    await saveSettings({
       ...getDefaultSettings(),
       openRouterApiKey: "openrouter-secret",
       sakuraApiKey: "sakura-secret",
@@ -155,13 +151,13 @@ describe("translation provider settings", () => {
     );
   });
 
-  test("設定リセットでuserscript専用領域のAPIキーも削除する", () => {
+  test("設定リセットでuserscript専用領域のAPIキーも削除する", async () => {
     secretValues.set("twitter-thread-copier-secret-openrouter", "secret");
     secretValues.set("twitter-thread-copier-secret-sakura", "secret");
     secretValues.set("twitter-thread-copier-secret-cerebras", "secret");
     secretValues.set("twitter-thread-copier-secret-custom", "secret");
 
-    resetSettings();
+    await resetSettings();
     expect(secretValues.size).toBe(0);
   });
 });

@@ -2000,6 +2000,11 @@
 
 ### twitter-thread-copier
 
+#### 6.14.2 - 2026-08-19
+
+- Firefoxで設定画面や翻訳を使うまでAPIキー移行が始まらない問題を修正し、userscript起動時にUI生成より先に平文キーの移送・削除を完了するよう変更した。
+- Tampermonkey系の同期 `GM_*Value` APIに加えて、FirefoxのGreasemonkey系で使われるPromise版 `GM.*Value` APIにも対応した。
+
 #### 6.14.1 - 2026-08-19
 
 - APIキーがXのページスクリプトから読める `localStorage` に平文保存される重大な問題を修正し、userscript manager専用ストレージへ分離した。

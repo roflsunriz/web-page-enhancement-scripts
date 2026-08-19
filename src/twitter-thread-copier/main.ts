@@ -13,16 +13,18 @@ import {
 import { executeClipboardCopy } from "./clipboard.js";
 import { TWITTER_THREAD_URL_PATTERN } from "@/shared/constants/urls";
 import { format, t } from "./i18n.js";
+import { initializeSettingsStorage } from "./settings.js";
 
 class TwitterThreadCopierApp {
   private activeStatusId: string | null = null;
 
   constructor() {
-    this.init();
+    void this.init();
   }
 
-  private init(): void {
+  private async init(): Promise<void> {
     try {
+      await initializeSettingsStorage();
       // ページの種類に関わらず、まずURL監視を開始する
       this.observeUrlChanges();
       this.updateButtonVisibility();

@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         twitter-thread-copier
 // @namespace    twitterThreadCopier
-// @version      6.14.1
+// @version      6.14.2
 // @author       roflsunriz
 // @description  Copy entire Twitter/X threads with formatting and expansions.
 // @license      MIT
@@ -15,6 +15,9 @@
 // @connect      t.co
 // @connect      *
 // @connect      localhost
+// @grant        GM.deleteValue
+// @grant        GM.getValue
+// @grant        GM.setValue
 // @grant        GM_deleteValue
 // @grant        GM_getValue
 // @grant        GM_notification

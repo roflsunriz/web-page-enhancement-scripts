@@ -39,6 +39,12 @@ const SECRET_STORAGE_KEYS: Record<SecretField, string> = {
   cerebrasApiKey: "twitter-thread-copier-secret-cerebras",
   customApiKey: "twitter-thread-copier-secret-custom",
 };
+const secretCache: Record<SecretField, string> = {
+  openRouterApiKey: "",
+  sakuraApiKey: "",
+  cerebrasApiKey: "",
+  customApiKey: "",
+};
 
 const DEFAULT_LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const DEFAULT_LOCAL_AI_SYSTEM_PROMPT =
@@ -89,8 +95,17 @@ function readStoredObject(): Record<string, unknown> {
 }
 
 function readSecret(field: SecretField): string {
+  return secretCache[field];
+}
+
+async function readSecretFromStorage(field: SecretField): Promise<string> {
   try {
-    const value = GM_getValue(SECRET_STORAGE_KEYS[field], "");
+    let value: unknown = "";
+    if (typeof GM_getValue === "function") {
+      value = GM_getValue(SECRET_STORAGE_KEYS[field], "");
+    } else if (typeof GM !== "undefined" && typeof GM.getValue === "function") {
+      value = await GM.getValue(SECRET_STORAGE_KEYS[field], "");
+    }
     return typeof value === "string" ? value : "";
   } catch (error) {
     logger.error(
@@ -100,13 +115,28 @@ function readSecret(field: SecretField): string {
   }
 }
 
-function writeSecret(field: SecretField, value: string): void {
+async function writeSecret(field: SecretField, value: string): Promise<void> {
   try {
-    if (value) {
-      GM_setValue(SECRET_STORAGE_KEYS[field], value);
-    } else {
-      GM_deleteValue(SECRET_STORAGE_KEYS[field]);
+    secretCache[field] = value;
+    if (
+      typeof GM_setValue === "function" &&
+      typeof GM_deleteValue === "function"
+    ) {
+      if (value) GM_setValue(SECRET_STORAGE_KEYS[field], value);
+      else GM_deleteValue(SECRET_STORAGE_KEYS[field]);
+      return;
     }
+    if (typeof GM !== "undefined") {
+      if (value && typeof GM.setValue === "function") {
+        await GM.setValue(SECRET_STORAGE_KEYS[field], value);
+        return;
+      }
+      if (!value && typeof GM.deleteValue === "function") {
+        await GM.deleteValue(SECRET_STORAGE_KEYS[field]);
+        return;
+      }
+    }
+    throw new Error("userscript storage API is unavailable");
   } catch (error) {
     logger.error(
       `Failed to write protected userscript value: ${field}: ${error instanceof Error ? error.message : String(error)}`,
@@ -114,14 +144,14 @@ function writeSecret(field: SecretField, value: string): void {
   }
 }
 
-function clearSecrets(): void {
-  for (const field of SECRET_FIELDS) writeSecret(field, "");
+async function clearSecrets(): Promise<void> {
+  await Promise.all(SECRET_FIELDS.map((field) => writeSecret(field, "")));
 }
 
-function removePlaintextSecrets(
+async function removePlaintextSecrets(
   parsed: Record<string, unknown>,
   legacyProvider: TranslationProvider,
-): void {
+): Promise<void> {
   const legacyApiKey = readString(parsed, "openaiApiKey");
   const candidates: Record<SecretField, string> = {
     openRouterApiKey: readString(
@@ -149,8 +179,9 @@ function removePlaintextSecrets(
   if (!plaintextFields.some((field) => field in parsed)) return;
 
   for (const field of SECRET_FIELDS) {
-    if (!readSecret(field) && candidates[field]) {
-      writeSecret(field, candidates[field]);
+    const storedSecret = await readSecretFromStorage(field);
+    if (!storedSecret && candidates[field]) {
+      await writeSecret(field, candidates[field]);
     }
   }
 
@@ -186,6 +217,24 @@ export function getDefaultSettings(): TranslatorSettings {
   };
 }
 
+export async function initializeSettingsStorage(): Promise<void> {
+  try {
+    const parsed = readStoredObject();
+    const legacyProvider = inferProviderFromEndpoint(
+      readString(parsed, "openaiEndpoint"),
+    );
+    await removePlaintextSecrets(parsed, legacyProvider);
+    for (const field of SECRET_FIELDS) {
+      const storedSecret = await readSecretFromStorage(field);
+      if (storedSecret) secretCache[field] = storedSecret;
+    }
+  } catch (error) {
+    logger.error(
+      `Failed to initialize userscript settings storage: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
 export function loadSettings(): TranslatorSettings {
   const defaults = getDefaultSettings();
   try {
@@ -193,7 +242,6 @@ export function loadSettings(): TranslatorSettings {
     const legacyEndpoint = readString(parsed, "openaiEndpoint");
     const legacyModel = readString(parsed, "openaiModel");
     const legacyProvider = inferProviderFromEndpoint(legacyEndpoint);
-    removePlaintextSecrets(parsed, legacyProvider);
 
     return {
       settingsVersion: 2,
@@ -233,9 +281,13 @@ export function loadSettings(): TranslatorSettings {
   }
 }
 
-export function saveSettings(settings: TranslatorSettings): void {
+export async function saveSettings(
+  settings: TranslatorSettings,
+): Promise<void> {
   try {
-    for (const field of SECRET_FIELDS) writeSecret(field, settings[field]);
+    await Promise.all(
+      SECRET_FIELDS.map((field) => writeSecret(field, settings[field])),
+    );
     savePublicSettings(settings);
     logger.log("Settings saved successfully");
   } catch (error) {
@@ -243,9 +295,9 @@ export function saveSettings(settings: TranslatorSettings): void {
   }
 }
 
-export function resetSettings(): TranslatorSettings {
+export async function resetSettings(): Promise<TranslatorSettings> {
   const defaults = getDefaultSettings();
-  clearSecrets();
+  await clearSecrets();
   savePublicSettings(defaults);
   return defaults;
 }

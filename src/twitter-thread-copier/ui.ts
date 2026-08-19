@@ -1139,7 +1139,7 @@ class UIManager {
     ) as HTMLButtonElement | null;
 
     if (saveButton) {
-      saveButton.addEventListener("click", () => {
+      saveButton.addEventListener("click", async () => {
         const newSettings: TranslatorSettings = {
           localAiEndpoint:
             (
@@ -1187,7 +1187,7 @@ class UIManager {
               modal.querySelector("#custom-api-key") as HTMLInputElement | null
             )?.value.trim() || settings.customApiKey,
         };
-        saveSettings(newSettings);
+        await saveSettings(newSettings);
         this.hideSettingsModal();
         this.showToast(t("settingsSavedTitle"), t("settingsSavedContent"));
       });
@@ -1200,9 +1200,9 @@ class UIManager {
     }
 
     if (resetButton) {
-      resetButton.addEventListener("click", () => {
+      resetButton.addEventListener("click", async () => {
         if (confirm(t("resetConfirm"))) {
-          resetSettings();
+          await resetSettings();
           this.hideSettingsModal();
           this.showToast(t("settingsResetTitle"), t("settingsResetContent"));
         }

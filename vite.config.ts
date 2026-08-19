@@ -456,7 +456,7 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
-  version: '6.14.1',
+  version: '6.14.2',
   description: 'Copy entire Twitter/X threads with formatting and expansions.',
   author: 'roflsunriz',
   match: [
@@ -476,6 +476,9 @@ const twitterThreadCopierMeta: MonkeyUserScript = {
     'GM_getValue',
     'GM_setValue',
     'GM_deleteValue',
+    'GM.getValue',
+    'GM.setValue',
+    'GM.deleteValue',
   ],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=twitter.com',
   'run-at': 'document-idle',
