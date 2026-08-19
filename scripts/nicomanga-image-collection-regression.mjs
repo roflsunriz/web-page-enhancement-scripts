@@ -337,7 +337,7 @@ async function runMangaViewerDynamicViewportRegression() {
         window.innerWidth === width && window.innerHeight === height,
       viewport,
     );
-    await page.waitForTimeout(100);
+    await waitForMangaViewerFitLayout(page, "height", viewport);
 
     const heightFitSpread = await page.evaluate(() =>
       window.getMangaViewerSpreadState(),
@@ -346,7 +346,7 @@ async function runMangaViewerDynamicViewportRegression() {
     assertMangaViewerImageFit(heightFitSpread, "height");
 
     await setMangaViewerImageFitMode(page, "width");
-    await page.waitForTimeout(100);
+    await waitForMangaViewerFitLayout(page, "width", viewport);
     const widthFitSpread = await page.evaluate(() =>
       window.getMangaViewerSpreadState(),
     );
@@ -1072,6 +1072,38 @@ async function setMangaViewerImageFitMode(page, mode) {
   }, mode);
 
   return page.evaluate(() => window.getMangaViewerSpreadState());
+}
+
+async function waitForMangaViewerFitLayout(page, mode, viewport) {
+  await page.waitForFunction(
+    ({ expectedMode, expectedViewport }) => {
+      const state = window.getMangaViewerSpreadState();
+      if (
+        state.fitMode !== expectedMode ||
+        state.viewport?.width !== expectedViewport.width ||
+        state.viewport?.height !== expectedViewport.height
+      ) {
+        return false;
+      }
+      const pages = (state.activePages ?? []).filter(
+        (activePage) => activePage.imageRect,
+      );
+      if (pages.length === 0) return false;
+      if (expectedMode === "height") {
+        return pages.every(
+          (activePage) =>
+            Math.abs(activePage.imageRect.height - activePage.rect.height) <=
+              1 && activePage.imageRect.height <= expectedViewport.height + 1,
+        );
+      }
+      const expectedPageWidth = expectedViewport.width / 2;
+      return pages.every(
+        (activePage) =>
+          Math.abs(activePage.imageRect.width - expectedPageWidth) <= 1,
+      );
+    },
+    { expectedMode: mode, expectedViewport: viewport },
+  );
 }
 
 async function assertMangaViewerImageFitKeyboardAccess(page) {
