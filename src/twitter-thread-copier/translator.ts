@@ -5,6 +5,7 @@ import { notify } from "@/shared/userscript";
 import { GOOGLE_TRANSLATE_API_URL } from "@/shared/constants/urls";
 import { loadSettings } from "./settings.js";
 import { t } from "./i18n.js";
+import { resolveOpenAIModel } from "./model-catalog.js";
 
 const GOOGLE_TRANSLATE_ENDPOINT = GOOGLE_TRANSLATE_API_URL;
 
@@ -373,6 +374,18 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
     return null;
   }
 
+  let model: string;
+  try {
+    model = await resolveOpenAIModel(
+      settings.openaiEndpoint,
+      settings.openaiApiKey,
+      settings.openaiModel,
+    );
+  } catch (error) {
+    logger.error(`モデル一覧の取得に失敗: ${(error as Error).message}`);
+    return null;
+  }
+
   let retryCount = 0;
   const MAX_RETRIES = 3;
   const BASE_DELAY = 2000;
@@ -402,7 +415,7 @@ async function translateWithOpenAI(text: string): Promise<string | null> {
             url: settings.openaiEndpoint,
             headers,
             data: JSON.stringify({
-              model: settings.openaiModel,
+              model,
               messages: [
                 { role: "system", content: settings.openaiSystemPrompt },
                 { role: "user", content: userPrompt },

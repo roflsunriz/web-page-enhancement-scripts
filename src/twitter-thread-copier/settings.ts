@@ -16,7 +16,7 @@ const DEFAULT_LOCAL_AI_SYSTEM_PROMPT =
   "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
 const DEFAULT_OPENAI_ENDPOINT = "https://api.cerebras.ai/v1/chat/completions";
-const DEFAULT_OPENAI_MODEL = "gpt-oss-120b";
+const LEGACY_AUTOMATIC_OPENAI_MODEL = "gpt-oss-120b";
 const DEFAULT_OPENAI_SYSTEM_PROMPT =
   "You are a highly skilled translation engine with expertise in the technology sector. Your function is to translate texts accurately into Japanese, maintaining the original format, technical terms, and abbreviations. Do not add any explanations or annotations to the translated text.";
 
@@ -25,7 +25,7 @@ export function getDefaultSettings(): TranslatorSettings {
     localAiEndpoint: DEFAULT_LOCAL_AI_ENDPOINT,
     localAiSystemPrompt: DEFAULT_LOCAL_AI_SYSTEM_PROMPT,
     openaiEndpoint: DEFAULT_OPENAI_ENDPOINT,
-    openaiModel: DEFAULT_OPENAI_MODEL,
+    openaiModel: "",
     openaiSystemPrompt: DEFAULT_OPENAI_SYSTEM_PROMPT,
     openaiApiKey: "",
   };
@@ -39,12 +39,19 @@ export function loadSettings(): TranslatorSettings {
     }
     const parsed = JSON.parse(stored) as Partial<TranslatorSettings>;
     const defaults = getDefaultSettings();
+    const openaiEndpoint = parsed.openaiEndpoint ?? defaults.openaiEndpoint;
+    const storedModel = parsed.openaiModel ?? defaults.openaiModel;
+    const openaiModel =
+      openaiEndpoint === DEFAULT_OPENAI_ENDPOINT &&
+      storedModel === LEGACY_AUTOMATIC_OPENAI_MODEL
+        ? ""
+        : storedModel;
     return {
       localAiEndpoint: parsed.localAiEndpoint ?? defaults.localAiEndpoint,
       localAiSystemPrompt:
         parsed.localAiSystemPrompt ?? defaults.localAiSystemPrompt,
-      openaiEndpoint: parsed.openaiEndpoint ?? defaults.openaiEndpoint,
-      openaiModel: parsed.openaiModel ?? defaults.openaiModel,
+      openaiEndpoint,
+      openaiModel,
       openaiSystemPrompt:
         parsed.openaiSystemPrompt ?? defaults.openaiSystemPrompt,
       openaiApiKey: parsed.openaiApiKey ?? defaults.openaiApiKey,
