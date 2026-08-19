@@ -2000,6 +2000,11 @@
 
 ### twitter-thread-copier
 
+#### 6.14.1 - 2026-08-19
+
+- APIキーがXのページスクリプトから読める `localStorage` に平文保存される重大な問題を修正し、userscript manager専用ストレージへ分離した。
+- 既存の平文APIキーは初回読込時に専用ストレージへ移送して `localStorage` から即時削除し、設定画面にも保存済みの実値を再表示しないよう変更した。
+
 #### 6.14.0 - 2026-08-19
 
 - 翻訳プロバイダーをローカル翻訳、Google翻訳、OpenRouter Free、Sakura AI Engine、Cerebras、OpenAI互換自由入力の6方式から明示的に選べるよう変更した。

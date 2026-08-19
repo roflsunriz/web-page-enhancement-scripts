@@ -8,9 +8,12 @@ import {
   getRemoteProviderSettings,
   loadSettings,
   loadTranslationProvider,
+  resetSettings,
+  saveSettings,
 } from "./settings.js";
 
 const values = new Map();
+const secretValues = new Map();
 const storage = {
   clear: () => values.clear(),
   getItem: (key) => values.get(key) ?? null,
@@ -26,9 +29,26 @@ Object.defineProperty(globalThis, "localStorage", {
   configurable: true,
   value: storage,
 });
+Object.defineProperties(globalThis, {
+  GM_getValue: {
+    configurable: true,
+    value: (key, fallback) => secretValues.get(key) ?? fallback,
+  },
+  GM_setValue: {
+    configurable: true,
+    value: (key, value) => secretValues.set(key, value),
+  },
+  GM_deleteValue: {
+    configurable: true,
+    value: (key) => secretValues.delete(key),
+  },
+});
 
 describe("translation provider settings", () => {
-  beforeEach(() => storage.clear());
+  beforeEach(() => {
+    storage.clear();
+    secretValues.clear();
+  });
 
   test("OpenRouter FreeはAPIキーだけでfree routerを使う", () => {
     const settings = {
@@ -100,5 +120,48 @@ describe("translation provider settings", () => {
     expect(settings.customApiKey).toBe("");
     expect(loadTranslationProvider()).toBe("cerebras");
     expect(storage.getItem("translationProvider")).toBe("cerebras");
+    expect(secretValues.get("twitter-thread-copier-secret-cerebras")).toBe(
+      "legacy-key",
+    );
+    const sanitized = storage.getItem("twitter-thread-copier-settings");
+    expect(sanitized).not.toContain("legacy-key");
+    expect(sanitized).not.toContain("openaiApiKey");
+    expect(sanitized).not.toContain("cerebrasApiKey");
+  });
+
+  test("APIキーをuserscript専用領域だけへ保存する", () => {
+    saveSettings({
+      ...getDefaultSettings(),
+      openRouterApiKey: "openrouter-secret",
+      sakuraApiKey: "sakura-secret",
+      cerebrasApiKey: "cerebras-secret",
+      customApiKey: "custom-secret",
+    });
+
+    const publicSettings = storage.getItem("twitter-thread-copier-settings");
+    expect(publicSettings ?? "").not.toContain("secret");
+    expect(publicSettings ?? "").not.toContain("ApiKey");
+    expect(secretValues.get("twitter-thread-copier-secret-openrouter")).toBe(
+      "openrouter-secret",
+    );
+    expect(secretValues.get("twitter-thread-copier-secret-sakura")).toBe(
+      "sakura-secret",
+    );
+    expect(secretValues.get("twitter-thread-copier-secret-cerebras")).toBe(
+      "cerebras-secret",
+    );
+    expect(secretValues.get("twitter-thread-copier-secret-custom")).toBe(
+      "custom-secret",
+    );
+  });
+
+  test("設定リセットでuserscript専用領域のAPIキーも削除する", () => {
+    secretValues.set("twitter-thread-copier-secret-openrouter", "secret");
+    secretValues.set("twitter-thread-copier-secret-sakura", "secret");
+    secretValues.set("twitter-thread-copier-secret-cerebras", "secret");
+    secretValues.set("twitter-thread-copier-secret-custom", "secret");
+
+    resetSettings();
+    expect(secretValues.size).toBe(0);
   });
 });

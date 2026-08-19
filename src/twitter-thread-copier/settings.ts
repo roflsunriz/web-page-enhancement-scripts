@@ -25,6 +25,20 @@ export interface RemoteProviderSettings {
 
 const STORAGE_KEY = "twitter-thread-copier-settings";
 const PROVIDER_STORAGE_KEY = "translationProvider";
+type SecretField =
+  "openRouterApiKey" | "sakuraApiKey" | "cerebrasApiKey" | "customApiKey";
+const SECRET_FIELDS: readonly SecretField[] = [
+  "openRouterApiKey",
+  "sakuraApiKey",
+  "cerebrasApiKey",
+  "customApiKey",
+];
+const SECRET_STORAGE_KEYS: Record<SecretField, string> = {
+  openRouterApiKey: "twitter-thread-copier-secret-openrouter",
+  sakuraApiKey: "twitter-thread-copier-secret-sakura",
+  cerebrasApiKey: "twitter-thread-copier-secret-cerebras",
+  customApiKey: "twitter-thread-copier-secret-custom",
+};
 
 const DEFAULT_LOCAL_AI_ENDPOINT = "http://localhost:3002/v1/chat/completions";
 const DEFAULT_LOCAL_AI_SYSTEM_PROMPT =
@@ -74,6 +88,89 @@ function readStoredObject(): Record<string, unknown> {
   return isRecord(parsed) ? parsed : {};
 }
 
+function readSecret(field: SecretField): string {
+  try {
+    const value = GM_getValue(SECRET_STORAGE_KEYS[field], "");
+    return typeof value === "string" ? value : "";
+  } catch (error) {
+    logger.error(
+      `Failed to read protected userscript value: ${field}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+    return "";
+  }
+}
+
+function writeSecret(field: SecretField, value: string): void {
+  try {
+    if (value) {
+      GM_setValue(SECRET_STORAGE_KEYS[field], value);
+    } else {
+      GM_deleteValue(SECRET_STORAGE_KEYS[field]);
+    }
+  } catch (error) {
+    logger.error(
+      `Failed to write protected userscript value: ${field}: ${error instanceof Error ? error.message : String(error)}`,
+    );
+  }
+}
+
+function clearSecrets(): void {
+  for (const field of SECRET_FIELDS) writeSecret(field, "");
+}
+
+function removePlaintextSecrets(
+  parsed: Record<string, unknown>,
+  legacyProvider: TranslationProvider,
+): void {
+  const legacyApiKey = readString(parsed, "openaiApiKey");
+  const candidates: Record<SecretField, string> = {
+    openRouterApiKey: readString(
+      parsed,
+      "openRouterApiKey",
+      legacyProvider === "openrouter-free" ? legacyApiKey : "",
+    ),
+    sakuraApiKey: readString(
+      parsed,
+      "sakuraApiKey",
+      legacyProvider === "sakura" ? legacyApiKey : "",
+    ),
+    cerebrasApiKey: readString(
+      parsed,
+      "cerebrasApiKey",
+      legacyProvider === "cerebras" ? legacyApiKey : "",
+    ),
+    customApiKey: readString(
+      parsed,
+      "customApiKey",
+      legacyProvider === "custom" ? legacyApiKey : "",
+    ),
+  };
+  const plaintextFields = [...SECRET_FIELDS, "openaiApiKey"];
+  if (!plaintextFields.some((field) => field in parsed)) return;
+
+  for (const field of SECRET_FIELDS) {
+    if (!readSecret(field) && candidates[field]) {
+      writeSecret(field, candidates[field]);
+    }
+  }
+
+  const sanitized = { ...parsed };
+  for (const field of plaintextFields) delete sanitized[field];
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(sanitized));
+}
+
+function savePublicSettings(settings: TranslatorSettings): void {
+  const publicSettings = {
+    settingsVersion: settings.settingsVersion,
+    localAiEndpoint: settings.localAiEndpoint,
+    localAiSystemPrompt: settings.localAiSystemPrompt,
+    cloudSystemPrompt: settings.cloudSystemPrompt,
+    customEndpoint: settings.customEndpoint,
+    customModel: settings.customModel,
+  };
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(publicSettings));
+}
+
 export function getDefaultSettings(): TranslatorSettings {
   return {
     settingsVersion: 2,
@@ -95,8 +192,8 @@ export function loadSettings(): TranslatorSettings {
     const parsed = readStoredObject();
     const legacyEndpoint = readString(parsed, "openaiEndpoint");
     const legacyModel = readString(parsed, "openaiModel");
-    const legacyApiKey = readString(parsed, "openaiApiKey");
     const legacyProvider = inferProviderFromEndpoint(legacyEndpoint);
+    removePlaintextSecrets(parsed, legacyProvider);
 
     return {
       settingsVersion: 2,
@@ -115,21 +212,9 @@ export function loadSettings(): TranslatorSettings {
         "cloudSystemPrompt",
         readString(parsed, "openaiSystemPrompt", defaults.cloudSystemPrompt),
       ),
-      openRouterApiKey: readString(
-        parsed,
-        "openRouterApiKey",
-        legacyProvider === "openrouter-free" ? legacyApiKey : "",
-      ),
-      sakuraApiKey: readString(
-        parsed,
-        "sakuraApiKey",
-        legacyProvider === "sakura" ? legacyApiKey : "",
-      ),
-      cerebrasApiKey: readString(
-        parsed,
-        "cerebrasApiKey",
-        legacyProvider === "cerebras" ? legacyApiKey : "",
-      ),
+      openRouterApiKey: readSecret("openRouterApiKey"),
+      sakuraApiKey: readSecret("sakuraApiKey"),
+      cerebrasApiKey: readSecret("cerebrasApiKey"),
       customEndpoint: readString(
         parsed,
         "customEndpoint",
@@ -140,11 +225,7 @@ export function loadSettings(): TranslatorSettings {
         "customModel",
         legacyProvider === "custom" ? legacyModel : "",
       ),
-      customApiKey: readString(
-        parsed,
-        "customApiKey",
-        legacyProvider === "custom" ? legacyApiKey : "",
-      ),
+      customApiKey: readSecret("customApiKey"),
     };
   } catch (error) {
     logger.error(`Failed to load settings: ${(error as Error).message}`);
@@ -154,7 +235,8 @@ export function loadSettings(): TranslatorSettings {
 
 export function saveSettings(settings: TranslatorSettings): void {
   try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(settings));
+    for (const field of SECRET_FIELDS) writeSecret(field, settings[field]);
+    savePublicSettings(settings);
     logger.log("Settings saved successfully");
   } catch (error) {
     logger.error(`Failed to save settings: ${(error as Error).message}`);
@@ -163,7 +245,8 @@ export function saveSettings(settings: TranslatorSettings): void {
 
 export function resetSettings(): TranslatorSettings {
   const defaults = getDefaultSettings();
-  saveSettings(defaults);
+  clearSecrets();
+  savePublicSettings(defaults);
   return defaults;
 }
 

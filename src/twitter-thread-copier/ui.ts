@@ -1089,17 +1089,17 @@ class UIManager {
 
       <h3>${t("openRouterFree")}</h3>
       <label>${t("settingsApiKey")}</label>
-      <input type="password" id="openrouter-api-key" value="${this.escapeHtml(settings.openRouterApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <input type="password" id="openrouter-api-key" value="" placeholder="${t(settings.openRouterApiKey ? "settingsApiKeyStoredPlaceholder" : "settingsApiKeyPlaceholder")}" autocomplete="off" />
       <p class="settings-help">${t("settingsAutomaticModel")}: openrouter/free</p>
 
       <h3>${t("sakuraAiEngine")}</h3>
       <label>${t("settingsApiKey")}</label>
-      <input type="password" id="sakura-api-key" value="${this.escapeHtml(settings.sakuraApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <input type="password" id="sakura-api-key" value="" placeholder="${t(settings.sakuraApiKey ? "settingsApiKeyStoredPlaceholder" : "settingsApiKeyPlaceholder")}" autocomplete="off" />
       <p class="settings-help">${t("settingsAutomaticModel")}</p>
 
       <h3>${t("cerebras")}</h3>
       <label>${t("settingsApiKey")}</label>
-      <input type="password" id="cerebras-api-key" value="${this.escapeHtml(settings.cerebrasApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <input type="password" id="cerebras-api-key" value="" placeholder="${t(settings.cerebrasApiKey ? "settingsApiKeyStoredPlaceholder" : "settingsApiKeyPlaceholder")}" autocomplete="off" />
       <p class="settings-help">${t("settingsAutomaticModel")}</p>
 
       <h3>${t("settingsOpenAi")}</h3>
@@ -1110,7 +1110,7 @@ class UIManager {
       <input type="text" id="custom-model" value="${this.escapeHtml(settings.customModel)}" />
 
       <label>${t("settingsApiKey")}</label>
-      <input type="password" id="custom-api-key" value="${this.escapeHtml(settings.customApiKey)}" placeholder="${t("settingsApiKeyPlaceholder")}" autocomplete="off" />
+      <input type="password" id="custom-api-key" value="" placeholder="${t(settings.customApiKey ? "settingsApiKeyStoredPlaceholder" : "settingsApiKeyPlaceholder")}" autocomplete="off" />
       
       <div class="settings-modal-buttons">
         <button class="btn-reset" type="button">${t("settingsReset")}</button>
@@ -1165,16 +1165,17 @@ class UIManager {
               modal.querySelector(
                 "#openrouter-api-key",
               ) as HTMLInputElement | null
-            )?.value ?? settings.openRouterApiKey,
+            )?.value.trim() || settings.openRouterApiKey,
           sakuraApiKey:
-            (modal.querySelector("#sakura-api-key") as HTMLInputElement | null)
-              ?.value ?? settings.sakuraApiKey,
+            (
+              modal.querySelector("#sakura-api-key") as HTMLInputElement | null
+            )?.value.trim() || settings.sakuraApiKey,
           cerebrasApiKey:
             (
               modal.querySelector(
                 "#cerebras-api-key",
               ) as HTMLInputElement | null
-            )?.value ?? settings.cerebrasApiKey,
+            )?.value.trim() || settings.cerebrasApiKey,
           customEndpoint:
             (modal.querySelector("#custom-endpoint") as HTMLInputElement | null)
               ?.value ?? settings.customEndpoint,
@@ -1182,8 +1183,9 @@ class UIManager {
             (modal.querySelector("#custom-model") as HTMLInputElement | null)
               ?.value ?? settings.customModel,
           customApiKey:
-            (modal.querySelector("#custom-api-key") as HTMLInputElement | null)
-              ?.value ?? settings.customApiKey,
+            (
+              modal.querySelector("#custom-api-key") as HTMLInputElement | null
+            )?.value.trim() || settings.customApiKey,
         };
         saveSettings(newSettings);
         this.hideSettingsModal();

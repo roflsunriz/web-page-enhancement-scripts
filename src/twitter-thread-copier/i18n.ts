@@ -47,6 +47,7 @@ type TranslationKey =
   | "settingsApiEndpoint"
   | "settingsApiKey"
   | "settingsApiKeyPlaceholder"
+  | "settingsApiKeyStoredPlaceholder"
   | "settingsAutomaticModel"
   | "settingsCancel"
   | "settingsCloudSystemPrompt"
@@ -131,6 +132,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "APIエンドポイント",
       settingsApiKey: "APIキー",
       settingsApiKeyPlaceholder: "常に必要なので必ず入力してください",
+      settingsApiKeyStoredPlaceholder: "保存済み（変更する場合のみ入力）",
       settingsAutomaticModel: "利用可能なモデルを自動選択",
       settingsCancel: "キャンセル",
       settingsCloudSystemPrompt: "クラウドAI共通システムプロンプト",
@@ -215,6 +217,8 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "Required. Enter a key before using this provider.",
+      settingsApiKeyStoredPlaceholder:
+        "Saved (enter a value only to replace it)",
       settingsAutomaticModel: "Automatically selects an available model",
       settingsCancel: "Cancel",
       settingsCloudSystemPrompt: "Shared cloud AI system prompt",
@@ -295,6 +299,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "API 端点",
       settingsApiKey: "API 密钥",
       settingsApiKeyPlaceholder: "必填。使用该提供方前请输入密钥。",
+      settingsApiKeyStoredPlaceholder: "已保存（仅在更换时输入）",
       settingsAutomaticModel: "自动选择可用模型",
       settingsCancel: "取消",
       settingsCloudSystemPrompt: "云端 AI 共用系统提示词",
@@ -378,6 +383,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "आवश्यक। इस provider का उपयोग करने से पहले key डालें।",
+      settingsApiKeyStoredPlaceholder: "सहेजी गई (केवल बदलने के लिए दर्ज करें)",
       settingsAutomaticModel: "उपलब्ध मॉडल अपने आप चुना जाता है",
       settingsCancel: "रद्द करें",
       settingsCloudSystemPrompt: "क्लाउड AI साझा सिस्टम प्रॉम्प्ट",
@@ -464,6 +470,8 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Clave API",
       settingsApiKeyPlaceholder:
         "Obligatoria. Introduce una clave antes de usar este proveedor.",
+      settingsApiKeyStoredPlaceholder:
+        "Guardada (escribe solo para reemplazarla)",
       settingsAutomaticModel: "Selecciona automáticamente un modelo disponible",
       settingsCancel: "Cancelar",
       settingsCloudSystemPrompt:
@@ -552,6 +560,8 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Clé API",
       settingsApiKeyPlaceholder:
         "Obligatoire. Saisissez une clé avant d'utiliser ce fournisseur.",
+      settingsApiKeyStoredPlaceholder:
+        "Enregistrée (saisissez uniquement pour la remplacer)",
       settingsAutomaticModel: "Sélection automatique d’un modèle disponible",
       settingsCancel: "Annuler",
       settingsCloudSystemPrompt: "Invite système partagée pour l’IA cloud",
@@ -635,6 +645,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiEndpoint: "نقطة نهاية API",
       settingsApiKey: "مفتاح API",
       settingsApiKeyPlaceholder: "مطلوب. أدخل مفتاحا قبل استخدام هذا المزود.",
+      settingsApiKeyStoredPlaceholder: "محفوظ (أدخل قيمة فقط للاستبدال)",
       settingsAutomaticModel: "يختار نموذجًا متاحًا تلقائيًا",
       settingsCancel: "إلغاء",
       settingsCloudSystemPrompt:
@@ -721,6 +732,8 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "Chave da API",
       settingsApiKeyPlaceholder:
         "Obrigatória. Insira uma chave antes de usar este provedor.",
+      settingsApiKeyStoredPlaceholder:
+        "Salva (digite apenas para substituí-la)",
       settingsAutomaticModel: "Seleciona automaticamente um modelo disponível",
       settingsCancel: "Cancelar",
       settingsCloudSystemPrompt:
@@ -806,6 +819,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "প্রয়োজনীয়। এই provider ব্যবহারের আগে key দিন।",
+      settingsApiKeyStoredPlaceholder: "সংরক্ষিত (শুধু পরিবর্তন করতে লিখুন)",
       settingsAutomaticModel: "উপলভ্য মডেল স্বয়ংক্রিয়ভাবে নির্বাচন করে",
       settingsCancel: "বাতিল",
       settingsCloudSystemPrompt: "ক্লাউড AI-এর শেয়ার করা সিস্টেম প্রম্পট",
@@ -890,6 +904,7 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "Обязательно. Введите key перед использованием provider.",
+      settingsApiKeyStoredPlaceholder: "Сохранён (введите только для замены)",
       settingsAutomaticModel: "Автоматически выбирает доступную модель",
       settingsCancel: "Отмена",
       settingsCloudSystemPrompt: "Общий системный промпт облачного ИИ",
@@ -973,6 +988,8 @@ const translations = buildSupportedTranslationMap(
       settingsApiKey: "API key",
       settingsApiKeyPlaceholder:
         "ضروری۔ اس provider کو استعمال کرنے سے پہلے key درج کریں۔",
+      settingsApiKeyStoredPlaceholder:
+        "محفوظ ہے (صرف تبدیل کرنے کے لیے درج کریں)",
       settingsAutomaticModel: "دستیاب ماڈل خودکار طور پر منتخب کرتا ہے",
       settingsCancel: "منسوخ",
       settingsCloudSystemPrompt: "کلاؤڈ AI کا مشترکہ سسٹم پرامپٹ",
