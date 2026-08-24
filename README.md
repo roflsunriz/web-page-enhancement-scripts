@@ -28,7 +28,7 @@ web-page-enhancement-scripts
   - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
   - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
   - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
-  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠と空きカラムを非表示化
+  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠、連携案内、機能案内を非表示化
   - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
   - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール

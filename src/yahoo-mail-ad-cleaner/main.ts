@@ -1,11 +1,8 @@
+import { AD_SLOT_SELECTORS, HIDDEN_UI_SELECTORS } from "./selectors";
+
 const SCRIPT_ID = "yahoo-mail-ad-cleaner";
 const STYLE_ID = `${SCRIPT_ID}-styles`;
 
-const AD_SLOT_SELECTORS = [
-  "#tagYadsListTop",
-  "#tagYadsSideColumn",
-  "#tagYadsDetail",
-] as const;
 const COLLAPSED_ATTRIBUTE = `data-${SCRIPT_ID}-collapsed`;
 
 const COLLAPSIBLE_PARENT_SELECTORS = [
@@ -22,7 +19,7 @@ function injectStyles(): void {
   const style = document.createElement("style");
   style.id = STYLE_ID;
   style.textContent = `
-    ${AD_SLOT_SELECTORS.join(",\n    ")} {
+    ${HIDDEN_UI_SELECTORS.join(",\n    ")} {
       display: none !important;
     }
 

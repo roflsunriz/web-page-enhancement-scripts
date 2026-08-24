@@ -37,7 +37,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && bun run check:d-anime-version",
+    "test": "bun test src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && bun run check:d-anime-version",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
