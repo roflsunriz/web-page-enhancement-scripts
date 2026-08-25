@@ -664,6 +664,29 @@ async function captureMangaViewerPageTurnAnimation(
         return new Promise((resolve, reject) => {
           let animationSpread = null;
 
+          const observeAnimation = () => {
+            if (debugState.libraryState !== "flipping") return;
+
+            const spread = getMangaViewerSpreadState();
+            const containsExpectedPages = expectedPageFileNames.every(
+              (pageFileName) =>
+                spread.sources.some((source) => source.includes(pageFileName)),
+            );
+            const animatedPageCount = spread.activePages.filter(
+              (activePage) => !activePage.className.includes("--simple"),
+            ).length;
+            const hasWebGlCurl =
+              spread.curlCanvas?.display !== "none" &&
+              spread.curlCanvas?.rect.width > 0 &&
+              spread.curlCanvas?.rect.height > 0;
+            if (
+              containsExpectedPages &&
+              (hasWebGlCurl || animatedPageCount >= 2)
+            ) {
+              animationSpread = spread;
+            }
+          };
+
           const restoreDebugState = () => {
             if (originalDebugDescriptor) {
               Object.defineProperty(mangaViewer, "__pageFlipDebug", {
@@ -679,21 +702,7 @@ async function captureMangaViewerPageTurnAnimation(
             get: () => debugState,
             set: (nextDebugState) => {
               debugState = nextDebugState;
-              if (nextDebugState.libraryState !== "flipping") return;
-
-              const spread = getMangaViewerSpreadState();
-              const containsExpectedPages = expectedPageFileNames.every(
-                (pageFileName) =>
-                  spread.activeSources.some((source) =>
-                    source.includes(pageFileName),
-                  ),
-              );
-              const animatedPageCount = spread.activePages.filter(
-                (activePage) => !activePage.className.includes("--simple"),
-              ).length;
-              if (containsExpectedPages && animatedPageCount >= 2) {
-                animationSpread = spread;
-              }
+              observeAnimation();
             },
           });
 
@@ -704,6 +713,7 @@ async function captureMangaViewerPageTurnAnimation(
           }, 5000);
 
           const observationIntervalId = window.setInterval(() => {
+            observeAnimation();
             if (
               debugState.requestCount > initialRequestCount &&
               debugState.lastStarted === true &&
@@ -745,6 +755,27 @@ function assertMangaViewerAnimationGeometry(spread, direction) {
   const animatedPages = spread.activePages.filter(
     (page) => !page.className.includes("--simple"),
   );
+  if (spread.curlCanvas && spread.curlCanvas.display !== "none") {
+    assert(
+      spread.curlCanvas.backingWidth > 0 &&
+        spread.curlCanvas.backingHeight > 0 &&
+        spread.curlCanvas.rect.width > 0 &&
+        spread.curlCanvas.rect.height > 0,
+      `manga-viewer ${direction} WebGL curl canvas had invalid dimensions: ${JSON.stringify(spread)}`,
+    );
+    assert(
+      spread.blockRect &&
+        Math.abs(spread.curlCanvas.rect.width - spread.blockRect.width) <= 1 &&
+        spread.curlCanvas.rect.height >= spread.blockRect.height,
+      `manga-viewer ${direction} WebGL curl canvas did not cover the page-flip area: ${JSON.stringify(spread)}`,
+    );
+    assert(
+      animatedPages.length === 0,
+      `manga-viewer ${direction} displayed the legacy curl together with the WebGL canvas: ${JSON.stringify(spread)}`,
+    );
+    return;
+  }
+
   assert(
     animatedPages.length >= 2,
     `manga-viewer ${direction} animation did not expose both faces of the turning sheet: ${JSON.stringify(spread)}`,
@@ -827,11 +858,13 @@ function createInitHarness() {
     const mainViewer = root?.querySelector(".mv-main-viewer");
     const book = root?.querySelector(".mv-flip-book");
     const block = root?.querySelector(".page-flip-2__block");
+    const curlCanvas = root?.querySelector(".page-flip-2__curl-canvas");
     const hostRect = host?.getBoundingClientRect();
     const containerRect = container?.getBoundingClientRect();
     const mainViewerRect = mainViewer?.getBoundingClientRect();
     const bookRect = book?.getBoundingClientRect();
     const blockRect = block?.getBoundingClientRect();
+    const curlCanvasRect = curlCanvas?.getBoundingClientRect();
     const debug = window.MangaViewer?.__pageFlipDebug ?? null;
     const spreadSelector = debug ? '[data-logical-spread-index="' + String(debug.currentSpreadIndex) + '"]' : "";
     const getSrc = (selector) => {
@@ -862,6 +895,19 @@ function createInitHarness() {
       mainViewerRect: mainViewerRect ? { width: mainViewerRect.width, height: mainViewerRect.height } : null,
       bookRect: bookRect ? { width: bookRect.width, height: bookRect.height } : null,
       blockRect: blockRect ? { width: blockRect.width, height: blockRect.height } : null,
+      curlCanvas: curlCanvas instanceof HTMLCanvasElement && curlCanvasRect
+        ? {
+            display: getComputedStyle(curlCanvas).display,
+            rect: {
+              left: curlCanvasRect.left,
+              top: curlCanvasRect.top,
+              width: curlCanvasRect.width,
+              height: curlCanvasRect.height
+            },
+            backingWidth: curlCanvas.width,
+            backingHeight: curlCanvas.height
+          }
+        : null,
       classList: Array.from(root?.querySelectorAll(".mv-flip-page") ?? []).map((element) => element.className),
       sources: Array.from(root?.querySelectorAll(".mv-flip-image") ?? []).map((image) => image.currentSrc || image.src),
       activePages: Array.from(root?.querySelectorAll(".mv-flip-page") ?? [])

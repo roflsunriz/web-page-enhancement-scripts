@@ -8,7 +8,7 @@
         "@mdi/js": "7.4.47",
         "comment-overlay": "^4.1.4",
         "fflate": "^0.8.3",
-        "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.2.2/page-flip-2-0.2.2.tgz",
+        "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.3.0/page-flip-2-0.3.0.tgz",
         "react": "^19.2.8",
         "react-dom": "^19.2.8",
       },
@@ -364,7 +364,7 @@
 
     "p-locate": ["p-locate@5.0.0", "", { "dependencies": { "p-limit": "^3.0.2" } }, "sha512-LaNjtRWUBY++zB5nE/NwcaoMylSPk+S+ZHNB1TzdbMJMny6dynpAGt7X/tl/QYq3TIeE6nxHppbo2LGymrG5Pw=="],
 
-    "page-flip-2": ["page-flip-2@https://github.com/roflsunriz/page-flip-2/releases/download/v0.2.2/page-flip-2-0.2.2.tgz", {}, "sha512-Hlb5FP8QjThyF4aCH4JrwKrwBl2AQi2lriUpjfEPEqh6bE55VH2UcEigek1AHZBsJpiMoqhQmtFs0PY4bnUmtg=="],
+    "page-flip-2": ["page-flip-2@https://github.com/roflsunriz/page-flip-2/releases/download/v0.3.0/page-flip-2-0.3.0.tgz", {}, "sha512-IBA0Q12vVeFo8yppWuP9PzwqXqd9PpAiG78ey1NGUyAtLMlIElj8AEgMEboOX/Twt+mndIUKGajFm/5EYUUN4w=="],
 
     "path-exists": ["path-exists@4.0.0", "", {}, "sha512-ak9Qy5Q7jYb2Wwcey5Fpvg2KoAc/ZIhLSLOSBmRmygPsGwkVVt0fZa0qrtMz+m6tJTAHfZQ8FnmB4MG4LWy7/w=="],
 
