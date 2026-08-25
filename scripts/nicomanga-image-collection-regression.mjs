@@ -663,9 +663,16 @@ async function captureMangaViewerPageTurnAnimation(
 
         return new Promise((resolve, reject) => {
           let animationSpread = null;
+          let observationIntervalId = null;
+          let curlCanvasObserver = null;
 
           const observeAnimation = () => {
-            if (debugState.libraryState !== "flipping") return;
+            const requestStarted =
+              debugState.requestCount > initialRequestCount &&
+              debugState.lastStarted === true;
+            if (!requestStarted && debugState.libraryState !== "flipping") {
+              return;
+            }
 
             const spread = getMangaViewerSpreadState();
             const containsExpectedPages = expectedPageFileNames.every(
@@ -696,6 +703,14 @@ async function captureMangaViewerPageTurnAnimation(
             }
           };
 
+          const stopObservation = () => {
+            if (observationIntervalId !== null) {
+              window.clearInterval(observationIntervalId);
+            }
+            curlCanvasObserver?.disconnect();
+            restoreDebugState();
+          };
+
           Object.defineProperty(mangaViewer, "__pageFlipDebug", {
             configurable: true,
             enumerable: true,
@@ -706,13 +721,23 @@ async function captureMangaViewerPageTurnAnimation(
             },
           });
 
+          const curlCanvas = getMangaViewerShadowRoot()?.querySelector(
+            ".page-flip-2__curl-canvas",
+          );
+          if (curlCanvas instanceof HTMLCanvasElement) {
+            curlCanvasObserver = new MutationObserver(observeAnimation);
+            curlCanvasObserver.observe(curlCanvas, {
+              attributes: true,
+              attributeFilter: ["style"],
+            });
+          }
+
           const timeoutId = window.setTimeout(() => {
-            window.clearInterval(observationIntervalId);
-            restoreDebugState();
+            stopObservation();
             reject(new Error("Timed out while observing the page turn"));
           }, 5000);
 
-          const observationIntervalId = window.setInterval(() => {
+          observationIntervalId = window.setInterval(() => {
             observeAnimation();
             if (
               debugState.requestCount > initialRequestCount &&
@@ -720,14 +745,13 @@ async function captureMangaViewerPageTurnAnimation(
               animationSpread
             ) {
               window.clearTimeout(timeoutId);
-              window.clearInterval(observationIntervalId);
-              restoreDebugState();
+              stopObservation();
               resolve(animationSpread);
             }
           }, 10);
 
-          // CIで描画フレームが省略されても中間状態を取り逃がさないよう、
-          // デバッグ状態への同期書き込みをキーイベントより先に監視する。
+          // CIでタイマー描画フレームが省略されても中間状態を取り逃がさないよう、
+          // デバッグ状態とCanvasのstyle変更をキーイベントより先に監視する。
           window.dispatchEvent(
             new KeyboardEvent("keydown", {
               key,
