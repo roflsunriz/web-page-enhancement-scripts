@@ -2,6 +2,9 @@ export const AD_SLOT_SELECTORS = [
   "#tagYadsListTop",
   "#tagYadsSideColumn",
   "#tagYadsDetail",
+  // 公式バンドルの InterstitialAd が、タブ再表示時に YADS へ渡す親要素。
+  // LYP プレミアムなどの全画面セルフプロモーションもここへ描画される。
+  "#tagYadsInterstitial",
 ] as const;
 
 export const PROMOTION_ROOT_SELECTORS = [

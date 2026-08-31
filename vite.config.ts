@@ -543,8 +543,9 @@ const xCommunityNoteCloseMeta: MonkeyUserScript = {
 const yahooMailAdCleanerMeta: MonkeyUserScript = {
   name: 'yahoo-mail-ad-cleaner',
   namespace: 'yahooMailAdCleaner',
-  version: '1.1.0',
-  description: 'Yahoo!メール PC版に残る広告枠、連携案内、機能案内を非表示にする',
+  version: '1.2.0',
+  description:
+    'Yahoo!メール PC版に残る広告枠、全画面プロモーション、連携案内、機能案内を非表示にする',
   author: 'roflsunriz',
   match: ['https://mail.yahoo.co.jp/*'],
   grant: [],
