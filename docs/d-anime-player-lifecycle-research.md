@@ -11,7 +11,7 @@
 
 ## 取得物
 
-取得した公式プレイヤー資産は `test-fixtures/d-anime/official-assets-manifest.json` にファイル名、サイズ、SHA-256を記録した。実体はGit管理外の `.d-anime-sandbox/official-assets/` に置く。
+取得した公式プレイヤー資産は `test-fixtures/d-anime/official-assets-manifest.json` にファイル名、サイズ、SHA-256を記録した。実体はGit管理対象の `.d-anime-sandbox/official-assets/` に置く。世代管理の方針は同ディレクトリの `README.md` に従う。
 
 ローカル再現で実行する `player.min-20260319174448.js` のSHA-256は次のとおり。
 
