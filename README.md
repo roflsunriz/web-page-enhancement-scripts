@@ -14,6 +14,7 @@ web-page-enhancement-scripts
 -----------------------
 
 - `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
+  - `apkcube-direct-download/` — apkcube.com の待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行
   - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
   - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
   - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
@@ -41,6 +42,7 @@ web-page-enhancement-scripts
 ----------------------
 リンクをクリックすることでTampermonkeyが自動的にインストールウィンドウを開き、インストールを行うことができます。
 
+- [apkcube-direct-download](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/apkcube-direct-download.user.js)
 - [chatgpt-notify](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/chatgpt-notify.user.js)
 - [d-anime-cf-ranking](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-cf-ranking.user.js)
 - [d-anime-nico-comment-renderer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js)

@@ -52,3 +52,11 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - `CHANGELOG.md` はスクリプトごとの実バージョン単位で記録する。リポジトリ全体の雑多な箇条書きや「バージョンを上げた」だけの記述にしない。
 - コミットメッセージは参考情報に留め、変更履歴は実際の差分、変更ファイル、ユーザーに見える挙動を基に書く。
 - 複数スクリプトのバージョンを同時に上げた場合も、各スクリプトの節にそれぞれ該当バージョンの内容を書く。
+
+## apkcube.com 対応の知見（2026-09-06 確認）
+
+- 詳細ページは `https://apkcube.com/<slug>/<appId>`、ダウンロードページは `https://apkcube.com/<slug>/<appId>/download`。
+- APK 一覧は `GET /api/apps/<packageId>/apks?k=<token>`、実行は `POST /api/downloads/request` → `{url}` → `window.location.assign(url)`。公式バンドルは `1529`（実行フロー `V`）、`5206`（API 呼び出し）、`4704`（Turnstile・長押し・PoW）、`6280`（広告設定 `adblockWaitSeconds:30`）。
+- 検出二本立て: `fetch("/ads/banner-ad.js")` の応答マーカー `__ad_probe_ok__` と、`#ad-banner.adsbox...` の bait 計測。非表示 CSS で bait のクラス・ID を隠すと自ら検出を引き起こすため、広告非表示は配信ドメイン由来の要素だけを対象にする（`src/apkcube-direct-download/selectors.test.mjs` で衝突を検査）。
+- CDP 検証では `Page.addScriptToEvaluateOnNewDocument` でビルド済み userscript を `document-start` 相当で注入できる。ただし注入時点では `documentElement` が無いため、DOM 依存処理は存在確認後の遅延実行にする（`gate-bypass.ts` の教訓）。
+- 検証用 Chrome は手動起動のまま残すと後続作業と競合するため、検証後は `PUT /json/close/<targetId>` で後片付けし、不要になればデバッグプロセスを停止する。

@@ -57,6 +57,25 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 // メタデータ定義（アルファベット順）
 // ============================================================================
 
+const apkcubeDirectDownloadMeta: MonkeyUserScript = {
+  name: 'apkcube-direct-download',
+  namespace: 'apkcubeDirectDownload',
+  version: '1.0.0',
+  description:
+    'apkcube.comの待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行',
+  author: 'roflsunriz',
+  match: ['https://apkcube.com/*'],
+  grant: 'none',
+  sandbox: 'raw',
+  'inject-into': 'page',
+  'run-at': 'document-start',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=apkcube.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/apkcube-direct-download.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/apkcube-direct-download.user.js',
+};
+
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
@@ -615,6 +634,11 @@ const youtubeUiModifierMeta: MonkeyUserScript = {
 // ============================================================================
 
 const SCRIPT_CONFIGS = {
+  'apkcube-direct-download': {
+    entry: 'src/apkcube-direct-download/main.ts',
+    fileName: 'apkcube-direct-download.user.js',
+    meta: apkcubeDirectDownloadMeta,
+  },
   'chatgpt-notify': {
     entry: 'src/chatgpt-notify/main.ts',
     fileName: 'chatgpt-notify.user.js',
@@ -754,6 +778,7 @@ export default defineConfig((configEnv) => {
     resolve: {
       alias: {
         '@': resolve(dir, 'src'),
+        '@/apkcube-direct-download': resolve(dir, 'src/apkcube-direct-download'),
         '@/chatgpt-notify': resolve(dir, 'src/chatgpt-notify'),
         '@/d-anime': resolve(dir, 'src/d-anime'),
         '@/d-anime-cf-ranking': resolve(dir, 'src/d-anime-cf-ranking'),
