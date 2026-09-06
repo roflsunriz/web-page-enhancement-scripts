@@ -61,6 +61,11 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - CDP 検証では `Page.addScriptToEvaluateOnNewDocument` でビルド済み userscript を `document-start` 相当で注入できる。ただし注入時点では `documentElement` が無いため、DOM 依存処理は存在確認後の遅延実行にする（`gate-bypass.ts` の教訓）。
 - 検証用 Chrome は手動起動のまま残すと後続作業と競合するため、検証後は `PUT /json/close/<targetId>` で後片付けし、不要になればデバッグプロセスを停止する。
 
+## manga-viewer 回帰テストの知見（2026-09-06 確認）
+
+- `scripts/nicomanga-image-collection-regression.mjs` は完全オフラインの hermetic フィクスチャ。nicomanga.com の URL は `page.route("**/*")` で全充足する識別子であり、外部サーバーへの実通信は発生しない。未知要求も 204 で空充足する。
+- ページめくり中間状態の観測はタイマーポーリングだけに頼らない。WebGL カール用 Canvas の style 監視に加え、従来描画経路の中間フレーム（`.mv-flip-page` の class/style 書き換え）を `.mv-flip-book` 全体の MutationObserver で同期観測する。WebGL 無効環境の高解像度 CI で取り逃がしタイムアウトが再発した教訓（`captureMangaViewerPageTurnAnimation`）。
+
 ## dアニメストア公式資産の世代管理
 
 - 取得済み公式資産は `.d-anime-sandbox/official-assets/<YYYY-MM-DD>/` に世代ディレクトリで置く（Git 管理対象、`.apkcube-sandbox` と同型）。`chunks/` が生ファイル、`formatted/` が整形済み、各世代の `MANIFEST.md` が対応表。

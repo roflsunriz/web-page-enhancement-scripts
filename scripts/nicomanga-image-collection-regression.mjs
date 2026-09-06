@@ -519,6 +519,9 @@ async function createFixturePage(options = {}) {
     console.error(`[browser:pageerror] ${error.stack || error.message}`);
   });
 
+  // 完全オフラインの hermetic フィクスチャ。nicomanga.com のURLは識別子として
+  // 使うだけで、すべての要求をここで充足するため外部サーバーへの実通信は
+  // 発生しない。未知の要求も 204 で空充足し、外部へは一切転送しない。
   await page.route("**/*", async (route) => {
     const requestUrl = route.request().url();
     if (requestUrl === targetUrl) {
@@ -665,6 +668,7 @@ async function captureMangaViewerPageTurnAnimation(
           let animationSpread = null;
           let observationIntervalId = null;
           let curlCanvasObserver = null;
+          let flipBookObserver = null;
 
           const observeAnimation = () => {
             const requestStarted =
@@ -708,6 +712,7 @@ async function captureMangaViewerPageTurnAnimation(
               window.clearInterval(observationIntervalId);
             }
             curlCanvasObserver?.disconnect();
+            flipBookObserver?.disconnect();
             restoreDebugState();
           };
 
@@ -732,6 +737,22 @@ async function captureMangaViewerPageTurnAnimation(
             });
           }
 
+          // 従来描画経路では中間フレームが .mv-flip-page の class/style
+          // 書き換えとして現れる。タイマーポーリングだけでは高解像度CIで
+          // 取り逃がすため、フリップブック全体の変異も同期観測する。
+          // WebGLカールが無効な環境（display:none）での取り逃がし対策。
+          const flipBook =
+            getMangaViewerShadowRoot()?.querySelector(".mv-flip-book");
+          if (flipBook instanceof HTMLElement) {
+            flipBookObserver = new MutationObserver(observeAnimation);
+            flipBookObserver.observe(flipBook, {
+              attributes: true,
+              attributeFilter: ["class", "style"],
+              subtree: true,
+              childList: true,
+            });
+          }
+
           const timeoutId = window.setTimeout(() => {
             stopObservation();
             reject(new Error("Timed out while observing the page turn"));
@@ -751,7 +772,8 @@ async function captureMangaViewerPageTurnAnimation(
           }, 10);
 
           // CIでタイマー描画フレームが省略されても中間状態を取り逃がさないよう、
-          // デバッグ状態とCanvasのstyle変更をキーイベントより先に監視する。
+          // デバッグ状態・Canvasのstyle変更・フリップブックの変異を
+          // キーイベントより先に監視する。
           window.dispatchEvent(
             new KeyboardEvent("keydown", {
               key,
