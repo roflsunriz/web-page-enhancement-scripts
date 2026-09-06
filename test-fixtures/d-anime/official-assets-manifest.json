@@ -1,6 +1,7 @@
 {
   "captureVersion": 1,
   "capturedAt": "2026-07-22T23:58:25.273Z",
+  "assetDirectory": "2026-07-22",
   "cdpEndpoint": "http://127.0.0.1:9222",
   "mypage": {
     "fixture": "mypage-mock.html",

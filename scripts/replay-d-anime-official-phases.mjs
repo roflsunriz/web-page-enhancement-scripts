@@ -8,7 +8,6 @@ const MANIFEST_PATH = resolve(
   "d-anime",
   "official-assets-manifest.json",
 );
-const ASSET_DIRECTORY = resolve(".d-anime-sandbox", "official-assets");
 
 const extractFunction = (source, marker) => {
   const markerIndex = source.indexOf(marker);
@@ -55,6 +54,15 @@ const extractFunction = (source, marker) => {
 };
 
 const manifest = JSON.parse(await readFile(MANIFEST_PATH, "utf8"));
+if (typeof manifest.assetDirectory !== "string") {
+  throw new Error("マニフェストに assetDirectory がありません。");
+}
+const ASSET_DIRECTORY = resolve(
+  ".d-anime-sandbox",
+  "official-assets",
+  manifest.assetDirectory,
+  "chunks",
+);
 const playerAsset = manifest.player.assets.find(({ filename }) =>
   filename.startsWith("player.min-"),
 );

@@ -63,5 +63,5 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 ## dアニメストア公式資産の世代管理
 
-- 取得済み公式資産は `.d-anime-sandbox/official-assets/` に置く（Git 管理対象）。ファイル名の `-<v>` が公式 `?v=` 世代を表す。
-- 世代の正本は `test-fixtures/d-anime/official-assets-manifest.json`。更新時は取得スクリプトを再実行し、旧世代ファイルを消さずに残す。運用方針は `.d-anime-sandbox/official-assets/README.md` に従う。
+- 取得済み公式資産は `.d-anime-sandbox/official-assets/<YYYY-MM-DD>/` に世代ディレクトリで置く（Git 管理対象、`.apkcube-sandbox` と同型）。`chunks/` が生ファイル、`formatted/` が整形済み、各世代の `MANIFEST.md` が対応表。
+- 世代の正本は `test-fixtures/d-anime/official-assets-manifest.json`（`assetDirectory` が現行世代を指す）。更新時は取得スクリプトを再実行し、旧世代ディレクトリを消さずに残す。運用方針は `.d-anime-sandbox/official-assets/README.md` に従う。

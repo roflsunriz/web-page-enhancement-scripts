@@ -8,8 +8,16 @@ const CDP_ENDPOINT = "http://127.0.0.1:9222";
 const MY_PAGE_URL = "https://animestore.docomo.ne.jp/animestore/mp_viw_pc";
 const WATCH_PAGE_URL =
   "https://animestore.docomo.ne.jp/animestore/sc_d_pc?partId=";
-const LOCAL_ASSET_DIR = resolve(".d-anime-sandbox", "official-assets");
-const FORMATTED_ASSET_DIR = resolve(LOCAL_ASSET_DIR, "formatted");
+const LOCAL_ASSET_ROOT = resolve(".d-anime-sandbox", "official-assets");
+const CAPTURED_AT = new Date();
+const GENERATION = CAPTURED_AT.toISOString().slice(0, 10);
+const LOCAL_ASSET_DIR = resolve(LOCAL_ASSET_ROOT, GENERATION, "chunks");
+const FORMATTED_ASSET_DIR = resolve(LOCAL_ASSET_ROOT, GENERATION, "formatted");
+const GENERATION_MANIFEST_PATH = resolve(
+  LOCAL_ASSET_ROOT,
+  GENERATION,
+  "MANIFEST.md",
+);
 const FIXTURE_PATH = resolve("test-fixtures", "d-anime", "mypage-mock.html");
 const MANIFEST_PATH = resolve(
   "test-fixtures",
@@ -229,7 +237,8 @@ for (const [url, captured] of [...capturedBodies].sort(([left], [right]) =>
 
 const manifest = {
   captureVersion: 1,
-  capturedAt: new Date().toISOString(),
+  capturedAt: CAPTURED_AT.toISOString(),
+  assetDirectory: GENERATION,
   cdpEndpoint: CDP_ENDPOINT,
   mypage: {
     fixture: "mypage-mock.html",
@@ -245,6 +254,25 @@ const manifest = {
 await writeFile(
   MANIFEST_PATH,
   `${JSON.stringify(manifest, null, 2)}\n`,
+  "utf8",
+);
+
+const generationRecordRows = assets.map(
+  (asset) =>
+    `| \`${asset.filename}\` | ${asset.size} | \`${asset.sha256.slice(0, 16)}\` | ${asset.url} |`,
+);
+await writeFile(
+  GENERATION_MANIFEST_PATH,
+  `# dアニメストア公式資産 ${GENERATION} 世代の記録\n\n` +
+    `取得日時: ${manifest.capturedAt}。世代更新のたびに日付ディレクトリを切って追加し、\n` +
+    `世代間で差分を取って再現スクリプトの汎化に使う。\n` +
+    `世代の正本は \`test-fixtures/d-anime/official-assets-manifest.json\`。\n\n` +
+    `対象ページ: ${WATCH_PAGE_URL}<redacted>\n\n` +
+    `## chunks/（取得時の生ファイル、ファイル名の \`?-<v>\` が公式 \`?v=\` 世代）\n\n` +
+    `| ファイル | サイズ | SHA-256（先頭16桁） | 取得元 |\n` +
+    `| --- | --- | --- | --- |\n` +
+    `${generationRecordRows.join("\n")}\n\n` +
+    `## formatted/（prettier で整形した同一ファイル、差分読み用）\n`,
   "utf8",
 );
 
