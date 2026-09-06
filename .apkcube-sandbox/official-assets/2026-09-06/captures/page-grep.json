@@ -1,0 +1,210 @@
+{
+  "scripts": [
+    "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+    "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+    "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+    "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+    "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+    "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+    "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+    "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+    "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+    "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+    "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+    "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+    "https://apkcube.com/_next/static/chunks/5142-5fbb1e25f3298bf3.js",
+    "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+    "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+    "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+    "https://apkcube.com/_next/static/chunks/polyfills-42372ed130431b0a.js",
+    "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+    "https://apkcube.com/loader.js"
+  ],
+  "kMatches": [],
+  "inlineSnips": "(function(c,l,a,r,i,t,y){\n    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};\n    t=l.createElement(r);t.async=1;t.src=\"https://www.clarity.ms/tag/\"+i+\"?ref=bwt\";\n    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n})(window, document, \"clarity\", \"script\", \"ydik9v9tab\");\n{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"description\":\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://apkcube.com/search?q={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}}\n{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"logo\":\"https://apkcube.com/favicon.ico\"}\nrequestAnimationFrame(function(){$RT=performance.now()});\n$RB=[];$RV=function(a){$RT=performance.now();for(var b=0;b<a.length;b+=2){var c=a[b],e=a[b+1];null!==e.parentNode&&e.parentNode.removeChild(e);var f=c.parentNode;if(f){var g=c.previousSibling,h=0;do{if(c&&8===c.nodeType){var d=c.data;if(\"/$\"===d||\"/&\"===d)if(0===h)break;else h--;else\"$\"!==d&&\"$?\"!==d&&\"$~\"!==d&&\"$!\"!==d&&\"&\"!==d||h++}d=c.nextSibling;f.removeChild(c);c=d}while(c);for(;e.firstChild;)f.insertBefore(e.firstChild,c);g.data=\"$\";g._reactRetry&&requestAnimationFrame(g._reactRetry)}}a.length=0};\n$RC=function(a,b){if(b=document.getElementById(b))(a=document.getElementById(a))?(a.previousSibling.data=\"$~\",$RB.push(a,b),2===$RB.length&&(\"number\"!==typeof $RT?requestAnimationFrame($RV.bind(null,$RB)):(a=performance.now(),setTimeout($RV.bind(null,$RB),2300>a&&2E3<a?2300-a:$RT+300-a)))):b.parentNode.removeChild(b)};$RC(\"B:0\",\"S:0\")\n$RS=function(a,b){a=document.getElementById(a);b=document.getElementById(b);for(a.parentNode.removeChild(a);a.firstChild;)b.parentNode.insertBefore(a.firstChild,b);b.parentNode.removeChild(b)};$RS(\"S:4\",\"P:4\")\n$RS(\"S:5\",\"P:5\")\n$RS(\"S:6\",\"P:6\")\n$RS(\"S:7\",\"P:7\")\n$RS(\"S:8\",\"P:8\")\n$RS(\"S:9\",\"P:9\")\n$RS(\"S:a\",\"P:a\")\n$RS(\"S:2\",\"P:2\")\n$RS(\"S:3\",\"P:3\")\n$RS(\"S:b\",\"P:b\")\n$RC(\"B:1\",\"S:1\")\n(self.__next_f=self.__next_f||[]).push([0])\nself.__next_f.push([1,\"1:I[57121,[],\\\"LoadingBoundaryProvider\\\"]\\n2:\\\"$Sreact.fragment\\\"\\n3:I[83713,[\\\"8500\\\",\\\"static/chunks/8500-607d51dc0d0415b3.js\\\",\\\"8409\\\",\\\"static/chunks/8409-381d7a3aa3d11a3a.js\\\",\\\"3060\\\",\\\"static/chunks/3060-6c25ba352a6720f8.js\\\",\\\"7569\\\",\\\"static/chunks/7569-0ecbac8bf8b8c379.js\\\",\\\"8870\\\",\\\"static/chunks/8870-0d6710eb1bdaa72d.js\\\",\\\"8713\\\",\\\"static/chunks/8713-bfa1fdfdcef3ff79.js\\\",\\\"4641\\\",\\\"static/chunks/4641-8a76c27c84678bcf.js\\\",\\\"1304\\\",\\\"static/chunks/1304-0d3c31dbb1e0af4c.js\\\",\\\"5142\\\",\\\"static/chunks/5142-5fbb1e25f3298bf3.js\\\",\\\"6280\\\",\\\"static/chunks/6280-29e5bcdb4f4b972d.js\\\",\\\"2810\\\",\\\"static/chunks/2810-db3ac567bb77c5fe.js\\\",\\\"3713\\\",\\\"static/chunks/3713-5e4f33055c857d7b.js\\\",\\\"3727\\\",\\\"static/chunks/3727-9f262bd0bcd6ad6a.js\\\",\\\"3319\\\",\\\"static/chunks/3319-0bdd352f63a5bff7.js\\\",\\\"5206\\\",\\\"static/chunks/5206-07d6d778bf9e5c15.js\\\",\\\"1957\\\",\\\"static/chunks/1957-0c84874137f1f91f.js\\\",\\\"4704\\\",\\\"static/chunks/4704-150458f110a137c9.js\\\",\\\"7603\\\",\\\"static/chunks/7603-2304d7b76398518d.js\\\",\\\"1529\\\",\\\"static/chunks/1529-564ad2b0508b041d.js\\\",\\\"9978\\\",\\\"static/chunks/app/%5Bslug%5D/%5BappId%5D/download/page-5fcb0d299d567e0a.js\\\"],\\\"T\\\"]\\n15:I[54690,[\\\"4219\\\",\\\"static/chunks/app/global-error-ff6ceb72709e9d4e.js\\\"],\\\"default\\\"]\\n:HL[\\\"/_next/static/media/36966cca54120369-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n:HL[\\\"/_next/static/media/bb3ef058b751a6ad-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n:HL[\\\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\\\",\\\"font\\\",{\\\"crossOrigin\\\":\\\"\\\",\\\"type\\\":\\\"font/woff2\\\"}]\\n:HL[\\\"/_next/static/css/efb671ee01639ab1.css\\\",\\\"style\\\"]\\n:HL[\\\"/_next/static/css/2653aa2f76bb4346.css\\\",\\\"style\\\"]\\n13:X\\n0:{\\\"P\\\":null,\\\"c\\\":[\\\"\\\",\\\"chatgpt\\\",\\\"com.openai.chatgpt\\\",\\\"download\\\"],\\\"q\\\":\\\"\\\",\\\"i\\\":false,\\\"f\\\":[[[\\\"\\\",{\\\"children\\\":[[\\\"slug\\\",\\\"chatgpt\\\",\\\"d\\\",null],{\\\"children\\\":[[\\\"appId\\\",\\\"com.openai.chatgpt\\\",\\\"d\\\",null],{\\\"children\\\":[\\\"download\\\",{\\\"children\\\":[\\\"__PAGE__\\\",{},\\\"$undefined\\\",\\\"$undefined\\\",4256]},\\\"$undefined\\\",\\\"$undefined\\\",4160]},\\\"$undefined\\\",\\\"$undefined\\\",4132]},\\\"$undefined\\\",\\\"$undefined\\\",4168]},\\\"$undefined\\\",\\\"$undefined\\\",12316],[[\\\"$\\\",\\\"$L1\\\",null,{\\\"loading\\\":[[\\\"$\\\",\\\"$2\\\",\\\"l\\\",{\\\"children\\\":[[\\\"$\\\",\\\"header\\\",null,{\\\"className\\\":\\\"sticky top-0 z-40 border-b bg-background/90 backdrop-blur\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"mx-auto flex h-14 max-w-7xl items-center gap-3 px-4\\\",\\\"children\\\":[[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"flex shrink-0 items-center gap-2\\\",\\\"children\\\":[[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"flex size-7 items-center justify-center rounded-sm bg-brand text-primary-foreground\\\",\\\"children\\\":[\\\"$\\\",\\\"svg\\\",null,{\\\"viewBox\\\":\\\"8 4.75 48 48\\\",\\\"fill\\\":\\\"none\\\",\\\"stroke\\\":\\\"currentColor\\\",\\\"strokeWidth\\\":3.4,\\\"strokeLinecap\\\":\\\"round\\\",\\\"strokeLinejoin\\\":\\\"round\\\",\\\"className\\\":\\\"size-4\\\",\\\"aria-hidden\\\":true,\\\"children\\\":[[\\\"$\\\",\\\"path\\\",null,{\\\"d\\\":\\\"M32 11 49.5 21v20L32 51 14.5 41V21Z\\\"}],[\\\"$\\\",\\\"path\\\",null,{\\\"d\\\":\\\"M14.5 21 32 31l17.5-10\\\"}],[\\\"$\\\",\\\"path\\\",null,{\\\"d\\\":\\\"M32 31v20\\\"}],[\\\"$\\\",\\\"path\\\",null,{\\\"d\\\":\\\"M26 14.4 21.5 6.5\\\"}],[\\\"$\\\",\\\"path\\\",null,{\\\"d\\\":\\\"M38 14.4 42.5 6.5\\\"}],[\\\"$\\\",\\\"circle\\\",null,{\\\"cx\\\":\\\"26.5\\\",\\\"cy\\\":\\\"20\\\",\\\"r\\\":\\\"2.1\\\",\\\"fill\\\":\\\"currentColor\\\",\\\"stroke\\\":\\\"none\\\"}],[\\\"$\\\",\\\"circle\\\",null,{\\\"cx\\\":\\\"37.5\\\",\\\"cy\\\":\\\"20\\\",\\\"r\\\":\\\"2.1\\\",\\\"fill\\\":\\\"currentColor\\\",\\\"stroke\\\":\\\"none\\\"}]]}]}],[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"font-heading text-lg font-semibold tracking-tight\\\",\\\"children\\\":\\\"APKCube\\\"}]]}],[\\\"$\\\",\\\"div\\\",null,{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted ms-1 h-9 w-40 rounded-full md:ms-4 md:w-64\\\"}]]}]}],[\\\"$\\\",\\\"main\\\",null,{\\\"aria-busy\\\":\\\"true\\\",\\\"className\\\":\\\"mx-auto w-full max-w-7xl flex-1 px-4\\\",\\\"children\\\":[[\\\"$\\\",\\\"span\\\",null,{\\\"className\\\":\\\"sr-only\\\",\\\"children\\\":[\\\"$\\\",\\\"$L3\\\",null,{\\\"k\\\":\\\"common.loadingPage\\\"}]}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"grid gap-10 lg:grid-cols-[1fr_320px]\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"min-w-0\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"flex items-center gap-1.5 py-4\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse rounded-md bg-muted h-4 w-16\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse rounded-md bg-muted h-4 w-14\\\"}]]}],[\\\"$\\\",\\\"div\\\",null,{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse rounded-md bg-muted h-8 w-64 max-w-full\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"mt-6 mb-8 flex flex-wrap gap-2\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",\\\"0\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}],[\\\"$\\\",\\\"div\\\",\\\"1\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}],[\\\"$\\\",\\\"div\\\",\\\"2\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}],[\\\"$\\\",\\\"div\\\",\\\"3\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}],[\\\"$\\\",\\\"div\\\",\\\"4\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}],[\\\"$\\\",\\\"div\\\",\\\"5\\\",{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted h-8 w-24 rounded-sm\\\"}]]}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"mb-8\\\",\\\"children\\\":[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"grid grid-cols-4 gap-x-2 gap-y-5 sm:gap-x-3 md:grid-cols-6 xl:grid-cols-8\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",\\\"0\\\",{\\\"className\\\":\\\"flex min-w-0 flex-col gap-2 p-1\\\",\\\"children\\\":[[\\\"$\\\",\\\"div\\\",null,{\\\"data-slot\\\":\\\"skeleton\\\",\\\"className\\\":\\\"animate-pulse bg-muted aspect-square w-full max-w-24 rounded-[22%]\\\"}],[\\\"$\\\",\\\"div\\\",null,{\\\"className\\\":\\\"min-w-0 space-y-1.5\\\",\\\"children\\\":[[\\\"$\\\",\\",
+  "grep": [
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+      "hits": [
+        ".type.render,!1);case 1:return ef(e.type,!0);case 31:return es(\"Activity\");case 30:return es(\"ViewTransition\");default:return\"\"}}(e,t),t=e,e=e.return;while(e);ret",
+        "=(e>>>=0)?32:31-(eL(e)/eO|0)|0},eL=Math.log,eO=Math.LN2,eF=256,eD=262144,eI=4194304;function eM(e){var n=42&e;if(0!==n)return n;switch(e&-e){case 1:return 1;case ",
+        "8&e;case 262144:case 524288:case 1048576:case 2097152:return 3932160&e;case 4194304:case 8388608:case 0x1000000:case 0x2000000:return 0x3c00000&e;case 0x4000000:r",
+        ".pingedLanes)&n)}function eU(){var e=eI;return 0==(0x3c00000&(eI<<=1))&&(eI=4194304),e}function eV(e){for(var n=[],t=0;31>t;t++)n.push(e);return n}function e$(e,n",
+        "-e_(n);e.entangledLanes|=n,e.entanglements[r]=0x40000000|e.entanglements[r]|261930&t}function ej(e,n){var t=e.entangledLanes|=n;for(e=e.entanglements;t;){var r=31",
+        "se 65536:case 131072:case 262144:case 524288:case 1048576:case 2097152:case 4194304:case 8388608:case 0x1000000:case 0x2000000:e=128;break;case 0x10000000:e=0x800",
+        "FF\\\\u0370-\\\\u037D\\\\u037F-\\\\u1FFF\\\\u200C-\\\\u200D\\\\u2070-\\\\u218F\\\\u2C00-\\\\u2FEF\\\\u3001-\\\\uD7FF\\\\uF900-\\\\uFDCF\\\\uFDF0-\\\\uFFFD][:A-Z_a-z\\\\u00C0-\\\\u00D6\\\\u00D8-\\\\u00F6",
+        "FF\\\\u0370-\\\\u037D\\\\u037F-\\\\u1FFF\\\\u200C-\\\\u200D\\\\u2070-\\\\u218F\\\\u2C00-\\\\u2FEF\\\\u3001-\\\\uD7FF\\\\uF900-\\\\uFDCF\\\\uFDF0-\\\\uFFFD\\\\-.0-9\\\\u00B7\\\\u0300-\\\\u036F\\\\u203F-\\\\u",
+        "se I:return(e=rx(19,t,n,l)).elementType=I,e.lanes=a,e;case U:case $:return(e=rx(30,t,n,e=32|l)).elementType=$,e.lanes=a,e.stateNode={autoName:null,paired:null,clo",
+        "e F:o=11;break e;case M:o=14;break e;case A:o=16,r=null;break e}o=29,t=Error(u(130,null===e?\"null\":typeof e,\"\")),r=null}return(n=rx(o,t,n,l)).elementType=e,n.type",
+        "V++]=r$,r$=e;var r=rB;e=rj;var l=32-e_(r)-1;r&=~(1<<l),t+=1;var a=32-e_(n)+l;if(30<a){var o=l-l%5;a=(r&(1<<o)-1).toString(32),r>>=o,l-=o,rB=1<<32-e_(n)+l|t<<l|r,r",
+        "if(n={context:n,memoizedValue:t,next:null},null===le){if(null===e)throw Error(u(308));le=n,e.dependencies={lanes:0,firstContext:n},e.flags|=524288}else le=le.next"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+      "hits": [
+        "fault,\"__esModule\",{value:!0}),Object.assign(t.default,t),e.exports=t.default)},3005:(e,t,r)=>{\"use strict\";function n(){throw Object.defineProperty(Error(\"`unaut",
+        "a,{enumerable:!0,get:n[a]});let u=r(99297),l=r(23159),o=r(16601),i=r(84344),s=r(3005),c=r(50587);function f(){throw Object.defineProperty(Error(\"`unstable_isUnrec",
+        ",R=r(68378),S=r(20354),O=r(97797),T=r(7103);function j(e){return 1e3*Math.max(e,30)}let C=[\"\",{},null,\"metadata-only\"],w=(0,h.createCacheMap)(),A=(0,h.createCache",
+        "r(20354),l=r(12506),o=r(22120),i=1e3*Number(\"0\"),s=(0,l.getStaleTimeMs)(Number(\"300\"));function c(e,t){let{url:r,isExternalUrl:n,navigateType:a,scrollBehavior:l}=",
+        "rty(t,a,{enumerable:!0,get:n[a]});let u=r(73623),l=r(1980),o=u._(r(36981)),i=r(63008),s=new WeakSet;function c(e){return s.has(e)}let f=e=>{let t=(0,o.default)(e)",
+        "ttonSecondary,onClick:()=>{window.history.length>1?window.history.back():window.location.href=\"/\"},children:\"Back\"})]})]})}),t&&(0,n.jsxs)(\"p\",{style:u.errorStyles.digestFoot",
+        "{enumerable:!0,get:a[u]});let l=r(77197),o=r(72299),i=r(11132),s=r(15563),c=r(77304),f=r(4060),d=r(4103),p=r(32071),h=r(84536),y=r(53887),_=r(97797),g=r(7103),v=r",
+        "ty(t,a,{enumerable:!0,get:n[a]});let u=r(66388),l=r(95155),o=u._(r(12115)),i=r(53095),s=r(58904);r(70530);let c=r(38149),f=r(98080),d=r(22909),p=(0,f.isBot)(windo",
+        "DEVTOOLS_GLOBAL_HOOK__.checkDCE(e)}catch(e){console.error(e)}}(),e.exports=r(58730)},48159:(e,t,r)=>{\"use strict\";Object.defineProperty(t,\"__esModule\",{value:!0})",
+        "ult,\"__esModule\",{value:!0}),Object.assign(t.default,t),e.exports=t.default)},51309:(e,t,r)=>{\"use strict\";Object.defineProperty(t,\"__esModule\",{value:!0});var n=",
+        "Property(t,a,{enumerable:!0,get:n[a]});let u=r(73623),l=r(58904),o=r(1980),i=r(63008),s=r(47600),c=u._(r(27123)),f={decorateDevError:e=>e,handleClientError:()=>{}",
+        "Object.defineProperty(t,\"parsePath\",{enumerable:!0,get:function(){return r}})},53095:(e,t,r)=>{\"use strict\";Object.defineProperty(t,\"__esModule\",{value:!0}),Objec"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+      "hits": [
+        "hunk_N_E||[]).push([[7358],{17224:(e,s,n)=>{Promise.resolve().then(n.t.bind(n,61304,23)),Promise.resolve().then(n.t.bind(n,78616,23)),Promise.resolve().then(n.t.b"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+      "hits": [
+        "\"use strict\";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[3060],{6791:(e,t,n)=>{let r;function o(){return\"u\">typeof window}function l(e){ret",
+        ",18153:(e,t,n)=>{n.d(t,{X:()=>l});var r,o=n(12115);let l={...r||(r=n.t(o,2))}},23068:(e,t,n)=>{n.d(t,{K:()=>a});var r=n(18153),o=n(14187);let l=r.X.useInsertionEf",
+        "full message.`}},27091:(e,t,n)=>{n.d(t,{s:()=>f});var r=n(12115),o=n(6791),l=n(23068),u=n(66652),a=n(40253),c=n(70481),i=n(44137);function f(e={}){let{disabled:t="
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+      "hits": [
+        "turn(0,r.B)(t,\"base-ui\")}},72924:(t,e,n)=>{n.d(e,{v:()=>o});var r=n(12115),l=n(23068),i=n(73070);function o(t){let{enabled:e=!0,open:n,ref:o,batch:s=!1,onComplete",
+        "n;let t=new AbortController;return u(a,t.signal),()=>{t.abort()}},[e,n,a,u])}},73070:(t,e,n)=>{n.d(e,{V:()=>a});var r=n(47650),l=n(18813),i=n(23068),o=n(33654),s=",
+        "{n.d(e,{y:()=>i});var r=n(12115),l=n(8994);function i(t){r.useEffect(t,l.Ml)}},93093:(t,e,n)=>{n.d(e,{EW:()=>o,RS:()=>l,gR:()=>i});var r=n(6791);function l(t){let"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+      "hits": [
+        ")=>L});var r=n(12115),o=n(6791),i=n(14718),u=n(12046),l=n(55218),s=n(2474),c=n(23068),a=n(66652),d=n(64951),f=n(15495),p=n(18813),g=n(81456),h=n(66845),v=n(93093)",
+        ":(e,t,n)=>{n.d(t,{k:()=>f});var r=n(12115),o=n(18813),i=n(64951),u=n(8994),l=n(93093),s=n(83323),c=n(17947),a=n(7049),d=n(76175);function f(e,t={}){let{enabled:n=",
+        "(t)?.delete(n)}}}},22713:(e,t,n)=>{n.d(t,{G:()=>s,L:()=>l});var r=n(12115),o=n(23068),i=n(97827),u=n(42240);function l(e,t){var n;let u,l,{onClick:s,onPointerDown",
+        "r:()=>k,xp:()=>y,xs:()=>q});var r=n(12115),o=n(47650),i=n(8994),u=n(47247),l=n(23068),s=n(66652),c=n(14187),a=n(3940),d=n(80120),f=n(88648),p=n(97378),g=n(72924),",
+        "=n(12115),o=n(47650),i=n(6791),u=n(14718),l=n(12046),s=n(47247),c=n(66652),a=n(23068),d=n(8994),f=n(66845),p=n(99226),g=n(7049),h=n(76175),v=n(74831),m=n(69938),b",
+        "gger-disabled\"},42240:(e,t,n)=>{n.d(t,{x:()=>u});var r=n(12115),o=n(66652),i=n(23068);function u(e,t){let n=r.useRef(e),u=(0,i.K)(t);(0,o.g)(()=>{n.current!==e&&u",
+        "={...this.state};this.setState(e)}use(e,t,n,r){return s(this,e,t,n,r)}}var a=n(23068),d=n(66652),f=n(8994);class p extends c{constructor(e,t={},n){super(e),this.c",
+        ">f,Hi:()=>s,WZ:()=>p,em:()=>g,nd:()=>h,tZ:()=>a});var r=n(6791),o=n(48232),i=n(93093),u=n(3940),l=n(39196);function s(e,t){if(!(0,r.vq)(e))return!1;if(t.hasElemen",
+        "(e,t,n)=>{n.d(t,{s:()=>E});var r=n(12115),o=n(14718),i=n(12046),u=n(81456),l=n(23068),s=n(64951),c=n(6791),a=n(15495),d=n(80120),f=n(7049),p=n(76175),g=n(74831),h",
+        "=n(83323),v=n(93093),m=n(17947),b=n(92044);function y(){return!1}function E(e,t={}){let{enabled:n",
+        ">b,Yu:()=>E,bp:()=>R,nq:()=>g,vF:()=>m,yV:()=>w});var r=n(6791),o=n(81456),i=n(93093),u=n(86058);function l(e){for(let t of Array.from(e.children))if(\"summary\"==="
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+      "hits": [
+        ")(72));return t}},7118:(e,t,n)=>{n.d(t,{i:()=>f});var r=n(6791),o=n(64951),i=n(93093),l=n(92044);let s=.1*.1;function u(e,t,n,r,o,i){return r>=t!=i>=t&&e<=(o-n)*(",
+        "r=n(12115),o=n(27243),i=n(8994),l=n(66652),s=n(4390),u=n(87541),a=n(14718),c=n(23068),f=n(6791),d=n(93093),p=n(17947);function g(e){return null!=e&&null!=e.client",
+        "ll}},11974:(e,t,n)=>{n.d(t,{a:()=>a});var r=n(12115),o=n(47650),i=n(99226),l=n(93093),s=n(7049),u=n(76175);function a(e,t){let n=r.useRef(null);return{preFocusGua",
+        "entWidth,i=n.offsetWidth;a(r>0&&i>0&&i>=r-20)},[e,t,n]),(0,i.K)(e&&(!t||u),s)}},30458:(e,t,n)=>{n.d(t,{j:()=>i});var r=n(12115);let o=r.createContext(void 0);func",
+        "tion i(){let e=r.useContext(o);return e?.direction??\"ltr\"}},34304:(e,t,n)=>{n.d(t,{W:()=>E});var r=n(25803),o=n(12115),i=n(27243),l=n(45594),s=n",
+        "e:E,disabled:S=!1,nativeButton:C=!0,handle:w,payload:T,openOnHover:O=!1,delay:P=300,closeDelay:M=0,id:k,...A}=e,I=(0,l.s)(!0),q=(0,v.f)(w)??I;if(!q)throw Error((0",
+        "=n(84052),c=n(72924),f=n(69938),d=n(76175),p=n(5313),g=n(95846),h=n(36050),m=n(23068);let v=r.createContext(void 0);var x=n(26713),y=n(95155);let b=r.forwardRef(f",
+        ".d(t,{a:()=>y});var r=n(12115),o=n(14718),i=n(12046),l=n(66652),s=n(81456),u=n(23068),a=n(64951),c=n(6791),f=n(7049),d=n(76175),p=n(80120),g=n(93093),h=n(92044),m",
+        ".d(t,{j:()=>b});var r=n(12115),o=n(47650),i=n(14718),l=n(12046),s=n(81456),u=n(23068),a=n(2474),c=n(6791),f=n(7049),d=n(76175),p=n(80120),g=n(93093),h=n(17947),m=",
+        "ll},currentContextRef:{current:null}});var R=n(66610),E=n(7118),S=n(77805),C=n(93093),w=n(17947),T=n(41657),O=n(39196);let P=\"data-base-ui-tooltip-trigger\";functi",
+        "=n(97827),l=n(15495),s=n(12046),u=n(81456),a=n(64951),c=n(6791),f=n(74831),d=n(93093),p=n(83323),g=n(7049),h=n(76175);let m=i.Md&&l.Fp;function v(e,t={}){let{enab",
+        "n(45594),u=n(65610),a=n(97065),c=n(34574),f=n(53976),d=n(76175),p=n(69679),g=n(73070),h=n(62424),m=n(15702),v=n(95155);let x=r.forwardRef(function(e,t){let{render"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+      "hits": [
+        ".webpackChunk_N_E||[]).push([[4641],{9005:(e,t,n)=>{n.d(t,{A:()=>r});let r=(0,n(30772).A)(\"x\",[[\"path\",{d:\"M18 6 6 18\",key:\"1bl5f8\"}],[\"path\",{d:\"m6 6 12 12\",key:",
+        "t]===n})?[...e,n,r]:e},[]),null==n?void 0:n.class,null==n?void 0:n.className)}},30772:(e,t,n)=>{n.d(t,{A:()=>l});var r=n(12115),o=n(30907);let a=e=>{let t=e.repla",
+        "\"$1-$2\").toLowerCase()}`,`lucide-${e}`,n),...l}));return n.displayName=a(e),n}},30907:(e,t,n)=>{n.d(t,{z:()=>r});let r=(...e)=>e.filter((e,t,n)=>!!e&&\"\"!==e.trim(",
+        ":\"currentColor\",strokeWidth:2,strokeLinecap:\"round\",strokeLinejoin:\"round\"},a=n(30907);let s=(0,r.createContext)({}),l=(0,r.forwardRef)(({color:e,size:t,strokeWid",
+        ".d(t,{D:()=>b});var r=n(27243),o=n(12115),a=n(66652),s=n(31814),l=n(87541),i=n(93093),u=n(26713);function d({store:e,parentContext:t,isDrawer:n}){let r=e.useState"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+      "hits": [
+        "\"use strict\";(self.webpackChunk_N_E=self.webpackChunk_N_E||[]).push([[1304],{2728:(e,t,n)=>{n.d(t,{O:()=>a,r:()=>u});var r=n(25803),o=n(12115);let u=o.cr",
+        "uardRef:void 0,children:Y})})},12363:(e,t,n)=>{n.d(t,{A:()=>u,u:()=>o});var r=n(30772);let o=[[\"path\",{d:\"m6 9 6 6 6-6\",key:\"qrunsl\"}]],u=(0,r.A)(\"chevron-down\",o",
+        ".d(t,{c:()=>K});var r=n(25803),o=n(12115),u=n(64951),a=n(81456),l=n(27243),i=n(23068),s=n(66652),c=n(8994),d=n(80120),f=n(66610),p=n(7118),g=n(9569),v=n(77805),h=",
+        "n(54285),m=n(93093),y=n(39048),x=n(84052),b=n(69938),R=n(27091),k=n(6791),M=n(48232),S=n(87799);",
+        "35));return e}},38156:(e,t,n)=>{n.d(t,{i:()=>z});var r=n(12115),o=n(64951),u=n(23068),a=n(47247),l=n(66652),i=n(14187),s=n(8994),c=n(27243),d=n(80120),f=n(88648),",
+        ",m=n(15495),y=n(6791),x=n(7049),b=n(76175),R=n(86058),k=n(3940),M=n(83323),S=n(93093),E=n(85489),C=n(17947);function w(e){return m.Fp&&0===e.movementX&&0===e.move",
+        "===k.RJ)||\"Enter\"===e||\" \"===e||\"\"===e}var O=n(39048),A=n(58453),j=n(69679),N=n(30458),F=n(22713),D=n(98339),K=n(40253),L=n(73070),q=n(65477),B=n(54285),U=n(27050",
+        "\"touch\"===o.pointerType&&!eO.current)return;e&&n===b.F4?(eO.current=!1,eA.start(300,()=>{eO.current=!0})):(eO.current=!0,eA.clear());let u=(n===b.Ui||n===b.Bo)&&0",
+        "throw Error((0,r.A)(32));return e}},48869:(e,t,n)=>{n.d(t,{A:()=>r});let r=(0,n(30772).A)(\"gamepad-2\",[[\"line\",{x1:\"6\",x2:\"10\",y1:\"11\",y2:\"11\",key:\"1gktln\"}],[\"li",
+        "},[]);return[a&&void 0!==e?e:l,s]}},50626:(e,t,n)=>{n.d(t,{A:()=>r});let r=(0,n(30772).A)(\"globe\",[[\"circle\",{cx:\"12\",cy:\"12\",r:\"10\",key:\"1mglay\"}],[\"path\",{d:\"M1",
+        "=n(67894),f=n(53976),p=n(41948),g=n(69679),v=n(98339),h=n(7049),m=n(76175),y=n(73070),x=n(62424),b=n(15702),R=n(95155);let k=r.forwardRef(function(e,t){let{anchor",
+        "vider,{value:J,children:Z})})},64577:(e,t,n)=>{n.d(t,{A:()=>u,u:()=>o});var r=n(30772);let o=[[\"path\",{d:\"M20 6 9 17l-5-5\",key:\"1gmf2c\"}]],u=(0,r.A)(\"check\",o)},6"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/5142-5fbb1e25f3298bf3.js",
+      "hits": [
+        "f.webpackChunk_N_E||[]).push([[5142],{715:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"hourglass\",[[\"path\",{d:\"M5 22h14\",key:\"ehvnwv\"}],[\"path\",{d:\"M5 2h14\",k",
+        " 0 0 0 17 6.172V2\",key:\"1vvvr6\"}]])},1275:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"external-link\",[[\"path\",{d:\"M15 3h6v6\",key:\"1q9fwt\"}],[\"path\",{d:\"M10 1",
+        " 0 0 1 2-2h6\",key:\"a6xqqp\"}]])},2125:(e,a,t)=>{t.d(a,{A:()=>y,u:()=>d});var h=t(30772);let d=[[\"path\",{d:\"M5 12h14\",key:\"1ays0h\"}],[\"path\",{d:\"M12 5v14\",key:\"s699",
+        "le\"}]],y=(0,h.A)(\"plus\",d)},3791:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"usb\",[[\"circle\",{cx:\"10\",cy:\"7\",r:\"1\",key:\"dypaad\"}],[\"circle\",{cx:\"4\",",
+        "8 12 1-1 1 1-1 1Z\",key:\"1bh22v\"}]])},6923:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"clock\",[[\"circle\",{cx:\"12\",cy:\"12\",r:\"10\",key:\"1mglay\"}],[\"path\",{d:\"M1",
+        "2 6v6l4 2\",key:\"mmk7yg\"}]])},11012:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"triangle-alert\",[[\"path\",{d:\"m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 ",
+        "\"M12 17h.01\",key:\"p32p05\"}]])},14577:(e,a,t)=>{t.d(a,{A:()=>y,u:()=>d});var h=t(30772);let d=[[\"circle\",{cx:\"12\",cy:\"12\",r:\"10\",key:\"1mglay\"}],[\"path\",{d:\"M12 16v",
+        "\",key:\"e9boi3\"}]],y=(0,h.A)(\"info\",d)},19369:(e,a,t)=>{t.d(a,{u:()=>d});var h=t(30772);let d=[[\"circle\",{cx:\"12\",cy:\"5\",r:\"3\",key:\"rqqgnr\"}],[\"path\",{d:\"M6.5 8a2 ",
+        "ey:\"56o5sh\"}]];(0,h.A)(\"weight\",d)},28750:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"shield-off\",[[\"path\",{d:\"m2 2 20 20\",key:\"1ooewy\"}],[\"path\",{d:\"M5 5a1 ",
+        ".94a1 1 0 0 0 .67.01c2.35-.82 4.48-1.97 5.9-3.71\",key:\"1jlk70\"}],[\"path\",{d:\"M9.309 3.652A12.252 12.252 0 0 0 11.24 2.28a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19",
+        "784 0 0 1-.08 1.264\",key:\"18rp1v\"}]])},36565:(e,a,t)=>{t.d(a,{u:()=>d});var h=t(30772);let d=[[\"path\",{d:\"M5 12h14\",key:\"1ays0h\"}]];(0,h.A)(\"minus\",d)},41537:(e,a",
+        "h.o)(e.defaultTagName??\"div\",e,e)}},50825:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"download\",[[\"path\",{d:\"M12 15V3\",key:\"m9g1x1\"}],[\"path\",{d:\"M21 15v4a2 "
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+      "hits": [
+        "et n=[\"none\",\"adsense\",\"adcash\",\"custom\"],r=\"/loader.js\",i=\"https://adbpage.com/adblock?v=3&format=js\",s=[\"inline\",\"overlay\"],l=[{method:\"runBanner\",label:\"Display (ba",
+        " top-left | top-right | bottom-left | bottom-right. One per page.\"},{method:\"runInterstitial\",label:\"Interstitial\",surface:\"overlay\",options:[\"sub1\",\"aggressivity\",\"abTest\"",
+        "enabled:!1,adsenseClient:\"\",adcashLibrary:\"\",adcashLibrarySource:\"\",siteCode:\"\",adblockWaitSeconds:30,placeholders:!1,navigationGuard:!0,slots:Object.fromEntries(a.kN."
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+      "hits": [
+        "listed\",\"geoblocked\",\"paid\",\"unscraped\",\"stub\",\"noicon\",\"pairip\",\"refreshed\"],y=30,w={added:\"desc\",name:\"asc\",apks:\"desc\"},b=200,k=[\"auto\",\"native\",\"web\"];functio",
+        "iveKeep:3,inactiveKeep:2,quietKeep:1,demandWindowDays:90,quietMax:5,inactiveMax:30},r={activeKeep:{min:1,max:3},inactiveKeep:{min:1,max:3},quietKeep:{min:1,max:3}",
+        "n)=>{let a={detail:{edge:86400,swr:259200}};Object.values({catalogDetail:{stale:300,revalidate:a.detail.edge,expire:a.detail.edge+a.detail.swr},catalogList:{stale",
+        ":300,revalidate:21600,expire:108e3},catalogMiss:{stale:0,revalidate:60,expire:60}})",
+        "maxItemsPerSubmission:50,dailyItemCap:200,holdAboveDownloads:5e3,holdWindowDays:30,loaMaxBytes:5242880,planEnabled:!1,planPriceUsd:5,planContact:\"\",blockAnalytics",
+        "024))} KB`}let s=[[36,\"16\"],[35,\"15\"],[34,\"14\"],[33,\"13\"],[32,\"12L\"],[31,\"12\"],[30,\"11\"],[29,\"10\"],[28,\"9.0\"],[27,\"8.1\"],[26,\"8.0\"],[25,\"7.1\"],[24,\"7.0\"],[23,\"6.0",
+        "catch{return`${e.currency} ${e.amount.toFixed(2)}`}}function y(e){return{apkId:e.apkId,version:e.versionName,versionCode:String(e.versionCode),arch:e.arch,android:l",
+        "loadedAt,isLatest:e.isLatest,changelog:e.changelog}}function w(e){for(let t of e.apks){let e=t.changelog?t.changelog.replace(r,\"\\n\").replace(/<[^>]+>/g,\"\").replace(",
+        "t t=[];for(let n of e){let e=t[t.length-1];if(e&&e.versionName===n.versionName)e.apks.push(n);else{let e=t.find(e=>e.versionName===n.versionName);e?e.apks.push(n):t",
+        ":()=>r,oz:()=>o,yK:()=>a}),n(39323);let a=[\"off\",\"log\",\"block\"],r={mintsPerHour:30,mintsPerDay:60,mints:\"block\",scriptUa:\"block\",anonymized:\"off\",minBotScore:0,bo"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+      "hits": [
+        "expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50\",secondary:\"bg-secondary text-secondary-foreground hover",
+        "us-visible:ring-destructive/20 dark:bg-destructive/20 dark:hover:bg-destructive/30 dark:focus-visible:ring-destructive/40\",link:\"text-primary underline-offset-4 h",
+        "t.r(n),t.d(n,{OverflowTip:()=>y,TipLink:()=>k});var o=t(95155),i=t(82208),d=t(34304),s=t(99447),l=t(91763),u=t(44118),c=t(11412),g=t(72557),p=t(75314),x=t(93295),",
+        "=>{t.d(n,{AM:()=>u,SR:()=>g,Wv:()=>c,hl:()=>p});var r=t(95155),a=t(82208),o=t(34304),i=t(99447),d=t(91763),s=t(44118),l=t(91337);function u({...e}){return(0,r.jsx",
+        "sible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30\",g=\"flex w-full rounded-md border bg-transparent px-3 py-2 font-mono text-xs sh"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/polyfills-42372ed130431b0a.js",
+      "hits": [
+        ",u&&!f(a,c,s)||(r[s]=c[s]);return r}:qv,Gv=2147483647,Vv=/[^\\0-\\u007E]/,Yv=/[.\\u3002\\uFF0E\\uFF61]/g,Xv=\"Overflow: input needs wider integers to process\",Jv=RangeE",
+        "his.status=void 0===e.status?200:e.status,this.ok=this.status>=200&&this.status<300,this.statusText=\"statusText\"in e?e.statusText:\"OK\",this.headers=new tb(e.heade",
+        "(){var t=new cb(null,{status:0,statusText:\"\"});return t.type=\"error\",t};var fb=[301,302,303,307,308];cb.redirect=function(t,e){if(-1===fb.indexOf(e))throw new Ran"
+      ]
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+      "hits": [
+        "7:\"056e2ade3f510cb9\",667:\"3e8a379ac5dc19c2\",747:\"1ede82d7ce5387c6\",896:\"a722de05306002b6\",1152:\"d55c11af995d6ddb\",1439:\"51fd79dc347d9168\",1723:\"fe9c6bc324599771\",",
+        "a339\",7078:\"4fc9128fad70e6aa\",7160:\"a82fc53f449a6ff4\",7911:\"8264ba4fbf1d0dae\",7930:\"2da466737b291db1\",8108:\"548365da6e408913\",8681:\"bf06e393a8b2a088\",8703:\"58e05f"
+      ]
+    }
+  ],
+  "dlgHtml": "<script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"description\":\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://apkcube.com/search?q={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}}</script><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"logo\":\"https://apkcube.com/favicon.ico\"}</script><svg width=\"0\" height=\"0\" class=\"absolute\" aria-hidden=\"true\" focusable=\"false\"><symbol id=\"i-check\" viewBox=\"0 0 24 24\"><path d=\"M20 6 9 17l-5-5\"></path></symbol><symbol id=\"i-chevron-down\" viewBox=\"0 0 24 24\"><path d=\"m6 9 6 6 6-6\"></path></symbol><symbol id=\"i-chevron-right\" viewBox=\"0 0 24 24\"><path d=\"m9 18 6-6-6-6\"></path></symbol><symbol id=\"i-copy\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"></rect><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"></path></symbol><symbol id=\"i-file-down\" viewBox=\"0 0 24 24\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M12 18v-6\"></path><path d=\"m9 15 3 3 3-3\"></path></symbol><symbol id=\"i-info\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4\"></path><path d=\"M12 8h.01\"></path></symbol><symbol id=\"i-key-round\" viewBox=\"0 0 24 24\"><path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"></path><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle></symbol><symbol id=\"i-minus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path></symbol><symbol id=\"i-plus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></symbol><symbol id=\"i-shield-alert\" viewBox=\"0 0 24 24\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"></path><path d=\"M12 8v4\"></path><path d=\"M12 16h.01\"></path></symbol><symbol id=\"i-smartphone\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"></rect><path d=\"M12 18h.01\"></path></symbol><symbol id=\"i-weight\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"5\" r=\"3\"></circle><path d=\"M6.5 8a2 2 0 0 0-1.905 1.46L2.1 18.5A2 2 0 0 0 4 21h16a2 2 0 0 0 1.925-2.54L19.4 9.5A2 2 0 0 0 17.48 8Z\"></path></symbol></svg><!--$--><!--/$--><!--&--><!--$--><!--&--><!--&--><!--$--><!--&--><header class=\"sticky top-0 z-40 border-b bg-background/90 backdrop-blur\"><div class=\"mx-auto flex h-14 max-w-7xl items-center gap-3 px-4\"><a class=\"flex shrink-0 items-center gap-2 focus-visible:outline-2 focus-visible:outline-ring\" href=\"/\"><span class=\"flex size-7 items-center justify-center rounded-sm bg-brand text-primary-foreground\"><svg viewBox=\"8 4.75 48 48\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"3.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"size-4\" aria-hidden=\"true\"><path d=\"M32 11 49.5 21v20L32 51 14.5 41V21Z\"></path><path d=\"M14.5 21 32 31l17.5-10\"></path><path d=\"M32 31v20\"></path><path d=\"M26 14.4 21.5 6.5\"></path><path d=\"M38 14.4 42.5 6.5\"></path><circle cx=\"26.5\" cy=\"20\" r=\"2.1\" fill=\"currentColor\" stroke=\"none\"></circle><circle cx=\"37.5\" cy=\"20\" r=\"2.1\" fill=\"currentColor\" stroke=\"none\"></circle></svg></span><span class=\"font-heading text-lg font-semibold tracking-tight\">APKCube</span></a><div class=\"ms-1 md:ms-4\"><button type=\"button\" tabindex=\"0\" data-base-ui-click-trigger=\"\" id=\"base-ui-_R_f95fiv5ubrdb_\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-slot=\"dialog-trigger\" aria-label=\"検索（⌘K）\" class=\"flex h-9 items-center gap-2 rounded-full border border-border bg-muted px-2.5 text-sm text-muted-foreground transition-colors duration-150 hover:border-rule-2 focus-visible:outline-2 focus-visible:outline-ring md:min-w-56 md:px-3\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-search size-4 shrink-0\" aria-hidden=\"true\"><path d=\"m21 21-4.34-4.34\"></path><circle cx=\"11\" cy=\"11\" r=\"8\"></circle></svg><span class=\"hidden flex-1 text-start md:inline\">アプリを検索…</span><kbd class=\"hidden rounded-sm border border-border bg-background px-1.5 py-0.5 font-mono text-[11px] text-muted-foreground md:inline\">⌘K</kbd></button></div><nav aria-label=\"メインナビゲーション\" class=\"ms-auto hidden items-center gap-6 md:flex\"><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/apps\">アプリ</a><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/games\">ゲーム</a><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/categories\">カテゴリ</a><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/news\">ニュース</a><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/reviews\">レビュー</a><a class=\"text-sm font-medium whitespace-nowrap text-ink-2 transition-colors duration-150 hover:text-brand focus-visible:outline-2 focus-visible:outline-ring\" href=\"/apks-installer\">APKS インストーラー</a><button type=\"button\" tabindex=\"0\" aria-haspopup=\"menu\" aria-expanded=\"false\" id=\"base-ui-_R_1md5fiv5ubrdb_\" aria-label=\"言語を変更\" class=\"flex h-9 items-center gap-1.5 rounded-full px-2.5 text-sm font-medium text-ink-2 transition-colors duration-150 hover:bg-muted hover:text-foreground focus-visible:outline-2 focus-visible:outline-ring\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-globe size-4\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20\"></path><path d=\"M2 12h20\"></path></svg><span class=\"font-mono text-xs uppercase\">ja</span></button></nav><div class=\"ms-auto md:hidden\"><button type=\"button\" tabindex=\"0\" data-base-ui-click-trigger=\"\" id=\"base-ui-_R_fh5fiv5ubrdb_\" aria-haspopup=\"dialog\" aria-expanded=\"false\" data-slot=\"sheet-trigger\" aria-label=\"メニューを開く\" class=\"flex size-10 items-center justify-center rounded-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide lucide-menu size-5\" aria-hidden=\"true\"><path d=\"M4 5h16\"></path><path d=\"M4 12h16\"></path><path d=\"M4 19h16\"></path></svg></button></div></div></header><main class=\"flex-1\"><div class=\"border-b bg-muted/60\"><div class=\"mx-auto w-full max-w-6xl px-4 pb-8\"><nav aria-label=\"パンくずリスト\" class=\"py-4\"><ol class=\"no-scrollbar flex flex-nowrap items-center gap-1.5 overflow-x-auto text-sm whitespace-nowrap text-muted-foreground\"><li class=\"shrink-0\"><a class=\"transition-colors duration-150 hover:text-foreground\" href=\"/\">ホーム</a></li><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" class=\"lucide size-3.5 shrink-0 rtl:-scale-x-100\" aria-hidden=\"tru",
+  "countText": []
+}

@@ -1,0 +1,136 @@
+[
+  {
+    "chunk": "4704-150458f110a137c9",
+    "len": 10388,
+    "hits": [
+      "download :: s-center gap-3 py-1\",children:[(0,r.jsx)(\"p\",{className:\"text-center text-sm text-destructive\",role:\"alert\",children:f(\"downloadFlow.captchaLoadFail\",{code:x.code?(0,c.GW)(f(\"downloadFlow.captchaLoadFailCode\"),{code:x.code}):\"\"})}),(0,r.jsxs)(l.$,{variant:\"outline\",size:\"sm\",onCl",
+      "download :: :\"text-center text-sm text-destructive\",role:\"alert\",children:f(\"downloadFlow.captchaLoadFail\",{code:x.code?(0,c.GW)(f(\"downloadFlow.captchaLoadFailCode\"),{code:x.code}):\"\"})}),(0,r.jsxs)(l.$,{variant:\"outline\",size:\"sm\",onClick:()=>{b(!1),w(null),y(e=>e+1)},children:[(0,r.jsx)(a",
+      "download :: nt-mono text-xs text-muted-foreground\",children:[(0,r.jsx)(i.A,{className:\"size-3.5 animate-spin\",\"aria-hidden\":!0}),f(\"downloadFlow.captchaLoading\")]})]})}},65583:(e,n,t)=>{t.d(n,{eE:()=>p,HumanGateProvider:()=>d,uX:()=>m,cc:()=>c});var r=t(95155),o=t(12115),a=t(64577),i=t(14244",
+      "download :: owBits:a}),[e,n,t,a]);return(0,r.jsx)(s.Provider,{value:l,children:i})}function c(){return o.useContext(s)}let u={idle:\"downloadFlow.holdToVerify\",holding:\"downloadFlow.holdHolding\",full:\"downloadFlow.holdRelease\",released:\"downloadFlow.holdKeepHolding\",late:\"downloadFlow.holdToo",
+      "setTimeout :: )(),[h,y]=o.useState(0),[g,b]=o.useState(!1),[x,w]=o.useState(null);return(o.useEffect(()=>{if(g||x)return;let e=window.setTimeout(()=>w({}),15e3);return()=>window.clearTimeout(e)},[g,x]),x)?(0,r.jsxs)(\"div\",{className:\"flex min-h-16 flex-col items-center gap-3 py-1\",children:[(0",
+      "setTimeout :: };let d=f();if(d-i>o)return{powSkip:\"deadline\"};d-l>200&&((\"u\"<typeof document||!document.hidden)&&await new Promise(e=>setTimeout(e,0)),l=f())}return{powSkip:\"exhausted\"}}function f(){return\"u\">typeof performance?performance.now():Date.now()}},94487:(e,n,t)=>{t.d(n,{TurnstileSit"
+    ]
+  },
+  {
+    "chunk": "7603-2304d7b76398518d",
+    "len": 4807,
+    "hits": [
+      "setTimeout :: ,\"aria-label\":c(\"a11y.copy\",{label:t}),onClick:()=>{navigator.clipboard.writeText(e).then(()=>{(0,o.g)(\"success\"),l(!0),setTimeout(()=>l(!1),1600)})},className:\"-m-1 rounded-sm p-1 text-muted-foreground transition-colors duration-150 hover:text-foreground focus-visible:ring-2 foc"
+    ]
+  },
+  {
+    "chunk": "1529-564ad2b0508b041d",
+    "len": 90066,
+    "hits": [
+      "apks :: tive?-1:1:e.label.localeCompare(s.label))}function es(e,s){let t=new Set,n=new Set,a=!1,r=null,i=new Map;for(let o of e.apks){(null===r||o.minSdk<r)&&(r=o.minSdk),i.set(o.arch,Math.max(i.get(o.arch)??0,o.fileSize));let e=s[o.apkId];if(e){if(e.permissions)for(let s of(a=!0,e.permi",
+      "apks :: :e.sha256,label:s(\"security.sha256\")})]})]}):null}function eC(e){let s=ek();if(\"ready\"!==s.phase)return null;let t=eU(s.apks,e);return!t||t.requestedMissing?null:(0,C.Yr)(t.group.apks[0])}function eT(){let e=ew(),s=(0,I.useT)();if(!e)return null;let t=(0,_.gH)(e.signature)[0]??nu",
+      "apks :: eC(e){let s=ek();if(\"ready\"!==s.phase)return null;let t=eU(s.apks,e);return!t||t.requestedMissing?null:(0,C.Yr)(t.group.apks[0])}function eT(){let e=ew(),s=(0,I.useT)();if(!e)return null;let t=(0,_.gH)(e.signature)[0]??null,a=[];return(t?.subject&&a.push({label:s(\"security.signed",
+      "apks :: =es(t,s);if(!e.certShas||0===e.certShas.length){a.push(t.versionName);continue}for(let s of e.certShas)r.add(s);let i=t.apks[0].uploadedAt,o=t.apks[0].uploadedAt;for(let e of t.apks)e.uploadedAt<i&&(i=e.uploadedAt),e.uploadedAt>o&&(o=e.uploadedAt);let l=n[n.length-1];if(l&&eh(l.c",
+      "download :: \",category:\"System\",description:\"Keeps working in the background with a visible notification, for playback, tracking or downloads.\"},FOREGROUND_SERVICE_SPECIAL_USE:{label:\"Foreground service (special use)\",category:\"System\",description:\"Keeps working in the background for a purpo",
+      "download :: ody\",{version:e}),\" \",s?(0,n.jsx)(i(),{href:s,className:\"text-brand underline-offset-4 hover:underline\",children:t(\"apk.downloadLatest\")}):t(\"apk.tryLatest\")]})]})}function eK({jobStatus:e}){let s=(0,I.useT)(),[t,r]=a.useState(!1);return a.useEffect(()=>{let e=setTimeout(()=>r(!0",
+      "download :: j.zU,onToken:e=>{d(\"submitting\"),r(e)}})}):(0,n.jsx)(\"p\",{className:\"text-sm text-destructive\",role:\"alert\",children:s(\"downloadFlow.notConfigured\")})]})}function eH({icon:e,label:s,onClick:t}){return(0,n.jsxs)(\"button\",{type:\"button\",onClick:t,className:\"inline-flex h-9 items-ce",
+      "download :: dren:[(0,n.jsx)(T.LocalDate,{iso:c.uploadedAt}),\" \\xb7 Android\",\" \",(0,C.Yr)(c).android]})]}),(0,n.jsx)(i(),{href:`${s}/download?version=${encodeURIComponent(r.versionName)}`,prefetch:!1,\"aria-label\":o(\"cta.downloadAppVersion\",{name:e.name,version:r.versionName,kind:\"APK\"}),class",
+      "adblock :: :(0,n.jsx)(r.A,{className:\"size-4.5 text-warning\"})}),(0,n.jsx)(i.L3,{className:\"leading-snug\",children:l(\"downloadFlow.adblockTitle\")})]}),(0,n.jsx)(i.rr,{children:l(\"downloadFlow.adblockBody\")})]}),(0,n.jsxs)(\"div\",{className:\"flex flex-col items-center rounded-lg border bg-mut",
+      "adblock :: x)(i.L3,{className:\"leading-snug\",children:l(\"downloadFlow.adblockTitle\")})]}),(0,n.jsx)(i.rr,{children:l(\"downloadFlow.adblockBody\")})]}),(0,n.jsxs)(\"div\",{className:\"flex flex-col items-center rounded-lg border bg-muted/50 p-5\",children:[(0,n.jsxs)(\"div\",{className:\"relative\",\"",
+      "adblock :: ldren:d},d)})]}),(0,n.jsx)(\"p\",{className:\"mt-4 text-sm text-muted-foreground\",role:\"status\",children:m?l(\"downloadFlow.adblockCountdown\",{seconds:d}):l(\"downloadFlow.adblockPaused\")})]}),(0,n.jsx)(\"p\",{className:\"text-center text-xs text-muted-foreground\",children:l(\"downloadFlo",
+      "adblock ::  text-sm text-muted-foreground\",role:\"status\",children:m?l(\"downloadFlow.adblockCountdown\",{seconds:d}):l(\"downloadFlow.adblockPaused\")})]}),(0,n.jsx)(\"p\",{className:\"text-center text-xs text-muted-foreground\",children:l(\"downloadFlow.adblockHint\")})]})})}},70276:(e,s,t)=>{t.d(s,",
+      ".apk :: itive?-1:1:e.label.localeCompare(s.label))}function es(e,s){let t=new Set,n=new Set,a=!1,r=null,i=new Map;for(let o of e.apks){(null===r||o.minSdk<r)&&(r=o.minSdk),i.set(o.arch,Math.max(i.get(o.arch)??0,o.fileSize));let e=s[o.apkId];if(e){if(e.permissions)for(let s of(a=!0,e.perm",
+      ".apk :: ;for(let o of e.apks){(null===r||o.minSdk<r)&&(r=o.minSdk),i.set(o.arch,Math.max(i.get(o.arch)??0,o.fileSize));let e=s[o.apkId];if(e){if(e.permissions)for(let s of(a=!0,e.permissions))t.add(s);for(let s of(0,_.gH)(e.signature))n.add(s.sha256)}}return{versionName:e.versionName,per",
+      ".apk :: e:e.sha256,label:s(\"security.sha256\")})]})]}):null}function eC(e){let s=ek();if(\"ready\"!==s.phase)return null;let t=eU(s.apks,e);return!t||t.requestedMissing?null:(0,C.Yr)(t.group.apks[0])}function eT(){let e=ew(),s=(0,I.useT)();if(!e)return null;let t=(0,_.gH)(e.signature)[0]??n",
+      ".apk ::  eC(e){let s=ek();if(\"ready\"!==s.phase)return null;let t=eU(s.apks,e);return!t||t.requestedMissing?null:(0,C.Yr)(t.group.apks[0])}function eT(){let e=ew(),s=(0,I.useT)();if(!e)return null;let t=(0,_.gH)(e.signature)[0]??null,a=[];return(t?.subject&&a.push({label:s(\"security.signe",
+      "apkId :: for(let o of e.apks){(null===r||o.minSdk<r)&&(r=o.minSdk),i.set(o.arch,Math.max(i.get(o.arch)??0,o.fileSize));let e=s[o.apkId];if(e){if(e.permissions)for(let s of(a=!0,e.permissions))t.add(s);for(let s of(0,_.gH)(e.signature))n.add(s.sha256)}}return{versionName:e.versionName,perm",
+      "apkId :: y});if(o.requestedMissing&&t)return(0,n.jsx)(eG,{version:t,latestHref:a});let l=o.group.apks[0],c=i.securityByApkId?.[l.apkId]?.pairip===!0;return(0,n.jsx)(g.CW,{packageName:e,appName:s,apk:(0,C.Yr)(l),trust:r,pairip:c})}function eZ({app:e,packageName:s,appName:t,requestedVersion",
+      "apkId :: (12115),r=t(3791),i=t(92571),o=t(74350),l=t(83713),c=t(14244),d=t(91337),u=t(8894),m=t(70276);function h({packageName:e,apkId:s,appName:t,format:i,fileSize:o,arch:p,minSdk:x,variant:f=\"cta\"}){let b=(0,l.useT)(),y=(0,m.S)(),v=(0,u.e)(),[j,N]=a.useState(!1),[k,w]=a.useState(!1),S=a",
+      "apkId :: seT)(),y=(0,m.S)(),v=(0,u.e)(),[j,N]=a.useState(!1),[k,w]=a.useState(!1),S=a.useMemo(()=>({kind:\"catalog\",packageName:e,apkId:s,appName:t,format:i,fileSize:o,arch:p,minSdk:x}),[e,s,t,i,o,p,x]);return y&&v?(0,n.jsxs)(n.Fragment,{children:[(0,n.jsxs)(\"button\",{type:\"button\",onClick",
+      "_blank :: ,{className:`flex items-center gap-1.5 ${R.qA}`,children:[t.t(\"security.scanVerdict\"),a&&(0,n.jsxs)(\"a\",{href:a,target:\"_blank\",rel:\"noopener noreferrer\",\"aria-label\":t.t(\"security.openVirusTotal\"),className:\"inline-flex items-center gap-1 text-brand normal-case transition-opacit",
+      "_blank :: ddit.com/submit?url=${a}&title=${encodeURIComponent(s)}`}]).map(({key:e,Mark:s,href:t})=>(0,n.jsxs)(\"a\",{href:t,target:\"_blank\",rel:\"nofollow noopener\",title:e,style:_(e),className:R,children:[(0,n.jsx)(s,{className:\"size-4.5\"}),(0,n.jsx)(\"span\",{className:\"sr-only\",children:(0,n",
+      "_blank :: 2\",children:m.map(({href:e,label:s,handle:t,Mark:a,network:r})=>(0,n.jsx)(\"li\",{children:(0,n.jsxs)(\"a\",{href:e,target:\"_blank\",rel:\"noopener\",onClick:()=>d(s=>new Set(s).add(e)),style:_(r),className:\"mark-row flex items-center gap-3 rounded-lg border bg-muted/40 p-3 transition-c",
+      "setTimeout :: 2 border-t pt-2 font-mono text-[11px] break-all text-muted-foreground\",children:e.name})]})]})}let eF=e=>new Promise(s=>setTimeout(s,e));function eP(e){return!(e instanceof eb.hD)||\"INTERNAL_ERROR\"===e.code||e.status>=500||429===e.status}function ez(e){return{phase:\"failed\",error",
+      "setTimeout :: \"apk.tryLatest\")]})]})}function eK({jobStatus:e}){let s=(0,I.useT)(),[t,r]=a.useState(!1);return a.useEffect(()=>{let e=setTimeout(()=>r(!0),45e3);return()=>clearTimeout(e)},[]),(0,n.jsxs)(\"section\",{\"aria-live\":\"polite\",className:\"flex flex-col items-start gap-3 rounded-lg borde",
+      "setTimeout :: rent),window.clearTimeout(ep.current),ea.current?.abort()},[]),l.useEffect(()=>{if(null===eo||eo<=0)return;let e=window.setTimeout(()=>el(e=>null===e?null:e-1),1e3);return()=>window.clearTimeout(e)},[eo]);let ex=l.useCallback(()=>{(0,M.g)(\"medium\"),K(e=>e+1),Q(W<=0),J.current=voi",
+      "setTimeout :: rted)return;U(!1),(0,M.g)(\"success\"),window.location.assign(r),ed(!0),window.clearTimeout(eh.current),eh.current=window.setTimeout(()=>ed(!1),2500),window.clearTimeout(ep.current),ep.current=window.setTimeout(()=>em(!0),1500)}catch(s){let e=()=>{K(e=>e+1),Q(W<=0),J.current=void 0"
+    ]
+  },
+  {
+    "chunk": "5142-5fbb1e25f3298bf3",
+    "len": 7042,
+    "hits": [
+      "download :: 9938);function d(e){return(0,h.o)(e.defaultTagName??\"div\",e,e)}},50825:(e,a,t)=>{t.d(a,{A:()=>h});let h=(0,t(30772).A)(\"download\",[[\"path\",{d:\"M12 15V3\",key:\"m9g1x1\"}],[\"path\",{d:\"M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4\",key:\"ih7n3h\"}],[\"path\",{d:\"m7 10 5 5 5-5\",key:\"brsn70\"}]]"
+    ]
+  },
+  {
+    "chunk": "2810-db3ac567bb77c5fe",
+    "len": 12432,
+    "hits": [
+      "apks :: ),o=n(29854),s=n(12168),l=n(41120),m=n(59745),c=n(20104),u=n(77929),d=n(34523),p=n(69473);n(41463);let x=[\"apk\",\"xapk\",\"apks\"],f=\"apks\",h=\"manual\",g=[\"blacklisted\",\"geoblocked\",\"paid\",\"unscraped\",\"stub\",\"noicon\",\"pairip\",\"refreshed\"],y=30,w={added:\"desc\",name:\"asc\",apks:\"desc\"},b",
+      "apks :: 4),s=n(12168),l=n(41120),m=n(59745),c=n(20104),u=n(77929),d=n(34523),p=n(69473);n(41463);let x=[\"apk\",\"xapk\",\"apks\"],f=\"apks\",h=\"manual\",g=[\"blacklisted\",\"geoblocked\",\"paid\",\"unscraped\",\"stub\",\"noicon\",\"pairip\",\"refreshed\"],y=30,w={added:\"desc\",name:\"asc\",apks:\"desc\"},b=200,k=[\"a",
+      "apks :: ,g=[\"blacklisted\",\"geoblocked\",\"paid\",\"unscraped\",\"stub\",\"noicon\",\"pairip\",\"refreshed\"],y=30,w={added:\"desc\",name:\"asc\",apks:\"desc\"},b=200,k=[\"auto\",\"native\",\"web\"];function M(e,t,n){let a=e=>e.trim().replace(/\\s+/g,\"-\").replace(/[^\\p{L}\\p{N}._-]+/gu,\"\").replace(/-{2,}/g,\"-\").rep",
+      "apks :: =>p,eh:()=>l,nV:()=>f,oQ:()=>m,r6:()=>d,u4:()=>a.u4,uH:()=>h,wo:()=>w,z3:()=>o});var a=n(11250);n(41463),Object.freeze({apks:[],security:null,securityByApkId:{},signers:[]});let r=/\\s*(?:<br\\s*\\/?>|<\\/(?:p|div|li|ul|ol|h[1-6]|tr|blockquote)\\s*>)\\s*/gi;function i(e,t){try{return S",
+      ".apk :: ,currency:e.currency}).format(e.amount)}catch{return`${e.currency} ${e.amount.toFixed(2)}`}}function y(e){return{apkId:e.apkId,version:e.versionName,versionCode:String(e.versionCode),arch:e.arch,android:l(e.minSdk),minSdk:e.minSdk,size:o(e.fileSize),fileSize:e.fileSize,format:e.f",
+      ".apk :: fileSize,format:e.format,uploadedAt:e.uploadedAt,isLatest:e.isLatest,changelog:e.changelog}}function w(e){for(let t of e.apks){let e=t.changelog?t.changelog.replace(r,\"\\n\").replace(/<[^>]+>/g,\"\").replace(/&nbsp;/gi,\" \").replace(/&#(\\d+);/g,(e,t)=>i(Number(t),e)).replace(/&#x([0-9",
+      ".apk :: (e)return e}return null}function b(e){let t=[];for(let n of e){let e=t[t.length-1];if(e&&e.versionName===n.versionName)e.apks.push(n);else{let e=t.find(e=>e.versionName===n.versionName);e?e.apks.push(n):t.push({versionName:n.versionName,apks:[n]})}}return t}new Intl.NumberFormat(",
+      ".apk :: t[t.length-1];if(e&&e.versionName===n.versionName)e.apks.push(n);else{let e=t.find(e=>e.versionName===n.versionName);e?e.apks.push(n):t.push({versionName:n.versionName,apks:[n]})}}return t}new Intl.NumberFormat(\"en-US\",{notation:\"compact\",maximumFractionDigits:1})},59745:(e,t,n)=",
+      "apkId :: rrency\",currency:e.currency}).format(e.amount)}catch{return`${e.currency} ${e.amount.toFixed(2)}`}}function y(e){return{apkId:e.apkId,version:e.versionName,versionCode:String(e.versionCode),arch:e.arch,android:l(e.minSdk),minSdk:e.minSdk,size:o(e.fileSize),fileSize:e.fileSize,for",
+      "apkId :: currency:e.currency}).format(e.amount)}catch{return`${e.currency} ${e.amount.toFixed(2)}`}}function y(e){return{apkId:e.apkId,version:e.versionName,versionCode:String(e.versionCode),arch:e.arch,android:l(e.minSdk),minSdk:e.minSdk,size:o(e.fileSize),fileSize:e.fileSize,format:e.fo"
+    ]
+  },
+  {
+    "chunk": "5206-07d6d778bf9e5c15",
+    "len": 3402,
+    "hits": [
+      "/api/ :: ==\"ready\"&&null===t.value.payload.security;if(t&&!n&&Date.now()-t.at<3e5)return t.value}let n=c(t.token),a=await fetch(`/api/apps/${encodeURIComponent(e)}/apks${n}`,{signal:t.signal});if(202===a.status){let e=await a.json().catch(()=>null);return e?.status===\"NEEDS_FETCH\"?{kind:\"",
+      "/api/ :: kId??{},signers:r.signers??[]}};return u.set(e,{at:Date.now(),value:i}),i}async function d(e,t,n={}){let a=await fetch(`/api/apps/${encodeURIComponent(e)}/fetch${c(n.token)}`,{method:\"POST\",headers:{\"content-type\":\"application/json\"},body:JSON.stringify({captchaToken:t}),signal:n",
+      "/api/ :: catch(()=>null);return r?.status===\"READY\"?{kind:\"ready\"}:{kind:\"fetching\"}}async function f(e,t={}){let n=await fetch(`/api/apps/${encodeURIComponent(e)}/fetch-status`,{cache:\"no-store\",signal:t.signal});return n.ok||await l(n),n.json()}async function w(e,t,n,a={}){let i=await (",
+      "/api/ :: e\",signal:t.signal});return n.ok||await l(n),n.json()}async function w(e,t,n,a={}){let i=await (0,r.T)(),o=await fetch(\"/api/downloads/request\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\"},body:JSON.stringify({packageName:e,apkId:t,captchaToken:n,install:a.install??",
+      "apks :: ecurity;if(t&&!n&&Date.now()-t.at<3e5)return t.value}let n=c(t.token),a=await fetch(`/api/apps/${encodeURIComponent(e)}/apks${n}`,{signal:t.signal});if(202===a.status){let e=await a.json().catch(()=>null);return e?.status===\"NEEDS_FETCH\"?{kind:\"needs-fetch\"}:{kind:\"fetching\"}}a.o",
+      "apks :: s===\"NEEDS_FETCH\"?{kind:\"needs-fetch\"}:{kind:\"fetching\"}}a.ok||await l(a);let r=await a.json(),i={kind:\"ready\",payload:{apks:r.apks,security:r.security??null,securityByApkId:r.securityByApkId??{},signers:r.signers??[]}};return u.set(e,{at:Date.now(),value:i}),i}async function d(e",
+      "apks :: EDS_FETCH\"?{kind:\"needs-fetch\"}:{kind:\"fetching\"}}a.ok||await l(a);let r=await a.json(),i={kind:\"ready\",payload:{apks:r.apks,security:r.security??null,securityByApkId:r.securityByApkId??{},signers:r.signers??[]}};return u.set(e,{at:Date.now(),value:i}),i}async function d(e,t,n={}",
+      "download :: gnal:t.signal});return n.ok||await l(n),n.json()}async function w(e,t,n,a={}){let i=await (0,r.T)(),o=await fetch(\"/api/downloads/request\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\"},body:JSON.stringify({packageName:e,apkId:t,captchaToken:n,install:a.install??!1,..",
+      "download :: w,dP:()=>a,im:()=>i,jz:()=>c,ku:()=>f,qt:()=>r,rf:()=>p,y4:()=>o,zU:()=>l});let a=\"k\",r=12,i=12e4,o=/^[0-9a-f]{32}$/,s=\"download\",l=\"fetch\";function c(e){return e.replace(/\\./g,\"-\")}let u=512,p=4096,d=512,f=128,w=[\"navigate\",\"reload\",\"back_forward\",\"prerender\",\"unknown\"]}}]);",
+      ".apk :: EEDS_FETCH\"?{kind:\"needs-fetch\"}:{kind:\"fetching\"}}a.ok||await l(a);let r=await a.json(),i={kind:\"ready\",payload:{apks:r.apks,security:r.security??null,securityByApkId:r.securityByApkId??{},signers:r.signers??[]}};return u.set(e,{at:Date.now(),value:i}),i}async function d(e,t,n={",
+      "apkId :: (\"/api/downloads/request\",{method:\"POST\",headers:{\"Content-Type\":\"application/json\"},body:JSON.stringify({packageName:e,apkId:t,captchaToken:n,install:a.install??!1,...i?{fingerprint:i}:{},...a.pageToken?{pageToken:a.pageToken}:{},...a.gesture?{gesture:a.gesture}:{},...void 0!==a",
+      "setTimeout :: peof n||Date.now()-n>864e5)return null;return t}catch{return null}}())?Promise.resolve(n):o(),t=i,new Promise(n=>{let a=setTimeout(()=>n(null),e);t.then(e=>{clearTimeout(a),n(e)})})}},94986:(e,t,n)=>{n.d(t,{AM:()=>u,KA:()=>d,QE:()=>s,SY:()=>w,dP:()=>a,im:()=>i,jz:()=>c,ku:()=>f,q"
+    ]
+  },
+  {
+    "chunk": "6280-29e5bcdb4f4b972d",
+    "len": 8884,
+    "hits": [
+      "download :: \"mobile-anchor\",\"home-top\",\"home-infeed\",\"listing-top\",\"listing-infeed\",\"detail-inline\",\"detail-rail\",\"article-inline\",\"download-top\",\"download-rail\",\"old-versions-top\",\"old-versions-bottom\",\"apk-downloader-top\",\"apk-downloader-bottom\"],n={leaderboard:{reserve:\"min-h-[100px] sm:m",
+      "download :: ,\"home-top\",\"home-infeed\",\"listing-top\",\"listing-infeed\",\"detail-inline\",\"detail-rail\",\"article-inline\",\"download-top\",\"download-rail\",\"old-versions-top\",\"old-versions-bottom\",\"apk-downloader-top\",\"apk-downloader-bottom\"],n={leaderboard:{reserve:\"min-h-[100px] sm:min-h-[90px]\",ad",
+      "download :: ail-inline\",\"detail-rail\",\"article-inline\",\"download-top\",\"download-rail\",\"old-versions-top\",\"old-versions-bottom\",\"apk-downloader-top\",\"apk-downloader-bottom\"],n={leaderboard:{reserve:\"min-h-[100px] sm:min-h-[90px]\",adsenseFormat:\"horizontal\",fullWidthResponsive:!0,label:\"Leader",
+      "download :: ail\",\"article-inline\",\"download-top\",\"download-rail\",\"old-versions-top\",\"old-versions-bottom\",\"apk-downloader-top\",\"apk-downloader-bottom\"],n={leaderboard:{reserve:\"min-h-[100px] sm:min-h-[90px]\",adsenseFormat:\"horizontal\",fullWidthResponsive:!0,label:\"Leaderboard\"},rectangle:{re",
+      "adblock :: =>s,t3:()=>i});var a=o(82956);o(41463);let n=[\"none\",\"adsense\",\"adcash\",\"custom\"],r=\"/loader.js\",i=\"https://adbpage.com/adblock?v=3&format=js\",s=[\"inline\",\"overlay\"],l=[{method:\"runBanner\",label:\"Display (banner)\",surface:\"inline\",options:[\"width\",\"height\",\"sub1\"],note:\"renderIn ",
+      "adblock :: \",sandbox:!1},b=120;function f(){return{enabled:!1,adsenseClient:\"\",adcashLibrary:\"\",adcashLibrarySource:\"\",siteCode:\"\",adblockWaitSeconds:30,placeholders:!1,navigationGuard:!0,slots:Object.fromEntries(a.kN.map(e=>[e,{...c}]))}}function u(e){return!e.trim()||null!==g(e)}function "
+    ]
+  },
+  {
+    "chunk": "8500-607d51dc0d0415b3",
+    "len": 8646,
+    "hits": [
+      "download :: ==f||e.metaKey||e.ctrlKey||e.shiftKey||e.altKey||e.nativeEvent&&2===e.nativeEvent.which)||e.currentTarget.hasAttribute(\"download\"))return;if(!(0,y.isLocalURL)(t)){o&&(e.preventDefault(),location.replace(t));return}if(e.preventDefault(),a){let e=!1;if(a({preventDefault:()=>{e=!0}}"
+    ]
+  },
+  {
+    "chunk": "8409-381d7a3aa3d11a3a",
+    "len": 27317,
+    "hits": []
+  },
+  {
+    "chunk": "3713-5e4f33055c857d7b",
+    "len": 56092,
+    "hits": [
+      "apks ::  news\",moreReviews:\"More reviews\"},nav:{news:\"News\",reviews:\"Reviews\",apps:\"Apps\",games:\"Games\",categories:\"Categories\",apksInstaller:\"APKS Installer\",apkDownloader:\"APK Downloader\",menu:\"Menu\",openMenu:\"Open menu\",mainNav:\"Main navigation\",mobileNav:\"Mobile navigation\"},search:{",
+      "apks ::  email us from a domain associated with the app, and we'll take the listing down and exclude it from future indexing.\"},apksInstaller:{lede:\"APKS and XAPK files hold several APKs at once, so Android can't open them on its own. Pick where you are:\",jumpToIt:\"Jump to it\",routeCompu",
+      "download :: indNews:\"News\",kindReview:\"Review\",newsTitle:\"Android app news\",newsIntro:\"One story a day about an app people actually download — what changed in the build, and what the developer says about it.\",newsEmpty:\"No stories published yet. Check back tomorrow.\",reviewsTitle:\"Android ap",
+      "download :: ize:\"Size\",android:\"Android\",architecture:\"Architecture\",updated:\"Updated\",updatedOn:\"Updated {date}\",package:\"Package\",download:\"Download\",requiresAndroid:\"Requires Android\",downloads:\"Downloads\",retry:\"Retry\",continue:\"Continue\",notNow:\"Not now\",tryAgain:\"Try again\",close:\"Clos",
+      "download :: \",updated:\"Updated\",updatedOn:\"Updated {date}\",package:\"Package\",download:\"Download\",requiresAndroid:\"Requires Android\",downloads:\"Downloads\",retry:\"Retry\",continue:\"Continue\",notNow:\"Not now\",tryAgain:\"Try again\",close:\"Close\",loading:\"Loading…\",loadingPage:\"Loading page…\",loadi",
+      "download :: l:\"Email\",copyLink:\"Copy link\",linkCopied:\"Link copied\",viewOnPlay:\"View on Google Play\",googlePlay:\"Google Play\"},cta:{downloadApk:\"Download APK\",downloadKind:\"Download {kind}\",downloadStarted:\"Download started\",started:\"Started\",downloadFile:\"Download {fileName}\",downloadAppVer",
+      "adblock :: decline there, we can't ask again — but you can still turn it on later in your browser's site settings.\"},downloadFlow:{adblockTitle:\"Ad blocker detected\",adblockBody:\"Ads pay for the servers these files are hosted on. Allow ads here and your download starts right away.\",adblockC",
+      "adblock ::  but you can still turn it on later in your browser's site settings.\"},downloadFlow:{adblockTitle:\"Ad blocker detected\",adblockBody:\"Ads pay for the servers these files are hosted on. Allow ads here and your download starts right away.\",adblockCountdown:\"Your download starts in {",
+      "adblock :: d\",adblockBody:\"Ads pay for the servers these files are hosted on. Allow ads here and your download starts right away.\",adblockCountdown:\"Your download starts in {seconds}s\",adblockPaused:\"Paused — the countdown continues when you come back to this page\",adblockHint:\"Turn your ad",
+      "adblock :: e hosted on. Allow ads here and your download starts right away.\",adblockCountdown:\"Your download starts in {seconds}s\",adblockPaused:\"Paused — the countdown continues when you come back to this page\",adblockHint:\"Turn your ad blocker off for this site and reload the page to skip",
+      "countdown :: and your download starts right away.\",adblockCountdown:\"Your download starts in {seconds}s\",adblockPaused:\"Paused — the countdown continues when you come back to this page\",adblockHint:\"Turn your ad blocker off for this site and reload the page to skip the wait.\",verifyTitle:\"Ver"
+    ]
+  }
+]

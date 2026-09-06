@@ -1,0 +1,2326 @@
+{
+  "top": {
+    "info": {
+      "url": "https://apkcube.com/",
+      "title": "APKCube - Download APK for Android Apps & Games",
+      "links": [
+        {
+          "t": "APKCube",
+          "h": "/"
+        },
+        {
+          "t": "アプリ",
+          "h": "/apps"
+        },
+        {
+          "t": "ゲーム",
+          "h": "/games"
+        },
+        {
+          "t": "カテゴリ",
+          "h": "/categories"
+        },
+        {
+          "t": "ニュース",
+          "h": "/news"
+        },
+        {
+          "t": "レビュー",
+          "h": "/reviews"
+        },
+        {
+          "t": "APKS インストーラー",
+          "h": "/apks-installer"
+        },
+        {
+          "t": "Zenless Zone Zero - Anniv.↓ 10M+",
+          "h": "/zenless-zone-zero-anniv/com.HoYoverse.Nap"
+        },
+        {
+          "t": "eFootball™↓ 100M+",
+          "h": "/efootballtm/jp.konami.pesam"
+        },
+        {
+          "t": "EA SPORTS FC Soccer Mobile 26↓ 500M+",
+          "h": "/ea-sports-fc-soccer-mobile-26/com.ea.gp.fifamobile"
+        },
+        {
+          "t": "WhatsApp Messenger↓ 10B+",
+          "h": "/whatsapp-messenger/com.whatsapp"
+        },
+        {
+          "t": "Roblox↓ 1B+",
+          "h": "/roblox/com.roblox.client"
+        },
+        {
+          "t": "X↓ 1B+",
+          "h": "/x/com.twitter.android"
+        },
+        {
+          "t": "ChatGPT↓ 1B+",
+          "h": "/chatgpt/com.openai.chatgpt"
+        },
+        {
+          "t": "Mobile Legends: Bang Bang↓ 500M+",
+          "h": "/mobile-legends-bang-bang/com.mobile.legends"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/games/hot"
+        },
+        {
+          "t": "Meowdoku: Brain Puzzle Games↓ 10M+",
+          "h": "/meowdoku-brain-puzzle-games/com.oakever.meowdoku"
+        },
+        {
+          "t": "Roblox↓ 1B+",
+          "h": "/roblox/com.roblox.client"
+        },
+        {
+          "t": "Royal Smash! - Physics Puzzle↓ 5M+",
+          "h": "/royal-smash-physics-puzzle/com.cyphergames.royalsmash"
+        },
+        {
+          "t": "Magic Sort!↓ 10M+",
+          "h": "/magic-sort/com.grandgames.magicsort"
+        },
+        {
+          "t": "Vita Mahjong↓ 100M+",
+          "h": "/vita-mahjong/com.vitastudio.mahjong"
+        },
+        {
+          "t": "Mahjong Blast↓ 50M+",
+          "h": "/mahjong-blast/com.nebula.mahjongtile"
+        },
+        {
+          "t": "Block Blast!↓ 1B+",
+          "h": "/block-blast/com.block.juggle"
+        },
+        {
+          "t": "Evony: The King's Return↓ 100M+",
+          "h": "/evony-the-king-s-return/com.topgamesinc.evony"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/apps/hot"
+        },
+        {
+          "t": "ChatGPT↓ 1B+",
+          "h": "/chatgpt/com.openai.chatgpt"
+        },
+        {
+          "t": "MapQuest: Get Directions↓ 10M+",
+          "h": "/mapquest-get-directions/com.mapquest.android.ace"
+        },
+        {
+          "t": "PineDrama - Short Dramas↓ 50M+",
+          "h": "/pinedrama-short-dramas/com.ss.android.ttmd.video"
+        },
+        {
+          "t": "TikTok↓ 1B+",
+          "h": "/tiktok/com.zhiliaoapp.musically"
+        },
+        {
+          "t": "ReelShort - Stream Drama & TV↓ 100M+",
+          "h": "/reelshort-stream-drama-tv/com.newleaf.app.android.victor"
+        },
+        {
+          "t": "WhatsApp Messenger↓ 10B+",
+          "h": "/whatsapp-messenger/com.whatsapp"
+        },
+        {
+          "t": "X↓ 1B+",
+          "h": "/x/com.twitter.android"
+        },
+        {
+          "t": "Vinted: Shop & sell pre-loved↓ 100M+",
+          "h": "/vinted-shop-sell-pre-loved/fr.vinted"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/games/grossing"
+        },
+        {
+          "t": "MONOPOLY GO!↓ 100M+",
+          "h": "/monopoly-go/com.scopely.monopolygo"
+        },
+        {
+          "t": "Pokémon GO↓ 500M+",
+          "h": "/pokemon-go/com.nianticlabs.pokemongo"
+        },
+        {
+          "t": "Roblox↓ 1B+",
+          "h": "/roblox/com.roblox.client"
+        },
+        {
+          "t": "Candy Crush Saga↓ 1B+",
+          "h": "/candy-crush-saga/com.king.candycrushsaga"
+        },
+        {
+          "t": "Royal Match↓ 100M+",
+          "h": "/royal-match/com.dreamgames.royalmatch"
+        },
+        {
+          "t": "Gossip Harbor: Merge & Story↓ 50M+",
+          "h": "/gossip-harbor-merge-story/com.mergegames.gossipharbor"
+        },
+        {
+          "t": "Coin Master↓ 100M+",
+          "h": "/coin-master/com.moonactive.coinmaster"
+        },
+        {
+          "t": "Township↓ 500M+",
+          "h": "/township/com.playrix.township"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/apps/grossing"
+        },
+        {
+          "t": "Google One↓ 1B+",
+          "h": "/google-one/com.google.android.apps.subscriptions.red"
+        },
+        {
+          "t": "TikTok : Vidéos, LIVE, Musique↓ 1B+",
+          "h": "/tiktok-videos-live-musique/com.zhiliaoapp.musically"
+        },
+        {
+          "t": "ChatGPT↓ 1B+",
+          "h": "/chatgpt/com.openai.chatgpt"
+        },
+        {
+          "t": "Amazon Shopping↓ 1B+",
+          "h": "/amazon-shopping/com.amazon.mShop.android.shopping"
+        },
+        {
+          "t": "Spotify: Music and Podcasts↓ 1B+",
+          "h": "/spotify-music-and-podcasts/com.spotify.music"
+        },
+        {
+          "t": "Peacock TV: Stream TV & Movies↓ 50M+",
+          "h": "/peacock-tv-stream-tv-movies/com.peacocktv.peacockandroid"
+        },
+        {
+          "t": "HBO Max: Stream TV & Movies↓ 100M+",
+          "h": "/hbo-max-stream-tv-movies/com.wbd.stream"
+        },
+        {
+          "t": "Crunchyroll: Anime Streaming↓ 100M+",
+          "h": "/crunchyroll-anime-streaming/com.crunchyroll.crunchyroid"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/latest"
+        },
+        {
+          "t": "Wolvesville - Werewolf Online↓ 10M+",
+          "h": "/wolvesville-werewolf-online/com.werewolfapps.online"
+        },
+        {
+          "t": "Total↓ 1M+",
+          "h": "/total/it.appideas.totaldownloader"
+        },
+        {
+          "t": "AirPlay Receiver & Server↓ 500+",
+          "h": "/airplay-receiver-server/io.github.jqssun.airplay"
+        },
+        {
+          "t": "Warships Mobile 2: Naval War↓ 5M+",
+          "h": "/warships-mobile-2-naval-war/com.forgegames.warshipswarfare"
+        },
+        {
+          "t": "ChildCareWeb CoNNect↓ 10K+",
+          "h": "/childcareweb-connect/jp.childcareweb.app"
+        },
+        {
+          "t": "MariBank PH (SeaBank)↓ 10M+",
+          "h": "/maribank-ph-seabank/ph.seabank.seabank"
+        },
+        {
+          "t": "Hero RideGuide↓ 1M+",
+          "h": "/hero-rideguide/com.hero.rideguide"
+        },
+        {
+          "t": "PayPay↓ 50M+",
+          "h": "/paypay/jp.ne.paypay.android.app"
+        },
+        {
+          "t": "C6 Bank: Cartão, Conta e Mais!",
+          "h": "/search?q=C6%20Bank%3A%20Cart%C3%A3o%2C%20Conta%20e%20Mais!"
+        },
+        {
+          "t": "Theme",
+          "h": "/search?q=Theme"
+        },
+        {
+          "t": "Alight Motion",
+          "h": "/search?q=Alight%20Motion"
+        },
+        {
+          "t": "AMap Global",
+          "h": "/search?q=AMap%20Global"
+        },
+        {
+          "t": "ZBD: Play. Earn. Cash Out.",
+          "h": "/search?q=ZBD%3A%20Play.%20Earn.%20Cash%20Out."
+        },
+        {
+          "t": "SAI: Split APKs Installer",
+          "h": "/search?q=SAI%3A%20Split%20APKs%20Installer"
+        },
+        {
+          "t": "Temu: Shop Like a Billionaire",
+          "h": "/search?q=Temu%3A%20Shop%20Like%20a%20Billionaire"
+        },
+        {
+          "t": "TUTON",
+          "h": "/search?q=TUTON"
+        },
+        {
+          "t": "Wibuku - Nonton Anime",
+          "h": "/search?q=Wibuku%20-%20Nonton%20Anime"
+        },
+        {
+          "t": "VLC for Android",
+          "h": "/search?q=VLC%20for%20Android"
+        },
+        {
+          "t": "YTV Player Pro",
+          "h": "/search?q=YTV%20Player%20Pro"
+        },
+        {
+          "t": "PocketPal AI",
+          "h": "/search?q=PocketPal%20AI"
+        },
+        {
+          "t": "Zenless Zone Zero - Anniv.",
+          "h": "/search?q=Zenless%20Zone%20Zero%20-%20Anniv."
+        },
+        {
+          "t": "Roblox",
+          "h": "/search?q=Roblox"
+        },
+        {
+          "t": "Mobile Legends: Bang Bang",
+          "h": "/search?q=Mobile%20Legends%3A%20Bang%20Bang"
+        },
+        {
+          "t": "Car Parking Multiplayer",
+          "h": "/search?q=Car%20Parking%20Multiplayer"
+        },
+        {
+          "t": "Clash of Clans",
+          "h": "/search?q=Clash%20of%20Clans"
+        },
+        {
+          "t": "Maneater - Try & Buy",
+          "h": "/search?q=Maneater%20-%20Try%20%26%20Buy"
+        },
+        {
+          "t": "Random Dice 2",
+          "h": "/search?q=Random%20Dice%202"
+        },
+        {
+          "t": "Mini Militia - War.io",
+          "h": "/search?q=Mini%20Militia%20-%20War.io"
+        },
+        {
+          "t": "Arad: Idle RPG",
+          "h": "/search?q=Arad%3A%20Idle%20RPG"
+        },
+        {
+          "t": "Bloody Bastards",
+          "h": "/search?q=Bloody%20Bastards"
+        },
+        {
+          "t": "Bus Simulator India",
+          "h": "/search?q=Bus%20Simulator%20India"
+        },
+        {
+          "t": "Toca Boca World",
+          "h": "/search?q=Toca%20Boca%20World"
+        },
+        {
+          "t": "アドベンチャー",
+          "h": "/category/adventure"
+        },
+        {
+          "t": "アクション",
+          "h": "/category/action"
+        },
+        {
+          "t": "ロールプレイング",
+          "h": "/category/role-playing"
+        },
+        {
+          "t": "アーケード",
+          "h": "/category/arcade"
+        },
+        {
+          "t": "カジュアル",
+          "h": "/category/casual"
+        },
+        {
+          "t": "ストラテジー",
+          "h": "/category/strategy"
+        },
+        {
+          "t": "スポーツ",
+          "h": "/category/sports-games"
+        },
+        {
+          "t": "シミュレーション",
+          "h": "/category/simulation"
+        },
+        {
+          "t": "パズル",
+          "h": "/category/puzzle"
+        },
+        {
+          "t": "レース",
+          "h": "/category/racing"
+        },
+        {
+          "t": "トリビア",
+          "h": "/category/trivia"
+        },
+        {
+          "t": "言葉遊び",
+          "h": "/category/word"
+        },
+        {
+          "t": "ツール",
+          "h": "/category/tools"
+        },
+        {
+          "t": "エンタメ",
+          "h": "/category/entertainment"
+        },
+        {
+          "t": "コミュニケーション",
+          "h": "/category/communication"
+        },
+        {
+          "t": "ソーシャル",
+          "h": "/category/social"
+        },
+        {
+          "t": "音楽・オーディオ",
+          "h": "/category/music-audio"
+        },
+        {
+          "t": "写真",
+          "h": "/category/photography"
+        },
+        {
+          "t": "動画プレーヤー",
+          "h": "/category/video-players"
+        },
+        {
+          "t": "カスタマイズ",
+          "h": "/category/personalization"
+        },
+        {
+          "t": "仕事効率化",
+          "h": "/category/productivity"
+        },
+        {
+          "t": "スポーツ",
+          "h": "/category/sports"
+        },
+        {
+          "t": "教育",
+          "h": "/category/education"
+        },
+        {
+          "t": "ライフスタイル",
+          "h": "/category/lifestyle"
+        },
+        {
+          "t": "書籍・参考書",
+          "h": "/category/books-reference"
+        },
+        {
+          "t": "ショッピング",
+          "h": "/category/shopping"
+        },
+        {
+          "t": "ビジネス",
+          "h": "/category/business"
+        },
+        {
+          "t": "健康・フィットネス",
+          "h": "/category/health-fitness"
+        },
+        {
+          "t": "旅行・地域",
+          "h": "/category/travel-local"
+        },
+        {
+          "t": "フード・ドリンク",
+          "h": "/category/food-drink"
+        },
+        {
+          "t": "地図・ナビ",
+          "h": "/category/maps-navigation"
+        },
+        {
+          "t": "天気",
+          "h": "/category/weather"
+        },
+        {
+          "t": "ニュース・雑誌",
+          "h": "/category/news-magazines"
+        },
+        {
+          "t": "ファイナンス",
+          "h": "/category/finance"
+        },
+        {
+          "t": "APKCube",
+          "h": "/"
+        },
+        {
+          "t": "",
+          "h": "https://t.me/apkcube_official"
+        }
+      ],
+      "scripts": [
+        "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+        "/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "/_next/static/chunks/main-app-841089118be6d447.js",
+        "/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "/_next/static/chunks/9612-3df832c494def8f3.js",
+        "/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "/_next/static/chunks/1957-0c84874137f1f91f.js",
+        "/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-9fa3ae053f75747e.js"
+      ],
+      "btns": [
+        {
+          "t": "アプリを検索…⌘K",
+          "id": "base-ui-_R_3q9brdb_",
+          "cls": "flex h-9 items-center gap-2 rounded-full border border-border bg-muted px-2.5 text-sm text-muted-foreground transition-c"
+        },
+        {
+          "t": "ja",
+          "id": "base-ui-_R_dj9brdb_",
+          "cls": "flex h-9 items-center gap-1.5 rounded-full px-2.5 text-sm font-medium text-ink-2 transition-colors duration-150 hover:bg"
+        },
+        {
+          "t": "",
+          "id": "base-ui-_R_3s9brdb_",
+          "cls": "flex size-10 items-center justify-center rounded-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+        },
+        {
+          "t": "検索",
+          "id": "",
+          "cls": "inline-flex h-11 shrink-0 items-center gap-2 rounded-sm bg-brand px-4 text-sm font-medium whitespace-nowrap text-primary"
+        }
+      ],
+      "dialogs": [],
+      "iframes": [
+        null
+      ],
+      "nextData": ""
+    },
+    "htmlLen": 200000,
+    "htmlHead": "<html lang=\"ja\" dir=\"ltr\" translate=\"no\" class=\"__variable_f367f3 __variable_dd5b2f __variable_3c557b h-full antialiased\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" href=\"/_next/static/css/efb671ee01639ab1.css\" data-precedence=\"next\"><link rel=\"stylesheet\" href=\"/_next/static/css/2653aa2f76bb4346.css\" data-precedence=\"next\"><link rel=\"preload\" as=\"script\" fetchpriority=\"low\" href=\"/_next/static/chunks/webpack-9fa3ae053f75747e.js\"><script async=\"\" src=\"https://www.clarity.ms/tag/ydik9v9tab?ref=bwt\"></script><script src=\"/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3794-a7b87252aed4500e.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-841089118be6d447.js\" async=\"\"></script><script src=\"/_next/static/chunks/8500-607d51dc0d0415b3.js\" async=\"\"></script><script src=\"/_next/static/chunks/8409-381d7a3aa3d11a3a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3060-6c25ba352a6720f8.js\" async=\"\"></script><script src=\"/_next/static/chunks/7569-0ecbac8bf8b8c379.js\" async=\"\"></script><script src=\"/_next/static/chunks/8870-0d6710eb1bdaa72d.js\" async=\"\"></script><script src=\"/_next/static/chunks/8713-bfa1fdfdcef3ff79.js\" async=\"\"></script><script src=\"/_next/static/chunks/4641-8a76c27c84678bcf.js\" async=\"\"></script><script src=\"/_next/static/chunks/1304-0d3c31dbb1e0af4c.js\" async=\"\"></script><script src=\"/_next/static/chunks/9612-3df832c494def8f3.js\" async=\"\"></script><script src=\"/_next/static/chunks/6280-29e5bcdb4f4b972d.js\" async=\"\"></script><script src=\"/_next/static/chunks/3713-5e4f33055c857d7b.js\" async=\"\"></script><script src=\"/_next/static/chunks/3727-9f262bd0bcd6ad6a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3319-0bdd352f63a5bff7.js\" async=\"\"></script><script src=\"/_next/static/chunks/1957-0c84874137f1f91f.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout-4696ed37d1179cea.js\" async=\"\"></script><meta name=\"theme-color\" content=\"#3b6ce0\"><title>APKCube - Download APK for Android Apps &amp; Games</title><meta name=\"description\" content=\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\"><meta name=\"application-name\" content=\"APKCube\"><link rel=\"manifest\" href=\"/manifest.webmanifest\"><meta name=\"keywords\" content=\"APK download,APK downloader,Android apps,Android games,XAPK,OBB,old versions,free download\"><meta name=\"robots\" content=\"index, follow\"><meta name=\"googlebot\" content=\"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1\"><meta name=\"google\" content=\"notranslate\"><link rel=\"canonical\" href=\"https://apkcube.com\"><meta name=\"scrolllaunch-verify\" content=\"a817d2b56bc88bf4877d4d9a9ec109ca\"><meta property=\"og:title\" content=\"APKCube - Download APK for Android Apps &amp; Games\"><meta property=\"og:description\" content=\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\"><meta property=\"og:url\" content=\"https://apkcube.com\"><meta property=\"og:site_name\" content=\"APKCube\"><meta property=\"og:locale\" content=\"en_US\"><meta property=\"og:image\" content=\"https://apkcube.com/opengraph-image?a1ea5fcec5202190\"><meta property=\"og:image:type\" content=\"image/png\"><meta property=\"og:image:width\" content=\"1200\"><meta property=\"og:image:height\" content=\"630\"><meta property=\"og:image:alt\" content=\"APKCube - Download apps for Android\"><meta property=\"og:type\" content=\"website\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:title\" content=\"APKCube - Download APK for Android Apps &amp; Games\"><meta name=\"twitter:description\" content=\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\"><meta name=\"twitter:image\" content=\"https://apkcube.com/opengraph-image?a1ea5fcec5202190\"><meta name=\"twitter:image:alt\" content=\"APKCube - Download apps for Android\"><meta name=\"twitter:image:type\" content=\"image/png\"><meta name=\"twitter:image:width\" content=\"1200\"><meta name=\"twitter:image:height\" content=\"630\"><link rel=\"icon\" href=\"/favicon.ico\" type=\"image/x-icon\" sizes=\"16x16\"><link rel=\"icon\" href=\"/icon.svg\" type=\"image/svg+xml\" sizes=\"any\"><link rel=\"apple-touch-icon\" href=\"/apple-icon.png\" type=\"image/png\" sizes=\"180x180\"><meta name=\"next-size-adjust\" content=\"\"><script>(function(c,l,a,r,i,t,y){\n    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};\n    t=l.createElement(r);t.async=1;t.src=\"https://www.clarity.ms/tag/\"+i+\"?ref=bwt\";\n    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n})(window, document, \"clarity\", \"script\", \"ydik9v9tab\");</script><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" nomodule=\"\"></script><link rel=\"preload\" href=\"/_next/static/media/36966cca54120369-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"><link rel=\"preload\" href=\"/_next/static/media/bb3ef058b751a6ad-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"><link rel=\"preload\" href=\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"></head><body class=\"min-h-full flex flex-col\"><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"description\":\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://apkcube.com/search?q={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}}</script><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"logo\":\"https://apkcube.com/favicon.ico\"}</script><svg width=\"0\" height=\"0\" class=\"absolute\" aria-hidden=\"true\" focusable=\"false\"><symbol id=\"i-check\" viewBox=\"0 0 24 24\"><path d=\"M20 6 9 17l-5-5\"></path></symbol><symbol id=\"i-chevron-down\" viewBox=\"0 0 24 24\"><path d=\"m6 9 6 6 6-6\"></path></symbol><symbol id=\"i-chevron-right\" viewBox=\"0 0 24 24\"><path d=\"m9 18 6-6-6-6\"></path></symbol><symbol id=\"i-copy\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"></rect><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"></path></symbol><symbol id=\"i-file-down\" viewBox=\"0 0 24 24\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M12 18v-6\"></path><path d=\"m9 15 3 3 3-3\"></path></symbol><symbol id=\"i-info\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4\"></path><path d=\"M12 8h.01\"></path></symbol><symbol id=\"i-key-round\" viewBox=\"0 0 24 24\"><path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"></path><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle></symbol><symbol id=\"i-minus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path></symbol><symbol id=\"i-plus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></symbol><symbol id=\"i-shield-alert\" viewBox=\"0 0 24 24\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"></path><path d=\"M12 8v4\"></path><path d=\"M12 16h.01\"></path></symbol><symbol id=\"i-smartphone\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"></rect><path d=\"M12 18h.01\"></path></symbol><symbol id=\"i-weight\" viewBox=\"0 ",
+    "reqs": [
+      {
+        "url": "https://apkcube.com/",
+        "method": "GET",
+        "type": "Document"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/speculation",
+        "method": "GET",
+        "type": "Other"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      
+      
+      {
+        "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+        "method": "GET",
+        "type": "Stylesheet"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+        "method": "GET",
+        "type": "Stylesheet"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/9612-3df832c494def8f3.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1957-0c84874137f1f91f.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/page-cfb3c14c2ea970d2.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.HoYoverse.Nap?v=97rqp",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.konami.pesam?v=1orxzvl",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ea.gp.fifamobile?v=1g4u0xo",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.whatsapp?v=pvnsr0",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.roblox.client?v=1wgzhjb",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.twitter.android?v=a2178v",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mobile.legends?v=t1iwmj",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.oakever.meowdoku?v=euizoj",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.cyphergames.royalsmash?v=1rsyiki",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.grandgames.magicsort?v=557k2l",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.vitastudio.mahjong?v=1ibmk1z",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.nebula.mahjongtile?v=1cbut8w",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.block.juggle?v=tievlx",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.topgamesinc.evony?v=jozq3b",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mapquest.android.ace?v=18bg4s5",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ttmd.video?v=ht6ffs",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.zhiliaoapp.musically?v=1r9x2oq",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.newleaf.app.android.victor?v=4ssfce",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/fr.vinted?v=9bsveg",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://apkcube.com/manifest.webmanifest",
+        "method": "GET",
+        "type": "Manifest"
+      },
+      
+      {
+        "url": "https://apkcube.com/cdn-cgi/challenge-platform/scripts/jsd/main.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/challenge-platform/h/g/scripts/jsd/330e41bb475c/main.js?",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/challenge-platform/h/g/jsd/oneshot/330e41bb475c/0.7050488154645026:1788674710:FolFQiXax6N48jsVDLtn5c1RcpF_TseIP67cX6AZb8Y/a36b7f7a39010ef1",
+        "method": "POST",
+        "type": "XHR"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/icon.svg",
+        "method": "GET",
+        "type": "Other"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8703.58e05fbd0ba0394c.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ugc.tiktok.pro?v=n18gjr",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.oakever.arrows?v=wdp8ty",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.instagram.android?v=mvwwgj",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.fungames.blockcraft?v=3w026z",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.facebook.katana?v=lqupdw",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.vaultystudios.eightytwoand0?v=1hwjv28",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.enflick.android.TextNow?v=102utaw",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.Garawell.LoopSort?v=1sc5afo",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.einnovation.temu?v=idrb86",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.pocket.sort.coin.puzzle.game?v=5ov6dl",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.facebook.stella?v=1kqfr9z",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mystery.dumplings.asmr.unboxing.squishy?v=1c9yazo",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://apkcube.com/api/presence",
+        "method": "POST",
+        "type": "Fetch"
+      },
+      {
+        "url": "https://apkcube.com/icon-192.png",
+        "method": "GET",
+        "type": "Other"
+      }
+    ],
+    "resps": [
+      {
+        "url": "https://apkcube.com/",
+        "status": 200,
+        "mime": "text/html"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/speculation",
+        "status": 200,
+        "mime": "application/speculationrules+json"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+        "status": 200,
+        "mime": "text/css"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+        "status": 200,
+        "mime": "text/css"
+      },
+      
+      
+      {
+        "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/9612-3df832c494def8f3.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1957-0c84874137f1f91f.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/challenge-platform/h/g/scripts/jsd/330e41bb475c/main.js?",
+        "status": 200,
+        "mime": "application/javascript"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/challenge-platform/h/g/jsd/oneshot/330e41bb475c/0.7050488154645026:1788674710:FolFQiXax6N48jsVDLtn5c1RcpF_TseIP67cX6AZb8Y/a36b7f7a39010ef1",
+        "status": 200,
+        "mime": "text/plain"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/page-cfb3c14c2ea970d2.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8703.58e05fbd0ba0394c.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/icon.svg",
+        "status": 200,
+        "mime": "image/svg+xml"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.whatsapp?v=pvnsr0",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.roblox.client?v=1wgzhjb",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.konami.pesam?v=1orxzvl",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.twitter.android?v=a2178v",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ea.gp.fifamobile?v=1g4u0xo",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.HoYoverse.Nap?v=97rqp",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      
+      {
+        "url": "https://icons.apkcube.com/com.cyphergames.royalsmash?v=1rsyiki",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.grandgames.magicsort?v=557k2l",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.vitastudio.mahjong?v=1ibmk1z",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.oakever.meowdoku?v=euizoj",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.block.juggle?v=tievlx",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mapquest.android.ace?v=18bg4s5",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.nebula.mahjongtile?v=1cbut8w",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/fr.vinted?v=9bsveg",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.zhiliaoapp.musically?v=1r9x2oq",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ttmd.video?v=ht6ffs",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ugc.tiktok.pro?v=n18gjr",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.topgamesinc.evony?v=jozq3b",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.oakever.arrows?v=wdp8ty",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.fungames.blockcraft?v=3w026z",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.newleaf.app.android.victor?v=4ssfce",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.instagram.android?v=mvwwgj",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.vaultystudios.eightytwoand0?v=1hwjv28",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.einnovation.temu?v=idrb86",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.pocket.sort.coin.puzzle.game?v=5ov6dl",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/manifest.webmanifest",
+        "status": 200,
+        "mime": "application/manifest+json"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.facebook.katana?v=lqupdw",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.Garawell.LoopSort?v=1sc5afo",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.enflick.android.TextNow?v=102utaw",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mystery.dumplings.asmr.unboxing.squishy?v=1c9yazo",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.facebook.stella?v=1kqfr9z",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mobile.legends?v=t1iwmj",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/api/presence",
+        "status": 200,
+        "mime": "application/json"
+      },
+      {
+        "url": "https://apkcube.com/icon-192.png",
+        "status": 200,
+        "mime": "image/png"
+      }
+    ]
+  },
+  "detailUrl": "https://apkcube.com/apps",
+  "detail": {
+    "info": {
+      "url": "https://apkcube.com/apps",
+      "title": "Download Android Apps APK - Latest & Old Versions - APKCube",
+      "links": [
+        {
+          "t": "APKCube",
+          "h": "/"
+        },
+        {
+          "t": "アプリ",
+          "h": "/apps"
+        },
+        {
+          "t": "ゲーム",
+          "h": "/games"
+        },
+        {
+          "t": "カテゴリ",
+          "h": "/categories"
+        },
+        {
+          "t": "ニュース",
+          "h": "/news"
+        },
+        {
+          "t": "レビュー",
+          "h": "/reviews"
+        },
+        {
+          "t": "APKS インストーラー",
+          "h": "/apks-installer"
+        },
+        {
+          "t": "ホーム",
+          "h": "/"
+        },
+        {
+          "t": "ツール",
+          "h": "/category/tools"
+        },
+        {
+          "t": "エンタメ",
+          "h": "/category/entertainment"
+        },
+        {
+          "t": "コミュニケーション",
+          "h": "/category/communication"
+        },
+        {
+          "t": "ソーシャル",
+          "h": "/category/social"
+        },
+        {
+          "t": "音楽・オーディオ",
+          "h": "/category/music-audio"
+        },
+        {
+          "t": "写真",
+          "h": "/category/photography"
+        },
+        {
+          "t": "動画プレーヤー",
+          "h": "/category/video-players"
+        },
+        {
+          "t": "カスタマイズ",
+          "h": "/category/personalization"
+        },
+        {
+          "t": "仕事効率化",
+          "h": "/category/productivity"
+        },
+        {
+          "t": "スポーツ",
+          "h": "/category/sports"
+        },
+        {
+          "t": "教育",
+          "h": "/category/education"
+        },
+        {
+          "t": "ライフスタイル",
+          "h": "/category/lifestyle"
+        },
+        {
+          "t": "書籍・参考書",
+          "h": "/category/books-reference"
+        },
+        {
+          "t": "ショッピング",
+          "h": "/category/shopping"
+        },
+        {
+          "t": "ビジネス",
+          "h": "/category/business"
+        },
+        {
+          "t": "健康・フィットネス",
+          "h": "/category/health-fitness"
+        },
+        {
+          "t": "旅行・地域",
+          "h": "/category/travel-local"
+        },
+        {
+          "t": "フード・ドリンク",
+          "h": "/category/food-drink"
+        },
+        {
+          "t": "地図・ナビ",
+          "h": "/category/maps-navigation"
+        },
+        {
+          "t": "天気",
+          "h": "/category/weather"
+        },
+        {
+          "t": "ニュース・雑誌",
+          "h": "/category/news-magazines"
+        },
+        {
+          "t": "ファイナンス",
+          "h": "/category/finance"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/apps/hot"
+        },
+        {
+          "t": "ChatGPT↓ 1B+",
+          "h": "/chatgpt/com.openai.chatgpt"
+        },
+        {
+          "t": "MapQuest: Get Directions↓ 10M+",
+          "h": "/mapquest-get-directions/com.mapquest.android.ace"
+        },
+        {
+          "t": "PineDrama - Short Dramas↓ 50M+",
+          "h": "/pinedrama-short-dramas/com.ss.android.ttmd.video"
+        },
+        {
+          "t": "TikTok - Videos, Shop & LIVE↓ 1B+",
+          "h": "/tiktok-videos-shop-live/com.zhiliaoapp.musically"
+        },
+        {
+          "t": "ReelShort - Stream Drama & TV↓ 100M+",
+          "h": "/reelshort-stream-drama-tv/com.newleaf.app.android.victor"
+        },
+        {
+          "t": "WhatsApp Messenger↓ 10B+",
+          "h": "/whatsapp-messenger/com.whatsapp"
+        },
+        {
+          "t": "X↓ 1B+",
+          "h": "/x/com.twitter.android"
+        },
+        {
+          "t": "Vinted: Shop & sell pre-loved↓ 100M+",
+          "h": "/vinted-shop-sell-pre-loved/fr.vinted"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/apps/latest"
+        },
+        {
+          "t": "Totaltotal_1.0.175Sep 6, 2026 に更新",
+          "h": "/total/it.appideas.totaldownloader"
+        },
+        {
+          "t": "AirPlay Receiver & Server0.0.31Sep 6, 2026 に更新",
+          "h": "/airplay-receiver-server/io.github.jqssun.airplay"
+        },
+        {
+          "t": "ChildCareWeb CoNNect1.6.2Sep 6, 2026 に更新",
+          "h": "/childcareweb-connect/jp.childcareweb.app"
+        },
+        {
+          "t": "MariBank PH (SeaBank)3.27.0Sep 6, 2026 に更新",
+          "h": "/maribank-ph-seabank/ph.seabank.seabank"
+        },
+        {
+          "t": "Hero RideGuide8.38Sep 6, 2026 に更新",
+          "h": "/hero-rideguide/com.hero.rideguide"
+        },
+        {
+          "t": "PayPay5.65.0Sep 6, 2026 に更新",
+          "h": "/paypay/jp.ne.paypay.android.app"
+        },
+        {
+          "t": "محفظة الذهب1.0Sep 6, 2026 に更新",
+          "h": "/محفظة-الذهب/com.drbalata.goldwallet"
+        },
+        {
+          "t": "Gold Wallet2.2Sep 6, 2026 に更新",
+          "h": "/gold-wallet/com.goldwallet.app"
+        },
+        {
+          "t": "すべて見る →",
+          "h": "/apps/new"
+        },
+        {
+          "t": "Remote for Klipsch Soundbar↓ —",
+          "h": "/remote-for-klipsch-soundbar/com.allrcs.klipsch"
+        },
+        {
+          "t": "Remote for Roku Smart TV↓ —",
+          "h": "/remote-for-roku-smart-tv/com.allrcs.roku_remote_control"
+        },
+        {
+          "t": "Exchange rate. All currencies↓ —",
+          "h": "/exchange-rate-all-currencies/free.exrate.rivex"
+        },
+        {
+          "t": "RMK Loodusega koos↓ —",
+          "h": "/rmk-loodusega-koos/ee.rmk.app"
+        },
+        {
+          "t": "DKamping Village↓ —",
+          "h": "/dkamping-village/it.artemismedia.superguest.dkampingvillage.android"
+        },
+        {
+          "t": "Campersite Norway↓ —",
+          "h": "/campersite-norway/no.bobilguiden.android"
+        },
+        {
+          "t": "DKN Studio↓ —",
+          "h": "/dkn-studio/pl.loyaltyclub.dknstudio"
+        },
+        {
+          "t": "Konyks↓ —",
+          "h": "/konyks/com.konyks"
+        },
+        {
+          "t": "C6 Bank: Cartão, Conta e Mais!",
+          "h": "/search?q=C6%20Bank%3A%20Cart%C3%A3o%2C%20Conta%20e%20Mais!"
+        },
+        {
+          "t": "Theme",
+          "h": "/search?q=Theme"
+        },
+        {
+          "t": "Alight Motion",
+          "h": "/search?q=Alight%20Motion"
+        },
+        {
+          "t": "AMap Global",
+          "h": "/search?q=AMap%20Global"
+        },
+        {
+          "t": "ZBD: Play. Earn. Cash Out.",
+          "h": "/search?q=ZBD%3A%20Play.%20Earn.%20Cash%20Out."
+        },
+        {
+          "t": "SAI: Split APKs Installer",
+          "h": "/search?q=SAI%3A%20Split%20APKs%20Installer"
+        },
+        {
+          "t": "Temu: Shop Like a Billionaire",
+          "h": "/search?q=Temu%3A%20Shop%20Like%20a%20Billionaire"
+        },
+        {
+          "t": "TUTON",
+          "h": "/search?q=TUTON"
+        },
+        {
+          "t": "Wibuku - Nonton Anime",
+          "h": "/search?q=Wibuku%20-%20Nonton%20Anime"
+        },
+        {
+          "t": "VLC for Android",
+          "h": "/search?q=VLC%20for%20Android"
+        },
+        {
+          "t": "YTV Player Pro",
+          "h": "/search?q=YTV%20Player%20Pro"
+        },
+        {
+          "t": "PocketPal AI",
+          "h": "/search?q=PocketPal%20AI"
+        },
+        {
+          "t": "アドベンチャー",
+          "h": "/category/adventure"
+        },
+        {
+          "t": "アクション",
+          "h": "/category/action"
+        },
+        {
+          "t": "ロールプレイング",
+          "h": "/category/role-playing"
+        },
+        {
+          "t": "アーケード",
+          "h": "/category/arcade"
+        },
+        {
+          "t": "カジュアル",
+          "h": "/category/casual"
+        },
+        {
+          "t": "ストラテジー",
+          "h": "/category/strategy"
+        },
+        {
+          "t": "スポーツ",
+          "h": "/category/sports-games"
+        },
+        {
+          "t": "シミュレーション",
+          "h": "/category/simulation"
+        },
+        {
+          "t": "パズル",
+          "h": "/category/puzzle"
+        },
+        {
+          "t": "レース",
+          "h": "/category/racing"
+        },
+        {
+          "t": "トリビア",
+          "h": "/category/trivia"
+        },
+        {
+          "t": "言葉遊び",
+          "h": "/category/word"
+        },
+        {
+          "t": "ツール",
+          "h": "/category/tools"
+        },
+        {
+          "t": "エンタメ",
+          "h": "/category/entertainment"
+        },
+        {
+          "t": "コミュニケーション",
+          "h": "/category/communication"
+        },
+        {
+          "t": "ソーシャル",
+          "h": "/category/social"
+        },
+        {
+          "t": "音楽・オーディオ",
+          "h": "/category/music-audio"
+        },
+        {
+          "t": "写真",
+          "h": "/category/photography"
+        },
+        {
+          "t": "動画プレーヤー",
+          "h": "/category/video-players"
+        },
+        {
+          "t": "カスタマイズ",
+          "h": "/category/personalization"
+        },
+        {
+          "t": "仕事効率化",
+          "h": "/category/productivity"
+        },
+        {
+          "t": "スポーツ",
+          "h": "/category/sports"
+        },
+        {
+          "t": "教育",
+          "h": "/category/education"
+        },
+        {
+          "t": "ライフスタイル",
+          "h": "/category/lifestyle"
+        },
+        {
+          "t": "書籍・参考書",
+          "h": "/category/books-reference"
+        },
+        {
+          "t": "ショッピング",
+          "h": "/category/shopping"
+        },
+        {
+          "t": "ビジネス",
+          "h": "/category/business"
+        },
+        {
+          "t": "健康・フィットネス",
+          "h": "/category/health-fitness"
+        },
+        {
+          "t": "旅行・地域",
+          "h": "/category/travel-local"
+        },
+        {
+          "t": "フード・ドリンク",
+          "h": "/category/food-drink"
+        },
+        {
+          "t": "地図・ナビ",
+          "h": "/category/maps-navigation"
+        },
+        {
+          "t": "天気",
+          "h": "/category/weather"
+        },
+        {
+          "t": "ニュース・雑誌",
+          "h": "/category/news-magazines"
+        },
+        {
+          "t": "ファイナンス",
+          "h": "/category/finance"
+        },
+        {
+          "t": "APKCube",
+          "h": "/"
+        },
+        {
+          "t": "",
+          "h": "https://t.me/apkcube_official"
+        },
+        {
+          "t": "",
+          "h": "https://x.com/apkcube_com"
+        },
+        {
+          "t": "概要",
+          "h": "/about"
+        },
+        {
+          "t": "お問い合わせ",
+          "h": "/contact"
+        },
+        {
+          "t": "利用規約",
+          "h": "/terms"
+        },
+        {
+          "t": "プライバシー",
+          "h": "/privacy"
+        },
+        {
+          "t": "DMCA",
+          "h": "/dmca"
+        }
+      ],
+      "scripts": [
+        "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+        "/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "/_next/static/chunks/main-app-841089118be6d447.js",
+        "/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "/_next/static/chunks/9612-3df832c494def8f3.js",
+        "/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+        "/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "/_next/static/chunks/3654-d62538eca8fd73a4.js",
+        "/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "/_next/static/chunks/polyfills-42372ed130431b0a.js",
+        "/_next/static/chunks/webpack-9fa3ae053f75747e.js"
+      ],
+      "btns": [
+        {
+          "t": "アプリを検索…⌘K",
+          "id": "base-ui-_R_1t4lubrdb_",
+          "cls": "flex h-9 items-center gap-2 rounded-full border border-border bg-muted px-2.5 text-sm text-muted-foreground transition-c"
+        },
+        {
+          "t": "ja",
+          "id": "base-ui-_R_6pklubrdb_",
+          "cls": "flex h-9 items-center gap-1.5 rounded-full px-2.5 text-sm font-medium text-ink-2 transition-colors duration-150 hover:bg"
+        },
+        {
+          "t": "",
+          "id": "base-ui-_R_1u4lubrdb_",
+          "cls": "flex size-10 items-center justify-center rounded-sm hover:bg-muted focus-visible:outline-2 focus-visible:outline-ring"
+        }
+      ],
+      "dialogs": [],
+      "iframes": [],
+      "nextData": ""
+    },
+    "htmlLen": 200000,
+    "htmlHead": "<html lang=\"ja\" dir=\"ltr\" translate=\"no\" class=\"__variable_f367f3 __variable_dd5b2f __variable_3c557b h-full antialiased\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"><link rel=\"stylesheet\" href=\"/_next/static/css/efb671ee01639ab1.css\" data-precedence=\"next\"><link rel=\"stylesheet\" href=\"/_next/static/css/2653aa2f76bb4346.css\" data-precedence=\"next\"><link rel=\"preload\" as=\"script\" fetchpriority=\"low\" href=\"/_next/static/chunks/webpack-9fa3ae053f75747e.js\"><script async=\"\" src=\"https://www.clarity.ms/tag/ydik9v9tab?ref=bwt\"></script><script src=\"/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3794-a7b87252aed4500e.js\" async=\"\"></script><script src=\"/_next/static/chunks/main-app-841089118be6d447.js\" async=\"\"></script><script src=\"/_next/static/chunks/8500-607d51dc0d0415b3.js\" async=\"\"></script><script src=\"/_next/static/chunks/8409-381d7a3aa3d11a3a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3060-6c25ba352a6720f8.js\" async=\"\"></script><script src=\"/_next/static/chunks/7569-0ecbac8bf8b8c379.js\" async=\"\"></script><script src=\"/_next/static/chunks/8870-0d6710eb1bdaa72d.js\" async=\"\"></script><script src=\"/_next/static/chunks/8713-bfa1fdfdcef3ff79.js\" async=\"\"></script><script src=\"/_next/static/chunks/4641-8a76c27c84678bcf.js\" async=\"\"></script><script src=\"/_next/static/chunks/1304-0d3c31dbb1e0af4c.js\" async=\"\"></script><script src=\"/_next/static/chunks/9612-3df832c494def8f3.js\" async=\"\"></script><script src=\"/_next/static/chunks/6280-29e5bcdb4f4b972d.js\" async=\"\"></script><script src=\"/_next/static/chunks/2810-db3ac567bb77c5fe.js\" async=\"\"></script><script src=\"/_next/static/chunks/3713-5e4f33055c857d7b.js\" async=\"\"></script><script src=\"/_next/static/chunks/3727-9f262bd0bcd6ad6a.js\" async=\"\"></script><script src=\"/_next/static/chunks/3319-0bdd352f63a5bff7.js\" async=\"\"></script><script src=\"/_next/static/chunks/3654-d62538eca8fd73a4.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js\" async=\"\"></script><script src=\"/_next/static/chunks/app/layout-4696ed37d1179cea.js\" async=\"\"></script><meta name=\"theme-color\" content=\"#3b6ce0\"><title>Download Android Apps APK - Latest &amp; Old Versions - APKCube</title><meta name=\"description\" content=\"Download free APK files for popular Android apps: the latest builds, hot and newly released titles, old versions kept, every file signature-verified first.\"><meta name=\"application-name\" content=\"APKCube\"><link rel=\"manifest\" href=\"/manifest.webmanifest\"><meta name=\"keywords\" content=\"APK download,APK downloader,Android apps,Android games,XAPK,OBB,old versions,free download\"><meta name=\"robots\" content=\"index, follow\"><meta name=\"googlebot\" content=\"index, follow, max-video-preview:-1, max-image-preview:large, max-snippet:-1\"><meta name=\"google\" content=\"notranslate\"><link rel=\"canonical\" href=\"https://apkcube.com/apps\"><meta property=\"og:title\" content=\"Download Android Apps APK - Latest &amp; Old Versions\"><meta property=\"og:description\" content=\"Download free APK files for popular Android apps: the latest builds, hot and newly released titles, old versions kept, every file signature-verified first.\"><meta property=\"og:url\" content=\"https://apkcube.com/apps\"><meta property=\"og:site_name\" content=\"APKCube\"><meta property=\"og:locale\" content=\"en_US\"><meta property=\"og:image\" content=\"https://apkcube.com/opengraph-image\"><meta property=\"og:image:type\" content=\"image/png\"><meta property=\"og:image:width\" content=\"1200\"><meta property=\"og:image:height\" content=\"630\"><meta property=\"og:image:alt\" content=\"APKCube - Download apps for Android\"><meta property=\"og:type\" content=\"website\"><meta name=\"twitter:card\" content=\"summary_large_image\"><meta name=\"twitter:title\" content=\"Download Android Apps APK - Latest &amp; Old Versions\"><meta name=\"twitter:description\" content=\"Download free APK files for popular Android apps: the latest builds, hot and newly released titles, old versions kept, every file signature-verified first.\"><meta name=\"twitter:image\" content=\"https://apkcube.com/opengraph-image\"><meta name=\"twitter:image:alt\" content=\"APKCube - Download apps for Android\"><meta name=\"twitter:image:type\" content=\"image/png\"><meta name=\"twitter:image:width\" content=\"1200\"><meta name=\"twitter:image:height\" content=\"630\"><link rel=\"icon\" href=\"/favicon.ico\" type=\"image/x-icon\" sizes=\"16x16\"><link rel=\"icon\" href=\"/icon.svg\" type=\"image/svg+xml\" sizes=\"any\"><link rel=\"apple-touch-icon\" href=\"/apple-icon.png\" type=\"image/png\" sizes=\"180x180\"><meta name=\"next-size-adjust\" content=\"\"><script>(function(c,l,a,r,i,t,y){\n    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};\n    t=l.createElement(r);t.async=1;t.src=\"https://www.clarity.ms/tag/\"+i+\"?ref=bwt\";\n    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);\n})(window, document, \"clarity\", \"script\", \"ydik9v9tab\");</script><script src=\"/_next/static/chunks/polyfills-42372ed130431b0a.js\" nomodule=\"\"></script><link rel=\"preload\" href=\"/_next/static/media/36966cca54120369-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"><link rel=\"preload\" href=\"/_next/static/media/bb3ef058b751a6ad-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"><link rel=\"preload\" href=\"/_next/static/media/e4af272ccee01ff0-s.p.woff2\" as=\"font\" crossorigin=\"\" type=\"font/woff2\"></head><body class=\"min-h-full flex flex-col\"><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"WebSite\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"description\":\"Download free APK files for Android apps and games. Latest releases, old versions, XAPK and OBB — every file signature-verified before it goes live.\",\"potentialAction\":{\"@type\":\"SearchAction\",\"target\":{\"@type\":\"EntryPoint\",\"urlTemplate\":\"https://apkcube.com/search?q={search_term_string}\"},\"query-input\":\"required name=search_term_string\"}}</script><script type=\"application/ld+json\">{\"@context\":\"https://schema.org\",\"@type\":\"Organization\",\"name\":\"APKCube\",\"url\":\"https://apkcube.com\",\"logo\":\"https://apkcube.com/favicon.ico\"}</script><svg width=\"0\" height=\"0\" class=\"absolute\" aria-hidden=\"true\" focusable=\"false\"><symbol id=\"i-check\" viewBox=\"0 0 24 24\"><path d=\"M20 6 9 17l-5-5\"></path></symbol><symbol id=\"i-chevron-down\" viewBox=\"0 0 24 24\"><path d=\"m6 9 6 6 6-6\"></path></symbol><symbol id=\"i-chevron-right\" viewBox=\"0 0 24 24\"><path d=\"m9 18 6-6-6-6\"></path></symbol><symbol id=\"i-copy\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"14\" x=\"8\" y=\"8\" rx=\"2\" ry=\"2\"></rect><path d=\"M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2\"></path></symbol><symbol id=\"i-file-down\" viewBox=\"0 0 24 24\"><path d=\"M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z\"></path><path d=\"M14 2v5a1 1 0 0 0 1 1h5\"></path><path d=\"M12 18v-6\"></path><path d=\"m9 15 3 3 3-3\"></path></symbol><symbol id=\"i-info\" viewBox=\"0 0 24 24\"><circle cx=\"12\" cy=\"12\" r=\"10\"></circle><path d=\"M12 16v-4\"></path><path d=\"M12 8h.01\"></path></symbol><symbol id=\"i-key-round\" viewBox=\"0 0 24 24\"><path d=\"M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z\"></path><circle cx=\"16.5\" cy=\"7.5\" r=\".5\" fill=\"currentColor\"></circle></symbol><symbol id=\"i-minus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path></symbol><symbol id=\"i-plus\" viewBox=\"0 0 24 24\"><path d=\"M5 12h14\"></path><path d=\"M12 5v14\"></path></symbol><symbol id=\"i-shield-alert\" viewBox=\"0 0 24 24\"><path d=\"M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z\"></path><path d=\"M12 8v4\"></path><path d=\"M12 16h.01\"></path></symbol><symbol id=\"i-smartphone\" viewBox=\"0 0 24 24\"><rect width=\"14\" height=\"20\" x=\"5\" y=\"2\" rx=\"2\" ry=\"2\"></rect><path d=\"M12 18h.01\"></path></symbol><symbol id=\"i-weig",
+    "reqs": [
+      {
+        "url": "https://apkcube.com/apps",
+        "method": "GET",
+        "type": "Document"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/speculation",
+        "method": "GET",
+        "type": "Other"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+        "method": "GET",
+        "type": "Font"
+      },
+      
+      
+      {
+        "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+        "method": "GET",
+        "type": "Stylesheet"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+        "method": "GET",
+        "type": "Stylesheet"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/9612-3df832c494def8f3.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3654-d62538eca8fd73a4.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/apps/page-c01e3145754f0c9e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mapquest.android.ace?v=18bg4s5",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ttmd.video?v=ht6ffs",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.zhiliaoapp.musically?v=1r9x2oq",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.newleaf.app.android.victor?v=4ssfce",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.whatsapp?v=pvnsr0",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.twitter.android?v=a2178v",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/fr.vinted?v=9bsveg",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/it.appideas.totaldownloader?v=1364uku",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/io.github.jqssun.airplay?v=1175gze",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.childcareweb.app?v=1jd00cv",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/ph.seabank.seabank?v=edvv8k",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.hero.rideguide?v=1cqytzi",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.ne.paypay.android.app?v=1ds8ndf",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.drbalata.goldwallet?v=1ywum87",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.goldwallet.app?v=5fi7ll",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.allrcs.klipsch?v=hjrqcp",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.allrcs.roku_remote_control?v=1qaq3je",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/free.exrate.rivex?v=vh45e9",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/ee.rmk.app?v=1yrqc0f",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/it.artemismedia.superguest.dkampingvillage.android?v=dry3hd",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/no.bobilguiden.android?v=q6ojcr",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/pl.loyaltyclub.dknstudio?v=1dk49s3",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.konyks?v=1tw8t5i",
+        "method": "GET",
+        "type": "Image"
+      },
+      {
+        "url": "https://apkcube.com/manifest.webmanifest",
+        "method": "GET",
+        "type": "Manifest"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+        "method": "GET",
+        "type": "Script"
+      },
+      {
+        "url": "https://apkcube.com/api/presence",
+        "method": "POST",
+        "type": "Fetch"
+      },
+      {
+        "url": "https://apkcube.com/icon-192.png",
+        "method": "GET",
+        "type": "Other"
+      }
+    ],
+    "resps": [
+      {
+        "url": "https://apkcube.com/apps",
+        "status": 200,
+        "mime": "text/html"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+        "status": 200,
+        "mime": "font/woff2"
+      },
+      
+      {
+        "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+        "status": 200,
+        "mime": "text/css"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+        "status": 200,
+        "mime": "text/css"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/9612-3df832c494def8f3.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/cdn-cgi/speculation",
+        "status": 200,
+        "mime": "application/speculationrules+json"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      
+      {
+        "url": "https://apkcube.com/_next/static/chunks/3654-d62538eca8fd73a4.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.mapquest.android.ace?v=18bg4s5",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.ss.android.ttmd.video?v=ht6ffs",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.zhiliaoapp.musically?v=1r9x2oq",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.newleaf.app.android.victor?v=4ssfce",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.whatsapp?v=pvnsr0",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.twitter.android?v=a2178v",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/fr.vinted?v=9bsveg",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/manifest.webmanifest",
+        "status": 200,
+        "mime": "application/manifest+json"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.ne.paypay.android.app?v=1ds8ndf",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/it.appideas.totaldownloader?v=1364uku",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.hero.rideguide?v=1cqytzi",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.drbalata.goldwallet?v=1ywum87",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/app/apps/page-c01e3145754f0c9e.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+        "status": 200,
+        "mime": "text/javascript"
+      },
+      {
+        "url": "https://icons.apkcube.com/io.github.jqssun.airplay?v=1175gze",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/icon-192.png",
+        "status": 200,
+        "mime": "image/png"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.goldwallet.app?v=5fi7ll",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/ph.seabank.seabank?v=edvv8k",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/free.exrate.rivex?v=vh45e9",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/it.artemismedia.superguest.dkampingvillage.android?v=dry3hd",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/pl.loyaltyclub.dknstudio?v=1dk49s3",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://apkcube.com/api/presence",
+        "status": 200,
+        "mime": "application/json"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.allrcs.roku_remote_control?v=1qaq3je",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.konyks?v=1tw8t5i",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/com.allrcs.klipsch?v=hjrqcp",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/jp.childcareweb.app?v=1jd00cv",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/ee.rmk.app?v=1yrqc0f",
+        "status": 200,
+        "mime": "image/webp"
+      },
+      {
+        "url": "https://icons.apkcube.com/no.bobilguiden.android?v=q6ojcr",
+        "status": 200,
+        "mime": "image/webp"
+      }
+    ]
+  }
+}

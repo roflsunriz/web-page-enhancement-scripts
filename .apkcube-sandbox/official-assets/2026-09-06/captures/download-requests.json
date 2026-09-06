@@ -1,0 +1,431 @@
+{
+  "reqs": [
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/cdn-cgi/speculation",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+      "method": "GET"
+    },
+    
+    
+    {
+      "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/5142-5fbb1e25f3298bf3.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/5206-07d6d778bf9e5c15.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1957-0c84874137f1f91f.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4704-150458f110a137c9.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/7603-2304d7b76398518d.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1529-564ad2b0508b041d.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/%5Bslug%5D/%5BappId%5D/download/page-5fcb0d299d567e0a.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/loader.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://www.clarity.ms/tag/ydik9v9tab?ref=bwt",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/manifest.webmanifest",
+      "method": "GET"
+    },
+    {
+      "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+      "method": "GET"
+    },
+    {
+      "url": "blob:https://apkcube.com/3cfe5676-490e-444c-93be-d9f27a185ea2",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/api/presence",
+      "method": "POST"
+    },
+    {
+      "url": "https://apkcube.com/api/apps/com.openai.chatgpt/apks?k=U93zAGGYdUKuKfv5n3cigV",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/ads/banner-ad.js",
+      "method": "GET"
+    },
+    {
+      "url": "https://adexchangerapid.com/ad/czcf.php?cz=w23ppihooj&atv=87.0&chu=%22Chromium%22%3Bv%3D152%2C%20%22Not%3FA_Brand%22%3Bv%3D24%2C%20%22Google%20Chrome%22%3Bv%3D152&chmob=%3F0&chp=Windows&chpv=19.0.0&chuafv=152.0.7977.77",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/icon-192.png",
+      "method": "GET"
+    },
+    {
+      "url": "https://skecaaztypvqr.space/6f5eb72863d9?qRjlPtF88DIL0joXMgtW8kDf=YXR2PTg3LjAmY2hwPVdpbmRvd3MmY2h1YWZ2PTE1Mi4wLjc5NzcuNzcmY2htb2I9JTNGMCZzYWRibD0yJmN6PXcyM3BwaWhvb2omY2hwdj0xOS4wLjAmY2h1PSUyMkNocm9taXVtJTIyJTNCdiUzRDE1MiUyQyUyMCUyMk5vdCUzRkFfQnJhbmQlMjIlM0J2JTNEMjQlMkMlMjAlMjJHb29nbGUlMjBDaHJvbWUlMjIlM0J2JTNEMTUyJmZtdD1hdGc%3D",
+      "method": "GET"
+    },
+    {
+      "url": "https://usrpubtrk.com/ut/hb.php?cb=0.860390950450307&v=1",
+      "method": "POST"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=jXX9HXmW_SuYmJvA",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=zG-e_E2_SfxuVDuL",
+      "method": "GET"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=efIkIpdxc2gvkyT0",
+      "method": "GET"
+    }
+  ],
+  "resps": [
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download",
+      "status": 200,
+      "mime": "text/html"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/css/efb671ee01639ab1.css",
+      "status": 200,
+      "mime": "text/css"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/css/2653aa2f76bb4346.css",
+      "status": 200,
+      "mime": "text/css"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/36966cca54120369-s.p.woff2",
+      "status": 200,
+      "mime": "font/woff2"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/bb3ef058b751a6ad-s.p.woff2",
+      "status": 200,
+      "mime": "font/woff2"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/media/e4af272ccee01ff0-s.p.woff2",
+      "status": 200,
+      "mime": "font/woff2"
+    },
+    
+    {
+      "url": "https://apkcube.com/cdn-cgi/speculation",
+      "status": 200,
+      "mime": "application/speculationrules+json"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/webpack-9fa3ae053f75747e.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4bd1b696-8a4ab4fdf0ae305a.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3794-a7b87252aed4500e.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/main-app-841089118be6d447.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8500-607d51dc0d0415b3.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8409-381d7a3aa3d11a3a.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3060-6c25ba352a6720f8.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/7569-0ecbac8bf8b8c379.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8870-0d6710eb1bdaa72d.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/8713-bfa1fdfdcef3ff79.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4641-8a76c27c84678bcf.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1304-0d3c31dbb1e0af4c.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/5142-5fbb1e25f3298bf3.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/6280-29e5bcdb4f4b972d.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/2810-db3ac567bb77c5fe.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3713-5e4f33055c857d7b.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3727-9f262bd0bcd6ad6a.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/3319-0bdd352f63a5bff7.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/5206-07d6d778bf9e5c15.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1957-0c84874137f1f91f.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/4704-150458f110a137c9.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/7603-2304d7b76398518d.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    
+    {
+      "url": "https://apkcube.com/_next/static/chunks/1529-564ad2b0508b041d.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/%5Bslug%5D/%5BappId%5D/download/page-5fcb0d299d567e0a.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/global-error-ff6ceb72709e9d4e.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/app/layout-4696ed37d1179cea.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/loader.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://icons.apkcube.com/com.openai.chatgpt?v=1ks0sqx",
+      "status": 200,
+      "mime": "image/webp"
+    },
+    {
+      "url": "https://apkcube.com/manifest.webmanifest",
+      "status": 200,
+      "mime": "application/manifest+json"
+    },
+    {
+      "url": "https://apkcube.com/_next/static/chunks/747.1ede82d7ce5387c6.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/api/presence",
+      "status": 200,
+      "mime": "application/json"
+    },
+    {
+      "url": "https://apkcube.com/icon-192.png",
+      "status": 200,
+      "mime": "image/png"
+    },
+    {
+      "url": "https://skecaaztypvqr.space/6f5eb72863d9?qRjlPtF88DIL0joXMgtW8kDf=YXR2PTg3LjAmY2hwPVdpbmRvd3MmY2h1YWZ2PTE1Mi4wLjc5NzcuNzcmY2htb2I9JTNGMCZzYWRibD0yJmN6PXcyM3BwaWhvb2omY2hwdj0xOS4wLjAmY2h1PSUyMkNocm9taXVtJTIyJTNCdiUzRDE1MiUyQyUyMCUyMk5vdCUzRkFfQnJhbmQlMjIlM0J2JTNEMjQlMkMlMjAlMjJHb29nbGUlMjBDaHJvbWUlMjIlM0J2JTNEMTUyJmZtdD1hdGc%3D",
+      "status": 500,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/ads/banner-ad.js",
+      "status": 200,
+      "mime": "text/javascript"
+    },
+    {
+      "url": "https://apkcube.com/api/apps/com.openai.chatgpt/apks?k=U93zAGGYdUKuKfv5n3cigV",
+      "status": 200,
+      "mime": "application/json"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=zG-e_E2_SfxuVDuL",
+      "status": 200,
+      "mime": "text/x-component"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=efIkIpdxc2gvkyT0",
+      "status": 200,
+      "mime": "text/x-component"
+    },
+    {
+      "url": "https://apkcube.com/chatgpt/com.openai.chatgpt/download?_rsc=jXX9HXmW_SuYmJvA",
+      "status": 200,
+      "mime": "text/x-component"
+    }
+  ]
+}

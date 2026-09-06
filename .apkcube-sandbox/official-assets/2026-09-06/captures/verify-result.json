@@ -1,0 +1,28 @@
+{
+  "checks": {
+    "probeHasMarker": true,
+    "bait": {
+      "blocked": false,
+      "dims": {
+        "h": 10,
+        "w": 10,
+        "display": "block"
+      }
+    },
+    "adOpenBlocked": true,
+    "adCssPresent": true,
+    "hasFocus": true,
+    "hidden": false
+  },
+  "clickRes": {
+    "clicked": true,
+    "opened": [],
+    "adblockModal": false,
+    "paused": false,
+    "countdown": [],
+    "dialogs": [
+      "確認してダウンロード人間であることの簡単な確認です。終わり次第すぐにダウンロードが始まります。ChatGPT_1.2026.230_apkcube.apks長押しして確認リングがいっぱいになるまで長押しし、それから離してください。 スペースキーでも操作できます。Close"
+    ]
+  },
+  "adReqs": []
+}
