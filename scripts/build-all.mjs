@@ -11,6 +11,7 @@ const configFile = resolve(projectRoot, 'vite.config.ts');
 // アルファベット順
 const targets = [
   { mode: 'apkcube-direct-download', clear: false },
+  { mode: 'bilibili-jp-localize', clear: false },
   { mode: 'chatgpt-notify', clear: false },
   { mode: 'd-anime', clear: false },
   { mode: 'd-anime-cf-ranking', clear: false },

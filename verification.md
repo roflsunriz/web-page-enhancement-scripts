@@ -1,5 +1,24 @@
 # 検証手順と対策
 
+## bilibili-jp-localize
+
+### 辞書の根拠と検証
+
+辞書（`src/bilibili-jp-localize/dictionary.ts`）はCDPで取得した実DOMが根拠（2026-09-08取得）。
+
+1. 動画視聴ページ `https://www.bilibili.com/video/BV1Lbt36cEoH/`（未ログイン、約800文言）
+2. 公開アカウントページ `https://space.bilibili.com/1024544274`（未ログイン）
+3. アカウントセンター `https://account.bilibili.com/account/home`（ログイン済み、デバッグ用Chromeでユーザーが手動ログイン）
+
+`account.bilibili.com` は未ログインだと空表示のため、ログイン後の取得が必須。動画タイトル・コメント・弾幕などのユーザー投稿内容は翻訳対象にしない（完全一致のUI定型文と両端固定の正規表現だけを使う）。
+
+検証時は次を確認する。
+
+- `bun test src/bilibili-jp-localize/dictionary.test.mjs` が成功する。
+- ビルド成果物のメタデータが `1.0.0` になっている。
+- 実ブラウザ（CDP）でビルド済み userscript を `Page.addScriptToEvaluateOnNewDocument` で注入し、動画ページを開き直すと、ナビ・操作ボタン・弾幕設定・タイトル接尾辞（`_哔哩哔哩_bilibili` → `_ビリビリ_bilibili`）が日本語化され、未翻訳のUI定型文が残らない。
+- ログインモーダルは遅延描画かつログイン済みプロファイルでは描画されないため、実ブラウザでは未検証。辞書収録と単体テストで担保する。
+
 ## apkcube-direct-download
 
 ### ダウンロード導線の特定

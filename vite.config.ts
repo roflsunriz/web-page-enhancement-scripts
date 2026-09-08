@@ -76,6 +76,27 @@ const apkcubeDirectDownloadMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/apkcube-direct-download.user.js',
 };
 
+const bilibiliJpLocalizeMeta: MonkeyUserScript = {
+  name: 'bilibili-jp-localize',
+  namespace: 'bilibiliJpLocalize',
+  version: '1.0.0',
+  description:
+    'bilibiliの動画視聴ページとアカウントページのUIを日本語化',
+  author: 'roflsunriz',
+  match: [
+    'https://www.bilibili.com/*',
+    'https://space.bilibili.com/*',
+    'https://account.bilibili.com/*',
+  ],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=bilibili.com',
+  'run-at': 'document-idle',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/bilibili-jp-localize.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/bilibili-jp-localize.user.js',
+};
+
 const chatgptNotifyMeta: MonkeyUserScript = {
   name: 'chat-gpt-notify',
   namespace: 'chatGptNotify',
@@ -639,6 +660,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'apkcube-direct-download.user.js',
     meta: apkcubeDirectDownloadMeta,
   },
+  'bilibili-jp-localize': {
+    entry: 'src/bilibili-jp-localize/main.ts',
+    fileName: 'bilibili-jp-localize.user.js',
+    meta: bilibiliJpLocalizeMeta,
+  },
   'chatgpt-notify': {
     entry: 'src/chatgpt-notify/main.ts',
     fileName: 'chatgpt-notify.user.js',
@@ -779,6 +805,7 @@ export default defineConfig((configEnv) => {
       alias: {
         '@': resolve(dir, 'src'),
         '@/apkcube-direct-download': resolve(dir, 'src/apkcube-direct-download'),
+        '@/bilibili-jp-localize': resolve(dir, 'src/bilibili-jp-localize'),
         '@/chatgpt-notify': resolve(dir, 'src/chatgpt-notify'),
         '@/d-anime': resolve(dir, 'src/d-anime'),
         '@/d-anime-cf-ranking': resolve(dir, 'src/d-anime-cf-ranking'),

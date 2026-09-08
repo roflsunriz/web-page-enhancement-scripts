@@ -23,6 +23,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 ## プロジェクト構成
 
+- `src/bilibili-jp-localize` は `bilibili-jp-localize.user.js` を編集するためのプロジェクト。
 - `src/d-anime` は `d-anime-nico-comment-renderer.user.js` を編集するためのプロジェクト。
 - `src/d-anime-cf-ranking` は `d-anime-cf-ranking.user.js` を編集するためのプロジェクト。
 - `src/chatgpt-notify` は `chatgpt-notify.user.js` を編集するためのプロジェクト。
@@ -70,3 +71,10 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 - 取得済み公式資産は `.d-anime-sandbox/official-assets/<YYYY-MM-DD>/` に世代ディレクトリで置く（Git 管理対象、`.apkcube-sandbox` と同型）。`chunks/` が生ファイル、`formatted/` が整形済み、各世代の `MANIFEST.md` が対応表。
 - 世代の正本は `test-fixtures/d-anime/official-assets-manifest.json`（`assetDirectory` が現行世代を指す）。更新時は取得スクリプトを再実行し、旧世代ディレクトリを消さずに残す。運用方針は `.d-anime-sandbox/official-assets/README.md` に従う。
+
+## bilibili 日本語化の知見（2026-09-08 確認）
+
+- `bilibili.com` の動画ページは bot 判定（HTTP 412）で素の fetch が失敗するため、実 DOM の取得は CDP 経由の実ブラウザで行う。WebFetch での事前取得はトップページのナビ文言程度に留める。
+- `account.bilibili.com/account/home` は未ログインだと空表示のため、デバッグ用 Chrome（画面あり）でユーザーが手動ログインしてから CDP で文言を採取する。認証操作はユーザーの手で行い、エージェントはログイン状態を変更しない。
+- 翻訳スクリプト自体が表示原文に依存するため、共通ルール「表示言語に依存したセレクターを使わない」の対象外とする。安定化策として、ユーザー投稿内容（動画タイトル・コメント・弾幕）には反応しない完全一致辞書＋両端固定の正規表現に限定し、構造セレクターは使わない。
+- ログインモーダルは遅延描画かつログイン済みプロファイルでは描画されないため、実ブラウザ検証の対象外とし、辞書収録と単体テストで担保する（`verification.md` の該当節を参照）。
