@@ -79,7 +79,7 @@ const apkcubeDirectDownloadMeta: MonkeyUserScript = {
 const bilibiliJpLocalizeMeta: MonkeyUserScript = {
   name: 'bilibili-jp-localize',
   namespace: 'bilibiliJpLocalize',
-  version: '1.2.0',
+  version: '1.3.0',
   description:
     'bilibiliの動画・検索・公開アカウント・設定ページのUIを日本語化',
   author: 'roflsunriz',

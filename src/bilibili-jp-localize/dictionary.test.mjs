@@ -18,6 +18,9 @@ describe("bilibili日本語化の辞書", () => {
     expect(DICTIONARY["置顶"]).toBe("ピン留め");
     expect(DICTIONARY["获赞数"]).toBe("獲得いいね数");
     expect(DICTIONARY["帮助中心"]).toBe("ヘルプセンター");
+    expect(DICTIONARY["我的大会员"]).toBe("マイプレミアム会員");
+    expect(DICTIONARY["硬币记录"]).toBe("コイン履歴");
+    expect(DICTIONARY["登录记录"]).toBe("ログイン履歴");
   });
 
   test("200件以上のUI定型文を持つ", () => {
@@ -51,6 +54,8 @@ describe("translateText", () => {
     expect(translateText("22人正在看")).toBe("22人が視聴中");
     expect(translateText("关注 12.5万")).toBe("フォロー 12.5万");
     expect(translateText("8月17日 · 投稿了视频")).toBe("8月17日に動画を投稿");
+    expect(translateText("硬币:0")).toBe("コイン:0");
+    expect(translateText("0粉丝")).toBe("ファン0");
   });
 
   test("ユーザー投稿内容には反応しない", () => {
