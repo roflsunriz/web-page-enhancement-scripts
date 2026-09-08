@@ -1,6 +1,8 @@
 import { DICTIONARY, REGEX_RULES } from "./dictionary";
+import { injectLocalizedFont } from "./font";
 
 export const TRANSLATED_ATTRIBUTE = "data-bilibili-jp-localize";
+const TRANSLATED_VALUE = "translated";
 
 const SKIP_TAGS = new Set([
   "SCRIPT",
@@ -41,6 +43,12 @@ export function translateText(raw: string): string | null {
   return null;
 }
 
+function markTranslated(element: Element): void {
+  if (element.getAttribute(TRANSLATED_ATTRIBUTE) !== TRANSLATED_VALUE) {
+    element.setAttribute(TRANSLATED_ATTRIBUTE, TRANSLATED_VALUE);
+  }
+}
+
 function translateAttributes(element: Element): void {
   if (!(element instanceof HTMLElement)) {
     return;
@@ -53,6 +61,7 @@ function translateAttributes(element: Element): void {
     const translated = translateText(value);
     if (translated !== null && translated !== value) {
       element.setAttribute(name, translated);
+      markTranslated(element);
     }
   }
 }
@@ -66,6 +75,9 @@ function translateTextNode(node: Text): void {
     return;
   }
   node.nodeValue = translated;
+  if (node.parentElement) {
+    markTranslated(node.parentElement);
+  }
 }
 
 function shouldSkip(element: Element): boolean {
@@ -120,33 +132,40 @@ function scheduleTranslate(): void {
   scheduled = true;
   window.requestAnimationFrame(() => {
     scheduled = false;
-    translateTree(document.body ?? document.documentElement);
-    translateTitle();
+    translateNow();
   });
 }
 
 /**
- * SPA の遅延描画に追従するため MutationObserver で再翻訳する。
+ * 現在の DOM 全体を即時に日本語化する。SPA の画面遷移直後にも使う。
  */
-export function startTranslator(): void {
+export function translateNow(): void {
   translateTree(document.body ?? document.documentElement);
   translateTitle();
+}
+
+/**
+ * SPA 全体（body 差し替え・head の title 書き換え・遅延描画）に追従する。
+ * documentElement を監視するため SPA 遷移で監視が外れることはない。
+ */
+export function startTranslator(): void {
+  injectLocalizedFont();
+  translateNow();
   if (!document.body) {
     document.addEventListener(
       "DOMContentLoaded",
       () => {
-        translateTree(document.body);
-        translateTitle();
-        observeBody();
+        translateNow();
+        observeDocument();
       },
       { once: true },
     );
     return;
   }
-  observeBody();
+  observeDocument();
 }
 
-function observeBody(): void {
+function observeDocument(): void {
   const observer = new MutationObserver((mutations) => {
     let touched = false;
     for (const mutation of mutations) {
@@ -169,19 +188,11 @@ function observeBody(): void {
       scheduleTranslate();
     }
   });
-  const body = document.body;
-  if (!body) {
-    return;
-  }
-  observer.observe(body, {
+  observer.observe(document.documentElement, {
     childList: true,
     subtree: true,
     characterData: true,
     attributes: true,
     attributeFilter: [...TARGET_ATTRIBUTES],
-  });
-  observer.observe(document.documentElement, {
-    childList: true,
-    subtree: false,
   });
 }

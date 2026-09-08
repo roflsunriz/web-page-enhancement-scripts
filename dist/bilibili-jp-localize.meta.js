@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         bilibili-jp-localize
 // @namespace    bilibiliJpLocalize
-// @version      1.0.0
+// @version      1.1.0
 // @author       roflsunriz
 // @description  bilibiliの動画視聴ページとアカウントページのUIを日本語化
 // @license      MIT

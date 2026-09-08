@@ -3,7 +3,7 @@
 - `apkcube-direct-download.user.js`
   - apkcube.com のダウンロード導線に被さる広告ブロッカー検出の待ち時間ダイアログ（30秒カウントダウン）、ポップアップ、外部広告通信、広告スロットを抑止し、利用者の1クリックから検証・ダウンロードへ直行できるようにします。不正対策の人間検証（Turnstile・長押し・PoW）の突破やダウンロードの自動開始は行いません。
 - `bilibili-jp-localize.user.js`
-  - bilibiliの動画視聴ページ（`www.bilibili.com/video/*`）、公開アカウントページ（`space.bilibili.com/*`）、アカウントセンター（`account.bilibili.com/*`）のUI定型文を日本語化します。動画タイトル・コメント・弾幕などのユーザー投稿内容は翻訳しません。Tampermonkeyメニューから日本語化のON/OFFを切り替えられます。
+  - bilibiliの動画視聴ページ（`www.bilibili.com/video/*`）、公開アカウントページ（`space.bilibili.com/*`）、アカウントセンター（`account.bilibili.com/*`）のUI定型文を日本語化します。動画タイトル・コメント・弾幕などのユーザー投稿内容は翻訳しません。日本語化した箇所にはNoto Sans JP優先の専用フォントを適用します。SPAの画面遷移（履歴操作・おすすめ動画クリック）にも追従して再翻訳します。Tampermonkeyメニューから日本語化のON/OFFを切り替えられます。
 - `chatgpt-notify.user.js`
   - ChatGPT の生成完了を検知してデスクトップ通知や音声で知らせます。設定メニューから通知・サウンドのオン/オフや音量・カスタム音声の指定が可能です。設定 UI と通知文言は日本語、英語、中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語に対応します。
 

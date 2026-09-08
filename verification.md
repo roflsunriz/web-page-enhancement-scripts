@@ -14,9 +14,11 @@
 
 検証時は次を確認する。
 
-- `bun test src/bilibili-jp-localize/dictionary.test.mjs` が成功する。
-- ビルド成果物のメタデータが `1.0.0` になっている。
+- `bun test src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs` が成功する。
+- ビルド成果物のメタデータが `1.1.0` になっている。
 - 実ブラウザ（CDP）でビルド済み userscript を `Page.addScriptToEvaluateOnNewDocument` で注入し、動画ページを開き直すと、ナビ・操作ボタン・弾幕設定・タイトル接尾辞（`_哔哩哔哩_bilibili` → `_ビリビリ_bilibili`）が日本語化され、未翻訳のUI定型文が残らない。
+- 日本語化済み要素に `data-bilibili-jp-localize="translated"` が付き、計算フォントが Noto Sans JP 優先スタックになる。
+- おすすめ動画リンクのクリックによるSPA遷移後も、リロードなしで遷移先のUIが日本語化される。
 - ログインモーダルは遅延描画かつログイン済みプロファイルでは描画されないため、実ブラウザでは未検証。辞書収録と単体テストで担保する。
 
 ## apkcube-direct-download

@@ -1,6 +1,7 @@
 import { getValue, registerMenuCommand, setValue } from "@/shared/userscript";
 import { format, t } from "./i18n";
-import { startTranslator } from "./translator";
+import { installSpaNavigationHook } from "./spa";
+import { startTranslator, translateNow } from "./translator";
 
 const SCRIPT_ID = "bilibili-jp-localize";
 const ENABLED_KEY = `${SCRIPT_ID}.enabled`;
@@ -33,6 +34,9 @@ function initialize(): void {
     return;
   }
   startTranslator();
+  installSpaNavigationHook(() => {
+    translateNow();
+  });
 }
 
 if (document.readyState === "loading") {
