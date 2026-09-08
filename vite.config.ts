@@ -79,14 +79,15 @@ const apkcubeDirectDownloadMeta: MonkeyUserScript = {
 const bilibiliJpLocalizeMeta: MonkeyUserScript = {
   name: 'bilibili-jp-localize',
   namespace: 'bilibiliJpLocalize',
-  version: '1.1.0',
+  version: '1.2.0',
   description:
-    'bilibiliの動画視聴ページとアカウントページのUIを日本語化',
+    'bilibiliの動画・検索・公開アカウント・設定ページのUIを日本語化',
   author: 'roflsunriz',
   match: [
     'https://www.bilibili.com/*',
     'https://space.bilibili.com/*',
     'https://account.bilibili.com/*',
+    'https://search.bilibili.com/*',
   ],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   icon: 'https://www.google.com/s2/favicons?sz=64&domain=bilibili.com',

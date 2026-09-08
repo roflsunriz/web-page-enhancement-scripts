@@ -9,14 +9,17 @@
 1. 動画視聴ページ `https://www.bilibili.com/video/BV1Lbt36cEoH/`（未ログイン、約800文言）
 2. 公開アカウントページ `https://space.bilibili.com/1024544274`（未ログイン）
 3. アカウントセンター `https://account.bilibili.com/account/home`（ログイン済み、デバッグ用Chromeでユーザーが手動ログイン）
+4. 検索結果ページ `https://search.bilibili.com/all`・`/video?keyword=初音`（ログイン済み）
+5. space タブ遷移先 `/upload/video`・`/dynamic`（ログイン済み、`/favlist` は非公開時ホームへ転送のため対象外）
 
 `account.bilibili.com` は未ログインだと空表示のため、ログイン後の取得が必須。動画タイトル・コメント・弾幕などのユーザー投稿内容は翻訳対象にしない（完全一致のUI定型文と両端固定の正規表現だけを使う）。
 
 検証時は次を確認する。
 
 - `bun test src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs` が成功する。
-- ビルド成果物のメタデータが `1.1.0` になっている。
+- ビルド成果物のメタデータが `1.2.0` になっている。
 - 実ブラウザ（CDP）でビルド済み userscript を `Page.addScriptToEvaluateOnNewDocument` で注入し、動画ページを開き直すと、ナビ・操作ボタン・弾幕設定・タイトル接尾辞（`_哔哩哔哩_bilibili` → `_ビリビリ_bilibili`）が日本語化され、未翻訳のUI定型文が残らない。
+- 検索結果ページと space ダイナミクスページでも同様に注入検証し、タブ・絞り込み・ページネーション・ピン留め等の日本語化と未翻訳残存ゼロを確認する。
 - 日本語化済み要素に `data-bilibili-jp-localize="translated"` が付き、計算フォントが Noto Sans JP 優先スタックになる。
 - おすすめ動画リンクのクリックによるSPA遷移後も、リロードなしで遷移先のUIが日本語化される。
 - ログインモーダルは遅延描画かつログイン済みプロファイルでは描画されないため、実ブラウザでは未検証。辞書収録と単体テストで担保する。
