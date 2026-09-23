@@ -7,6 +7,7 @@
 - `actionlint` で変更した workflow を検査し、`bun audit` の既知脆弱性 0 件を確認する。実際の Dependabot PR のマージ経路は PR 発生時に検証する。
 - 2026-09-23 の設定変更では Bun 1.4.0 の固定インストール、lint、型検査、全ビルド、39件の単体テスト、オフラインの切替検証、NicoManga 画像回帰を確認した。管理設定だけの変更にするため、format/build が再生成したユーザースクリプト本体と `dist/` はコミット対象に含めない。
 - 分類後の `workflow_dispatch` は現在の PR 番号と head SHA を照合する。別の作成者、古い SHA、未完了の CI はマージしない。
+- [main の CI 実行 35815411156](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/runs/35815411156) は、オフライン漫画ビューア回帰テストが中間フレームを5秒内に観測できず初回失敗した。同じコミットの失敗ジョブだけを一度再実行したところ成功した。製品コードと期待値は変更せず、再発時は保存された最終 spread・`lastStarted`・変異観測の経路を比較する。
 
 ## bilibili-jp-localize
 

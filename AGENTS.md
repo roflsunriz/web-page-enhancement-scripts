@@ -67,6 +67,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 - `scripts/nicomanga-image-collection-regression.mjs` は完全オフラインの hermetic フィクスチャ。nicomanga.com の URL は `page.route("**/*")` で全充足する識別子であり、外部サーバーへの実通信は発生しない。未知要求も 204 で空充足する。
 - ページめくり中間状態の観測はタイマーポーリングだけに頼らない。WebGL カール用 Canvas の style 監視に加え、従来描画経路の中間フレーム（`.mv-flip-page` の class/style 書き換え）を `.mv-flip-book` 全体の MutationObserver で同期観測する。WebGL 無効環境の高解像度 CI で取り逃がしタイムアウトが再発した教訓（`captureMangaViewerPageTurnAnimation`）。
+- 2026-09-23 に同じコミットの CI で漫画ビューアの中間フレーム観測が初回だけ5秒でタイムアウトし、失敗ジョブ1回の再実行では成功した。再発時は `scripts/nicomanga-image-collection-regression.mjs` の最終 spread と `__pageFlipDebug.lastStarted`、MutationObserver の観測を照合し、テスト無効化や期待値緩和をしない（`verification.md`）。
 
 ## dアニメストア公式資産の世代管理
 
