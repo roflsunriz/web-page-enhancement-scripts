@@ -6,7 +6,7 @@
       "name": "web-page-enhancement-scripts",
       "dependencies": {
         "@mdi/js": "7.4.47",
-        "comment-overlay": "^4.1.4",
+        "comment-overlay": "^4.1.6",
         "fflate": "^0.8.3",
         "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.3.0/page-flip-2-0.3.0.tgz",
         "react": "^19.2.8",
@@ -214,7 +214,7 @@
 
     "bundle-name": ["bundle-name@4.1.0", "", { "dependencies": { "run-applescript": "^7.0.0" } }, "sha512-tjwM5exMg6BGRI+kNmTntNsvdZS1X8BFYS6tnJ2hdH0kVxM6/eVZ2xy+FqStSWvYmtfFMDLIxurorHwDKfDz5Q=="],
 
-    "comment-overlay": ["comment-overlay@4.1.4", "", {}, "sha512-D6n+hSTtssI3PEAz+ZFUxc2Lzg0gORbGq7xN9H6x4Em6yodIKJfd5eBvlFWckzGE2500jU+nIQJpgthSyk0Y2g=="],
+    "comment-overlay": ["comment-overlay@4.1.6", "", {}, "sha512-L2WRRQu0Ki1EUzEoJaf3eHlstClH7qb9RULsaoocFKAAmUKpqfccrzBWmBfrf5QNz4efPTcH6P/cd4rd4GwTmw=="],
 
     "cross-spawn": ["cross-spawn@7.0.6", "", { "dependencies": { "path-key": "^3.1.0", "shebang-command": "^2.0.0", "which": "^2.0.1" } }, "sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA=="],
 
