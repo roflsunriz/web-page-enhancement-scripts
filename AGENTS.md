@@ -56,6 +56,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - 複数スクリプトのバージョンを同時に上げた場合も、各スクリプトの節にそれぞれ該当バージョンの内容を書く。
 
 ## apkcube.com 対応の知見（2026-09-06 確認）
+
 - 詳細ページは `https://apkcube.com/<slug>/<appId>`、ダウンロードページは `https://apkcube.com/<slug>/<appId>/download`。
 - APK 一覧は `GET /api/apps/<packageId>/apks?k=<token>`、実行は `POST /api/downloads/request` → `{url}` → `window.location.assign(url)`。公式バンドルは `1529`（実行フロー `V`）、`5206`（API 呼び出し）、`4704`（Turnstile・長押し・PoW）、`6280`（広告設定 `adblockWaitSeconds:30`）。
 - 検出二本立て: `fetch("/ads/banner-ad.js")` の応答マーカー `__ad_probe_ok__` と、`#ad-banner.adsbox...` の bait 計測。非表示 CSS で bait のクラス・ID を隠すと自ら検出を引き起こすため、広告非表示は配信ドメイン由来の要素だけを対象にする（`src/apkcube-direct-download/selectors.test.mjs` で衝突を検査）。
@@ -68,6 +69,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - `scripts/nicomanga-image-collection-regression.mjs` は完全オフラインの hermetic フィクスチャ。nicomanga.com の URL は `page.route("**/*")` で全充足する識別子であり、外部サーバーへの実通信は発生しない。未知要求も 204 で空充足する。
 - ページめくり中間状態の観測はタイマーポーリングだけに頼らない。WebGL カール用 Canvas の style 監視に加え、従来描画経路の中間フレーム（`.mv-flip-page` の class/style 書き換え）を `.mv-flip-book` 全体の MutationObserver で同期観測する。WebGL 無効環境の高解像度 CI で取り逃がしタイムアウトが再発した教訓（`captureMangaViewerPageTurnAnimation`）。
 - 2026-09-23 に同じコミットの CI で漫画ビューアの中間フレーム観測が初回だけ5秒でタイムアウトし、失敗ジョブ1回の再実行では成功した。再発時は `scripts/nicomanga-image-collection-regression.mjs` の最終 spread と `__pageFlipDebug.lastStarted`、MutationObserver の観測を照合し、テスト無効化や期待値緩和をしない（`verification.md`）。
+- その後、別コミットでは初回と失敗ジョブ再実行の両方で同じ観測タイムアウトが発生した。最終 spread が正しい場合に限り、元の見開きへ戻して最大3回の再観測を行う。中間フレームの形状検査は成功した観測結果に対して必ず実施する。
 
 ## dアニメストア公式資産の世代管理
 

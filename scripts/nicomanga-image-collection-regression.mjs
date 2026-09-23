@@ -649,6 +649,51 @@ async function captureMangaViewerPageTurnAnimation(
   direction,
   expectedPageFileNames,
 ) {
+  for (let attempt = 1; attempt <= 3; attempt += 1) {
+    try {
+      return await captureMangaViewerPageTurnAnimationOnce(
+        page,
+        direction,
+        expectedPageFileNames,
+      );
+    } catch (error) {
+      if (
+        attempt === 3 ||
+        !error?.cause?.message?.includes(
+          "Timed out while observing the page turn",
+        )
+      ) {
+        throw error;
+      }
+
+      const spread = await page.evaluate(() => getMangaViewerSpreadState());
+      const [initialLeft, initialRight, finalLeft, finalRight] =
+        expectedPageFileNames;
+      if (
+        spread.left?.includes(finalLeft) &&
+        spread.right?.includes(finalRight)
+      ) {
+        await turnMangaViewerPage(
+          page,
+          direction === "next" ? "previous" : "next",
+        );
+        await waitForMangaViewerSpread(page, initialLeft, initialRight);
+      } else if (
+        !spread.left?.includes(initialLeft) ||
+        !spread.right?.includes(initialRight)
+      ) {
+        throw error;
+      }
+    }
+  }
+  throw new Error("Page turn animation retry loop exhausted");
+}
+
+async function captureMangaViewerPageTurnAnimationOnce(
+  page,
+  direction,
+  expectedPageFileNames,
+) {
   try {
     return await page.evaluate(
       ({ key, expectedPageFileNames }) => {
