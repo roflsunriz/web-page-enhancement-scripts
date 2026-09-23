@@ -36,3 +36,5 @@ bun run check:d-anime-version
 - ビルド生成物に問題がある場合は、生成元を修正してから `bun run build` を再実行します。
 - `d-anime` のメタデータと設定画面のバージョンが一致しない場合は、`vite.config.ts` の対象 `version` とバージョン注入設定を確認し、`src/d-anime/config/default-settings.ts` へ固定値を書き戻さずに修正します。
 - 依存関係を変更した場合は、`bun.lock` の差分を確認し、問題があれば依存関係の変更を取り消して再検証します。
+
+CI 完了より Dependabot の分類が遅れる場合は、`callback_workflow_file` が指す呼び出し側 workflow を `workflow_dispatch` し、同じ PR 番号・head SHA・全チェックを再確認する。呼び出し側のファイル名を変える際はこの入力も一緒に更新する。
