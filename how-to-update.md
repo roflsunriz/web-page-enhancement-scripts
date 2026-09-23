@@ -5,6 +5,8 @@
 - Bun 1.3.8 以上を使用します。
 - 作業前に `git status --short` で未コミット変更を確認します。
 
+管理設定だけを変更する場合は、個別スクリプトの版を動かさず `package.json` のリポジトリ版だけを上げます。PR 用 CI は `bun install --frozen-lockfile` と `bun audit` を使用し、`PR Quick Checks` も Bun で lint と型検査を行います。`.github/workflows/dependabot-automation.yml` の共通処理 SHA と実際の CI 名を確認し、`actionlint` と PR のチェック結果で検証します。問題があれば設定コミットを revert し、取り込まれた依存更新は通常の revert コミットで戻します。
+
 ## 通常更新
 
 1. 対象スクリプトのソースを更新します。

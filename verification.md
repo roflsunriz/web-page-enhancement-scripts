@@ -1,5 +1,12 @@
 # 検証手順と対策
 
+## Dependabot 自動処理（2026-09-23）
+
+- `.github/dependabot.yml` の Bun／GitHub Actions 監視先と、呼び出し側の `CI`／`PR Quick Checks` 名を確認する。
+- 既存の `PR Quick Checks` は npm lockfile がないのに `npm ci` を実行していたため、Bun の固定 lockfile と同じ lint・型検査へ変更した。`CI` は固定インストールと `bun audit` を実行する。
+- `actionlint` で変更した workflow を検査し、`bun audit` の既知脆弱性 0 件を確認する。実際の Dependabot PR のマージ経路は PR 発生時に検証する。
+- 2026-09-23 の設定変更では Bun 1.4.0 の固定インストール、lint、型検査、全ビルド、39件の単体テスト、オフラインの切替検証、NicoManga 画像回帰を確認した。管理設定だけの変更にするため、format/build が再生成したユーザースクリプト本体と `dist/` はコミット対象に含めない。
+
 ## bilibili-jp-localize
 
 ### 辞書の根拠と検証

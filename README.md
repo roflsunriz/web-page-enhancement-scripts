@@ -173,3 +173,7 @@ CI / PR Checks
 
 - **CI**: `main` ブランチへの push および PR で `lint` / `type-check` / `build` を実行します。
 - **PR Quick Checks**: PR 作成時に `lint` と `type-check` を早期に検出します。
+
+## 依存更新の自動処理
+
+`.github/dependabot.yml` は Bun と GitHub Actions の更新を毎週確認します。Dependabot の patch／minor PR は `CI` と `PR Quick Checks` を含む全 PR チェックの成功後に自動で squash merge されます。失敗ジョブは 1 回再実行し、修復できない PR と major 更新は手動で確認します。PR Quick Checks も Bun の固定 lockfile を使用します。
