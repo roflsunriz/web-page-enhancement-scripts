@@ -70,6 +70,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - ページめくり中間状態の観測はタイマーポーリングだけに頼らない。WebGL カール用 Canvas の style 監視に加え、従来描画経路の中間フレーム（`.mv-flip-page` の class/style 書き換え）を `.mv-flip-book` 全体の MutationObserver で同期観測する。WebGL 無効環境の高解像度 CI で取り逃がしタイムアウトが再発した教訓（`captureMangaViewerPageTurnAnimation`）。
 - 2026-09-23 に同じコミットの CI で漫画ビューアの中間フレーム観測が初回だけ5秒でタイムアウトし、失敗ジョブ1回の再実行では成功した。再発時は `scripts/nicomanga-image-collection-regression.mjs` の最終 spread と `__pageFlipDebug.lastStarted`、MutationObserver の観測を照合し、テスト無効化や期待値緩和をしない（`verification.md`）。
 - その後、別コミットでは初回と失敗ジョブ再実行の両方で同じ観測タイムアウトが発生した。最終 spread が正しい場合に限り、元の見開きへ戻して最大3回の再観測を行う。中間フレームの形状検査は成功した観測結果に対して必ず実施する。
+- Dependabot PR は `pull_request` イベントの `GITHUB_TOKEN` がラベル書き込みを拒否するため、ラベル付けは `pull_request_target` で PR コードをチェックアウトせず、明示した `issues: write`／`pull-requests: write` 権限で実行する。該当ラベルのない `chore(deps)` は正常終了させ、CI 成功後の自動処理を不要に止めない。
 
 ## dアニメストア公式資産の世代管理
 

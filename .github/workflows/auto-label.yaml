@@ -3,23 +3,28 @@ name: Auto Label Issues
 on:
   issues:
     types: [opened, edited]
-  pull_request:
+  pull_request_target:
     types: [opened, edited, reopened, synchronize]
+
+permissions:
+  issues: write
+  pull-requests: write
 
 jobs:
   label:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v7
-
-      - name: Auto label
-        uses: actions-ecosystem/action-add-labels@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          labels: |
-            bug: "bug"
-            feature: "enhancement"
-            docs: "documentation"
+      - name: Label issue or pull request by title
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
+          ITEM_NUMBER: ${{ github.event.issue.number || github.event.pull_request.number }}
+          ITEM_TITLE: ${{ github.event.issue.title || github.event.pull_request.title }}
+        run: |
+          title="${ITEM_TITLE,,}"
+          case "$title" in
+            bug:*|bug\(*|fix:*|fix\(*) label=bug ;;
+            feat:*|feat\(*|feature:*|feature\(*) label=enhancement ;;
+            docs:*|docs\(*|doc:*|doc\(*) label=documentation ;;
+            *) exit 0 ;;
+          esac
+          gh api -X POST "repos/$GITHUB_REPOSITORY/issues/$ITEM_NUMBER/labels" -f "labels[]=$label" >/dev/null
