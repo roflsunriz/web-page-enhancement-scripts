@@ -7,6 +7,8 @@
 
 管理設定だけを変更する場合は、個別スクリプトの版を動かさず `package.json` のリポジトリ版だけを上げます。PR 用 CI は `bun install --frozen-lockfile` と `bun audit` を使用し、`PR Quick Checks` も Bun で lint と型検査を行います。`.github/workflows/dependabot-automation.yml` の共通処理 SHA と実際の CI 名を確認し、`actionlint` と PR のチェック結果で検証します。問題があれば設定コミットを revert し、取り込まれた依存更新は通常の revert コミットで戻します。
 
+分類が CI より遅れる場合は `callback_workflow_file` が指す呼び出し側 workflow を `workflow_dispatch` し、同じ PR 番号・head SHA・全チェックを再確認します。ファイル名を変更するときはこの入力も一緒に更新します。
+
 ## 通常更新
 
 1. 対象スクリプトのソースを更新します。
@@ -36,5 +38,3 @@ bun run check:d-anime-version
 - ビルド生成物に問題がある場合は、生成元を修正してから `bun run build` を再実行します。
 - `d-anime` のメタデータと設定画面のバージョンが一致しない場合は、`vite.config.ts` の対象 `version` とバージョン注入設定を確認し、`src/d-anime/config/default-settings.ts` へ固定値を書き戻さずに修正します。
 - 依存関係を変更した場合は、`bun.lock` の差分を確認し、問題があれば依存関係の変更を取り消して再検証します。
-
-CI 完了より Dependabot の分類が遅れる場合は、`callback_workflow_file` が指す呼び出し側 workflow を `workflow_dispatch` し、同じ PR 番号・head SHA・全チェックを再確認する。呼び出し側のファイル名を変える際はこの入力も一緒に更新する。

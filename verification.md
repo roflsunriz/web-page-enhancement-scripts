@@ -6,6 +6,7 @@
 - 既存の `PR Quick Checks` は npm lockfile がないのに `npm ci` を実行していたため、Bun の固定 lockfile と同じ lint・型検査へ変更した。`CI` は固定インストールと `bun audit` を実行する。
 - `actionlint` で変更した workflow を検査し、`bun audit` の既知脆弱性 0 件を確認する。実際の Dependabot PR のマージ経路は PR 発生時に検証する。
 - 2026-09-23 の設定変更では Bun 1.4.0 の固定インストール、lint、型検査、全ビルド、39件の単体テスト、オフラインの切替検証、NicoManga 画像回帰を確認した。管理設定だけの変更にするため、format/build が再生成したユーザースクリプト本体と `dist/` はコミット対象に含めない。
+- 分類後の `workflow_dispatch` は現在の PR 番号と head SHA を照合する。別の作成者、古い SHA、未完了の CI はマージしない。
 
 ## bilibili-jp-localize
 
@@ -74,5 +75,3 @@ Yahoo!メールの公式配信バンドルをde-minifyし、次の描画経路�
 - ビルド成果物のCSSに `#tagYadsInterstitial` が含まれる。
 - Yahoo!メールの一覧表示、メール詳細、作成画面の操作を妨げない。
 - 全画面広告の描画対象になった場合も、広告と背景オーバーレイが表示されず、操作可能な画面がそのまま残る。
-
-大量の Dependabot PR により CI 完了より分類が遅れる場合でも、分類後の `workflow_dispatch` が現在の PR 番号と head SHA を照合して再評価する。別の作成者、古い SHA、未完了の CI はマージしない。
