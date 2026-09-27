@@ -77,6 +77,12 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - 取得済み公式資産は `.d-anime-sandbox/official-assets/<YYYY-MM-DD>/` に世代ディレクトリで置く（Git 管理対象、`.apkcube-sandbox` と同型）。`chunks/` が生ファイル、`formatted/` が整形済み、各世代の `MANIFEST.md` が対応表。
 - 世代の正本は `test-fixtures/d-anime/official-assets-manifest.json`（`assetDirectory` が現行世代を指す）。更新時は取得スクリプトを再実行し、旧世代ディレクトリを消さずに残す。運用方針は `.d-anime-sandbox/official-assets/README.md` に従う。
 
+## YouTube UI Modifier の起動と待機（2026-09-27 確認）
+
+- `document-start` では `documentElement` 自体がない場合があり、コンストラクター内のスタイル挿入が同期例外になる。`main.ts` はDOM準備後に構築し、コンストラクターの失敗も捕捉する。回帰検証は `scripts/youtube-ui-modifier-regression.mjs`。
+- 視聴ページのSPA遷移では前の動画のDOMが残るため、単なる要素存在では準備完了としない。`page-readiness.ts` は表示中の視聴コンテナー内の `ytd-watch-metadata[video-id]` とURLの `v` の一致、タイトルの描画を確認する。待機中も保存済み設定と設定メニューを維持する。
+- Issue #8のユーザー環境は全スクリプトとuBlock Originの併用。漫画ビューアはYouTubeをメタデータで除外している。検証では実際の適用対象のみを組み合わせ、Firefoxの実利用プロファイルを変更せず分離する。実測結果と未確認条件は `verification.md` に記載する。
+
 ## bilibili 日本語化の知見（2026-09-08 確認）
 
 - `bilibili.com` の動画ページは bot 判定（HTTP 412）で素の fetch が失敗するため、実 DOM の取得は CDP 経由の実ブラウザで行う。WebFetch での事前取得はトップページのナビ文言程度に留める。

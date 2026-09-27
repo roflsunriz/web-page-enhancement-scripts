@@ -339,7 +339,7 @@ const khinsiderDirectLinkSaverMeta: MonkeyUserScript = {
 const mangaViewerMeta: MonkeyUserScript = {
   name: 'book-style-manga-viewer',
   namespace: 'bookStyleMangaViewer',
-  version: '10.23.2',
+  version: '10.23.3',
   description: 'Layout images in book style viewer with keyboard controls.',
   author: 'roflsunriz',
   match: ['*://*/*'],
@@ -633,7 +633,7 @@ const youtubeInfoCopierMeta: MonkeyUserScript = {
 const youtubeUiModifierMeta: MonkeyUserScript = {
   name: 'youtube-ui-modifier',
   namespace: 'youtubeUiModifier',
-  version: '1.8.7',
+  version: '1.8.8',
   description: 'YouTubeのおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルからリアルタイムに表示調整',
   author: 'roflsunriz',
   match: [

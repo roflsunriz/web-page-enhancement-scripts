@@ -1,6 +1,6 @@
 {
   "name": "web-page-enhancement-scripts",
-  "version": "2.5.23",
+  "version": "2.5.24",
   "packageManager": "bun@1.3.8",
   "private": true,
   "type": "module",
@@ -39,7 +39,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && bun run check:d-anime-version",
+    "test": "bun test src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && node scripts/youtube-ui-modifier-regression.mjs && bun run check:d-anime-version",
     "type-check": "tsc --noEmit"
   },
   "keywords": [
@@ -61,19 +61,19 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@types/greasemonkey": "^4.0.7",
-    "@types/node": "^26.6.2",
+    "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.2.3",
-    "@types/tampermonkey": "^5.0.5",
-    "eslint": "^10.8.0",
+    "@types/react-dom": "^19.3.0",
+    "@types/tampermonkey": "^5.5.0",
+    "eslint": "^10.11.0",
     "playwright": "^1.63.0",
-    "prettier": "^3.9.6",
-    "react-refresh": "^0.18.0",
+    "prettier": "^3.9.9",
+    "react-refresh": "^0.19.0",
     "systemjs": "^6.15.1",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.65.0",
-    "vite": "^8.1.5",
-    "vite-plugin-monkey": "^8.1.0",
+    "typescript-eslint": "^8.70.1",
+    "vite": "^8.3.1",
+    "vite-plugin-monkey": "^8.1.1",
     "zod": "^4.6.5"
   },
   "dependencies": {
@@ -82,6 +82,6 @@
     "fflate": "^0.8.3",
     "page-flip-2": "https://github.com/roflsunriz/page-flip-2/releases/download/v0.3.0/page-flip-2-0.3.0.tgz",
     "react": "^19.3.0",
-    "react-dom": "^19.2.8"
+    "react-dom": "^19.3.0"
   }
 }

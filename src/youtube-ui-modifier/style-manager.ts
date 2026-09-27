@@ -22,7 +22,10 @@ export class StyleManager {
   }
 
   public apply(settings: YoutubeUiModifierSettings): void {
-    this.styleElement.textContent = this.createCss(settings);
+    const css = this.createCss(settings);
+    if (this.styleElement.textContent !== css) {
+      this.styleElement.textContent = css;
+    }
   }
 
   private findOrCreateStyle(id: string): HTMLStyleElement {

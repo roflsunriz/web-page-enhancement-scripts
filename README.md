@@ -1,8 +1,8 @@
 web-page-enhancement-scripts
 ================================
 [![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/release.yaml/badge.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/release.yaml)
-[![Lint](https://img.shields.io/badge/lint-eslint9-blue?logo=eslint&logoColor=white)](https://eslint.org/)
-[![TypeScript](https://img.shields.io/badge/types-TypeScript%205.x-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Lint](https://img.shields.io/badge/lint-ESLint-blue?logo=eslint&logoColor=white)](https://eslint.org/)
+[![TypeScript](https://img.shields.io/badge/types-TypeScript-3178c6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/pulls)
 [![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml/badge.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml)
@@ -124,7 +124,7 @@ bun dev:manga-viewer
 すべての userscript をビルドして `dist/` に出力するには：
 
 ```bash
-bun build
+bun run build
 ```
 
 コード品質チェック
@@ -151,13 +151,15 @@ bun format       # prettier --write src/**/*.ts
 貢献
 ----
 
+[開発への参加](CONTRIBUTING.md)、[行動規範](CODE_OF_CONDUCT.md)、[サポート](SUPPORT.md)、[セキュリティ報告](SECURITY.md) を参照してください。
+
 PR 前に以下を実行してください：
 
 ```bash
 bun install
 bun type-check
 bun lint
-bun build
+bun run build
 ```
 
 ライセンス
@@ -171,7 +173,7 @@ CI / PR Checks
 
 このリポジトリは GitHub Actions を使った CI と PR Checksを提供します。
 
-- **CI**: `main` ブランチへの push および PR で `lint` / `type-check` / `build` を実行します。
+- **CI**: `main` ブランチへの push および PR で依存関係監査、`lint` / `type-check` / `test` / `build` を実行します。
 - **PR Quick Checks**: PR 作成時に `lint` と `type-check` を早期に検出します。
 
 ## 依存更新の自動処理

@@ -27,6 +27,8 @@ bun run build
 bun run test
 ```
 
+`bun run test` は Chrome を使ったオフラインの YouTube UI Modifier 回帰テストも実行します。早期起動、動画情報の遅延描画、前の動画のDOMが残る遷移、設定切り替え、複数画面幅を確認します。単独実行は `node scripts/youtube-ui-modifier-regression.mjs` です。実サイトでの併用検証の条件は `verification.md` を参照してください。
+
 `bun run test` は、`d-anime` の生成済みメタデータ、metaファイル、設定画面用のバージョンがすべて一致することも検証します。この検証だけを再実行する場合は、ビルド後に次のコマンドを実行します。
 
 ```powershell

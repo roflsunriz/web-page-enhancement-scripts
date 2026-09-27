@@ -7,6 +7,7 @@ import { LoadingSpinner } from "./ui/loading-spinner";
 import { UIBuilder } from "./ui/ui-builder";
 import { SPAPageObserver } from "./spa-page-observer";
 import { getLaunchStyle } from "@/shared/launch-style";
+import { registerMenuCommand } from "@/shared/userscript";
 import {
   isSiteAccessAllowed,
   registerScriptSettingsMenu,
@@ -117,9 +118,7 @@ export class MangaViewerApp {
     this.spaObserver.startObserving();
 
     // メニューコマンド: メインアクション（全スタイル共通）
-    void import("@/shared/userscript").then((m) =>
-      m.registerMenuCommand(t("launchMenu"), () => this.launch()),
-    );
+    registerMenuCommand(t("launchMenu"), () => this.launch());
 
     this.launchShortcutHandler = (keyboardEvent: KeyboardEvent) => {
       if (

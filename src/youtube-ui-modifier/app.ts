@@ -12,6 +12,7 @@ import { SettingsUi } from "./settings-ui";
 import { StyleManager } from "./style-manager";
 import { RevealBoxManager } from "./reveal-box-manager";
 import { applyLanguageSetting, t } from "./i18n";
+import { isPageReady } from "./page-readiness";
 
 export class YoutubeUiModifierApp {
   private readonly storage = new SettingsStorage();
@@ -120,13 +121,17 @@ export class YoutubeUiModifierApp {
   }
 
   private applySettings(): void {
+    this.applyPageEffects();
+    this.settingsUi.refresh();
+  }
+
+  private applyPageEffects(): void {
     const effectiveSettings = this.getEffectiveSettings();
     this.styleManager.apply(effectiveSettings);
     this.domMarker.apply(effectiveSettings);
     this.revealBoxManager.apply(effectiveSettings, (id, value) =>
       this.updateSetting(id, value),
     );
-    this.settingsUi.refresh();
   }
 
   private startObserver(): void {
@@ -149,17 +154,13 @@ export class YoutubeUiModifierApp {
 
     this.applyTimer = setTimeout(() => {
       this.applyTimer = null;
-      this.domMarker.apply(this.getEffectiveSettings());
+      this.applyPageEffects();
     }, OBSERVER_DEBOUNCE_MS);
   }
 
   private startActionInterval(): void {
     this.actionInterval = setInterval(() => {
-      const effectiveSettings = this.getEffectiveSettings();
-      this.domMarker.apply(effectiveSettings);
-      this.revealBoxManager.apply(effectiveSettings, (id, value) =>
-        this.updateSetting(id, value),
-      );
+      this.applyPageEffects();
     }, 1000);
   }
 
@@ -180,7 +181,10 @@ export class YoutubeUiModifierApp {
   }
 
   private getEffectiveSettings(): YoutubeUiModifierSettings {
-    if (!this.settings.scheduleEnabled || this.isInsideSchedule()) {
+    if (
+      isPageReady() &&
+      (!this.settings.scheduleEnabled || this.isInsideSchedule())
+    ) {
       return this.settings;
     }
 
@@ -199,8 +203,9 @@ export class YoutubeUiModifierApp {
 
   private patchHistoryNavigation(): void {
     const onNavigate = (): void => {
-      window.setTimeout(() => this.applySettings(), 50);
-      window.setTimeout(() => this.applySettings(), 500);
+      this.applyPageEffects();
+      window.setTimeout(() => this.applyPageEffects(), 50);
+      window.setTimeout(() => this.applyPageEffects(), 500);
     };
 
     const originalPushState = history.pushState.bind(

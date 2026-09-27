@@ -1,5 +1,33 @@
 # 検証手順と対策
 
+## YouTube UI Modifier 1.8.8 / Issue #8（2026-09-27）
+
+### 修正と自動回帰
+
+- 1.8.7の配布物を `Page.addScriptToEvaluateOnNewDocument` でdocument-start相当に実行すると、DOMが存在しないため `findOrCreateStyle` の `appendChild` が例外になり、設定メニューも登録されなかった。構築をDOMContentLoaded後へ移し、構築時の同期例外も捕捉した。
+- デスクトップ視聴ページは `ytd-watch-flexy` または `ytd-watch-grid` 内の `ytd-watch-metadata` の `video-id` とURLの `v` が一致し、タイトルが描画され、コンテナーの `loading` / `show-skeleton` 状態が解除されてから表示設定を適用する。遷移中の古いDOMは準備完了に数えない。監視と定期確認で再適用し、保存設定は書き換えない。
+- `node scripts/youtube-ui-modifier-regression.mjs` は外部通信をすべて充足するオフラインテスト。DOMなしでの起動、読み込み済みページでの起動、動画情報の遅延描画、2種類の視聴コンテナー、古い動画DOMが残る遷移、広告設定と全体ON/OFF、モーダル開閉、1920×1080・1280×720・390×844を確認する。YouTube本体のロードを模擬した成功判定には使わない。
+- 旧配布物を第1引数で指定すると設定メニュー待ちで失敗し、修正後は成功した。通常の `bun run test` に組み込んだ。
+
+### 実ページの比較
+
+- Chrome 154.0.8037.58、raw CDP 9222、ログアウト状態で、公開動画 `hn2mnHHRGD8` を利用。1.8.7の9設定を単独／同時に指定した比較ではタイトル・関連動画が描画された。
+- 1.8.8では9設定同時のCSS適用（1164文字）、タイトル・関連動画の表示を確認。関連動画リンクの実クリックで `yEFSELz8oP4` へSPA遷移し、遷移先の動画ID・タイトル・CSS再適用を確認した。
+- YouTubeに適用される `image-collector`、`youtube-info-copier`、`native-video-volume-setter`、`video-screen-off-detection-blocker` との併用も比較した。漫画ビューアはメタデータでYouTubeを除外しているため注入しない。
+- 分離したFirefox 153.0の検証プロファイルへuBlock Origin 1.72.2だけを配置し、有効状態を確認。既定フィルターと上記4本＋modifierの併用で、修正後は `hn2mnHHRGD8` と `SNViRm3eMQA` のタイトル・関連動画を確認した。ユーザーのFirefoxプロファイル、Cookie、履歴、拡張設定は変更していない。
+
+### 未解決の観測と制約
+
+- 間欠的に `ytd-page-manager` の子要素が空のままゴーストが残った。Chromeでmodifier未注入＋併用スクリプトの条件でも35秒後に残り、修正版modifierの非表示CSSが空の待機中にも発生した。modifierの9設定が単独原因とは断定できない。全スクリプト未注入の3回の比較は正常表示だった。
+- Chromeの失敗通信には広告関連の `ERR_EMPTY_RESPONSE` があり、正常表示する試行でも同様に観測された。一部試行では動画配信ホストのDNS失敗もあったが、これらとゴースト残留との因果関係は未確定。
+- ユーザー報告のFirefox 156.0.1＋Tampermonkey 5.5.0そのものでは未検証。今回の実ページ試験はGM APIを補って配布物を注入したもので、Tampermonkeyの実際のsandbox、ユーザーのuBlockカスタム設定、元の動画URLを完全再現していない。Issue #8は恒久解決済みとして閉じない。再発時は動画URL、読み込み開始からの経過時間、失敗通信、併用スクリプト単独の比較を確認する。
+
+### 共通品質確認
+
+- lint、format、型検査、全25スクリプトのビルド、39件の単体テスト、dアニメ切替検証、漫画ビューア回帰、YouTube回帰を実行。
+- 依存更新後の `bun audit` は205パッケージで脆弱性0件。`bun outdated` の残りはTypeScript 7のみで、`typescript-eslint@8.70.1` のpeer条件 `>=4.8.4 <6.1.0` に従い6.0.3を維持した。
+- 新しいビルドが検出した漫画ビューアの不要なdynamic importは静的importへ変更。React DOM更新を含む漫画ビューア10.23.3とmodifier1.8.8の配布物を `bun run build` で生成し、対象外配布物の整形差分は含めない。
+
 ## Dependabot 自動処理（2026-09-23）
 
 - `.github/dependabot.yml` の Bun／GitHub Actions 監視先と、呼び出し側の `CI`／`PR Quick Checks` 名を確認する。
