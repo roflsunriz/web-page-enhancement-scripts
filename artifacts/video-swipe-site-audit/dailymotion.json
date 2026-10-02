@@ -1,0 +1,3610 @@
+{
+  "name": "dailymotion",
+  "browser": "154.0.8037.93",
+  "viewport": "390x844",
+  "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36",
+  "attempts": [
+    {
+      "requested": "https://www.dailymotion.com/video/x3a9qru",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://www.dailymotion.com/video/x3a9qru",
+            "title": "Dailymotion",
+            "text": "プレイヤーにスキップ\nメインコンテンツにスキップ\nCartoonAdventure\nBig Buck Bunny\n ",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [],
+            "iframes": [
+              {
+                "src": "https://geo.dailymotion.com/player/xtv3w.html?",
+                "allow": "autoplay; fullscreen; picture-in-picture; encrypted-media; web-share",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267.375,
+                  "left": 0
+                }
+              },
+              {
+                "src": "",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "BurgerButton__burgerButton___uwqo4",
+                  "aria-label": "メニューを開く"
+                },
+                "text": "",
+                "rect": {
+                  "x": 12,
+                  "y": 4,
+                  "width": 32,
+                  "height": 40,
+                  "top": 4,
+                  "right": 44,
+                  "bottom": 44,
+                  "left": 12
+                }
+              },
+              {
+                "attrs": {
+                  "class": "Button__button___ro5TM Button__small___A3HdU Button__secondary___FPAwv Button__isButtonIcon___yfUeV",
+                  "data-testid": "search-button",
+                  "aria-label": "検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 306,
+                  "y": 8,
+                  "width": 32,
+                  "height": 32,
+                  "top": 8,
+                  "right": 338,
+                  "bottom": 40,
+                  "left": 306
+                }
+              },
+              {
+                "attrs": {
+                  "class": "Button__button___ro5TM Button__small___A3HdU Button__gradient___nMRBB Button__isButtonIcon___yfUeV",
+                  "data-testid": "signin-button-control",
+                  "aria-label": "ログイン"
+                },
+                "text": "",
+                "rect": {
+                  "x": 346,
+                  "y": 8,
+                  "width": 32,
+                  "height": 32,
+                  "top": 8,
+                  "right": 378,
+                  "bottom": 40,
+                  "left": 346
+                }
+              },
+              {
+                "attrs": {
+                  "class": "FullscreenOnLandscapeTrigger__fullscreenConfirmation___gMjbt"
+                },
+                "text": "フルスクリーンで見る",
+                "rect": {
+                  "x": 97.5,
+                  "y": 10,
+                  "width": 195,
+                  "height": 80,
+                  "top": 10,
+                  "right": 292.5,
+                  "bottom": 90,
+                  "left": 97.5
+                }
+              },
+              {
+                "attrs": {
+                  "class": "VideoInfoTitle__titleContainer___vNeln VideoInfoTitle__buttonTitleContainer___qPQXh VideoInfoTitle__minimal___GlKUj VideoInfoTitle__collapsed___vOpwC"
+                },
+                "text": "Big Buck Bunny",
+                "rect": {
+                  "x": 20,
+                  "y": 363.375,
+                  "width": 322,
+                  "height": 20,
+                  "top": 363.375,
+                  "right": 342,
+                  "bottom": 383.375,
+                  "left": 20
+                }
+              },
+              {
+                "attrs": {
+                  "class": "VideoInfo__chevronRightButton___uw0Q3",
+                  "data-testid": "video-info-chevron-right"
+                },
+                "text": "",
+                "rect": {
+                  "x": 350,
+                  "y": 327.375,
+                  "width": 20,
+                  "height": 56,
+                  "top": 327.375,
+                  "right": 370,
+                  "bottom": 383.375,
+                  "left": 350
+                }
+              }
+            ],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "frame-loaded",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:02\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 2.322895,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "false",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 161.71875,
+                  "y": 76.21875,
+                  "width": 66.5625,
+                  "height": 66.5625,
+                  "top": 76.21875,
+                  "right": 228.28125,
+                  "bottom": 142.78125,
+                  "left": 161.71875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 83.296875,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 133.859375,
+                  "bottom": 134.78125,
+                  "left": 83.296875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256.140625,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 306.703125,
+                  "bottom": 134.78125,
+                  "left": 256.140625
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 344.71875,
+                  "y": 4.640625,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 4.640625,
+                  "right": 386,
+                  "bottom": 45.921875,
+                  "left": 344.71875
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 4.640625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 45.921875,
+                  "bottom": 214.359375,
+                  "left": 4.640625
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 246.359375,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 287.640625,
+                  "bottom": 214.359375,
+                  "left": 246.359375
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293.828125,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 335.109375,
+                  "bottom": 214.359375,
+                  "left": 293.828125
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 339.765625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 381.046875,
+                  "bottom": 214.359375,
+                  "left": 339.765625
+                }
+              }
+            ],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "frame-loaded",
+          "frame": "about:blank",
+          "state": {
+            "url": "about:blank",
+            "title": "",
+            "text": "",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [],
+            "iframes": [],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-tap-play",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:05\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 5.531665,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "false",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 161.71875,
+                  "y": 76.21875,
+                  "width": 66.5625,
+                  "height": 66.5625,
+                  "top": 76.21875,
+                  "right": 228.28125,
+                  "bottom": 142.78125,
+                  "left": 161.71875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 83.296875,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 133.859375,
+                  "bottom": 134.78125,
+                  "left": 83.296875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256.140625,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 306.703125,
+                  "bottom": 134.78125,
+                  "left": 256.140625
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 344.71875,
+                  "y": 4.640625,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 4.640625,
+                  "right": 386,
+                  "bottom": 45.921875,
+                  "left": 344.71875
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 4.640625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 45.921875,
+                  "bottom": 214.359375,
+                  "left": 4.640625
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 246.359375,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 287.640625,
+                  "bottom": 214.359375,
+                  "left": 246.359375
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293.828125,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 335.109375,
+                  "bottom": 214.359375,
+                  "left": 293.828125
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 339.765625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 381.046875,
+                  "bottom": 214.359375,
+                  "left": 339.765625
+                }
+              }
+            ],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-up",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:06\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 6.610457,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "false",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 161.71875,
+                  "y": 76.21875,
+                  "width": 66.5625,
+                  "height": 66.5625,
+                  "top": 76.21875,
+                  "right": 228.28125,
+                  "bottom": 142.78125,
+                  "left": 161.71875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 83.296875,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 133.859375,
+                  "bottom": 134.78125,
+                  "left": 83.296875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256.140625,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 306.703125,
+                  "bottom": 134.78125,
+                  "left": 256.140625
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 344.71875,
+                  "y": 4.640625,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 4.640625,
+                  "right": 386,
+                  "bottom": 45.921875,
+                  "left": 344.71875
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 4.640625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 45.921875,
+                  "bottom": 214.359375,
+                  "left": 4.640625
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 246.359375,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 287.640625,
+                  "bottom": 214.359375,
+                  "left": 246.359375
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293.828125,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 335.109375,
+                  "bottom": 214.359375,
+                  "left": 293.828125
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 339.765625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 381.046875,
+                  "bottom": 214.359375,
+                  "left": 339.765625
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-down",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:07\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 7.625495,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "false",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 161.71875,
+                  "y": 76.21875,
+                  "width": 66.5625,
+                  "height": 66.5625,
+                  "top": 76.21875,
+                  "right": 228.28125,
+                  "bottom": 142.78125,
+                  "left": 161.71875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 83.296875,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 133.859375,
+                  "bottom": 134.78125,
+                  "left": 83.296875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256.140625,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 306.703125,
+                  "bottom": 134.78125,
+                  "left": 256.140625
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 344.71875,
+                  "y": 4.640625,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 4.640625,
+                  "right": 386,
+                  "bottom": 45.921875,
+                  "left": 344.71875
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 4.640625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 45.921875,
+                  "bottom": 214.359375,
+                  "left": 4.640625
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 246.359375,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 287.640625,
+                  "bottom": 214.359375,
+                  "left": 246.359375
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293.828125,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 335.109375,
+                  "bottom": 214.359375,
+                  "left": 293.828125
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 339.765625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 381.046875,
+                  "bottom": 214.359375,
+                  "left": 339.765625
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-fullscreen-button",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:09\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": {},
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload",
+                  "class": "is_fullscreen"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 9.311105,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload",
+                      "class": "is_fullscreen"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "true",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 155,
+                  "y": 382,
+                  "width": 80,
+                  "height": 80,
+                  "top": 382,
+                  "right": 235,
+                  "bottom": 462,
+                  "left": 155
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 43,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 107,
+                  "bottom": 454,
+                  "left": 43
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 283,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 347,
+                  "bottom": 454,
+                  "left": 283
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 8,
+                  "width": 48,
+                  "height": 48,
+                  "top": 8,
+                  "right": 382,
+                  "bottom": 56,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 56,
+                  "bottom": 836,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 664,
+                  "width": 48,
+                  "height": 48,
+                  "top": 664,
+                  "right": 382,
+                  "bottom": 712,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 728,
+                  "width": 48,
+                  "height": 48,
+                  "top": 728,
+                  "right": 382,
+                  "bottom": 776,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 382,
+                  "bottom": 836,
+                  "left": 334
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-fullscreen-down",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:10\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": {},
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload",
+                  "class": "is_fullscreen"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 10.341002,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload",
+                      "class": "is_fullscreen"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "true",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 155,
+                  "y": 382,
+                  "width": 80,
+                  "height": 80,
+                  "top": 382,
+                  "right": 235,
+                  "bottom": 462,
+                  "left": 155
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 43,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 107,
+                  "bottom": 454,
+                  "left": 43
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 283,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 347,
+                  "bottom": 454,
+                  "left": 283
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 8,
+                  "width": 48,
+                  "height": 48,
+                  "top": 8,
+                  "right": 382,
+                  "bottom": 56,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 56,
+                  "bottom": 836,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 664,
+                  "width": 48,
+                  "height": 48,
+                  "top": 664,
+                  "right": 382,
+                  "bottom": 712,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 728,
+                  "width": 48,
+                  "height": 48,
+                  "top": 728,
+                  "right": 382,
+                  "bottom": 776,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 382,
+                  "bottom": 836,
+                  "left": 334
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "generic-up",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:12\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中\n横画面ロックを利用できません。端末を横に回転してください。",
+            "scrollY": 0,
+            "fs": {
+              "data-testid": "player-root",
+              "data-vertical-player-ui": "true",
+              "data-got-user-action": "1",
+              "data-video-swipe-fullscreen": ""
+            },
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload",
+                  "class": "is_fullscreen"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 12.675203,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload",
+                      "class": "is_fullscreen"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "true",
+                      "data-got-user-action": "1",
+                      "data-video-swipe-fullscreen": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true",
+                      "data-video-swipe-owner": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 155,
+                  "y": 382,
+                  "width": 80,
+                  "height": 80,
+                  "top": 382,
+                  "right": 235,
+                  "bottom": 462,
+                  "left": 155
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 43,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 107,
+                  "bottom": 454,
+                  "left": 43
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 283,
+                  "y": 390,
+                  "width": 64,
+                  "height": 64,
+                  "top": 390,
+                  "right": 347,
+                  "bottom": 454,
+                  "left": 283
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 8,
+                  "width": 48,
+                  "height": 48,
+                  "top": 8,
+                  "right": 382,
+                  "bottom": 56,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 56,
+                  "bottom": 836,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 664,
+                  "width": 48,
+                  "height": 48,
+                  "top": 664,
+                  "right": 382,
+                  "bottom": 712,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 728,
+                  "width": 48,
+                  "height": 48,
+                  "top": 728,
+                  "right": 382,
+                  "bottom": 776,
+                  "left": 334
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 334,
+                  "y": 788,
+                  "width": 48,
+                  "height": 48,
+                  "top": 788,
+                  "right": 382,
+                  "bottom": 836,
+                  "left": 334
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "MAIN",
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "generic-down",
+          "frame": "https://geo.dailymotion.com/player/xtv3w.html?",
+          "state": {
+            "url": "https://geo.dailymotion.com/player/xtv3w.html?",
+            "title": "Dailymotion Video Player",
+            "text": "0:16\n9:56\n\n2 倍速\n\n長押しして早送り\n\n動画を再生中",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "id": "video",
+                  "playsinline": "",
+                  "controlslist": "nodownload",
+                  "class": ""
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 16.993198,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "id": "video",
+                      "playsinline": "",
+                      "controlslist": "nodownload",
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "video_view"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "player video_player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "MAIN",
+                    "attrs": {
+                      "data-testid": "player-root",
+                      "data-vertical-player-ui": "false",
+                      "data-got-user-action": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {},
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "dmp_iframe",
+                      "data-pointer-focus": "true",
+                      "data-video-swipe-owner": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "data-testid": "button-playback",
+                  "aria-label": "再生",
+                  "class": "playback_button video_button_icon video_button_icon--large"
+                },
+                "text": "",
+                "rect": {
+                  "x": 161.71875,
+                  "y": 76.21875,
+                  "width": 66.5625,
+                  "height": 66.5625,
+                  "top": 76.21875,
+                  "right": 228.28125,
+                  "bottom": 142.78125,
+                  "left": 161.71875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-previous-video",
+                  "aria-label": "前の動画",
+                  "title": "前の動画",
+                  "class": "prev_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 83.296875,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 133.859375,
+                  "bottom": 134.78125,
+                  "left": 83.296875
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-next-video",
+                  "aria-label": "次の動画",
+                  "title": "次の動画",
+                  "class": "next_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256.140625,
+                  "y": 84.21875,
+                  "width": 50.5625,
+                  "height": 50.5625,
+                  "top": 84.21875,
+                  "right": 306.703125,
+                  "bottom": 134.78125,
+                  "left": 256.140625
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "menu_button",
+                  "aria-label": "メニュー",
+                  "title": "メニュー",
+                  "class": "menu_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 344.71875,
+                  "y": 4.640625,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 4.640625,
+                  "right": 386,
+                  "bottom": 45.921875,
+                  "left": 344.71875
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "おすすめ",
+                  "title": "おすすめ",
+                  "class": "more_content_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 4.640625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 45.921875,
+                  "bottom": 214.359375,
+                  "left": 4.640625
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "ミュート",
+                  "title": "ミュート (m)",
+                  "data-testid": "button-mute",
+                  "class": "mute_toggle_button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 246.359375,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 287.640625,
+                  "bottom": 214.359375,
+                  "left": 246.359375
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "button-subtitles",
+                  "aria-label": "字幕",
+                  "title": "字幕",
+                  "class": "subtitles_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293.828125,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 335.109375,
+                  "bottom": 214.359375,
+                  "left": 293.828125
+                }
+              },
+              {
+                "attrs": {
+                  "data-testid": "fullscreen-toggle-button",
+                  "aria-label": "フルスクリーン",
+                  "title": "フルスクリーン (f)",
+                  "class": "fullscreen_toggle_button video_button_icon"
+                },
+                "text": "",
+                "rect": {
+                  "x": 339.765625,
+                  "y": 173.078125,
+                  "width": 41.28125,
+                  "height": 41.28125,
+                  "top": 173.078125,
+                  "right": 381.046875,
+                  "bottom": 214.359375,
+                  "left": 339.765625
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "svg",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "BODY",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "BODY",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "vod_tap",
+                "fs": "MAIN",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "MAIN",
+                "attrs": null,
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        }
+      ],
+      "exercised": true
+    }
+  ]
+}

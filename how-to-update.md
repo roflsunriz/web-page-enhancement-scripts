@@ -15,7 +15,7 @@
 2. `vite.config.ts` の対象スクリプトの `version` を上げます。
    - `d-anime` の設定画面に表示するバージョンも、この値からビルド時に自動生成されます。`src/d-anime/config/default-settings.ts` は手動更新しません。
 3. ユーザー向けの挙動や設定項目が変わる場合は、`README.md`、`userscripts.md` を更新します。
-4. `CHANGELOG.md` を対象スクリプトの実バージョン単位で更新します。`main` / `origin/main` に push した時点でリリース済みなので、`Unreleased` 節は作りません。
+4. `CHANGELOG.md` を対象スクリプトの実バージョン単位で更新します。未公開の独立worktree変更は `Unreleased` に記録し、承認された公開時に実バージョンの履歴へ移します。`main` / `origin/main` に push した時点でリリース済みとして扱います。
 5. 変更履歴はコミットメッセージではなく、実際の差分、変更ファイル、ユーザーに見える挙動を基に書きます。「バージョンを上げた」だけの記述は避けます。
 6. 検証を実行します。
 
@@ -42,3 +42,11 @@ bun run check:d-anime-version
 - ビルド生成物に問題がある場合は、生成元を修正してから `bun run build` を再実行します。
 - `d-anime` のメタデータと設定画面のバージョンが一致しない場合は、`vite.config.ts` の対象 `version` とバージョン注入設定を確認し、`src/d-anime/config/default-settings.ts` へ固定値を書き戻さずに修正します。
 - 依存関係を変更した場合は、`bun.lock` の差分を確認し、問題があれば依存関係の変更を取り消して再検証します。
+
+## 汎用動画スワイプ全画面（ローカル配布版）
+
+依存を導入済みの作業ツリーで `bunx --no-install vite build --mode video-swipe-fullscreen` を実行します。専用版の協調マーカーを変更した場合は `bunx --no-install vite build --mode nico-mobile-swipe-fullscreen` も実行します。回帰は `bun run test:video-swipe-fullscreen` と `node scripts/nico-mobile-swipe-fullscreen-regression.mjs`、通常検査はlint・型検査・全ビルド・`bun run test`です。ブラウザ回帰には既存Google Chromeを使用します。
+
+実サイトの再調査は `node scripts/video-swipe-site-audit.mjs` です。公開サイトへ通信するため通常のオフライン回帰やCIには含めません。分離された一時プロファイルを使用し、ログイン・bot対策回避・既存認証の変更はしません。`VIDEO_SWIPE_SITES` でサイト名のカンマ区切り、`VIDEO_SWIPE_AUDIT` で証拠の出力先を指定できます。標準スワイプと識別属性を実測し、調査結果と狭い除外が必要かを見直します。
+
+新規版は公開URLを設定していません。配布は `dist/video-swipe-fullscreen.user.js` の内容をmanagerへ貼り付けます。無効化・復旧はmanagerで本スクリプトを無効にして再読み込みします。ニコニコ専用版1.0.0との併用中は汎用版の同サイト設定を有効にしません。今回のブランチをmainへ統合・pushする操作はこの手順の対象外です。

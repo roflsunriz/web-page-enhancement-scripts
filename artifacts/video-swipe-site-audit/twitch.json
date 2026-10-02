@@ -1,0 +1,4258 @@
+{
+  "name": "twitch",
+  "browser": "154.0.8037.93",
+  "viewport": "390x844",
+  "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36",
+  "attempts": [
+    {
+      "requested": "https://www.twitch.tv/twitch/videos",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://m.twitch.tv/twitch/videos?desktop-redirect=true",
+            "title": "Twitchさんのビデオ - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\nTwitch\n\n前回の配信：昨日\n\nTwitch is where thousands of communities come together for whatever, every day.\n\n246.3万\n人のフォロワー\n\nTwitter\n\nInstagram\n\nTikTok\n\nYouTube\n\nフォロー\nホーム\nTwitchについて\nクリップ\nビデオ\nスケジュール\n最近の配信\nすべて表示\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nTwitch\n\n雑談\n\n1:08:23\n7.1万回の視聴数\n8 日前\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nTwitch\n\n雑談\n\n1:17:50\n18.2万回の視聴数\n8 日前\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nTwitch\n\n雑談\n\n1:21:16\n10.7万回の視聴数\n8 日前\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nTwitch\n\n雑談\n\n1:11:58\n5.8万回の視聴数\n22 日前\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nTwitch\n\n雑談\n\n1:17:16\n28.1万回の視聴数\n23 日前\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTwitch\n\nトークショー&ポッドキャスト\n\n1:12:13\n3.1万回の視聴数\n先月\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nTwitch\n\n雑談\n\n1:14:40\n8.1万回の視聴数\n先月\nPatch Notes (Aug 2026) | Comments on Clips, GIPHY Testing, and more! w/ @merrykish and Mike Minton\n\nTwitc",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [],
+            "iframes": [],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScInteractableBase-sc-ofisyf-0 ScInteractableDefault-sc-ofisyf-1 bPDFbr fdHQEJ tw-interactable"
+                },
+                "text": "",
+                "rect": {
+                  "x": 16,
+                  "y": 74,
+                  "width": 72,
+                  "height": 72,
+                  "top": 74,
+                  "right": 88,
+                  "bottom": 146,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "さんをフォロー",
+                  "data-a-target": "follow-button",
+                  "class": "ScCoreButton-sc-ocjdkq-0 kBJXYw"
+                },
+                "text": "フォロー",
+                "rect": {
+                  "x": 16,
+                  "y": 260.78125,
+                  "width": 118,
+                  "height": 40,
+                  "top": 260.78125,
+                  "right": 134,
+                  "bottom": 300.78125,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 142,
+                  "y": 260.78125,
+                  "width": 40,
+                  "height": 40,
+                  "top": 260.78125,
+                  "right": 182,
+                  "bottom": 300.78125,
+                  "left": 142
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 ceKaXW ScButtonIcon-sc-9yap0r-0 btYIWD",
+                  "aria-label": ""
+                },
+                "text": "",
+                "rect": {
+                  "x": 19,
+                  "y": 315.78125,
+                  "width": 32,
+                  "height": 32,
+                  "top": 315.78125,
+                  "right": 51,
+                  "bottom": 347.78125,
+                  "left": 19
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 lbkVJK ScButtonIcon-sc-9yap0r-0 keXfIB",
+                  "aria-label": ""
+                },
+                "text": "",
+                "rect": {
+                  "x": 339,
+                  "y": 315.78125,
+                  "width": 32,
+                  "height": 32,
+                  "top": 315.78125,
+                  "right": 371,
+                  "bottom": 347.78125,
+                  "left": 339
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 68,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 111.921875,
+                  "bottom": 600.28125,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 68,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 96,
+                  "bottom": 619.875,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 366,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 409.921875,
+                  "bottom": 600.28125,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 366,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 394,
+                  "bottom": 619.875,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 664,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 707.921875,
+                  "bottom": 600.28125,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 664,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 692,
+                  "bottom": 619.875,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 962,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 1005.921875,
+                  "bottom": 600.28125,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 962,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 990,
+                  "bottom": 619.875,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1260,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 1303.921875,
+                  "bottom": 600.28125,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1260,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 1288,
+                  "bottom": 619.875,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1558,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 1601.921875,
+                  "bottom": 600.28125,
+                  "left": 1558
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "トークショー&ポッドキャスト",
+                "rect": {
+                  "x": 1558,
+                  "y": 600.28125,
+                  "width": 190.953125,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 1748.953125,
+                  "bottom": 619.875,
+                  "left": 1558
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1856,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 1899.921875,
+                  "bottom": 600.28125,
+                  "left": 1856
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1856,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 1884,
+                  "bottom": 619.875,
+                  "left": 1856
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2154,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 2197.921875,
+                  "bottom": 600.28125,
+                  "left": 2154
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 2154,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 2182,
+                  "bottom": 619.875,
+                  "left": 2154
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2452,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 2495.921875,
+                  "bottom": 600.28125,
+                  "left": 2452
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Dungeons & Dragons",
+                "rect": {
+                  "x": 2452,
+                  "y": 600.28125,
+                  "width": 139.328125,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 2591.328125,
+                  "bottom": 619.875,
+                  "left": 2452
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2750,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 2793.921875,
+                  "bottom": 600.28125,
+                  "left": 2750
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 2750,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 2778,
+                  "bottom": 619.875,
+                  "left": 2750
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 3048,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 3091.921875,
+                  "bottom": 600.28125,
+                  "left": 3048
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 3048,
+                  "y": 600.28125,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 3076,
+                  "bottom": 619.875,
+                  "left": 3048
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 3346,
+                  "y": 580.6875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 580.6875,
+                  "right": 3389.921875,
+                  "bottom": 600.28125,
+                  "left": 3346
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "トークショー&ポッドキャスト",
+                "rect": {
+                  "x": 3346,
+                  "y": 600.28125,
+                  "width": 190.953125,
+                  "height": 19.59375,
+                  "top": 600.28125,
+                  "right": 3536.953125,
+                  "bottom": 619.875,
+                  "left": 3346
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 68,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 111.921875,
+                  "bottom": 909.375,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 68,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 96,
+                  "bottom": 928.96875,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 366,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 409.921875,
+                  "bottom": 909.375,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 366,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 394,
+                  "bottom": 928.96875,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 664,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 707.921875,
+                  "bottom": 909.375,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 664,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 692,
+                  "bottom": 928.96875,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 962,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 1005.921875,
+                  "bottom": 909.375,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 962,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 990,
+                  "bottom": 928.96875,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1260,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 1303.921875,
+                  "bottom": 909.375,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1260,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 1288,
+                  "bottom": 928.96875,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1558,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 1601.921875,
+                  "bottom": 909.375,
+                  "left": 1558
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1558,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 1586,
+                  "bottom": 928.96875,
+                  "left": 1558
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1856,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 1899.921875,
+                  "bottom": 909.375,
+                  "left": 1856
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1856,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 1884,
+                  "bottom": 928.96875,
+                  "left": 1856
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2154,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 2197.921875,
+                  "bottom": 909.375,
+                  "left": 2154
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 2154,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 2182,
+                  "bottom": 928.96875,
+                  "left": 2154
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2452,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 2495.921875,
+                  "bottom": 909.375,
+                  "left": 2452
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 2452,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 2480,
+                  "bottom": 928.96875,
+                  "left": 2452
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 2750,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 2793.921875,
+                  "bottom": 909.375,
+                  "left": 2750
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 2750,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 2778,
+                  "bottom": 928.96875,
+                  "left": 2750
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 3048,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 3091.921875,
+                  "bottom": 909.375,
+                  "left": 3048
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 3048,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 3076,
+                  "bottom": 928.96875,
+                  "left": 3048
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 3346,
+                  "y": 889.78125,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 889.78125,
+                  "right": 3389.921875,
+                  "bottom": 909.375,
+                  "left": 3346
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 3346,
+                  "y": 909.375,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 909.375,
+                  "right": 3374,
+                  "bottom": 928.96875,
+                  "left": 3346
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 68,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 111.921875,
+                  "bottom": 1218.46875,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 68,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 96,
+                  "bottom": 1238.0625,
+                  "left": 68
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 366,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 409.921875,
+                  "bottom": 1218.46875,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 366,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 394,
+                  "bottom": 1238.0625,
+                  "left": 366
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 664,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 707.921875,
+                  "bottom": 1218.46875,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 664,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 692,
+                  "bottom": 1238.0625,
+                  "left": 664
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 962,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 1005.921875,
+                  "bottom": 1218.46875,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 962,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 990,
+                  "bottom": 1238.0625,
+                  "left": 962
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1260,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 1303.921875,
+                  "bottom": 1218.46875,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1260,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 1288,
+                  "bottom": 1238.0625,
+                  "left": 1260
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "Twitch",
+                "rect": {
+                  "x": 1558,
+                  "y": 1198.875,
+                  "width": 43.921875,
+                  "height": 19.59375,
+                  "top": 1198.875,
+                  "right": 1601.921875,
+                  "bottom": 1218.46875,
+                  "left": 1558
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreLink-sc-16kq0mq-0 eCwVpW tw-link"
+                },
+                "text": "雑談",
+                "rect": {
+                  "x": 1558,
+                  "y": 1218.46875,
+                  "width": 28,
+                  "height": 19.59375,
+                  "top": 1218.46875,
+                  "right": 1586,
+                  "bottom": 1238.0625,
+                  "left": 1558
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2865128806"
+            ],
+            "trace": []
+          }
+        }
+      ],
+      "exercised": false
+    },
+    {
+      "requested": "https://m.twitch.tv/videos/2882198501",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:00:05\n\n01:08:23\n\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 5.931121,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "一時停止（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "playing"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": []
+          }
+        },
+        {
+          "phase": "frame-loaded",
+          "frame": "chrome-error://chromewebdata/",
+          "state": {
+            "url": "chrome-error://chromewebdata/",
+            "title": "s.amazon-adsystem.com",
+            "text": "",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": false,
+            "videos": [],
+            "iframes": [],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-tap-play",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:00:08\n\n01:08:23\n\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 9.14885,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "一時停止（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "playing"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-up",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:23:01\n\n01:08:23\n\n720P60\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 1381.711433,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "一時停止（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "playing"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 302,
+                  "bottom": 211.375,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-down",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:23:01\n\n01:08:23\n\n720P60\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": true,
+                "readyState": 4,
+                "currentTime": 1381.935482,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "aria-label": "再生",
+                  "class": "InjectLayout-sc-1i43xsx-0 bhQSUg"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "再生（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "paused"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 302,
+                  "bottom": 211.375,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-fullscreen-button",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\nTwitch\n\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\n00:23:03\n\n01:08:23\n\n720P60\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owe",
+            "scrollY": 0,
+            "fs": {
+              "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+              "data-test-selector": "video-player__video-container"
+            },
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 1383.36129,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "一時停止（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "playing"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 48,
+                  "bottom": 836,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 88,
+                  "bottom": 836,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 302,
+                  "bottom": 836,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 342,
+                  "bottom": 836,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーンを終了（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 382,
+                  "bottom": 836,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": "DIV",
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-fullscreen-down",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\nTwitch\n\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\n00:23:03\n\n01:08:23\n\n720P60\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owe",
+            "scrollY": 0,
+            "fs": {
+              "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+              "data-test-selector": "video-player__video-container"
+            },
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                },
+                "paused": true,
+                "readyState": 4,
+                "currentTime": 1383.628998,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 844,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 844,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "aria-label": "再生",
+                  "class": "InjectLayout-sc-1i43xsx-0 bhQSUg"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 844,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 844,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "再生（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "paused"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 48,
+                  "bottom": 836,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 88,
+                  "bottom": 836,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 302,
+                  "bottom": 836,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 342,
+                  "bottom": 836,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーンを終了（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 796,
+                  "width": 40,
+                  "height": 40,
+                  "top": 796,
+                  "right": 382,
+                  "bottom": 836,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "generic-resume-playback",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:23:07\n\n01:08:23\n\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 1387.651724,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "一時停止（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "playing"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 302,
+                  "bottom": 211.375,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "generic-up",
+          "frame": "top",
+          "state": {
+            "url": "https://m.twitch.tv/videos/2882198501",
+            "title": "VAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy! - Twitch",
+            "text": "ホーム\n探す\nアクティビティ\nプロフィール\n\n00:23:07\n\n01:08:23\n\nTwitch\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n40:16\nLet's Chat Episode 12 | @djclancy talks to @Clix about growing up on Twitch\n\n13回の視聴数 | 15 時間前\n\n1:08:23\nVAMOS! A live da Twitch em Português com a @choke7 @aTiaLina e o CEO @djclancy!\n\nJust Chatting | 7.1万回の視聴数 | 8 日前\n\n1:17:50\nPatch Notes Sept 2026 | Mobile Updates, Hyperlinks in Chat, and more! w/ @Merrykish and @DJClancy\n\nJust Chatting | 18.2万回の視聴数 | 8 日前\n\n1:21:16\nVAMOS! el show de Twitch en Español con @djclancy @stardow115 @skain & @Suzyroxx | Septiembre de 2026\n\nJust Chatting | 10.7万回の視聴数 | 8 日前\n\n1:11:58\nStructuring a Show - Creator Camp LIVE Ep17 w/ @snackless and @owengejuicetv\n\nJust Chatting | 5.8万回の視聴数 | 22 日前\n\n1:17:16\nTwitch Public Access (September 2026) | Celebrating nopixelV and DJs with @merrykish @djclancy\n\nJust Chatting | 28.1万回の視聴数 | 23 日前\n\n1:12:13\nLet's Chat Podcast EP 11 | @djclancy talks to @Deansocool about GTA RP\n\nTalk Shows & Podcasts | 3.1万回の視聴数 | 先月\n\n1:14:40\nCreator Camp LIVE Ep16 - Building Better Broadcasts w/ @snackless and @owengejuicetv\n\nJust Chatting | 8.1万回の視聴数 | 先月",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "playsinline": "",
+                  "aria-label": "Twitchのビデオプレイヤー"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                },
+                "paused": true,
+                "readyState": 4,
+                "currentTime": 1387.980584,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "playsinline": "",
+                      "aria-label": "Twitchのビデオプレイヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-ref",
+                      "data-a-target": "video-ref"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                      "data-test-selector": "video-player__video-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 video-player",
+                      "data-a-target": "video-player",
+                      "data-a-player-type": "channel_home_live",
+                      "data-test-selector": "video-player__video-layout"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 0,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 hgxdhT playerContent--Hlh3j"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 219.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 gQNoCa playerContentLayout--jkS2w"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "Layout-sc-1xcs6mc-0 bFYlgO"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 788,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 788,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s.amazon-adsystem.com/iui3?pid=a30f442a-e833-4300-a302-987199caf562",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 843,
+                  "width": 1,
+                  "height": 1,
+                  "top": 843,
+                  "right": 1,
+                  "bottom": 844,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "aria-label": "再生",
+                  "class": "InjectLayout-sc-1i43xsx-0 bhQSUg"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 390,
+                  "height": 219.375,
+                  "top": 0,
+                  "right": 390,
+                  "bottom": 219.375,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "再生（スペースキー/k）",
+                  "data-a-target": "player-play-pause-button",
+                  "data-a-player-state": "paused"
+                },
+                "text": "",
+                "rect": {
+                  "x": 8,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 48,
+                  "bottom": 211.375,
+                  "left": 8
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "ミュート解除（m）",
+                  "data-a-target": "player-mute-unmute-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 48,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 88,
+                  "bottom": 211.375,
+                  "left": 48
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "設定",
+                  "data-a-target": "player-settings-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 262,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 302,
+                  "bottom": 211.375,
+                  "left": 262
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "キャプション（c）"
+                },
+                "text": "",
+                "rect": {
+                  "x": 302,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 342,
+                  "bottom": 211.375,
+                  "left": 302
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                  "aria-label": "フルスクリーン（f）",
+                  "data-a-target": "player-fullscreen-button"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 171.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 171.375,
+                  "right": 382,
+                  "bottom": 211.375,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [
+              "https://m.twitch.tv/videos/2889343447",
+              "https://m.twitch.tv/videos/2882198501",
+              "https://m.twitch.tv/videos/2882118829",
+              "https://m.twitch.tv/videos/2882009541",
+              "https://m.twitch.tv/videos/2869696804",
+              "https://m.twitch.tv/videos/2868888394",
+              "https://m.twitch.tv/videos/2865128806",
+              "https://m.twitch.tv/videos/2850702029"
+            ],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 dOugfV seekbar-interaction-area",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "InjectLayout-sc-1i43xsx-0 bhQSUg",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": "DIV",
+                "scrollY": 0
+              },
+              {
+                "type": "fullscreenchange",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "Layout-sc-1xcs6mc-0 ehakif video-player__container",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "BUTTON",
+                "attrs": "ScCoreButton-sc-ocjdkq-0 fUHGSu ScButtonIcon-sc-9yap0r-0 jhFpVx",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "InjectLayout-sc-1i43xsx-0 cYBTMF click-handler",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        }
+      ],
+      "exercised": true
+    }
+  ]
+}

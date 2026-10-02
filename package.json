@@ -1,6 +1,6 @@
 {
   "name": "web-page-enhancement-scripts",
-  "version": "2.5.26",
+  "version": "2.6.0",
   "packageManager": "bun@1.3.8",
   "private": true,
   "type": "module",
@@ -31,6 +31,8 @@
     "dev:twitter-full-size-image": "vite --mode twitter-full-size-image",
     "dev:twitter-thread-copier": "vite --mode twitter-thread-copier",
     "dev:video-screen-off-detection-blocker": "vite --mode video-screen-off-detection-blocker",
+    "dev:video-swipe-fullscreen": "vite --mode video-swipe-fullscreen",
+    "test:video-swipe-fullscreen": "node scripts/video-swipe-fullscreen-regression.mjs",
     "dev:x-auto-spam-reporter": "vite --mode x-auto-spam-reporter",
     "dev:x-community-note-close": "vite --mode x-community-note-close",
     "dev:yahoo-mail-ad-cleaner": "vite --mode yahoo-mail-ad-cleaner",
@@ -40,7 +42,7 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs src/nico-mobile-swipe-fullscreen/gesture.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && node scripts/youtube-ui-modifier-regression.mjs && node scripts/nico-mobile-swipe-fullscreen-regression.mjs && bun run check:d-anime-version",
+    "test": "bun test src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs src/nico-mobile-swipe-fullscreen/gesture.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && node scripts/youtube-ui-modifier-regression.mjs && node scripts/nico-mobile-swipe-fullscreen-regression.mjs && node scripts/video-swipe-fullscreen-regression.mjs && bun run check:d-anime-version",
     "type-check": "tsc --noEmit"
   },
   "keywords": [

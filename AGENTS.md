@@ -50,7 +50,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 ## 変更履歴
 
-- `main` / `origin/main` に push した時点でリリース済みとして扱う。`CHANGELOG.md` に `Unreleased` 節を作らない。
+- `main` / `origin/main` に push した時点でリリース済みとして扱う。公開を依頼されていない独立worktreeの変更は共通ルールに従って `Unreleased` に記録し、公開済みの実バージョンとは区別する。
 - `CHANGELOG.md` はスクリプトごとの実バージョン単位で記録する。リポジトリ全体の雑多な箇条書きや「バージョンを上げた」だけの記述にしない。
 - コミットメッセージは参考情報に留め、変更履歴は実際の差分、変更ファイル、ユーザーに見える挙動を基に書く。
 - 複数スクリプトのバージョンを同時に上げた場合も、各スクリプトの節にそれぞれ該当バージョンの内容を書く。
@@ -95,3 +95,9 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - `account.bilibili.com/account/home` は未ログインだと空表示のため、デバッグ用 Chrome（画面あり）でユーザーが手動ログインしてから CDP で文言を採取する。認証操作はユーザーの手で行い、エージェントはログイン状態を変更しない。
 - 翻訳スクリプト自体が表示原文に依存するため、共通ルール「表示言語に依存したセレクターを使わない」の対象外とする。安定化策として、ユーザー投稿内容（動画タイトル・コメント・弾幕）には反応しない完全一致辞書＋両端固定の正規表現に限定し、構造セレクターは使わない。
 - ログインモーダルは遅延描画かつログイン済みプロファイルでは描画されないため、実ブラウザ検証の対象外とし、辞書収録と単体テストで担保する（`verification.md` の該当節を参照）。
+
+## 汎用動画スワイプ全画面（2026-10-02確認）
+
+- `video-swipe-fullscreen` はwindowのbubbleでサイトのtarget/document操作を優先する。trustedイベントではリスナー間にmicrotaskチェックポイントが走り、queueMicrotaskでは後続windowリスナーを待てない。終了後の0ms taskでcancel・fullscreen epoch・transient activationを再確認して要求する。遅い非同期のサイト処理を完全検出することはできない（回帰・公式DOM/Fullscreen仕様はverification.md参照）。
+- sp.nicovideo.jpは旧専用版との併用のため既定無効。専用版1.0.1のdata-nico-mobile-swipe-ownerを視聴URLで優先し、sandbox間はwindow変数ではなくDOM属性で協調する。
+- 実サイト調査では同一プロセスのiframeに専用CDP sessionがない場合がある。その場合はPage.getFrameTreeとRuntime.executionContextCreatedのdefault context IDで読む。主要サイトの測定・対象URL・識別属性・未確認範囲はdocs/video-swipe-site-audit.md、証拠はartifacts/video-swipe-site-audit/。Twitchのseekbar-interaction-areaは実際にシークするため、data-test-selector付きプレイヤー内だけsite-policy.tsで除外する。

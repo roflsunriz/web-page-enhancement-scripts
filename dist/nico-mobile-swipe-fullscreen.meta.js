@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         nico-mobile-swipe-fullscreen
 // @namespace    nicoMobileSwipeFullscreen
-// @version      1.0.0
+// @version      1.0.1
 // @author       roflsunriz
 // @description  ニコニコ動画モバイル版で動画を上スワイプして横画面全画面、下スワイプで通常表示に戻す
 // @license      MIT

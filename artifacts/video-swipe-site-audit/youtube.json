@@ -1,0 +1,4742 @@
+{
+  "name": "youtube",
+  "browser": "154.0.8037.93",
+  "viewport": "390x844",
+  "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36",
+  "attempts": [
+    {
+      "requested": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "ミュートを解除\nアプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Animated Short Film (4K) by Aaron Blaise\nThe Art of Aa",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 6.568901,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ytp-unmute ytp-popup ytp-button ytp-unmute-animated ytp-unmute-shrink",
+                  "data-layer": "2"
+                },
+                "text": "ミュートを解除",
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 181.796875,
+                  "height": 73,
+                  "top": 48,
+                  "right": 181.796875,
+                  "bottom": 121,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 311.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 311.375,
+                  "right": 374,
+                  "bottom": 329.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 345.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 345.375,
+                  "right": 164,
+                  "bottom": 377.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 263,
+                  "bottom": 385.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 304,
+                  "bottom": 385.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 345,
+                  "bottom": 385.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 386,
+                  "bottom": 385.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 393.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 393.375,
+                  "right": 374,
+                  "bottom": 469.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 718.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 718.75,
+                  "right": 390,
+                  "bottom": 766.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1018.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1018.125,
+                  "right": 390,
+                  "bottom": 1066.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1317.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1317.5,
+                  "right": 390,
+                  "bottom": 1365.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1629.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1629.875,
+                  "right": 390,
+                  "bottom": 1677.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1960.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1960.25,
+                  "right": 390,
+                  "bottom": 2008.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2272.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2272.625,
+                  "right": 390,
+                  "bottom": 2320.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2572,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2572,
+                  "right": 390,
+                  "bottom": 2620,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2884.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2884.375,
+                  "right": 390,
+                  "bottom": 2932.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 160,
+                  "bottom": 3050.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 320,
+                  "bottom": 3050.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 480,
+                  "bottom": 3050.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 640,
+                  "bottom": 3050.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3530.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3530.1875,
+                  "right": 390,
+                  "bottom": 3578.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3842.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3842.5625,
+                  "right": 390,
+                  "bottom": 3890.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4154.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4154.9375,
+                  "right": 390,
+                  "bottom": 4202.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4454.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4454.3125,
+                  "right": 390,
+                  "bottom": 4502.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "frame-loaded",
+          "frame": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+          "state": {
+            "url": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+            "title": "Error 401 (不正なリクエスト)!!1",
+            "text": "401. エラーが発生しました。リクエストの形式が正しくないため、サーバーで処理できません。再試行しないでください。 Google で確認できたことは以上です。",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": false,
+            "videos": [],
+            "iframes": [],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-tap-play",
+          "frame": "top",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "ミュートを解除\nアプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Animated Short Film (4K) by Aaron Blaise\nThe Art of Aa",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 9.783942,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ytp-unmute ytp-popup ytp-button ytp-unmute-animated ytp-unmute-shrink",
+                  "data-layer": "2"
+                },
+                "text": "ミュートを解除",
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 181.796875,
+                  "height": 73,
+                  "top": 48,
+                  "right": 181.796875,
+                  "bottom": 121,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 311.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 311.375,
+                  "right": 374,
+                  "bottom": 329.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 345.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 345.375,
+                  "right": 164,
+                  "bottom": 377.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 263,
+                  "bottom": 385.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 304,
+                  "bottom": 385.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 345,
+                  "bottom": 385.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 386,
+                  "bottom": 385.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 393.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 393.375,
+                  "right": 374,
+                  "bottom": 469.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 718.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 718.75,
+                  "right": 390,
+                  "bottom": 766.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1018.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1018.125,
+                  "right": 390,
+                  "bottom": 1066.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1317.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1317.5,
+                  "right": 390,
+                  "bottom": 1365.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1629.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1629.875,
+                  "right": 390,
+                  "bottom": 1677.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1960.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1960.25,
+                  "right": 390,
+                  "bottom": 2008.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2272.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2272.625,
+                  "right": 390,
+                  "bottom": 2320.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2572,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2572,
+                  "right": 390,
+                  "bottom": 2620,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2884.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2884.375,
+                  "right": 390,
+                  "bottom": 2932.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 160,
+                  "bottom": 3050.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 320,
+                  "bottom": 3050.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 480,
+                  "bottom": 3050.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 640,
+                  "bottom": 3050.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3530.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3530.1875,
+                  "right": 390,
+                  "bottom": 3578.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3842.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3842.5625,
+                  "right": 390,
+                  "bottom": 3890.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4154.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4154.9375,
+                  "right": 390,
+                  "bottom": 4202.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4454.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4454.3125,
+                  "right": 390,
+                  "bottom": 4502.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "native-up",
+          "frame": "top",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "ミュートを解除\nアプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Animated Short Film (4K) by Aaron Blaise\nThe Art of Aa",
+            "scrollY": 55,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 10.832211,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": -55,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": -55,
+                      "right": 390,
+                      "bottom": 4534.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": -55,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": -55,
+                      "right": 390,
+                      "bottom": 4534.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ytp-unmute ytp-popup ytp-button ytp-unmute-animated ytp-unmute-shrink",
+                  "data-layer": "2"
+                },
+                "text": "ミュートを解除",
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 181.796875,
+                  "height": 73,
+                  "top": 48,
+                  "right": 181.796875,
+                  "bottom": 121,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 256.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 256.375,
+                  "right": 374,
+                  "bottom": 274.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 290.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 290.375,
+                  "right": 164,
+                  "bottom": 322.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 282.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 282.375,
+                  "right": 263,
+                  "bottom": 330.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 282.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 282.375,
+                  "right": 304,
+                  "bottom": 330.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 282.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 282.375,
+                  "right": 345,
+                  "bottom": 330.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 282.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 282.375,
+                  "right": 386,
+                  "bottom": 330.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 338.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 338.375,
+                  "right": 374,
+                  "bottom": 414.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 663.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 663.75,
+                  "right": 390,
+                  "bottom": 711.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 963.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 963.125,
+                  "right": 390,
+                  "bottom": 1011.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1262.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1262.5,
+                  "right": 390,
+                  "bottom": 1310.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1574.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1574.875,
+                  "right": 390,
+                  "bottom": 1622.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1905.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1905.25,
+                  "right": 390,
+                  "bottom": 1953.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2217.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2217.625,
+                  "right": 390,
+                  "bottom": 2265.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2517,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2517,
+                  "right": 390,
+                  "bottom": 2565,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2829.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2829.375,
+                  "right": 390,
+                  "bottom": 2877.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 2955.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 2955.375,
+                  "right": 160,
+                  "bottom": 2995.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 2955.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 2955.375,
+                  "right": 320,
+                  "bottom": 2995.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 2955.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 2955.375,
+                  "right": 480,
+                  "bottom": 2995.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 2955.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 2955.375,
+                  "right": 640,
+                  "bottom": 2995.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3475.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3475.1875,
+                  "right": 390,
+                  "bottom": 3523.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3787.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3787.5625,
+                  "right": 390,
+                  "bottom": 3835.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4099.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4099.9375,
+                  "right": 390,
+                  "bottom": 4147.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4399.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4399.3125,
+                  "right": 390,
+                  "bottom": 4447.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 20
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 38
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-down",
+          "frame": "top",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "ミュートを解除\nアプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Animated Short Film (4K) by Aaron Blaise\nThe Art of Aa",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 11.900084,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "class": "ytp-unmute ytp-popup ytp-button ytp-unmute-animated ytp-unmute-shrink",
+                  "data-layer": "2"
+                },
+                "text": "ミュートを解除",
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 181.796875,
+                  "height": 73,
+                  "top": 48,
+                  "right": 181.796875,
+                  "bottom": 121,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 311.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 311.375,
+                  "right": 374,
+                  "bottom": 329.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 345.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 345.375,
+                  "right": 164,
+                  "bottom": 377.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 263,
+                  "bottom": 385.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 304,
+                  "bottom": 385.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 345,
+                  "bottom": 385.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 386,
+                  "bottom": 385.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 393.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 393.375,
+                  "right": 374,
+                  "bottom": 469.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 718.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 718.75,
+                  "right": 390,
+                  "bottom": 766.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1018.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1018.125,
+                  "right": 390,
+                  "bottom": 1066.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1317.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1317.5,
+                  "right": 390,
+                  "bottom": 1365.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1629.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1629.875,
+                  "right": 390,
+                  "bottom": 1677.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1960.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1960.25,
+                  "right": 390,
+                  "bottom": 2008.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2272.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2272.625,
+                  "right": 390,
+                  "bottom": 2320.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2572,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2572,
+                  "right": 390,
+                  "bottom": 2620,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2884.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2884.375,
+                  "right": 390,
+                  "bottom": 2932.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 160,
+                  "bottom": 3050.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 320,
+                  "bottom": 3050.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 480,
+                  "bottom": 3050.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 640,
+                  "bottom": 3050.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3530.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3530.1875,
+                  "right": 390,
+                  "bottom": 3578.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3842.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3842.5625,
+                  "right": 390,
+                  "bottom": 3890.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4154.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4154.9375,
+                  "right": 390,
+                  "bottom": 4202.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4454.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4454.3125,
+                  "right": 390,
+                  "bottom": 4502.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 20
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 38
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 35
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 18
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "native-fullscreen-button",
+          "frame": "top",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "0:13\n経過時間 13 seconds\n/10:34\n動画の長さ 10 minutes, 34 seconds\nアプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Anima",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 13.569483,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "id": "player-controls-a11y-toggle",
+                  "class": "ytmA11yStylesHiddenButton",
+                  "aria-label": "プレーヤー コントロールを非表示にする"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 12,
+                  "height": 12,
+                  "top": 0,
+                  "right": 12,
+                  "bottom": 12,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytwAutonavToggleButtonHost",
+                  "aria-label": "自動再生がオンになっています"
+                },
+                "text": "",
+                "rect": {
+                  "x": 222,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 270,
+                  "bottom": 96,
+                  "left": 222
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytmClosedCaptioningButtonButton",
+                  "title": "この動画には字幕がありません",
+                  "aria-label": "この動画には字幕がありません"
+                },
+                "text": "",
+                "rect": {
+                  "x": 270,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 318,
+                  "bottom": 96,
+                  "left": 270
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-settings-icon",
+                  "aria-label": "再生設定"
+                },
+                "text": "",
+                "rect": {
+                  "x": 318,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 366,
+                  "bottom": 96,
+                  "left": 318
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-middle-controls-prev-next-button icon-disable",
+                  "aria-label": "前の動画"
+                },
+                "text": "",
+                "rect": {
+                  "x": 85,
+                  "y": 133.6875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 133.6875,
+                  "right": 133,
+                  "bottom": 181.6875,
+                  "left": 85
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "10 秒巻き戻し",
+                  "class": "ytwPlayerMiddleControlsA11ySeekButton ytmA11yStylesHiddenButton player-control-seek-icon-a11y"
+                },
+                "text": "",
+                "rect": {
+                  "x": 85,
+                  "y": 129.6875,
+                  "width": 12,
+                  "height": 12,
+                  "top": 129.6875,
+                  "right": 97,
+                  "bottom": 141.6875,
+                  "left": 85
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-control-play-pause-icon",
+                  "aria-label": "動画を一時停止"
+                },
+                "text": "",
+                "rect": {
+                  "x": 167,
+                  "y": 129.6875,
+                  "width": 56,
+                  "height": 56,
+                  "top": 129.6875,
+                  "right": 223,
+                  "bottom": 185.6875,
+                  "left": 167
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "10 秒早送り",
+                  "class": "ytwPlayerMiddleControlsA11ySeekButton ytmA11yStylesHiddenButton player-control-seek-icon-a11y"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293,
+                  "y": 129.6875,
+                  "width": 12,
+                  "height": 12,
+                  "top": 129.6875,
+                  "right": 305,
+                  "bottom": 141.6875,
+                  "left": 293
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-middle-controls-prev-next-button",
+                  "aria-label": "次の動画"
+                },
+                "text": "",
+                "rect": {
+                  "x": 257,
+                  "y": 133.6875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 133.6875,
+                  "right": 305,
+                  "bottom": 181.6875,
+                  "left": 257
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button fullscreen-icon",
+                  "aria-label": "全画面表示に変更"
+                },
+                "text": "",
+                "rect": {
+                  "x": 318,
+                  "y": 191.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 191.375,
+                  "right": 366,
+                  "bottom": 239.375,
+                  "left": 318
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 311.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 311.375,
+                  "right": 374,
+                  "bottom": 329.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 345.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 345.375,
+                  "right": 164,
+                  "bottom": 377.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 263,
+                  "bottom": 385.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 304,
+                  "bottom": 385.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 345,
+                  "bottom": 385.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 386,
+                  "bottom": 385.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 393.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 393.375,
+                  "right": 374,
+                  "bottom": 469.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 718.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 718.75,
+                  "right": 390,
+                  "bottom": 766.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1018.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1018.125,
+                  "right": 390,
+                  "bottom": 1066.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1317.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1317.5,
+                  "right": 390,
+                  "bottom": 1365.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1629.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1629.875,
+                  "right": 390,
+                  "bottom": 1677.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1960.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1960.25,
+                  "right": 390,
+                  "bottom": 2008.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2272.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2272.625,
+                  "right": 390,
+                  "bottom": 2320.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2572,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2572,
+                  "right": 390,
+                  "bottom": 2620,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2884.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2884.375,
+                  "right": 390,
+                  "bottom": 2932.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 160,
+                  "bottom": 3050.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 320,
+                  "bottom": 3050.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 480,
+                  "bottom": 3050.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 640,
+                  "bottom": 3050.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3530.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3530.1875,
+                  "right": 390,
+                  "bottom": 3578.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3842.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3842.5625,
+                  "right": 390,
+                  "bottom": 3890.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4154.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4154.9375,
+                  "right": 390,
+                  "bottom": 4202.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4454.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4454.3125,
+                  "right": 390,
+                  "bottom": 4502.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 20
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 38
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 35
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 18
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        },
+        {
+          "phase": "generic-up",
+          "frame": "top",
+          "state": {
+            "url": "https://m.youtube.com/watch?v=aqz-KE-bpKQ",
+            "title": "Big Buck Bunny 60fps 4K - Official Blender Foundation Short Film - YouTube",
+            "text": "アプリを開く\nBig Buck Bunny 60fps 4K - Official Blender Foundation Short Film\n@BlenderOfficial\n高評価 11万 件\n2340万回視聴11 年前\nもっと見る\nチャンネル登録\nコメント5186\nAh.. The classic test video\n3:59\nMINUSCULE Clip - \"Racing Bugs\" (2012)\nJoBlo Animation 4K•6569万回視聴\n4:42\nSnack Attack\nEduardo Verastegui•7119万回視聴\n16:20\nThe Good Dinosaur - Spot & Arlo Memorable Moments\nHinl•1864万回視聴\n1:33:00\n【公式アニメ】『HUNTER×HUNTER』ーG.I編ー第68話～第71話イッキ見！\nジャンプチャンネル\n新着\n12万回視聴\n38:26\n荒野の奥深くに素晴らしい地下巣穴を建設するフルプロセス\nLesnoy Speed•797万回視聴\n7:48\nJungle Jail\n--•2.2億回視聴\n12:37\nPIKMIN Short Movies - Occupational Hazards - Nintendo\nNintendo of America•5493万回視聴\n44:59\nOscar Çöllerde 🦎 | En Uzun Macera 🤩| Minika\nMinika•2404万回視聴\nショート\nThe Toad Has Been Rescued! All Thanks to Superworm! | Shorts\n6.8万回視聴\nTiddler Dives with a Dolphin! 🐬🐟 | Shorts\n8.5万回視聴\nAlvin VS. ZOMBIES!!🧟 | ALVINNN!!! #shorts\n8.6万回視聴\nTurbozaurs to the Rescue! Let's Build with a 3D Printer!\n1.1万回視聴\n10:35\nThe Close | Adult Animation Comedy Short Film - BBC\nBBC•292万回視聴\n21:03\nTom und Jerry auf Deutsch | Jerry, der Gauner | WB Kids\nWB Kids Deutschland•1.4億回視聴\n5:06\nNuggets\nFilmbilder & Friends•3659万回視聴\n11:46\nSNOW BEAR - A Hand-Drawn Animated Short Film (4K) by Aaron Blaise\nThe Art of Aaron Blai",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "video-stream html5-main-video",
+                  "controlslist": "nodownload"
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 48,
+                  "width": 390,
+                  "height": 219,
+                  "top": 48,
+                  "right": 390,
+                  "bottom": 267,
+                  "left": 0
+                },
+                "paused": false,
+                "readyState": 4,
+                "currentTime": 15.90189,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "video-stream html5-main-video",
+                      "controlslist": "nodownload"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-container",
+                      "data-layer": "0"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 0,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 48,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "html5-video-player ytp-transparent ytp-hide-controls ytp-exp-bottom-control-flexbox ytp-modern-caption ytp-exp-ppp-update ytp-mweb-player ytp-livebadge-color ytp-fit-cover-video yt",
+                      "id": "movie_player",
+                      "data-version": "/s/player/92b29aca/player-plasma-es6-ja_JP.vflset/base.js",
+                      "aria-label": "YouTube 動画プレーヤー"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player",
+                      "class": "player-api player-size"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "id": "player-container-id",
+                      "class": "player-container sticky-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 48,
+                      "width": 390,
+                      "height": 219.375,
+                      "top": 48,
+                      "right": 390,
+                      "bottom": 267.375,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "BODY",
+                    "attrs": {
+                      "class": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "HTML",
+                    "attrs": {
+                      "class": "sticky-player watch-scroll",
+                      "data-video-swipe-owner": "1"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 390,
+                      "height": 4589.3125,
+                      "top": 0,
+                      "right": 390,
+                      "bottom": 4589.3125,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://accounts.google.com/ServiceLogin?ltmpl=mobile&service=youtube&uilel=3&passive=true&continue=https%3A%2F%2Fm.youtube.com%2Fsignin%3Faction_handle_signin%3Dtrue%26app%3Dm%26hl%3Dja%26next%3D%252Fsignin_passive%26feature%3Dmobile_passive%26noapp%3D1&hl=ja",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [
+              {
+                "attrs": {
+                  "id": "player-controls-a11y-toggle",
+                  "class": "ytmA11yStylesHiddenButton",
+                  "aria-label": "プレーヤー コントロールを表示する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 12,
+                  "height": 12,
+                  "top": 0,
+                  "right": 12,
+                  "bottom": 12,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytwAutonavToggleButtonHost",
+                  "aria-label": "自動再生がオンになっています"
+                },
+                "text": "",
+                "rect": {
+                  "x": 222,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 270,
+                  "bottom": 96,
+                  "left": 222
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytmClosedCaptioningButtonButton",
+                  "title": "この動画には字幕がありません",
+                  "aria-label": "この動画には字幕がありません"
+                },
+                "text": "",
+                "rect": {
+                  "x": 270,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 318,
+                  "bottom": 96,
+                  "left": 270
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-settings-icon",
+                  "aria-label": "再生設定"
+                },
+                "text": "",
+                "rect": {
+                  "x": 318,
+                  "y": 48,
+                  "width": 48,
+                  "height": 48,
+                  "top": 48,
+                  "right": 366,
+                  "bottom": 96,
+                  "left": 318
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-middle-controls-prev-next-button icon-disable",
+                  "aria-label": "前の動画"
+                },
+                "text": "",
+                "rect": {
+                  "x": 85,
+                  "y": 133.6875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 133.6875,
+                  "right": 133,
+                  "bottom": 181.6875,
+                  "left": 85
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "10 秒巻き戻し",
+                  "class": "ytwPlayerMiddleControlsA11ySeekButton ytmA11yStylesHiddenButton player-control-seek-icon-a11y"
+                },
+                "text": "",
+                "rect": {
+                  "x": 85,
+                  "y": 129.6875,
+                  "width": 12,
+                  "height": 12,
+                  "top": 129.6875,
+                  "right": 97,
+                  "bottom": 141.6875,
+                  "left": 85
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-control-play-pause-icon",
+                  "aria-label": "動画を一時停止"
+                },
+                "text": "",
+                "rect": {
+                  "x": 167,
+                  "y": 129.6875,
+                  "width": 56,
+                  "height": 56,
+                  "top": 129.6875,
+                  "right": 223,
+                  "bottom": 185.6875,
+                  "left": 167
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "10 秒早送り",
+                  "class": "ytwPlayerMiddleControlsA11ySeekButton ytmA11yStylesHiddenButton player-control-seek-icon-a11y"
+                },
+                "text": "",
+                "rect": {
+                  "x": 293,
+                  "y": 129.6875,
+                  "width": 12,
+                  "height": 12,
+                  "top": 129.6875,
+                  "right": 305,
+                  "bottom": 141.6875,
+                  "left": 293
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button player-middle-controls-prev-next-button",
+                  "aria-label": "次の動画"
+                },
+                "text": "",
+                "rect": {
+                  "x": 257,
+                  "y": 133.6875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 133.6875,
+                  "right": 305,
+                  "bottom": 181.6875,
+                  "left": 257
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button fullscreen-icon",
+                  "aria-label": "全画面表示に変更"
+                },
+                "text": "",
+                "rect": {
+                  "x": 318,
+                  "y": 191.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 191.375,
+                  "right": 366,
+                  "bottom": 239.375,
+                  "left": 318
+                }
+              },
+              {
+                "attrs": {
+                  "role": "link",
+                  "aria-label": "YouTube ホーム",
+                  "class": "mobile-topbar-header-endpoint"
+                },
+                "text": "",
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 117,
+                  "height": 48,
+                  "top": 0,
+                  "right": 117,
+                  "bottom": 48,
+                  "left": 0
+                }
+              },
+              {
+                "attrs": {
+                  "class": "icon-button topbar-button-search-button",
+                  "aria-label": "YouTube を検索"
+                },
+                "text": "",
+                "rect": {
+                  "x": 140,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 188,
+                  "bottom": 48,
+                  "left": 140
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他のオプション"
+                },
+                "text": "",
+                "rect": {
+                  "x": 188,
+                  "y": 0,
+                  "width": 48,
+                  "height": 48,
+                  "top": 0,
+                  "right": 236,
+                  "bottom": 48,
+                  "left": 188
+                }
+              },
+              {
+                "attrs": {
+                  "aria-label": "もっと見る",
+                  "class": "slim-video-information-show-more"
+                },
+                "text": "もっと見る",
+                "rect": {
+                  "x": 314,
+                  "y": 311.375,
+                  "width": 60,
+                  "height": 18,
+                  "top": 311.375,
+                  "right": 374,
+                  "bottom": 329.375,
+                  "left": 314
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextFilled ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeS ytSpecButtonShapeNextEnableBackdropFilterExperiment ytSpecButtonShapeNext",
+                  "title": "",
+                  "aria-label": "Blender をチャンネル登録"
+                },
+                "text": "チャンネル登録",
+                "rect": {
+                  "x": 56,
+                  "y": 345.375,
+                  "width": 108,
+                  "height": 32,
+                  "top": 345.375,
+                  "right": 164,
+                  "bottom": 377.375,
+                  "left": 56
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "他 110,079 人もこの動画を高く評価しました"
+                },
+                "text": "",
+                "rect": {
+                  "x": 215,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 263,
+                  "bottom": 385.375,
+                  "left": 215
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "この動画を低く評価する"
+                },
+                "text": "",
+                "rect": {
+                  "x": 256,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 304,
+                  "bottom": 385.375,
+                  "left": 256
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "共有"
+                },
+                "text": "",
+                "rect": {
+                  "x": 297,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 345,
+                  "bottom": 385.375,
+                  "left": 297
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "その他"
+                },
+                "text": "",
+                "rect": {
+                  "x": 338,
+                  "y": 337.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 337.375,
+                  "right": 386,
+                  "bottom": 385.375,
+                  "left": 338
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytVideoMetadataCarouselViewModelHost",
+                  "role": "button",
+                  "aria-label": "コメント"
+                },
+                "text": "コメント5186Ah.. The classic test video",
+                "rect": {
+                  "x": 16,
+                  "y": 393.375,
+                  "width": 358,
+                  "height": 76,
+                  "top": 393.375,
+                  "right": 374,
+                  "bottom": 469.375,
+                  "left": 16
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 718.75,
+                  "width": 48,
+                  "height": 48,
+                  "top": 718.75,
+                  "right": 390,
+                  "bottom": 766.75,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1018.125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1018.125,
+                  "right": 390,
+                  "bottom": 1066.125,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1317.5,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1317.5,
+                  "right": 390,
+                  "bottom": 1365.5,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1629.875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1629.875,
+                  "right": 390,
+                  "bottom": 1677.875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 1960.25,
+                  "width": 48,
+                  "height": 48,
+                  "top": 1960.25,
+                  "right": 390,
+                  "bottom": 2008.25,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2272.625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2272.625,
+                  "right": 390,
+                  "bottom": 2320.625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2572,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2572,
+                  "right": 390,
+                  "bottom": 2620,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 2884.375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 2884.375,
+                  "right": 390,
+                  "bottom": 2932.375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 120,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 160,
+                  "bottom": 3050.375,
+                  "left": 120
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 280,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 320,
+                  "bottom": 3050.375,
+                  "left": 280
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 440,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 480,
+                  "bottom": 3050.375,
+                  "left": 440
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextOverlay ytSpecButtonShapeNextSizeM ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilte",
+                  "title": "",
+                  "aria-label": "その他の操作"
+                },
+                "text": "",
+                "rect": {
+                  "x": 600,
+                  "y": 3010.375,
+                  "width": 40,
+                  "height": 40,
+                  "top": 3010.375,
+                  "right": 640,
+                  "bottom": 3050.375,
+                  "left": 600
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3530.1875,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3530.1875,
+                  "right": 390,
+                  "bottom": 3578.1875,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 3842.5625,
+                  "width": 48,
+                  "height": 48,
+                  "top": 3842.5625,
+                  "right": 390,
+                  "bottom": 3890.5625,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4154.9375,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4154.9375,
+                  "right": 390,
+                  "bottom": 4202.9375,
+                  "left": 342
+                }
+              },
+              {
+                "attrs": {
+                  "class": "ytSpecButtonShapeNextHost ytSpecButtonShapeNextText ytSpecButtonShapeNextMono ytSpecButtonShapeNextSizeL ytSpecButtonShapeNextIconButton ytSpecButtonShapeNextEnableBackdropFilterEx",
+                  "title": "",
+                  "aria-label": "操作メニュー"
+                },
+                "text": "",
+                "rect": {
+                  "x": 342,
+                  "y": 4454.3125,
+                  "width": 48,
+                  "height": 48,
+                  "top": 4454.3125,
+                  "right": 390,
+                  "bottom": 4502.3125,
+                  "left": 342
+                }
+              }
+            ],
+            "links": [],
+            "trace": [
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 20
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 38
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 55
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 35
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 18
+              },
+              {
+                "type": "touchmove",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "VIDEO",
+                "attrs": "video-stream html5-main-video",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchstart",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchmove",
+                "prevented": true,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              },
+              {
+                "type": "touchend",
+                "prevented": false,
+                "target": "DIV",
+                "attrs": "player-controls-background",
+                "fs": null,
+                "scrollY": 0
+              }
+            ]
+          }
+        }
+      ],
+      "exercised": true
+    }
+  ]
+}

@@ -23,6 +23,7 @@ web-page-enhancement-scripts
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
+  - `video-swipe-fullscreen/` — Webページの動画へ上下ドラッグ全画面を追加（ローカル配布）
   - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
@@ -70,6 +71,11 @@ web-page-enhancement-scripts
 - [yahoo-mail-mark-read](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-mark-read.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
+
+汎用の動画スワイプ全画面（ローカル配布）
+------------------------------------
+
+`dist/video-swipe-fullscreen.user.js` をuserscript managerの新規スクリプトへ貼り付けて保存し、ページを再読み込みします。動画中央から上へ64px以上・1.2秒以内のドラッグで全画面と横画面ロックを試し、その全画面中の下ドラッグで復元します。サイト別無効化、iframe・shadow DOMの条件、ニコニコ版との併用は [利用説明](docs/video-swipe-fullscreen.md) を参照してください。新規版はまだ公開・pushしていないため、公開インストールリンクはありません。
 
 配布・導入
 ---------

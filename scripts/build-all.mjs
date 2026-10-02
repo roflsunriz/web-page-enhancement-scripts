@@ -30,6 +30,7 @@ const targets = [
   { mode: 'twitter-full-size-image', clear: false },
   { mode: 'twitter-thread-copier', clear: false },
   { mode: 'video-screen-off-detection-blocker', clear: false },
+  { mode: 'video-swipe-fullscreen', clear: false },
   { mode: 'x-auto-spam-reporter', clear: false },
   { mode: 'x-community-note-close', clear: false },
   { mode: 'yahoo-mail-ad-cleaner', clear: false },

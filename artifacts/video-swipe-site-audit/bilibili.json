@@ -1,0 +1,367 @@
+{
+  "name": "bilibili",
+  "browser": "154.0.8037.93",
+  "viewport": "390x844",
+  "ua": "Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Mobile Safari/537.36",
+  "attempts": [
+    {
+      "requested": "https://www.bilibili.com/video/BV1DT4y1z7a1/",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://m.bilibili.com/video/BV1DT4y1z7a1",
+            "title": "【4K】《大雄兔(Big Buck Bunny)》（2008）动画短片_哔哩哔哩_bilibili",
+            "text": "アプリをダウンロード\n7559\n8\n21:10\n【4K】《大雄兔(Big Buck Bunny)》（2008）动画短片\nHAF半个水果\n立即播放\nアプリを開いて、弾幕を送りながら動画を楽しもう！\n100+个相关视频\n更多\n5.1万\n100\n15:13\nApp\n学霸紫悦\n8.4万\n137\n02:20:02\nApp\n《蓝兰岛漂流记(ながされて藍蘭島)》（2007）原声带\n6.0万\n197\n20:06\nApp\n蓝兰岛漂流记 01集\n11.4万\n64\n29:46\nApp\n原来派大星并不傻，只是脑子一直处于待机状态\n4.3万\n70\n01:31\nApp\n“套马杆的汉子你威武雄壮”\n3.6万\n33\n00:58\nApp\n咕咕嘎嘎之葫芦七咕！大咕：为啥受伤的总是我！\n\n信息网络传播视听节目许可证：0910417\n\n网络文化经营许可证 沪网文【2019】3804-274号\n\n广播电视节目制作经营许可证：（沪）字第01248号\n\n增值电信业务经营许可证 沪B2-20100043\n\n备案号：沪ICP备13002172号 https://beian.miit.gov.cn/#/home",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "gsl-video",
+                  "playsinline": ""
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                },
+                "paused": true,
+                "readyState": 4,
+                "currentTime": 0,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "gsl-video",
+                      "playsinline": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "gsl-area"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "gsl-wrap gsl-lazy-loaded"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "id": "bilibiliPlayer",
+                      "class": "player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "class": "player-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "class": "m-video-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-8c3015a0": "",
+                      "class": "video-share"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        }
+      ],
+      "exercised": false
+    },
+    {
+      "requested": "https://www.bilibili.com/video/BV1hK4y187dT/",
+      "status": 200,
+      "measurements": [
+        {
+          "phase": "loaded",
+          "state": {
+            "url": "https://m.bilibili.com/video/BV1hK4y187dT",
+            "title": "Big Buck Bunny -60帧超高清动画，看着不要太舒服，画质感人啊_哔哩哔哩_bilibili",
+            "text": "アプリをダウンロード\n525\n0\n10:35\nBig Buck Bunny -60帧超高清动画，看着不要太舒服，画质感人啊\n美吖丫丫\n立即播放\nアプリを開いて、素晴らしい動画をもっと楽しもう\nアプリを開いて、弾幕を送りながら動画を楽しもう！\n100+个相关视频\n更多\n21.7万\n161\n03:00\nApp\n拔智齿动画 | 为什么你不应该忽视突如其来的智齿！\n2.5万\n2\n11:09\nApp\n奶龙系列 大合集 277\n5.1万\n2\n00:35\nApp\n“结界兽只打高端局”\n4.7万\n1\n00:11\nApp\n开过头了\n10.6万\n95\n11:29\nApp\n【牧白疯了】蹲坑纯享版\n54\n0\n10:51\nApp\nYouTube 播放量超高的清的06帧动画看过么？超萌、超可爱、超感人啊\n\n信息网络传播视听节目许可证：0910417\n\n网络文化经营许可证 沪网文【2019】3804-274号\n\n广播电视节目制作经营许可证：（沪）字第01248号\n\n增值电信业务经营许可证 沪B2-20100043\n\n备案号：沪ICP备13002172号 https://beian.miit.gov.cn/#/home",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": true,
+            "videos": [
+              {
+                "attrs": {
+                  "class": "gsl-video",
+                  "playsinline": ""
+                },
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                },
+                "paused": true,
+                "readyState": 4,
+                "currentTime": 0,
+                "ancestry": [
+                  {
+                    "tag": "VIDEO",
+                    "attrs": {
+                      "class": "gsl-video",
+                      "playsinline": ""
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "gsl-area"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "class": "gsl-wrap gsl-lazy-loaded"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "id": "bilibiliPlayer",
+                      "class": "player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "class": "player-container"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-dd0c9070": "",
+                      "class": "m-video-player"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  },
+                  {
+                    "tag": "DIV",
+                    "attrs": {
+                      "data-v-8c3015a0": "",
+                      "class": "video-share"
+                    },
+                    "rect": {
+                      "x": 0,
+                      "y": 0,
+                      "width": 0,
+                      "height": 0,
+                      "top": 0,
+                      "right": 0,
+                      "bottom": 0,
+                      "left": 0
+                    }
+                  }
+                ]
+              }
+            ],
+            "iframes": [
+              {
+                "src": "https://s1.hdslb.com/bfs/seed/jinkela/short/cols/iframe.html",
+                "allow": "",
+                "allowFullscreen": false,
+                "rect": {
+                  "x": 0,
+                  "y": 0,
+                  "width": 0,
+                  "height": 0,
+                  "top": 0,
+                  "right": 0,
+                  "bottom": 0,
+                  "left": 0
+                }
+              }
+            ],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        },
+        {
+          "phase": "frame-loaded",
+          "frame": "https://s1.hdslb.com/bfs/seed/jinkela/short/cols/iframe.html",
+          "state": {
+            "url": "https://s1.hdslb.com/bfs/seed/jinkela/short/cols/iframe.html",
+            "title": "Cross Origin Local Storage",
+            "text": "\n    \n      ;(function () {\n        'use strict'\n\n        var COLS_GET = 'COLS_GET'\n        var COLS_SET = 'COLS_SET'\n        var COLS_RM = 'COLS_RM'\n        var COLS_KEYS = 'COLS_KEYS'\n        var COLS_CLR = 'COLS_CLR'\n        var COLS_LIS = 'COLS_LIS' // add listener\n\n        var COLS_LIS_UN = 'COLS_LIS_UN' // remove listener\n\n        var COLS_RES = 'COLS_RES'\n        var listenMap = {}\n        window.addEventListener('storage', function (e) {\n          if (listenMap[e.key]) {\n            listenMap[e.key].forEach(function (v) {\n              var _v$\n\n              return (_v$ = v[1]) === null || _v$ === void 0 ? void 0 : _v$.call(v, e.newValue)\n            })\n          }\n        })\n\n        var response = function response(e, value) {\n          e.source.postMessage(\n            {\n              type: COLS_RES,\n              id: e.data.id,\n              key: e.data.key,\n              value: value,\n            },\n            e.origin\n          )\n        }\n\n        window.addEventListener('message', function (e) {\n          var _e$data = e.data,\n            type = _e$data.type,\n            id = _e$data.id,\n            key = _e$data.key\n\n          try {\n            switch (type) {\n   ",
+            "scrollY": 0,
+            "fs": null,
+            "fullscreenEnabled": false,
+            "videos": [],
+            "iframes": [],
+            "buttons": [],
+            "links": [],
+            "trace": []
+          }
+        }
+      ],
+      "exercised": false
+    }
+  ]
+}

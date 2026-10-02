@@ -18,7 +18,7 @@ const source = await readFile(
   new URL("../dist/nico-mobile-swipe-fullscreen.user.js", import.meta.url),
   "utf8",
 );
-assert.match(source, /@version\s+1\.0\.0/);
+assert.match(source, /@version\s+1\.0\.1/);
 assert.match(source, /@match\s+https:\/\/sp\.nicovideo\.jp\/\*/);
 assert.match(source, /@noframes/);
 const browser = await chromium.launch({ channel: "chrome", headless: true });
@@ -486,6 +486,15 @@ try {
       { mock: false, width, height },
     );
   assert.deepEqual(errors, [], "no uncaught browser exceptions");
+  await run(
+    "repeat injection issues one fullscreen request",
+    async ({ cdp }) => {
+      await evaluate(cdp, source);
+      await mouse(cdp, from, up);
+      await waitFor(cdp, "__calls.lock===1");
+      assert.equal(await evaluate(cdp, "__calls.enter"), 1);
+    },
+  );
   console.log(`Nico mobile swipe: ${cases} browser cases passed`);
 } finally {
   await browser.close();

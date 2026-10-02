@@ -45,6 +45,11 @@ export function playerRoot(video: HTMLVideoElement) {
 function boot() {
   if (window.top !== window.self || location.hostname !== "sp.nicovideo.jp")
     return;
+  // DOM marker works across userscript sandboxes and gives this dedicated
+  // player implementation priority over video-swipe-fullscreen on watch pages.
+  const marker = "data-nico-mobile-swipe-owner";
+  if (document.documentElement.hasAttribute(marker)) return;
+  document.documentElement.setAttribute(marker, "1");
   const controller = new FullscreenController();
   let gesture: Gesture | null = null;
   let suppress: { root: HTMLElement; until: number } | null = null;
