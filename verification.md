@@ -27,7 +27,7 @@
 - [Screen Orientation標準](https://www.w3.org/TR/screen-orientation/#interaction-with-fullscreen-api) は全画面をロックの前提とし、未対応・制約違反では拒否し得る。全画面成功後だけ `screen.orientation.lock('landscape')` を試し、拒否・API不在時は通常の全画面を維持して手動回転へフォールバックする。解除時には、このスクリプトが取得したロックだけをunlockする。
 - [WebKit公式説明](https://webkit.org/blog/13966/webkit-features-in-safari-16-4/) の一般DOM全画面と動画ネイティブ全画面は別の機能。iOS等のOS管理の動画全画面はDOMの下スワイプを受け取れないため、`webkitEnterFullscreen` を自動フォールバックに使わない。ブラウザ名で判定せずAPIの有無と実要求の成否で分岐し、未対応なら既存ボタンを案内する。実験的機能を有効化する設定変更は行わない。
 - `adb devices` に接続実機は0件。Android・iOS実機、Firefox/Safari、userscript managerでの実インストール、既存拡張との併用、ログイン済みの継続再生は未検証。PCエミュレーションでは物理回転・モバイルOSのネイティブ動画UI・全端末のスクロール開始タイミングを保証できない。
-- 実機での再開には、既存認証を保持したモバイルブラウザとuserscript managerが必要。未導入ならインストール前に報告し、セキュリティ設定を変更せず、再生中の上/下スワイプ、タップ・シーク・スクロール・複数指、横画面拒否、既存ボタンの解除、SPA移動を確認する。今回はpush・mainマージ・リリース・既存認証の変更は行わない。
+- 実機での再開には、既存認証を保持したモバイルブラウザとuserscript managerが必要。未導入ならインストール前に報告し、セキュリティ設定を変更せず、再生中の上/下スワイプ、タップ・シーク・スクロール・複数指、横画面拒否、既存ボタンの解除、SPA移動を確認する。ユーザー承認後、リモートmainのCI設定2コミットを保持してローカル変更をリベースし、通常pushした。実装コミットは `04e6c94`、GitHub CIも成功した。force push・mainマージ・タグ作成・GitHub Release・既存認証の変更は行っていない。
 
 
 ## YouTube UI Modifier 1.8.8 / Issue #8（2026-09-27）

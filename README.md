@@ -55,7 +55,7 @@ web-page-enhancement-scripts
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
 - [khinsider-direct-link-saver](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/khinsider-direct-link-saver.user.js)
-- [nico-mobile-swipe-fullscreen](dist/nico-mobile-swipe-fullscreen.user.js) — ローカル配布物（未公開）
+- [nico-mobile-swipe-fullscreen](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/nico-mobile-swipe-fullscreen.user.js)
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
 - [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
@@ -84,7 +84,7 @@ web-page-enhancement-scripts
 
 横画面ロックはブラウザが許可した場合だけ利用します。未対応・拒否時は全画面を維持して案内を表示するので、端末を手動で回転してください。通常表示へ戻ると、このスクリプトが取得した画面ロックを解除します。ブラウザが全画面そのものに未対応・拒否した場合は通常表示を維持します。iPhone等のOS管理の動画全画面ではページ側が下スワイプを受け取れないため、自動フォールバックせず既存の全画面ボタンを案内します。OS・ブラウザの設定変更は不要です。
 
-今回の配布物はまだリモートへ公開していません。ローカルの `dist/nico-mobile-swipe-fullscreen.user.js` をuserscript managerの新規スクリプトへ貼り付けて保存します。対応APIがあっても全端末での成功を保証するものではありません。[確認範囲・ブラウザ制約](verification.md#nico-mobile-swipe-fullscreen-1002026-10-02)を参照してください。
+上のインストールリンクをuserscript managerを導入したブラウザで開いて保存します。ローカルの `dist/nico-mobile-swipe-fullscreen.user.js` を新規スクリプトへ貼り付けても導入できます。対応APIがあっても全端末での成功を保証するものではありません。[確認範囲・ブラウザ制約](verification.md#nico-mobile-swipe-fullscreen-1002026-10-02)を参照してください。
 
 アップデート手順
 ---------------
