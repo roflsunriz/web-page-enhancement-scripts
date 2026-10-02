@@ -83,6 +83,12 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - 視聴ページのSPA遷移では前の動画のDOMが残るため、単なる要素存在では準備完了としない。`page-readiness.ts` は表示中の視聴コンテナー内の `ytd-watch-metadata[video-id]` とURLの `v` の一致、タイトルの描画を確認する。待機中も保存済み設定と設定メニューを維持する。
 - Issue #8のユーザー環境は全スクリプトとuBlock Originの併用。漫画ビューアはYouTubeをメタデータで除外している。検証では実際の適用対象のみを組み合わせ、Firefoxの実利用プロファイルを変更せず分離する。実測結果と未確認条件は `verification.md` に記載する。
 
+## ニコニコ動画モバイルのスワイプ全画面（2026-10-02 確認）
+
+- 実ページは `video[data-name="video-content"]` と `data-name="stage" / "inner" / "content"` を使う。プレーヤー外周はハッシュ付きクラスのため、それへ依存せず動画とほぼ同じ矩形の祖先で操作パネルを含む全画面対象を求める。途中に高さ0のラッパーがあるため、全画面中のみ動画までの祖先を埋める。サイトのinline寸法・transformはアスペクト比とコメント層の配置を担うため強制上書きしない。全画面後は矩形が変わるので解除判定には取得時のルートを保持する（`src/nico-mobile-swipe-fullscreen`）。
+- 透明なタップ面はstageの兄弟要素であり、stage内だけを対象にすると実ページで開始できない。プレーヤー内の中央領域を対象にし、button / slider等の操作要素は除外する。
+- 全画面要求はユーザー操作終了イベント内で同期的に呼び、横画面ロックは全画面成功後に試す。OS管理の動画全画面はDOMへタッチが届かないため、下スワイプ解除を約束するフォールバックには使わない。遅延ロック成功後の解除漏れも回帰テストで確認する（`scripts/nico-mobile-swipe-fullscreen-regression.mjs`、`verification.md`）。
+
 ## bilibili 日本語化の知見（2026-09-08 確認）
 
 - `bilibili.com` の動画ページは bot 判定（HTTP 412）で素の fetch が失敗するため、実 DOM の取得は CDP 経由の実ブラウザで行う。WebFetch での事前取得はトップページのナビ文言程度に留める。

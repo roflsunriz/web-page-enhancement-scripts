@@ -424,6 +424,23 @@ const nativeVideoVolumeSetterMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/native-video-volume-setter.user.js',
 };
 
+const nicoMobileSwipeFullscreenMeta: MonkeyUserScript = {
+  name: 'nico-mobile-swipe-fullscreen',
+  namespace: 'nicoMobileSwipeFullscreen',
+  version: '1.0.0',
+  description: 'ニコニコ動画モバイル版で動画を上スワイプして横画面全画面、下スワイプで通常表示に戻す',
+  author: 'roflsunriz',
+  match: ['https://sp.nicovideo.jp/*'],
+  grant: 'none',
+  noframes: true,
+  'run-at': 'document-end',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=nicovideo.jp',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/nico-mobile-swipe-fullscreen.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/nico-mobile-swipe-fullscreen.user.js',
+};
+
 const trickcalToolSweepMeta: MonkeyUserScript = {
   name: 'trickcal-tool-sweep',
   namespace: 'trickcalToolSweep',
@@ -720,6 +737,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/native-video-volume-setter/main.ts',
     fileName: 'native-video-volume-setter.user.js',
     meta: nativeVideoVolumeSetterMeta,
+  },
+  'nico-mobile-swipe-fullscreen': {
+    entry: 'src/nico-mobile-swipe-fullscreen/main.ts',
+    fileName: 'nico-mobile-swipe-fullscreen.user.js',
+    meta: nicoMobileSwipeFullscreenMeta,
   },
   'trickcal-tool-sweep': {
     entry: 'src/trickcal-tool-sweep/main.ts',

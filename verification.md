@@ -1,5 +1,35 @@
 # 検証手順と対策
 
+## nico-mobile-swipe-fullscreen 1.0.0（2026-10-02）
+
+### 対象と実装
+
+- 対象リポジトリは `roflsunriz/web-page-enhancement-scripts`。既存mainの作業開始時の差分は0件。ルートの共通・個別AGENTSを全文確認し、リポジトリ `.agents` は空で関連SKILL.mdはなかった。
+- `https://sp.nicovideo.jp/*` で読み込み、`/watch/<動画ID>` の `video[data-name="video-content"]` を操作対象にする。他サイト・iframeでは起動しない。一覧からのSPA遷移にも備えてmatchはwatch限定にしない。
+- 動画の中央から1本指・マウス左ボタンで64px以上、1.2秒以内に縦ドラッグして離すと、通常表示では上方向で全画面要求、そのスクリプト自身の全画面中では下方向で解除。初動の縦/横比1.6未満、逆方向、タップ、短い移動、複数指、キャンセル、ボタン・リンク・入力・slider・dialog、動画端からの開始を除外する。ページ本文のスクロールと最初から横に動く操作には介入しない。動画中央からの上ドラッグは全画面用であり、同じ開始地点の上方向スクロールとは識別できないためスクロールは動画外から行う。
+- SPAでは履歴を書き換えず、DOM交換とURL変化を監視して所有した全画面・画面ロックを解放する。取得後にロックPromiseが遅れて成功した場合も解放する。Escや既存ボタンによる解除、pagehideにも対応。他機能が開始した全画面・画面ロックは操作しない。
+
+### 自動検証
+
+- `bun run format`、`bun run lint`、`bun run type-check`、`bun run build`、`bun run test` を実行。44単体テスト（新規5件を含む）、dアニメ切替検証、漫画ビューア回帰、YouTube UI Modifier回帰、dアニメ版一致検査を確認した。
+- `scripts/nico-mobile-swipe-fullscreen-regression.mjs` は採取した実ページのdata-name構造・高さ0の中間ラッパーを縮小したオフラインフィクスチャ。既存Google Chromeの分離コンテキストへタッチ・マウス入力を送る29ケースが合格した。全外部要求をフィクスチャで充足し、未知の要求も空応答にする。
+- タップ・横シーク・斜め・短い移動・逆方向・端・ボタン・range・動画外スクロール・複数指・touchcancel・途中反転、透明タップ面、SPA進入と離脱、動画交換、遅延した全画面要求・遅延ロック、要求/解除拒否、ロックAPI不在、外部全画面非干渉、pagehideを確認。成功ロックと異常系はスタブで検証し、物理端末の画面回転を確認したという意味ではない。
+- 390×844・844×390ではスタブを外した実Fullscreen APIで全画面化・解除を確認。全画面rootがviewportを満たし、動画のアスペクト比・中央寄せがroot内に収まることと通常表示への復元を測定した。サイトのinline寸法/transform変更と全画面後のルート寸法変化も再現する。
+- Chromeが未消費の横タッチをブラウザ標準の「戻る」と解釈する場合がある。要求回数はページ外で観測し、ナビゲーションで証拠が消えないようにした。標準操作を抑止するための設定変更はしていない。
+- 全26スクリプトの配布物を標準ビルドで生成。対象外の再生成差分は作業前の内容へ戻し、新規配布物2件だけを追加した。構文、メタデータ、空白差分も確認する。
+- 既存CIの `bun audit` で `brace-expansion@5.0.9` のDoS脆弱性3件を検出。既存overrideを同一メジャーの修正版5.0.12へ限定更新し、`bun install --ignore-scripts` でlockfileを再生成した。lockfile差分は同依存の指定・版・integrityのみ。再監査は205パッケージ中0件。根拠は [GHSA-qhr7-859c-m2p7](https://github.com/advisories/GHSA-qhr7-859c-m2p7)、[GHSA-q2hr-2g5m-vwhr](https://github.com/advisories/GHSA-q2hr-2g5m-vwhr)。
+
+### 実ページと制約
+
+- Windows PCの分離したヘッドレスChromeで、Android相当UA・390×844・タッチ入力を使用。未ログインの公開視聴ページ `https://sp.nicovideo.jp/watch/sm9` へビルド済みスクリプトを一時注入した。アプリ案内を一時プロファイル内で閉じ、中央再生ボタンを避けた動画領域の上スワイプで全画面、下スワイプで通常表示への復元を確認した。動画の継続再生やコメント同期の精度検証は対象外。
+- 実測は通常時video約389×219、全画面root390×844、全画面時video390×219が中央に収まり、解除後のvideoは元の位置・寸法へ戻り追加属性も0件になる。画面ロックはPC Chromeで拒否され、全画面を保ち「端末を横に回転してください」の案内が表示された。画像でも中央配置と復元を確認した。
+- [Fullscreen API標準](https://fullscreen.spec.whatwg.org/#dom-element-requestfullscreen) は一時的ユーザーアクティベーションとfullscreen権限を要求する。要求はtouchend/pointerup内で同期的に呼び、拒否・非対応なら通常表示を維持して既存ボタンを案内する。権限ポリシーやOS・ブラウザ設定は変更しない。
+- [Screen Orientation標準](https://www.w3.org/TR/screen-orientation/#interaction-with-fullscreen-api) は全画面をロックの前提とし、未対応・制約違反では拒否し得る。全画面成功後だけ `screen.orientation.lock('landscape')` を試し、拒否・API不在時は通常の全画面を維持して手動回転へフォールバックする。解除時には、このスクリプトが取得したロックだけをunlockする。
+- [WebKit公式説明](https://webkit.org/blog/13966/webkit-features-in-safari-16-4/) の一般DOM全画面と動画ネイティブ全画面は別の機能。iOS等のOS管理の動画全画面はDOMの下スワイプを受け取れないため、`webkitEnterFullscreen` を自動フォールバックに使わない。ブラウザ名で判定せずAPIの有無と実要求の成否で分岐し、未対応なら既存ボタンを案内する。実験的機能を有効化する設定変更は行わない。
+- `adb devices` に接続実機は0件。Android・iOS実機、Firefox/Safari、userscript managerでの実インストール、既存拡張との併用、ログイン済みの継続再生は未検証。PCエミュレーションでは物理回転・モバイルOSのネイティブ動画UI・全端末のスクロール開始タイミングを保証できない。
+- 実機での再開には、既存認証を保持したモバイルブラウザとuserscript managerが必要。未導入ならインストール前に報告し、セキュリティ設定を変更せず、再生中の上/下スワイプ、タップ・シーク・スクロール・複数指、横画面拒否、既存ボタンの解除、SPA移動を確認する。今回はpush・mainマージ・リリース・既存認証の変更は行わない。
+
+
 ## YouTube UI Modifier 1.8.8 / Issue #8（2026-09-27）
 
 ### 修正と自動回帰

@@ -23,6 +23,7 @@ web-page-enhancement-scripts
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
+  - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
   - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
@@ -54,6 +55,7 @@ web-page-enhancement-scripts
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
 - [khinsider-direct-link-saver](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/khinsider-direct-link-saver.user.js)
+- [nico-mobile-swipe-fullscreen](dist/nico-mobile-swipe-fullscreen.user.js) — ローカル配布物（未公開）
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
 - [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
@@ -74,6 +76,15 @@ web-page-enhancement-scripts
 
 1. `dist/` 内の `.user.js` ファイルを開いて右上のRawボタンを押すとTampermonkeyのユーザースクリプトとして読み込めます。そのままインストールするか、Tampermonkey の「新しいスクリプトを追加」から貼り付けてインストールします。
 2. `.meta.js` はメタ情報の参照やホスティング時に使用できます。
+
+ニコニコ動画モバイル版のスワイプ全画面
+------------------------------------
+
+`nico-mobile-swipe-fullscreen` を導入し、`https://sp.nicovideo.jp/watch/<動画ID>` を開きます。動画の中央付近（操作ボタン・上下左右の端を除く）から、1本指またはマウス左ボタンで上へ64px以上、1.2秒以内にドラッグして離すと全画面表示になります。その全画面中に中央付近から下へ同じようにドラッグすると通常表示に戻ります。最初に横へ動かした操作、タップ、複数指、ページ本文・操作ボタン・シークバーからの操作は対象外です。動画中央からの上方向ドラッグはこの操作に割り当てるため、ページを上方向へスクロールするときは動画の外から操作してください。
+
+横画面ロックはブラウザが許可した場合だけ利用します。未対応・拒否時は全画面を維持して案内を表示するので、端末を手動で回転してください。通常表示へ戻ると、このスクリプトが取得した画面ロックを解除します。ブラウザが全画面そのものに未対応・拒否した場合は通常表示を維持します。iPhone等のOS管理の動画全画面ではページ側が下スワイプを受け取れないため、自動フォールバックせず既存の全画面ボタンを案内します。OS・ブラウザの設定変更は不要です。
+
+今回の配布物はまだリモートへ公開していません。ローカルの `dist/nico-mobile-swipe-fullscreen.user.js` をuserscript managerの新規スクリプトへ貼り付けて保存します。対応APIがあっても全端末での成功を保証するものではありません。[確認範囲・ブラウザ制約](verification.md#nico-mobile-swipe-fullscreen-1002026-10-02)を参照してください。
 
 アップデート手順
 ---------------

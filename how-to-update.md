@@ -35,6 +35,8 @@ bun run test
 bun run check:d-anime-version
 ```
 
+新規ニコニコ動画スワイプ全画面の単独ビルドは `bunx --no-install vite build --mode nico-mobile-swipe-fullscreen`、操作回帰は `node scripts/nico-mobile-swipe-fullscreen-regression.mjs` です。横画面ロックが失敗した場合は端末を手動で回転します。利用停止はuserscript managerでこのスクリプトを無効にしてページを再読み込みします。設定・依存の追加は不要です。
+
 ## 復旧方針
 
 - ビルド生成物に問題がある場合は、生成元を修正してから `bun run build` を再実行します。
