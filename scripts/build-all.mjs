@@ -24,6 +24,7 @@ const targets = [
   { mode: 'manga-viewer', clear: false },
   { mode: 'native-video-volume-setter', clear: false },
   { mode: 'nico-mobile-swipe-fullscreen', clear: false },
+  { mode: 'nico-player-premium-controls', clear: false },
   { mode: 'trickcal-tool-sweep', clear: false },
   { mode: 'twitter-clean-timeline', clear: false },
   { mode: 'twitter-clean-ui', clear: false },

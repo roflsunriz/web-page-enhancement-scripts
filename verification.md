@@ -30,6 +30,35 @@
 - [WHATWG HTML popover](https://html.spec.whatwg.org/multipage/popover.html#dom-showpopover): video自体の全画面では通常の子要素やbody上の通知が見えないため、対応ブラウザでmanual popoverをtop layerへ表示する。Popover API非対応時のその表示形態では通知の視認を保証できない。
 - [Tampermonkey API](https://www.tampermonkey.net/documentation.php#api:GM_registerMenuCommand): GM_getValue / GM_setValue / GM_registerMenuCommandを使う。日本語・英語の文言と英語fallbackを備える。公開main向けupdateURL/downloadURLを生成し、メタデータと回帰で一致を確認する。
 
+## nico-player-premium-controls 1.0.1（2026-10-02）
+
+### 対象と境界
+
+- `sp.nicovideo.jp/*` にdocument-start・grant none・page/rawで読み込み、`/watch/<動画ID>`だけで有効化する。PC版には適用しない。独立worktreeで検証済みの `055b7f58` 差分を、承認後に最新main `67bf8b4` へ統合した。汎用スワイプ版の登録・依存更新を保持し、premiumの承認済みソースは変更していない。元の試作worktreeと他作業のworktree、設定・認証を保持する。
+- 公式設定パネルのpropsを構造で照合し`isPremium`のみtrueにした複製を渡す。速度一覧の`available`のみtrueにした複製を渡す。既存コールバック・選択値・保存先は保持する。実動画とIDが一致する公式コントローラーのcontext参照を保ち、ローカル速度／反転用isPremiumだけを変更する。導入時に設定setterを呼ばない。
+- 公式公開ESMをnative importで共有する。特定のハッシュ名を固定せず、実際にロード／preloadされた公式originのjsx-runtimeを探す。React fiberのprops/state/memoCacheを上限付きで探索する。サイト内部APIに依存し、将来の構造変更への互換性は保証できない。失敗時は通常のパネルを維持しコンソールで案内する。
+- 実会員情報、watch.viewer、Cookie、fetch/XHR、コメント本文と会員フラグ、認証ヘッダー、サービス権利レスポンスを変更しない。filter-matomeのserver-context方式は参考調査のみで、アカウント全体の偽装や通信改変を採用していない。画質／高音質／有料コンテンツ／サーバーの再開位置取得は対象外。
+- URL変化、動画交換、watch離脱、pagehideで所有しているcontextとruntimeを復元し、再進入/pageshowで再取得する。第三者が後から置換した値は上書きしない。ユーザーが公式パネルで選んだ設定は公式の保存方法に従う。
+
+### 再現可能な自動検証
+
+- `bun run format` / `lint` / `type-check` / `build` / `test` が成功。全28スクリプトを標準ビルドし、対象外の再生成差分は開始時の内容に復元した。52単体テスト（追加8件）、1638 assertion、既存dアニメ・漫画・YouTube・ニコニコ専用スワイプ30ケース・汎用スワイプ55ケース・版一致検査が成功。`bun audit`は205パッケージ中0件、配布物の`node --check`成功。統合worktreeに固定lockfileから独立した依存を導入し、共有node_modulesを変更せず最新mainのVite 8.3.2で検証した。`bun outdated`の残りはTypeScript 7.0.2だけで、typescript-eslint 8.71.0のpeer範囲外のため6.0.3を維持した。
+- 単独検査は `bun test src/nico-player-premium-controls/eligibility.test.mjs` と `node scripts/nico-player-premium-controls-regression.mjs`。既存Chromeを分離コンテキストで使用し、390×844と844×390で合計50項目を確認。外部要求は全てオフラインfixtureで充足し、未知要求も空応答にする。
+- `node scripts/nico-player-premium-controls-regression.mjs --with-swipe` では両スワイプ配布物も同時注入し、同じ50項目が成功した。通常の `bun run test` に併用検査を追加した。最新main統合後の配布物でも、以下の実サイト検査25項目を再実行してすべて成功した。
+- 現在の設定とstorage参照の保持、導入時setter呼び出し0、レジューム／反転のONとOFF、送り秒数選択、速度2倍と1倍がコントローラー／native videoへ反映、キャンセルと再表示、会員／権利の不変、元のfetch/XHRとコメント送信内容・認証ヘッダーの保持、SPAの新旧context復元、ページ離脱／復帰、重複注入、無関係のprops不変、ブラウザ例外0を確認する。
+- 公式React JSX runtimeのfixtureは [出典とライセンス](test-fixtures/nico-player-premium-controls/README.md) を参照。パネルとコントローラーは公式propsの契約を縮小したフィクスチャであり、実サービスの全アプリをオフライン再現したものではない。
+
+### 実ページ確認と未検証範囲
+
+- Windowsの分離Chrome、Android相当UA・390×844・タッチ有効、未ログインの公開 `https://sp.nicovideo.jp/watch/sm9` で配布物をCDP一時注入。公式runtime1件とプレーヤー1件に適用し、エラーなし。公式設定にレジューム／スキップ／反転を表示し、会員atomがnullのまま、レジュームON・反転OFF・送り戻し10秒・速度1倍の初期値を維持していることを確認した。
+- `sm9`でレジュームON→OFF→ONを操作すると、同一の動画DOMを維持したままAF atomがコントローラーを再作成する。現在のReact rootを750ms間隔と公式クリックのcapture段階で照合し、旧コントローラーを解除する最小修正を入れた。反転のON/OFFでチェック・現行controller.isFlip()・video.style.transformがそれぞれtrue/rotateY(180deg)、false/noneと一致した。導入時のレジュームON・反転OFF・10秒・速度1倍は維持した。
+- 公式の外部メディア制御（広告中）では速度setterが停止する。広告を改変せず最大45秒待ち、本編で2倍選択→controller.getPlaybackRate()とvideo.playbackRateの両方が2、1倍選択→両方が1になることを確認した。
+- 実ページの公開推薦リンク先へ公式routerでSPA遷移した。新controllerの取得、旧controllerのフラグ解除、初期選択の保持、反転ON/OFF、広告終了後の2倍/1倍が同様に一致した。各待機には上限を置き、全体180秒で分離Chromeを終了する。再現コマンドは `node scripts/nico-player-premium-controls-live.mjs`。ログイン・既存プロファイル・拡張には触れず、ネットワークが必要なため通常CIには含めない。
+- 保存した実サイト検証スクリプトの最終実行は25項目すべて成功した。[実測JSON](test-fixtures/nico-player-premium-controls/verification-2026-10-02.json)に公開URLのpath、導入前後の値、反転・速度・SPAの結果を記録した。認証情報は含まない。
+- PC版では別runtimeと会員依存のスキップ判定を確認した。モバイル用のprops変更だけをPCへ拡大すると表示と挙動が一致しないため、matchと動作条件の両方で除外している。
+- Android/iOS実機、Firefox/Safari、userscript managerへの実インストール、ログイン済み一般／プレミアム、他拡張との併用、再生継続・シーク量・コメント同期の精度、サーバー視聴履歴のレジューム取得は未検証。既存ログイン、OS・ブラウザのセキュリティ設定は変更していない。
+- 手動再検証は公式設定でレジュームと反転をそれぞれ変更して戻す、送り／戻し秒数を変更して戻す、速度2倍から1倍へ戻す、キャンセル・再表示・別動画へのSPA移動を確認する。元の設定値・会員状態・コメント送信・画質制限を比較し、確認後は元の選択へ戻す。
+
 ## nico-mobile-swipe-fullscreen 1.0.0（2026-10-02）
 
 ### 対象と実装

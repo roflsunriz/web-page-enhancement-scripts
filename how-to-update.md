@@ -37,6 +37,16 @@ bun run check:d-anime-version
 
 新規ニコニコ動画スワイプ全画面の単独ビルドは `bunx --no-install vite build --mode nico-mobile-swipe-fullscreen`、操作回帰は `node scripts/nico-mobile-swipe-fullscreen-regression.mjs` です。横画面ロックが失敗した場合は端末を手動で回転します。利用停止はuserscript managerでこのスクリプトを無効にしてページを再読み込みします。設定・依存の追加は不要です。
 
+## モバイル公式再生設定の更新
+
+`bunx --no-install vite build --mode nico-player-premium-controls` で単独ビルド、`bun test src/nico-player-premium-controls/eligibility.test.mjs` と `node scripts/nico-player-premium-controls-regression.mjs` で検査します。通常の `bun run build` / `bun run test` にも含まれます。
+
+`scripts/nico-native-import-plugin.ts` はこのターゲットのnative dynamic importのみを一時マーカーに置換し、monkeyのIIFE生成後に戻します。SystemJSではサイトのネイティブESMキャッシュを共有できないためです。置換数や出力形式が変わればビルドを失敗させます。生成物に `@require` / `System.register` がなく、標準importが1件あることも回帰検証します。distを手編集しません。
+
+公式の2種類のprops構造、React fiberの`memoCache`、コントローラー構造が変わった場合は採取済み資産と実ページを比較してください。会員データ全体やfetch/XHRを改変する方法へ拡大しません。停止時はuserscript managerで無効化して再読み込みします。
+
+実ページの単独検査は `node scripts/nico-player-premium-controls-live.mjs`。既存Chromeの新規一時コンテキストで公開動画を開くため、ネットワークと約1〜3分が必要です。既存プロファイルと認証は使用しません。公式広告終了待ちは45秒、SPA準備は30秒、全体は180秒で打ち切ります。未対応構造・通信失敗は検査失敗として報告し、ブラウザ設定は変更しません。
+
 ## 復旧方針
 
 - ビルド生成物に問題がある場合は、生成元を修正してから `bun run build` を再実行します。

@@ -1,0 +1,199 @@
+{
+  "date": "2026-10-02",
+  "scriptVersion": "1.0.1",
+  "environment": {
+    "os": "Windows",
+    "installedChrome": true,
+    "viewport": [
+      390,
+      844
+    ],
+    "mobileEmulation": true,
+    "guest": true,
+    "physicalDevice": false
+  },
+  "passed": true,
+  "checks": 25,
+  "results": [
+    {
+      "step": "injection preserved values",
+      "initial": {
+        "path": "/watch/sm9",
+        "checked": [],
+        "flip": false,
+        "storedFlip": false,
+        "storedRate": 1,
+        "rate": 1,
+        "nativeRate": 1,
+        "transform": "none",
+        "external": false,
+        "ready": 4,
+        "premium": false
+      },
+      "enabled": {
+        "path": "/watch/sm9",
+        "checked": [],
+        "flip": false,
+        "storedFlip": false,
+        "storedRate": 1,
+        "rate": 1,
+        "nativeRate": 1,
+        "transform": "none",
+        "external": false,
+        "ready": 4,
+        "premium": true
+      }
+    },
+    {
+      "step": "mirror true",
+      "path": "/watch/sm9",
+      "checked": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "flip": true,
+      "storedFlip": true,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "rotateY(180deg)",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "mirror false",
+      "path": "/watch/sm9",
+      "checked": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "none",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "rate 2",
+      "path": "/watch/sm9",
+      "checked": [],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 2,
+      "rate": 2,
+      "nativeRate": 2,
+      "transform": "none",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "rate 1",
+      "path": "/watch/sm9",
+      "checked": [],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "none",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "SPA initial",
+      "path": "/watch/sm46221348",
+      "checked": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "none",
+      "external": true,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "mirror true",
+      "path": "/watch/sm46221348",
+      "checked": [
+        true,
+        true,
+        true,
+        true
+      ],
+      "flip": true,
+      "storedFlip": true,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "rotateY(180deg)",
+      "external": true,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "mirror false",
+      "path": "/watch/sm46221348",
+      "checked": [
+        true,
+        true,
+        false,
+        true
+      ],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "none",
+      "external": true,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "rate 2",
+      "path": "/watch/sm46221348",
+      "checked": [],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 2,
+      "rate": 2,
+      "nativeRate": 2,
+      "transform": "none",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    },
+    {
+      "step": "rate 1",
+      "path": "/watch/sm46221348",
+      "checked": [],
+      "flip": false,
+      "storedFlip": false,
+      "storedRate": 1,
+      "rate": 1,
+      "nativeRate": 1,
+      "transform": "none",
+      "external": false,
+      "ready": 4,
+      "premium": true
+    }
+  ]
+}

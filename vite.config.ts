@@ -2,6 +2,7 @@ import { defineConfig } from 'vite';
 import monkey, { MonkeyUserScript } from 'vite-plugin-monkey';
 import { fileURLToPath } from 'node:url';
 import { dirname, resolve } from 'node:path';
+import { nicoNativeImportPlugin } from './scripts/nico-native-import-plugin.js';
 
 const dir = dirname(fileURLToPath(import.meta.url));
 
@@ -456,6 +457,24 @@ const videoSwipeFullscreenMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-swipe-fullscreen.user.js',
 };
 
+const nicoPlayerPremiumControlsMeta: MonkeyUserScript = {
+  name: 'nico-player-premium-controls',
+  namespace: 'nicoPlayerPremiumControls',
+  version: '1.0.1',
+  description: 'ニコニコ動画モバイル版の公式設定パネルで倍速・レジューム・スキップ秒数・反転の利用資格を解除し、個別に操作できるようにする',
+  author: 'roflsunriz',
+  match: ['https://sp.nicovideo.jp/*'],
+  grant: 'none',
+  sandbox: 'raw',
+  'inject-into': 'page',
+  'run-at': 'document-start',
+  noframes: true,
+  license: 'MIT',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=nicovideo.jp',
+  updateURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/nico-player-premium-controls.meta.js',
+  downloadURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/nico-player-premium-controls.user.js',
+};
+
 const trickcalToolSweepMeta: MonkeyUserScript = {
   name: 'trickcal-tool-sweep',
   namespace: 'trickcalToolSweep',
@@ -758,6 +777,11 @@ const SCRIPT_CONFIGS = {
     fileName: 'nico-mobile-swipe-fullscreen.user.js',
     meta: nicoMobileSwipeFullscreenMeta,
   },
+  'nico-player-premium-controls': {
+    entry: 'src/nico-player-premium-controls/main.ts',
+    fileName: 'nico-player-premium-controls.user.js',
+    meta: nicoPlayerPremiumControlsMeta,
+  },
   'trickcal-tool-sweep': {
     entry: 'src/trickcal-tool-sweep/main.ts',
     fileName: 'trickcal-tool-sweep.user.js',
@@ -883,6 +907,9 @@ export default defineConfig((configEnv) => {
             : configEnv.command === 'build' && target === DEFAULT_TARGET,
       minify: true,
     },
-    plugins: [createUserscriptPlugin(scriptConfig.entry, scriptConfig.fileName, scriptConfig.meta)],
+    plugins: [
+      ...(target === 'nico-player-premium-controls' ? [nicoNativeImportPlugin()] : []),
+      createUserscriptPlugin(scriptConfig.entry, scriptConfig.fileName, scriptConfig.meta),
+    ],
   };
 });

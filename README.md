@@ -24,6 +24,8 @@ web-page-enhancement-scripts
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
   - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
   - `video-swipe-fullscreen/` — Webページの動画へ上下ドラッグ全画面を追加
+
+  - `nico-player-premium-controls/` — モバイル公式パネルのローカル再生設定を個別選択可能にする
   - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
   - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
   - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
@@ -58,6 +60,7 @@ web-page-enhancement-scripts
 - [khinsider-direct-link-saver](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/khinsider-direct-link-saver.user.js)
 - [video-swipe-fullscreen](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-swipe-fullscreen.user.js)
 - [nico-mobile-swipe-fullscreen](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/nico-mobile-swipe-fullscreen.user.js)
+- [nico-player-premium-controls](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/nico-player-premium-controls.user.js)
 - [native-video-volume-setter](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/native-video-volume-setter.user.js)
 - [book-style-manga-viewer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/manga-viewer.user.js)
 - [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
@@ -92,6 +95,13 @@ web-page-enhancement-scripts
 横画面ロックはブラウザが許可した場合だけ利用します。未対応・拒否時は全画面を維持して案内を表示するので、端末を手動で回転してください。通常表示へ戻ると、このスクリプトが取得した画面ロックを解除します。ブラウザが全画面そのものに未対応・拒否した場合は通常表示を維持します。iPhone等のOS管理の動画全画面ではページ側が下スワイプを受け取れないため、自動フォールバックせず既存の全画面ボタンを案内します。OS・ブラウザの設定変更は不要です。
 
 上のインストールリンクをuserscript managerを導入したブラウザで開いて保存します。ローカルの `dist/nico-mobile-swipe-fullscreen.user.js` を新規スクリプトへ貼り付けても導入できます。対応APIがあっても全端末での成功を保証するものではありません。[確認範囲・ブラウザ制約](verification.md#nico-mobile-swipe-fullscreen-1002026-10-02)を参照してください。
+
+ニコニコ動画モバイルの公式再生設定
+----------------------------------
+
+`nico-player-premium-controls` 1.0.1 の上記インストールリンクを、ページコンテキスト注入に対応するuserscript managerのあるブラウザで開いて保存し、`https://sp.nicovideo.jp/watch/<動画ID>` を再読み込みします。公式プレーヤーの設定パネルでレジューム・反転のON/OFF、送り／戻し秒数を個別に選び、再生速度パネルで速度を選択します。導入だけでは現在の選択や保存済み設定を変更しません。
+
+対象はモバイル版のみです。会員情報・コメント送信・認証・画質やコンテンツの権利判定は変更しません。サーバー側の権限、視聴履歴からの再開位置の取得、高画質・高音質等を提供するものではありません。サイト内部の構造に依存するため、動作しなくなったらスクリプトを無効にして再読み込みしてください。無効化で既存の保存済み設定を削除することはありません。[検証と制限](verification.md#nico-player-premium-controls-1012026-10-02)を参照してください。
 
 アップデート手順
 ---------------

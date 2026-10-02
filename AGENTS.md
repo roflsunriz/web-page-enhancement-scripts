@@ -89,6 +89,13 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - 透明なタップ面はstageの兄弟要素であり、stage内だけを対象にすると実ページで開始できない。プレーヤー内の中央領域を対象にし、button / slider等の操作要素は除外する。
 - 全画面要求はユーザー操作終了イベント内で同期的に呼び、横画面ロックは全画面成功後に試す。OS管理の動画全画面はDOMへタッチが届かないため、下スワイプ解除を約束するフォールバックには使わない。遅延ロック成功後の解除漏れも回帰テストで確認する（`scripts/nico-mobile-swipe-fullscreen-regression.mjs`、`verification.md`）。
 
+## ニコニコ動画モバイルの公式設定（2026-10-02 確認）
+
+- `src/nico-player-premium-controls` は独立スクリプト。モバイルの公式JSX runtimeの設定パネル／速度一覧propsと、DOM動画・URL IDが一致するコントローラーの`context.isPremium`だけを変更する。実際の`sessionUser` / `watch.viewer` / コメント送信 / サーバー権利は改変しない。
+- React compilerのコントローラー参照は`updateQueue.memoCache`にもある。DOM上の動画自身にfiberがない場合は祖先からrootのcurrentへ進む。探索は上限付き・own descriptorの値のみ。getterやMapを辿らない。
+- `scripts/nico-native-import-plugin.ts` が公式ネイティブESMの共有を保持する。他ターゲットには適用しない。標準importをSystemJSに戻すと公式側へ反映できない。
+- 単体8件、配布物を使うオフラインChrome50項目を通常テストへ登録。fixtureの公式React runtimeは出典・ハッシュとMITライセンスを同梱する。レジューム変更でコントローラーが同一動画DOMを再利用して作り直されるため、現行rootを周期的・公式クリック処理前に照合する。広告の外部メディア制御中は速度変更が公式側で止まるので本編で確認する。context参照は保持する。PC版は別の会員判定に依存するため対象外。実機・ログイン済み・サーバー再開位置は確認していない。
+
 ## bilibili 日本語化の知見（2026-09-08 確認）
 
 - `bilibili.com` の動画ページは bot 判定（HTTP 412）で素の fetch が失敗するため、実 DOM の取得は CDP 経由の実ブラウザで行う。WebFetch での事前取得はトップページのナビ文言程度に留める。
