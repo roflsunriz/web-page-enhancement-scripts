@@ -1,8 +1,8 @@
 # 動画の上下スワイプ全画面
 
-`video-swipe-fullscreen` 1.0.0 は、Webページで操作できる HTML `video` 要素へ上下ドラッグを追加する別userscriptです。未公開のローカル配布版です。
+`video-swipe-fullscreen` 1.0.1 は、Webページで操作できる HTML `video` 要素へ上下ドラッグを追加する別userscriptです。公開mainから導入できます。
 
-1. 使用中のuserscript managerで新しいスクリプトを作り、`dist/video-swipe-fullscreen.user.js` の内容を貼り付けて保存します。
+1. [配布用userscript](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-swipe-fullscreen.user.js)を使用中のuserscript managerへ導入します。手元の `dist/video-swipe-fullscreen.user.js` を新しいスクリプトへ貼り付けても導入できます。
 2. ページを再読み込みし、動画中央付近から1本指またはマウス左ボタンで上へ64px以上、1.2秒以内にドラッグして離します。
 3. このスクリプトで開いた全画面の中央付近から下へ同じようにドラッグすると、通常表示へ戻ります。
 

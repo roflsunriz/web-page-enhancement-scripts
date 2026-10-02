@@ -441,17 +441,19 @@ const nicoMobileSwipeFullscreenMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/nico-mobile-swipe-fullscreen.user.js',
 };
 
-// Local distribution until publication is explicitly requested. No guessed
-// update/download URL for a script that is not on public main yet.
 const videoSwipeFullscreenMeta: MonkeyUserScript = {
   name: 'video-swipe-fullscreen',
   namespace: 'videoSwipeFullscreen',
-  version: '1.0.0',
+  version: '1.0.1',
   description: 'Webページの動画を上スワイプで横画面全画面、下スワイプで復元。サイト別無効化に対応',
   author: 'roflsunriz',
   match: ['http://*/*', 'https://*/*'],
   grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
   'run-at': 'document-end',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-swipe-fullscreen.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/video-swipe-fullscreen.user.js',
 };
 
 const trickcalToolSweepMeta: MonkeyUserScript = {

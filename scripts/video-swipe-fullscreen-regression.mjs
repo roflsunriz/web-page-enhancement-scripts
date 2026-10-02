@@ -10,9 +10,17 @@ const nicoSource = await readFile(
   new URL("../dist/nico-mobile-swipe-fullscreen.user.js", import.meta.url),
   "utf8",
 );
-assert.match(source, /@version\s+1\.0\.0/);
+assert.match(source, /@version\s+1\.0\.1/);
 assert.match(source, /@grant\s+GM_registerMenuCommand/);
-assert.doesNotMatch(source, /@noframes|@updateURL|@downloadURL/);
+assert.doesNotMatch(source, /@noframes/);
+assert.match(
+  source,
+  /@updateURL\s+https:\/\/raw\.githubusercontent\.com\/roflsunriz\/web-page-enhancement-scripts\/refs\/heads\/main\/dist\/video-swipe-fullscreen\.meta\.js/,
+);
+assert.match(
+  source,
+  /@downloadURL\s+https:\/\/raw\.githubusercontent\.com\/roflsunriz\/web-page-enhancement-scripts\/refs\/heads\/main\/dist\/video-swipe-fullscreen\.user\.js/,
+);
 const fixture = `<!doctype html><meta name="viewport" content="width=device-width,initial-scale=1">
 <style>body{margin:0;height:2400px}.player{position:relative;width:100%;height:219px;margin-top:100px;background:#222}
 .player video,.overlay{position:absolute;inset:0;width:100%;height:100%}button{position:absolute;right:0;bottom:0;width:50px;height:30px}

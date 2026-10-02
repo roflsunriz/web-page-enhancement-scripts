@@ -1,8 +1,8 @@
 # 検証手順と対策
 
-## video-swipe-fullscreen 1.0.0 / ニコニコ協調 1.0.1（2026-10-02、未公開）
+## video-swipe-fullscreen 1.0.1 / ニコニコ協調 1.0.1（2026-10-02）
 
-- 公開main `f8d2b41` から独立ブランチ `feat/video-swipe-fullscreen` と `task-5/video-swipe-worktree` を作成。元worktree・並行premium作業・共有Git設定を変更せず、main統合・push・公開は行っていない。共通AGENTSは全文確認、元リポジトリの `.agents` は空で適用可能なローカルSKILL.mdなし。導入説明は `docs/video-swipe-fullscreen.md`、実サイトのURL・上下操作・DOM識別子・再生条件は `docs/video-swipe-site-audit.md`。
+- 公開main `f8d2b41` から独立ブランチ `feat/video-swipe-fullscreen` と `task-5/video-swipe-worktree` を作成。完成コミット `45c40c9` を保存後、ユーザーがmain反映・通常pushを承認。最新origin/mainは `f8d2b41` と一致し取り込み競合なし。公開URLと導入説明を更新し、元mainへfast-forwardで反映する。並行premium作業・共有Git設定は変更しない。共通AGENTSは全文確認、元リポジトリの `.agents` は空で適用可能なローカルSKILL.mdなし。導入説明は `docs/video-swipe-fullscreen.md`、実サイトのURL・上下操作・DOM識別子・再生条件は `docs/video-swipe-site-audit.md`。
 - 汎用版の `@match` はHTTP/HTTPS全ホスト、`@noframes`なし。managerが各フレームへ注入でき、Fullscreen Permissions Policyが許可することが前提。sp.nicovideo.jpは旧専用版との併用のため既定無効。専用版1.0.1のDOMマーカーは起動順によらず視聴ページで優先する。繰り返し注入も両版とも1回だけ起動する。
 
 ### 合格した検査
@@ -13,12 +13,12 @@
 - 全画面の未対応／reject／同期throw、orientationの未対応／reject／遅延成功、外部解除、pagehide、要求中の遷移、解除失敗と再試行、スタイル復元とサイト側の変更保持、重複注入、設定メニューの保存と実reload後の無効化、専用版の両起動順、Twitchの狭い除外と他ホスト非干渉を確認した。
 - ニコニコ専用版の回帰は既存29ケース＋重複注入の1ケース、計30成功。共有する64px・1.2秒・縦横比1.6の判定は既存5単体テストも成功。
 - 390×844、844×390で実Fullscreen APIのroot/video寸法と復元を測定。video自体の全画面でもmanual popoverで回転失敗通知が見え、下ドラッグで解除・通知消去されることを実APIで確認。PNGと要約は `artifacts/video-swipe-regression/`。ブラウザ内未捕捉例外0件。物理的な横画面回転の成功はWindowsでは検証できず、ロック成功・遅延・失敗・所有解除はスタブで検証した。
-- `bun audit`: 205パッケージを検査して脆弱性0件。依存の追加・更新・インストールはなし。元worktreeの既存node_modulesを独立コピーした。全ビルドで発生した対象外のミニファイア差分はこのworktree内だけで復元し、今回の配布物に限定した。
+- `bun audit`: 205パッケージを検査して脆弱性0件。公開前に既存開発依存3件（@types/node、typescript-eslint、Vite）を互換性のある最新版へ更新。TypeScript 7.0.2はtypescript-eslint 8.71.0のpeer範囲外のため6.0.3を維持した。元worktreeの既存node_modulesを独立コピーし、依存更新はこの独立worktree内で実施した。全ビルドで発生した対象外のミニファイア差分はこのworktree内だけで復元し、今回の配布物に限定した。
 
 ### 実ページと未確認範囲
 
 - 主要6サイトをログインせず巡回した。Vimeo・Dailymotion（iframe内）・ニコニコで汎用版の上全画面／下復元を確認。YouTubeとTwitchでは再生できたが、サイトが処理したイベント・シーク面・全面再生buttonを尊重したため、確認した操作面で汎用版の全画面化成功とは扱わない。bilibiliは2候補ともアプリ誘導画面と0×0の非表示gsl領域のvideoで、視聴動画・視聴ジェスチャー未確認。詳細・生測定・スクリーンショットは実サイト調査文書と `artifacts/video-swipe-site-audit/`。
-- Android/iPhone実機、Firefox/Safari、実際のuserscript managerによるsandbox注入・フレーム別メニュー・永続化は未確認。標準DOM/GM APIのスタブとChromeでの注入検査で補った。既存ユーザープロファイル・認証・OS/browser設定の変更、追加インストールはしていない。
+- Android/iPhone実機、Firefox/Safari、実際のuserscript managerによるsandbox注入・フレーム別メニュー・永続化は未確認。標準DOM/GM APIのスタブとChromeでの注入検査で補った。既存ユーザープロファイル・認証・OS/browser設定の変更、ブラウザやuserscript managerの追加インストールはしていない。
 - native controlsの内部DOM・closed root・HTML videoを露出しないプレイヤーは探索できない。全サイトのイベントハンドラや遅延ジェスチャーを完全検出できない。競合時はホスト別無効化してreloadする。OS管理のnative動画全画面は下スワイプを受け取れないため自動fallbackなし。
 
 ### 標準APIの根拠
@@ -28,7 +28,7 @@
 - [WHATWG DOM events](https://dom.spec.whatwg.org/#dom-event-defaultprevented): cancelable/passive/defaultPrevented、composedPath、伝播を確認。任意のリスナー一覧取得やaddEventListenerのpatchは使わない。
 - [W3C Screen Orientation](https://www.w3.org/TR/screen-orientation/): lock/unlockとsandbox・可視性・プラットフォーム上の拒否を確認。未対応・拒否時は全画面を維持し、手動回転を案内する。
 - [WHATWG HTML popover](https://html.spec.whatwg.org/multipage/popover.html#dom-showpopover): video自体の全画面では通常の子要素やbody上の通知が見えないため、対応ブラウザでmanual popoverをtop layerへ表示する。Popover API非対応時のその表示形態では通知の視認を保証できない。
-- [Tampermonkey API](https://www.tampermonkey.net/documentation.php#api:GM_registerMenuCommand): GM_getValue / GM_setValue / GM_registerMenuCommandを使う。日本語・英語の文言と英語fallbackを備える。新規スクリプトの公開更新URLは未設定。
+- [Tampermonkey API](https://www.tampermonkey.net/documentation.php#api:GM_registerMenuCommand): GM_getValue / GM_setValue / GM_registerMenuCommandを使う。日本語・英語の文言と英語fallbackを備える。公開main向けupdateURL/downloadURLを生成し、メタデータと回帰で一致を確認する。
 
 ## nico-mobile-swipe-fullscreen 1.0.0（2026-10-02）
 
