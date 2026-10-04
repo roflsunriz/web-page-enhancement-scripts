@@ -19,6 +19,7 @@ web-page-enhancement-scripts
   - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
   - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
   - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
+  - `gif-direct-link-copier/` — GIPHY・Tenor・ImgurのGIF本体URLをコピー（動画のみの場合は形式を表示）
   - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
   - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
   - `imgur-direct-link/` — Imgur 画像の直接リンク取得
@@ -54,6 +55,7 @@ web-page-enhancement-scripts
 - [d-anime-nico-comment-renderer](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-nico-comment-renderer.user.js)
 - [fanbox-floating-menu](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-floating-menu.user.js)
 - [fanbox-pagination-helper](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/fanbox-pagination-helper.user.js)
+- [gif-direct-link-copier](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.user.js)
 - [hf-download-command-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/hf-download-command-copier.user.js)
 - [image-collector](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/image-collector.user.js)
 - [imgur-direct-link](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/imgur-direct-link.user.js)
@@ -75,6 +77,21 @@ web-page-enhancement-scripts
 - [yahoo-mail-mark-read](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-mark-read.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
+
+GIF本体の直リンクをコピー
+-------------------------
+
+独立した `gif-direct-link-copier` 1.0.0を追加しました。[配布用userscript](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.user.js)をuserscript managerへ導入して保存し、閲覧ページを再読み込みします。[ローカル配布物](dist/gif-direct-link-copier.user.js)からの導入も可能です。
+
+| サイト | 対応する公開閲覧ページ | コピー対象・ボタン位置 |
+| --- | --- | --- |
+| GIPHY | `/gifs/<slug-ID>` | 表示中のGIF本体。メディアの下 |
+| Tenor | `/view/<slug-ID>`、`/ja/view/...`など言語別ページ | ページに記載されたGIFを優先。メディアの下 |
+| Imgur | `/gallery/<ID>`、`/a/<ID>`、`/<ID>`（slug付きも対応） | 描画済み投稿メディアごとに、見出し付近へ番号付きボタン。確認した実ページはMP4 |
+
+「GIF 直リンクをコピー」を押すとメディアURLをコピーします。GIFが記載されていない場合は「MP4」または「WebM」と表示し、共有ページURLや拡張子を置換したURLはコピーしません。失敗時は再試行の案内と手動コピー用URLを表示します。
+
+一覧・検索・コメント・おすすめ画像、GIPHY Clips、WebPのみの媒体、`blob:`や`.gifv`は対象外です。Imgurの未描画メディアはスクロールして読み込んでください。サイト側にGIF URLが存在してもページに出ていなければ取得できません。リンクの恒久性やサイト改修後の動作は保証できません。PCとモバイル幅のChromeで公開ページを確認し、WebM単独・ImgurのGIFはfixtureで検証しました。実端末・Firefox・userscript manager実環境は未検証です。[検証と制限](verification.md#gif-direct-link-copier-1002026-10-04)を参照してください。
 
 汎用の動画スワイプ全画面
 ------------------------------------

@@ -214,6 +214,27 @@ const fanboxPaginationHelperMeta: MonkeyUserScript = {
   'run-at': 'document-idle',
 };
 
+const gifDirectLinkCopierMeta: MonkeyUserScript = {
+  name: 'gif-direct-link-copier',
+  namespace: 'gifDirectLinkCopier',
+  updateURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.meta.js',
+  downloadURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.user.js',
+  version: '1.0.0',
+  description:
+    'Copy published GIF media URLs from GIPHY, Tenor and Imgur; label MP4/WebM fallbacks.',
+  author: 'roflsunriz',
+  match: [
+    'https://giphy.com/*',
+    'https://www.giphy.com/*',
+    'https://tenor.com/*',
+    'https://www.tenor.com/*',
+    'https://imgur.com/*',
+  ],
+  grant: ['GM_setClipboard'],
+  noframes: true,
+  'run-at': 'document-idle',
+};
+
 const hfDownloadCommandCopierMeta: MonkeyUserScript = {
   name: 'hf-download-command-copier',
   namespace: 'hfDownloadCommandCopier',
@@ -741,6 +762,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/fanbox-pagination/main.ts',
     fileName: 'fanbox-pagination-helper.user.js',
     meta: fanboxPaginationHelperMeta,
+  },
+  'gif-direct-link-copier': {
+    entry: 'src/gif-direct-link-copier/main.ts',
+    fileName: 'gif-direct-link-copier.user.js',
+    meta: gifDirectLinkCopierMeta,
   },
   'hf-download-command-copier': {
     entry: 'src/hf-download-command-copier/main.ts',

@@ -108,3 +108,9 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - `video-swipe-fullscreen` はwindowのbubbleでサイトのtarget/document操作を優先する。trustedイベントではリスナー間にmicrotaskチェックポイントが走り、queueMicrotaskでは後続windowリスナーを待てない。終了後の0ms taskでcancel・fullscreen epoch・transient activationを再確認して要求する。遅い非同期のサイト処理を完全検出することはできない（回帰・公式DOM/Fullscreen仕様はverification.md参照）。
 - sp.nicovideo.jpは旧専用版との併用のため既定無効。専用版1.0.1のdata-nico-mobile-swipe-ownerを視聴URLで優先し、sandbox間はwindow変数ではなくDOM属性で協調する。
 - 実サイト調査では同一プロセスのiframeに専用CDP sessionがない場合がある。その場合はPage.getFrameTreeとRuntime.executionContextCreatedのdefault context IDで読む。主要サイトの測定・対象URL・識別属性・未確認範囲はdocs/video-swipe-site-audit.md、証拠はartifacts/video-swipe-site-audit/。Twitchのseekbar-interaction-areaは実際にシークするため、data-test-selector付きプレイヤー内だけsite-policy.tsで除外する。
+
+## GIF直リンクコピー（2026-10-04確認）
+
+- 新規 `src/gif-direct-link-copier` はページに記載されたCDN URLだけを使う。GIPHYの `data-giphy-id` とURL ID、Tenorの `store-cache.gifs.byId[ID].results`（legacy_info.post_idも確認）/JSON-LD、Imgurの現在投稿OG/canonicalと描画メディアを照合する。GIPHYの `_s.gif` は静止サムネイルなので候補にしない。共有URLやgifvの拡張子変換を追加しない。
+- Imgur現行公開ページは `.Gallery-Content--mediaContainer` が固定高さ・transform付き `.VirtualList--item` に入る。media直下に通常フローのボタンを追加すると次itemに重なり実クリック不能になる。見出し下（`.VirtualList` の親の前）へ置き、`data-index`由来の番号を表示する。
+- source/src更新後もvideo.currentSrcが旧媒体を保持することが実ポインター回帰で判明。現在のDOM属性とsourcesだけを抽出し、Imgurの旧投稿と同じsourceを持つ再利用ノードは新描画まで待つ。回帰は `bun run test:gif-direct-link-copier`、実ページ・未検証範囲はverification.md。公開先mainが明示承認された後、updateURL/downloadURLを公開配布物へ設定した。

@@ -1,0 +1,37 @@
+[
+  {
+    "url": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+    "status": 206,
+    "contentType": "image/gif",
+    "format": "GIF",
+    "magic": "47494638396162017101f520005454545a5a5a6363636c6c6c9b9b9bebebebf4"
+  },
+  {
+    "url": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif",
+    "status": 206,
+    "contentType": "image/gif",
+    "format": "GIF",
+    "magic": "474946383961dc002501f7800039160d452c194269456c839c77988f73697061"
+  },
+  {
+    "url": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+    "status": 200,
+    "contentType": "image/gif",
+    "format": "GIF",
+    "magic": "4749463839614b01f201f700000502047e8478890a053e443787442abdc4b546"
+  },
+  {
+    "url": "https://media1.tenor.com/m/Qjh3pszMdXYAAAAC/monkey.gif",
+    "status": 200,
+    "contentType": "image/gif",
+    "format": "GIF",
+    "magic": "474946383961f2017301f71f000b0f03181b031a1e0c1e0c03272a0c2a1d062b"
+  },
+  {
+    "url": "https://i.imgur.com/QERk0ho.mp4",
+    "status": 206,
+    "contentType": "video/mp4",
+    "format": "MP4",
+    "magic": "000000206674797069736f6d0000020069736f6d69736f32617663316d703431"
+  }
+]

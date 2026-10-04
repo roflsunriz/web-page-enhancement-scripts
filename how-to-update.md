@@ -60,3 +60,9 @@ bun run check:d-anime-version
 実サイトの再調査は `node scripts/video-swipe-site-audit.mjs` です。公開サイトへ通信するため通常のオフライン回帰やCIには含めません。分離された一時プロファイルを使用し、ログイン・bot対策回避・既存認証の変更はしません。`VIDEO_SWIPE_SITES` でサイト名のカンマ区切り、`VIDEO_SWIPE_AUDIT` で証拠の出力先を指定できます。標準スワイプと識別属性を実測し、調査結果と狭い除外が必要かを見直します。
 
 配布はREADMEの公開インストールリンクまたは `dist/video-swipe-fullscreen.user.js` を使用します。更新URLは `vite.config.ts` の公開main向け設定から生成します。無効化・復旧はmanagerで本スクリプトを無効にして再読み込みします。ニコニコ専用版1.0.0との併用中は汎用版の同サイト設定を有効にしません。公開前に最新origin/mainとの整合、依存監査、全テストを確認し、通常push後にリモートSHA・配布ファイル・CIを確認します。他worktreeの未公開変更は混ぜません。
+
+## GIF直リンクコピーの更新
+
+`bunx --no-install vite build --mode gif-direct-link-copier` で単独ビルドし、`bun run test:gif-direct-link-copier` で抽出・操作回帰を実行します。通常の全ビルドとテストにも登録済みです。変更したTSと回帰MJSのPrettier、lint、型検査を実行し、公開ページの対応構造が変わった場合は縮約fixtureとverification.mdを更新してください。
+
+導入対象は [公開配布物](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.user.js) またはローカルの `dist/gif-direct-link-copier.user.js` です。公開mainのupdateURL/downloadURLを設定済みです。更新時はmanagerの更新確認、またはこの配布物の再読み込みを使います。利用停止・復旧は本スクリプトだけを無効にしてページを再読み込みします。

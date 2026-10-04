@@ -19,6 +19,9 @@
 - `fanbox-pagination-helper.user.js`
   - Pixiv Fanbox のページネーション UI をページ上部に追加し、長い一覧でも上部から簡単にページ移動できるようにします。
 
+- `gif-direct-link-copier.user.js`
+  - GIPHY・Tenorの公開GIF詳細とImgurの公開投稿から、ページに記載されたメディア本体URLをコピーします。GIFを優先し、動画のみならMP4/WebMを明示します。SPA・遅延描画・コピー失敗の案内に対応し、Imgurでは描画済みメディア番号を表示します。[公開配布物](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/gif-direct-link-copier.user.js)またはローカル `dist/gif-direct-link-copier.user.js` から導入してください。対応ページ・未検証範囲はREADMEとverification.mdを参照してください。
+
 - `hf-download-command-copier.user.js`
   - Hugging Face のモデル・データセット・Space のリポジトリページに、`hf download` コマンドをコピーするボタンを追加します。ヘッダーではリポジトリ全体、Files一覧では各ファイルを即ダウンロードできる CLI コマンドをコピーできます。ボタンと通知文言は日本語、英語、中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語に対応します。
 

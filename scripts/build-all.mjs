@@ -17,6 +17,7 @@ const targets = [
   { mode: 'd-anime-cf-ranking', clear: false },
   { mode: 'fanbox-floating-menu', clear: false },
   { mode: 'fanbox-pagination-helper', clear: false },
+  { mode: 'gif-direct-link-copier', clear: false },
   { mode: 'hf-download-command-copier', clear: false },
   { mode: 'image-collector', clear: false },
   { mode: 'imgur-direct-link-copier', clear: false },

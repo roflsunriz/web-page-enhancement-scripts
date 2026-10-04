@@ -1,0 +1,386 @@
+{
+  "checkedAt": "2026-10-04",
+  "browser": "Chrome, isolated contexts, direct built-userscript injection through CDP (not a userscript manager)",
+  "results": [
+    {
+      "site": "giphy",
+      "width": 1280,
+      "url": "https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO",
+      "layout": [
+        {
+          "url": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzI3NXdidGJqaWhpOW1scnA2YXMxNmg4ajE1MnV6bGFpMGpmc2J4OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+          "label": "GIF 直リンクをコピー",
+          "left": 385,
+          "right": 519.015625,
+          "top": 428,
+          "bottom": 472,
+          "height": 44,
+          "parent": "flex flex-col",
+          "host": {
+            "x": 385,
+            "y": 428,
+            "width": 500,
+            "height": 44,
+            "top": 428,
+            "right": 885,
+            "bottom": 472,
+            "left": 385
+          }
+        }
+      ],
+      "copied": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExZzI3NXdidGJqaWhpOW1scnA2YXMxNmg4ajE1MnV6bGFpMGpmc2J4OCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "giphy",
+      "width": 390,
+      "url": "https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO",
+      "layout": [
+        {
+          "url": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm0wc3p6dGUzamw3MWE0bnhid2g3cTlyZTg5Z28zbnQ3N2hxamdiaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+          "label": "GIF 直リンクをコピー",
+          "left": 0,
+          "right": 134.015625,
+          "top": 417,
+          "bottom": 461,
+          "height": 44,
+          "parent": "flex flex-col",
+          "host": {
+            "x": 0,
+            "y": 417,
+            "width": 366,
+            "height": 44,
+            "top": 417,
+            "right": 366,
+            "bottom": 461,
+            "left": 0
+          }
+        }
+      ],
+      "copied": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcm0wc3p6dGUzamw3MWE0bnhid2g3cTlyZTg5Z28zbnQ3N2hxamdiaiZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "tenor",
+      "width": 1280,
+      "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+      "layout": [
+        {
+          "url": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+          "label": "GIF 直リンクをコピー",
+          "left": 85,
+          "right": 219.015625,
+          "top": 427.796875,
+          "bottom": 471.796875,
+          "height": 44,
+          "parent": "",
+          "host": {
+            "x": 85,
+            "y": 427.796875,
+            "width": 832.5,
+            "height": 44,
+            "top": 427.796875,
+            "right": 917.5,
+            "bottom": 471.796875,
+            "left": 85
+          }
+        }
+      ],
+      "copied": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "tenor",
+      "width": 390,
+      "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+      "layout": [
+        {
+          "url": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+          "label": "GIF 直リンクをコピー",
+          "left": 15,
+          "right": 149.015625,
+          "top": 427.640625,
+          "bottom": 471.640625,
+          "height": 44,
+          "parent": "",
+          "host": {
+            "x": 15,
+            "y": 427.640625,
+            "width": 360,
+            "height": 44,
+            "top": 427.640625,
+            "right": 375,
+            "bottom": 471.640625,
+            "left": 15
+          }
+        }
+      ],
+      "copied": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur",
+      "width": 1280,
+      "url": "https://imgur.com/gallery/carefully-curated-vol-982-iMoeEpa",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 2: MP4 直リンクをコピー",
+          "left": 172,
+          "right": 372.046875,
+          "top": 184.5,
+          "bottom": 228.5,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 172,
+            "y": 184.5,
+            "width": 696,
+            "height": 44,
+            "top": 184.5,
+            "right": 868,
+            "bottom": 228.5,
+            "left": 172
+          }
+        },
+        {
+          "url": "https://i.imgur.com/1Vrz09M.mp4",
+          "label": "メディア 3: MP4 直リンクをコピー",
+          "left": 172,
+          "right": 372.046875,
+          "top": 236.5,
+          "bottom": 280.5,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 172,
+            "y": 236.5,
+            "width": 696,
+            "height": 44,
+            "top": 236.5,
+            "right": 868,
+            "bottom": 280.5,
+            "left": 172
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur",
+      "width": 390,
+      "url": "https://imgur.com/gallery/carefully-curated-vol-982-iMoeEpa",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 2: MP4 直リンクをコピー",
+          "left": 15,
+          "right": 215.046875,
+          "top": 161.296875,
+          "bottom": 205.296875,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 15,
+            "y": 161.296875,
+            "width": 360,
+            "height": 44,
+            "top": 161.296875,
+            "right": 375,
+            "bottom": 205.296875,
+            "left": 15
+          }
+        },
+        {
+          "url": "https://i.imgur.com/1Vrz09M.mp4",
+          "label": "メディア 3: MP4 直リンクをコピー",
+          "left": 15,
+          "right": 215.046875,
+          "top": 213.296875,
+          "bottom": 257.296875,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 15,
+            "y": 213.296875,
+            "width": 360,
+            "height": 44,
+            "top": 213.296875,
+            "right": 375,
+            "bottom": 257.296875,
+            "left": 15
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur-single",
+      "width": 1280,
+      "url": "https://imgur.com/QERk0ho",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 1: MP4 直リンクをコピー",
+          "left": 172,
+          "right": 372.046875,
+          "top": 138,
+          "bottom": 182,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 172,
+            "y": 138,
+            "width": 696,
+            "height": 44,
+            "top": 138,
+            "right": 868,
+            "bottom": 182,
+            "left": 172
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur-single",
+      "width": 390,
+      "url": "https://imgur.com/QERk0ho",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 1: MP4 直リンクをコピー",
+          "left": 15,
+          "right": 215.046875,
+          "top": 68,
+          "bottom": 112,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 15,
+            "y": 68,
+            "width": 360,
+            "height": 44,
+            "top": 68,
+            "right": 375,
+            "bottom": 112,
+            "left": 15
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur-album",
+      "width": 1280,
+      "url": "https://imgur.com/a/carefully-curated-vol-982-iMoeEpa",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 2: MP4 直リンクをコピー",
+          "left": 172,
+          "right": 372.046875,
+          "top": 184.5,
+          "bottom": 228.5,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 172,
+            "y": 184.5,
+            "width": 696,
+            "height": 44,
+            "top": 184.5,
+            "right": 868,
+            "bottom": 228.5,
+            "left": 172
+          }
+        },
+        {
+          "url": "https://i.imgur.com/1Vrz09M.mp4",
+          "label": "メディア 3: MP4 直リンクをコピー",
+          "left": 172,
+          "right": 372.046875,
+          "top": 236.5,
+          "bottom": 280.5,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 172,
+            "y": 236.5,
+            "width": 696,
+            "height": 44,
+            "top": 236.5,
+            "right": 868,
+            "bottom": 280.5,
+            "left": 172
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    },
+    {
+      "site": "imgur-album",
+      "width": 390,
+      "url": "https://imgur.com/a/carefully-curated-vol-982-iMoeEpa",
+      "layout": [
+        {
+          "url": "https://i.imgur.com/QERk0ho.mp4",
+          "label": "メディア 2: MP4 直リンクをコピー",
+          "left": 15,
+          "right": 215.046875,
+          "top": 161.296875,
+          "bottom": 205.296875,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 15,
+            "y": 161.296875,
+            "width": 360,
+            "height": 44,
+            "top": 161.296875,
+            "right": 375,
+            "bottom": 205.296875,
+            "left": 15
+          }
+        },
+        {
+          "url": "https://i.imgur.com/1Vrz09M.mp4",
+          "label": "メディア 3: MP4 直リンクをコピー",
+          "left": 15,
+          "right": 215.046875,
+          "top": 213.296875,
+          "bottom": 257.296875,
+          "height": 44,
+          "parent": "Gallery-Content",
+          "host": {
+            "x": 15,
+            "y": 213.296875,
+            "width": 360,
+            "height": 44,
+            "top": 213.296875,
+            "right": 375,
+            "bottom": 257.296875,
+            "left": 15
+          }
+        }
+      ],
+      "copied": "https://i.imgur.com/QERk0ho.mp4",
+      "copyMatches": true,
+      "status": "コピーしました"
+    }
+  ]
+}

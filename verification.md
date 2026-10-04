@@ -1,5 +1,40 @@
 # 検証手順と対策
 
+## gif-direct-link-copier 1.0.0（2026-10-04）
+
+独立userscriptの導入対象は `dist/gif-direct-link-copier.user.js`。ユーザーが公開先 `roflsunriz/web-page-enhancement-scripts` のmainへの公開を明示承認したため、配布・自動更新URLを設定した。作業開始時の対象mainはcleanで、共通AGENTSは全文読了、`.agents`は空。別リポジトリ・認証・投稿には触れていない。通常pushでmainへ反映し、GitHub CIと公開配布物を確認する。
+
+### 公開ページと実メディア
+
+ログインなしの分離Chromeで、次の公開ページを閲覧した。
+
+| サイト | ページ | 確認できた媒体 |
+| --- | --- | --- |
+| GIPHY | `https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO` / `https://giphy.com/gifs/moodman-monkey-side-eye-sideeye-H5C8CevNMbpBqNqFjl` | GIF。OG/JSON-LDのURLと表示中のIDが一致 |
+| Tenor | `https://tenor.com/view/happy-boy-gif-22114616` / `https://tenor.com/view/monkey-gif-4771695363483268470`（jaへ遷移） | GIF。store-cacheとJSON-LDが公開。旧ID・64bit文字列IDとも取得 |
+| Imgur | `https://imgur.com/gallery/carefully-curated-vol-982-iMoeEpa` / `https://imgur.com/QERk0ho` / `https://imgur.com/a/iMoeEpa`（slug付きへ遷移） | `https://i.imgur.com/QERk0ho.mp4`。ギャラリーは2個の描画済み動画を抽出 |
+
+- GIPHY 2件・Tenor 2件の掲載GIFとImgurのMP4を部分GETした。HTTP 200/206、`image/gif` + GIF89a／`video/mp4` + ftypを確認。URLを組み立てずページのURLをそのまま検証した。[応答証拠](artifacts/gif-direct-link-copier/media-check.json)。
+- 3サイトの主要ページ、Imgur単体・アルバムを1280×900と390×900で実クリックし、実クリップボードの文字列がボタンのURLと一致することを確認した（計10ページ条件）。[DOM・コピー証拠](artifacts/gif-direct-link-copier/live-results.json)。主要3サイトのPC・モバイルスクリーンショットも同フォルダーに保存し、重なり・通知のコントラストを目視確認した。
+- [GIPHY公式スキーマ](https://developers.giphy.com/docs/api/schema/)と[Tenor公式レスポンス仕様](https://developers.google.com/tenor/guides/response-objects-and-errors)でも共有URLと媒体URL、複数形式の区別を確認した。認証APIやAPIキーには依存しない。
+
+### 回帰と品質確認
+
+- `bun test src/gif-direct-link-copier/extract.test.mjs`：17件成功。公開ページ5件の縮約fixtureでGIF優先、動画のみ、現在IDの照合、関連・前投稿・静止サムネイル・不正URL・gifvの拒否、URLクエリ保持を確認した。
+- `node scripts/gif-direct-link-copier-regression.mjs`：51項目成功。通信をfixtureだけで充足し、配布物をChromeのraw CDPで実行。1920×1080、390×844、320×640、844×390、768×1024、日英・アラビア語・ウルドゥー語、44px以上の操作面、RTL、実ポインター到達、繰り返し注入、遅延追加・削除、SPA待機／復帰、再利用動画、bfcache、コピー成功／両API拒否／manager成功／応答なしを確認した。
+- Imgurは固定高さの仮想リスト内へボタンを追加すると隣の投稿画像に重なり、実クリックが失敗した。見出し下へ移した後に実ページで再確認し、同じ構造と実ポインタークリックの回帰を残した。
+- videoのsource属性更新後に`currentSrc`が旧媒体のまま残り、追加した再利用DOMテストが旧URLの誤コピーを検出した。現在のsrc/source属性を取得するよう修正し、同じ期待値で再テストした。
+- 変更TS・回帰MJSのPrettier、全体lint、型検査、全29ビルド、通常テストが成功。全単体は69件成功し、既存の漫画・YouTube・ニコニコ・汎用スワイプ・dアニメ版一致の回帰も成功。依存関係・lockfileは変更していない。
+
+### 制限・未検証と再確認
+
+- 実確認はChromeの分離プロファイルと指定公開サンプル。userscript managerの権限フォールバックはスタブ検証で、Tampermonkey/Violentmonkey/Greasemonkeyの実インストール、Firefox、iOS/Android実端末、ログイン済み環境は未検証。
+- ImgurのGIF、各サイトのWebMだけの媒体は実ページで未確認。抽出fixtureで形式を確認し、MP4からGIFやWebMへの変換はしない。GIFの全フレーム数・アニメーションは検証していない。
+- Imgurは描画済み投稿媒体に限定し、未描画・コメント・おすすめは収集しない。スクロールで別の媒体が描画されると見出し側のボタンも更新する。旧投稿と同じsourceを持つ再利用DOMは準備が確認できるまで表示しない。待機が続く場合は再読み込みする。
+- GIF URLがページに公開されない、形式がWebPだけ、gifv/blobだけ、CDNが変わる、ページ構造が変わる場合はボタンを出さない。GIPHY Clips、一覧・検索、他サイトは対応範囲外。実行時の分類は掲載URLの拡張子に基づき、毎クリックのメディア通信や恒久的な生存保証はしない。
+- 単独再確認は `bunx --no-install vite build --mode gif-direct-link-copier` → `bun run test:gif-direct-link-copier`。実ページではGIF/MP4/WebMの表示、ボタンの位置、コピー後の貼り付けを確認する。停止はmanagerで本スクリプトを無効にして再読み込みする。
+
+
 ## video-swipe-fullscreen 1.0.1 / ニコニコ協調 1.0.1（2026-10-02）
 
 - 公開main `f8d2b41` から独立ブランチ `feat/video-swipe-fullscreen` と `task-5/video-swipe-worktree` を作成。完成コミット `45c40c9` を保存後、ユーザーがmain反映・通常pushを承認。最新origin/mainは `f8d2b41` と一致し取り込み競合なし。公開URLと導入説明を更新し、元mainへfast-forwardで反映する。並行premium作業・共有Git設定は変更しない。共通AGENTSは全文確認、元リポジトリの `.agents` は空で適用可能なローカルSKILL.mdなし。導入説明は `docs/video-swipe-fullscreen.md`、実サイトのURL・上下操作・DOM識別子・再生条件は `docs/video-swipe-site-audit.md`。

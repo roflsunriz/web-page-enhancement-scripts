@@ -1,0 +1,545 @@
+[
+  {
+    "url": "https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO",
+    "pageUrl": "https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO",
+    "metaUrls": [
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.webp",
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.mp4",
+      "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.mp4"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://giphy.com/gifs/i-love-you-hugging-hug-me-7Wcyq7KvKFNTO"
+        },
+        "headline": "hug me i love you GIF",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif",
+          "height": {
+            "@type": "QuantitativeValue",
+            "value": 369
+          },
+          "width": {
+            "@type": "QuantitativeValue",
+            "value": 354
+          }
+        },
+        "datePublished": "2014-02-06 09:29:24",
+        "dateModified": "2018-03-22 18:49:42",
+        "publisher": {
+          "@type": "Organization",
+          "name": "GIPHY"
+        }
+      }
+    ],
+    "tenorCache": null,
+    "groups": [
+      {
+        "key": "7Wcyq7KvKFNTO",
+        "urls": [
+          "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExYTJodHlrOGVsdXRscTE2Y3oxZmFrb2ZvOXk1ZGp1b2htbTlxZTgyYSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/7Wcyq7KvKFNTO/giphy.gif"
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://giphy.com/gifs/moodman-monkey-side-eye-sideeye-H5C8CevNMbpBqNqFjl",
+    "pageUrl": "https://giphy.com/gifs/moodman-monkey-side-eye-sideeye-H5C8CevNMbpBqNqFjl",
+    "metaUrls": [
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.webp",
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif",
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.mp4",
+      "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.mp4"
+    ],
+    "jsonLd": [
+      {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "mainEntityOfPage": {
+          "@type": "WebPage",
+          "@id": "https://giphy.com/gifs/moodman-monkey-side-eye-sideeye-H5C8CevNMbpBqNqFjl"
+        },
+        "headline": "Suspicious Monkey GIF by MOODMAN",
+        "image": {
+          "@type": "ImageObject",
+          "url": "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif",
+          "height": {
+            "@type": "QuantitativeValue",
+            "value": 293
+          },
+          "width": {
+            "@type": "QuantitativeValue",
+            "value": 220
+          }
+        },
+        "datePublished": "2020-06-30 22:10:29",
+        "dateModified": "2026-08-15 17:58:13",
+        "publisher": {
+          "@type": "Organization",
+          "name": "GIPHY"
+        }
+      }
+    ],
+    "tenorCache": null,
+    "groups": [
+      {
+        "key": "H5C8CevNMbpBqNqFjl",
+        "urls": [
+          "https://media1.giphy.com/media/v1.Y2lkPTc5MGI3NjExMXhnenR1cjdvMnd2NGF3cDQyM3ZiYW1tcTB5ZHljaWszbGNqejdodCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/H5C8CevNMbpBqNqFjl/giphy.gif"
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+    "pageUrl": "https://media.tenor.com/04oC-_Fj2iQAAAAM/happy-boy.gif",
+    "metaUrls": [
+      "https://media.tenor.com/04oC-_Fj2iQAAAAM/happy-boy.gif",
+      "https://media.tenor.com/04oC-_Fj2iQAAAPo/happy-boy.mp4",
+      "https://media.tenor.com/04oC-_Fj2iQAAAPo/happy-boy.mp4",
+      "https://media.tenor.com/04oC-_Fj2iQAAAPs/happy-boy.webm",
+      "https://media.tenor.com/04oC-_Fj2iQAAAPs/happy-boy.webm"
+    ],
+    "jsonLd": [
+      {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "author": "oneus_is_the_best_37",
+        "creator": "oneus_is_the_best_37",
+        "headline": "Happy Boy GIF - Happy Boy - GIF を見つけて共有する",
+        "name": "Happy Boy GIF - Happy Boy - GIF を見つけて共有する",
+        "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+        "mainEntityOfPage": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+        "keywords": "happy,boy,gif,animated gif,gifs,meme",
+        "dateModified": "2021-06-26T06:45:22.331Z",
+        "datePublished": "2021-06-26T06:45:22.331Z",
+        "publisher": {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "name": "Tenor",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://tenor.com/assets/img/tenor-app-icon.png"
+          },
+          "sameAs": [
+            "https://twitter.com/gifkeyboard",
+            "https://www.facebook.com/tenorapp/",
+            "https://www.linkedin.com/company/tenorinc/"
+          ]
+        },
+        "image": {
+          "@context": "http://schema.org",
+          "@type": "ImageObject",
+          "author": "oneus_is_the_best_37",
+          "creator": "oneus_is_the_best_37",
+          "name": "Happy Boy GIF - Happy Boy - GIF を見つけて共有する",
+          "keywords": "happy,boy,gif,animated gif,gifs,meme",
+          "description": "完璧な Happy Boy のアニメーション GIF をあなたのスレッドに。Tenor で最高の GIF を見つけて共有しましょう。",
+          "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+          "contentUrl": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+          "thumbnailUrl": "https://media.tenor.com/04oC-_Fj2iQAAAAe/happy-boy.png",
+          "width": 331,
+          "height": 498,
+          "dateCreated": "2021-06-26T06:45:22.331Z",
+          "uploadDate": "2021-06-26T06:45:22.331Z",
+          "representativeOfPage": true
+        },
+        "video": {
+          "@context": "http://schema.org",
+          "@type": "VideoObject",
+          "author": "oneus_is_the_best_37",
+          "creator": "oneus_is_the_best_37",
+          "name": "Happy Boy GIF - Happy Boy - GIF を見つけて共有する",
+          "keywords": "happy,boy,gif,animated gif,gifs,meme",
+          "description": "完璧な Happy Boy のアニメーション GIF をあなたのスレッドに。Tenor で最高の GIF を見つけて共有しましょう。",
+          "url": "https://tenor.com/ja/view/happy-boy-gif-22114616",
+          "contentUrl": "https://media.tenor.com/04oC-_Fj2iQAAAPo/happy-boy.mp4",
+          "thumbnailUrl": "https://media.tenor.com/04oC-_Fj2iQAAAAe/happy-boy.png",
+          "width": 426,
+          "height": 640,
+          "dateCreated": "2021-06-26T06:45:22.331Z",
+          "uploadDate": "2021-06-26T06:45:22.331Z",
+          "duration": "PT0M4S"
+        }
+      }
+    ],
+    "tenorCache": {
+      "gifs": {
+        "byId": {
+          "22114616": {
+            "results": [
+              {
+                "id": "15242999169898764836",
+                "legacy_info": {
+                  "post_id": "22114616"
+                },
+                "media_formats": {
+                  "tinywebp": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAA1/happy-boy.webp",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      134,
+                      200
+                    ],
+                    "size": 285972
+                  },
+                  "webm": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAPs/happy-boy.webm",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      426,
+                      640
+                    ],
+                    "size": 311649
+                  },
+                  "webp": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAAx/happy-boy.webp",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      331,
+                      498
+                    ],
+                    "size": 794860
+                  },
+                  "gifpreview": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAAe/happy-boy.png",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      426,
+                      640
+                    ],
+                    "size": 93830
+                  },
+                  "mediumgif": {
+                    "url": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAd/happy-boy.gif",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      426,
+                      640
+                    ],
+                    "size": 6116349
+                  },
+                  "webp_transparent": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAAl/happy-boy.webp",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      177,
+                      265
+                    ],
+                    "size": 433868
+                  },
+                  "tinymp4": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAP1/happy-boy.mp4",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      166,
+                      248
+                    ],
+                    "size": 181362
+                  },
+                  "gif": {
+                    "url": "https://media1.tenor.com/m/04oC-_Fj2iQAAAAC/happy-boy.gif",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      331,
+                      498
+                    ],
+                    "size": 5368757
+                  },
+                  "mp4": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAPo/happy-boy.mp4",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      426,
+                      640
+                    ],
+                    "size": 980208
+                  },
+                  "tinywebp_transparent": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAAm/happy-boy.webp",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      134,
+                      200
+                    ],
+                    "size": 285968
+                  },
+                  "tinygif": {
+                    "url": "https://media.tenor.com/04oC-_Fj2iQAAAAM/happy-boy.gif",
+                    "duration": 3.6,
+                    "preview": "",
+                    "dims": [
+                      220,
+                      331
+                    ],
+                    "size": 893656
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "groups": [
+      {
+        "key": "22114616",
+        "urls": [
+          "https://media1.tenor.com/m/04oC-_Fj2iQAAAAd/happy-boy.gif"
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://tenor.com/ja/view/monkey-gif-4771695363483268470",
+    "pageUrl": "https://media1.tenor.com/m/Qjh3pszMdXYAAAAC/monkey.gif",
+    "metaUrls": [
+      "https://media1.tenor.com/m/Qjh3pszMdXYAAAAC/monkey.gif",
+      "https://media.tenor.com/Qjh3pszMdXYAAAPo/monkey.mp4",
+      "https://media.tenor.com/Qjh3pszMdXYAAAPo/monkey.mp4",
+      "https://media.tenor.com/Qjh3pszMdXYAAAPs/monkey.webm",
+      "https://media.tenor.com/Qjh3pszMdXYAAAPs/monkey.webm"
+    ],
+    "jsonLd": [
+      {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "author": "TheFoxMaid",
+        "creator": "TheFoxMaid",
+        "headline": "Monkey Meme - Monkey - GIF を見つけて共有する",
+        "name": "Monkey Meme - Monkey - GIF を見つけて共有する",
+        "url": "https://tenor.com/ja/view/monkey-gif-4771695363483268470",
+        "mainEntityOfPage": "https://tenor.com/ja/view/monkey-gif-4771695363483268470",
+        "keywords": "monkey,gif,animated gif,gifs,meme",
+        "dateModified": "2024-04-09T22:38:52.017Z",
+        "datePublished": "2024-04-09T22:38:52.017Z",
+        "publisher": {
+          "@context": "http://schema.org",
+          "@type": "Organization",
+          "name": "Tenor",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://tenor.com/assets/img/tenor-app-icon.png"
+          },
+          "sameAs": [
+            "https://twitter.com/gifkeyboard",
+            "https://www.facebook.com/tenorapp/",
+            "https://www.linkedin.com/company/tenorinc/"
+          ]
+        },
+        "image": {
+          "@context": "http://schema.org",
+          "@type": "ImageObject",
+          "author": "TheFoxMaid",
+          "creator": "TheFoxMaid",
+          "name": "Monkey Meme - Monkey - GIF を見つけて共有する",
+          "keywords": "monkey,gif,animated gif,gifs,meme",
+          "description": "完璧な Monkey のアニメーション GIF をあなたのスレッドに。Tenor で最高の GIF を見つけて共有しましょう。",
+          "url": "https://tenor.com/ja/view/monkey-gif-4771695363483268470",
+          "contentUrl": "https://media1.tenor.com/m/Qjh3pszMdXYAAAAC/monkey.gif",
+          "thumbnailUrl": "https://media.tenor.com/Qjh3pszMdXYAAAAe/monkey.png",
+          "width": 498,
+          "height": 371,
+          "dateCreated": "2024-04-09T22:38:52.017Z",
+          "uploadDate": "2024-04-09T22:38:52.017Z",
+          "representativeOfPage": true
+        },
+        "video": {
+          "@context": "http://schema.org",
+          "@type": "VideoObject",
+          "author": "TheFoxMaid",
+          "creator": "TheFoxMaid",
+          "name": "Monkey Meme - Monkey - GIF を見つけて共有する",
+          "keywords": "monkey,gif,animated gif,gifs,meme",
+          "description": "完璧な Monkey のアニメーション GIF をあなたのスレッドに。Tenor で最高の GIF を見つけて共有しましょう。",
+          "url": "https://tenor.com/ja/view/monkey-gif-4771695363483268470",
+          "contentUrl": "https://media.tenor.com/Qjh3pszMdXYAAAPo/monkey.mp4",
+          "thumbnailUrl": "https://media.tenor.com/Qjh3pszMdXYAAAAe/monkey.png",
+          "width": 498,
+          "height": 372,
+          "dateCreated": "2024-04-09T22:38:52.017Z",
+          "uploadDate": "2024-04-09T22:38:52.017Z",
+          "duration": "PT0M0S"
+        }
+      }
+    ],
+    "tenorCache": {
+      "gifs": {
+        "byId": {
+          "4771695363483268470": {
+            "results": [
+              {
+                "id": "4771695363483268470",
+                "legacy_info": {
+                  "post_id": "208187624"
+                },
+                "media_formats": {
+                  "gif": {
+                    "url": "https://media1.tenor.com/m/Qjh3pszMdXYAAAAC/monkey.gif",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      371
+                    ],
+                    "size": 108272
+                  },
+                  "tinywebp": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAA1/monkey.webp",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      200,
+                      150
+                    ],
+                    "size": 3306
+                  },
+                  "mediumgif": {
+                    "url": "https://media1.tenor.com/m/Qjh3pszMdXYAAAAd/monkey.gif",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      371
+                    ],
+                    "size": 79300
+                  },
+                  "webp_transparent": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAAl/monkey.webp",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      371
+                    ],
+                    "size": 9474
+                  },
+                  "webm": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAPs/monkey.webm",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      371
+                    ],
+                    "size": 24881
+                  },
+                  "webp": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAAx/monkey.webp",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      372
+                    ],
+                    "size": 9538
+                  },
+                  "tinymp4": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAP1/monkey.mp4",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      320,
+                      240
+                    ],
+                    "size": 6493
+                  },
+                  "mp4": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAPo/monkey.mp4",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      372
+                    ],
+                    "size": 11017
+                  },
+                  "gifpreview": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAAe/monkey.png",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      498,
+                      371
+                    ],
+                    "size": 113634
+                  },
+                  "tinywebp_transparent": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAAm/monkey.webp",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      200,
+                      149
+                    ],
+                    "size": 3270
+                  },
+                  "tinygif": {
+                    "url": "https://media.tenor.com/Qjh3pszMdXYAAAAM/monkey.gif",
+                    "duration": 0,
+                    "preview": "",
+                    "dims": [
+                      220,
+                      164
+                    ],
+                    "size": 21380
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "groups": [
+      {
+        "key": "4771695363483268470",
+        "urls": [
+          "https://media1.tenor.com/m/Qjh3pszMdXYAAAAd/monkey.gif"
+        ]
+      }
+    ]
+  },
+  {
+    "url": "https://imgur.com/gallery/carefully-curated-vol-982-iMoeEpa",
+    "pageUrl": "https://imgur.com/gallery/carefully-curated-vol-982-iMoeEpa",
+    "metaUrls": [],
+    "jsonLd": [],
+    "tenorCache": null,
+    "groups": [
+      {
+        "key": "iMoeEpa:0",
+        "urls": [
+          "https://i.imgur.com/SXVDaWe_d.webp?maxwidth=760&fidelity=grand"
+        ]
+      },
+      {
+        "key": "iMoeEpa:1",
+        "urls": [
+          "https://i.imgur.com/QERk0ho.mp4"
+        ]
+      },
+      {
+        "key": "iMoeEpa:2",
+        "urls": [
+          "https://i.imgur.com/1Vrz09M.mp4"
+        ]
+      }
+    ]
+  }
+]

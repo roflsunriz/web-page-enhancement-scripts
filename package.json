@@ -1,6 +1,6 @@
 {
   "name": "web-page-enhancement-scripts",
-  "version": "2.6.2",
+  "version": "2.7.0",
   "packageManager": "bun@1.3.8",
   "private": true,
   "type": "module",
@@ -18,6 +18,7 @@
     "dev:d-anime-cf-ranking": "vite --mode d-anime-cf-ranking",
     "dev:fanbox-floating-menu": "vite --mode fanbox-floating-menu",
     "dev:fanbox-pagination-helper": "vite --mode fanbox-pagination-helper",
+    "dev:gif-direct-link-copier": "vite --mode gif-direct-link-copier",
     "dev:hf-download-command-copier": "vite --mode hf-download-command-copier",
     "dev:image-collector": "vite --mode image-collector",
     "dev:imgur-direct-link-copier": "vite --mode imgur-direct-link-copier",
@@ -43,8 +44,9 @@
     "format": "prettier --write src/**/*.ts",
     "lint": "eslint src/**/*.ts",
     "preview": "vite preview",
-    "test": "bun test src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs src/nico-mobile-swipe-fullscreen/gesture.test.mjs src/nico-player-premium-controls/eligibility.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && node scripts/youtube-ui-modifier-regression.mjs && node scripts/nico-mobile-swipe-fullscreen-regression.mjs && node scripts/video-swipe-fullscreen-regression.mjs && node scripts/nico-player-premium-controls-regression.mjs && node scripts/nico-player-premium-controls-regression.mjs --with-swipe && bun run check:d-anime-version",
-    "type-check": "tsc --noEmit"
+    "test": "bun test src/gif-direct-link-copier/extract.test.mjs src/apkcube-direct-download/selectors.test.mjs src/bilibili-jp-localize/dictionary.test.mjs src/bilibili-jp-localize/font.test.mjs src/d-anime/services/settings-migration.test.mjs src/d-anime/controllers/comment-loading-policy.test.mjs src/twitter-thread-copier/model-catalog.test.mjs src/twitter-thread-copier/provider-settings.test.mjs src/yahoo-mail-ad-cleaner/selectors.test.mjs src/nico-mobile-swipe-fullscreen/gesture.test.mjs src/nico-player-premium-controls/eligibility.test.mjs && bun scripts/research-d-anime-switch-handler.mjs && node scripts/nicomanga-image-collection-regression.mjs && node scripts/youtube-ui-modifier-regression.mjs && node scripts/nico-mobile-swipe-fullscreen-regression.mjs && node scripts/video-swipe-fullscreen-regression.mjs && node scripts/nico-player-premium-controls-regression.mjs && node scripts/nico-player-premium-controls-regression.mjs --with-swipe && node scripts/gif-direct-link-copier-regression.mjs && bun run check:d-anime-version",
+    "type-check": "tsc --noEmit",
+    "test:gif-direct-link-copier": "bun test src/gif-direct-link-copier/extract.test.mjs && node scripts/gif-direct-link-copier-regression.mjs"
   },
   "keywords": [
     "userscript",
