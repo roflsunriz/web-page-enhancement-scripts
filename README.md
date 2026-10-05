@@ -8,45 +8,11 @@ web-page-enhancement-scripts
 [![CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml/badge.svg)](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/workflows/ci.yaml)
 
 
-これは複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
-
-プロジェクト構成（概要）
------------------------
-
-- `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
-  - `apkcube-direct-download/` — apkcube.com の待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行
-  - `bilibili-jp-localize/` — bilibiliの動画視聴ページとアカウントページのUI日本語化
-  - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
-  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
-  - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
-  - `gif-direct-link-copier/` — GIPHY・Tenor・ImgurのGIF本体URLをコピー（動画のみの場合は形式を表示）
-  - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
-  - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
-  - `imgur-direct-link/` — Imgur 画像の直接リンク取得
-  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
-  - `video-swipe-fullscreen/` — Webページの動画へ上下ドラッグ全画面を追加
-
-  - `nico-player-premium-controls/` — モバイル公式パネルのローカル再生設定を個別選択可能にする
-  - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
-  - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
-  - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
-  - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
-  - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助
-  - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
-  - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
-  - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
-  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠、全画面プロモーション、連携案内、機能案内を非表示化
-  - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
-  - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
-  - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
-- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義、スクリプト設定モーダルなどのユーティリティ
-- `dist/` — ビルド済みの userscript（配布用）
-
-各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
+複数のウェブページ向けユーザースクリプト（Tampermonkey / Greasemonkey）を管理するリポジトリです。TypeScript と Vite を用いて開発され、`dist/` にビルド済みの userscript（`.user.js` / `.meta.js`）が出力されます。
 
 ユーザースクリプトのサブスクライブ
 ----------------------
-リンクをクリックすることでTampermonkeyが自動的にインストールウィンドウを開き、インストールを行うことができます。
+Tampermonkeyを導入したブラウザでリンクを開くと、インストール画面が表示されます。内容を確認してインストールしてください。
 
 - [apkcube-direct-download](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/apkcube-direct-download.user.js)
 - [bilibili-jp-localize](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/bilibili-jp-localize.user.js)
@@ -127,6 +93,40 @@ GIF本体の直リンクをコピー
 2. 「インストール済み」タブを開き、対象のスクリプトを選択します。
 3. 「選択したスクリプトすべてにこの操作を適用」から「更新を確認」を選択し「実行」ボタンを押すと、最新版があれば自動的に更新されます。
 
+プロジェクト構成（概要）
+-----------------------
+
+- `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
+  - `apkcube-direct-download/` — apkcube.com の待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行
+  - `bilibili-jp-localize/` — bilibiliの動画視聴ページとアカウントページのUI日本語化
+  - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
+  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
+  - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
+  - `gif-direct-link-copier/` — GIPHY・Tenor・ImgurのGIF本体URLをコピー（動画のみの場合は形式を表示）
+  - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
+  - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
+  - `imgur-direct-link/` — Imgur 画像の直接リンク取得
+  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
+  - `video-swipe-fullscreen/` — Webページの動画へ上下ドラッグ全画面を追加
+
+  - `nico-player-premium-controls/` — モバイル公式パネルのローカル再生設定を個別選択可能にする
+  - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
+  - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
+  - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
+  - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
+  - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助
+  - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
+  - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
+  - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
+  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠、全画面プロモーション、連携案内、機能案内を非表示化
+  - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
+  - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
+  - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
+- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義、スクリプト設定モーダルなどのユーティリティ
+- `dist/` — ビルド済みの userscript（配布用）
+
+各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
+
 インストール（開発環境）
 ----------------------
 
@@ -148,7 +148,7 @@ powershell -c "irm bun.sh/install.ps1|iex"
 bun install
 ```
 
-3. 開発サーバを起動します（スクリプト毎にモードを指定）。例：
+3. 開発サーバを起動します。スクリプトごとにモードを指定してください。
 
 ```bash
 # YouTube 情報コピー UI を開発する場合
@@ -166,7 +166,7 @@ bun dev:manga-viewer
 ビルド
 -----
 
-すべての userscript をビルドして `dist/` に出力するには：
+次のコマンドで、すべてのuserscriptをビルドして`dist/`へ出力します。
 
 ```bash
 bun run build
@@ -175,7 +175,7 @@ bun run build
 コード品質チェック
 ------------------
 
-型チェック、リンティング、フォーマットは以下で実行できます:
+型チェック、lint、フォーマットは次のコマンドで実行します。
 
 ```bash
 bun type-check   # tsc --noEmit
@@ -198,7 +198,7 @@ bun format       # prettier --write src/**/*.ts
 
 [開発への参加](CONTRIBUTING.md)、[行動規範](CODE_OF_CONDUCT.md)、[サポート](SUPPORT.md)、[セキュリティ報告](SECURITY.md) を参照してください。
 
-PR 前に以下を実行してください：
+PRを提出する前に、次を実行してください。
 
 ```bash
 bun install
@@ -219,7 +219,7 @@ CI / PR Checks
 このリポジトリは GitHub Actions を使った CI と PR Checksを提供します。
 
 - **CI**: `main` ブランチへの push および PR で依存関係監査、`lint` / `type-check` / `test` / `build` を実行します。
-- **PR Quick Checks**: PR 作成時に `lint` と `type-check` を早期に検出します。
+- **PR Quick Checks**: PR 作成時に `lint` と `type-check` を実行し、問題を早期に検出します。
 
 ## 依存更新の自動処理
 
