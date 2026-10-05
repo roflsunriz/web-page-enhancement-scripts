@@ -1,0 +1,67 @@
+name: 機能提案
+description: 新機能や改善案の提案テンプレートです。
+title: '[Feature] '
+labels:
+  - enhancement
+body:
+  - type: markdown
+    attributes:
+      value: |-
+        誰のどの問題を解決するかと、提案・代替案・互換性を共有してください。
+        導入・利用・開発方法は [README](https://github.com/roflsunriz/web-page-enhancement-scripts/blob/HEAD/README.md) を確認してください。
+        本文と添付に秘密情報や個人情報を含めないでください。脆弱性の詳細は公開せず、[セキュリティ方針](https://github.com/roflsunriz/web-page-enhancement-scripts/blob/HEAD/SECURITY.md) を確認してください。
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: 事前確認
+      options:
+        - label: 同じ内容の既存Issueを検索しました。
+          required: true
+        - label: READMEと関連する利用・更新手順を確認しました。
+          required: true
+  - type: textarea
+    id: original-1
+    attributes:
+      label: 概要
+      placeholder: どのような機能を望んでいるかを短く説明してください。
+    validations:
+      required: true
+  - type: textarea
+    id: original-2
+    attributes:
+      label: 解決したい問題
+      placeholder: 現在の問題点やユースケース、誰のための機能かを説明してください。
+    validations:
+      required: true
+  - type: textarea
+    id: original-3
+    attributes:
+      label: 提案する解決方法
+      placeholder: 実装の方向性（可能なら API 仕様や UI のワイヤー）を記載してください。
+    validations:
+      required: true
+  - type: textarea
+    id: original-4
+    attributes:
+      label: 受け入れ条件
+      placeholder: |-
+        - どのような条件でこの issue を閉じるか
+        - テストや動作確認の要件
+  - type: textarea
+    id: original-5
+    attributes:
+      label: 代替案と互換性
+      placeholder: 他に検討したアプローチや既存のワークアラウンドがあれば記載してください。
+      description: 既存の設定・保存データ・利用者への影響も記載してください。
+  - type: textarea
+    id: original-6
+    attributes:
+      label: 関連情報
+      placeholder: '- 関連するファイル、コミット、外部参照（スクリーンショット等）'
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: 公開情報の確認
+      options:
+        - label: 本文・ログ・画像・添付から、認証情報、Cookie、トークン、秘密鍵、個人情報を除いたことを確認しました。
+          required: true
