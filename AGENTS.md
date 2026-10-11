@@ -114,3 +114,8 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - 新規 `src/gif-direct-link-copier` はページに記載されたCDN URLだけを使う。GIPHYの `data-giphy-id` とURL ID、Tenorの `store-cache.gifs.byId[ID].results`（legacy_info.post_idも確認）/JSON-LD、Imgurの現在投稿OG/canonicalと描画メディアを照合する。GIPHYの `_s.gif` は静止サムネイルなので候補にしない。共有URLやgifvの拡張子変換を追加しない。
 - Imgur現行公開ページは `.Gallery-Content--mediaContainer` が固定高さ・transform付き `.VirtualList--item` に入る。media直下に通常フローのボタンを追加すると次itemに重なり実クリック不能になる。見出し下（`.VirtualList` の親の前）へ置き、`data-index`由来の番号を表示する。
 - source/src更新後もvideo.currentSrcが旧媒体を保持することが実ポインター回帰で判明。現在のDOM属性とsourcesだけを抽出し、Imgurの旧投稿と同じsourceを持つ再利用ノードは新描画まで待つ。回帰は `bun run test:gif-direct-link-copier`、実ページ・未検証範囲はverification.md。公開先mainが明示承認された後、updateURL/downloadURLを公開配布物へ設定した。
+
+## Dependabot PR #11 の検証（2026-10-11確認）
+
+- ESLint 10.12.0 のPRでは、元のCIが `source-map-js@1.2.1` のGHSA-68fv-2mgg-jv7qで失敗し、自動修復コミット後の `CI` と `PR Quick Checks` は `action_required` になった。`gh pr checks` の成功項目だけで全CI成功と判断せず、`gh run list` と失敗ログを確認する（`verification.md`）。
+- 自動修復が `bun.lock` の `page-flip-2` 固定URLの整合性値を削除した。依存更新時は元の検証済み値を保持し、固定lockfileインストールで確認する。Vite更新による `dist/` の再生成差分は個別スクリプトの変更・版上げと区別する。

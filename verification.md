@@ -1,5 +1,12 @@
 # 検証手順と対策
 
+## Dependabot PR #11 / リポジトリ 2.7.2（2026-10-11）
+
+- PR #11 は ESLint 10.11.0 → 10.12.0 の更新。元の [CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/runs/37512547574) は `source-map-js@1.2.1` の [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) で失敗した。自動修復後のCIとPR Quick Checksは `action_required` となり、`gh pr checks` には適格性チェックの成功だけが表示された。全チェックの成功と取り違えず、変更後の依存監査とローカル検証を実行した。
+- Vite 8.3.4 の依存する PostCSS 8.5.29 と `source-map-js@1.2.2` に更新した。ほかの互換範囲内の開発依存も更新し、`bun outdated` の残りは TypeScript 7.0.2 だけ。`typescript-eslint@8.71.1` のpeer条件は TypeScript `<6.1.0` のため6.0.3を維持した。元PRの `bun.lock` で欠落した `page-flip-2` の整合性値は既存の値を保持した。
+- `bun install --frozen-lockfile --ignore-scripts`、`bun run lint`、`bun run type-check`、全29スクリプトの `bun run build`、`bun run test` が成功した。単体69件と既存のブラウザ回帰、dアニメ版一致を確認した。`bun audit` は205パッケージで脆弱性0件。
+- Prettier 3.9.10 の `--check` は今回変更していない11個のTSファイルで失敗した。これらのソースは本PRに含めず、ユーザースクリプトの版も変更していない。ビルドで再生成された `dist/` の差分は検証後に元へ戻した。公開後はmainのCI結果とPR状態を再確認する。
+
 ## gif-direct-link-copier 1.0.0（2026-10-04）
 
 独立userscriptの導入対象は `dist/gif-direct-link-copier.user.js`。ユーザーが公開先 `roflsunriz/web-page-enhancement-scripts` のmainへの公開を明示承認したため、配布・自動更新URLを設定した。作業開始時の対象mainはcleanで、共通AGENTSは全文読了、`.agents`は空。別リポジトリ・認証・投稿には触れていない。通常pushでmainへ反映し、GitHub CIと公開配布物を確認する。
