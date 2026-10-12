@@ -481,7 +481,7 @@ const videoSwipeFullscreenMeta: MonkeyUserScript = {
 const nicoPlayerPremiumControlsMeta: MonkeyUserScript = {
   name: 'nico-player-premium-controls',
   namespace: 'nicoPlayerPremiumControls',
-  version: '1.0.1',
+  version: '1.0.2',
   description: 'ニコニコ動画モバイル版の公式設定パネルで倍速・レジューム・スキップ秒数・反転の利用資格を解除し、個別に操作できるようにする',
   author: 'roflsunriz',
   match: ['https://sp.nicovideo.jp/*'],

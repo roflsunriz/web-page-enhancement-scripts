@@ -72,6 +72,22 @@
 - [WHATWG HTML popover](https://html.spec.whatwg.org/multipage/popover.html#dom-showpopover): video自体の全画面では通常の子要素やbody上の通知が見えないため、対応ブラウザでmanual popoverをtop layerへ表示する。Popover API非対応時のその表示形態では通知の視認を保証できない。
 - [Tampermonkey API](https://www.tampermonkey.net/documentation.php#api:GM_registerMenuCommand): GM_getValue / GM_setValue / GM_registerMenuCommandを使う。日本語・英語の文言と英語fallbackを備える。公開main向けupdateURL/downloadURLを生成し、メタデータと回帰で一致を確認する。
 
+## nico-player-premium-controls 1.0.2（2026-10-12）
+
+### 原因と修正
+
+- ユーザー報告はFirefox Android版・Tampermonkeyで公式設定項目がPremium判定によりブロックされる症状。未ログイン公開 `https://sp.nicovideo.jp/watch/sm9` の分離Chromeでも旧1.0.1の状態が `runtime: false` / `controllers: 0` / `Unsupported official JSX runtime` となることを確認した。
+- 公式JSXモジュールが2026-10-02の直接オブジェクトexportから、キャッシュ付きCommonJS初期化関数exportへ変わっていた。2026-10-12のURLは `https://res.sp.nicovideo.jp/assets/jsx-runtime-aIqNzS8k.js`。配置変更だけでは既存の検出条件は壊れておらず、export値の構造判定が停止原因だった。
+- `resolveJsxRuntime` は直接オブジェクトを優先し、公式JSXモジュールに限定して引数なし初期化関数の戻り値を構造照合する。export名・ハッシュを固定せず、公式側が使うオブジェクトの参照を共有する。getter、引数が必要な関数を呼ばず、未対応構造と初期化例外は失敗として報告する。既存props照合・コントローラー探索・会員情報や通信の境界は維持する。
+
+### 検証と制限
+
+- `bun run format` / `lint` / `type-check` / `build` / `test` と配布物の `node --check` が成功。全29ターゲットをビルドし、対象外の再生成差分は作業開始時へ戻した。全単体73件・1686 assertion、既存のdアニメ/漫画/YouTube/専用・汎用スワイプ/GIF回帰と版一致検査を含む。`bun audit` は205パッケージ中脆弱性0件。依存関係・lockfileは変更していない。サンドボックスのDNS/ファイル参照制限で失敗した実ページ取得・全ビルドは、昇格した実行で再検証して成功した。
+- 単体12件（新規4件）。旧/新の実runtime×document-start/後から注入×縦横画面の8条件で204項目、両スワイプ配布物との併用でも204項目を確認した。設定操作、値保持、会員/権利/通信の不変、SPA、pagehide/pageshow、同一動画DOMでのコントローラー再生成、重複注入を含む。fixtureの出典・ハッシュ・ライセンスは [fixture README](test-fixtures/nico-player-premium-controls/README.md) を参照。
+- 修正版配布物で実ページ25項目が成功。公開動画と推薦先へのSPA移動で、レジューム切り替え、反転のチェック/保存値/動画transform一致、本編の2倍→1倍の公式controller/native video一致、guest会員状態と導入前の設定値保持を確認した。[Chrome実測JSON](test-fixtures/nico-player-premium-controls/verification-2026-10-12.json)に記録する。
+- Windowsの分離ヘッドレスFirefox 157.0.1でも、Android相当UAで公開モバイルページへ修正版を注入し、native ESM共有、公式controllerのローカル判定解除、公式設定パネルの4チェック項目表示と導入前の速度/反転保持を確認した。[Firefox実測JSON](test-fixtures/nico-player-premium-controls/verification-firefox-2026-10-12.json)を参照。観測用スクリプトはページのrealmで実行した。別realmからplain objectのprototypeを比較すると探索を取りこぼすため、観測環境の未取得を配布物の不具合と混同しない。
+- Android実機・Tampermonkeyへの実インストール・ログイン済み一般/プレミアム・他拡張との併用は未検証。Firefoxの実測はWindowsのGeckoに限り、Androidでの解決を実測済みとは扱わない。Androidで更新後の版を確認し、ページを再読み込みして公式設定の項目表示、レジューム、スキップ、反転、速度を確認する。設定が依然ブロックされる場合はmanagerの注入方式とコンソールの本スクリプト警告を照合する。
+
 ## nico-player-premium-controls 1.0.1（2026-10-02）
 
 ### 対象と境界

@@ -1,5 +1,9 @@
 import { describe, expect, test } from "bun:test";
-import { installRuntimeAdapter, unlockPlayerProps } from "./eligibility.ts";
+import {
+  installRuntimeAdapter,
+  resolveJsxRuntime,
+  unlockPlayerProps,
+} from "./eligibility.ts";
 import { unlockController } from "./controller.ts";
 
 const noop = () => {};
@@ -16,6 +20,60 @@ const panel = () => ({
 });
 
 describe("official player eligibility only", () => {
+  test("resolves direct runtime exports without depending on the export name", () => {
+    const runtime = { jsx: noop, jsxs: noop };
+    expect(resolveJsxRuntime({ renamed: runtime })).toBe(runtime);
+  });
+  test("resolves a lazy CommonJS export to the site's cached runtime instance", () => {
+    let cached;
+    const module = {
+      renamed() {
+        return (cached ??= { jsx: noop, jsxs: noop });
+      },
+    };
+    const siteRuntime = module.renamed();
+    const runtime = resolveJsxRuntime(module);
+    expect(runtime).toBe(siteRuntime);
+    const original = siteRuntime.jsx;
+    const restore = installRuntimeAdapter(runtime);
+    expect(module.renamed().jsx).not.toBe(original);
+    restore();
+    expect(module.renamed().jsx).toBe(original);
+  });
+  test("prefers direct exports and does not invoke export getters or argument-taking functions", () => {
+    const runtime = { jsx: noop, jsxs: noop };
+    const module = {
+      factory() {
+        throw Error("unnecessary initializer");
+      },
+      get getter() {
+        throw Error("must not run export getter");
+      },
+      direct: runtime,
+    };
+    expect(resolveJsxRuntime(module)).toBe(runtime);
+    expect(() =>
+      resolveJsxRuntime({
+        get getter() {
+          throw Error("must not run export getter");
+        },
+        withArgument(required) {
+          throw Error("must not run with missing arguments: " + required);
+        },
+      }),
+    ).toThrow("Unsupported official JSX runtime");
+  });
+  test("rejects malformed modules and preserves initializer failures", () => {
+    for (const module of [null, [], {}, { factory: () => ({ jsx: noop }) }])
+      expect(() => resolveJsxRuntime(module)).toThrow();
+    expect(() =>
+      resolveJsxRuntime({
+        factory() {
+          throw Error("official initialization failed");
+        },
+      }),
+    ).toThrow("official initialization failed");
+  });
   test("unlocks the panel without changing selected values or calling setters", () => {
     let calls = 0;
     const original = {

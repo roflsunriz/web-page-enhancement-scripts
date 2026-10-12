@@ -23,6 +23,15 @@ const runtime = await readFile(
   ),
   "utf8",
 );
+const lazyRuntime = await readFile(
+  new URL(
+    "../test-fixtures/nico-player-premium-controls/official-jsx-runtime-lazy.js",
+    import.meta.url,
+  ),
+  "utf8",
+);
+// Fixture-owned equivalent of the vendor's cached CommonJS initializer.
+const commonJsHelper = `export function nt(initialize){let cached;return ()=>{if(!cached){cached={exports:{}};initialize(cached.exports,cached)}return cached.exports}}`;
 const withSwipe = process.argv.includes("--with-swipe");
 const swipeScripts = withSwipe
   ? await Promise.all([
@@ -75,7 +84,22 @@ window.fixtureMount=(id)=>{
 
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 let passed = 0;
-async function run(viewport) {
+async function run(viewport, lazy, late) {
+  const runtimePath = lazy
+    ? "/assets/jsx-runtime-current.js"
+    : "/web/assets/jsx-runtime-fixture.js";
+  const body = fixture
+    .replaceAll("/web/assets/jsx-runtime-fixture.js", runtimePath)
+    .replace(
+      "import {j,fixtureOriginalRender}",
+      lazy
+        ? "import {t as initialize,fixtureOriginalRender}"
+        : "import {j,fixtureOriginalRender}",
+    )
+    .replace(
+      "window.fixtureRuntime=j;",
+      (lazy ? "const j=initialize();" : "") + "window.fixtureRuntime=j;",
+    );
   const context = await browser.newContext({
     viewport,
     hasTouch: true,
@@ -90,15 +114,23 @@ async function run(viewport) {
       url.hostname === "sp.nicovideo.jp" &&
       url.pathname.startsWith("/watch/")
     )
-      return route.fulfill({ contentType: "text/html", body: fixture });
+      return route.fulfill({ contentType: "text/html", body });
+    if (url.hostname === "res.sp.nicovideo.jp" && url.pathname === runtimePath)
+      return route.fulfill({
+        contentType: "text/javascript",
+        headers: { "Access-Control-Allow-Origin": "*" },
+        body: lazy
+          ? lazyRuntime + "\nexport const fixtureOriginalRender=n().jsx;"
+          : runtime + "\nexport const fixtureOriginalRender=n.jsx;",
+      });
     if (
       url.hostname === "res.sp.nicovideo.jp" &&
-      url.pathname.endsWith("jsx-runtime-fixture.js")
+      url.pathname.endsWith("components-CpcYECLb.js")
     )
       return route.fulfill({
         contentType: "text/javascript",
         headers: { "Access-Control-Allow-Origin": "*" },
-        body: runtime + "\nexport const fixtureOriginalRender=n.jsx;",
+        body: commonJsHelper,
       });
     if (url.hostname === "nvcomment.nicovideo.jp") {
       if (request.method() === "POST")
@@ -134,7 +166,8 @@ async function run(viewport) {
     source:
       "window.fixtureOriginalFetch=window.fetch;window.fixtureOriginalXHR=window.XMLHttpRequest;",
   });
-  await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: script });
+  if (!late)
+    await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source: script });
   async function evaluate(expression) {
     const r = await cdp.send("Runtime.evaluate", {
       expression,
@@ -182,6 +215,15 @@ async function run(viewport) {
     await cdp.send("Page.navigate", {
       url: "https://sp.nicovideo.jp/watch/sm100",
     });
+    if (late) {
+      await until("window.fixtureReady");
+      await click("settings");
+      await check(
+        "before late injection the official panel is blocked",
+        "!!document.querySelector('[data-test=premium-registration]')&&!fixtureController.context.isPremium",
+      );
+      await evaluate(script);
+    }
     await until(
       `window.fixtureReady&&${status}.runtime&&${status}.controllers===1`,
     );
@@ -337,8 +379,12 @@ async function run(viewport) {
   }
 }
 try {
-  await run({ width: 390, height: 844 });
-  await run({ width: 844, height: 390 });
+  for (const lazy of [false, true]) {
+    for (const late of [false, true]) {
+      await run({ width: 390, height: 844 }, lazy, late);
+      await run({ width: 844, height: 390 }, lazy, late);
+    }
+  }
   console.log(
     `nico-player-premium-controls${withSwipe ? " with both swipe scripts" : ""}: ${passed} browser assertions passed`,
   );

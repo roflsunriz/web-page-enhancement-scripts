@@ -1,4 +1,4 @@
-import { installRuntimeAdapter, isJsxRuntime } from "./eligibility";
+import { installRuntimeAdapter, resolveJsxRuntime } from "./eligibility";
 import {
   findControllers,
   unlockController,
@@ -105,10 +105,7 @@ if (
         try {
           const module: unknown = await import(/* @vite-ignore */ url);
           if (started !== generation || suspended) return;
-          const runtime = Object.values(module as Record<string, unknown>).find(
-            isJsxRuntime,
-          );
-          if (!runtime) throw new Error("Unsupported official JSX runtime");
+          const runtime = resolveJsxRuntime(module);
           restoreRuntime = installRuntimeAdapter(runtime);
           status.runtime = true;
         } catch (error: unknown) {

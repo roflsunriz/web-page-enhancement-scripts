@@ -94,6 +94,7 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 - `src/nico-player-premium-controls` は独立スクリプト。モバイルの公式JSX runtimeの設定パネル／速度一覧propsと、DOM動画・URL IDが一致するコントローラーの`context.isPremium`だけを変更する。実際の`sessionUser` / `watch.viewer` / コメント送信 / サーバー権利は改変しない。
 - React compilerのコントローラー参照は`updateQueue.memoCache`にもある。DOM上の動画自身にfiberがない場合は祖先からrootのcurrentへ進む。探索は上限付き・own descriptorの値のみ。getterやMapを辿らない。
 - `scripts/nico-native-import-plugin.ts` が公式ネイティブESMの共有を保持する。他ターゲットには適用しない。標準importをSystemJSに戻すと公式側へ反映できない。
+- 2026-10-12の公式JSX runtimeは直接オブジェクトではなく、キャッシュ付きCommonJS初期化関数をexportしていた。公式JSXモジュールに限り直接exportを優先し、引数なし初期化関数の戻り値を`jsx`/`jsxs`の構造で照合する。export名・ハッシュ・`/web/assets`の固定は避ける（`resolveJsxRuntime`、fixture README、verification.md）。
 - 単体8件、配布物を使うオフラインChrome50項目を通常テストへ登録。fixtureの公式React runtimeは出典・ハッシュとMITライセンスを同梱する。レジューム変更でコントローラーが同一動画DOMを再利用して作り直されるため、現行rootを周期的・公式クリック処理前に照合する。広告の外部メディア制御中は速度変更が公式側で止まるので本編で確認する。context参照は保持する。PC版は別の会員判定に依存するため対象外。実機・ログイン済み・サーバー再開位置は確認していない。
 
 ## bilibili 日本語化の知見（2026-09-08 確認）

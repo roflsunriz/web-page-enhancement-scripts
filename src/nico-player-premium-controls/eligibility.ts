@@ -63,6 +63,24 @@ export function isJsxRuntime(value: unknown): value is JsxRuntime {
   );
 }
 
+/** Official bundlers export either the runtime itself or a cached CommonJS initializer. */
+export function resolveJsxRuntime(module: unknown): JsxRuntime {
+  if (!isRecord(module)) throw new Error("Unsupported official JSX module");
+  const exports = Object.values(Object.getOwnPropertyDescriptors(module))
+    .filter((descriptor) => "value" in descriptor)
+    .map((descriptor): unknown => descriptor.value);
+  // Prefer direct exports, so unrelated initializers do not run unnecessarily.
+  const direct = exports.find(isJsxRuntime);
+  if (direct) return direct;
+  for (const value of exports) {
+    if (typeof value !== "function" || value.length !== 0) continue;
+    // Only called for the loaded official JSX module, never for arbitrary page modules.
+    const runtime: unknown = Reflect.apply(value, undefined, []);
+    if (isJsxRuntime(runtime)) return runtime;
+  }
+  throw new Error("Unsupported official JSX runtime");
+}
+
 export function installRuntimeAdapter(runtime: JsxRuntime): () => void {
   const originals = { jsx: runtime.jsx, jsxs: runtime.jsxs };
   const wrappers = {} as Record<"jsx" | "jsxs", Render>;

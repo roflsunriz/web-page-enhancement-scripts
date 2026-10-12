@@ -1,0 +1,22 @@
+{
+  "passed": true,
+  "environment": {
+    "os": "Windows",
+    "browser": "Firefox 157.0.1",
+    "headless": true,
+    "profile": "isolated temporary profile",
+    "userAgent": "Mozilla/5.0 (Android 13; Mobile; rv:154.0) Gecko/154.0 Firefox/154.0",
+    "androidDevice": false,
+    "userscriptManagerInstalled": false
+  },
+  "path": "/watch/sm9",
+  "status": { "runtime": true, "controllers": 1, "error": null },
+  "before": { "premium": false, "rate": 1, "flip": false },
+  "after": {
+    "premium": true,
+    "rate": 1,
+    "flip": false,
+    "checkboxes": [true, true, false, true]
+  },
+  "scope": "native ESM runtime sharing, local controller eligibility and official settings panel visibility; no interaction or playback verification"
+}
