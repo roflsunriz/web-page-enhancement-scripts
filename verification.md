@@ -1,5 +1,13 @@
 # 検証手順と対策
 
+## 1.0.2公開前の依存確認 / リポジトリ2.7.3（2026-10-12）
+
+- `nico-player-premium-controls` 1.0.2のmainへのpushが承認されたため、追加の `bun audit` / `bun outdated` を実行。Zod 4.6.6を取り込み、固定lockfileからのインストールと205パッケージの脆弱性0件を確認した。`page-flip-2` の固定URL・既存整合性値を保持し、lockfile差分はZodの宣言と解決・整合性値だけである。
+- 公式npmメタデータで `typescript-eslint@8.71.1` のpeer条件 `>=4.8.4 <6.1.0` を確認。TypeScript 7.0.2は範囲外のため6.0.3を維持した。更新後の `bun outdated` に残るのはこの非互換候補だけ。
+- 同条件のdアニメCFランキングのビルドで、Zod更新前後の同梱コードに実差分があることを確認。配布版を1.5.3へ上げて再生成し、運用と依存更新をリポジトリ2.7.3として区別した。ニコニコ修正版は1.0.2を維持し、公開日の履歴へ移した。
+- `bun scripts/verify-d-anime-cf-ranking-settings.mjs` は実設定モジュールの設定/キャッシュ検証、TTL両境界、不正型・範囲・NaN、正常な保存、不正値の書き込み防止、破損した保存値からの既定値復帰を確認する。browser localeとGM保存APIだけを分離プロセスでfixture化し、通常テストへ登録した。異常系のZod警告は想定した入力拒否として確認している。
+- 依存更新後のlint・型検査・全29ビルド・全テストが成功した。単体73件と既存の全ブラウザ回帰、ニコニコ修正版の単独/スワイプ併用各204項目、dアニメ版一致を再確認し、新規CF設定回帰も独立実行して成功した。変更した検査スクリプトとpackage.jsonのPrettier検査、CF/ニコニコ配布物の構文検査も成功した。対象外のビルド再生成差分は開始時の内容へ戻した。
+
 ## Dependabot PR #11 / リポジトリ 2.7.2（2026-10-11）
 
 - PR #11 は ESLint 10.11.0 → 10.12.0 の更新。元の [CI](https://github.com/roflsunriz/web-page-enhancement-scripts/actions/runs/37512547574) は `source-map-js@1.2.1` の [GHSA-68fv-2mgg-jv7q](https://github.com/advisories/GHSA-68fv-2mgg-jv7q) で失敗した。自動修復後のCIとPR Quick Checksは `action_required` となり、`gh pr checks` には適格性チェックの成功だけが表示された。全チェックの成功と取り違えず、変更後の依存監査とローカル検証を実行した。
