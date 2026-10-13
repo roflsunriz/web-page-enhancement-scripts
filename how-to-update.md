@@ -13,7 +13,7 @@
 
 ## 通常更新
 
-YouTube古い順再生は `bunx --no-install vite build --mode youtube-oldest-player` で単独ビルドし、`bun run test:youtube-oldest-player` で採取応答の抽出と配布物のオフライン操作回帰を検証します。実サイトでの確認は `node scripts/youtube-oldest-player-live.mjs` です。分離した未ログインのヘッドレスChromeで公開ページを開き、全件取得と動画末尾へのシーク、前後移動・停止を行います。各待機は30〜180秒の上限付きです。既存プロファイルを使用しません。未公開版には自動更新URLを設定せず、ローカル `dist/youtube-oldest-player.user.js` を読み込みます。復旧はmanagerで無効化して再読み込みします。仕様変更時は [設計と対応範囲](docs/youtube-oldest-player.md) とfixtureを照合してください。
+YouTube古い順再生は `bunx --no-install vite build --mode youtube-oldest-player` で単独ビルドし、`bun run test:youtube-oldest-player` で採取応答の抽出と配布物のオフライン操作回帰を検証します。実サイトでの確認は `node scripts/youtube-oldest-player-live.mjs` です。分離した未ログインのヘッドレスChromeで公開ページを開き、全件取得と動画末尾へのシーク、前後移動・停止を行います。各待機は30〜180秒の上限付きです。既存プロファイルを使用しません。公開mainの更新・ダウンロードURLを `vite.config.ts` から生成し、導入・更新は [配布物](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js) またはローカル `dist/youtube-oldest-player.user.js` を使います。復旧は先にパネルの「終了」を押してからmanagerで無効化・再読み込みします。仕様変更時は [設計と対応範囲](docs/youtube-oldest-player.md) とfixtureを照合してください。
 
 1. 対象スクリプトのソースを更新します。
 2. `vite.config.ts` の対象スクリプトの `version` を上げます。

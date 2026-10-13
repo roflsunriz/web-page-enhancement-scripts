@@ -1,6 +1,6 @@
 以下は `dist/` に出力される各 userscript（.user.js）について、機能別の簡潔な解説です。
 
-- `youtube-oldest-player.user.js`（未公開ローカル版）
+- `youtube-oldest-player.user.js`
   - チャンネルの「動画」タブの公開動画を古い順に最後まで取得し、同じタブで連続再生します。前後移動・次への自動移動の一時停止／再開・終了・再読み込みに対応します。Shorts・ライブ配信の別タブは対象外です。アカウントの再生リストは作成しません。[操作と制限](docs/youtube-oldest-player.md)を参照してください。
 
 - `apkcube-direct-download.user.js`

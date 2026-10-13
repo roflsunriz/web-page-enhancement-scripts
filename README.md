@@ -42,12 +42,13 @@ Tampermonkeyを導入したブラウザでリンクを開くと、インスト�
 - [yahoo-mail-ad-cleaner](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-ad-cleaner.user.js)
 - [yahoo-mail-mark-read](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/yahoo-mail-mark-read.user.js)
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
+- [youtube-oldest-player](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
 
 YouTubeのチャンネル動画を古い順に連続再生
 ----------------------------------------
 
-YouTubeのチャンネル動画を古い順に連続再生するローカル版を追加しました。[youtube-oldest-player.user.js](dist/youtube-oldest-player.user.js)をuserscript managerへ読み込み、チャンネルの「動画」タブで「古い順に連続再生」→「最初から再生」を押します。全件取得後、同じタブで順に再生します。[操作・対応範囲](docs/youtube-oldest-player.md)を確認してください。
+[配布用スクリプト](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js)をuserscript managerへ導入し、チャンネルの「動画」タブで「古い順に連続再生」→「最初から再生」を押します。全件取得後、同じタブで順に再生します。[ローカル配布物](dist/youtube-oldest-player.user.js)と[操作・対応範囲](docs/youtube-oldest-player.md)も参照できます。
 
 GIF本体の直リンクをコピー
 -------------------------

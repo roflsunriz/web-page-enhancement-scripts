@@ -127,7 +127,7 @@ const chatgptNotifyMeta: MonkeyUserScript = {
 const danimeCfRankingMeta: MonkeyUserScript = {
   name: 'd-anime-cf-ranking',
   namespace: 'dAnimeCfRanking',
-  version: '1.5.3',
+  version: '1.5.4',
   description: 'dアニメストアのCFページに作品の人気度ランキング（ニコニコ動画指標）を表示',
   author: 'roflsunriz',
   match: [
@@ -689,7 +689,7 @@ const yahooMailMarkReadMeta: MonkeyUserScript = {
 const youtubeOldestPlayerMeta: MonkeyUserScript = {
   name: 'youtube-oldest-player',
   namespace: 'youtubeOldestPlayer',
-  version: '1.0.0',
+  version: '1.0.1',
   description: 'チャンネルの動画を古い順に取得し、同じタブで連続再生',
   author: 'roflsunriz',
   match: ['https://www.youtube.com/*'],
@@ -698,6 +698,10 @@ const youtubeOldestPlayerMeta: MonkeyUserScript = {
   'inject-into': 'page',
   'run-at': 'document-start',
   noframes: true,
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js',
 };
 
 const youtubeInfoCopierMeta: MonkeyUserScript = {
