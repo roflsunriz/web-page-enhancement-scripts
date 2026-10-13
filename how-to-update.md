@@ -13,6 +13,8 @@
 
 ## 通常更新
 
+YouTube古い順再生は `bunx --no-install vite build --mode youtube-oldest-player` で単独ビルドし、`bun run test:youtube-oldest-player` で採取応答の抽出と配布物のオフライン操作回帰を検証します。実サイトでの確認は `node scripts/youtube-oldest-player-live.mjs` です。分離した未ログインのヘッドレスChromeで公開ページを開き、全件取得と動画末尾へのシーク、前後移動・停止を行います。各待機は30〜180秒の上限付きです。既存プロファイルを使用しません。未公開版には自動更新URLを設定せず、ローカル `dist/youtube-oldest-player.user.js` を読み込みます。復旧はmanagerで無効化して再読み込みします。仕様変更時は [設計と対応範囲](docs/youtube-oldest-player.md) とfixtureを照合してください。
+
 1. 対象スクリプトのソースを更新します。
 2. `vite.config.ts` の対象スクリプトの `version` を上げます。
    - `d-anime` の設定画面に表示するバージョンも、この値からビルド時に自動生成されます。`src/d-anime/config/default-settings.ts` は手動更新しません。

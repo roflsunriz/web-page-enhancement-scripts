@@ -686,6 +686,20 @@ const yahooMailMarkReadMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/yahoo-mail-mark-read.user.js',
 };
 
+const youtubeOldestPlayerMeta: MonkeyUserScript = {
+  name: 'youtube-oldest-player',
+  namespace: 'youtubeOldestPlayer',
+  version: '1.0.0',
+  description: 'チャンネルの動画を古い順に取得し、同じタブで連続再生',
+  author: 'roflsunriz',
+  match: ['https://www.youtube.com/*'],
+  grant: 'none',
+  sandbox: 'raw',
+  'inject-into': 'page',
+  'run-at': 'document-start',
+  noframes: true,
+};
+
 const youtubeInfoCopierMeta: MonkeyUserScript = {
   name: 'youtube-info-copier',
   namespace: 'youtubeInfoCopier',
@@ -872,6 +886,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/youtube-ui-modifier/main.ts',
     fileName: 'youtube-ui-modifier.user.js',
     meta: youtubeUiModifierMeta,
+  },
+  'youtube-oldest-player': {
+    entry: 'src/youtube-oldest-player/main.ts',
+    fileName: 'youtube-oldest-player.user.js',
+    meta: youtubeOldestPlayerMeta,
   },
 } as const;
 

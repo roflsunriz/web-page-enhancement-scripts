@@ -1,0 +1,83 @@
+[
+  {
+    "handle": "LOCAL58TV",
+    "date": "2026-10-13",
+    "steps": [
+      "channel-button",
+      "all-continuations-collected",
+      "first-watch-navigation",
+      "official-player-id-matches",
+      "real-video-ended-next",
+      "previous",
+      "manual-next",
+      "paused-real-end-stays-current",
+      "paused-state-survives-reload",
+      "stop-clears-queue",
+      "native-autoplay-restored"
+    ],
+    "error": null,
+    "collection": "13本を取得しました",
+    "count": 13,
+    "first": {
+      "id": "jh09uIN6tl0",
+      "title": "ＬＯＣＡＬ５８ＴＶ -  You Are On The Fastest Available Route"
+    },
+    "last": {
+      "id": "W_Qlb85JD_g",
+      "title": "ＬＯＣＡＬ５８ＴＶ - Ad Spot"
+    },
+    "playback": {
+      "duration": null,
+      "paused": true,
+      "time": 0,
+      "ad": false,
+      "playability": "OK"
+    },
+    "autonav": [
+      {
+        "tag": "DIV",
+        "checked": "true",
+        "outer": "<div class=\"ytp-autonav-toggle-button\" aria-checked=\"true\"></div>"
+      }
+    ]
+  },
+  {
+    "handle": "YouTube",
+    "date": "2026-10-13",
+    "steps": [
+      "channel-button",
+      "all-continuations-collected",
+      "first-watch-navigation",
+      "official-player-id-matches",
+      "manual-next",
+      "paused-state-survives-reload",
+      "stop-clears-queue",
+      "native-autoplay-restored"
+    ],
+    "error": null,
+    "collection": "196本を取得しました",
+    "count": 196,
+    "first": {
+      "id": "rdwz7QiG0lk",
+      "title": "チューブでYouTube！"
+    },
+    "last": {
+      "id": "71ya_JC_IbM",
+      "title": "eスポーツ20年の歴史を解説"
+    },
+    "playback": {
+      "duration": 423.301,
+      "paused": false,
+      "time": 0.796839,
+      "ad": false,
+      "playability": "OK"
+    },
+    "autonav": [
+      {
+        "tag": "DIV",
+        "checked": "false",
+        "outer": "<div class=\"ytp-autonav-toggle-button\" aria-checked=\"false\"></div>"
+      }
+    ]
+  }
+]

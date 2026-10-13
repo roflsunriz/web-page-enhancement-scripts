@@ -120,3 +120,10 @@ Get-Content -Raw -LiteralPath .\COMMON-AGENTS.md
 
 - ESLint 10.12.0 のPRでは、元のCIが `source-map-js@1.2.1` のGHSA-68fv-2mgg-jv7qで失敗し、自動修復コミット後の `CI` と `PR Quick Checks` は `action_required` になった。`gh pr checks` の成功項目だけで全CI成功と判断せず、`gh run list` と失敗ログを確認する（`verification.md`）。
 - 自動修復が `bun.lock` の `page-flip-2` 固定URLの整合性値を削除した。依存更新時は元の検証済み値を保持し、固定lockfileインストールで確認する。Vite更新による `dist/` の再生成差分は個別スクリプトの変更・版上げと区別する。
+
+## YouTube古い順再生（2026-10-13確認）
+
+- チャンネルの現行「動画」タブは `chipBarViewModel` の3フィルター（新しい順・人気・古い順）と `lockupViewModel` を使う。公式が提供する3番目のcontinuationを使い、応答でその選択状態を確認する。並び順自体は固定の内部仕様なので、更新時は実ページで照合する。言語ラベルや相対投稿日から推測しない。
+- 並べ替え応答は `reloadContinuationItemsCommand`、続きは `appendContinuationItemsAction`。30本だけの取得で完了扱いせず、終端まで読む。第二ページ28本にcontinuationが付く例もあるため、項目数を動画数と混同しない。縮約fixture・回帰と実サイト検査は `test-fixtures/youtube-oldest-player/README.md` を参照。
+- キューはタブ内sessionStorageの現在IDとURL・公式プレーヤーIDの一致で所有する。実ページが未知のqueryパラメーターを削除するため独自URLマーカーに依存しない。広告・古いDOMのイベントでは移動しない。`location.assign` 後も旧documentは遷移待機中に生存するため、待機中に旧URLを見て保存キューを消してはいけない。750ms遅延のdocument応答で回帰する。
+- HTMLの `ended` 前に公式 `onStateChange` の0が発生し、そのまま関連動画へ遷移する例を実測した。両通知を扱い、公式自動再生はキュー中だけオフ、終了・通常離脱で元へ戻す。子フレームでは実行しない。早期にhtml直下へパネルを置くと実ページの描画に重なりクリックできなかったため、DOM準備後にbodyへ置く。詳細はverification.mdと実測記録を参照。

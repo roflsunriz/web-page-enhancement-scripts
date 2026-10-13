@@ -44,6 +44,11 @@ Tampermonkeyを導入したブラウザでリンクを開くと、インスト�
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
 
+YouTubeのチャンネル動画を古い順に連続再生
+----------------------------------------
+
+YouTubeのチャンネル動画を古い順に連続再生するローカル版を追加しました。[youtube-oldest-player.user.js](dist/youtube-oldest-player.user.js)をuserscript managerへ読み込み、チャンネルの「動画」タブで「古い順に連続再生」→「最初から再生」を押します。全件取得後、同じタブで順に再生します。[操作・対応範囲](docs/youtube-oldest-player.md)を確認してください。
+
 GIF本体の直リンクをコピー
 -------------------------
 
@@ -121,6 +126,7 @@ GIF本体の直リンクをコピー
   - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠、全画面プロモーション、連携案内、機能案内を非表示化
   - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
   - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
+  - `youtube-oldest-player/` — チャンネルの公開動画を古い順に全件取得して連続再生
   - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
 - `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義、スクリプト設定モーダルなどのユーティリティ
 - `dist/` — ビルド済みの userscript（配布用）

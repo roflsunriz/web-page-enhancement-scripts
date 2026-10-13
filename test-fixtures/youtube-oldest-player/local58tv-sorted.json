@@ -1,0 +1,307 @@
+{
+  "first": {
+    "onResponseReceivedActions": [
+      {
+        "reloadContinuationItemsCommand": {
+          "continuationItems": [
+            {
+              "chipBarViewModel": {
+                "chips": [
+                  {
+                    "chipViewModel": {
+                      "text": "新しい順",
+                      "selected": false,
+                      "tapCommand": {
+                        "innertubeCommand": {
+                          "commandMetadata": {
+                            "webCommandMetadata": {}
+                          },
+                          "continuationCommand": {
+                            "token": "4qmFsgJkEhhVQ3VvTWFzUmtNaGxqMVZOVkFPSmR3NXcaSDhnWXVHaXg2S2tJb0NpUTJZV1ZtTlRKbFlpMHdNREF3TFRJMllXRXRPRFkyWmkwMU9ESTBNamxpTnpVeU9UZ1lCQSUzRCUzRA%3D%3D"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "chipViewModel": {
+                      "text": "人気の動画",
+                      "selected": false,
+                      "tapCommand": {
+                        "innertubeCommand": {
+                          "commandMetadata": {
+                            "webCommandMetadata": {}
+                          },
+                          "continuationCommand": {
+                            "token": "4qmFsgJkEhhVQ3VvTWFzUmtNaGxqMVZOVkFPSmR3NXcaSDhnWXVHaXg2S2tJb0NpUTJZV1ZtTlRKbFlpMHdNREF3TFRJMllXRXRPRFkyWmkwMU9ESTBNamxpTnpVeU9UZ1lBZyUzRCUzRA%3D%3D"
+                          }
+                        }
+                      }
+                    }
+                  },
+                  {
+                    "chipViewModel": {
+                      "text": "古い順",
+                      "selected": true,
+                      "tapCommand": {
+                        "innertubeCommand": {
+                          "commandMetadata": {
+                            "webCommandMetadata": {}
+                          },
+                          "continuationCommand": {
+                            "token": "4qmFsgJkEhhVQ3VvTWFzUmtNaGxqMVZOVkFPSmR3NXcaSDhnWXVHaXg2S2tJb0NpUTJZV1ZtTlRKbFlpMHdNREF3TFRJMllXRXRPRFkyWmkwMU9ESTBNamxpTnpVeU9UZ1lCUSUzRCUzRA%3D%3D"
+                          }
+                        }
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "reloadContinuationItemsCommand": {
+          "continuationItems": [
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ -  You Are On The Fastest Available Route"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "jh09uIN6tl0",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ -  Contingency"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "3c66w6fVqOI",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ -  Weather Service"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "M75VLQuFPrY",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ -  STATION ID"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "4MEHCJVhyZ0",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Show For Children"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "ZPdgWYB9fdw",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ -  \"A Look Back\""
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "NI2PyUvTEUc",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Real Sleep"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "NZ-vBhGk9F4",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Skywatching"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "2BD-ba-aXQo",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Digital Transition"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "-S5Qo84D_NA",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - CLOSE"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "oFl8ynCN3Ek",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - NSSA-3 (atypical)"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "_YgcLlQr0Ts",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Night Walk"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "82sMwdFq2z4",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            },
+            {
+              "richItemRenderer": {
+                "content": {
+                  "lockupViewModel": {
+                    "metadata": {
+                      "lockupMetadataViewModel": {
+                        "title": {
+                          "content": "ＬＯＣＡＬ５８ＴＶ - Ad Spot"
+                        },
+                        "metadata": {}
+                      }
+                    },
+                    "contentId": "W_Qlb85JD_g",
+                    "contentType": "LOCKUP_CONTENT_TYPE_VIDEO"
+                  }
+                }
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "second": null
+}

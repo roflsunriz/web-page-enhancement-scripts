@@ -38,6 +38,7 @@ const targets = [
   { mode: 'yahoo-mail-ad-cleaner', clear: false },
   { mode: 'yahoo-mail-mark-read', clear: false },
   { mode: 'youtube-info-copier', clear: false },
+  { mode: 'youtube-oldest-player', clear: false },
   { mode: 'youtube-ui-modifier', clear: false },
 ];
 
