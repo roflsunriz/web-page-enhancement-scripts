@@ -6,6 +6,13 @@
 
 ## [Unreleased]
 
+## [リポジトリ 2.8.2] - 2026-10-16
+
+### Changed
+
+- 共通指針と固有の知見を区別して参照できるよう、AGENTS・READMEなどの実現手段、例外と調査知見を `findings.md` へ分離し、着手前の全文確認と更新先を統一した。
+
+
 ## [youtube-oldest-player 1.0.1] - 2026-10-14
 
 ### Added

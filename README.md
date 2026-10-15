@@ -99,107 +99,6 @@ GIF本体の直リンクをコピー
 2. 「インストール済み」タブを開き、対象のスクリプトを選択します。
 3. 「選択したスクリプトすべてにこの操作を適用」から「更新を確認」を選択し「実行」ボタンを押すと、最新版があれば自動的に更新されます。
 
-プロジェクト構成（概要）
------------------------
-
-- `src/` — 各ユーザースクリプトのソースコード。サブディレクトリごとに機能を分離。
-  - `apkcube-direct-download/` — apkcube.com の待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行
-  - `bilibili-jp-localize/` — bilibiliの動画視聴ページとアカウントページのUI日本語化
-  - `chatgpt-notify/` — 生成完了通知（ChatGPT 連携想定）
-  - `d-anime/` — dアニメ向けニコニコ動画コメントレンダリングスクリプト。通常・固定・複数行コメントや動画終端での配置と表示タイミングをニコニコ動画の挙動に近づけて再現
-  - `d-anime-cf-ranking/` — dアニメCFページ向け作品人気度ランキング表示スクリプト
-  - `gif-direct-link-copier/` — GIPHY・Tenor・ImgurのGIF本体URLをコピー（動画のみの場合は形式を表示）
-  - `hf-download-command-copier/` — Hugging Face のリポジトリページに `hf download` コマンドをコピーするボタンを追加
-  - `image-collector/` — ページ内画像の一括収集・ZIP ダウンロード
-  - `imgur-direct-link/` — Imgur 画像の直接リンク取得
-  - `khinsider-direct-link-saver/` — KHInsider のアルバムページから音声ファイルを並列ダウンロード
-  - `video-swipe-fullscreen/` — Webページの動画へ上下ドラッグ全画面を追加
-
-  - `nico-player-premium-controls/` — モバイル公式パネルのローカル再生設定を個別選択可能にする
-  - `nico-mobile-swipe-fullscreen/` — ニコニコ動画モバイル版で上スワイプ全画面・下スワイプ解除
-  - `native-video-volume-setter/` — ブラウザ標準のビデオプレーヤー音量を既定値に揃える補助スクリプト
-  - `video-screen-off-detection-blocker/` — video要素の画面オフ・バックグラウンド検知を遮断する補助スクリプト
-  - `manga-viewer/` — 漫画・画像閲覧ブックスタイルビューア（React コンポーネント含む）
-  - `trickcal-tool-sweep/` — Trickcal 掃蕩工具の素材画像と日本語ツールチップ補助
-  - `twitter-*` 系 — Twitter 関連の各種ユーティリティ（画像、フィルタ、スレッドコピー等）
-  - `x-auto-spam-reporter/` — X/Twitter のリプライをワンクリックでスパム報告＆ブロック
-  - `x-community-note-close/` — X/Twitter のコミュニティノート評価モーダルをバックドロップクリックで閉じる
-  - `yahoo-mail-ad-cleaner/` — Yahoo!メール PC版に残る広告枠、全画面プロモーション、連携案内、機能案内を非表示化
-  - `yahoo-mail-mark-read/` — Yahoo!メール PC版でフォルダー内メールを素早く既読化
-  - `youtube-info-copier/` — YouTube の動画情報をコピーするツール
-  - `youtube-oldest-player/` — チャンネルの公開動画を古い順に全件取得して連続再生
-  - `youtube-ui-modifier/` — YouTube のおすすめ、Shorts、コメント、ナビゲーションなどを設定モーダルから表示調整するツール
-- `shared/` — DOM ヘルパー、GM HTTP、ロガー、共通型定義、スクリプト設定モーダルなどのユーティリティ
-- `dist/` — ビルド済みの userscript（配布用）
-
-各種ユーザースクリプトの説明は[userscripts.md](userscripts.md)を参照してください。
-
-インストール（開発環境）
-----------------------
-
-前提
-- Bun（推奨：v1.3.8以上）
-
-手順
-1. リポジトリをクローンします。
-
-```bash
-git clone https://github.com/roflsunriz/web-page-enhancement-scripts.git
-cd web-page-enhancement-scripts
-```
-
-2. 依存関係をインストールします。
-
-```bash
-powershell -c "irm bun.sh/install.ps1|iex"
-bun install
-```
-
-3. 開発サーバを起動します。スクリプトごとにモードを指定してください。
-
-```bash
-# YouTube 情報コピー UI を開発する場合
-bun dev:youtube-info-copier
-
-# 画像収集機能を開発する場合
-bun dev:image-collector
-
-# book-style-manga-viewer を開発する場合
-bun dev:manga-viewer
-```
-
-開発用のモードは `package.json` の `scripts` に多数定義されています（例: `dev:d-anime`, `dev:twitter-thread-copier` 等）。
-
-ビルド
------
-
-次のコマンドで、すべてのuserscriptをビルドして`dist/`へ出力します。
-
-```bash
-bun run build
-```
-
-コード品質チェック
-------------------
-
-型チェック、lint、フォーマットは次のコマンドで実行します。
-
-```bash
-bun type-check   # tsc --noEmit
-bun lint         # eslint src/**/*.ts
-bun format       # prettier --write src/**/*.ts
-```
-
-
-開発者向けノート
------------------
-
-- 型定義は `src/shared/types` に集約されています。
-- ユーザー向け UI 文言は、可能な限り `src/shared/i18n` の共通基盤と各スクリプトの辞書で管理します。
-- 共通 i18n 基盤は、日本語に加えて総話者数ベースの主要 10 言語（英語、簡体字中国語、ヒンディー語、スペイン語、フランス語、アラビア語、ポルトガル語、ベンガル語、ロシア語、ウルドゥー語）のロケール定義、表示名、RTL 判定、翻訳補完ヘルパーを提供します。
-- 各スクリプトは SPA 向けに `MutationObserver` を使った URL 監視やシャドウ DOM を使用することがあります。
-- 大量ダウンロード系（image-collector）はバッチ制御やリトライを実装しています。
-
 貢献
 ----
 
@@ -220,14 +119,7 @@ bun run build
 MIT
 
 
-CI / PR Checks
--------------
 
-このリポジトリは GitHub Actions を使った CI と PR Checksを提供します。
+## 開発・運用の知見
 
-- **CI**: `main` ブランチへの push および PR で依存関係監査、`lint` / `type-check` / `test` / `build` を実行します。
-- **PR Quick Checks**: PR 作成時に `lint` と `type-check` を実行し、問題を早期に検出します。
-
-## 依存更新の自動処理
-
-`.github/dependabot.yml` は Bun と GitHub Actions の更新を毎週確認します。Dependabot の patch／minor PR は `CI` と `PR Quick Checks` を含む全 PR チェックの成功後に自動で squash merge されます。失敗ジョブは 1 回再実行し、修復できない PR と major 更新は手動で確認します。自動修復後のチェックが実行待ちになった場合も、変更内容と検証結果を確認してから手動で処理します。PR Quick Checks も Bun の固定 lockfile を使用します。
+開発環境、内部構成、検証コマンドと運用上の注意は [findings.md](findings.md) を参照してください。更新・復旧の手順と検証記録は、同ファイルから案内しています。
