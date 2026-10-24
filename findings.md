@@ -3,6 +3,7 @@
 - 管理設定だけのcommitはrepo versionだけを上げ、userscript実体を変えたときだけ個別versionを上げる。`vite.config.ts` が版の正本で、d-animeの表示versionはbuild時生成のため手編集しない。
 - 新規scriptはsourceだけでなく `scripts/build-all.mjs`、Vite config、README、userscripts一覧へ接続する。`dist` の再生成差分を機能変更と混同しない。
 - apkcubeの広告検知bait自体をCSSで隠すと検知を発火する。配信domain由来要素だけを隠し、公式assetは日付世代+manifest/hashで保存する。document-startではdocumentElement不在を考慮する。
+- Google Playの公開ページには端末別APKのURLがなく、App Bundleから端末構成別に生成される。Play詳細URLの`id`だけを検証してAPKCube公式`/apk-downloader?url=<package>`へ渡す。2026-10-24時点の公式画面では`arch=universal&langs=all`が両ARM・全言語のUniversal APKS指定で、詳細設定は同画面の`#download-options`にある。
 - manga viewerのflip中間frameはtimer pollingだけでなくCanvas styleとbook全体のMutationObserverで同期観測する。最終spreadが正しい場合だけ元へ戻して最大3回再観測し、成功した中間shape検査を省かない。
 - dアニメ等の公式asset fixtureは旧世代を削除せず、manifestの現行pointerを更新する。同一asset hashを別世代の根拠にしない。
 - YouTube SPA readinessは表示中watch containerの `video-id`、URL `v`、title描画を一致させる。前動画DOMの存在だけでreadyにしない。

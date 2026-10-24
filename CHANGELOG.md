@@ -6,6 +6,11 @@
 
 ## [Unreleased]
 
+### Added
+
+- `apkcube-direct-download` 1.1.0として、Google Playの各アプリ詳細ページに端末不要のAPK/APKS取得パネルを追加した。64-bit ARMの推奨構成、32/64-bit ARM・全言語のUniversal APKS、端末・Android・CPU・DPIの詳細指定へ進める。
+- PCとモバイル幅、Google Play内のページ遷移、日本語を含む11言語とRTLに対応し、第三者配布元を開くことをパネル内に明示した。
+
 ### Changed
 
 - GitHub Actions の月間利用時間を抑えるため、Dependabot version update と自動マージを毎週・即時処理から毎月28日（Asia/Tokyo）の月末一括処理へ変更した。

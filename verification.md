@@ -245,6 +245,26 @@
 
 ## apkcube-direct-download
 
+### Google Playからの取得導線
+
+Google Playの公開アプリ詳細URLに含まれる`id`パラメーターをAndroid package IDとして検証し、APKCube公式ダウンローダーの`url`パラメーターへ渡す。アプリ名や画面文言、Google Playの生成クラスには依存しない。Google Play内の遷移後もURLを再確認し、別アプリへ移動した場合は同じパネルのリンクを更新する。
+
+2026-10-24にAPKCubeの公式`/apk-downloader`画面と配信バンドルを確認し、次の指定を使用する。
+
+- 推奨構成: `?url=<package>`（64-bit ARM・標準24言語・全DPI）。
+- Universal APKS: `?url=<package>&arch=universal&langs=all`（32/64-bit ARM・全言語・全DPI）。
+- 詳細指定: 同じダウンローダーの`#download-options`。端末、Android、CPU、言語、DPIを利用者が選ぶ。
+
+検証時は次を確認する。
+
+- `bun test src/apkcube-direct-download/links.test.mjs`が成功し、Google Play以外のURL、不正なpackage ID、詳細ページ以外を拒否する。
+- ビルド成果物の`@match`にGoogle Play詳細ページとAPKCubeが入り、メタデータの版が`1.1.0`になっている。
+- `node scripts/apkcube-direct-download-regression.mjs`を実行し、1280×720、390×844、320×640、844×390でパネルが画面内に収まり、推奨、Universal、詳細指定の各リンクに表示中アプリのpackage IDが入る。
+- `bun run test:apkcube-direct-download:live`を実行し、未ログインのGoogle Play実ページでもPC・モバイル幅のパネルと3種類のリンクを確認する。ファイルのダウンロードや人間検証は開始しない。
+- 折りたたみ後は小さい`APK`ボタンから復帰でき、キーボードフォーカスが見える。ArabicまたはUrduでは`dir="rtl"`になる。
+- 同じタブで別アプリへ遷移した場合、古いpackage IDを保持せずリンクが更新される。アプリ詳細以外へ移動するとパネルを除去する。
+- APKCube側で有料、削除済み、地域制限、未収録などが表示された場合は、その理由を残して成功扱いにしない。
+
 ### ダウンロード導線の特定
 
 apkcube.com の公式配信バンドルをde-minifyし、次の描画経路を確認する（2026-09-06、ChatGPT のダウンロードページで実測）。
@@ -260,7 +280,7 @@ apkcube.com の公式配信バンドルをde-minifyし、次の描画経路を�
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/selectors.test.mjs` が成功する。
-- ビルド成果物のメタデータが `1.0.0` になっている。
+- ビルド成果物のメタデータが `1.1.0` になっている。
 - 実ブラウザ（CDP）でダウンロードページを開き、探知 fetch がマーカー付きで返り、bait 計測が非検出になり、広告ホストへの `window.open` が抑止される。
 - 実ブラウザでメインのダウンロードボタンを押したとき、広告ブロッカー検出モーダルが出ず、「一時停止中」にならず、広告ホストへの通信・ポップアップが発生しない。
 - 人間検証（長押し等）が必要な場合は正規の検証ダイアログだけが残り、完了後にダウンロードが始まる。

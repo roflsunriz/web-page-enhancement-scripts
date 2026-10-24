@@ -14,7 +14,7 @@ web-page-enhancement-scripts
 ----------------------
 Tampermonkeyを導入したブラウザでリンクを開くと、インストール画面が表示されます。内容を確認してインストールしてください。
 
-- [apkcube-direct-download](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/apkcube-direct-download.user.js)
+- [apkcube-direct-download](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/apkcube-direct-download.user.js) — Google Play のアプリ詳細ページから、端末登録なしで APK / APKS の推奨構成、Universal APKS、詳細バリアント選択へ進めます。
 - [bilibili-jp-localize](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/bilibili-jp-localize.user.js)
 - [chatgpt-notify](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/chatgpt-notify.user.js)
 - [d-anime-cf-ranking](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/d-anime-cf-ranking.user.js)

@@ -61,11 +61,14 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const apkcubeDirectDownloadMeta: MonkeyUserScript = {
   name: 'apkcube-direct-download',
   namespace: 'apkcubeDirectDownload',
-  version: '1.0.0',
+  version: '1.1.0',
   description:
-    'apkcube.comの待ち時間・検出ダイアログやポップアップを抑止しダウンロードへ直行',
+    'Google Playのアプリページから端末不要でAPK/APKSの取得とバリアント選択へ進む',
   author: 'roflsunriz',
-  match: ['https://apkcube.com/*'],
+  match: [
+    'https://apkcube.com/*',
+    'https://play.google.com/store/apps/details*',
+  ],
   grant: 'none',
   sandbox: 'raw',
   'inject-into': 'page',
