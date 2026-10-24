@@ -6,18 +6,43 @@
 
 ## [Unreleased]
 
-### Added
-
-- `apkcube-direct-download` 1.1.0として、Google Playの各アプリ詳細ページに端末不要のAPK/APKS取得パネルを追加した。64-bit ARMの推奨構成、32/64-bit ARM・全言語のUniversal APKS、端末・Android・CPU・DPIの詳細指定へ進める。
-- PCとモバイル幅、Google Play内のページ遷移、日本語を含む11言語とRTLに対応し、第三者配布元を開くことをパネル内に明示した。
-
 ### Changed
 
 - GitHub Actions の月間利用時間を抑えるため、Dependabot version update と自動マージを毎週・即時処理から毎月28日（Asia/Tokyo）の月末一括処理へ変更した。
 
-- push前の更新確認に従い、React/React DOMを19.3.1、ESLintを10.13.0、Playwrightを1.64.1、typescript-eslintを8.72.0、Viteを8.3.5へ更新した。TypeScript 7.0.2はtypescript-eslintの対応範囲外（6.1.0未満）のため、対応する6.0.3を維持する。
-
 - 監査・lint・型検査・テスト・ビルドをfail-fast matrixへ分割し、Bun依存キャッシュと重複CI取消しで品質確認を並列化した。
+
+## [apkcube-direct-download 1.2.0] - 2026-10-24
+
+### Added
+
+- APKCubeが安全・著作権または低評価を理由に配布しない場合、APKMirror、APKPure、Uptodownをpackage IDで照合し、同じアプリのダウンロードページが実在する配布元だけを代替表示するようにした。
+- 検索結果だけ、別アプリ、該当なし、404、通信失敗は表示せず、有料・地域制限など別理由では外部照会を行わない。代替パネルは日本語を含む11言語とRTLに対応し、署名・バージョン・形式の確認を案内する。
+
+## [リポジトリ 2.10.0] - 2026-10-24
+
+### Changed
+
+- 3社への限定的な外部照会権限、純粋ロジック22件、ブロック／該当なし／有料noticeを含むブラウザ回帰、実プロバイダー検査、更新・復旧文書を追加した。
+
+## [リポジトリ 2.9.1] - 2026-10-24
+
+### Changed
+
+- push前の更新確認に従い、React/React DOMを19.3.1、ESLintを10.13.0、Playwrightを1.64.1、typescript-eslintを8.72.0、Viteを8.3.5へ更新した。TypeScript 7.0.2はtypescript-eslintの対応範囲外（6.1.0未満）のため、対応する6.0.3を維持した。
+
+## [apkcube-direct-download 1.1.0] - 2026-10-24
+
+### Added
+
+- Google Playの各アプリ詳細ページに端末不要のAPK/APKS取得パネルを追加した。64-bit ARMの推奨構成、32/64-bit ARM・全言語のUniversal APKS、端末・Android・CPU・DPIの詳細指定へ進める。
+- PCとモバイル幅、Google Play内のページ遷移、日本語を含む11言語とRTLに対応し、第三者配布元を開くことをパネル内に明示した。
+
+## [リポジトリ 2.9.0] - 2026-10-24
+
+### Changed
+
+- Google Play向けの対象URL、配布物、単体・ブラウザ・実ページ検査、利用・更新・復旧文書を追加した。
 
 ## [リポジトリ 2.8.2] - 2026-10-16
 

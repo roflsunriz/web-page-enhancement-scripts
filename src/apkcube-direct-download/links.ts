@@ -28,6 +28,66 @@ export function getPlayPackageName(urlLike: string | URL): string | null {
   return isValidPackageName(packageName) ? packageName : null;
 }
 
+function getPackageNameFromApkCubeUrl(urlLike: string | URL): string | null {
+  let url: URL;
+  try {
+    url = urlLike instanceof URL ? urlLike : new URL(urlLike);
+  } catch {
+    return null;
+  }
+
+  if (url.hostname !== "apkcube.com") {
+    return null;
+  }
+
+  const queryValue = url.searchParams.get("url")?.trim() ?? "";
+  if (isValidPackageName(queryValue)) {
+    return queryValue;
+  }
+
+  const segments = url.pathname.split("/").filter(Boolean);
+  for (let index = segments.length - 1; index >= 0; index -= 1) {
+    try {
+      const segment = decodeURIComponent(segments[index]);
+      if (isValidPackageName(segment)) {
+        return segment;
+      }
+    } catch {
+      // 次のpath segmentを検査する。
+    }
+  }
+  return null;
+}
+
+export function getApkCubePagePackageName(
+  urlLike: string | URL,
+  playLinks: readonly string[] = [],
+): string | null {
+  const fromUrl = getPackageNameFromApkCubeUrl(urlLike);
+  if (fromUrl) {
+    return fromUrl;
+  }
+
+  for (const href of playLinks) {
+    try {
+      const url = new URL(href);
+      if (
+        url.hostname === "play.google.com" &&
+        url.pathname === "/store/apps/details"
+      ) {
+        const packageName = url.searchParams.get("id")?.trim() ?? "";
+        if (isValidPackageName(packageName)) {
+          return packageName;
+        }
+      }
+    } catch {
+      // 次のGoogle Playリンクを検査する。
+    }
+  }
+
+  return null;
+}
+
 export function buildApkCubeDownloaderUrl(
   packageName: string,
   preset: DownloadPreset,

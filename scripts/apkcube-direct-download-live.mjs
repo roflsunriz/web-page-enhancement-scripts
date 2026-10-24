@@ -14,6 +14,7 @@ const source = await readFile(
 );
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const results = [];
+const gmStub = `window.GM_xmlhttpRequest=(details)=>{queueMicrotask(()=>details.onload?.({status:404,statusText:'Not Found',response:'',responseText:'',responseHeaders:'',finalUrl:details.url}));return{abort(){}}};`;
 
 async function inspect(width, height) {
   const context = await browser.newContext({
@@ -31,7 +32,9 @@ async function inspect(width, height) {
         event.exceptionDetails.text,
     );
   });
-  await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source });
+  await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+    source: gmStub + source,
+  });
   await page.goto(
     `https://play.google.com/store/apps/details?id=${encodeURIComponent(packageName)}&hl=ja`,
     { waitUntil: "domcontentloaded", timeout: 60000 },

@@ -7,16 +7,31 @@ const source = await readFile(
   "utf8",
 );
 
-assert.match(source, /@version\s+1\.1\.0/);
+assert.match(source, /@version\s+1\.2\.0/);
 assert.match(source, /@match\s+https:\/\/apkcube\.com\/\*/);
 assert.match(
   source,
   /@match\s+https:\/\/play\.google\.com\/store\/apps\/details\*/,
 );
+assert.match(source, /@grant\s+GM_xmlhttpRequest/);
+for (const host of [
+  "www.apkmirror.com",
+  "tapi.pureapk.com",
+  "en.uptodown.com",
+]) {
+  assert.match(
+    source,
+    new RegExp(`@connect\\s+${host.replaceAll(".", "\\.")}`),
+  );
+}
 
 const browser = await chromium.launch({ channel: "chrome", headless: true });
 const errors = [];
 let checks = 0;
+
+function gmMockSource(routes = []) {
+  return `window.__gmCalls=[];window.__gmPending=0;window.GM_xmlhttpRequest=(details)=>{window.__gmCalls.push(details.url);window.__gmPending++;const routes=${JSON.stringify(routes)};const route=routes.find(item=>details.url.includes(item.includes));queueMicrotask(()=>{window.__gmPending--;if(!route){details.onload?.({status:404,statusText:'Not Found',response:'',responseText:'',responseHeaders:'',finalUrl:details.url});return;}const response={status:route.status??200,statusText:route.status===404?'Not Found':'OK',response:route.body??'',responseText:route.body??'',responseHeaders:'',finalUrl:route.finalUrl??details.url};details.onload?.(response);});return{abort(){}}};`;
+}
 
 async function evaluate(cdp, expression) {
   const result = await cdp.send("Runtime.evaluate", {
@@ -95,7 +110,9 @@ async function runCase(width, height, locale) {
       })
       .catch((error) => errors.push(String(error)));
   });
-  await cdp.send("Page.addScriptToEvaluateOnNewDocument", { source });
+  await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+    source: gmMockSource() + source,
+  });
   await cdp.send("Page.navigate", {
     url: "https://play.google.com/store/apps/details?id=com.example.first&hl=ja",
   });
@@ -153,11 +170,150 @@ async function runCase(width, height, locale) {
   }
 }
 
+async function runBlockedAlternativeCase({
+  packageName,
+  noticeClass,
+  routes,
+  expectedProviders,
+  expectLookup = true,
+  locale = "ja-JP",
+}) {
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    locale,
+  });
+  const page = await context.newPage();
+  const cdp = await context.newCDPSession(page);
+  await cdp.send("Runtime.enable");
+  await cdp.send("Page.enable");
+  cdp.on("Runtime.exceptionThrown", (event) => {
+    errors.push(
+      event.exceptionDetails.exception?.description ??
+        event.exceptionDetails.text,
+    );
+  });
+  await cdp.send("Fetch.enable", {
+    patterns: [{ urlPattern: "*", resourceType: "Document" }],
+  });
+  cdp.on("Fetch.requestPaused", (event) => {
+    const html = `<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><main style="max-width:720px;margin:auto;padding:20px"><div class="${noticeClass}"><svg></svg><div><p>安全上または著作権上の理由により APKCube ではダウンロードできません</p></div></div><a href="https://play.google.com/store/apps/details?id=${packageName}">Google Play</a></main>`;
+    void cdp
+      .send("Fetch.fulfillRequest", {
+        requestId: event.requestId,
+        responseCode: 200,
+        responseHeaders: [
+          { name: "Content-Type", value: "text/html; charset=utf-8" },
+        ],
+        body: Buffer.from(html).toString("base64"),
+      })
+      .catch((error) => errors.push(String(error)));
+  });
+  await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+    source: gmMockSource(routes) + source,
+  });
+  await cdp.send("Page.navigate", {
+    url: `https://apkcube.com/example/${packageName}`,
+  });
+
+  try {
+    if (expectLookup) {
+      await waitFor(
+        cdp,
+        "window.__gmPending===0 && window.__gmCalls.length>=3",
+      );
+    } else {
+      await waitFor(cdp, "document.readyState==='complete'");
+      await new Promise((resolve) => setTimeout(resolve, 150));
+      assert.equal(await evaluate(cdp, "window.__gmCalls.length"), 0);
+    }
+    const host = "document.querySelector('#apkcube-alternative-downloads')";
+    if (expectedProviders.length === 0) {
+      assert.equal(await evaluate(cdp, `${host}===null`), true);
+      checks += 1;
+      return;
+    }
+
+    await waitFor(cdp, `${host}?.shadowRoot`);
+    const state = await evaluate(
+      cdp,
+      `(()=>{const host=${host};const rect=host.shadowRoot.querySelector('section').getBoundingClientRect();return{packageName:host.dataset.packageName,dir:host.dir,left:rect.left,right:rect.right,providers:[...host.shadowRoot.querySelectorAll('a')].map(a=>a.dataset.provider),links:[...host.shadowRoot.querySelectorAll('a')].map(a=>a.href)}})()`,
+    );
+    assert.equal(state.packageName, packageName);
+    assert.equal(state.dir, locale === "ar" || locale === "ur" ? "rtl" : "ltr");
+    assert.ok(state.left >= 0 && state.right <= 390);
+    assert.deepEqual(state.providers, expectedProviders);
+    for (const link of state.links) {
+      assert.match(link, /^https:\/\//);
+    }
+    checks += 5;
+  } finally {
+    await context.close();
+  }
+}
+
 try {
   await runCase(1280, 720, "ja-JP");
   await runCase(390, 844, "en-US");
   await runCase(320, 640, "ar");
   await runCase(844, 390, "ur");
+  const blockedClass =
+    "flex items-start gap-2 rounded-sm border px-3 py-2 text-start text-sm font-medium border-warning-border bg-warning-soft text-warning-ink";
+  await runBlockedAlternativeCase({
+    packageName: "com.example.blocked",
+    noticeClass: blockedClass,
+    routes: [
+      {
+        includes: "www.apkmirror.com",
+        body: 'Results for com.example.blocked <a href="/apk/example/blocked/blocked-2-release/">release</a>',
+      },
+      {
+        includes: "tapi.pureapk.com",
+        body: JSON.stringify({
+          version_list: [
+            {
+              package_name: "com.example.blocked",
+              asset_usability: "USABLE",
+            },
+          ],
+        }),
+      },
+      {
+        includes: "en.uptodown.com/android/search",
+        body: '<a href="https://blocked.en.uptodown.com/android">app</a>',
+      },
+      {
+        includes: "blocked.en.uptodown.com/android/download",
+        finalUrl: "https://blocked.en.uptodown.com/android/download",
+        body: "<td>com.example.blocked</td>",
+      },
+    ],
+    expectedProviders: ["apkmirror", "apkpure", "uptodown"],
+    locale: "ar",
+  });
+  await runBlockedAlternativeCase({
+    packageName: "com.example.missing",
+    noticeClass: blockedClass,
+    routes: [
+      {
+        includes: "www.apkmirror.com",
+        body: "com.example.missing No results found matching your query",
+      },
+      {
+        includes: "tapi.pureapk.com",
+        body: JSON.stringify({ version_list: [] }),
+      },
+      { includes: "en.uptodown.com/android/search", body: "no results" },
+    ],
+    expectedProviders: [],
+  });
+  await runBlockedAlternativeCase({
+    packageName: "com.example.paid",
+    noticeClass:
+      "flex items-start gap-2 rounded-sm border px-3 py-2 text-start text-sm font-medium border-rule-2 bg-muted/60 text-ink-2",
+    routes: [],
+    expectedProviders: [],
+    expectLookup: false,
+  });
   assert.deepEqual(errors, []);
   console.log(`apkcube-direct-download regression: ${checks} checks passed`);
 } finally {

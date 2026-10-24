@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         apkcube-direct-download
 // @namespace    apkcubeDirectDownload
-// @version      1.1.0
+// @version      1.2.0
 // @author       roflsunriz
-// @description  Google Playのアプリページから端末不要でAPK/APKSの取得とバリアント選択へ進む
+// @description  Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元を表示
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=apkcube.com
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/apkcube-direct-download.user.js
@@ -11,7 +11,11 @@
 // @match        https://apkcube.com/*
 // @match        https://play.google.com/store/apps/details*
 // @sandbox      raw
-// @grant        none
+// @connect      www.apkmirror.com
+// @connect      tapi.pureapk.com
+// @connect      en.uptodown.com
+// @connect      *.en.uptodown.com
+// @grant        GM_xmlhttpRequest
 // @inject-into  page
 // @run-at       document-start
 // ==/UserScript==

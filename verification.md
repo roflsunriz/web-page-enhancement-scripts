@@ -258,12 +258,24 @@ Google Playの公開アプリ詳細URLに含まれる`id`パラメーターをAn
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/links.test.mjs`が成功し、Google Play以外のURL、不正なpackage ID、詳細ページ以外を拒否する。
-- ビルド成果物の`@match`にGoogle Play詳細ページとAPKCubeが入り、メタデータの版が`1.1.0`になっている。
+- ビルド成果物の`@match`にGoogle Play詳細ページとAPKCubeが入り、メタデータの版が`1.2.0`になっている。
 - `node scripts/apkcube-direct-download-regression.mjs`を実行し、1280×720、390×844、320×640、844×390でパネルが画面内に収まり、推奨、Universal、詳細指定の各リンクに表示中アプリのpackage IDが入る。
 - `bun run test:apkcube-direct-download:live`を実行し、未ログインのGoogle Play実ページでもPC・モバイル幅のパネルと3種類のリンクを確認する。ファイルのダウンロードや人間検証は開始しない。
 - 折りたたみ後は小さい`APK`ボタンから復帰でき、キーボードフォーカスが見える。ArabicまたはUrduでは`dir="rtl"`になる。
 - 同じタブで別アプリへ遷移した場合、古いpackage IDを保持せずリンクが更新される。アプリ詳細以外へ移動するとパネルを除去する。
 - APKCube側で有料、削除済み、地域制限、未収録などが表示された場合は、その理由を残して成功扱いにしない。
+
+### APKCube非対応時の代替配布元
+
+APKCube公式bundleの`APP_BLACKLISTED`／`LOW_RATING_BLOCKED`、または同じ理由を表示するwarning noticeを検出した場合だけ代替を照会する。APKMirrorはpackage IDの厳密検索で「該当なし」を除外し、APKPureは公式Android APIの利用可能な`version_list`、Uptodownはdownloadページに記載されたGoogle Play IDを照合する。照合できた配布元だけを表示し、有料・地域制限など別理由のnoticeでは照会しない。
+
+検証時は次を確認する。
+
+- `bun test src/apkcube-direct-download/availability-signal.test.mjs src/apkcube-direct-download/alternative-sources.test.mjs`で拒否コード、package抽出、3社の一致、不一致、該当なし、404を検査する。
+- `node scripts/apkcube-direct-download-regression.mjs`でブロックnoticeに3社が表示され、該当なしではパネルがなく、有料noticeでは外部照会自体を行わないことを確認する。
+- `bun run test:apkcube-direct-download:providers`で実在packageを3社へ照会し、APKMirror release、APKPure download、Uptodown downloadの実在URLを取得する。外部側の一時的な遮断は成功扱いにせず、照合規則または再開条件を確認する。
+- メタデータの`@connect`は照会する各公式ホストだけに限定し、照会はCookieを送らない。
+- UIは日本語を含む11言語とRTLで表示し、配布元で署名・バージョン・形式を確認する注意を残す。
 
 ### ダウンロード導線の特定
 
@@ -280,7 +292,7 @@ apkcube.com の公式配信バンドルをde-minifyし、次の描画経路を�
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/selectors.test.mjs` が成功する。
-- ビルド成果物のメタデータが `1.1.0` になっている。
+- ビルド成果物のメタデータが `1.2.0` になっている。
 - 実ブラウザ（CDP）でダウンロードページを開き、探知 fetch がマーカー付きで返り、bait 計測が非検出になり、広告ホストへの `window.open` が抑止される。
 - 実ブラウザでメインのダウンロードボタンを押したとき、広告ブロッカー検出モーダルが出ず、「一時停止中」にならず、広告ホストへの通信・ポップアップが発生しない。
 - 人間検証（長押し等）が必要な場合は正規の検証ダイアログだけが残り、完了後にダウンロードが始まる。

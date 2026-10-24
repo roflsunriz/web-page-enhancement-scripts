@@ -30,6 +30,10 @@ import {
   isDownloadPage,
   isProbeRequest,
 } from "./selectors";
+import {
+  BLOCKED_AVAILABILITY_EVENT,
+  parseBlockedAvailabilityDetail,
+} from "./availability-signal";
 
 type WindowWithFlag = Window & {
   [SCRIPT_ID]?: boolean;
@@ -70,6 +74,33 @@ function getRequestUrlText(input: RequestInfo | URL): string {
   return input.url;
 }
 
+function inspectAvailabilityResponse(
+  urlText: string,
+  response: Response,
+): void {
+  if (response.ok || !urlText.includes("/api/apps/")) {
+    return;
+  }
+
+  void response
+    .clone()
+    .json()
+    .then((body: unknown) => {
+      const detail = parseBlockedAvailabilityDetail(urlText, body);
+      if (detail) {
+        window.dispatchEvent(
+          new CustomEvent(BLOCKED_AVAILABILITY_EVENT, { detail }),
+        );
+      }
+    })
+    .catch((error: unknown) => {
+      console.warn(
+        "[apkcube-direct-download] Failed to inspect APKCube availability response",
+        error,
+      );
+    });
+}
+
 /** 探知 fetch を成功扱いにし、広告ホストへの fetch を空応答で終わらせる。 */
 function installFetchHook(): void {
   const originalFetch = window.fetch.bind(window);
@@ -85,7 +116,10 @@ function installFetchHook(): void {
       return Promise.resolve(new Response("", { status: 204 }));
     }
 
-    return originalFetch(input, init);
+    return originalFetch(input, init).then((response) => {
+      inspectAvailabilityResponse(urlText, response);
+      return response;
+    });
   }) as typeof window.fetch;
 }
 

@@ -12,6 +12,10 @@ export type Messages = {
   providerNotice: string;
   collapse: string;
   expand: string;
+  alternativeTitle: string;
+  alternativeDescription: string;
+  alternativeAction: string;
+  alternativeCaution: string;
 };
 
 export const MESSAGES: Record<Locale, Messages> = {
@@ -26,6 +30,11 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "第三者配布元 APKCube を新しいタブで開きます。",
     collapse: "APKダウンロードパネルを折りたたむ",
     expand: "APKダウンロードパネルを開く",
+    alternativeTitle: "他の配布元",
+    alternativeDescription:
+      "同じpackage IDを確認できた配布元だけを表示しています。",
+    alternativeAction: "ダウンロードページを開く",
+    alternativeCaution: "配布元で署名・バージョン・形式を確認してください。",
   },
   en: {
     title: "Get APK / APKS",
@@ -38,6 +47,12 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "Opens third-party provider APKCube in a new tab.",
     collapse: "Collapse APK download panel",
     expand: "Open APK download panel",
+    alternativeTitle: "Other providers",
+    alternativeDescription:
+      "Only providers verified for the same package ID are shown.",
+    alternativeAction: "Open download page",
+    alternativeCaution:
+      "Check the signature, version and format before downloading.",
   },
   zh: {
     title: "获取 APK / APKS",
@@ -50,6 +65,10 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "将在新标签页打开第三方来源 APKCube。",
     collapse: "收起 APK 下载面板",
     expand: "打开 APK 下载面板",
+    alternativeTitle: "其他来源",
+    alternativeDescription: "仅显示已确认具有相同软件包 ID 的来源。",
+    alternativeAction: "打开下载页面",
+    alternativeCaution: "下载前请确认签名、版本和文件格式。",
   },
   hi: {
     title: "APK / APKS पाएँ",
@@ -62,6 +81,11 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "तीसरे पक्ष APKCube को नए टैब में खोलता है।",
     collapse: "APK डाउनलोड पैनल समेटें",
     expand: "APK डाउनलोड पैनल खोलें",
+    alternativeTitle: "अन्य स्रोत",
+    alternativeDescription:
+      "केवल समान पैकेज ID वाले सत्यापित स्रोत दिखाए जाते हैं।",
+    alternativeAction: "डाउनलोड पेज खोलें",
+    alternativeCaution: "डाउनलोड से पहले हस्ताक्षर, संस्करण और प्रारूप जाँचें।",
   },
   es: {
     title: "Obtener APK / APKS",
@@ -74,6 +98,12 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "Abre el proveedor externo APKCube en otra pestaña.",
     collapse: "Contraer el panel de descarga APK",
     expand: "Abrir el panel de descarga APK",
+    alternativeTitle: "Otros proveedores",
+    alternativeDescription:
+      "Solo se muestran proveedores verificados para el mismo ID de paquete.",
+    alternativeAction: "Abrir página de descarga",
+    alternativeCaution:
+      "Comprueba la firma, la versión y el formato antes de descargar.",
   },
   fr: {
     title: "Obtenir l’APK / APKS",
@@ -86,6 +116,12 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "Ouvre le fournisseur tiers APKCube dans un nouvel onglet.",
     collapse: "Réduire le panneau de téléchargement APK",
     expand: "Ouvrir le panneau de téléchargement APK",
+    alternativeTitle: "Autres fournisseurs",
+    alternativeDescription:
+      "Seuls les fournisseurs vérifiés pour le même identifiant de paquet sont affichés.",
+    alternativeAction: "Ouvrir la page de téléchargement",
+    alternativeCaution:
+      "Vérifiez la signature, la version et le format avant le téléchargement.",
   },
   ar: {
     title: "تنزيل APK / APKS",
@@ -98,6 +134,10 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "يفتح المزوّد الخارجي APKCube في علامة تبويب جديدة.",
     collapse: "طي لوحة تنزيل APK",
     expand: "فتح لوحة تنزيل APK",
+    alternativeTitle: "مصادر أخرى",
+    alternativeDescription: "تظهر فقط المصادر المؤكدة لنفس معرّف الحزمة.",
+    alternativeAction: "فتح صفحة التنزيل",
+    alternativeCaution: "تحقق من التوقيع والإصدار والتنسيق قبل التنزيل.",
   },
   pt: {
     title: "Obter APK / APKS",
@@ -110,6 +150,11 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "Abre o provedor externo APKCube em nova aba.",
     collapse: "Recolher painel de download de APK",
     expand: "Abrir painel de download de APK",
+    alternativeTitle: "Outros provedores",
+    alternativeDescription:
+      "Mostramos apenas provedores confirmados para o mesmo ID de pacote.",
+    alternativeAction: "Abrir página de download",
+    alternativeCaution: "Confira assinatura, versão e formato antes de baixar.",
   },
   bn: {
     title: "APK / APKS নিন",
@@ -122,6 +167,10 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "তৃতীয় পক্ষ APKCube নতুন ট্যাবে খুলবে।",
     collapse: "APK ডাউনলোড প্যানেল গুটান",
     expand: "APK ডাউনলোড প্যানেল খুলুন",
+    alternativeTitle: "অন্যান্য উৎস",
+    alternativeDescription: "একই প্যাকেজ ID নিশ্চিত করা উৎসগুলোই দেখানো হয়।",
+    alternativeAction: "ডাউনলোড পৃষ্ঠা খুলুন",
+    alternativeCaution: "ডাউনলোডের আগে স্বাক্ষর, সংস্করণ ও ফরম্যাট যাচাই করুন।",
   },
   ru: {
     title: "Получить APK / APKS",
@@ -134,6 +183,11 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "Откроет сторонний сервис APKCube в новой вкладке.",
     collapse: "Свернуть панель загрузки APK",
     expand: "Открыть панель загрузки APK",
+    alternativeTitle: "Другие источники",
+    alternativeDescription:
+      "Показаны только источники с подтверждённым совпадением package ID.",
+    alternativeAction: "Открыть страницу загрузки",
+    alternativeCaution: "Перед загрузкой проверьте подпись, версию и формат.",
   },
   ur: {
     title: "APK / APKS حاصل کریں",
@@ -146,6 +200,11 @@ export const MESSAGES: Record<Locale, Messages> = {
     providerNotice: "تیسرے فریق APKCube کو نئے ٹیب میں کھولتا ہے۔",
     collapse: "APK ڈاؤن لوڈ پینل سمیٹیں",
     expand: "APK ڈاؤن لوڈ پینل کھولیں",
+    alternativeTitle: "دیگر ذرائع",
+    alternativeDescription:
+      "صرف اسی پیکیج ID کے تصدیق شدہ ذرائع دکھائے جاتے ہیں۔",
+    alternativeAction: "ڈاؤن لوڈ صفحہ کھولیں",
+    alternativeCaution: "ڈاؤن لوڈ سے پہلے دستخط، ورژن اور فارمیٹ چیک کریں۔",
   },
 };
 

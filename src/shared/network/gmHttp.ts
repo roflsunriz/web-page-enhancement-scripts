@@ -5,6 +5,7 @@ export type GmHttpMethod = "GET" | "POST" | "PUT" | "DELETE" | "PATCH" | "HEAD";
 export interface GmHttpRequest {
   url: string;
   method?: GmHttpMethod;
+  anonymous?: boolean;
   headers?: Record<string, string>;
   data?: string | FormData | Blob | ArrayBuffer;
   responseType?: "arraybuffer" | "blob" | "json" | "stream" | "text";
@@ -27,6 +28,9 @@ export const gmRequest = <T = string>(
     GM_xmlhttpRequest({
       url: request.url,
       method: request.method ?? "GET",
+      ...(request.anonymous === undefined
+        ? {}
+        : { anonymous: request.anonymous }),
       headers: request.headers,
       data: request.data,
       responseType: request.responseType ?? "text",

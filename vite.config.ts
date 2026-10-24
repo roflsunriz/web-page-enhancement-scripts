@@ -61,15 +61,21 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const apkcubeDirectDownloadMeta: MonkeyUserScript = {
   name: 'apkcube-direct-download',
   namespace: 'apkcubeDirectDownload',
-  version: '1.1.0',
+  version: '1.2.0',
   description:
-    'Google Playのアプリページから端末不要でAPK/APKSの取得とバリアント選択へ進む',
+    'Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元を表示',
   author: 'roflsunriz',
   match: [
     'https://apkcube.com/*',
     'https://play.google.com/store/apps/details*',
   ],
-  grant: 'none',
+  grant: ['GM_xmlhttpRequest'],
+  connect: [
+    'www.apkmirror.com',
+    'tapi.pureapk.com',
+    'en.uptodown.com',
+    '*.en.uptodown.com',
+  ],
   sandbox: 'raw',
   'inject-into': 'page',
   'run-at': 'document-start',
