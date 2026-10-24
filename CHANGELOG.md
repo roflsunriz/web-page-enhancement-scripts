@@ -15,6 +15,8 @@
 
 - GitHub Actions の月間利用時間を抑えるため、Dependabot version update と自動マージを毎週・即時処理から毎月28日（Asia/Tokyo）の月末一括処理へ変更した。
 
+- push前の更新確認に従い、React/React DOMを19.3.1、ESLintを10.13.0、Playwrightを1.64.1、typescript-eslintを8.72.0、Viteを8.3.5へ更新した。TypeScript 7.0.2はtypescript-eslintの対応範囲外（6.1.0未満）のため、対応する6.0.3を維持する。
+
 - 監査・lint・型検査・テスト・ビルドをfail-fast matrixへ分割し、Bun依存キャッシュと重複CI取消しで品質確認を並列化した。
 
 ## [リポジトリ 2.8.2] - 2026-10-16
