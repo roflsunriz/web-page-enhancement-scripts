@@ -6,6 +6,7 @@ import {
   hasMatchingApkPurePackage,
   isMatchingUptodownDownload,
   resolveAlternativeSources,
+  selectPreferredAlternativeSource,
 } from "./alternative-sources.ts";
 import { getApkCubePagePackageName } from "./links.ts";
 
@@ -151,6 +152,22 @@ describe("alternative provider resolution", () => {
           : '<a href="https://popular.en.uptodown.com/android">popular</a>',
     });
     expect(await resolveAlternativeSources(PACKAGE_NAME, request)).toEqual([]);
+  });
+
+  test("直接遷移はAPKPure、Uptodown、APKMirrorの順で選ぶ", () => {
+    const sources = [
+      { id: "apkmirror", name: "APKMirror", url: "https://mirror.example" },
+      { id: "uptodown", name: "Uptodown", url: "https://uptodown.example" },
+      { id: "apkpure", name: "APKPure", url: "https://pure.example" },
+    ];
+    expect(selectPreferredAlternativeSource(sources)).toEqual(sources[2]);
+    expect(selectPreferredAlternativeSource(sources.slice(0, 2))).toEqual(
+      sources[1],
+    );
+    expect(selectPreferredAlternativeSource(sources.slice(0, 1))).toEqual(
+      sources[0],
+    );
+    expect(selectPreferredAlternativeSource([])).toBeNull();
   });
 });
 

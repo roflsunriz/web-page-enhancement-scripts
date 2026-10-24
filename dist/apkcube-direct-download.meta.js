@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name         apkcube-direct-download
 // @namespace    apkcubeDirectDownload
-// @version      1.2.0
+// @version      1.3.0
 // @author       roflsunriz
-// @description  Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元を表示
+// @description  Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元へ直接移動
 // @license      MIT
 // @icon         https://www.google.com/s2/favicons?sz=64&domain=apkcube.com
 // @downloadURL  https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/apkcube-direct-download.user.js

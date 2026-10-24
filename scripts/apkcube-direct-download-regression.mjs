@@ -7,7 +7,7 @@ const source = await readFile(
   "utf8",
 );
 
-assert.match(source, /@version\s+1\.2\.0/);
+assert.match(source, /@version\s+1\.3\.0/);
 assert.match(source, /@match\s+https:\/\/apkcube\.com\/\*/);
 assert.match(
   source,
@@ -174,13 +174,12 @@ async function runBlockedAlternativeCase({
   packageName,
   noticeClass,
   routes,
-  expectedProviders,
+  expectedUrl,
   expectLookup = true,
-  locale = "ja-JP",
 }) {
   const context = await browser.newContext({
     viewport: { width: 390, height: 844 },
-    locale,
+    locale: "ja-JP",
   });
   const page = await context.newPage();
   const cdp = await context.newCDPSession(page);
@@ -216,6 +215,22 @@ async function runBlockedAlternativeCase({
   });
 
   try {
+    if (expectedUrl) {
+      await waitFor(
+        cdp,
+        `window.location.href===${JSON.stringify(expectedUrl)}`,
+        5000,
+      );
+      assert.equal(page.url(), expectedUrl);
+      const history = await cdp.send("Page.getNavigationHistory");
+      assert.equal(
+        history.entries.some((entry) => entry.url.includes("apkcube.com")),
+        false,
+      );
+      checks += 2;
+      return;
+    }
+
     if (expectLookup) {
       await waitFor(
         cdp,
@@ -226,26 +241,8 @@ async function runBlockedAlternativeCase({
       await new Promise((resolve) => setTimeout(resolve, 150));
       assert.equal(await evaluate(cdp, "window.__gmCalls.length"), 0);
     }
-    const host = "document.querySelector('#apkcube-alternative-downloads')";
-    if (expectedProviders.length === 0) {
-      assert.equal(await evaluate(cdp, `${host}===null`), true);
-      checks += 1;
-      return;
-    }
-
-    await waitFor(cdp, `${host}?.shadowRoot`);
-    const state = await evaluate(
-      cdp,
-      `(()=>{const host=${host};const rect=host.shadowRoot.querySelector('section').getBoundingClientRect();return{packageName:host.dataset.packageName,dir:host.dir,left:rect.left,right:rect.right,providers:[...host.shadowRoot.querySelectorAll('a')].map(a=>a.dataset.provider),links:[...host.shadowRoot.querySelectorAll('a')].map(a=>a.href)}})()`,
-    );
-    assert.equal(state.packageName, packageName);
-    assert.equal(state.dir, locale === "ar" || locale === "ur" ? "rtl" : "ltr");
-    assert.ok(state.left >= 0 && state.right <= 390);
-    assert.deepEqual(state.providers, expectedProviders);
-    for (const link of state.links) {
-      assert.match(link, /^https:\/\//);
-    }
-    checks += 5;
+    assert.match(page.url(), /^https:\/\/apkcube\.com\//);
+    checks += 1;
   } finally {
     await context.close();
   }
@@ -287,8 +284,7 @@ try {
         body: "<td>com.example.blocked</td>",
       },
     ],
-    expectedProviders: ["apkmirror", "apkpure", "uptodown"],
-    locale: "ar",
+    expectedUrl: "https://apkpure.com/app/com.example.blocked/download",
   });
   await runBlockedAlternativeCase({
     packageName: "com.example.missing",
@@ -304,14 +300,14 @@ try {
       },
       { includes: "en.uptodown.com/android/search", body: "no results" },
     ],
-    expectedProviders: [],
+    expectedUrl: null,
   });
   await runBlockedAlternativeCase({
     packageName: "com.example.paid",
     noticeClass:
       "flex items-start gap-2 rounded-sm border px-3 py-2 text-start text-sm font-medium border-rule-2 bg-muted/60 text-ink-2",
     routes: [],
-    expectedProviders: [],
+    expectedUrl: null,
     expectLookup: false,
   });
   assert.deepEqual(errors, []);

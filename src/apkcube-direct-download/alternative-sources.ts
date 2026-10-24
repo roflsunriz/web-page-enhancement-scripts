@@ -17,6 +17,11 @@ export type TextResponse = {
 export type TextRequester = (url: string) => Promise<TextResponse>;
 
 const MAX_UPTODOWN_CANDIDATES = 4;
+const PROVIDER_PRIORITY: readonly AlternativeProviderId[] = [
+  "apkpure",
+  "uptodown",
+  "apkmirror",
+];
 
 function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
@@ -223,4 +228,16 @@ export async function resolveAlternativeSources(
     }
   }
   return sources;
+}
+
+export function selectPreferredAlternativeSource(
+  sources: readonly AlternativeSource[],
+): AlternativeSource | null {
+  for (const providerId of PROVIDER_PRIORITY) {
+    const source = sources.find((candidate) => candidate.id === providerId);
+    if (source) {
+      return source;
+    }
+  }
+  return null;
 }

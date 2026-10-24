@@ -61,9 +61,9 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const apkcubeDirectDownloadMeta: MonkeyUserScript = {
   name: 'apkcube-direct-download',
   namespace: 'apkcubeDirectDownload',
-  version: '1.2.0',
+  version: '1.3.0',
   description:
-    'Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元を表示',
+    'Google PlayからAPK/APKSを取得し、APKCube非対応時は確認済み代替配布元へ直接移動',
   author: 'roflsunriz',
   match: [
     'https://apkcube.com/*',

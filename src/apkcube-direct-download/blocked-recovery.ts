@@ -4,13 +4,11 @@ import {
 } from "./availability-signal";
 import {
   resolveAlternativeSources,
-  type AlternativeSource,
+  selectPreferredAlternativeSource,
 } from "./alternative-sources";
-import { MESSAGES, isRtlLocale, resolveLocale } from "./i18n";
 import { getApkCubePagePackageName, isValidPackageName } from "./links";
 import { requestProviderPage } from "./provider-request";
 
-const HOST_ID = "apkcube-alternative-downloads";
 const BLOCKED_NOTICE_SELECTOR =
   ".border-warning-border.bg-warning-soft.text-warning-ink.rounded-sm.font-medium";
 
@@ -49,73 +47,11 @@ function getPagePackageName(): string | null {
   );
 }
 
-function createAlternativePanel(
-  packageName: string,
-  sources: AlternativeSource[],
-): HTMLElement {
-  const locale = resolveLocale(navigator.language);
-  const messages = MESSAGES[locale];
-  const host = document.createElement("aside");
-  host.id = HOST_ID;
-  host.setAttribute("data-package-name", packageName);
-  host.setAttribute("dir", isRtlLocale(locale) ? "rtl" : "ltr");
-  const shadow = host.attachShadow({ mode: "open" });
-
-  const style = document.createElement("style");
-  style.textContent = `
-    :host { color-scheme: light dark; display: block; margin-top: 12px; font-family: Arial, "Noto Sans", sans-serif; }
-    * { box-sizing: border-box; }
-    section { border: 1px solid rgb(128 128 128 / 35%); border-radius: 12px; padding: 14px; color: CanvasText; background: Canvas; }
-    h2 { margin: 0; font-size: 15px; line-height: 1.35; }
-    p { margin: 5px 0 0; font-size: 12px; line-height: 1.5; opacity: .76; }
-    .links { display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: 8px; margin-top: 12px; }
-    a { display: flex; min-height: 48px; flex-direction: column; justify-content: center; border: 1px solid rgb(128 128 128 / 35%); border-radius: 10px; padding: 9px 11px; color: CanvasText; background: rgb(128 128 128 / 10%); text-decoration: none; }
-    a strong { font-size: 13px; }
-    a span { margin-top: 2px; font-size: 10px; opacity: .72; }
-    .caution { font-size: 10px; opacity: .62; }
-    a:focus-visible { outline: 3px solid #4285f4; outline-offset: 2px; }
-    @media (prefers-reduced-motion: no-preference) { a { transition: transform 120ms ease, background 120ms ease; } a:hover { background: rgb(128 128 128 / 18%); } a:active { transform: translateY(1px); } }
-  `;
-
-  const section = document.createElement("section");
-  const title = document.createElement("h2");
-  title.id = `${HOST_ID}-title`;
-  title.textContent = messages.alternativeTitle;
-  section.setAttribute("aria-labelledby", title.id);
-
-  const description = document.createElement("p");
-  description.textContent = messages.alternativeDescription;
-  const links = document.createElement("div");
-  links.className = "links";
-  for (const source of sources) {
-    const link = document.createElement("a");
-    link.href = source.url;
-    link.target = "_blank";
-    link.rel = "noopener noreferrer nofollow";
-    link.setAttribute("data-provider", source.id);
-    const name = document.createElement("strong");
-    name.textContent = source.name;
-    const action = document.createElement("span");
-    action.textContent = messages.alternativeAction;
-    link.append(name, action);
-    links.append(link);
-  }
-
-  const caution = document.createElement("p");
-  caution.className = "caution";
-  caution.textContent = messages.alternativeCaution;
-  section.append(title, description, links, caution);
-  shadow.append(style, section);
-  return host;
-}
-
 async function scan(): Promise<void> {
   scanQueued = false;
   const notice = findBlockedNotice();
   const packageName = getPagePackageName();
-  const existing = document.getElementById(HOST_ID);
   if (!notice || !packageName) {
-    existing?.remove();
     return;
   }
 
@@ -124,14 +60,14 @@ async function scan(): Promise<void> {
     return;
   }
   lookupKey = key;
-  existing?.remove();
 
   const sources = await resolveAlternativeSources(
     packageName,
     requestProviderPage,
   );
+  const preferred = selectPreferredAlternativeSource(sources);
   if (
-    sources.length === 0 ||
+    !preferred ||
     lookupKey !== key ||
     !notice.isConnected ||
     getPagePackageName() !== packageName
@@ -139,10 +75,7 @@ async function scan(): Promise<void> {
     return;
   }
 
-  notice.insertAdjacentElement(
-    "afterend",
-    createAlternativePanel(packageName, sources),
-  );
+  window.location.replace(preferred.url);
 }
 
 function queueScan(): void {

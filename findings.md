@@ -4,7 +4,7 @@
 - 新規scriptはsourceだけでなく `scripts/build-all.mjs`、Vite config、README、userscripts一覧へ接続する。`dist` の再生成差分を機能変更と混同しない。
 - apkcubeの広告検知bait自体をCSSで隠すと検知を発火する。配信domain由来要素だけを隠し、公式assetは日付世代+manifest/hashで保存する。document-startではdocumentElement不在を考慮する。
 - Google Playの公開ページには端末別APKのURLがなく、App Bundleから端末構成別に生成される。Play詳細URLの`id`だけを検証してAPKCube公式`/apk-downloader?url=<package>`へ渡す。2026-10-24時点の公式画面では`arch=universal&langs=all`が両ARM・全言語のUniversal APKS指定で、詳細設定は同画面の`#download-options`にある。
-- APKCubeの安全・著作権／低評価拒否は公式bundleの`APP_BLACKLISTED`／`LOW_RATING_BLOCKED`とwarning noticeで識別する。代替はAPKMirrorの厳密package検索、APKPure公式Android APIの`version_list[].package_name`と`asset_usability`、Uptodown downloadページのGoogle Play IDを2026-10-24時点で照合し、確認できた配布元だけ表示する。検索結果URLだけでは存在根拠にしない。
+- APKCubeの安全・著作権／低評価拒否は公式bundleの`APP_BLACKLISTED`／`LOW_RATING_BLOCKED`とwarning noticeで識別する。代替はAPKMirrorの厳密package検索、APKPure公式Android APIの`version_list[].package_name`と`asset_usability`、Uptodown downloadページのGoogle Play IDを2026-10-24時点で照合する。確認できた候補からAPKPure、Uptodown、APKMirrorの順で選び、`location.replace`で拒否画面を履歴に残さず直接移動する。検索結果URLだけでは存在根拠にしない。
 - manga viewerのflip中間frameはtimer pollingだけでなくCanvas styleとbook全体のMutationObserverで同期観測する。最終spreadが正しい場合だけ元へ戻して最大3回再観測し、成功した中間shape検査を省かない。
 - dアニメ等の公式asset fixtureは旧世代を削除せず、manifestの現行pointerを更新する。同一asset hashを別世代の根拠にしない。
 - YouTube SPA readinessは表示中watch containerの `video-id`、URL `v`、title描画を一致させる。前動画DOMの存在だけでreadyにしない。
