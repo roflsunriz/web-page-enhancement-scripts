@@ -5,7 +5,7 @@
 
 - `apkcube-direct-download.user.js`
   - Google Play の各アプリ詳細ページに APK / APKS 取得パネルを表示します。登録端末なしで APKCube の推奨構成（64-bit ARM・標準言語・全DPI）、Universal APKS（32/64-bit ARM・全言語・全DPI）、端末／Android／CPU／DPIの詳細指定へ進めます。PC・モバイル表示、日本語を含む11言語、RTLに対応します。
-  - APKCubeが安全・著作権または低評価を理由に配布しない場合、APKMirrorの厳密なpackage検索、APKPureの配布版API、UptodownのGoogle Play IDを照合します。確認できた候補からAPKPure、Uptodown、APKMirrorの順で選び、同じタブをダウンロードページへ直接置き換えます。検索結果だけ、別アプリ、404、通信失敗では移動しません。
+  - Google Playの画面を開いた時点でAPKCube downloaderを裏で確認します。APKCubeが安全・著作権または低評価を理由に配布しない場合は、APKMirrorの厳密なpackage検索、APKPureの配布版API、UptodownのGoogle Play IDを照合し、パネルのリンク先をAPKPure、Uptodown、APKMirrorの優先順で代替ページへ差し替えます。利用者が押すとGoogle Playから代替配布元へ直接進み、APKCubeの拒否画面を経由しません。
   - apkcube.com ではダウンロード導線に被さる広告ブロッカー検出の待ち時間ダイアログ（30秒カウントダウン）、ポップアップ、外部広告通信、広告スロットを抑止します。不正対策の人間検証（Turnstile・長押し・PoW）の突破やダウンロードの自動開始は行いません。有料・削除済み・地域制限などで全配布元が提供しないアプリは取得できません。
 - `bilibili-jp-localize.user.js`
   - bilibiliの動画視聴ページ（`www.bilibili.com/video/*`）、検索結果ページ（`search.bilibili.com/*`）、公開アカウントページとそのタブ（`space.bilibili.com/*` の動画・画像テキスト・音声・コラム・ダイナミクス等）、アカウントセンター（`account.bilibili.com/*`）のUI定型文を日本語化します。動画タイトル・コメント・弾幕などのユーザー投稿内容は翻訳しません。日本語化した箇所にはNoto Sans JP優先の専用フォントを適用します。SPAの画面遷移（履歴操作・おすすめ動画クリック）にも追従して再翻訳します。Tampermonkeyメニューから日本語化のON/OFFを切り替えられます。

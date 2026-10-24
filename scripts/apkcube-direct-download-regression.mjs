@@ -7,7 +7,7 @@ const source = await readFile(
   "utf8",
 );
 
-assert.match(source, /@version\s+1\.3\.0/);
+assert.match(source, /@version\s+1\.4\.0/);
 assert.match(source, /@match\s+https:\/\/apkcube\.com\/\*/);
 assert.match(
   source,
@@ -15,6 +15,7 @@ assert.match(
 );
 assert.match(source, /@grant\s+GM_xmlhttpRequest/);
 for (const host of [
+  "apkcube.com",
   "www.apkmirror.com",
   "tapi.pureapk.com",
   "en.uptodown.com",
@@ -170,6 +171,101 @@ async function runCase(width, height, locale) {
   }
 }
 
+async function runPlayPreflightCase() {
+  const packageName = "jp.co.airfront.android.a2chMate";
+  const expectedUrl = `https://apkpure.com/app/${packageName}/download`;
+  const routes = [
+    {
+      includes: "apkcube.com/apk-downloader",
+      body: String.raw`{"reason":"low-rated","className":"rounded-none"}`,
+    },
+    {
+      includes: "www.apkmirror.com",
+      body: `Results for ${packageName} <a href="/apk/example/chmate/chmate-2-release/">release</a>`,
+    },
+    {
+      includes: "tapi.pureapk.com",
+      body: JSON.stringify({
+        version_list: [
+          { package_name: packageName, asset_usability: "USABLE" },
+        ],
+      }),
+    },
+    {
+      includes: "en.uptodown.com/android/search",
+      body: '<a href="https://chmate.en.uptodown.com/android">app</a>',
+    },
+    {
+      includes: "chmate.en.uptodown.com/android/download",
+      finalUrl: "https://chmate.en.uptodown.com/android/download",
+      body: `<td>${packageName}</td>`,
+    },
+  ];
+  const context = await browser.newContext({
+    viewport: { width: 390, height: 844 },
+    locale: "ja-JP",
+  });
+  const page = await context.newPage();
+  const cdp = await context.newCDPSession(page);
+  await cdp.send("Runtime.enable");
+  await cdp.send("Page.enable");
+  cdp.on("Runtime.exceptionThrown", (event) => {
+    errors.push(
+      event.exceptionDetails.exception?.description ??
+        event.exceptionDetails.text,
+    );
+  });
+  await cdp.send("Fetch.enable", {
+    patterns: [{ urlPattern: "*", resourceType: "Document" }],
+  });
+  cdp.on("Fetch.requestPaused", (event) => {
+    void cdp
+      .send("Fetch.fulfillRequest", {
+        requestId: event.requestId,
+        responseCode: 200,
+        responseHeaders: [
+          { name: "Content-Type", value: "text/html; charset=utf-8" },
+        ],
+        body: Buffer.from(
+          '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><main style="min-height:900px">ChMate</main>',
+        ).toString("base64"),
+      })
+      .catch((error) => errors.push(String(error)));
+  });
+  await cdp.send("Page.addScriptToEvaluateOnNewDocument", {
+    source: gmMockSource(routes) + source,
+  });
+  await cdp.send("Page.navigate", {
+    url: `https://play.google.com/store/apps/details?id=${packageName}`,
+  });
+
+  try {
+    const host = "document.querySelector('#apkcube-google-play-download')";
+    await waitFor(cdp, `${host}?.shadowRoot`);
+    const state = await evaluate(
+      cdp,
+      `(()=>{const host=${host};return{destination:host.dataset.destination,links:[...host.shadowRoot.querySelectorAll('a')].map(a=>a.href)}})()`,
+    );
+    assert.equal(state.destination, "apkpure");
+    assert.deepEqual(state.links, [expectedUrl]);
+    const before = await cdp.send("Page.getNavigationHistory");
+    assert.equal(
+      before.entries.some((entry) => entry.url.includes("apkcube.com")),
+      false,
+    );
+    await clickCenter(cdp, `${host}.shadowRoot.querySelector('a')`);
+    await waitFor(
+      cdp,
+      `window.location.href===${JSON.stringify(expectedUrl)}`,
+      5000,
+    );
+    assert.equal(page.url(), expectedUrl);
+    checks += 4;
+  } finally {
+    await context.close();
+  }
+}
+
 async function runBlockedAlternativeCase({
   packageName,
   noticeClass,
@@ -253,8 +349,9 @@ try {
   await runCase(390, 844, "en-US");
   await runCase(320, 640, "ar");
   await runCase(844, 390, "ur");
+  await runPlayPreflightCase();
   const blockedClass =
-    "flex items-start gap-2 rounded-sm border px-3 py-2 text-start text-sm font-medium border-warning-border bg-warning-soft text-warning-ink";
+    "flex items-start gap-2 border text-start text-sm font-medium border-warning-border bg-warning-soft text-warning-ink rounded-none border-x-0 border-b-0 px-4 py-3";
   await runBlockedAlternativeCase({
     packageName: "com.example.blocked",
     noticeClass: blockedClass,

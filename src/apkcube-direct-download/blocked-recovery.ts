@@ -10,7 +10,7 @@ import { getApkCubePagePackageName, isValidPackageName } from "./links";
 import { requestProviderPage } from "./provider-request";
 
 const BLOCKED_NOTICE_SELECTOR =
-  ".border-warning-border.bg-warning-soft.text-warning-ink.rounded-sm.font-medium";
+  ".border-warning-border.bg-warning-soft.text-warning-ink.font-medium";
 
 let signaledPackageName: string | null = null;
 let lookupKey: string | null = null;

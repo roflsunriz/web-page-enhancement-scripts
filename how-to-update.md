@@ -42,7 +42,7 @@ bun run test
 bun run check:d-anime-version
 ```
 
-Google PlayからのAPK/APKS取得導線を更新するときは、APKCube公式`/apk-downloader`の入力名・選択肢・拒否コードと、APKMirror、APKPure、Uptodownの照合根拠を実ページおよび配信bundleで確認します。`bun run test:apkcube-direct-download`、`bun run test:apkcube-direct-download:live`、`bun run test:apkcube-direct-download:providers`、`bunx --no-install vite build --mode apkcube-direct-download`を単独検証に使います。拒否時の直接移動はAPKPure、Uptodown、APKMirrorの順とし、`location.replace`で戻る操作の再転送を防ぎます。live検査は未ログインの実ページでPC・モバイル幅と代替ページの存在を確認し、APKファイルの取得や人間検証を開始しません。停止・復旧はuserscript managerで`apkcube-direct-download`を無効にしてGoogle PlayとAPKCubeを再読み込みします。package ID以外のGoogle Play表示文言や、代替配布元の検索順位だけへ依存させません。
+Google PlayからのAPK/APKS取得導線を更新するときは、APKCube公式`/apk-downloader`の入力名・選択肢・拒否コードと、APKMirror、APKPure、Uptodownの照合根拠を実ページおよび配信bundleで確認します。`bun run test:apkcube-direct-download`、`bun run test:apkcube-direct-download:live`、`bun run test:apkcube-direct-download:providers`、`bunx --no-install vite build --mode apkcube-direct-download`を単独検証に使います。Google Play上でdownloader HTMLを先読みし、拒否時のパネル行先はAPKPure、Uptodown、APKMirrorの順にします。判定中はパネルを出さず、拒否・代替なしではAPKCubeへの誤導線を出しません。live検査は未ログインの実ページでChMateから代替ページへ直接進み、履歴にAPKCubeを含まないことまで確認します。APKファイルの取得や人間検証は開始しません。停止・復旧はuserscript managerで`apkcube-direct-download`を無効にしてGoogle Playを再読み込みします。package ID以外のGoogle Play表示文言や、代替配布元の検索順位だけへ依存させません。
 
 新規ニコニコ動画スワイプ全画面の単独ビルドは `bunx --no-install vite build --mode nico-mobile-swipe-fullscreen`、操作回帰は `node scripts/nico-mobile-swipe-fullscreen-regression.mjs` です。横画面ロックが失敗した場合は端末を手動で回転します。利用停止はuserscript managerでこのスクリプトを無効にしてページを再読み込みします。設定・依存の追加は不要です。
 

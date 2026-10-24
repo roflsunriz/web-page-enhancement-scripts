@@ -12,6 +12,22 @@
 
 - 監査・lint・型検査・テスト・ビルドをfail-fast matrixへ分割し、Bun依存キャッシュと重複CI取消しで品質確認を並列化した。
 
+## [apkcube-direct-download 1.4.0] - 2026-10-24
+
+### Changed
+
+- Google PlayからAPKCubeの拒否画面を経由する方式を改め、Google Play上でdownloader応答を先読みするようにした。拒否対象では確認済み代替配布元をパネルの行先に設定し、利用者のクリックでGoogle Playから直接移動する。
+
+### Fixed
+
+- ChMateのdownloader拒否noticeが`rounded-none`で描画され、アプリ詳細ページ用の`rounded-sm`固定selectorでは検出できなかった問題を修正した。先読み判定では構造化された`low-rated`／`blacklisted`理由を使い、APKCube側の救済処理も両形状に対応する。
+
+## [リポジトリ 2.12.0] - 2026-10-24
+
+### Changed
+
+- Google Play上の先読み、判定中のクリック競合防止、ChMate実ページからAPKPureへの直接導線を単体・ブラウザ・実ページ検査と更新文書へ追加した。
+
 ## [apkcube-direct-download 1.3.0] - 2026-10-24
 
 ### Changed

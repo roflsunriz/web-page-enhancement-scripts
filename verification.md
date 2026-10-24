@@ -258,7 +258,7 @@ Google Playの公開アプリ詳細URLに含まれる`id`パラメーターをAn
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/links.test.mjs`が成功し、Google Play以外のURL、不正なpackage ID、詳細ページ以外を拒否する。
-- ビルド成果物の`@match`にGoogle Play詳細ページとAPKCubeが入り、メタデータの版が`1.3.0`になっている。
+- ビルド成果物の`@match`にGoogle Play詳細ページとAPKCubeが入り、メタデータの版が`1.4.0`になっている。
 - `node scripts/apkcube-direct-download-regression.mjs`を実行し、1280×720、390×844、320×640、844×390でパネルが画面内に収まり、推奨、Universal、詳細指定の各リンクに表示中アプリのpackage IDが入る。
 - `bun run test:apkcube-direct-download:live`を実行し、未ログインのGoogle Play実ページでもPC・モバイル幅のパネルと3種類のリンクを確認する。ファイルのダウンロードや人間検証は開始しない。
 - 折りたたみ後は小さい`APK`ボタンから復帰でき、キーボードフォーカスが見える。ArabicまたはUrduでは`dir="rtl"`になる。
@@ -269,10 +269,16 @@ Google Playの公開アプリ詳細URLに含まれる`id`パラメーターをAn
 
 APKCube公式bundleの`APP_BLACKLISTED`／`LOW_RATING_BLOCKED`、または同じ理由を表示するwarning noticeを検出した場合だけ代替を照会する。APKMirrorはpackage IDの厳密検索で「該当なし」を除外し、APKPureは公式Android APIの利用可能な`version_list`、Uptodownはdownloadページに記載されたGoogle Play IDを照合する。照合できた候補からAPKPure、Uptodown、APKMirrorの順で選んで同じタブを直接置き換え、有料・地域制限など別理由のnoticeでは照会しない。
 
+Google Playではパネルを描画する前にAPKCube downloader HTMLを取得し、構造化された`reason: low-rated`／`blacklisted`または拒否文を先回り判定する。拒否対象かつ代替ありなら、パネルには代替配布元への同一タブリンクだけを表示する。通常・判定失敗では従来のAPKCubeリンクを表示し、拒否対象かつ代替なしでは誤ったAPKCubeリンクを表示しない。
+
+アプリ詳細ページのwarning noticeは`rounded-sm`、Google Playから遷移したdownloader内のwarning noticeは`rounded-none`である。角丸classは判定に使わず、共通の`border-warning-border bg-warning-soft text-warning-ink font-medium`と内部段落で識別する。
+
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/availability-signal.test.mjs src/apkcube-direct-download/alternative-sources.test.mjs`で拒否コード、package抽出、3社の一致、不一致、該当なし、404を検査する。
-- `node scripts/apkcube-direct-download-regression.mjs`でブロックnoticeから優先配布元へ直接移動し、該当なしではAPKCubeに留まり、有料noticeでは外部照会自体を行わないことを確認する。
+- `bun test src/apkcube-direct-download/play-preflight.test.mjs`でdownloader応答の先回り判定、優先配布元、通常応答、代替なしを検査する。
+- `node scripts/apkcube-direct-download-regression.mjs`でdownloader型の`rounded-none`ブロックnoticeから優先配布元へ直接移動し、該当なしではAPKCubeに留まり、有料noticeでは外部照会自体を行わないことを確認する。
+- 同じブラウザ回帰でGoogle Play上のChMateパネルがAPKPureへの単一リンクになり、移動履歴にAPKCubeを含まないことを確認する。
 - `bun run test:apkcube-direct-download:providers`で実在packageを3社へ照会し、APKMirror release、APKPure download、Uptodown downloadの実在URLを取得する。外部側の一時的な遮断は成功扱いにせず、照合規則または再開条件を確認する。
 - メタデータの`@connect`は照会する各公式ホストだけに限定し、照会はCookieを送らない。
 - `selectPreferredAlternativeSource`でAPKPure、Uptodown、APKMirrorの優先順と候補0件を固定し、`location.replace`によって拒否画面を履歴に残さない。
@@ -292,7 +298,7 @@ apkcube.com の公式配信バンドルをde-minifyし、次の描画経路を�
 検証時は次を確認する。
 
 - `bun test src/apkcube-direct-download/selectors.test.mjs` が成功する。
-- ビルド成果物のメタデータが `1.3.0` になっている。
+- ビルド成果物のメタデータが `1.4.0` になっている。
 - 実ブラウザ（CDP）でダウンロードページを開き、探知 fetch がマーカー付きで返り、bait 計測が非検出になり、広告ホストへの `window.open` が抑止される。
 - 実ブラウザでメインのダウンロードボタンを押したとき、広告ブロッカー検出モーダルが出ず、「一時停止中」にならず、広告ホストへの通信・ポップアップが発生しない。
 - 人間検証（長押し等）が必要な場合は正規の検証ダイアログだけが残り、完了後にダウンロードが始まる。

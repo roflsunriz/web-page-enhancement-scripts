@@ -4,9 +4,17 @@ import {
   getPlayPackageName,
   type DownloadPreset,
 } from "./links";
+import {
+  preflightPlayDownload,
+  type PlayPreflightResult,
+} from "./play-preflight";
+import type { AlternativeSource } from "./alternative-sources";
+import { requestProviderPage } from "./provider-request";
 
 const HOST_ID = "apkcube-google-play-download";
 const WATCH_INTERVAL_MS = 750;
+let pendingPackageName: string | null = null;
+let renderEpoch = 0;
 
 function createDownloadLink(
   packageName: string,
@@ -31,12 +39,27 @@ function createDownloadLink(
   return link;
 }
 
-function createPanel(packageName: string): HTMLElement {
+function createAlternativeLink(source: AlternativeSource): HTMLAnchorElement {
+  const link = document.createElement("a");
+  link.className = "action primary";
+  link.href = source.url;
+  link.target = "_self";
+  link.rel = "nofollow";
+  link.setAttribute("data-provider", source.id);
+  link.textContent = source.name;
+  return link;
+}
+
+function createPanel(
+  packageName: string,
+  alternative: AlternativeSource | null,
+): HTMLElement {
   const locale = resolveLocale(navigator.language);
   const messages = MESSAGES[locale];
   const host = document.createElement("aside");
   host.id = HOST_ID;
   host.setAttribute("data-package-name", packageName);
+  host.setAttribute("data-destination", alternative?.id ?? "apkcube");
   host.setAttribute("dir", isRtlLocale(locale) ? "rtl" : "ltr");
 
   const shadow = host.attachShadow({ mode: "open" });
@@ -144,34 +167,43 @@ function createPanel(packageName: string): HTMLElement {
 
   const actions = document.createElement("div");
   actions.className = "actions";
-  actions.append(
-    createDownloadLink(
-      packageName,
-      "recommended",
-      messages.recommended,
-      messages.recommendedHint,
-      "action primary",
-    ),
-    createDownloadLink(
-      packageName,
-      "universal",
-      messages.universal,
-      messages.universalHint,
-      "action secondary",
-    ),
-  );
+  if (alternative) {
+    actions.append(createAlternativeLink(alternative));
+  } else {
+    actions.append(
+      createDownloadLink(
+        packageName,
+        "recommended",
+        messages.recommended,
+        messages.recommendedHint,
+        "action primary",
+      ),
+      createDownloadLink(
+        packageName,
+        "universal",
+        messages.universal,
+        messages.universalHint,
+        "action secondary",
+      ),
+    );
+  }
 
-  const variants = createDownloadLink(
-    packageName,
-    "variants",
-    messages.variants,
-    null,
-    "variants",
-  );
   const notice = document.createElement("p");
   notice.className = "notice";
-  notice.textContent = messages.providerNotice;
-  panel.append(header, actions, variants, notice);
+  notice.textContent = alternative?.name ?? messages.providerNotice;
+  panel.append(header, actions);
+  if (!alternative) {
+    panel.append(
+      createDownloadLink(
+        packageName,
+        "variants",
+        messages.variants,
+        null,
+        "variants",
+      ),
+    );
+  }
+  panel.append(notice);
   panel.setAttribute("aria-labelledby", title.id);
 
   const launcher = document.createElement("button");
@@ -188,21 +220,58 @@ function createPanel(packageName: string): HTMLElement {
   return host;
 }
 
+async function renderPanel(packageName: string, epoch: number): Promise<void> {
+  let preflight: PlayPreflightResult = { kind: "passthrough" };
+  try {
+    preflight = await preflightPlayDownload(packageName, requestProviderPage);
+  } catch (error: unknown) {
+    console.warn(
+      "[apkcube-direct-download] APKCube preflight failed; using APKCube",
+      error,
+    );
+  }
+
+  if (
+    epoch !== renderEpoch ||
+    getPlayPackageName(window.location.href) !== packageName
+  ) {
+    return;
+  }
+  pendingPackageName = null;
+
+  if (preflight.kind === "blocked" && !preflight.alternative) {
+    return;
+  }
+
+  const alternative =
+    preflight.kind === "blocked" ? preflight.alternative : null;
+  (document.body ?? document.documentElement)?.append(
+    createPanel(packageName, alternative),
+  );
+}
+
 function syncPanel(): void {
   const packageName = getPlayPackageName(window.location.href);
   const existing = document.getElementById(HOST_ID);
 
   if (!packageName) {
+    renderEpoch += 1;
+    pendingPackageName = null;
     existing?.remove();
     return;
   }
 
-  if (existing?.getAttribute("data-package-name") === packageName) {
+  if (
+    existing?.getAttribute("data-package-name") === packageName ||
+    pendingPackageName === packageName
+  ) {
     return;
   }
 
   existing?.remove();
-  (document.body ?? document.documentElement)?.append(createPanel(packageName));
+  pendingPackageName = packageName;
+  renderEpoch += 1;
+  void renderPanel(packageName, renderEpoch);
 }
 
 export function startPlayPageButton(): void {
