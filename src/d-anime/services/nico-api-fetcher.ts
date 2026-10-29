@@ -1,6 +1,7 @@
 import { createLogger } from "@/shared/logger";
 import { buildNicovideoWatchUrl } from "@/shared/constants/urls";
 import { gmRequest } from "@/shared/network/gmHttp";
+import { parseWatchResponse } from "./watch-response";
 
 const logger = createLogger("dAnime:NicoApiFetcher");
 
@@ -56,12 +57,6 @@ export interface NicoApiResponseBody {
   series?: NicoApiSeries;
 }
 
-interface NicoApiResponseWrapper {
-  data?: {
-    response?: NicoApiResponseBody;
-  };
-}
-
 interface NicoCommentItem {
   body?: string;
   vposMs?: number;
@@ -107,25 +102,10 @@ export class NicoApiFetcher {
         headers: { Accept: "text/html" },
       });
 
-      const html = response.response as string;
-      const parser = new DOMParser();
-      const doc = parser.parseFromString(html, "text/html");
-      const apiDataElement = doc.querySelector('meta[name="server-response"]');
-      if (!apiDataElement) {
-        throw new Error("API data element not found in response");
+      if (response.status < 200 || response.status >= 300) {
+        throw new Error(`Watch page request failed (HTTP ${response.status})`);
       }
-
-      const encodedData = apiDataElement.getAttribute("content");
-      if (!encodedData) {
-        throw new Error("API data content is empty");
-      }
-
-      const decodedData = this.decodeServerResponse(encodedData);
-      const parsed = JSON.parse(decodedData) as NicoApiResponseWrapper;
-      const payload = parsed.data?.response;
-      if (!payload) {
-        throw new Error("Invalid API data structure");
-      }
+      const payload = parseWatchResponse(response.response);
 
       this.apiData = payload;
       return payload;
@@ -216,19 +196,6 @@ export class NicoApiFetcher {
         videoId,
       });
       return videoId;
-    }
-  }
-
-  private decodeServerResponse(encoded: string): string {
-    try {
-      return decodeURIComponent(encoded);
-    } catch (error) {
-      try {
-        const escaped = encoded.replace(/%(?![0-9A-F]{2})/gi, "%25");
-        return decodeURIComponent(escaped);
-      } catch {
-        throw new Error(`API data decode failed: ${(error as Error).message}`);
-      }
     }
   }
 }

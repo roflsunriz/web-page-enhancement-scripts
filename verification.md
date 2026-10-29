@@ -1,5 +1,12 @@
 # 検証手順と対策
 
+## dアニメ watchV4 7.7.0（2026-10-29）
+
+- FutatsumeWatchの応答読取とNicoCache_nlのwatchV4対応を参照し、従来形式、watchV4の入れ子・直接data、外側に残るコメントとシリーズ、APIエラー、不完全データを単体検証した。
+- `bun run test:d-anime-watch-v4` は分離Chromeで実際の取得クラスを人工HTMLと通信モックにつなぎ、動画情報、次動画、コメント要求と結果、HTTP拒否を確認する。認証情報や実コメントは使わない。
+- lint、型検査、変更ファイルのフォーマット確認、全ビルドと全テストに成功した。
+- 実際のwatchV4動画・ログイン済みdアニメ画面・userscript managerでの表示とエピソード切替は未検証。対象アカウントの再生環境での確認が必要。
+
 ## auto-page-reload 1.0.0（2026-10-29）
 
 - `bun run test:auto-page-reload` は生成した配布物を分離Chromeのオフラインfixtureで実行し、3対象の再読み込み、間隔変更、不正入力、対象外へのSPA遷移と復帰を確認する。

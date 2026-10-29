@@ -62,6 +62,10 @@ Google PlayからのAPK/APKS取得導線を更新するときは、APKCube公式
 
 対象を増やす場合は `vite.config.ts` のmatchと `src/auto-page-reload/main.ts` の対象判定を更新し、個別バージョンを上げる。`bunx --no-install vite build --mode auto-page-reload` と `bun run test:auto-page-reload` を実行する。問題があればuserscript managerで無効化して再読み込みする。
 
+## dアニメのニコニコ視聴情報
+
+応答読取の変更時は `bun run test:d-anime-watch-v4` を実行し、従来形式・watchV4とコメント取得を確認する。`bun run build` で配布物を生成し、通常の全検証も実行する。問題があればuserscript managerで本スクリプトを無効化するか、以前の配布版に戻して再読み込みする。
+
 ## 復旧方針
 
 Zodなどの実行時依存を更新した場合は、利用しているスクリプトの同梱コードも比較します。配布物の実体を更新する場合はそのスクリプトの版を上げ、ビルドツールによる対象外の再生成差分は混ぜません。dアニメCFランキングの設定・キャッシュ検証と保存値の復旧は `bun scripts/verify-d-anime-cf-ranking-settings.mjs` で単独実行できます。通常テストにも登録済みです。
