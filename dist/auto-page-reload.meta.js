@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         auto-page-reload
 // @namespace    autoPageReload
-// @version      1.1.0
+// @version      1.2.0
 // @author       roflsunriz
 // @description  Reload selected delivery tracking and console pages at a configurable interval.
 // @license      MIT

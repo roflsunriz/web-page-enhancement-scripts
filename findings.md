@@ -2,7 +2,7 @@
 
 - dアニメのコメント取得はニコニコ視聴HTMLの `data.response.$watchV4.data` を展開し、外側に残るcomment・seriesと統合する。直接dataと従来形式も扱う。配信HLSはdアニメが担うためwatchV4のmedia配信処理は不要。根拠は [FutatsumeWatchの応答読取](https://github.com/roflsunriz/FutatsumeWatch/blob/main/packages/lib/src/nico/watch-response.ts) と [NicoCache_nlの対応](https://github.com/roflsunriz/NicoCache_nl/commit/8f1954f3b49eaa1f61d512c14a01c596363f5438)（2026-10-29確認）。
 
-- 自動リロードはAmazonとAbliterationのドメイン全体で起動し、対象ページへのSPA遷移を追う。実際のリロードは配送状況と対象2画面のパスを厳密に判定し、対象外では行わない。新しいドメインを追加するときは `vite.config.ts` のmatchも更新する。
+- 自動リロードはAmazonとAbliterationのドメイン全体で起動し、対象ページへのSPA遷移を追う。実際のリロードは配送状況と対象2画面のパスを厳密に判定し、対象外では行わない。残り秒数はリロードと同じ期限から計算し、遷移・間隔変更時に更新する。新しいドメインを追加するときは `vite.config.ts` のmatchも更新する。
 
 - 管理設定だけのcommitはrepo versionだけを上げ、userscript実体を変えたときだけ個別versionを上げる。`vite.config.ts` が版の正本で、d-animeの表示versionはbuild時生成のため手編集しない。
 - 新規scriptはsourceだけでなく `scripts/build-all.mjs`、Vite config、README、userscripts一覧へ接続する。`dist` の再生成差分を機能変更と混同しない。

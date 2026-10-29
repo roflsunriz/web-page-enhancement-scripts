@@ -53,6 +53,13 @@ try {
     { source, matches },
   );
   const page = await context.newPage();
+  const countdown = () =>
+    page.evaluate(
+      () =>
+        document
+          .querySelector("[data-auto-page-reload-countdown]")
+          ?.shadowRoot?.querySelector('[role="timer"]')?.textContent ?? null,
+    );
   let loads = 0;
   page.on("load", () => {
     loads += 1;
@@ -74,16 +81,19 @@ try {
       window.tick();
     });
     assert.equal(page.url(), initial);
+    assert.equal(await countdown(), null);
     await page.evaluate((target) => {
       history.pushState({}, "", target);
       window.tick();
     }, target);
+    assert.match(await countdown(), /60/);
     await page.evaluate(() => {
       window.fakeNow = 149000;
       window.tick();
     });
     assert.ok(page.url().endsWith(target));
     assert.equal(loads, initialLoads);
+    assert.match(await countdown(), /1/);
     const reload = page.waitForEvent("load");
     await page.evaluate(() => {
       window.fakeNow = 150000;
@@ -99,11 +109,14 @@ try {
     "https://abliteration.ai/console/activity",
   ]) {
     await page.goto(url);
+    await page.evaluate(() => window.tick());
+    assert.match(await countdown(), /60/);
     await page.evaluate(() => {
       window.fakeNow = 59000;
       window.tick();
     });
     assert.equal(page.url(), url);
+    assert.match(await countdown(), /1/);
     const reload = page.waitForEvent("load");
     await page.evaluate(() => {
       window.fakeNow = 60000;
@@ -121,6 +134,7 @@ try {
     window.answer = "2";
     window.menu();
   });
+  assert.match(await countdown(), /2/);
   assert.equal(
     await page.evaluate(() => localStorage.getItem("interval")),
     "2",
@@ -137,6 +151,7 @@ try {
   });
   assert.match(page.url(), /\/console\/other$/);
   assert.equal(loads, outsideLoads);
+  assert.equal(await countdown(), null);
   await page.evaluate(() => {
     history.pushState({}, "", "/console/billing");
     window.tick();
@@ -148,6 +163,33 @@ try {
   });
   await reload;
   assert.match(page.url(), /\/console\/billing$/);
+  await page.evaluate(() => window.tick());
+  for (const viewport of [
+    { width: 320, height: 240 },
+    { width: 1280, height: 800 },
+  ]) {
+    await page.setViewportSize(viewport);
+    const bounds = await page.evaluate(() => {
+      const element = document.querySelector(
+        "[data-auto-page-reload-countdown]",
+      );
+      const rect = element.getBoundingClientRect();
+      return {
+        left: rect.left,
+        top: rect.top,
+        right: rect.right,
+        bottom: rect.bottom,
+        pointerEvents: getComputedStyle(element).pointerEvents,
+      };
+    });
+    assert.equal(bounds.pointerEvents, "none");
+    assert.ok(
+      bounds.left >= 0 &&
+        bounds.top >= 0 &&
+        bounds.right <= viewport.width &&
+        bounds.bottom <= viewport.height,
+    );
+  }
   console.log(
     "auto-page-reload: targets, interval, validation and SPA navigation passed",
   );

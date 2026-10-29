@@ -61,7 +61,7 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 const autoPageReloadMeta: MonkeyUserScript = {
   name: 'auto-page-reload',
   namespace: 'autoPageReload',
-  version: '1.1.0',
+  version: '1.2.0',
   description: 'Reload selected delivery tracking and console pages at a configurable interval.',
   author: 'roflsunriz',
   match: ['https://www.amazon.co.jp/*', 'https://abliteration.ai/*'],
