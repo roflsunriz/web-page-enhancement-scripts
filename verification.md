@@ -1,5 +1,10 @@
 # 検証手順と対策
 
+## リポジトリ 2.14.1 公開前検査（2026-10-29）
+
+- `@types/node` 26.6.6と `typescript-eslint` 8.72.1を更新し、固定lockfileで導入した。依存監査は脆弱性0件。TypeScript 7はtypescript-eslintのpeer範囲外（`>=4.8.4 <6.1.0`）のため6.0.3を維持した。
+- lint・型検査・全ビルド・全テストを実行し、対象外の既存配布物の再生成差分は除いた。watchV4の実画面は引き続き未検証。
+
 ## dアニメ watchV4 7.7.0（2026-10-29）
 
 - FutatsumeWatchの応答読取とNicoCache_nlのwatchV4対応を参照し、従来形式、watchV4の入れ子・直接data、外側に残るコメントとシリーズ、APIエラー、不完全データを単体検証した。

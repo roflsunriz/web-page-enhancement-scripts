@@ -6,16 +6,29 @@
 
 ## [Unreleased]
 
-### Added
-
-- dアニメ用コメント表示スクリプトを7.7.0に更新し、ニコニコ動画のwatchV4形式から動画情報・コメント・シリーズ情報を読み取れるようにした。
-- Amazon.co.jpの配送状況とAbliterationの請求・アクティビティ画面を指定間隔で再読み込みする `auto-page-reload` 1.0.0を追加した。間隔はメニューから変更できる。
-
 ### Changed
 
 - GitHub Actions の月間利用時間を抑えるため、Dependabot version update と自動マージを毎週・即時処理から毎月28日（Asia/Tokyo）の月末一括処理へ変更した。
 
 - 監査・lint・型検査・テスト・ビルドをfail-fast matrixへ分割し、Bun依存キャッシュと重複CI取消しで品質確認を並列化した。
+
+## [リポジトリ 2.14.1] - 2026-10-29
+
+### Changed
+
+- 開発依存のNode.js型定義とtypescript-eslintを互換範囲内で更新した。
+
+## [d-anime-nico-comment-renderer 7.7.0] - 2026-10-29
+
+### Added
+
+- ニコニコ動画のwatchV4形式から動画情報・コメント・シリーズ情報を読み取れるようにした。
+
+## [auto-page-reload 1.0.0] - 2026-10-29
+
+### Added
+
+- Amazon.co.jpの配送状況とAbliterationの請求・アクティビティ画面を指定間隔で再読み込みするスクリプトを追加した。間隔はメニューから変更できる。
 
 ## [apkcube-direct-download 1.4.0] - 2026-10-24
 
