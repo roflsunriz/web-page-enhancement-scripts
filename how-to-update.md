@@ -60,7 +60,7 @@ Google PlayからのAPK/APKS取得導線を更新するときは、APKCube公式
 
 ## 自動リロードの更新
 
-対象を増やす場合は `vite.config.ts` のmatchと `src/auto-page-reload/main.ts` の対象判定を更新し、個別バージョンを上げる。`bunx --no-install vite build --mode auto-page-reload` と `bun run test:auto-page-reload` を実行する。問題があればuserscript managerで無効化して再読み込みする。
+対象を増やす場合は `src/auto-page-reload/main.ts` の対象判定を更新し、新しいドメインなら `vite.config.ts` のmatchにも追加して、個別バージョンを上げる。`bunx --no-install vite build --mode auto-page-reload` と `bun run test:auto-page-reload` を実行する。問題があればuserscript managerで無効化して再読み込みする。
 
 ## dアニメのニコニコ視聴情報
 
