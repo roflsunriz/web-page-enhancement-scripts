@@ -10,6 +10,7 @@ const configFile = resolve(projectRoot, 'vite.config.ts');
 
 // アルファベット順
 const targets = [
+  { mode: 'auto-page-reload', clear: false },
   { mode: 'apkcube-direct-download', clear: false },
   { mode: 'bilibili-jp-localize', clear: false },
   { mode: 'chatgpt-notify', clear: false },

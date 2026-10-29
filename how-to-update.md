@@ -58,6 +58,10 @@ Google PlayからのAPK/APKS取得導線を更新するときは、APKCube公式
 
 実ページの単独検査は `node scripts/nico-player-premium-controls-live.mjs`。分離したヘッドレスChromeの新規一時コンテキストで公開動画を開くため、ネットワークと約1〜3分が必要です。既存プロファイルと認証は使用しません。公式広告終了待ちは45秒、SPA準備は30秒、全体は180秒で打ち切ります。未対応構造・通信失敗は検査失敗として報告し、ブラウザ設定は変更しません。
 
+## 自動リロードの更新
+
+対象を増やす場合は `vite.config.ts` のmatchと `src/auto-page-reload/main.ts` の対象判定を更新し、個別バージョンを上げる。`bunx --no-install vite build --mode auto-page-reload` と `bun run test:auto-page-reload` を実行する。問題があればuserscript managerで無効化して再読み込みする。
+
 ## 復旧方針
 
 Zodなどの実行時依存を更新した場合は、利用しているスクリプトの同梱コードも比較します。配布物の実体を更新する場合はそのスクリプトの版を上げ、ビルドツールによる対象外の再生成差分は混ぜません。dアニメCFランキングの設定・キャッシュ検証と保存値の復旧は `bun scripts/verify-d-anime-cf-ranking-settings.mjs` で単独実行できます。通常テストにも登録済みです。

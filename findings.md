@@ -1,5 +1,7 @@
 # 調査知見
 
+- 自動リロードはAmazonの配送状況とAbliterationの対象2画面のパスを厳密に判定する。AbliterationのSPA遷移を追うためmetadataはconsole配下を対象にし、実際のリロード前にパスを再確認する。対象追加時は `vite.config.ts` のmatchと `src/auto-page-reload/main.ts` の判定の両方を更新する。
+
 - 管理設定だけのcommitはrepo versionだけを上げ、userscript実体を変えたときだけ個別versionを上げる。`vite.config.ts` が版の正本で、d-animeの表示versionはbuild時生成のため手編集しない。
 - 新規scriptはsourceだけでなく `scripts/build-all.mjs`、Vite config、README、userscripts一覧へ接続する。`dist` の再生成差分を機能変更と混同しない。
 - apkcubeの広告検知bait自体をCSSで隠すと検知を発火する。配信domain由来要素だけを隠し、公式assetは日付世代+manifest/hashで保存する。document-startではdocumentElement不在を考慮する。

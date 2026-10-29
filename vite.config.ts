@@ -58,6 +58,20 @@ const createUserscriptPlugin = (entry: string, fileName: string, meta: MonkeyUse
 // メタデータ定義（アルファベット順）
 // ============================================================================
 
+const autoPageReloadMeta: MonkeyUserScript = {
+  name: 'auto-page-reload',
+  namespace: 'autoPageReload',
+  version: '1.0.0',
+  description: 'Reload selected delivery tracking and console pages at a configurable interval.',
+  author: 'roflsunriz',
+  match: ['https://www.amazon.co.jp/progress-tracker/package*', 'https://abliteration.ai/console/*'],
+  grant: ['GM_getValue', 'GM_setValue', 'GM_registerMenuCommand'],
+  noframes: true,
+  'run-at': 'document-idle',
+  updateURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/auto-page-reload.meta.js',
+  downloadURL: 'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/auto-page-reload.user.js',
+};
+
 const apkcubeDirectDownloadMeta: MonkeyUserScript = {
   name: 'apkcube-direct-download',
   namespace: 'apkcubeDirectDownload',
@@ -756,6 +770,11 @@ const youtubeUiModifierMeta: MonkeyUserScript = {
 // ============================================================================
 
 const SCRIPT_CONFIGS = {
+  'auto-page-reload': {
+    entry: 'src/auto-page-reload/main.ts',
+    fileName: 'auto-page-reload.user.js',
+    meta: autoPageReloadMeta,
+  },
   'apkcube-direct-download': {
     entry: 'src/apkcube-direct-download/main.ts',
     fileName: 'apkcube-direct-download.user.js',

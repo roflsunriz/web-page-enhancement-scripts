@@ -14,6 +14,7 @@ web-page-enhancement-scripts
 ----------------------
 Tampermonkeyを導入したブラウザでリンクを開くと、インストール画面が表示されます。内容を確認してインストールしてください。
 
+- [auto-page-reload](dist/auto-page-reload.user.js) — Amazonの配送状況とAbliterationの請求・アクティビティ画面を指定間隔で再読み込みします。
 - [apkcube-direct-download](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/apkcube-direct-download.user.js) — Google Play のアプリ詳細ページ上でAPKCubeの拒否を先回り確認します。通常はAPKCubeの推奨構成・Universal APKS・詳細指定を表示し、拒否対象なら同じpackage IDを確認できたAPKPure、Uptodown、APKMirrorの順で代替配布元へ直接進みます。
 - [bilibili-jp-localize](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/bilibili-jp-localize.user.js)
 - [chatgpt-notify](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/chatgpt-notify.user.js)
@@ -44,6 +45,11 @@ Tampermonkeyを導入したブラウザでリンクを開くと、インスト�
 - [youtube-info-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-info-copier.user.js)
 - [youtube-oldest-player](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js)
 - [youtube-ui-modifier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/youtube-ui-modifier.user.js)
+
+対象ページの自動リロード
+------------------------
+
+上記のローカル配布物をuserscript managerにインストールし、Amazon.co.jpの `/progress-tracker/package`、Abliterationの `/console/billing` または `/console/activity` を開きます。初期設定は60秒で、対象ページのuserscriptメニュー「自動リロードの間隔を設定」から1〜86400秒の整数に変更できます。設定は全対象ページで共通です。他の開いているタブには次の読み込み時に反映されます。停止するにはmanagerでスクリプトを無効にしてください。再読み込みで入力途中の内容が失われることがあります。対象タブを開いたままにする必要があり、ブラウザによってはバックグラウンドで時刻が遅れる場合があります。
 
 YouTubeのチャンネル動画を古い順に連続再生
 ----------------------------------------

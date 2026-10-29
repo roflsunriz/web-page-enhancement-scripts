@@ -6,6 +6,10 @@
 
 ## [Unreleased]
 
+### Added
+
+- Amazon.co.jpの配送状況とAbliterationの請求・アクティビティ画面を指定間隔で再読み込みする `auto-page-reload` 1.0.0を追加した。間隔はメニューから変更できる。
+
 ### Changed
 
 - GitHub Actions の月間利用時間を抑えるため、Dependabot version update と自動マージを毎週・即時処理から毎月28日（Asia/Tokyo）の月末一括処理へ変更した。
