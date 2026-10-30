@@ -31,6 +31,7 @@ const targets = [
   { mode: 'twitter-clean-timeline', clear: false },
   { mode: 'twitter-clean-ui', clear: false },
   { mode: 'twitter-full-size-image', clear: false },
+  { mode: 'twitter-native-context-menu', clear: false },
   { mode: 'twitter-thread-copier', clear: false },
   { mode: 'video-screen-off-detection-blocker', clear: false },
   { mode: 'video-swipe-fullscreen', clear: false },

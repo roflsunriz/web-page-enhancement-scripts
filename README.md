@@ -35,6 +35,7 @@ Tampermonkeyを導入したブラウザでリンクを開くと、インスト�
 - [trickcal-tool-sweep](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/trickcal-tool-sweep.user.js)
 - [twitter-clean-ui](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-ui.user.js)
 - [twitter-full-size-image](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-full-size-image.user.js)
+- [twitter-native-context-menu](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-native-context-menu.user.js) — X/Twitterでブラウザ標準の右クリックメニューを表示します。
 - [twitter-clean-timeline](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-clean-timeline.user.js)
 - [twitter-thread-copier](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/twitter-thread-copier.user.js)
 - [video-screen-off-detection-blocker](https://github.com/roflsunriz/web-page-enhancement-scripts/raw/refs/heads/main/dist/video-screen-off-detection-blocker.user.js)
@@ -50,6 +51,11 @@ Tampermonkeyを導入したブラウザでリンクを開くと、インスト�
 ------------------------
 
 上記の配布物をuserscript managerにインストールし、Amazon.co.jpの `/progress-tracker/package`、Abliterationの `/console/billing` または `/console/activity` を開きます。画面右下に次のリロードまでの秒数を表示します。同じドメインの別画面からページ全体を読み直さずに移動した場合も、対象画面に到達すると自動リロードを開始し、対象外へ移動すると停止します。初期設定は60秒で、userscriptメニュー「自動リロードの間隔を設定」から1〜86400秒の整数に変更できます。設定は全対象ページで共通です。他の開いているタブには次の読み込み時に反映されます。停止するにはmanagerでスクリプトを無効にしてください。再読み込みで入力途中の内容が失われることがあります。対象タブを開いたままにする必要があり、ブラウザによってはバックグラウンドで時刻が遅れる場合があります。インストールや更新の前から開いているタブには、一度読み直す必要があります。
+
+X/Twitterでブラウザ標準の右クリックメニューを使う
+------------------------------------------------
+
+[twitter-native-context-menu](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-native-context-menu.user.js) をuserscript managerにインストールし、X/Twitterのタブを再読み込みしてください。右クリックやキーボードのメニューキーで、ブラウザ標準のメニューを表示します。X側の右クリックメニューは開かなくなります。元に戻すにはmanagerでこのスクリプトを無効にして再読み込みしてください。
 
 YouTubeのチャンネル動画を古い順に連続再生
 ----------------------------------------

@@ -16,6 +16,8 @@
 
 ## 通常更新
 
+X/Twitterの右クリックメニューは `bunx --no-install vite build --mode twitter-native-context-menu` で単独ビルドし、`bun run test:twitter-native-context-menu` で配布物のイベント処理を検証します。サイト側の更新後は実ページでも右クリックを確認してください。問題があればuserscript managerで無効化し、タブを再読み込みします。
+
 YouTube古い順再生は `bunx --no-install vite build --mode youtube-oldest-player` で単独ビルドし、`bun run test:youtube-oldest-player` で採取応答の抽出と配布物のオフライン操作回帰を検証します。実サイトでの確認は `node scripts/youtube-oldest-player-live.mjs` です。分離した未ログインのヘッドレスChromeで公開ページを開き、全件取得と動画末尾へのシーク、前後移動・停止を行います。各待機は30〜180秒の上限付きです。既存プロファイルを使用しません。公開mainの更新・ダウンロードURLを `vite.config.ts` から生成し、導入・更新は [配布物](https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/youtube-oldest-player.user.js) またはローカル `dist/youtube-oldest-player.user.js` を使います。復旧は先にパネルの「終了」を押してからmanagerで無効化・再読み込みします。仕様変更時は [設計と対応範囲](docs/youtube-oldest-player.md) とfixtureを照合してください。
 
 1. 対象スクリプトのソースを更新します。

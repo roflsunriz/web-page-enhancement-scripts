@@ -378,3 +378,11 @@ Yahoo!メールの公式配信バンドルをde-minifyし、次の描画経路�
 
 - `.github/dependabot.yml` は毎月28日00:00、`.github/workflows/dependabot-automation.yml` は同日18:00（いずれも `Asia/Tokyo`）に設定した。呼び出し先は検証済み共通 workflow の固定 SHA とし、現在の head SHA、Dependabot の資格状態、全 PR チェック成功を merge 前に再確認する。
 - YAML 構文、変更差分、空白エラーをローカルで検査した。実際の月末 schedule と Dependabot PR の merge 経路は、次回の毎月28日実行で確認する。
+
+## twitter-native-context-menu 1.0.0（2026-10-30）
+
+- 配布物を使ったChromeの回帰テストで、`x.com` と `twitter.com` の両方について、リンク・画像・入力欄・ボタンの右クリック、Shift+F10、SPA遷移後の動的要素を確認した。サイト側のcapture／bubble処理を止め、`contextmenu` の既定動作はキャンセルせず、左右のマウスイベント・左クリック・入力を維持する。導入前の対照ではサイト側によるキャンセルを確認した。
+- Windowsの分離ヘッドレスFirefox 159.0で、サイト側が `contextmenu` をキャンセルする模擬ページを操作した。導入前はメニューが閉じたままで、導入後はリンク・画像・入力欄・ボタンのFirefox標準メニューが開き、リンクのコピー・画像のコピー・入力欄のコピーが対象に応じて表示された。
+- 同じく分離したFirefoxにTampermonkey 5.5.0と配布物を実際にインストールし、未ログインの [X公開プロフィール](https://x.com/NASA) 上で後から追加した抑止リスナーを止め、Firefox標準メニューが開くことを確認した。公開ページでは導入前から右クリックが正常で、ユーザー報告の現象そのものは再現できなかった。
+- ログイン済みの利用環境、サイト側が `contextmenu` 以外のイベントで抑止する場合、先行する別拡張との競合は未検証。再現時はスクリプトを有効にしてタブを再読み込みし、投稿本文・リンク・画像を右クリックして確認する。復旧はmanagerで無効化して再読み込みする。Firefoxでは一時的にShiftを押しながら右クリックしても標準メニューを表示できる。
+- `bun run format`、`bun run lint`、`bun run type-check`、`bun run build`、`bun run test` が成功した。`bun run test:twitter-native-context-menu` で新規回帰を単独実行できる。

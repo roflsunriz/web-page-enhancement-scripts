@@ -590,6 +590,24 @@ const twitterFullSizeImageMeta: MonkeyUserScript = {
     'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-full-size-image.user.js',
 };
 
+const twitterNativeContextMenuMeta: MonkeyUserScript = {
+  name: 'twitter-native-context-menu',
+  namespace: 'twitterNativeContextMenu',
+  version: '1.0.0',
+  description: 'X/Twitterでブラウザ標準の右クリックメニューを使えるようにする',
+  author: 'roflsunriz',
+  match: ['https://twitter.com/*', 'https://x.com/*'],
+  grant: 'none',
+  sandbox: 'raw',
+  'inject-into': 'page',
+  'run-at': 'document-start',
+  icon: 'https://www.google.com/s2/favicons?sz=64&domain=x.com',
+  updateURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-native-context-menu.meta.js',
+  downloadURL:
+    'https://raw.githubusercontent.com/roflsunriz/web-page-enhancement-scripts/refs/heads/main/dist/twitter-native-context-menu.user.js',
+};
+
 const twitterThreadCopierMeta: MonkeyUserScript = {
   name: 'twitter-thread-copier',
   namespace: 'twitterThreadCopier',
@@ -874,6 +892,11 @@ const SCRIPT_CONFIGS = {
     entry: 'src/twitter-full-size-image/main.ts',
     fileName: 'twitter-full-size-image.user.js',
     meta: twitterFullSizeImageMeta,
+  },
+  'twitter-native-context-menu': {
+    entry: 'src/twitter-native-context-menu/main.ts',
+    fileName: 'twitter-native-context-menu.user.js',
+    meta: twitterNativeContextMenuMeta,
   },
   'twitter-thread-copier': {
     entry: 'src/twitter-thread-copier/main.ts',

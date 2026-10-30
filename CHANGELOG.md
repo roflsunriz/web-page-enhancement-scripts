@@ -12,6 +12,12 @@
 
 - 監査・lint・型検査・テスト・ビルドをfail-fast matrixへ分割し、Bun依存キャッシュと重複CI取消しで品質確認を並列化した。
 
+## [twitter-native-context-menu 1.0.0] - 2026-10-30
+
+### Added
+
+- X/Twitterの右クリックやメニューキーで、サイト独自のメニューではなくFirefoxなどのブラウザ標準メニューを使えるスクリプトを追加した。
+
 ## [auto-page-reload 1.2.0] - 2026-10-29
 
 ### Added

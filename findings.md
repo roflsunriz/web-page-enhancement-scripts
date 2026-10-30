@@ -1,5 +1,8 @@
 # 調査知見
 
+- X/Twitterの右クリック復元は、`document-start` で `window` のcaptureに `contextmenu` を登録し、伝播だけを止める。`preventDefault()` はブラウザ標準メニューも止めるため使わない。[MDNのイベント説明](https://developer.mozilla.org/ja/docs/Web/API/Element/contextmenu_event)と[伝播停止の説明](https://developer.mozilla.org/en-US/docs/Web/API/Event/stopImmediatePropagation)を参照。Firefox 159とTampermonkey 5.5.0の分離環境で配布物を実際に導入し、抑止を模したリスナーより先に動くことを確認した（2026-10-30）。ログイン済みXの現象は未再現のため、サイト側が `contextmenu` 以外で抑止する場合や先行する別拡張との競合は実環境で再確認する。
+- TypeScript 7.0.2は既存のJavaScript compiler APIを提供せず、typescript-eslintはそのAPIに依存する。[TypeScript公式説明](https://devblogs.microsoft.com/typescript/announcing-typescript-7-0/)と[本リポジトリのPR #9](https://github.com/roflsunriz/web-page-enhancement-scripts/pull/9)での7系ignoreを確認した（2026-10-30）。互換性のある6系を維持し、7系対応時はlintと型検査の両方を確認する。
+
 - dアニメのコメント取得はニコニコ視聴HTMLの `data.response.$watchV4.data` を展開し、外側に残るcomment・seriesと統合する。直接dataと従来形式も扱う。配信HLSはdアニメが担うためwatchV4のmedia配信処理は不要。根拠は [FutatsumeWatchの応答読取](https://github.com/roflsunriz/FutatsumeWatch/blob/main/packages/lib/src/nico/watch-response.ts) と [NicoCache_nlの対応](https://github.com/roflsunriz/NicoCache_nl/commit/8f1954f3b49eaa1f61d512c14a01c596363f5438)（2026-10-29確認）。
 
 - 自動リロードはAmazonとAbliterationのドメイン全体で起動し、対象ページへのSPA遷移を追う。実際のリロードは配送状況と対象2画面のパスを厳密に判定し、対象外では行わない。残り秒数はリロードと同じ期限から計算し、遷移・間隔変更時に更新する。新しいドメインを追加するときは `vite.config.ts` のmatchも更新する。
